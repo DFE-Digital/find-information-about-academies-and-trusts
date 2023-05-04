@@ -7,6 +7,9 @@ terraform.rc*
 .terraform/
 backend.vars
 
+### Mac
+.DS_Store
+
 ### Rider
 .idea/
 
