@@ -1,7 +1,11 @@
+using DfE.FindInformationAcademiesTrusts;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddOptions<AcademiesApiOptions>()
+    .Bind(builder.Configuration.GetSection(AcademiesApiOptions.ConfigurationSection));
 
 var app = builder.Build();
 
