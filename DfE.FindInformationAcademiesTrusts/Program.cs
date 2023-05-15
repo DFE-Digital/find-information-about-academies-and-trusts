@@ -6,7 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<AcademiesApi>();
 builder.Services.AddOptions<AcademiesApiOptions>()
-    .Bind(builder.Configuration.GetSection(AcademiesApiOptions.ConfigurationSection));
+    .Bind(builder.Configuration.GetSection(AcademiesApiOptions.ConfigurationSection))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
 
 var app = builder.Build();
 

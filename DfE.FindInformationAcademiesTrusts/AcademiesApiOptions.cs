@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace DfE.FindInformationAcademiesTrusts;
 
 public class AcademiesApiOptions
 {
     public const string ConfigurationSection = "AcademiesApi";
 
-    public string? Endpoint { get; set; }
-    public string? Key { get; set; }
+    [Required] [Url] public string? Endpoint { get; init; }
+    [Required] public string? Key { get; init; }
 }
