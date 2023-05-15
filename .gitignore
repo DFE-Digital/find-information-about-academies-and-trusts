@@ -6,3 +6,16 @@ terraform.rc*
 !terraform.tfvars.example
 .terraform/
 backend.vars
+
+### Mac
+.DS_Store
+
+### Rider
+.idea/
+
+### .NET
+bin/
+obj/
+dist/
+lib/
+*.user
