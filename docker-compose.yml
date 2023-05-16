@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  webapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: /bin/bash -c "./docker-entrypoint.sh dotnet DfE.FindInformationAcademiesTrusts.dll"
+    ports:
+      - 80:80/tcp
+    env_file:
+      - .env

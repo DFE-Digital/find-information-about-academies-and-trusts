@@ -19,3 +19,6 @@ obj/
 dist/
 lib/
 *.user
+
+### Docker
+.env
