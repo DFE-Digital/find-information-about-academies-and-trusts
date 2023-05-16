@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,12 @@ builder.Services.AddOptions<AcademiesApiOptions>()
     .Bind(builder.Configuration.GetSection(AcademiesApiOptions.ConfigurationSection))
     .ValidateDataAnnotations()
     .ValidateOnStart();
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Host.UseSerilog((ctx, lc) => lc
+        .WriteTo.Console());
+}
 
 var app = builder.Build();
 
