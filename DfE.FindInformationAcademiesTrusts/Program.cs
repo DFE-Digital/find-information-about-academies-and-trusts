@@ -17,12 +17,10 @@ if (builder.Environment.IsDevelopment())
     builder.Host.UseSerilog((context, loggerConfiguration) => loggerConfiguration
         .WriteTo.Console());
 }
-else
-{
-    builder.Services.AddApplicationInsightsTelemetry();
-    builder.Host.UseSerilog((context, services, loggerConfiguration) => loggerConfiguration
-        .WriteTo.ApplicationInsights(services.GetRequiredService<TelemetryConfiguration>(), TelemetryConverter.Traces));
-}
+
+builder.Services.AddApplicationInsightsTelemetry();
+builder.Host.UseSerilog((context, services, loggerConfiguration) => loggerConfiguration
+    .WriteTo.ApplicationInsights(services.GetRequiredService<TelemetryConfiguration>(), TelemetryConverter.Traces));
 
 var app = builder.Build();
 
