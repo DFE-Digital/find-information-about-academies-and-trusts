@@ -35,8 +35,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseRouting();
 app.UseSerilogRequestLogging();
+
+app.UseRouting();
 
 app.UseAuthorization();
 
