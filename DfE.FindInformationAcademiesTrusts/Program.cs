@@ -16,6 +16,10 @@ if (builder.Environment.IsDevelopment())
     builder.Host.UseSerilog((ctx, lc) => lc
         .WriteTo.Console());
 }
+else
+{
+    builder.Services.AddApplicationInsightsTelemetry();
+}
 
 var app = builder.Build();
 
