@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts;
+using Microsoft.ApplicationInsights.Extensibility;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,9 +14,13 @@ builder.Services.AddOptions<AcademiesApiOptions>()
 
 if (builder.Environment.IsDevelopment())
 {
-    builder.Host.UseSerilog((ctx, lc) => lc
+    builder.Host.UseSerilog((context, loggerConfiguration) => loggerConfiguration
         .WriteTo.Console());
 }
+
+builder.Services.AddApplicationInsightsTelemetry();
+builder.Host.UseSerilog((context, services, loggerConfiguration) => loggerConfiguration
+    .WriteTo.ApplicationInsights(services.GetRequiredService<TelemetryConfiguration>(), TelemetryConverter.Traces));
 
 var app = builder.Build();
 
@@ -29,6 +34,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseSerilogRequestLogging();
 
 app.UseRouting();
 
