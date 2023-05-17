@@ -36,6 +36,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSerilogRequestLogging();
 
 app.UseAuthorization();
 
