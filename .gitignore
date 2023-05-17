@@ -22,3 +22,6 @@ lib/
 
 ### Docker
 .env
+
+### Node
+node_modules/
