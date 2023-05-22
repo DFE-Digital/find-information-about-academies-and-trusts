@@ -31,6 +31,8 @@ locals {
   cdn_frontdoor_health_probe_path               = var.cdn_frontdoor_health_probe_path
   cdn_frontdoor_enable_rate_limiting            = var.cdn_frontdoor_enable_rate_limiting
   cdn_frontdoor_rate_limiting_threshold         = var.cdn_frontdoor_rate_limiting_threshold
+  cdn_frontdoor_origin_fqdn_override            = var.cdn_frontdoor_origin_fqdn_override
+  cdn_frontdoor_origin_host_header_override     = var.cdn_frontdoor_origin_host_header_override
   enable_cdn_frontdoor_health_probe             = var.enable_cdn_frontdoor_health_probe
   enable_event_hub                              = var.enable_event_hub
   enable_monitoring                             = var.enable_monitoring
