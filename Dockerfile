@@ -1,4 +1,4 @@
-ARG ASPNET_IMAGE_TAG=6.0.9-bullseye-slim
+ARG ASPNET_IMAGE_TAG=6.0-bullseye-slim
 ARG NODEJS_IMAGE_TAG=18-bullseye-slim
 ARG DOTNET_SDK=6.0
 
