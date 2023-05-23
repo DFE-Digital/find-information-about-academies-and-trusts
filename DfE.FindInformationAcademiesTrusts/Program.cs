@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts;
-using Microsoft.ApplicationInsights.Extensibility;
 using Serilog;
 
 //Create logging mechanism before anything else to catch bootstrap errors
@@ -13,19 +12,14 @@ try
     if (builder.Environment.IsLocalDevelopment())
         builder.Configuration.AddUserSecrets<Program>();
 
-    //Reconfigure logging before proceeding so any bootstrap exceptions can be written to App Insights 
-    if (builder.Environment.IsLocalDevelopment())
-    {
-        builder.Host.UseSerilog((context, loggerConfiguration) => loggerConfiguration
-            .WriteTo.Console());
-    }
-    else
+    if (!builder.Environment.IsLocalDevelopment())
     {
         builder.Services.AddApplicationInsightsTelemetry();
-        builder.Host.UseSerilog((context, services, loggerConfiguration) => loggerConfiguration
-            .WriteTo.ApplicationInsights(services.GetRequiredService<TelemetryConfiguration>(),
-                TelemetryConverter.Traces));
     }
+
+    //Reconfigure logging before proceeding so any bootstrap exceptions can be written to App Insights 
+    builder.Host.UseSerilog((context, loggerConfiguration) => loggerConfiguration
+        .ReadFrom.Configuration(builder.Configuration));
 
     // Add services to the container.
     builder.Services.AddRazorPages();
@@ -38,6 +32,8 @@ try
     //Build and configure app
     var app = builder.Build();
 
+    app.UseSerilogRequestLogging();
+
     // Configure the HTTP request pipeline.
     if (!app.Environment.IsDevelopment() && !app.Environment.IsLocalDevelopment())
     {
@@ -48,8 +44,6 @@ try
 
     app.UseHttpsRedirection();
     app.UseStaticFiles();
-
-    app.UseSerilogRequestLogging();
 
     app.UseRouting();
 
