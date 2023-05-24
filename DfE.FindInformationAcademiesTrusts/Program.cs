@@ -17,12 +17,14 @@ try
     if (builder.Environment.IsLocalDevelopment())
     {
         builder.Host.UseSerilog((context, loggerConfiguration) => loggerConfiguration
+            .ReadFrom.Configuration(builder.Configuration)
             .WriteTo.Console());
     }
     else
     {
         builder.Services.AddApplicationInsightsTelemetry();
         builder.Host.UseSerilog((context, services, loggerConfiguration) => loggerConfiguration
+            .ReadFrom.Configuration(builder.Configuration)
             .WriteTo.ApplicationInsights(services.GetRequiredService<TelemetryConfiguration>(),
                 TelemetryConverter.Traces));
     }
