@@ -17,8 +17,8 @@ try
     if (builder.Environment.IsLocalDevelopment())
     {
         builder.Host.UseSerilog((context, loggerConfiguration) => loggerConfiguration
-            .WriteTo.Console()
-            .ReadFrom.Configuration(builder.Configuration));
+            .ReadFrom.Configuration(builder.Configuration)
+            .WriteTo.Console());
     }
     else
     {
@@ -40,8 +40,6 @@ try
     //Build and configure app
     var app = builder.Build();
 
-    app.UseSerilogRequestLogging();
-
     // Configure the HTTP request pipeline.
     if (!app.Environment.IsDevelopment() && !app.Environment.IsLocalDevelopment())
     {
@@ -52,6 +50,8 @@ try
 
     app.UseHttpsRedirection();
     app.UseStaticFiles();
+
+    app.UseSerilogRequestLogging();
 
     app.UseRouting();
 
