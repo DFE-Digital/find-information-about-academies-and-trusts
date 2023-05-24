@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts;
+using Microsoft.ApplicationInsights.Extensibility;
 using Serilog;
 
 //Create logging mechanism before anything else to catch bootstrap errors
@@ -12,14 +13,21 @@ try
     if (builder.Environment.IsLocalDevelopment())
         builder.Configuration.AddUserSecrets<Program>();
 
-    if (!builder.Environment.IsLocalDevelopment())
+    //Reconfigure logging before proceeding so any bootstrap exceptions can be written to App Insights 
+    if (builder.Environment.IsLocalDevelopment())
+    {
+        builder.Host.UseSerilog((context, loggerConfiguration) => loggerConfiguration
+            .WriteTo.Console()
+            .ReadFrom.Configuration(builder.Configuration));
+    }
+    else
     {
         builder.Services.AddApplicationInsightsTelemetry();
+        builder.Host.UseSerilog((context, services, loggerConfiguration) => loggerConfiguration
+            .ReadFrom.Configuration(builder.Configuration)
+            .WriteTo.ApplicationInsights(services.GetRequiredService<TelemetryConfiguration>(),
+                TelemetryConverter.Traces));
     }
-
-    //Reconfigure logging before proceeding so any bootstrap exceptions can be written to App Insights 
-    builder.Host.UseSerilog((context, loggerConfiguration) => loggerConfiguration
-        .ReadFrom.Configuration(builder.Configuration));
 
     // Add services to the container.
     builder.Services.AddRazorPages();
