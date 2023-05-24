@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "standard",
-    "lint:fix": "standard --fix",
+    "lint": "standard && stylelint \"**/*.scss\"",
+    "lint:fix": "standard --fix && stylelint \"**/*.scss\" --fix",
     "build": "webpack",
     "run": "webpack --watch"
   },
