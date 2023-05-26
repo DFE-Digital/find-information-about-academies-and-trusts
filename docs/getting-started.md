@@ -4,6 +4,7 @@ Use this documentation to configure your local development environment.
 
 - [Get it working](#get-it-working)
   - [Prerequisites](#prerequisites)
+  - [Configure local user secrets](#configure-local-user-secrets)
   - [Build frontend assets](#build-frontend-assets)
   - [Build and run dotnet project](#build-and-run-dotnet-project)
   - [Run in Docker (optional)](#run-in-docker-optional)
@@ -16,7 +17,7 @@ Use this documentation to configure your local development environment.
 
 You will need:
 
-- .NET 6 sdk
+- .NET 6 SDK
 - npm
 
 Recommended:
@@ -24,9 +25,18 @@ Recommended:
 - Rider or Visual Studio with ReSharper
 - Docker
 
+### Configure local user secrets
+
+Use the dotnet user secrets tool to set local secrets, any missing required secrets will cause the application to fail at startup with an exception detailing which secrets are missing.
+
+```bash
+dotnet user-secrets set "AcademiesApi:Endpoint" "[endpoint goes here]"
+dotnet user-secrets set "AcademiesApi:Key" "[key goes here]"
+```
+
 ### Build frontend assets
 
-Navigate to the project file working directory then:
+The frontend assets must be built before the .NET project. The assets are built into the `wwwroot` folder.
 
 ```bash
 cd DfE.FindInformationAcademiesTrusts
@@ -39,7 +49,7 @@ npm run build
 - Ensure you have [built the frontend assets](#build-frontend-assets) before building the dotnet project.
 - Run/debug project as normal in your chosen IDE
 
-Beware that `ASPNETCORE_ENVIRONMENT` for local development is set to "LocalDevelopment" (in `launchsettings.json`)
+Note that the default `ASPNETCORE_ENVIRONMENT` for local development is `"LocalDevelopment"` (configured in `launchsettings.json`)
 
 ### Run in Docker (optional)
 
