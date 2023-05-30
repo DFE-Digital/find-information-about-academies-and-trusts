@@ -55,6 +55,7 @@ Note that the default `ASPNETCORE_ENVIRONMENT` for local development is `"LocalD
 
 Under most circumstances you won't need to run the application in Docker locally. If you do need to then:
 
+- navigate to the `docker` directory
 - copy the `.env.example` file, save as `.env` and populate the secrets within
 - run `docker-compose up`
 
