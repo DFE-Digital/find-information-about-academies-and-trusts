@@ -16,7 +16,7 @@ RUN dotnet restore DfE.FindInformationAcademiesTrusts
 RUN dotnet build DfE.FindInformationAcademiesTrusts -c Release
 RUN dotnet publish DfE.FindInformationAcademiesTrusts -c Release -o /app --no-build
 
-COPY ./script/web-docker-entrypoint.sh /app/docker-entrypoint.sh
+COPY ./docker/web-docker-entrypoint.sh /app/docker-entrypoint.sh
 
 # Stage 3 - Put into Docker container that will actually be run
 FROM "mcr.microsoft.com/dotnet/aspnet:${ASPNET_IMAGE_TAG}" AS final

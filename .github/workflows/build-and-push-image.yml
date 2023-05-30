@@ -58,7 +58,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: Dockerfile
+          file: docker/Dockerfile
           tags: |
             ${{ secrets.AZURE_ACR_URL }}/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.branch }}
             ${{ secrets.AZURE_ACR_URL }}/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.release }}
