@@ -18,6 +18,8 @@ module "azure_container_apps_hosting" {
 
   container_command                             = local.container_command
   container_secret_environment_variables        = local.container_secret_environment_variables
+  enable_container_health_probe                 = local.enable_container_health_probe
+  container_health_probe_protocol               = local.container_health_probe_protocol
   container_health_probe_path                   = local.container_health_probe_path
   container_cpu                                 = local.container_cpu
   container_memory                              = local.container_memory
