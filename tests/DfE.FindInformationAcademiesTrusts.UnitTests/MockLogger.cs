@@ -27,7 +27,7 @@ public class MockLogger<T> : Mock<ILogger<T>>
                 It.IsAny<EventId>(),
                 It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains(expectedMessage)),
                 It.IsAny<Exception>(),
-                It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)!
+                It.IsAny<Func<It.IsAnyType, Exception?, string>>()
             )
         );
 
