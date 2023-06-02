@@ -5,9 +5,16 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.deployment.environment }}
 
 on:
-  deployment:
+  deployment_status:
 
 jobs:
+  print_context:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          EVENT_CONTEXT: ${{ toJSON(github.event) }}
+        run: |
+          echo $EVENT_CONTEXT
   playwright:
     name: Playwright tests
     runs-on: ubuntu-22.04
