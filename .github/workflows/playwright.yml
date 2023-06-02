@@ -5,13 +5,20 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.deployment.environment }}
 
 on:
-  deployment:
+  deployment_status:
 
 jobs:
+  print_context:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          EVENT_CONTEXT: ${{ toJSON(github.event) }}
+        run: |
+          echo $EVENT_CONTEXT
   playwright:
     name: Playwright tests
     runs-on: ubuntu-22.04
-    if: ${{ github.event.workflow_run.status }} == 'completed' && ${{ github.event.workflow_run.name }} == 'Deploy to environment'
+    if: ${{ github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Deploy to environment' }}
     environment: ${{ github.event.deployment.environment }}
     defaults:
       run:
