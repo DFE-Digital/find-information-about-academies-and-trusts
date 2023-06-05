@@ -1,17 +1,18 @@
-name: Playwright tests
-run-name: Playwright tests for '${{ github.event.deployment.environment }}'
+name: Deployment smoke tests
+run-name: Deployment smoke tests for '${{ github.event.deployment.environment }}' - `${{github.event.workflow_run.head_branch}}`
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.deployment.environment }}
+  group: ${{ github.workflow }}-${{ github.event.deployment.environment }}-${{ github.event.workflow_run.status == 'completed' && github.event.workflow.name == 'Deploy to environment' && github.event.deployment_status.state == 'success' }}
+  cancel-in-progress: true
 
 on:
-  deployment:
+  deployment_status:
 
 jobs:
   playwright:
-    name: Playwright tests
+    name: Deployment smoke tests
     runs-on: ubuntu-22.04
-    if: ${{ github.event.workflow_run.status }} == 'completed' && ${{ github.event.workflow_run.name }} == 'Deploy to environment'
+    if: ${{ github.event.workflow_run.status == 'completed' && github.event.workflow.name == 'Deploy to environment' && github.event.deployment_status.state == 'success'}}
     environment: ${{ github.event.deployment.environment }}
     defaults:
       run:
@@ -32,11 +33,11 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright tests
+      - name: Run Playwright deployment tests
         env:
           CI: true
           PLAYWRIGHT_BASEURL: ${{ secrets.BASE_URL }}
-        run: npx playwright test
+        run: npx playwright test deployment-tests/*
 
       - uses: actions/upload-artifact@v3
         if: always()
