@@ -2,7 +2,8 @@ name: Playwright tests
 run-name: Playwright tests for '${{ github.event.deployment.environment }} - ${{github.event.workflow_run.head_branch}}'
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.deployment.environment }}
+  group: ${{ github.workflow }}-${{ github.event.deployment.environment }}-${{ github.event.deployment_status.state == 'success' && github.event.workflow.name == 'Deploy to environment' && github.event.workflow_run.status == 'completed'}}
+  cancel-in-progress: true
 
 on:
   deployment_status:
@@ -15,13 +16,14 @@ jobs:
           EVENT_CONTEXT: ${{ toJSON(github.event) }}
         run: |
           echo github.event.deployment_status.state = ${{ github.event.deployment_status.state }}
-          echo github.event.deployment_status.environment = ${{ github.event.deployment_status.environment }}
+          echo github.event.workflow.name = ${{ github.event.workflow.name }}
+          echo github.event.workflow_run.status = ${{ github.event.workflow_run.status }}
           echo ${{ github.event.deployment_status.state == 'success' && github.event.workflow.name == 'Deploy to environment' }}
           echo $EVENT_CONTEXT
   playwright:
     name: Playwright tests
     runs-on: ubuntu-22.04
-    if: ${{ github.event.deployment_status.state == 'success' && github.event.workflow.name == 'Deploy to environment' }}
+    if: ${{ github.event.deployment_status.state == 'success' && github.event.workflow.name == 'Deploy to environment' && github.event.workflow_run.status == 'completed'}}
     environment: ${{ github.event.deployment.environment }}
     defaults:
       run:
