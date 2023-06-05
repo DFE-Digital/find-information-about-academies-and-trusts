@@ -33,11 +33,11 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright tests
+      - name: Run Playwright deployment tests
         env:
           CI: true
           PLAYWRIGHT_BASEURL: ${{ secrets.BASE_URL }}
-        run: npx playwright test
+        run: npx playwright test deployment-tests/*
 
       - uses: actions/upload-artifact@v3
         if: always()
