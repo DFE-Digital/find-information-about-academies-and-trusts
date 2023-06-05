@@ -16,12 +16,12 @@ jobs:
         run: |
           echo github.event.deployment_status.state = ${{ github.event.deployment_status.state }}
           echo github.event.deployment_status.environment = ${{ github.event.deployment_status.environment }}
-          echo ${{ github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Deploy to environment' }}
+          echo ${{ github.event.deployment_status.state == 'success' && github.event.workflow.name == 'Deploy to environment' }}
           echo $EVENT_CONTEXT
   playwright:
     name: Playwright tests
     runs-on: ubuntu-22.04
-    if: ${{ github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Deploy to environment' }}
+    if: ${{ github.event.deployment_status.state == 'success' && github.event.workflow.name == 'Deploy to environment' }}
     environment: ${{ github.event.deployment.environment }}
     defaults:
       run:
