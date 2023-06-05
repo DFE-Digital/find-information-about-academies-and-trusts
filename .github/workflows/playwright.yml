@@ -1,5 +1,5 @@
 name: Playwright tests
-run-name: Playwright tests for '${{ github.event.deployment.environment }}'
+run-name: Playwright tests for '${{ github.event.deployment.environment }} - ${{github.event.workflow_run.head_branch}}'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.deployment.environment }}
@@ -14,6 +14,9 @@ jobs:
       - env:
           EVENT_CONTEXT: ${{ toJSON(github.event) }}
         run: |
+          echo github.event.deployment_status.state = ${{ github.event.deployment_status.state }}
+          echo github.event.deployment_status.environment = ${{ github.event.deployment_status.environment }}
+          echo ${{ github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Deploy to environment' }}
           echo $EVENT_CONTEXT
   playwright:
     name: Playwright tests
