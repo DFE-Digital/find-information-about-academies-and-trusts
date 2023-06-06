@@ -136,9 +136,22 @@ variable "monitor_endpoint_healthcheck" {
   type        = string
 }
 
+variable "enable_container_health_probe" {
+  description = "Enable liveness probes for the Container"
+  type        = bool
+  default     = true
+}
+
+variable "container_health_probe_protocol" {
+  description = "Use HTTPS or a TCP connection for the Container liveness probe"
+  type        = string
+  default     = "https"
+}
+
 variable "container_health_probe_path" {
   description = "Specifies the path that is used to determine the liveness of the Container"
   type        = string
+  default     = "/"
 }
 
 variable "cdn_frontdoor_health_probe_path" {

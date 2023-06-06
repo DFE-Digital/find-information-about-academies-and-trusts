@@ -2,17 +2,20 @@ using Microsoft.Extensions.Options;
 
 namespace DfE.FindInformationAcademiesTrusts;
 
-public class AcademiesApi
+public interface IAcademiesApi
 {
-    private readonly IOptions<AcademiesApiOptions> _academiesApiOptions;
+    Task<string> GetTrusts();
+}
+
+public class AcademiesApi : IAcademiesApi
+{
     private readonly HttpClient _httpClient;
 
     public AcademiesApi(IOptions<AcademiesApiOptions> academiesApiOptions)
     {
-        _academiesApiOptions = academiesApiOptions;
         _httpClient = new HttpClient();
-        _httpClient.BaseAddress = new Uri(_academiesApiOptions.Value.Endpoint!);
-        _httpClient.DefaultRequestHeaders.Add("ApiKey", _academiesApiOptions.Value.Key);
+        _httpClient.BaseAddress = new Uri(academiesApiOptions.Value.Endpoint!);
+        _httpClient.DefaultRequestHeaders.Add("ApiKey", academiesApiOptions.Value.Key);
     }
 
     public async Task<string> GetTrusts()
