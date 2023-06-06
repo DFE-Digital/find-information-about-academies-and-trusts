@@ -28,6 +28,8 @@ locals {
   cdn_frontdoor_custom_domains                  = var.cdn_frontdoor_custom_domains
   cdn_frontdoor_host_redirects                  = var.cdn_frontdoor_host_redirects
   cdn_frontdoor_host_add_response_headers       = var.cdn_frontdoor_host_add_response_headers
+  enable_container_health_probe                 = var.enable_container_health_probe
+  container_health_probe_protocol               = var.container_health_probe_protocol
   cdn_frontdoor_health_probe_path               = var.cdn_frontdoor_health_probe_path
   cdn_frontdoor_enable_rate_limiting            = var.cdn_frontdoor_enable_rate_limiting
   cdn_frontdoor_rate_limiting_threshold         = var.cdn_frontdoor_rate_limiting_threshold
