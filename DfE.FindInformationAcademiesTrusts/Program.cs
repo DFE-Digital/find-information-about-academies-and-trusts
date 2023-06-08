@@ -38,6 +38,7 @@ internal class Program
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+            builder.Services.AddHttpClient();
             builder.Services.AddScoped<IAcademiesApi, AcademiesApi>();
             builder.Services.AddOptions<AcademiesApiOptions>()
                 .Bind(builder.Configuration.GetSection(AcademiesApiOptions.ConfigurationSection))
