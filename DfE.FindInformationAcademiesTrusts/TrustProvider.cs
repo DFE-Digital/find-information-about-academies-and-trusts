@@ -32,7 +32,7 @@ public class TrustProvider : ITrustProvider
         var httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
         if (httpResponseMessage.IsSuccessStatusCode)
         {
-            using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();
+            await using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();
             var json = await JsonSerializer.DeserializeAsync<IEnumerable<string>>(contentStream);
             if (json != null) return json;
             throw new Exception();
