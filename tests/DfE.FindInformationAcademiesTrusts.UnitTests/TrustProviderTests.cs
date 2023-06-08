@@ -7,7 +7,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests;
 public class TrustProviderTests
 {
     [Fact]
-    public async Task GetTrustsAsync_should_do_something()
+    public async Task GetTrustsAsync_should_return_trusts_if_success_status()
     {
         // Setup HttpClientFactory Mock
         var mockMessageHandler = new Mock<HttpMessageHandler>();
@@ -32,7 +32,7 @@ public class TrustProviderTests
         mockHttpClientFactory.Setup(f => f.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
         // Setup AcademiesApiOptionsMock
-        var apiOptions = new AcademiesApiOptions { Endpoint = "https://doesthismatter.com/", Key = "yyyyy" };
+        var apiOptions = new AcademiesApiOptions { Endpoint = "https://apiendpoint.dev/", Key = "yyyyy" };
         var mockAcademiesOptions = new Mock<IOptions<AcademiesApiOptions>>();
         mockAcademiesOptions.Setup(o => o.Value).Returns(apiOptions);
 
@@ -41,6 +41,6 @@ public class TrustProviderTests
         // write the test
         var result = await sut.GetTrustsAsync();
 
-        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo("trust 1", "trust 2", "trust 3");
     }
 }
