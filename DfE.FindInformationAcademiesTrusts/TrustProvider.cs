@@ -1,11 +1,12 @@
 using System.Text.Json;
+using DfE.FindInformationAcademiesTrusts.AcademiesApiResponseModels;
 using Microsoft.Extensions.Options;
 
 namespace DfE.FindInformationAcademiesTrusts;
 
 public interface ITrustProvider
 {
-    public Task<IEnumerable<string>> GetTrustsAsync();
+    public Task<IEnumerable<TrustResponse>> GetTrustsAsync();
 }
 
 public class TrustProvider : ITrustProvider
@@ -19,11 +20,11 @@ public class TrustProvider : ITrustProvider
         _academiesApiOptions = academiesApiOptions;
     }
 
-    public async Task<IEnumerable<string>> GetTrustsAsync()
+    public async Task<IEnumerable<TrustResponse>> GetTrustsAsync()
     {
         var httpRequestMessage = new HttpRequestMessage(
             HttpMethod.Get,
-            _academiesApiOptions.Value.Endpoint! + "/v2/trusts")
+            _academiesApiOptions.Value.Endpoint! + "/v2/trusts/bulk")
         {
             Headers = { { "ApiKey", _academiesApiOptions.Value.Key } }
         };
@@ -33,8 +34,9 @@ public class TrustProvider : ITrustProvider
         if (httpResponseMessage.IsSuccessStatusCode)
         {
             await using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();
-            var json = await JsonSerializer.DeserializeAsync<IEnumerable<string>>(contentStream);
-            if (json != null) return json;
+            var json = await JsonSerializer.DeserializeAsync<ApiResponseV2<TrustResponse>>(contentStream);
+            if (json?.Data != null)
+                return json.Data;
             throw new Exception();
         }
 
