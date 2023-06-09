@@ -1,6 +1,5 @@
 using System.Text.Json;
 using DfE.FindInformationAcademiesTrusts.AcademiesApiResponseModels;
-using Microsoft.Extensions.Options;
 
 namespace DfE.FindInformationAcademiesTrusts;
 
@@ -12,25 +11,17 @@ public interface ITrustProvider
 public class TrustProvider : ITrustProvider
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IOptions<AcademiesApiOptions> _academiesApiOptions;
 
-    public TrustProvider(IHttpClientFactory httpClientFactory, IOptions<AcademiesApiOptions> academiesApiOptions)
+    public TrustProvider(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
-        _academiesApiOptions = academiesApiOptions;
     }
 
     public async Task<IEnumerable<Trust>> GetTrustsAsync()
     {
-        var httpRequestMessage = new HttpRequestMessage(
-            HttpMethod.Get,
-            $"{_academiesApiOptions.Value.Endpoint!}/v2/trusts/bulk")
-        {
-            Headers = { { "ApiKey", _academiesApiOptions.Value.Key } }
-        };
+        var httpClient = _httpClientFactory.CreateClient("AcademiesApi");
 
-        var httpClient = _httpClientFactory.CreateClient();
-        var httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
+        var httpResponseMessage = await httpClient.GetAsync("v2/trusts/bulk");
         if (httpResponseMessage.IsSuccessStatusCode)
         {
             await using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();

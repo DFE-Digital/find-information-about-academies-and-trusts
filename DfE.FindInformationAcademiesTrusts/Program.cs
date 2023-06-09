@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.Extensions.Options;
 using Serilog;
 
 namespace DfE.FindInformationAcademiesTrusts;
@@ -41,10 +42,19 @@ internal static class Program
             builder.Services.AddRazorPages();
             builder.Services.AddHttpClient();
             builder.Services.AddScoped<IAcademiesApi, AcademiesApi>();
+            builder.Services.AddScoped<ITrustSearch, TrustSearch>();
+            builder.Services.AddScoped<ITrustProvider, TrustProvider>();
             builder.Services.AddOptions<AcademiesApiOptions>()
                 .Bind(builder.Configuration.GetSection(AcademiesApiOptions.ConfigurationSection))
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
+
+            builder.Services.AddHttpClient("AcademiesApi", (provider, httpClient) =>
+            {
+                var academiesApiOptions = provider.GetRequiredService<IOptions<AcademiesApiOptions>>();
+                httpClient.BaseAddress = new Uri(academiesApiOptions.Value.Endpoint!);
+                httpClient.DefaultRequestHeaders.Add("ApiKey", academiesApiOptions.Value.Key);
+            });
 
             //Build and configure app
             var app = builder.Build();
