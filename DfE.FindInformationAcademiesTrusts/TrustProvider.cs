@@ -45,6 +45,6 @@ public class TrustProvider : ITrustProvider
             throw new Exception();
         }
 
-        throw new NotImplementedException();
+        throw new ApplicationException("Problem communicating with Academies API");
     }
 }
