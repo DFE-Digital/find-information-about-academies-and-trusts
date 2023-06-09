@@ -22,7 +22,7 @@ public class TrustSearch : ITrustSearch
         }
 
         var trusts = await _trustProvider.GetTrustsAsync();
-        return trusts.Select(t => t.GiasData?.GroupName ?? string.Empty)
+        return trusts.Select(t => t.Name)
             .Where(s => s.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
     }
 }
