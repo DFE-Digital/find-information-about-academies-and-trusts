@@ -24,7 +24,7 @@ public class TrustProviderTests
             { Content = new StringContent("[\"trust 1\",\"trust 2\",\"trust 3\"]") };
 
         _mockHttpClientFactory.SetupRequestResponse(_ => _.Method == HttpMethod.Get, responseMessage);
-        var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockAcademiesOptions.Object);
+        var sut = new TrustProvider(_mockHttpClientFactory.Object);
 
         var result = await sut.GetTrustsAsync();
 
@@ -39,7 +39,7 @@ public class TrustProviderTests
 
         _mockHttpClientFactory.SetupRequestResponse(_ => true, responseMessage);
 
-        var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockAcademiesOptions.Object);
+        var sut = new TrustProvider(_mockHttpClientFactory.Object);
 
 
         await Invoking(() => sut.GetTrustsAsync()).Should().ThrowAsync<ApplicationException>()
