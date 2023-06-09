@@ -2,7 +2,7 @@ namespace DfE.FindInformationAcademiesTrusts;
 
 public interface ITrustSearch
 {
-    public Task<IEnumerable<string>> SearchAsync(string searchTerm);
+    public Task<IEnumerable<Trust>> SearchAsync(string searchTerm);
 }
 
 public class TrustSearch : ITrustSearch
@@ -14,7 +14,7 @@ public class TrustSearch : ITrustSearch
         _trustProvider = trustProvider;
     }
 
-    public async Task<IEnumerable<string>> SearchAsync(string searchTerm)
+    public async Task<IEnumerable<Trust>> SearchAsync(string searchTerm)
     {
         if (string.IsNullOrWhiteSpace(searchTerm))
         {
@@ -22,7 +22,6 @@ public class TrustSearch : ITrustSearch
         }
 
         var trusts = await _trustProvider.GetTrustsAsync();
-        return trusts.Select(t => t.Name)
-            .Where(s => s.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+        return trusts.Where(t => t.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
     }
 }
