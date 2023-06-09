@@ -1,5 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.AcademiesApiResponseModels;
-
 namespace DfE.FindInformationAcademiesTrusts.UnitTests;
 
 using static FluentActions;
@@ -14,9 +12,9 @@ public class TrustSearchTests
         mockTrustsProvider.Setup(t => t.GetTrustsAsync().Result).Returns(
             new[]
             {
-                new TrustResponse { GiasData = new GIASDataResponse { GroupName = "trust 1" } },
-                new TrustResponse { GiasData = new GIASDataResponse { GroupName = "trust 2" } },
-                new TrustResponse { GiasData = new GIASDataResponse { GroupName = "trust 3" } }
+                new Trust("trust 1"),
+                new Trust("trust 2"),
+                new Trust("trust 3")
             }
         );
         _sut = new TrustSearch(mockTrustsProvider.Object);
