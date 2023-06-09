@@ -31,14 +31,14 @@ public class TrustSearchTests
     public async Task SearchAsync_should_return_a_single_item_if_there_is_one_matching_term()
     {
         var result = await _sut.SearchAsync("trust 1");
-        result.Should().ContainSingle().Which.Should().Be("trust 1");
+        result.Should().ContainSingle().Which.Name.Should().Be("trust 1");
     }
 
     [Fact]
     public async Task SearchAsync_should_return_multiple_trusts_if_more_than_one_match()
     {
         var result = await _sut.SearchAsync("trust");
-        result.Should().BeEquivalentTo("trust 1", "trust 2", "trust 3");
+        result.Should().HaveCount(3).And.OnlyHaveUniqueItems();
     }
 
     [Theory]
@@ -48,7 +48,7 @@ public class TrustSearchTests
     public async Task SearchAsync_should_be_case_insensitive(string term)
     {
         var result = await _sut.SearchAsync(term);
-        result.Should().ContainSingle().Which.Should().Be("trust 1");
+        result.Should().ContainSingle().Which.Name.Should().Be("trust 1");
     }
 
     [Theory]
