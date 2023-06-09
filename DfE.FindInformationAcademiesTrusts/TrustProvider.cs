@@ -6,7 +6,7 @@ namespace DfE.FindInformationAcademiesTrusts;
 
 public interface ITrustProvider
 {
-    public Task<IEnumerable<TrustResponse>> GetTrustsAsync();
+    public Task<IEnumerable<Trust>> GetTrustsAsync();
 }
 
 public class TrustProvider : ITrustProvider
@@ -20,11 +20,11 @@ public class TrustProvider : ITrustProvider
         _academiesApiOptions = academiesApiOptions;
     }
 
-    public async Task<IEnumerable<TrustResponse>> GetTrustsAsync()
+    public async Task<IEnumerable<Trust>> GetTrustsAsync()
     {
         var httpRequestMessage = new HttpRequestMessage(
             HttpMethod.Get,
-            _academiesApiOptions.Value.Endpoint! + "/v2/trusts/bulk")
+            $"{_academiesApiOptions.Value.Endpoint!}/v2/trusts/bulk")
         {
             Headers = { { "ApiKey", _academiesApiOptions.Value.Key } }
         };
@@ -36,7 +36,12 @@ public class TrustProvider : ITrustProvider
             await using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();
             var json = await JsonSerializer.DeserializeAsync<ApiResponseV2<TrustResponse>>(contentStream);
             if (json?.Data != null)
-                return json.Data;
+            {
+                var transformedData = json.Data.Where(t => t.GiasData?.GroupName != null)
+                    .Select(t => new Trust(t.GiasData!.GroupName!));
+                return transformedData;
+            }
+
             throw new Exception();
         }
 
