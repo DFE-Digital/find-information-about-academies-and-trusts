@@ -1,20 +1,17 @@
 using System.Net;
-using Microsoft.Extensions.Options;
 using static FluentAssertions.FluentActions;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests;
 
 public class TrustProviderTests
 {
-    private readonly Mock<IOptions<AcademiesApiOptions>> _mockAcademiesOptions;
     private readonly MockHttpClientFactory _mockHttpClientFactory;
+    private readonly MockLogger<ITrustProvider> _mockLogger;
 
     public TrustProviderTests()
     {
+        _mockLogger = new MockLogger<ITrustProvider>();
         _mockHttpClientFactory = new MockHttpClientFactory();
-        var apiOptions = new AcademiesApiOptions { Endpoint = "https://apiendpoint.dev/", Key = "yyyyy" };
-        _mockAcademiesOptions = new Mock<IOptions<AcademiesApiOptions>>();
-        _mockAcademiesOptions.Setup(o => o.Value).Returns(apiOptions);
     }
 
     [Fact]
@@ -22,11 +19,13 @@ public class TrustProviderTests
     {
         var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
         {
-            Content = new StringContent("{\"Data\": [{\"GroupName\": \"trust 1\"}, {\"GroupName\": \"trust 2\"}, {\"GroupName\": \"trust 3\"}]}")
+            Content = new StringContent(
+                "{\"Data\": [{\"GroupName\": \"trust 1\"}, {\"GroupName\": \"trust 2\"}, {\"GroupName\": \"trust 3\"}]}")
         };
 
         _mockHttpClientFactory.SetupRequestResponse(_ => _.Method == HttpMethod.Get, responseMessage);
-        var sut = new TrustProvider(_mockHttpClientFactory.Object);
+
+        var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
 
         var result = await sut.GetTrustsAsync();
         result.Should().HaveCount(3).And.OnlyHaveUniqueItems();
@@ -36,14 +35,36 @@ public class TrustProviderTests
     public async Task GetTrustsAsync_should_throw_exception_on_http_response_error_code()
     {
         var responseMessage = new HttpResponseMessage(HttpStatusCode.InternalServerError)
-            { Content = new StringContent("[\"trust 1\",\"trust 2\",\"trust 3\"]") };
+            { Content = new StringContent("") };
 
-        _mockHttpClientFactory.SetupRequestResponse(_ => true, responseMessage);
+        _mockHttpClientFactory.SetupRequestResponse(_ => _.Method == HttpMethod.Get, responseMessage);
 
-        var sut = new TrustProvider(_mockHttpClientFactory.Object);
-
+        var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
 
         await Invoking(() => sut.GetTrustsAsync()).Should().ThrowAsync<ApplicationException>()
             .WithMessage("Problem communicating with Academies API");
+    }
+
+    [Fact]
+    public async Task GetTrustsAsync_should_log_any_exception()
+    {
+        var responseMessage = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+        {
+            Content = new StringContent("")
+        };
+
+        _mockHttpClientFactory.SetupRequestResponse(
+            _ => _.Method == HttpMethod.Get,
+            responseMessage
+        );
+        var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
+        try
+        {
+            await sut.GetTrustsAsync();
+        }
+        catch
+        {
+            _mockLogger.VerifyLogError("Received InternalServerError from Academies API");
+        }
     }
 }
