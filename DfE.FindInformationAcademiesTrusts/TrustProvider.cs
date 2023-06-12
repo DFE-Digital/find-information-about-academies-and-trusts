@@ -11,9 +11,13 @@ public interface ITrustProvider
 public class TrustProvider : ITrustProvider
 {
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly ILogger<ITrustProvider> _logger;
 
-    public TrustProvider(IHttpClientFactory httpClientFactory)
+    public TrustProvider(IHttpClientFactory httpClientFactory,
+        ILogger<ITrustProvider> logger)
+
     {
+        _logger = logger;
         _httpClientFactory = httpClientFactory;
     }
 
@@ -37,6 +41,15 @@ public class TrustProvider : ITrustProvider
             throw new Exception();
         }
 
+        var errorMessage = await httpResponseMessage.Content.ReadAsStringAsync();
+
+        _logger.LogError(
+            "Received {statusCode} from Academies API, \r\nendpoint: {endpoint}, \r\ncontent: {errorMessage}, \r\nheaders: {headers}",
+            httpResponseMessage.StatusCode,
+            httpResponseMessage?.RequestMessage?.RequestUri?.ToString() ?? "[unknown]",
+            errorMessage,
+            httpResponseMessage?.Headers
+        );
         throw new ApplicationException("Problem communicating with Academies API");
     }
 }
