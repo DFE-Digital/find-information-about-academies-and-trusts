@@ -12,6 +12,8 @@ public class MockHttpClientFactory : Mock<IHttpClientFactory>
         _mockMessageHandler = new Mock<HttpMessageHandler>();
 
         var httpClient = new HttpClient(_mockMessageHandler.Object);
+        httpClient.BaseAddress = new Uri("https://apiendpoint.dev/");
+        httpClient.DefaultRequestHeaders.Add("ApiKey", "yyyyy");
 
         Setup(f => f.CreateClient(It.IsAny<string>())).Returns(httpClient);
     }
