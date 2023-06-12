@@ -21,14 +21,15 @@ public class TrustProviderTests
     public async Task GetTrustsAsync_should_return_trusts_if_success_status()
     {
         var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
-            { Content = new StringContent("[\"trust 1\",\"trust 2\",\"trust 3\"]") };
+        {
+            Content = new StringContent("{\"Data\": [{\"GroupName\": \"trust 1\"}, {\"GroupName\": \"trust 2\"}, {\"GroupName\": \"trust 3\"}]}")
+        };
 
         _mockHttpClientFactory.SetupRequestResponse(_ => _.Method == HttpMethod.Get, responseMessage);
         var sut = new TrustProvider(_mockHttpClientFactory.Object);
 
         var result = await sut.GetTrustsAsync();
-
-        result.Should().BeEquivalentTo("trust 1", "trust 2", "trust 3");
+        result.Should().HaveCount(3).And.OnlyHaveUniqueItems();
     }
 
     [Fact]
