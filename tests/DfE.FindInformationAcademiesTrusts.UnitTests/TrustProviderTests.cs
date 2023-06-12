@@ -45,10 +45,13 @@ public class TrustProviderTests
             .WithMessage("Problem communicating with Academies API");
     }
 
-    [Fact]
-    public async Task GetTrustsAsync_should_log_any_exception()
+    [Theory]
+    [InlineData(HttpStatusCode.InternalServerError)]
+    [InlineData(HttpStatusCode.Unauthorized)]
+    [InlineData(HttpStatusCode.NotFound)]
+    public async Task GetTrustsAsync_should_log_any_exception(HttpStatusCode statusCode)
     {
-        var responseMessage = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+        var responseMessage = new HttpResponseMessage(statusCode)
         {
             Content = new StringContent("")
         };
@@ -64,7 +67,7 @@ public class TrustProviderTests
         }
         catch
         {
-            _mockLogger.VerifyLogError("Received InternalServerError from Academies API");
+            _mockLogger.VerifyLogError($"Received {statusCode} from Academies API");
         }
     }
 }
