@@ -1,0 +1,55 @@
+using System.Text.Json;
+using DfE.FindInformationAcademiesTrusts.AcademiesApiResponseModels;
+
+namespace DfE.FindInformationAcademiesTrusts;
+
+public interface ITrustProvider
+{
+    public Task<IEnumerable<Trust>> GetTrustsAsync();
+}
+
+public class TrustProvider : ITrustProvider
+{
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly ILogger<ITrustProvider> _logger;
+
+    public TrustProvider(IHttpClientFactory httpClientFactory,
+        ILogger<ITrustProvider> logger)
+
+    {
+        _logger = logger;
+        _httpClientFactory = httpClientFactory;
+    }
+
+    public async Task<IEnumerable<Trust>> GetTrustsAsync()
+    {
+        var httpClient = _httpClientFactory.CreateClient("AcademiesApi");
+
+        var httpResponseMessage = await httpClient.GetAsync("v2/trusts");
+        if (httpResponseMessage.IsSuccessStatusCode)
+        {
+            await using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();
+            var json = await JsonSerializer.DeserializeAsync<ApiResponseV2<TrustSummaryResponse>>(contentStream,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            if (json?.Data != null)
+            {
+                var transformedData = json.Data.Where(t => t.GroupName != null)
+                    .Select(t => new Trust(t.GroupName!));
+                return transformedData;
+            }
+
+            throw new Exception();
+        }
+
+        var errorMessage = await httpResponseMessage.Content.ReadAsStringAsync();
+
+        _logger.LogError(
+            "Received {statusCode} from Academies API, \r\nendpoint: {endpoint}, \r\ncontent: {errorMessage}, \r\nheaders: {headers}",
+            httpResponseMessage.StatusCode,
+            httpResponseMessage?.RequestMessage?.RequestUri?.ToString() ?? "[unknown]",
+            errorMessage,
+            httpResponseMessage?.Headers
+        );
+        throw new ApplicationException("Problem communicating with Academies API");
+    }
+}
