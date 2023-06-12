@@ -41,7 +41,7 @@ public class TrustProviderTests
 
         var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
 
-        await Invoking(() => sut.GetTrustsAsync()).Should().ThrowAsync<ApplicationException>()
+        await Invoking(() => sut.GetTrustsAsync()).Should().ThrowAsync<HttpRequestException>()
             .WithMessage("Problem communicating with Academies API");
     }
 
