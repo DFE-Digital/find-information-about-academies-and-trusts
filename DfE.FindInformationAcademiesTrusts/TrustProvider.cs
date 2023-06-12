@@ -38,7 +38,7 @@ public class TrustProvider : ITrustProvider
                 return transformedData;
             }
 
-            throw new Exception();
+            throw new JsonException();
         }
 
         var errorMessage = await httpResponseMessage.Content.ReadAsStringAsync();
@@ -50,6 +50,6 @@ public class TrustProvider : ITrustProvider
             errorMessage,
             httpResponseMessage?.Headers
         );
-        throw new ApplicationException("Problem communicating with Academies API");
+        throw new HttpRequestException("Problem communicating with Academies API");
     }
 }
