@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "standard && stylelint \"src/**/*.(s)?css\"",
     "lint:fix": "standard --fix && stylelint \"src/**/*.(s)?css\" --fix",
-    "build": "webpack",
+    "build": "webpack --config webpack.assets.config.js & webpack",
     "run": "webpack --watch"
   },
   "author": "",
@@ -16,6 +16,7 @@
     "@babel/core": "^7.21.8",
     "@babel/preset-env": "^7.21.5",
     "babel-loader": "^9.1.2",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "mini-css-extract-plugin": "^2.7.5",
     "sass": "^1.62.1",
