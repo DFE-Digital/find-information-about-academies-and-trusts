@@ -9,6 +9,10 @@ module.exports = {
           from: '*.{png, jpg, jpeg, gif, svg}',
           to: path.join(__dirname, 'wwwroot/dist/images'),
           context: 'node_modules/dfe-frontend-alpha/packages/assets'
+        },
+        {
+          from: path.join(__dirname, 'src/images'),
+          to: path.join(__dirname, 'wwwroot/dist/images')
         }
       ]
     })
