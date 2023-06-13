@@ -6,6 +6,11 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
+          from: 'images',
+          to: path.join(__dirname, 'wwwroot/dist/images/govuk'),
+          context: 'node_modules/govuk-frontend/govuk/assets'
+        },
+        {
           from: '*.{png, jpg, jpeg, gif, svg}',
           to: path.join(__dirname, 'wwwroot/dist/images'),
           context: 'node_modules/dfe-frontend-alpha/packages/assets'
