@@ -1,10 +1,34 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+  ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="app-banner app-banner--l">
+  <div class="govuk-width-container">
+    <div class="govuk-grid-row ">
+      <div class="govuk-grid-column-one-half">
+        <h1 class="govuk-heading-xl app-banner--heading">Find information about academies and trusts</h1>
+        <form class="govuk-form-group dfe-header__search-wrap" action="./search" method="post">
+          <label class="govuk-label govuk-label--m" for="home-search">
+            Search for a trust by name or reference number
+          </label>
+
+          <div class="govuk-hint">
+            Enter trust name, TRN, group ID, UID, UKPRN or companies house number
+          </div>
+
+          <div class="govuk-input__wrapper dfe-header__search-form app-search app-search--border govuk-!-margin-top-4">
+            <input class="dfe-search__input govuk-!-width-full" id="home-search" name="search" type="search" autocomplete="off">
+            <button class="dfe-search__submit app-search__button app-search__button--blue" type="submit">
+              <svg class="dfe-icon dfe-icon__search app-search__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
+                <path d="M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z"></path>
+              </svg>
+              <span class="govuk-visually-hidden">Search</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
