@@ -21,11 +21,21 @@
       document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
     </script>
 <partial name="_Header"/>
-<div class="govuk-width-container ">
-  <main class="govuk-main-wrapper " id="main-content" role="main">
+@if (ViewData["Title"]?.ToString() == "Home page")
+{
+  <main id="main-content" role="main">
     @RenderBody()
   </main>
-</div>
+}
+else
+{
+  <div class="govuk-width-container">
+    <main class="govuk-main-wrapper" id="main-content" role="main">
+      @RenderBody()
+    </main>
+  </div>
+}
+
 <partial name="_Footer"/>
 <script src="~/dist/main.js"></script>
 <script src="~/dist/javascripts/dfefrontend.js"></script>
