@@ -7,7 +7,7 @@ public class MockHttpClientFactory : Mock<IHttpClientFactory>
 {
     private readonly Mock<HttpMessageHandler> _mockMessageHandler;
 
-    public MockHttpClientFactory()
+    public MockHttpClientFactory(string clientName)
     {
         _mockMessageHandler = new Mock<HttpMessageHandler>();
 
@@ -15,7 +15,7 @@ public class MockHttpClientFactory : Mock<IHttpClientFactory>
         httpClient.BaseAddress = new Uri("https://apiendpoint.dev/");
         httpClient.DefaultRequestHeaders.Add("ApiKey", "yyyyy");
 
-        Setup(f => f.CreateClient(It.IsAny<string>())).Returns(httpClient);
+        Setup(f => f.CreateClient(It.Is<string>(n => n == clientName))).Returns(httpClient).Verifiable();
     }
 
     public MockHttpClientFactory SetupRequestResponse(Expression<Func<HttpRequestMessage, bool>> requestMatcher,

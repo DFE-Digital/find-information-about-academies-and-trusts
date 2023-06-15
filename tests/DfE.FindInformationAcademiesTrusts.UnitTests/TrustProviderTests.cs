@@ -11,7 +11,7 @@ public class TrustProviderTests
     public TrustProviderTests()
     {
         _mockLogger = new MockLogger<ITrustProvider>();
-        _mockHttpClientFactory = new MockHttpClientFactory();
+        _mockHttpClientFactory = new MockHttpClientFactory("AcademiesApi");
     }
 
     [Fact]
