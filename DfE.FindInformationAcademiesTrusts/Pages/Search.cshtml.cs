@@ -5,7 +5,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages;
 
 public class SearchModel : PageModel
 {
-    private ITrustSearch _trustSearch;
+    private readonly ITrustSearch _trustSearch;
 
 
     public SearchModel(ITrustSearch trustSearch)
