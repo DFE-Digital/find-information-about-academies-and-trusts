@@ -19,9 +19,10 @@ public class SearchModelTests
             }
         );
 
-        var sut = new SearchModel(mockTrustSearch.Object);
-
-        sut.Query = "trust";
+        var sut = new SearchModel(mockTrustSearch.Object)
+        {
+            Query = "trust"
+        };
 
         await sut.OnGetAsync();
 
