@@ -28,4 +28,15 @@ public class SearchModelTests
 
         sut.Trusts.Should().HaveCount(3).And.OnlyHaveUniqueItems();
     }
+
+    [Fact]
+    public async Task OnGetAsync_should_default_to_empty_trusts_if_no_query()
+    {
+        var mockTrustSearch = new Mock<ITrustSearch>();
+        var sut = new SearchModel(mockTrustSearch.Object);
+
+        await sut.OnGetAsync();
+
+        sut.Trusts.Should().BeEmpty();
+    }
 }

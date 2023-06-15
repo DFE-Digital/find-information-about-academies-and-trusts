@@ -14,7 +14,7 @@ public class SearchModel : PageModel
     }
 
     [BindProperty(SupportsGet = true)] public string? Query { get; set; }
-    public IEnumerable<Trust> Trusts { get; set; } = default!;
+    public IEnumerable<Trust> Trusts { get; set; } = Array.Empty<Trust>();
 
     public async Task OnGetAsync()
     {
