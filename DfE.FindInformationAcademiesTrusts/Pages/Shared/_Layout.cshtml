@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@{
+  string? IfNotHomePageRender(string attribute)
+  {
+    return ViewData["Title"]?.ToString() != "Home page" ? attribute : null;
+  }
+}
+
+<!DOCTYPE html>
 <html lang="en" class="govuk-template ">
 
 <head>
@@ -21,11 +28,13 @@
       document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
     </script>
 <partial name="_Header"/>
-<div class="dfe-width-container">
-  <main class="govuk-main-wrapper " id="main-content" role="main">
+
+<div class="@IfNotHomePageRender("govuk-width-container")">
+  <main class="@IfNotHomePageRender("govuk-main-wrapper")" id="main-content" role="main">
     @RenderBody()
   </main>
 </div>
+
 <partial name="_Footer"/>
 <script src="~/dist/main.js"></script>
 <script src="~/dist/javascripts/dfefrontend.js"></script>
