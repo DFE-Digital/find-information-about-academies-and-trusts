@@ -7,9 +7,10 @@ public class SearchModelTests
     [Fact]
     public async Task OnGetAsync_should_search_if_query_parameter()
     {
+        var query = "trust";
         var mockTrustSearch = new Mock<ITrustSearch>();
         mockTrustSearch.Setup(s => s.SearchAsync(
-            It.IsAny<string>()
+            It.Is<string>(q => q == query)
         ).Result).Returns(
             new[]
             {
@@ -17,11 +18,11 @@ public class SearchModelTests
                 new Trust("trust 2"),
                 new Trust("trust 3")
             }
-        );
+        ).Verifiable();
 
         var sut = new SearchModel(mockTrustSearch.Object)
         {
-            Query = "trust"
+            Query = query
         };
 
         await sut.OnGetAsync();
