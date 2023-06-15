@@ -23,7 +23,11 @@ public class TrustProviderTests
                 "{\"Data\": [{\"GroupName\": \"trust 1\"}, {\"GroupName\": \"trust 2\"}, {\"GroupName\": \"trust 3\"}]}")
         };
 
-        _mockHttpClientFactory.SetupRequestResponse(_ => _.Method == HttpMethod.Get, responseMessage);
+        _mockHttpClientFactory.SetupRequestResponse(_ =>
+                _.Method == HttpMethod.Get &&
+                _.RequestUri != null &&
+                _.RequestUri.AbsoluteUri.Contains("v2/trusts")
+            , responseMessage);
 
         var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
 
