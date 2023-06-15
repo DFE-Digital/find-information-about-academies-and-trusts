@@ -5,7 +5,7 @@ Use this documentation to configure your local development environment.
 - [Get it working](#get-it-working)
   - [Prerequisites](#prerequisites)
   - [Configure local user secrets](#configure-local-user-secrets)
-  - [Build frontend assets](#build-frontend-assets)
+  - [Build and watch frontend assets](#build-and-watch-frontend-assets)
   - [Build and run dotnet project](#build-and-run-dotnet-project)
   - [Run in Docker (optional)](#run-in-docker-optional)
 - [Supercharge your dev environment](#supercharge-your-dev-environment)
@@ -34,19 +34,22 @@ dotnet user-secrets set "AcademiesApi:Endpoint" "[endpoint goes here]"
 dotnet user-secrets set "AcademiesApi:Key" "[key goes here]"
 ```
 
-### Build frontend assets
+### Build and watch frontend assets
 
 The frontend assets must be built before the .NET project. The assets are built into the `wwwroot` folder.
 
 ```bash
 cd DfE.FindInformationAcademiesTrusts
 npm install
-npm run build
+npm run dev
 ```
+This script will watch for any changes to your sass and JavaScript entry files. Simply refresh the browser window to reflect changes whilst your dotnet project is running.
+
+You will need to stop (`ctrl-c`) and rerun the script if you change any saved images.
 
 ### Build and run dotnet project
 
-- Ensure you have [built the frontend assets](#build-frontend-assets) before building the dotnet project.
+- Ensure you have [built the frontend assets](#build-and-watch-frontend-assets) before building the dotnet project.
 - Run/debug project as normal in your chosen IDE
 
 Note that the default `ASPNETCORE_ENVIRONMENT` for local development is `"LocalDevelopment"` (configured in `launchsettings.json`)
