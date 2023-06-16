@@ -74,4 +74,21 @@ public class TrustProviderTests
             _mockLogger.VerifyLogError($"Received {statusCode} from Academies API");
         }
     }
+
+    [Theory]
+    [InlineData("{\"Data\": null }")]
+    [InlineData(null)]
+    public async Task GetTrustsAsync_should_throw_exception_on_null_data_response(string? content)
+    {
+        var stringContent = content != null ? new StringContent(content) : null;
+
+        var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
+            { Content = stringContent };
+
+        _mockHttpClientFactory.SetupRequestResponse(_ => _.Method == HttpMethod.Get, responseMessage);
+
+        var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
+
+        await Invoking(() => sut.GetTrustsAsync()).Should().ThrowAsync<JsonException>();
+    }
 }
