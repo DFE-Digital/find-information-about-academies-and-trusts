@@ -40,9 +40,7 @@ locals {
   enable_monitoring                             = var.enable_monitoring
   monitor_email_receivers                       = var.monitor_email_receivers
   monitor_endpoint_healthcheck                  = var.monitor_endpoint_healthcheck
-  monitor_enable_slack_webhook                  = var.monitor_enable_slack_webhook
-  monitor_slack_webhook_receiver                = var.monitor_slack_webhook_receiver
-  monitor_slack_channel                         = var.monitor_slack_channel
+  existing_logic_app_workflow                   = var.existing_logic_app_workflow
   existing_network_watcher_name                 = var.existing_network_watcher_name
   existing_network_watcher_resource_group_name  = var.existing_network_watcher_resource_group_name
   key_vault_access_users                        = var.key_vault_access_users
