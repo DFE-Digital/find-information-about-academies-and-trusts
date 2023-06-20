@@ -65,6 +65,7 @@ internal class Program
             app.UseAuthorization();
 
             app.MapRazorPages();
+            app.UseMiddleware<ResponseHeadersMiddleware>();
 
             app.Run();
         }
