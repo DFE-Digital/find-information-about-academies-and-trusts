@@ -30,9 +30,9 @@
         <None Include="package-lock.json">
             <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </None>
-        <Content Update="webpack.assets.config.js">
-            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        </Content>
+        <Content Remove=".stylelintrc.json"/>
+        <None Include=".stylelintrc.json">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 </Project>
