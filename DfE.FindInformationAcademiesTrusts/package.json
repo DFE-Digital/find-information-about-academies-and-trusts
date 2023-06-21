@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "standard && stylelint \"src/**/*.(s)?css\"",
-    "lint:fix": "standard --fix && stylelint \"src/**/*.(s)?css\" --fix",
+    "lint": "standard && stylelint \"assets/**/*.(s)?css\"",
+    "lint:fix": "standard --fix && stylelint \"assets/**/*.(s)?css\" --fix",
     "build": "webpack",
-    "run": "webpack --watch"
+    "dev": "webpack --mode=development --watch"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "@babel/core": "^7.21.8",
     "@babel/preset-env": "^7.21.5",
     "babel-loader": "^9.1.2",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "mini-css-extract-plugin": "^2.7.5",
     "sass": "^1.62.1",
@@ -27,6 +28,7 @@
     "webpack-cli": "^5.1.1"
   },
   "dependencies": {
+    "dfe-frontend-alpha": "^0.1.8",
     "govuk-frontend": "^4.6.0"
   }
 }

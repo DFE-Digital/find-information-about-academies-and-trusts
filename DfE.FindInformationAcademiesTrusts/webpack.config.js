@@ -1,13 +1,36 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
-  entry: ['./src/index.js', './src/index.scss'],
+  entry: ['./assets/index.js', './assets/index.scss'],
   output: {
     path: path.resolve(__dirname, 'wwwroot/dist')
   },
   plugins: [
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'assets', 'images'),
+          to: path.join(__dirname, 'wwwroot', 'dist', 'images')
+        },
+        {
+          from: '*.{png, jpg, jpeg, gif, svg}',
+          to: path.join(__dirname, 'wwwroot/dist/images'),
+          context: 'node_modules/dfe-frontend-alpha/packages/assets'
+        },
+        {
+          from: 'dfefrontend.js',
+          to: path.join(__dirname, 'wwwroot/dist/javascripts'),
+          context: 'node_modules/dfe-frontend-alpha/dist'
+        },
+        {
+          from: path.join(__dirname, 'assets/images'),
+          to: path.join(__dirname, 'wwwroot/dist/images')
+        }
+      ]
+    })
   ],
   module: {
     rules: [
