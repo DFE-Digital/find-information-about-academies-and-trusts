@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "standard && stylelint \"src/**/*.(s)?css\"",
-    "lint:fix": "standard --fix && stylelint \"src/**/*.(s)?css\" --fix",
-    "build": "webpack --config webpack.assets.config.js & webpack",
-    "dev": "webpack --config webpack.assets.config.js & webpack --mode=development --watch"
+    "lint": "standard && stylelint \"assets/**/*.(s)?css\"",
+    "lint:fix": "standard --fix && stylelint \"assets/**/*.(s)?css\" --fix",
+    "build": "webpack",
+    "dev": "webpack --mode=development --watch"
   },
   "author": "",
   "license": "ISC",
