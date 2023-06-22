@@ -4,6 +4,8 @@ on:
   pull_request:
     branches: [ main ]
     types: [ opened, synchronize, reopened]
+  push:
+    branches: [ main ]
   workflow_dispatch:
     inputs:
       environment:
@@ -26,6 +28,7 @@ jobs:
       environment: ${{ steps.var.outputs.environment }}
       branch: ${{ steps.var.outputs.branch }}
       release: ${{ steps.var.outputs.release }}
+      sha: ${{ steps.var.outputs.sha }}
     steps:
       - id: var
         run: |
@@ -37,6 +40,7 @@ jobs:
           echo "environment=${ENVIRONMENT,,}" >> $GITHUB_OUTPUT
           echo "branch=$GIT_BRANCH" >> $GITHUB_OUTPUT
           echo "release=${RELEASE}" >> $GITHUB_OUTPUT
+          echo "sha=${GITHUB_SHA}" >> $GITHUB_OUTPUT
 
   build-and-push-image:
     name: Build and push to ACR
@@ -62,7 +66,7 @@ jobs:
           file: docker/Dockerfile
           tags: |
             ${{ secrets.AZURE_ACR_URL }}/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.branch }}
-            ${{ secrets.AZURE_ACR_URL }}/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.release }}
+            ${{ secrets.AZURE_ACR_URL }}/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.sha }}
             ${{ secrets.AZURE_ACR_URL }}/${{ env.DOCKER_IMAGE }}:latest
           push: true
 
@@ -70,6 +74,7 @@ jobs:
     name: Tag and release
     needs: set-env
     runs-on: ubuntu-22.04
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -100,7 +105,7 @@ jobs:
             }
 
   deploy-image:
-    name: Deploy to ${{ needs.set-env.outputs.environment }} (${{ needs.set-env.outputs.release }})
+    name: Deploy to ${{ needs.set-env.outputs.environment }} (${{ needs.set-env.outputs.sha }})
     needs: [ build-and-push-image, set-env ]
     runs-on: ubuntu-22.04
     environment: ${{ needs.set-env.outputs.environment }}
@@ -120,5 +125,5 @@ jobs:
             az containerapp update \
               --name ${{ secrets.AZURE_ACA_NAME }} \
               --resource-group ${{ secrets.AZURE_ACA_RESOURCE_GROUP }} \
-              --image ${{ secrets.AZURE_ACR_URL }}/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.release }} \
+              --image ${{ secrets.AZURE_ACR_URL }}/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.sha }} \
               --output none
