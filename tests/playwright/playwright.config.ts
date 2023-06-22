@@ -24,6 +24,12 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+
+    /* Configure proxy settings */
+    proxy: {
+      server: process.env.HTTP_PROXY ? process.env.HTTP_PROXY : '',
+      bypass: process.env.NO_PROXY ? process.env.NO_PROXY : ''
+    }
   },
 
   /* Configure projects for major browsers */
@@ -52,5 +58,13 @@ export default defineConfig({
     //   name: 'Google Chrome',
     //   use: { ..devices['Desktop Chrome'], channel: 'chrome' },
     // },
+    {
+      name: 'setup',
+      teardown: 'generate ZAP report'
+    },
+    {
+      name: 'generate ZAP report',
+      testMatch: /global.teardown\.ts/,
+    }
   ]
 });
