@@ -85,7 +85,14 @@ jobs:
         uses: "actions/github-script@v6"
         with:
           script: |
-            const { data } = await github.repos.getLatestRelease({ owner: context.repo.owner, repo: context.repo.repo });
+            try {
+              const { data } = await github.repos.getLatestRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo
+              });
+            } catch (error) {
+              core.setFailed(error.message);
+            }
             const latestReleaseTag = data.tag_name;
             core.setOutput('latest_release_tag', latestReleaseTag);
 
