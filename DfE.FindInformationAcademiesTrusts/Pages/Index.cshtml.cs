@@ -7,6 +7,8 @@ public class IndexModel : PageModel
     private readonly ILogger<IndexModel> _logger;
     private readonly IAcademiesApi _academiesApi;
 
+    public string AcademiesApiResponse { get; private set; } = string.Empty;
+
     public IndexModel(ILogger<IndexModel> logger, IAcademiesApi academiesApi)
     {
         _logger = logger;
@@ -16,6 +18,7 @@ public class IndexModel : PageModel
     public async Task OnGetAsync()
     {
         var trusts = await _academiesApi.GetTrusts();
+        AcademiesApiResponse = trusts[..100];
         _logger.LogInformation(trusts);
     }
 }
