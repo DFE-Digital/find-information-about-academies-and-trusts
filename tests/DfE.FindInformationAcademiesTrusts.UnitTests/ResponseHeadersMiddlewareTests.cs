@@ -27,6 +27,26 @@ public class ResponseHeadersMiddlewareTests
         _mockRequestDelegate.Verify(r => r.Invoke(_mockContext.Object));
     }
 
+    [Theory]
+    [InlineData("X-Frame-Options")]
+    [InlineData("X-Content-Type-Options")]
+    [InlineData("Referrer-Policy")]
+    [InlineData("Permissions-Policy")]
+    [InlineData("X-Permitted-Cross-Domain-Policies")]
+    [InlineData("X-Robots-Tag")]
+    [InlineData("Content-Security-Policy")]
+    [InlineData("Cross-Origin-Embedder-Policy")]
+    [InlineData("Cross-Origin-Opener-Policy")]
+    [InlineData("Cross-Origin-Resource-Policy")]
+    public async Task Invoke_should_not_override_existing_headers(string headerName)
+    {
+        _mockContext.Object.Response.Headers[headerName] = "existing header";
+
+        await _sut.Invoke(_mockContext.Object);
+
+        _mockContext.Object.Response.Headers[headerName].Should().ContainSingle().Which.Should().Be("existing header");
+    }
+
     [Fact]
     public async Task Invoke_should_set_XFrameOptions_to_deny()
     {
