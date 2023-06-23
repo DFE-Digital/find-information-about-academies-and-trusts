@@ -15,8 +15,9 @@ public class ResponseHeadersMiddleware
         SetHeaderIfEmpty(context, "X-Content-Type-Options", "nosniff");
         SetHeaderIfEmpty(context, "Referrer-Policy", "no-referrer");
         SetHeaderIfEmpty(context, "X-Permitted-Cross-Domain-Policies", "none");
+        SetHeaderIfEmpty(context, "X-Robots-Tag", "noindex, nofollow");
         SetHeaderIfEmpty(context, "Content-Security-Policy",
-            "default-src 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content");
+            "default-src 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none'");
         SetHeaderIfEmpty(context, "Permissions-Policy",
             "accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(),legacy-image-formats=(),magnetometer=(),microphone=(),midi=(),oversized-images=(),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(),unoptimized-images=(),unsized-media=(),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()");
         SetHeaderIfEmpty(context, "Cross-Origin-Embedder-Policy", "require-corp");

@@ -46,7 +46,7 @@ public class ResponseHeadersMiddlewareTests
     {
         await _sut.Invoke(_mockContext.Object);
         _mockContext.Object.Response.Headers.ContentSecurityPolicy.Should().ContainSingle().Which.Should().Be(
-            "default-src 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content");
+            "default-src 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none'");
     }
 
     [Theory]
@@ -54,6 +54,7 @@ public class ResponseHeadersMiddlewareTests
     [InlineData("Permissions-Policy",
         "accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(),legacy-image-formats=(),magnetometer=(),microphone=(),midi=(),oversized-images=(),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(),unoptimized-images=(),unsized-media=(),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()")]
     [InlineData("X-Permitted-Cross-Domain-Policies", "none")]
+    [InlineData("X-Robots-Tag", "noindex, nofollow")]
     [InlineData("Cross-Origin-Embedder-Policy", "require-corp")]
     [InlineData("Cross-Origin-Opener-Policy", "same-origin")]
     [InlineData("Cross-Origin-Resource-Policy", "same-origin")]
