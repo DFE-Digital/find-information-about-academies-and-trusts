@@ -66,12 +66,12 @@ jobs:
         dotnet restore DfE.FindInformationAcademiesTrusts
         dotnet build DfE.FindInformationAcademiesTrusts -c Release
         dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
-        dotnet stryker --reporter "cleartext" --reporter "dots" --reporter "html" --threshold-high 90 --threshold-low 80 --break-at 60
+        dotnet stryker -r "cleartext" -r "dots" -r "html" --threshold-high 90 --threshold-low 80 --break-at 60
         dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
     - uses: actions/upload-artifact@v3
       if: always()
       with:
         name: mutation-report
-        path: find-information-about-academies-and-trusts/StrykerOutput/2023-06-23.15-13-33/reports/mutation-report.html
+        path: find-information-about-academies-and-trusts/StrykerOutput
         retention-days: 7
