@@ -1,11 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Microsoft.ApplicationInsights.Extensibility;
 using Serilog;
 
 namespace DfE.FindInformationAcademiesTrusts;
 
 [ExcludeFromCodeCoverage]
-internal class Program
+internal static class Program
 {
     public static void Main(string[] args)
     {
@@ -18,7 +19,7 @@ internal class Program
         {
             var builder = WebApplication.CreateBuilder(args);
             if (builder.Environment.IsLocalDevelopment())
-                builder.Configuration.AddUserSecrets<Program>();
+                builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly());
 
             //Reconfigure logging before proceeding so any bootstrap exceptions can be written to App Insights 
             if (builder.Environment.IsLocalDevelopment())
