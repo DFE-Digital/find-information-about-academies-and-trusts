@@ -80,10 +80,38 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
+      - name: Get latest release tag
+        id: get-latest-release-tag
+        uses: "actions/github-script@v6"
+        with:
+          script: |
+            const { data } = await github.repos.getLatestRelease({ owner: context.repo.owner, repo: context.repo.repo });
+            const latestReleaseTag = data.tag_name;
+            core.setOutput('latest_release_tag', latestReleaseTag);
+
       - name: Create tag
         run: |
           git tag ${{ needs.set-env.outputs.release }}
           git push origin ${{ needs.set-env.outputs.release }}
+
+      - name: Generate release notes
+        id: generate-release-notes
+        uses: "actions/github-script@v6"
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          script: |
+            try {
+              const { data } = await github.rest.repos.generateReleaseNotes({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                previous_tag_name: ${{ needs.get-latest-release-tag.outputs.latest_release_tag }},
+                tag_name: "${{ needs.set-env.outputs.release }}",
+              });
+            } catch (error) {
+              core.setFailed(error.message);
+            }
+            const releaseNotesBody = data.body
+            core.setOutput('release_notes_body', releaseNotesBody);
 
       - name: Create release
         uses: "actions/github-script@v6"
@@ -93,12 +121,13 @@ jobs:
             try {
               await github.rest.repos.createRelease({
                 draft: ${{ needs.set-env.outputs.environment == 'test' }},
-                generate_release_notes: true,
+                generate_release_notes: false,
                 name: "${{ needs.set-env.outputs.release }}",
                 owner: context.repo.owner,
                 prerelease: ${{ needs.set-env.outputs.environment == 'test' }},
                 repo: context.repo.repo,
                 tag_name: "${{ needs.set-env.outputs.release }}",
+                body: "${{ needs.generate-release-notes.outputs.release_notes_body }}"
               });
             } catch (error) {
               core.setFailed(error.message);
