@@ -22,7 +22,7 @@ internal static class Program
                 builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly());
 
             //Reconfigure logging before proceeding so any bootstrap exceptions can be written to App Insights 
-            if (builder.Environment.IsLocalDevelopment())
+            if (builder.Environment.IsLocalDevelopment() || builder.Environment.IsCI())
             {
                 builder.Host.UseSerilog((_, loggerConfiguration) => loggerConfiguration
                     .ReadFrom.Configuration(builder.Configuration)
