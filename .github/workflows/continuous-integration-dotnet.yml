@@ -73,5 +73,5 @@ jobs:
       if: always()
       with:
         name: mutation-report
-        path: /**/mutation-report.html
+        path: ./**/mutation-report.html
         retention-days: 7
