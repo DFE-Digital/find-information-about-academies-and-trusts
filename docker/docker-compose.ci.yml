@@ -3,7 +3,7 @@ services:
   wiremock:
     image: wiremock/wiremock:latest-alpine
     ports:
-      - 8443:8443/tcp
+      - 8080:8080/tcp
     networks:
       - test-ci
   webapp:
@@ -17,7 +17,7 @@ services:
       - test-ci
     environment:
       - ASPNETCORE_ENVIRONMENT="CI"
-      - AcademiesApi__Endpoint="https://wiremock:8443"
+      - AcademiesApi__Endpoint="http://wiremock:8080"
       - AcademiesApi__Key="00000000-0000-0000-000-000000000000"
 
 networks:

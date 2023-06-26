@@ -37,8 +37,8 @@ jobs:
       - name: Run Playwright tests
         env:
           CI: true
-          PLAYWRIGHT_BASEURL: "https://localhost"
-          WIREMOCK_BASEURL: "https://localhost:8443"
+          PLAYWRIGHT_BASEURL: "http://localhost"
+          WIREMOCK_BASEURL: "http://localhost:8080"
         run: npx playwright test ui-tests/* accessibility-tests/*
 
       - uses: actions/upload-artifact@v3
