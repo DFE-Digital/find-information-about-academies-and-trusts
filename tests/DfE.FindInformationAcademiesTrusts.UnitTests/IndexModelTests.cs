@@ -10,7 +10,8 @@ public class IndexModelTests
         var mockLogger = new MockLogger<IndexModel>();
         var mockAcademiesApi = new Mock<IAcademiesApi>();
 
-        const string data = "this is data about trusts in the api";
+        const string data =
+            "this is lots and lots and lots and lots and lots and lots and lots and lots and lots and lots of data about trusts in the api";
         mockAcademiesApi.Setup(a => a.GetTrusts().Result).Returns(data);
 
         var sut = new IndexModel(mockLogger.Object, mockAcademiesApi.Object);
