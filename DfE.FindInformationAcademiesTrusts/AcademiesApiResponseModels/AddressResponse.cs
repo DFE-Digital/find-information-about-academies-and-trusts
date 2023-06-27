@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace DfE.FindInformationAcademiesTrusts.AcademiesApiResponseModels;
 
+[ExcludeFromCodeCoverage] // API response model POCO
 public class AddressResponse
 {
     public string? Street { get; set; }

@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace DfE.FindInformationAcademiesTrusts.AcademiesApiResponseModels;
 
+[ExcludeFromCodeCoverage] // API response model POCO
 public class IFDDataResponse
 {
     public string? TrustOpenDate { get; set; }

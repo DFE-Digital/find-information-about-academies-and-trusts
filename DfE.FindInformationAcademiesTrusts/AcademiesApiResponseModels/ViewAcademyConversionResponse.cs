@@ -1,5 +1,8 @@
-﻿namespace DfE.FindInformationAcademiesTrusts.AcademiesApiResponseModels;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace DfE.FindInformationAcademiesTrusts.AcademiesApiResponseModels;
+
+[ExcludeFromCodeCoverage] // API response model POCO
 public class ViewAcademyConversionResponse
 {
     public string? ViabilityIssue { get; set; }

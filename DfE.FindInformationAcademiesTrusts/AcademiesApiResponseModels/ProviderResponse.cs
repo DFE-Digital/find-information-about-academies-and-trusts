@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace DfE.FindInformationAcademiesTrusts.AcademiesApiResponseModels;
 
+[ExcludeFromCodeCoverage] // API response model POCO
 public class ProviderResponse
 {
     public int? Urn { get; set; }

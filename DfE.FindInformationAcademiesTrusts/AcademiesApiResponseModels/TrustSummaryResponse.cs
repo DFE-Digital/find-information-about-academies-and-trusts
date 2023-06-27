@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace DfE.FindInformationAcademiesTrusts.AcademiesApiResponseModels;
 
+[ExcludeFromCodeCoverage] // API response model POCO
 public class TrustSummaryResponse
 {
     public string? Ukprn { get; set; }
