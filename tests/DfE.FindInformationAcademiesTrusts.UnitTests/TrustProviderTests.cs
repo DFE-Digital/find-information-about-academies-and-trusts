@@ -34,6 +34,26 @@ public class TrustProviderTests
         result.Should().HaveCount(3).And.OnlyHaveUniqueItems();
     }
 
+    [Theory]
+    [InlineData(
+        "{\"Data\": [{\"GroupName\": \"trust 1\"}, {\"GroupName\": \"trust 2\"}, {\"GroupName\": \"trust 3\"}]}")]
+    [InlineData(
+        "{\"data\": [{\"groupName\": \"trust 1\"}, {\"groupName\": \"trust 2\"}, {\"groupName\": \"trust 3\"}]}")]
+    public async Task GetTrustsAsync_should_handle_json_case_insensitively(string data)
+    {
+        var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
+        {
+            Content = new StringContent(data)
+        };
+
+        _mockHttpClientFactory.SetUpHttpGetResponse(TrustsEndpoint, responseMessage);
+
+        var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
+
+        var result = await sut.GetTrustsAsync();
+        result.Should().HaveCount(3);
+    }
+
     [Fact]
     public async Task GetTrustsAsync_should_throw_exception_on_http_response_error_code()
     {
