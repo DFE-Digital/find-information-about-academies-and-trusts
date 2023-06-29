@@ -14,7 +14,7 @@ public class CensusResponse
     public string? PercentageEnglishNotFirstLanguage { get; set; }
     public string? PerceantageEnglishFirstLanguage { get; set; }
     public string? PercentageFirstLanguageUnclassified { get; set; }
-    public string? NumberEligableForFSM { get; set; }
-    public string? NumberEligableForFSM6Years { get; set; }
-    public string? PercentageEligableForFSM6Years { get; set; }
+    public string? NumberEligableForFsm { get; set; }
+    public string? NumberEligableForFsm6Years { get; set; }
+    public string? PercentageEligableForFsm6Years { get; set; }
 }

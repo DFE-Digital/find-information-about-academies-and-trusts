@@ -56,57 +56,57 @@ public class EstablishmentResponse
     public string? DateOfNextInspectionVisit { get; set; }
     public string? TeenMoth { get; set; }
     public string? TeenMothPlaces { get; set; }
-    public string? CCF { get; set; }
-    public string? SENPRU { get; set; }
-    public string? EBD { get; set; }
-    public string? PlacesPRU { get; set; }
-    public string? FTProv { get; set; }
+    public string? Ccf { get; set; }
+    public string? Senpru { get; set; }
+    public string? Ebd { get; set; }
+    public string? PlacesPru { get; set; }
+    public string? FtProv { get; set; }
     public string? EdByOther { get; set; }
     public string? Section14Approved { get; set; }
-    public string? SEN1 { get; set; }
-    public string? SEN2 { get; set; }
-    public string? SEN3 { get; set; }
-    public string? SEN4 { get; set; }
-    public string? SEN5 { get; set; }
-    public string? SEN6 { get; set; }
-    public string? SEN7 { get; set; }
-    public string? SEN8 { get; set; }
-    public string? SEN9 { get; set; }
-    public string? SEN10 { get; set; }
-    public string? SEN11 { get; set; }
-    public string? SEN12 { get; set; }
-    public string? SEN13 { get; set; }
+    public string? Sen1 { get; set; }
+    public string? Sen2 { get; set; }
+    public string? Sen3 { get; set; }
+    public string? Sen4 { get; set; }
+    public string? Sen5 { get; set; }
+    public string? Sen6 { get; set; }
+    public string? Sen7 { get; set; }
+    public string? Sen8 { get; set; }
+    public string? Sen9 { get; set; }
+    public string? Sen10 { get; set; }
+    public string? Sen11 { get; set; }
+    public string? Sen12 { get; set; }
+    public string? Sen13 { get; set; }
     public string? TypeOfResourcedProvision { get; set; }
     public string? ResourcedProvisionOnRoll { get; set; }
     public string? ResourcedProvisionOnCapacity { get; set; }
     public string? SenUnitOnRoll { get; set; }
     public string? SenUnitCapacity { get; set; }
-    public NameAndCodeResponse? GOR { get; set; }
+    public NameAndCodeResponse? Gor { get; set; }
     public NameAndCodeResponse? DistrictAdministrative { get; set; }
     public NameAndCodeResponse? AdministractiveWard { get; set; }
     public NameAndCodeResponse? ParliamentaryConstituency { get; set; }
     public NameAndCodeResponse? UrbanRural { get; set; }
-    public string? GSSLACode { get; set; }
+    public string? GsslaCode { get; set; }
     public string? Easting { get; set; }
     public string? Northing { get; set; }
     public string? CensusAreaStatisticWard { get; set; }
-    public NameAndCodeResponse? MSOA { get; set; }
-    public NameAndCodeResponse? LSOA { get; set; }
-    public string? SENStat { get; set; }
-    public string? SENNoStat { get; set; }
+    public NameAndCodeResponse? Msoa { get; set; }
+    public NameAndCodeResponse? Lsoa { get; set; }
+    public string? SenStat { get; set; }
+    public string? SenNoStat { get; set; }
     public string? BoardingEstablishment { get; set; }
     public string? PropsName { get; set; }
     public NameAndCodeResponse? PreviousLocalAuthority { get; set; }
     public string? PreviousEstablishmentNumber { get; set; }
     public string? OfstedRating { get; set; }
-    public string? RSCRegion { get; set; }
+    public string? RscRegion { get; set; }
     public string? Country { get; set; }
-    public string? UPRN { get; set; }
-    public MISEstablishmentResponse? MISEstablishment { get; set; }
-    public MISFEAResponse? MISFurtherEducationEstablishment { get; set; }
+    public string? Uprn { get; set; }
+    public MisEstablishmentResponse? MisEstablishment { get; set; }
+    public MisfeaResponse? MisFurtherEducationEstablishment { get; set; }
 
     public ViewAcademyConversionResponse? ViewAcademyConversion { get; set; }
-    public SMARTDataResponse? SMARTData { get; set; }
+    public SmartDataResponse? SmartData { get; set; }
     public PlaceholderResponse? Financial { get; set; }
     public PlaceholderResponse? Concerns { get; set; }
 }

@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace DfE.FindInformationAcademiesTrusts.AcademiesApiResponseModels;
 
 [ExcludeFromCodeCoverage] // API response model POCO
-public class GIASDataResponse
+public class GiasDataResponse
 {
     public string? GroupId { get; set; }
     public string? GroupName { get; set; }

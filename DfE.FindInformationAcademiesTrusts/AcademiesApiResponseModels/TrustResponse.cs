@@ -5,7 +5,7 @@ namespace DfE.FindInformationAcademiesTrusts.AcademiesApiResponseModels;
 [ExcludeFromCodeCoverage] // API response model POCO
 public class TrustResponse
 {
-    public IFDDataResponse? IfdData { get; set; }
-    public GIASDataResponse? GiasData { get; set; }
+    public IfdDataResponse? IfdData { get; set; }
+    public GiasDataResponse? GiasData { get; set; }
     public List<EstablishmentResponse>? Establishments { get; set; }
 }

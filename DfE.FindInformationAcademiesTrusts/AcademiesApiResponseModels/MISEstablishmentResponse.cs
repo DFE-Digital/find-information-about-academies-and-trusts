@@ -3,11 +3,11 @@ using System.Diagnostics.CodeAnalysis;
 namespace DfE.FindInformationAcademiesTrusts.AcademiesApiResponseModels;
 
 [ExcludeFromCodeCoverage] // API response model POCO
-public class MISEstablishmentResponse
+public class MisEstablishmentResponse
 {
     public string? SiteName { get; set; }
     public string? WebLink { get; set; }
-    public string? LAESTAB { get; set; }
+    public string? Laestab { get; set; }
     public string? SchoolName { get; set; }
     public string? OfstedPhase { get; set; }
     public string? TypeOfEducation { get; set; }
@@ -41,7 +41,7 @@ public class MISEstablishmentResponse
     public string? PublicationDate { get; set; }
     public string? LatestFullInspectionRelatesToCurrentSchoolUrn { get; set; }
     public string? SchoolUrnAtTimeOfLastFullInspection { get; set; }
-    public string? LAESTABAtTimeOfLastFullInspection { get; set; }
+    public string? LaestabAtTimeOfLastFullInspection { get; set; }
     public string? SchoolNameAtTimeOfLastFullInspection { get; set; }
     public string? SchoolTypeAtTimeOfLastFullInspection { get; set; }
     public string? OverallEffectiveness { get; set; }
@@ -59,7 +59,7 @@ public class MISEstablishmentResponse
     public string? PreviousPublicationDate { get; set; }
     public string? PreviousFullInspectionRelatesToUrnOfCurrentSchool { get; set; }
     public string? UrnAtTheTimeOfPreviousFullInspection { get; set; }
-    public string? LAESTABAtTheTimeOfPreviousFullInspection { get; set; }
+    public string? LaestabAtTheTimeOfPreviousFullInspection { get; set; }
     public string? SchoolNameAtTheTimeOfPreviousFullInspection { get; set; }
     public string? SchoolTypeAtTheTimeOfPreviousFullInspection { get; set; }
     public string? PreviousFullInspectionOverallEffectiveness { get; set; }

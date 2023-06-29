@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace DfE.FindInformationAcademiesTrusts.AcademiesApiResponseModels;
 
 [ExcludeFromCodeCoverage] // API response model POCO
-public class SMARTDataResponse
+public class SmartDataResponse
 {
     public string? ProbabilityOfDeclining { get; set; }
     public string? ProbabilityOfStayingTheSame { get; set; }
