@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 public class MockLogger<T> : Mock<ILogger<T>>
 {
