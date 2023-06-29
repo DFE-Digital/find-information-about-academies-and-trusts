@@ -46,9 +46,9 @@ public class TrustProvider : ITrustProvider
         _logger.LogError(
             "Received {statusCode} from Academies API, \r\nendpoint: {endpoint}, \r\ncontent: {errorMessage}, \r\nheaders: {headers}",
             httpResponseMessage.StatusCode,
-            httpResponseMessage?.RequestMessage?.RequestUri?.ToString() ?? "[unknown]",
+            httpResponseMessage.RequestMessage?.RequestUri,
             errorMessage,
-            httpResponseMessage?.Headers
+            httpResponseMessage.Headers
         );
         throw new HttpRequestException("Problem communicating with Academies API");
     }

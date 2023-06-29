@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using static FluentAssertions.FluentActions;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests;
@@ -8,13 +9,12 @@ public class TrustProviderTests
 {
     private readonly MockHttpClientFactory _mockHttpClientFactory;
     private readonly MockLogger<ITrustProvider> _mockLogger;
-    private const string FakeBaseAddress = "https://apiendpoint.dev/";
     private const string TrustsEndpoint = "v2/trusts";
 
     public TrustProviderTests()
     {
         _mockLogger = new MockLogger<ITrustProvider>();
-        _mockHttpClientFactory = new MockHttpClientFactory("AcademiesApi", FakeBaseAddress);
+        _mockHttpClientFactory = new MockHttpClientFactory("AcademiesApi");
     }
 
     [Fact]
@@ -26,11 +26,7 @@ public class TrustProviderTests
                 "{\"Data\": [{\"GroupName\": \"trust 1\"}, {\"GroupName\": \"trust 2\"}, {\"GroupName\": \"trust 3\"}]}")
         };
 
-        _mockHttpClientFactory.SetupRequestResponse(_ =>
-                _.Method == HttpMethod.Get &&
-                _.RequestUri != null &&
-                _.RequestUri.AbsoluteUri.Contains(TrustsEndpoint)
-            , responseMessage);
+        _mockHttpClientFactory.SetUpHttpGetResponse(TrustsEndpoint, responseMessage);
 
         var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
 
@@ -44,7 +40,7 @@ public class TrustProviderTests
         var responseMessage = new HttpResponseMessage(HttpStatusCode.InternalServerError)
             { Content = new StringContent("") };
 
-        _mockHttpClientFactory.SetupRequestResponse(_ => _.Method == HttpMethod.Get, responseMessage);
+        _mockHttpClientFactory.SetUpHttpGetResponse(TrustsEndpoint, responseMessage);
 
         var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
 
@@ -63,12 +59,8 @@ public class TrustProviderTests
             Content = new StringContent("")
         };
 
-        var expectedUri = new Uri(FakeBaseAddress + TrustsEndpoint);
+        _mockHttpClientFactory.SetUpHttpGetResponse(TrustsEndpoint, responseMessage);
 
-        _mockHttpClientFactory.SetupRequestResponse(
-            _ => _.Method == HttpMethod.Get && _.RequestUri == expectedUri,
-            responseMessage
-        );
         var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
         try
         {
@@ -76,7 +68,8 @@ public class TrustProviderTests
         }
         catch
         {
-            _mockLogger.VerifyLogError($"Received {statusCode} from Academies API, \r\nendpoint: [unknown]");
+            _mockLogger.VerifyLogError(
+                $"Received {statusCode} from Academies API, \r\nendpoint: https://apiendpoint.dev/v2/trusts");
         }
     }
 
@@ -90,7 +83,7 @@ public class TrustProviderTests
         var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
             { Content = stringContent };
 
-        _mockHttpClientFactory.SetupRequestResponse(_ => _.Method == HttpMethod.Get, responseMessage);
+        _mockHttpClientFactory.SetUpHttpGetResponse(TrustsEndpoint, responseMessage);
 
         var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
 
