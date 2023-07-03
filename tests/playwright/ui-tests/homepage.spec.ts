@@ -30,11 +30,11 @@ test.describe('homepage', () => {
 
   for (const searchTerm of searchTerms) {
     test(`Searching for a trust with "${searchTerm}" navigates to search results page`, async ({ page }) => {
-    await page.goto('/')
-    await page.getByLabel('Find information about academies and trusts').fill(searchTerm)
-    await page.getByRole('button', { name: 'Search'}).click()
+      await page.goto('/')
+      await page.getByLabel('Find information about academies and trusts').fill(searchTerm)
+      await page.getByRole('button', { name: 'Search'}).click()
 
-    await expect(page.locator('h1')).toHaveText(`Search results for "${searchTerm}"`)
-  })
-}
+      await expect(page.locator('h1')).toHaveText(`Search results for "${searchTerm}"`)
+    })
+  }
 })
