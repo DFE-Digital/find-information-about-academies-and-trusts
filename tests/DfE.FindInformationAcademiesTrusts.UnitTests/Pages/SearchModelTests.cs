@@ -9,16 +9,15 @@ public class SearchModelTests
     {
         var query = "trust";
         var mockTrustSearch = new Mock<ITrustSearch>();
-        mockTrustSearch.Setup(s => s.SearchAsync(
-            It.Is<string>(q => q == query)
-        ).Result).Returns(
-            new[]
-            {
-                new Trust("trust 1"),
-                new Trust("trust 2"),
-                new Trust("trust 3")
-            }
-        ).Verifiable();
+        mockTrustSearch.Setup(s => s.SearchAsync(query).Result)
+            .Returns(
+                new[]
+                {
+                    new Trust("trust 1"),
+                    new Trust("trust 2"),
+                    new Trust("trust 3")
+                }
+            );
 
         var sut = new SearchModel(mockTrustSearch.Object)
         {
