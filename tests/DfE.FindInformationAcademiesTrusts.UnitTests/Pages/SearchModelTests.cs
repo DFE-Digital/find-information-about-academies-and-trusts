@@ -26,7 +26,14 @@ public class SearchModelTests
 
         await sut.OnGetAsync();
 
-        sut.Trusts.Should().HaveCount(3).And.OnlyHaveUniqueItems();
+        sut.Trusts.Should().BeEquivalentTo(
+            new[]
+            {
+                new Trust("trust 1"),
+                new Trust("trust 2"),
+                new Trust("trust 3")
+            }
+        );
     }
 
     [Fact]
