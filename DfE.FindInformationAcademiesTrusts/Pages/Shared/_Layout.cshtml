@@ -1,9 +1,4 @@
-﻿@{
-  string? IfNotHomePageRender(string attribute)
-  {
-    return ViewData["Title"]?.ToString() != "Home page" ? attribute : null;
-  }
-}
+﻿@model LayoutModel
 
 <!DOCTYPE html>
 <html lang="en" class="govuk-template ">
@@ -29,8 +24,8 @@
     </script>
 <partial name="_Header"/>
 
-<div class="@IfNotHomePageRender("govuk-width-container")">
-  <main class="@IfNotHomePageRender("govuk-main-wrapper")" id="main-content" role="main">
+<div class="@Model.GetPageWidthClass("govuk-width-container")">
+  <main class="@Model.GetPageWidthClass("govuk-main-wrapper")" id="main-content" role="main">
     @RenderBody()
   </main>
 </div>
