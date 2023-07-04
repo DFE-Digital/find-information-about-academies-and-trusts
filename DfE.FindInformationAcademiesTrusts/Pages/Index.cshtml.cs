@@ -11,9 +11,4 @@ public class IndexModel : LayoutModel
     }
 
     [BindProperty(SupportsGet = true)] public string Query { get; set; } = "";
-
-    public RedirectToPageResult OnPost()
-    {
-        return RedirectToPage("./search", new { query = Query });
-    }
 }

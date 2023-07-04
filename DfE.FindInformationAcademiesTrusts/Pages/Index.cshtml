@@ -8,7 +8,7 @@
   <div class="govuk-width-container">
     <div class="govuk-grid-row ">
       <div class="govuk-grid-column-one-half">
-        <form class="govuk-form-group dfe-header__search-wrap" method="post">
+        <form class="govuk-form-group dfe-header__search-wrap" asp-page="Search" asp-route-query="@Model.Query" method="get">
           <h1 class="govuk-label-wrapper">
             <label class="govuk-label govuk-label--xl app-banner--heading govuk-!-margin-bottom-8" for="home-search">
               Find information about academies and trusts
