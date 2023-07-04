@@ -17,10 +17,11 @@ public class IndexModelTests
             Query = query
         };
 
-        var expected = new RedirectToPageResult("./search", new { query });
+    [Fact]
+    public void UsePageWidthContainer_should_be_false()
+    {
+        var sut = new IndexModel();
 
-        var result = sut.OnPost();
-
-        result.Should().BeEquivalentTo(expected);
+        sut.UsePageWidthContainer.Should().Be(false);
     }
 }
