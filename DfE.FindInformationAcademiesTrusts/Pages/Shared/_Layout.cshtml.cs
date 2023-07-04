@@ -8,6 +8,6 @@ public class LayoutModel : PageModel
 
     public string? GetPageWidthClass(string attribute)
     {
-        return UsePageWidthContainer != true ? null : attribute;
+        return UsePageWidthContainer ? attribute : null;
     }
 }
