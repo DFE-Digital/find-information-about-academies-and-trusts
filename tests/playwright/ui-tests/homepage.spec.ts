@@ -14,10 +14,11 @@ test.describe('homepage', () => {
     const mockedResponse: IWireMockResponse = {
       status: 200,
       body: {
-        "data": [{
-          "ukprn": null, "urn": null, "groupName": "This is the name of a trust",
-          "companiesHouseNumber": null, "trustType": null, "trustAddress": { "street": null, "locality": null, "additionalLine": null, "town": null, "county": null, "postcode": null }, "establishments": []
-        }]
+        "Data": [
+          {"GroupName": "trust 1"}, 
+          {"GroupName": "trust 2"}, 
+          {"GroupName": "trust 3"}
+        ]
       },
     };
 
@@ -25,10 +26,15 @@ test.describe('homepage', () => {
 
   })
 
-  test('PLACEHOLDER TEST - prove ui tests talk to wiremock', async ({ page }) => {
-    await page.goto('/');
+  const searchTerms = ['1', 'trust']
 
-    await expect(page.getByTestId('academies-api-response'))
-    .toHaveText('{"data":[{"ukprn":null,"urn":null,"groupName":"This is the name of a trust","companiesHouseNumber":n');
-  })
+  for (const searchTerm of searchTerms) {
+    test(`Searching for a trust with "${searchTerm}" navigates to search results page`, async ({ page }) => {
+      await page.goto('/')
+      await page.getByLabel('Find information about academies and trusts').fill(searchTerm)
+      await page.getByRole('button', { name: 'Search'}).click()
+
+      await expect(page.locator('h1')).toHaveText(`Search results for "${searchTerm}"`)
+    })
+  }
 })

@@ -40,8 +40,12 @@ internal static class Program
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+            builder.Services.Configure<RouteOptions>(options =>
+            {
+                options.LowercaseUrls = true;
+                options.LowercaseQueryStrings = true;
+            });
             builder.Services.AddHttpClient();
-            builder.Services.AddScoped<IAcademiesApi, AcademiesApi>();
             builder.Services.AddScoped<ITrustSearch, TrustSearch>();
             builder.Services.AddScoped<ITrustProvider, TrustProvider>();
             builder.Services.AddOptions<AcademiesApiOptions>()

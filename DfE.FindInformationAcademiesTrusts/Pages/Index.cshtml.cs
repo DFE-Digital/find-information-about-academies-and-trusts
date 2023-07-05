@@ -1,24 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using DfE.FindInformationAcademiesTrusts.Pages.Shared;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
-public class IndexModel : PageModel
+public class IndexModel : LayoutModel
 {
-    private readonly ILogger<IndexModel> _logger;
-    private readonly IAcademiesApi _academiesApi;
-
-    public string AcademiesApiResponse { get; private set; } = string.Empty;
-
-    public IndexModel(ILogger<IndexModel> logger, IAcademiesApi academiesApi)
+    public IndexModel()
     {
-        _logger = logger;
-        _academiesApi = academiesApi;
+        UsePageWidthContainer = false;
     }
 
-    public async Task OnGetAsync()
-    {
-        var trusts = await _academiesApi.GetTrusts();
-        AcademiesApiResponse = trusts[..100];
-        _logger.LogInformation(trusts);
-    }
+    [BindProperty(SupportsGet = true)] public string Query { get; set; } = "";
 }
