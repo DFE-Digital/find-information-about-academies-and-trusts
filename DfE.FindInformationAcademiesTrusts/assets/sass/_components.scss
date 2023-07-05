@@ -20,7 +20,15 @@
 }
 
 .app-search {
-  &.app-search--border {
+  &__form {
+    line-height: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  &__form--border {
     .dfe-search__input {
       border: 2px solid govuk-colour("black");
       border-right: none;
@@ -42,5 +50,11 @@
       background-color: #002644;
       border-color: #002644;
     }
+  }
+}
+
+@media (max-width: 40.0525em) {
+  .app-search__button {
+    padding: 0 8px 0;
   }
 }

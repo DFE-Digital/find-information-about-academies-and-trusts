@@ -8,7 +8,7 @@
   <div class="dfe-width-container">
     <div class="govuk-grid-row ">
       <div class="govuk-grid-column-one-half">
-        <form class="govuk-form-group dfe-header__search-wrap" asp-page="Search" method="get">
+        <form class="govuk-form-group app-search" asp-page="Search" method="get">
           <h1 class="govuk-label-wrapper">
             <label class="govuk-label govuk-label--xl app-banner--heading govuk-!-margin-bottom-8" for="home-search">
               Find information about academies and trusts
@@ -19,7 +19,7 @@
             Enter trust name, TRN, group ID, UID, UKPRN or Companies House number
           </div>
 
-          <div class="govuk-input__wrapper dfe-header__search-form app-search app-search--border">
+          <div class="govuk-input__wrapper app-search__form  app-search__form--border">
             <input class="dfe-search__input govuk-!-width-full" id="home-search" type="search" autocomplete="off" asp-for="Query" name="query">
             <button class="dfe-search__submit app-search__button app-search__button--blue" type="submit">
               <svg class="dfe-icon dfe-icon__search app-search__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
