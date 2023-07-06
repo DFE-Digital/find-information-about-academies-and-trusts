@@ -24,20 +24,6 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-
-    /* Configure proxy settings */
-    launchOptions: process.env.ZAP ? {
-      /* Browser proxy option is required for Chromium on Windows. */
-      proxy: { server: 'per-context' }
-    } : undefined,
-
-    proxy: process.env.HTTP_PROXY ? {
-      server: process.env.HTTP_PROXY,
-      bypass: process.env.NO_PROXY
-    } : undefined,
-
-    /* Ignore HTTPS errors when proxying through ZAP without self-signed cert */
-    ignoreHTTPSErrors: process.env.ZAP ? true : false
   },
 
   /* Configure projects for major browsers */
@@ -67,8 +53,21 @@ export default defineConfig({
     //   use: { ..devices['Desktop Chrome'], channel: 'chrome' },
     // },
     {
-      name: 'setup',
-      teardown: 'generate ZAP report'
+      name: 'zap-tests',
+      use: {
+        ...devices['Desktop Chrome'],
+        ignoreHTTPSErrors: true,
+        launchOptions: {
+          /* Browser proxy option is required for Chromium on Windows. */
+          proxy: { server: 'per-context' }
+        },
+        proxy: {
+          server: process.env.HTTP_PROXY || '',
+          bypass: process.env.NO_PROXY
+        }
+      },
+      teardown: 'generate ZAP report',
+      testDir: './deployment-tests'
     },
     {
       name: 'generate ZAP report',
