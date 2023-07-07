@@ -37,7 +37,7 @@ jobs:
         env:
           CI: true
           PLAYWRIGHT_BASEURL: ${{ secrets.BASE_URL }}
-        run: npx playwright test deployment-tests/*
+        run: npx playwright test deployment-tests/* --project=cross-browser
 
       - uses: actions/upload-artifact@v3
         if: always()
