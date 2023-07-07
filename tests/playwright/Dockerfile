@@ -6,4 +6,4 @@ RUN npm install
 # Also install Edge as it doesn't come by default
 RUN npx playwright install msedge
 
-ENTRYPOINT ["npx", "playwright", "test", "deployment-tests/*"]
+ENTRYPOINT ["npx", "playwright", "test", "--project=zap-tests"]
