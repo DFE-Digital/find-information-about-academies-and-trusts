@@ -26,10 +26,18 @@ export default defineConfig({
     trace: 'on-first-retry',
 
     /* Configure proxy settings */
-    proxy: {
-      server: process.env.HTTP_PROXY ? process.env.HTTP_PROXY : '',
-      bypass: process.env.NO_PROXY ? process.env.NO_PROXY : ''
-    }
+    launchOptions: process.env.ZAP ? {
+      /* Browser proxy option is required for Chromium on Windows. */
+      proxy: { server: 'per-context' }
+    } : undefined,
+
+    proxy: process.env.HTTP_PROXY ? {
+      server: process.env.HTTP_PROXY,
+      bypass: process.env.NO_PROXY
+    } : undefined,
+
+    /* Ignore HTTPS errors when proxying through ZAP without self-signed cert */
+    ignoreHTTPSErrors: process.env.ZAP ? true : false
   },
 
   /* Configure projects for major browsers */
