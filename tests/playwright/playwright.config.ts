@@ -56,18 +56,20 @@ export default defineConfig({
       name: 'zap-tests',
       use: {
         ...devices['Desktop Chrome'],
+        channel: 'chrome',
         ignoreHTTPSErrors: true,
         launchOptions: {
           /* Browser proxy option is required for Chromium on Windows. */
           proxy: { server: 'per-context' }
         },
         proxy: {
-          server: process.env.HTTP_PROXY || '',
+          server: process.env.HTTP_PROXY!,
           bypass: process.env.NO_PROXY
         }
       },
       teardown: 'generate ZAP report',
-      testDir: './deployment-tests'
+      /* use accessibility tests because they go through each screen of the application */
+      testDir: './accessibility-tests',
     },
     {
       name: 'generate ZAP report',

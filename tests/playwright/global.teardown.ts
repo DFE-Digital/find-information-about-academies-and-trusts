@@ -1,45 +1,47 @@
 import { test as teardown } from '@playwright/test'
+import zaproxy from 'zaproxy'
 
 teardown('Generate ZAP report', async ({ request }) => {
     if(process.env.ZAP) {
         console.log('\nGenerating ZAP report')
 
+        const zapOptions = {
+            apiKey: process.env.ZAP_API_KEY,
+            proxy: {
+                host: process.env.ZAP_ADDRESS,
+                port: process.env.ZAP_PORT
+            }
+        }
+        
+        const zap = new zaproxy(zapOptions)
         // Wait for passive scanner to finish scanning before generating report
         let recordsRemaining = 100;
         while(recordsRemaining != 0) {
-            const pscanRecords = await request.get(`${process.env.ZAP_URL}/JSON/pscan/view/recordsToScan/`, {
-                headers: {
-                    'X-ZAP-API-Key': process.env.ZAP_API_KEY ? process.env.ZAP_API_KEY : ''
+            await zap.pscan.recordsToScan()
+            .then((resp) => {
+                try {
+                    recordsRemaining = parseInt(resp.recordsToScan, 10)
+                } catch (err) {
+                    console.log(`Error converting result: ${err}`)
+                    recordsRemaining = 0
                 }
             })
-            await pscanRecords.json()
-            .then(resp => {
-                recordsRemaining = parseInt(resp.recordsToScan, 10)
-            })
-            .catch(err => {
-                console.log(`Error contacting the ZAP API: ${err}`)
-                // avoid infinite loop on error state
+            .catch((err) => {
+                console.log(`Error from the ZAP API: ${err}`)
                 recordsRemaining = 0
             })
         }
-
-        const report = await request.post(`${process.env.ZAP_URL}/JSON/reports/action/generate/`, {
-            headers: {
-                'X-ZAP-API-Key': process.env.ZAP_API_KEY ? process.env.ZAP_API_KEY : ''
-            },
-            form: {
-                title: 'Report',
-                template: 'traditional-html',
-                reportFileName: 'ZAP-report'
-            }
+    
+        await zap.reports.generate({
+            title: 'Report',
+            template: 'traditional-html',
+            reportfilename: 'ZAP-Report.html'
         })
-
-        await report.json()
-        .then(resp => {
-            console.log(`Generated report at ${ resp.generate }`)
+        .then((resp) => {
+            console.log(`${JSON.stringify(resp)}`)
         })
-        .catch(err => {
-            console.log(`Error generating report from ZAP: ${err}`)
+        .catch((err) => {
+            console.log(`Error from ZAP API: ${err}`)
         })
     }
 });
