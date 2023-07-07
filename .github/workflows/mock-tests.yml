@@ -39,7 +39,7 @@ jobs:
           CI: true
           PLAYWRIGHT_BASEURL: "http://localhost"
           WIREMOCK_BASEURL: "http://localhost:8080"
-        run: npx playwright test ui-tests/* accessibility-tests/*
+        run: npx playwright test ui-tests/* accessibility-tests/* --project=cross-browser
 
       - uses: actions/upload-artifact@v3
         if: always()
