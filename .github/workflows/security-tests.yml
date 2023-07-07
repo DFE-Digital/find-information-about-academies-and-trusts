@@ -10,6 +10,7 @@ on:
 env:
   ZAP_ADDRESS: localhost
   ZAP_PORT: 9876
+  ZAP_API_KEY: 5c93eec3-b5c0-4252-9061-017ebff89450
 
 jobs:
   run-tests-with-zap:
@@ -26,7 +27,7 @@ jobs:
       - name: Start ZAP container
         env:
           ZAP_PORT: 9876
-        run: docker run --name zap_container --rm -v /zapoutput/:/home/zap/:rw -u zap -p ${{ env.ZAP_PORT }}:${{ env.ZAP_PORT }} -i owasp/zap2docker-stable zap.sh -daemon -port ${env.ZAP_PORT} -host 0.0.0.0 -config api.key=deadbeef -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config network.localServers.mainProxy.alpn.enabled=false -config network.localServers.mainProxy.address=0.0.0.0
+        run: docker run --name zap_container --rm -v /zapoutput/:/home/zap/:rw -u zap -p ${{ env.ZAP_PORT }}:${{ env.ZAP_PORT }} -i owasp/zap2docker-stable zap.sh -daemon -port ${{ env.ZAP_PORT }} -host 0.0.0.0 -config api.key=${{ env.ZAP_API_KEY }} -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config network.localServers.mainProxy.alpn.enabled=false -config network.localServers.mainProxy.address=0.0.0.0
 
       - name: Set up NodeJS
         uses: actions/setup-node@v3
@@ -46,7 +47,7 @@ jobs:
           HTTP_PROXY: "http://${{ env.ZAP_ADDRESS }}:${{ env.ZAP_PORT }}"
           NO_PROXY: ".gvt1.com"
           ZAP: true
-          ZAP_API_KEY: ${{ secrets.ZAP_API_KEY }}
+          ZAP_API_KEY: ${{ env.ZAP_API_KEY }}
           ZAP_ADDRESS: ${{ env.ZAP_ADDRESS }}
           ZAP_PORT: ${{ env.ZAP_PORT }}
         run: npx playwright test --project=zap-tests
