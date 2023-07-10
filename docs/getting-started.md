@@ -8,7 +8,12 @@ Use this documentation to configure your local development environment.
   - [Build and watch frontend assets](#build-and-watch-frontend-assets)
   - [Build and run dotnet project](#build-and-run-dotnet-project)
   - [Run in Docker (optional)](#run-in-docker-optional)
+- [Run tests](#run-tests)
+  - [Unit tests](#unit-tests)
+  - [Accessibility and UI tests](#accessibility-and-ui-tests)
 - [Supercharge your dev environment](#supercharge-your-dev-environment)
+  - Configure continuous testing
+  - [Analyse test coverage](#analyse-test-coverage)
   - [Configure linting and code cleanup](#configure-linting-and-code-cleanup)
 
 ## Get it working
@@ -62,7 +67,55 @@ Under most circumstances you won't need to run the application in Docker locally
 - copy the `.env.example` file, save as `.env` and populate the secrets within
 - run `docker-compose up`
 
+## Run tests
+
+### Unit tests
+
+To run the project's unit tests, open a terminal in the project directory and run:
+
+```bash
+cd tests/DfE.FindInformationAcademiesTrusts.UnitTests
+dotnet test
+```
+
+### Accessibility and UI tests
+
+Accessibility and UI tests are written using [Playwright](https://playwright.dev/), with external dependencies (e.g. APIs) mocked using [WireMock](https://github.com/HBOCodeLabs/wiremock-captain). 
+To run these tests locally it is easiest to run your app and the mock API using Docker:
+
+```bash
+cd DfE.FindInformationAcademiesTrusts.UnitTests/playwright
+
+# run docker image
+docker compose -f ../../docker/docker-compose.ci.yml up -d
+
+# run playwright tests
+npm install
+npx playwright test 
+# OR
+npx playwright/{folder-name}/* 
+
+# remove docker image when done
+docker compose -f ../../docker/docker-compose.ci.yml down
+
+```
+For more information on running and debugging Playwright tests it is worth familiarising yourself with the Playwright docs on [debugging](https://playwright.dev/docs/debug) and [command line flags](https://playwright.dev/docs/test-cli).
+
 ## Supercharge your dev environment
+
+### Analyse test coverage
+
+This project uses a [mutation score](https://stryker-mutator.io/docs/) to analyse effective test coverage when opening up a new pull request.
+To check these scores locally you will need to [install Stryker.Net](https://stryker-mutator.io/docs/stryker-net/getting-started/).
+
+Once Stryker is installed:
+
+```bash
+cd tests/DfE.FindInformationAcademiesTrusts.UnitTests
+dotnet stryker
+```
+
+You should see a new folder `StrykerOutput` inside your project's UnitTests directory, with reports grouped by timestamp.
 
 ### Configure linting and code cleanup
 
