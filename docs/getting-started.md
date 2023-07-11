@@ -12,7 +12,7 @@ Use this documentation to configure your local development environment.
   - [Unit tests](#unit-tests)
   - [Accessibility and UI tests](#accessibility-and-ui-tests)
 - [Supercharge your dev environment](#supercharge-your-dev-environment)
-  - Configure continuous testing
+  - [Set up continuous testing](#set-up-continuous-testing)
   - [Analyse test coverage](#analyse-test-coverage)
   - [Configure linting and code cleanup](#configure-linting-and-code-cleanup)
 
@@ -102,6 +102,14 @@ docker compose -f ../../docker/docker-compose.ci.yml down
 For more information on running and debugging Playwright tests it is worth familiarising yourself with the Playwright docs on [debugging](https://playwright.dev/docs/debug) and [command line flags](https://playwright.dev/docs/test-cli).
 
 ## Supercharge your dev environment
+
+### Set up continuous testing
+
+We recommend setting Rider to run unit tests on save, for fast feedback on changes.
+
+- Go to Settings -> Plugins and check that `dotCover` is enabled
+- Go to Settings -> Build, Execution, Deployment -> Unit Testing -> Continuous Testing and select 'Automatically start tests in continuous testing sessions on **Save**'
+- Go to or open a Unit Tests session (Tests -> Create New Session), open the 'Continuous testing modes' menu and select 'Run all tests'
 
 ### Analyse test coverage
 
