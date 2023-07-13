@@ -116,14 +116,13 @@ We recommend setting Rider to run unit tests on save, for fast feedback on chang
 This project uses a [mutation score](https://stryker-mutator.io/docs/) to analyse effective test coverage when opening up a new pull request.
 To check these scores locally you will need to [install Stryker.Net](https://stryker-mutator.io/docs/stryker-net/getting-started/).
 
-Once Stryker is installed:
+Once Stryker is installed, run the following to run and open a Stryker report:
 
 ```bash
-cd tests/DfE.FindInformationAcademiesTrusts.UnitTests
-dotnet stryker
+dotnet stryker -o
 ```
 
-You should see a new folder `StrykerOutput` inside your project's UnitTests directory, with reports grouped by timestamp.
+You will be able to find all reports in the `StrykerOutput` folder in your project root.
 
 ### Configure linting and code cleanup
 
