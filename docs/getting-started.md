@@ -71,11 +71,11 @@ Under most circumstances you won't need to run the application in Docker locally
 
 ### Unit tests
 
-All .NET code is [unit tested](./test-approach.md) where possible. You can run unit tests using your preferred IDE, or
-open a terminal in the project directory and run:
+All .NET code is [unit tested](./test-approach.md) where possible. 
+
+You can run unit tests using your preferred IDE, or open a terminal in the project directory and run:
 
 ```bash
-cd tests/DfE.FindInformationAcademiesTrusts.UnitTests
 dotnet test
 ```
 
