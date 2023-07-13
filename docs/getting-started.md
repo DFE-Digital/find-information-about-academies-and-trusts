@@ -90,11 +90,16 @@ cd DfE.FindInformationAcademiesTrusts.UnitTests/playwright
 # run docker image with build flag to watch for the latest code changes
 docker compose -f ../../docker/docker-compose.ci.yml up -d --build
 
-# run playwright tests
+# install dependencies
 npm install
+
+# run tests 
 npx playwright test 
+
 # OR
-npx playwright/{folder-name}/* 
+npx playwright test {folder-name}/* # run a particular set of tests
+npx playright test --headed # run in headed mode
+npx playwright test --trace <mode> # overwrite tracing mode set in config 
 
 # remove docker image when done
 docker compose -f ../../docker/docker-compose.ci.yml down
