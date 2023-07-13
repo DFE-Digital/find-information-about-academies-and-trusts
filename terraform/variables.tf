@@ -55,6 +55,12 @@ variable "enable_cdn_frontdoor" {
   default     = false
 }
 
+variable "container_apps_allow_ips_inbound" {
+  description = "Restricts access to the Container Apps by creating a network security group rule that only allow inbound traffic from the provided list of IPs"
+  type        = list(string)
+  default     = []
+}
+
 variable "enable_cdn_frontdoor_health_probe" {
   description = "Enable CDN Front Door health probe"
   type        = bool
@@ -104,6 +110,12 @@ variable "cdn_frontdoor_host_redirects" {
 variable "cdn_frontdoor_host_add_response_headers" {
   description = "List of response headers to add at the CDN Front Door `[{ \"name\" = \"Strict-Transport-Security\", \"value\" = \"max-age=31536000\" }]`"
   type        = list(map(string))
+}
+
+variable "cdn_frontdoor_forwarding_protocol" {
+  description = "Azure CDN Front Door forwarding protocol"
+  type        = string
+  default     = "HttpsOnly"
 }
 
 variable "redis_cache_sku" {
