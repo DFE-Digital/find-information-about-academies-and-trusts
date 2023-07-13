@@ -87,8 +87,8 @@ To run these tests locally it is easiest to run your app and the mock API using 
 ```bash
 cd DfE.FindInformationAcademiesTrusts.UnitTests/playwright
 
-# run docker image
-docker compose -f ../../docker/docker-compose.ci.yml up -d
+# run docker image with build flag to watch for the latest code changes
+docker compose -f ../../docker/docker-compose.ci.yml up -d --build
 
 # run playwright tests
 npm install
