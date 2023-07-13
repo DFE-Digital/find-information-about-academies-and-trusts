@@ -1,0 +1,26 @@
+name: Static code analysis
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Lint assets and playwright tests
+    steps:
+    - uses: actions/checkout@v3
+      name: Check out repository
+    - uses: actions/setup-node@v3
+      name: Set up Node.js
+      with:
+        node-version: 18.13.0
+    - name: Analyse front end assets
+      run: |
+        cd DfE.FindInformationAcademiesTrusts
+        npm ci
+        npm run lint
+    - name: Analyse playwright tests
+      run: |
+        cd tests/playwright
+        npm ci
+        npm run lint
