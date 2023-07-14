@@ -11,6 +11,7 @@ Use this documentation to configure your local development environment.
 - [Run tests](#run-tests)
   - [Unit tests](#unit-tests)
   - [Accessibility and UI tests](#accessibility-and-ui-tests)
+  - [Accessing tests run in the pipeline](#accessing-tests-run-in-the-pipeline)
 - [Supercharge your dev environment](#supercharge-your-dev-environment)
   - [Set up continuous testing](#set-up-continuous-testing)
   - [Analyse test coverage](#analyse-test-coverage)
@@ -106,6 +107,19 @@ docker compose -f ../../docker/docker-compose.ci.yml down
 
 ```
 For more information on running and debugging Playwright tests it is worth familiarising yourself with the Playwright docs on [debugging](https://playwright.dev/docs/debug) and [command line flags](https://playwright.dev/docs/test-cli).
+
+### Accessing tests run in the pipeline
+
+Automated tests are run in the pipeline as a GitHub workflow on opening a pull request to main—as per our [test approach](./test-approach.md). To access reports and traces for tests run in the pipeline:
+
+1. Go to [Actions](https://github.com/DFE-Digital/find-information-about-academies-and-trusts/actions) in the GitHub repository
+2. Find and click on the relevant workflow run:
+    - `Build .NET`: Unit tests mutation report
+    - `Mock UI tests`: Playwright report
+3. Click on Summary in the left-hand menu
+4. Under 'Artifacts' you will find downloadable reports
+
+You can also click on the job to see details of any error messages for failed test runs.
 
 ## Supercharge your dev environment
 
