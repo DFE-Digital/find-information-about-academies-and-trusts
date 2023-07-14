@@ -27,13 +27,13 @@ li,
 dt,
 dd,
 tr {
-  // noinspection Stylelint
-  font-family: BlinkMacSystemFont,
-  "Segoe UI",
-  Roboto,
-  Oxygen-Sans,
-  Ubuntu,
-  Cantarell,
-  "Helvetica Neue",
-  sans-serif !important;
+  font-family:
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen-Sans,
+    Ubuntu,
+    Cantarell,
+    "Helvetica Neue",
+    sans-serif !important;  /* stylelint-disable-line declaration-no-important */
 }
