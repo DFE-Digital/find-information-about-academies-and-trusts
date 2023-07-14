@@ -19,21 +19,21 @@
 </head>
 
 <body class="govuk-template__body ">
-<script>
-      document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
-    </script>
-<partial name="_Header"/>
+  <script>
+    document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+  </script>
+  <partial name="_Header"/>
 
-<div class="@Model.GetPageWidthClass("dfe-width-container")">
-  <main class="@Model.GetPageWidthClass("govuk-main-wrapper")" id="main-content" role="main">
-    @RenderBody()
-  </main>
-</div>
+  <div class="@Model.GetPageWidthClass("dfe-width-container")">
+    <main class="@Model.GetPageWidthClass("govuk-main-wrapper")" id="main-content" role="main">
+      @RenderBody()
+    </main>
+  </div>
 
-<partial name="_Footer"/>
-<script src="~/dist/main.js"></script>
-<script src="~/dist/javascripts/dfefrontend.js"></script>
-@await RenderSectionAsync("Scripts", false)
+  <partial name="_Footer"/>
+  <script src="~/dist/main.js"></script>
+  <script src="~/dist/javascripts/dfefrontend.js"></script>
+  @await RenderSectionAsync("Scripts", false)
 </body>
 
 </html>
