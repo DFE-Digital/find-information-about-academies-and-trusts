@@ -11,7 +11,8 @@ Use this documentation to configure your local development environment.
 - [Run tests](#run-tests)
   - [Unit tests](#unit-tests)
   - [Accessibility and UI tests](#accessibility-and-ui-tests)
-  - [Accessing tests run in the pipeline](#accessing-tests-run-in-the-pipeline)
+  - [Accessing tests reports in the pipeline](#accessing-test-reports-in-the-pipeline)
+    - [Viewing Playwright traces](#viewing-playwright-traces)
 - [Supercharge your dev environment](#supercharge-your-dev-environment)
   - [Set up continuous testing](#set-up-continuous-testing)
   - [Analyse test coverage](#analyse-test-coverage)
@@ -108,18 +109,21 @@ docker compose -f ../../docker/docker-compose.ci.yml down
 ```
 For more information on running and debugging Playwright tests it is worth familiarising yourself with the Playwright docs on [debugging](https://playwright.dev/docs/debug) and [command line flags](https://playwright.dev/docs/test-cli).
 
-### Accessing tests run in the pipeline
+### Accessing test reports in the pipeline
 
 Automated tests are run in the pipeline as a GitHub workflow on opening a pull request to main—as per our [test approach](./test-approach.md). To access reports and traces for tests run in the pipeline:
 
-1. Go to [Actions](https://github.com/DFE-Digital/find-information-about-academies-and-trusts/actions) in the GitHub repository
-2. Find and click on the relevant workflow run:
-    - `Build .NET`: Unit tests mutation report
-    - `Mock UI tests`: Playwright report
-3. Click on Summary in the left-hand menu
-4. Under 'Artifacts' you will find downloadable reports
+1. Click on 'details' on the relevant check in the pull request
+2. Click on Summary in the left-hand menu
+3. Under 'Artifacts' you will find downloadable reports
 
 You can also click on the job to see details of any error messages for failed test runs.
+
+#### **Viewing Playwright traces**
+
+If a Playwright test fails, the test is rerun and a [trace](https://playwright.dev/docs/trace-viewer-intro) (recorded test run) is captured. You will need to use a [trace viewer](https://playwright.dev/docs/trace-viewer) to view traces captured during CI.
+
+To access the trace, download the Playwright Report using the step above, and download the zip file of the trace under 'Retry#1'. We suggest dragging and dropping the downloaded zip file into Playwright's [online trace viewer](https://trace.playwright.dev/), or you can also view it [using the command line](https://trace.playwright.dev/). 
 
 ## Supercharge your dev environment
 
