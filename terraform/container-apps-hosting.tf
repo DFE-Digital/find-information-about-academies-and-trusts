@@ -49,7 +49,9 @@ module "azure_container_apps_hosting" {
   dns_ns_records       = local.dns_ns_records
   dns_txt_records      = local.dns_txt_records
 
-  enable_event_hub = local.enable_event_hub
+  enable_event_hub                          = local.enable_event_hub
+  enable_logstash_consumer                  = local.enable_logstash_consumer
+  eventhub_export_log_analytics_table_names = local.eventhub_export_log_analytics_table_names
 
   enable_monitoring            = local.enable_monitoring
   monitor_email_receivers      = local.monitor_email_receivers
