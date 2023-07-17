@@ -39,6 +39,8 @@ locals {
   cdn_frontdoor_forwarding_protocol             = var.cdn_frontdoor_forwarding_protocol
   enable_cdn_frontdoor_health_probe             = var.enable_cdn_frontdoor_health_probe
   enable_event_hub                              = var.enable_event_hub
+  enable_logstash_consumer                      = var.enable_logstash_consumer
+  eventhub_export_log_analytics_table_names     = var.eventhub_export_log_analytics_table_names
   enable_monitoring                             = var.enable_monitoring
   monitor_email_receivers                       = var.monitor_email_receivers
   monitor_endpoint_healthcheck                  = var.monitor_endpoint_healthcheck
