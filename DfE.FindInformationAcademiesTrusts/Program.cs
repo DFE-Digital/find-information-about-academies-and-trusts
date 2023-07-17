@@ -1,7 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Options;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
 using Serilog;
 
 namespace DfE.FindInformationAcademiesTrusts;
@@ -38,8 +42,16 @@ internal static class Program
                         TelemetryConverter.Traces));
             }
 
+            builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration);
+
             // Add services to the container.
-            builder.Services.AddRazorPages();
+            builder.Services.AddRazorPages().AddMvcOptions(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            }).AddMicrosoftIdentityUI();
             builder.Services.Configure<RouteOptions>(options =>
             {
                 options.LowercaseUrls = true;
