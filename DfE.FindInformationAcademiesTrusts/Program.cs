@@ -4,6 +4,7 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
@@ -104,6 +105,14 @@ internal static class Program
 
 
             app.UseHttpsRedirection();
+
+            //For Azure AD redirect uri to remain https
+            var forwardOptions = new ForwardedHeadersOptions
+                { ForwardedHeaders = ForwardedHeaders.All, RequireHeaderSymmetry = false };
+            forwardOptions.KnownNetworks.Clear();
+            forwardOptions.KnownProxies.Clear();
+            app.UseForwardedHeaders(forwardOptions);
+
             app.UseStaticFiles();
 
             app.UseSerilogRequestLogging();
