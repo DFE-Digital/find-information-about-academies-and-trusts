@@ -1,8 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
@@ -42,16 +43,26 @@ internal static class Program
                         TelemetryConverter.Traces));
             }
 
-            builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration);
-
-            // Add services to the container.
-            builder.Services.AddRazorPages().AddMvcOptions(options =>
+            builder.Services.AddAuthorization(options =>
             {
-                var policy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-                options.Filters.Add(new AuthorizeFilter(policy));
-            }).AddMicrosoftIdentityUI();
+                options.DefaultPolicy = SetupAuthorizationPolicyBuilder().Build();
+                options.FallbackPolicy = options.DefaultPolicy;
+            });
+            builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration);
+            // Add services to the container.
+            builder.Services.Configure<CookieAuthenticationOptions>(CookieAuthenticationDefaults.AuthenticationScheme,
+                options =>
+                {
+                    options.Cookie.Name = ".FindInformationAcademiesTrusts.Login";
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.IsEssential = true;
+                    options.Cookie.SameSite = SameSiteMode.None;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                });
+
+
+            builder.Services.AddRazorPages().AddMicrosoftIdentityUI();
+
             builder.Services.Configure<RouteOptions>(options =>
             {
                 options.LowercaseUrls = true;
@@ -83,6 +94,13 @@ internal static class Program
                 app.UseHsts();
             }
 
+            app.UseCookiePolicy(new CookiePolicyOptions
+            {
+                Secure = CookieSecurePolicy.Always, HttpOnly = HttpOnlyPolicy.Always,
+                MinimumSameSitePolicy = SameSiteMode.None
+            });
+
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -90,6 +108,7 @@ internal static class Program
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapRazorPages();
@@ -105,5 +124,13 @@ internal static class Program
         {
             Log.CloseAndFlush();
         }
+    }
+
+    private static AuthorizationPolicyBuilder SetupAuthorizationPolicyBuilder()
+    {
+        var policyBuilder = new AuthorizationPolicyBuilder();
+        policyBuilder.RequireAuthenticatedUser();
+
+        return policyBuilder;
     }
 }
