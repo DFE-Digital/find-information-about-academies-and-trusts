@@ -33,6 +33,8 @@ internal static class Program
                 builder.Host.UseSerilog((_, loggerConfiguration) => loggerConfiguration
                     .ReadFrom.Configuration(builder.Configuration)
                     .WriteTo.Console());
+
+                builder.Services.AddRazorPages();
             }
             else
             {
@@ -41,27 +43,27 @@ internal static class Program
                     .ReadFrom.Configuration(builder.Configuration)
                     .WriteTo.ApplicationInsights(services.GetRequiredService<TelemetryConfiguration>(),
                         TelemetryConverter.Traces));
-            }
 
-            builder.Services.AddAuthorization(options =>
-            {
-                options.DefaultPolicy = SetupAuthorizationPolicyBuilder().Build();
-                options.FallbackPolicy = options.DefaultPolicy;
-            });
-            builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration);
-            // Add services to the container.
-            builder.Services.Configure<CookieAuthenticationOptions>(CookieAuthenticationDefaults.AuthenticationScheme,
-                options =>
+                builder.Services.AddAuthorization(options =>
                 {
-                    options.Cookie.Name = ".FindInformationAcademiesTrusts.Login";
-                    options.Cookie.HttpOnly = true;
-                    options.Cookie.IsEssential = true;
-                    options.Cookie.SameSite = SameSiteMode.None;
-                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                    options.DefaultPolicy = SetupAuthorizationPolicyBuilder().Build();
+                    options.FallbackPolicy = options.DefaultPolicy;
                 });
+                builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration);
+                // Add services to the container.
+                builder.Services.Configure<CookieAuthenticationOptions>(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    options =>
+                    {
+                        options.Cookie.Name = ".FindInformationAcademiesTrusts.Login";
+                        options.Cookie.HttpOnly = true;
+                        options.Cookie.IsEssential = true;
+                        options.Cookie.SameSite = SameSiteMode.None;
+                        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                    });
 
-
-            builder.Services.AddRazorPages().AddMicrosoftIdentityUI();
+                builder.Services.AddRazorPages().AddMicrosoftIdentityUI();
+            }
 
             builder.Services.Configure<RouteOptions>(options =>
             {
