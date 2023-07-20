@@ -31,13 +31,13 @@ jobs:
         run: npm ci
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: npx playwright install --with-deps chrome
 
       - name: Run Playwright deployment tests
         env:
           CI: true
           PLAYWRIGHT_BASEURL: ${{ secrets.BASE_URL }}
-        run: npx playwright test deployment-tests/* --project=cross-browser
+        run: npx playwright test --project=deployment-tests
 
       - uses: actions/upload-artifact@v3
         if: always()

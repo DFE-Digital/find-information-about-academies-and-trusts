@@ -2,8 +2,7 @@ import { test as teardown } from '@playwright/test'
 import zaproxy from 'zaproxy'
 
 teardown('Generate ZAP report', async () => {
-  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  if (process.env.ZAP) {
+  if (process.env.ZAP !=='') {
     console.log('\nGenerating ZAP report')
 
     const zapOptions = {

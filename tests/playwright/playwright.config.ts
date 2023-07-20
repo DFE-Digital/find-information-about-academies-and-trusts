@@ -48,7 +48,16 @@ export default defineConfig({
     },
     {
       name: 'cross-browser',
-      dependencies: ['chromium', 'firefox', 'webkit', 'Microsoft Edge']
+      dependencies: ['chromium', 'firefox', 'webkit', 'Microsoft Edge'],
+      testIgnore:'./**'
+    },
+    {
+      name: 'deployment-tests',
+      use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chrome',
+      },
+      testDir: './deployment-tests'
     },
     {
       name: 'zap-tests',
