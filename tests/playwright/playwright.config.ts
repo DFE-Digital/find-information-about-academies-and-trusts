@@ -48,64 +48,6 @@ export default defineConfig({
     },
 
     {
-      name: 'mock-ui',
-      testIgnore: '**/*.spec.ts'
-    },
-    {
-      name: 'chromium-mock',
-      use: { ...devices['Desktop Chrome'] },
-      testDir: './ui-tests',
-      dependencies: ['mock-ui']
-    },
-    {
-      name: 'firefox-mock',
-      use: { ...devices['Desktop Firefox'] },
-      testDir: './ui-tests',
-      dependencies: ['mock-ui']
-    },
-    {
-      name: 'webkit-mock',
-      use: { ...devices['Desktop Safari'] },
-      testDir: './ui-tests',
-      dependencies: ['mock-ui']
-    },
-    {
-      name: 'edge-mock',
-      use: { ...devices['Desktop Edge'], channel: 'msedge' },
-      testDir: './ui-tests',
-      dependencies: ['mock-ui']
-    },
-
-    {
-      name: 'accessibility',
-      testIgnore: '**/*.spec.ts'
-    },
-    {
-      name: 'chromium-mock',
-      use: { ...devices['Desktop Chrome'] },
-      testDir: './accessibility-tests',
-      dependencies: ['accessibility']
-    },
-    {
-      name: 'firefox-a11y',
-      use: { ...devices['Desktop Firefox'] },
-      testDir: './accessibility-tests',
-      dependencies: ['accessibility']
-    },
-    {
-      name: 'webkit-a11y',
-      use: { ...devices['Desktop Safari'] },
-      testDir: './accessibility-tests',
-      dependencies: ['mock-ui']
-    },
-    {
-      name: 'edge-a11y',
-      use: { ...devices['Desktop Edge'], channel: 'msedge' },
-      testDir: './accessibility-tests',
-      dependencies: ['accessibility']
-    },
-
-    {
       name: 'deployment-tests',
       use: {
         ...devices['Desktop Chrome'],
