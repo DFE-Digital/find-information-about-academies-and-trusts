@@ -42,15 +42,42 @@ export default defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] }
     },
-
-    /* Test against branded browsers. */
     {
       name: 'Microsoft Edge',
       use: { ...devices['Desktop Edge'], channel: 'msedge' }
+    },
+
+    {
+      name: 'deployment-tests',
+      use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chrome',
+      },
+      testDir: './deployment-tests'
+    },
+
+    {
+      name: 'zap-tests',
+      use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chrome',
+        ignoreHTTPSErrors: true,
+        launchOptions: {
+          /* Browser proxy option is required for Chromium on Windows. */
+          proxy: { server: 'per-context' }
+        },
+        proxy: {
+          server: process.env.HTTP_PROXY!,
+          bypass: process.env.NO_PROXY
+        }
+      },
+      teardown: 'generate ZAP report',
+      /* use accessibility tests because they go through each screen of the application */
+      testDir: './accessibility-tests',
+    },
+    {
+      name: 'generate ZAP report',
+      testMatch: /global.teardown\.ts/,
     }
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ..devices['Desktop Chrome'], channel: 'chrome' },
-    // },
   ]
 })
