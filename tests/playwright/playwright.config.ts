@@ -52,8 +52,7 @@ export default defineConfig({
     },
     {
       name: 'cross-browser',
-      dependencies: ['chromium', 'firefox', 'webkit', 'Microsoft Edge'],
-      testIgnore: '**/*.spec.ts'
+      dependencies: ['chromium', 'firefox', 'webkit', 'Microsoft Edge']
     },
     {
       name: 'deployment-tests',
