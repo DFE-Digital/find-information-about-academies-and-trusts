@@ -30,26 +30,30 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] }
+      use: { ...devices['Desktop Chrome'] },
+      testIgnore: './deployment-tests'
     },
 
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] }
+      use: { ...devices['Desktop Firefox'] },
+      testIgnore: './deployment-tests'
     },
 
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] }
+      use: { ...devices['Desktop Safari'] },
+      testIgnore: './deployment-tests'
     },
     {
       name: 'Microsoft Edge',
       use: { ...devices['Desktop Edge'], channel: 'msedge' },
+      testIgnore: './deployment-tests'
     },
     {
       name: 'cross-browser',
       dependencies: ['chromium', 'firefox', 'webkit', 'Microsoft Edge'],
-      testIgnore:'./**'
+      testIgnore: '**/*.spec.ts'
     },
     {
       name: 'deployment-tests',

@@ -2,7 +2,7 @@ import { test as teardown } from '@playwright/test'
 import zaproxy from 'zaproxy'
 
 teardown('Generate ZAP report', async () => {
-  if (process.env.ZAP !=='') {
+  if (process.env.ZAP !== '') {
     console.log('\nGenerating ZAP report')
 
     const zapOptions = {
