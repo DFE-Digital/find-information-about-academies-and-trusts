@@ -25,12 +25,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Create directory on runner
-        run: mkdir /zapoutput
+        run: |
+          mkdir ${{ github.workspace }}/zapoutput
 
       - name: Start ZAP container
         env:
           ZAP_PORT: 9876
-        run: docker run --name zap_container --rm -v /zapoutput:/home/zap:rw -u zap -p ${{ env.ZAP_PORT }}:${{ env.ZAP_PORT }} -i owasp/zap2docker-stable zap.sh -daemon -port ${{ env.ZAP_PORT }} -host 0.0.0.0 -config api.key=${{ env.ZAP_API_KEY }} -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config network.localServers.mainProxy.alpn.enabled=false -config network.localServers.mainProxy.address=0.0.0.0
+        run: docker run --name zap_container --rm -v ${{ github.workspace }}/zapoutput:/home/zap:rw -u zap -p ${{ env.ZAP_PORT }}:${{ env.ZAP_PORT }} -i owasp/zap2docker-stable zap.sh -daemon -port ${{ env.ZAP_PORT }} -host 0.0.0.0 -config api.key=${{ env.ZAP_API_KEY }} -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config network.localServers.mainProxy.alpn.enabled=false -config network.localServers.mainProxy.address=0.0.0.0
 
       - name: Set up NodeJS
         uses: actions/setup-node@v3
@@ -84,7 +85,7 @@ jobs:
             az storage blob upload \
               --container-name ${{ secrets.OWASP_STORAGE_CONTAINER_NAME }} \
               --account-name ${{ secrets.OWASP_STORAGE_ACCOUNT_NAME }} \
-              --file "/zapoutput/ZAP-Report.html" \
+              --file "${{ github.workspace }}/zapoutput/ZAP-Report.html" \
               --name "Dfe.FindInformationAcademiesTrusts/${{ env.checked_out_sha }}/ZAP-Report.html" \
               --auth-mode login \
               --overwrite
