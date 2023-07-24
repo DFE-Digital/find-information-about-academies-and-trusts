@@ -6,8 +6,10 @@ on:
     inputs: 
       environment: 
         required: true
+        type: string
       branch-name: 
         required: true
+        type: string
 
 jobs:
   playwright:
