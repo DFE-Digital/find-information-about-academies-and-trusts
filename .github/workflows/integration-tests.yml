@@ -8,7 +8,6 @@ on:
         required: true
       branch-name: 
         required: true
-        type: string
 
 jobs:
   playwright:
