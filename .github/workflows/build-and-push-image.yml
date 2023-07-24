@@ -95,7 +95,7 @@ jobs:
               --output none
 
   run-integration-tests:
-    uses: ./.github/workflows/integration-tests
+    uses: ./.github/workflows/integration-tests.yml
     with:
       environment: ${{ needs.set-env.outputs.environment }}
       branch-name: $ {{ needs.set-env.outputs.branch }}
