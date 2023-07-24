@@ -93,3 +93,10 @@ jobs:
               --resource-group ${{ secrets.AZURE_ACA_RESOURCE_GROUP }} \
               --image ${{ secrets.AZURE_ACR_URL }}/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.sha }} \
               --output none
+
+  run-integration-tests:
+    uses: ./.github/workflows/integration-tests
+    with:
+      environment: ${{ needs.set-env.outputs.environment }}
+      branch-name: $ {{ needs.set-env.outputs.branch }}
+    secrets: inherit

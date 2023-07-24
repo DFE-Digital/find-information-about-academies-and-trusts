@@ -1,26 +1,27 @@
 name: Integration tests
-run-name: Integration tests for '${{ github.event.deployment.environment }}' - `${{github.event.workflow_run.head_branch}}`
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.deployment.environment }}-${{ github.event.workflow_run.status == 'completed' && github.event.workflow.name == 'Deploy to environment' && github.event.deployment_status.state == 'success' }}
-  cancel-in-progress: true
+run-name: Integration tests for '${{ inputs.environment }}' - `${{ inputs.branch-name }}`
 
 on:
-  deployment_status:
+  workflow_call:
+    inputs: 
+      environment: 
+        required: true
+      branch-name: 
+        required: true
+        type: string
 
 jobs:
   playwright:
     name: Integration tests
     runs-on: ubuntu-22.04
-    if: ${{ github.event.deployment.environment != 'production' && github.event.workflow_run.status == 'completed' && github.event.workflow.name == 'Deploy to environment' && github.event.deployment_status.state == 'success' }}
-    environment: ${{ github.event.deployment.environment }}
+    environment: ${{ inputs.environment }}
     defaults:
       run:
         working-directory: tests/playwright
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.ref }}
+          ref: ${{ github.ref }} # does this need to be passed down?
 
       - name: Set up NodeJS
         uses: actions/setup-node@v3
@@ -31,12 +32,12 @@ jobs:
         run: npm ci
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: npx playwright install --with-deps chrome
 
       - name: Run Playwright deployment tests
         env:
-          PLAYWRIGHT_BASEURL: ${{ secrets.BASE_URL }}
-        run: npx playwright test integration-tests/*
+          PLAYWRIGHT_BASEURL: ${{ secrets.BASE_URL }} # does this need to be passed down?
+        run: npx playwright test --project=deployment-tests
 
       - uses: actions/upload-artifact@v3
         if: always()
