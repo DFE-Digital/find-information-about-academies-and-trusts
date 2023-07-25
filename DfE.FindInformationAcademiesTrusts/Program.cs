@@ -25,13 +25,12 @@ internal static class Program
         try
         {
             var builder = WebApplication.CreateBuilder(args);
-            if (builder.Environment.IsLocalDevelopment())
-                builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly());
 
             //Reconfigure logging before proceeding so any bootstrap exceptions can be written to App Insights 
             ReconfigureLogging(builder);
 
-            // Add services to the container.
+            AddEnvironmentVariablesTo(builder);
+
             var mvcBuilder = builder.Services.AddRazorPages();
             AddAuthenticationServices(builder, mvcBuilder);
 
@@ -40,60 +39,11 @@ internal static class Program
                 options.LowercaseUrls = true;
                 options.LowercaseQueryStrings = true;
             });
-            builder.Services.AddHttpClient();
-            builder.Services.AddScoped<ITrustSearch, TrustSearch>();
-            builder.Services.AddScoped<ITrustProvider, TrustProvider>();
-            builder.Services.AddOptions<AcademiesApiOptions>()
-                .Bind(builder.Configuration.GetSection(AcademiesApiOptions.ConfigurationSection))
-                .ValidateDataAnnotations()
-                .ValidateOnStart();
 
-            builder.Services.AddHttpClient("AcademiesApi", (provider, httpClient) =>
-            {
-                var academiesApiOptions = provider.GetRequiredService<IOptions<AcademiesApiOptions>>();
-                httpClient.BaseAddress = new Uri(academiesApiOptions.Value.Endpoint!);
-                httpClient.DefaultRequestHeaders.Add("ApiKey", academiesApiOptions.Value.Key);
-            });
+            AddDependenciesTo(builder);
 
-            //Build and configure app
             var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment() && !app.Environment.IsLocalDevelopment())
-            {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
-            app.UseCookiePolicy(new CookiePolicyOptions
-            {
-                Secure = CookieSecurePolicy.Always, HttpOnly = HttpOnlyPolicy.Always,
-                MinimumSameSitePolicy = SameSiteMode.None
-            });
-
-
-            app.UseHttpsRedirection();
-
-            //For Azure AD redirect uri to remain https
-            var forwardOptions = new ForwardedHeadersOptions
-                { ForwardedHeaders = ForwardedHeaders.All, RequireHeaderSymmetry = false };
-            forwardOptions.KnownNetworks.Clear();
-            forwardOptions.KnownProxies.Clear();
-            app.UseForwardedHeaders(forwardOptions);
-
-            app.UseStaticFiles();
-
-            app.UseSerilogRequestLogging();
-
-            app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.MapRazorPages();
-            app.UseMiddleware<ResponseHeadersMiddleware>();
-
+            ConfigureHttpRequestPipeline(app);
             app.Run();
         }
         catch (Exception ex)
@@ -104,6 +54,68 @@ internal static class Program
         {
             Log.CloseAndFlush();
         }
+    }
+
+    private static void ConfigureHttpRequestPipeline(WebApplication app)
+    {
+        if (!app.Environment.IsDevelopment() && !app.Environment.IsLocalDevelopment())
+        {
+            app.UseExceptionHandler("/Error");
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+        }
+
+        app.UseCookiePolicy(new CookiePolicyOptions
+        {
+            Secure = CookieSecurePolicy.Always, HttpOnly = HttpOnlyPolicy.Always,
+            MinimumSameSitePolicy = SameSiteMode.None
+        });
+
+
+        app.UseHttpsRedirection();
+
+        //For Azure AD redirect uri to remain https
+        var forwardOptions = new ForwardedHeadersOptions
+            { ForwardedHeaders = ForwardedHeaders.All, RequireHeaderSymmetry = false };
+        forwardOptions.KnownNetworks.Clear();
+        forwardOptions.KnownProxies.Clear();
+        app.UseForwardedHeaders(forwardOptions);
+
+        app.UseStaticFiles();
+
+        app.UseSerilogRequestLogging();
+
+        app.UseRouting();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.MapRazorPages();
+        app.UseMiddleware<ResponseHeadersMiddleware>();
+    }
+
+    private static void AddDependenciesTo(WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<ITrustSearch, TrustSearch>();
+        builder.Services.AddScoped<ITrustProvider, TrustProvider>();
+
+        builder.Services.AddHttpClient("AcademiesApi", (provider, httpClient) =>
+        {
+            var academiesApiOptions = provider.GetRequiredService<IOptions<AcademiesApiOptions>>();
+            httpClient.BaseAddress = new Uri(academiesApiOptions.Value.Endpoint!);
+            httpClient.DefaultRequestHeaders.Add("ApiKey", academiesApiOptions.Value.Key);
+        });
+    }
+
+    private static void AddEnvironmentVariablesTo(WebApplicationBuilder builder)
+    {
+        if (builder.Environment.IsLocalDevelopment())
+            builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly());
+
+        builder.Services.AddOptions<AcademiesApiOptions>()
+            .Bind(builder.Configuration.GetSection(AcademiesApiOptions.ConfigurationSection))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
     }
 
     private static void AddAuthenticationServices(WebApplicationBuilder builder, IMvcBuilder mvcBuilder)
