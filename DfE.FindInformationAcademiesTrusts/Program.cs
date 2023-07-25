@@ -29,42 +29,11 @@ internal static class Program
                 builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly());
 
             //Reconfigure logging before proceeding so any bootstrap exceptions can be written to App Insights 
-            if (builder.Environment.IsLocalDevelopment() || builder.Environment.IsContinuousIntegration())
-            {
-                builder.Host.UseSerilog((_, loggerConfiguration) => loggerConfiguration
-                    .ReadFrom.Configuration(builder.Configuration)
-                    .WriteTo.Console());
+            ReconfigureLogging(builder);
 
-                builder.Services.AddRazorPages();
-            }
-            else
-            {
-                builder.Services.AddApplicationInsightsTelemetry();
-                builder.Host.UseSerilog((_, services, loggerConfiguration) => loggerConfiguration
-                    .ReadFrom.Configuration(builder.Configuration)
-                    .WriteTo.ApplicationInsights(services.GetRequiredService<TelemetryConfiguration>(),
-                        TelemetryConverter.Traces));
-
-                builder.Services.AddAuthorization(options =>
-                {
-                    options.DefaultPolicy = SetupAuthorizationPolicyBuilder().Build();
-                    options.FallbackPolicy = options.DefaultPolicy;
-                });
-                builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration);
-                // Add services to the container.
-                builder.Services.Configure<CookieAuthenticationOptions>(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    options =>
-                    {
-                        options.Cookie.Name = ".FindInformationAcademiesTrusts.Login";
-                        options.Cookie.HttpOnly = true;
-                        options.Cookie.IsEssential = true;
-                        options.Cookie.SameSite = SameSiteMode.None;
-                        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                    });
-
-                builder.Services.AddRazorPages().AddMicrosoftIdentityUI();
-            }
+            // Add services to the container.
+            var mvcBuilder = builder.Services.AddRazorPages();
+            AddAuthenticationServices(builder, mvcBuilder);
 
             builder.Services.Configure<RouteOptions>(options =>
             {
@@ -137,11 +106,48 @@ internal static class Program
         }
     }
 
-    private static AuthorizationPolicyBuilder SetupAuthorizationPolicyBuilder()
+    private static void AddAuthenticationServices(WebApplicationBuilder builder, IMvcBuilder mvcBuilder)
     {
-        var policyBuilder = new AuthorizationPolicyBuilder();
-        policyBuilder.RequireAuthenticatedUser();
+        if (!builder.Environment.IsLocalDevelopment() && !builder.Environment.IsContinuousIntegration())
+        {
+            builder.Services.AddAuthorization(options =>
+            {
+                var policyBuilder = new AuthorizationPolicyBuilder();
+                policyBuilder.RequireAuthenticatedUser();
+                options.DefaultPolicy = policyBuilder.Build();
+                options.FallbackPolicy = options.DefaultPolicy;
+            });
+            builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration);
+            builder.Services.Configure<CookieAuthenticationOptions>(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                options =>
+                {
+                    options.Cookie.Name = ".FindInformationAcademiesTrusts.Login";
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.IsEssential = true;
+                    options.Cookie.SameSite = SameSiteMode.None;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                });
 
-        return policyBuilder;
+            mvcBuilder.AddMicrosoftIdentityUI();
+        }
+    }
+
+    private static void ReconfigureLogging(WebApplicationBuilder builder)
+    {
+        if (builder.Environment.IsLocalDevelopment() || builder.Environment.IsContinuousIntegration())
+        {
+            builder.Host.UseSerilog((_, loggerConfiguration) => loggerConfiguration
+                .ReadFrom.Configuration(builder.Configuration)
+                .WriteTo.Console());
+        }
+        else
+        {
+            builder.Services.AddApplicationInsightsTelemetry();
+            builder.Host.UseSerilog((_, services, loggerConfiguration) => loggerConfiguration
+                .ReadFrom.Configuration(builder.Configuration)
+                .WriteTo.ApplicationInsights(services.GetRequiredService<TelemetryConfiguration>(),
+                    TelemetryConverter.Traces));
+        }
     }
 }
