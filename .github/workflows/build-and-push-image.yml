@@ -97,6 +97,7 @@ jobs:
   run-integration-tests:
     name: Run integration tests
     uses: ./.github/workflows/integration-tests.yml
+    if: ${{ needs.set-env.outputs.environment != 'test'}}
     needs: [ deploy-image, set-env ]
     with:
       environment: ${{ needs.set-env.outputs.environment }}
