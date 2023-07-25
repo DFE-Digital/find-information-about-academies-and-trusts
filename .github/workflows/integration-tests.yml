@@ -1,10 +1,10 @@
 name: Integration tests
-run-name: Integration tests for '${{ inputs.environment }}' - `${{ inputs.branch-name }}`
+run-name: Integration tests for '${{ inputs.environment-name }}' - `${{ inputs.branch-name }}`
 
 on:
   workflow_call:
     inputs: 
-      environment: 
+      environment-name: 
         required: true
         type: string
       branch-name: 
@@ -15,7 +15,6 @@ jobs:
   playwright:
     name: Integration tests
     runs-on: ubuntu-22.04
-    environment: ${{ inputs.environment }}
     defaults:
       run:
         working-directory: tests/playwright
