@@ -28,6 +28,10 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    { 
+      name: 'authenticate-user',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: /.auth.setup\.ts/ },
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] }
@@ -52,7 +56,9 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         channel: 'chrome',
+        storageState: '.auth/user.json',
       },
+      dependencies: ['authenticate-user'],
       testDir: './deployment-tests'
     },
     {
@@ -63,6 +69,17 @@ export default defineConfig({
       },
       testDir: './integration-tests'
     },
+    {
+      name: 'integration-tests',
+      use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chrome',
+        storageState: '.auth/user.json',
+      },
+      dependencies: ['authenticate-user'],
+      testDir: './integration-tests'
+    },
+
     {
       name: 'zap-tests',
       use: {
