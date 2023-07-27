@@ -1,7 +1,8 @@
-import { test, expect } from '@playwright/test'
+import { test } from '@playwright/test'
+import { HomePage } from '../page-object-model/home-page'
 
 test('is deployed', async ({ page }) => {
-  await page.goto('/')
-
-  await expect(page).toHaveTitle('Home page - Find information about academies and trusts')
+  const homePage = new HomePage(page)
+  await homePage.goTo()
+  await homePage.expect.toBeOnTheRightPage()
 })
