@@ -86,6 +86,11 @@ dotnet test
 Accessibility and UI tests are written using [Playwright](https://playwright.dev/), with external dependencies (e.g. APIs) mocked using [WireMock](https://github.com/HBOCodeLabs/wiremock-captain). 
 To run these tests locally it is easiest to run your app and the mock API using Docker:
 
+1. Create or update the file `tests/playwright/.env` with
+```
+PLAYWRIGHT_BASEURL="http://localhost/"
+```
+2. Open a terminal in your repository and run:
 ```bash
 cd DfE.FindInformationAcademiesTrusts.UnitTests/playwright
 
