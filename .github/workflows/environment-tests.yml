@@ -1,10 +1,10 @@
 name: Environment tests
-run-name: '${{ inputs.job-name }} for ${{ inputs.environment-name }} - ${{ inputs.branch-name }}'
+run-name: '${{ inputs.job-name }} for ${{ inputs.environment }} - ${{ inputs.branch-name }}'
 
 on:
   workflow_call:
     inputs: 
-      environment-name: 
+      environment: 
         required: true
         type: string
       branch-name: 
@@ -21,7 +21,7 @@ jobs:
   playwright:
     name: ${{ inputs.job-name }}
     runs-on: ubuntu-22.04
-    environment: ${{ inputs.environment-name }}
+    environment: ${{ inputs.environment }}
     defaults:
       run:
         working-directory: tests/playwright

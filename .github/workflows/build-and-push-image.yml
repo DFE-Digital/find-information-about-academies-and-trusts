@@ -100,7 +100,7 @@ jobs:
     needs: [ deploy-image, set-env ]
     if: ${{ needs.set-env.outputs.environment != 'test'}}
     with:
-      environment-name: ${{ needs.set-env.outputs.environment }}
+      environment: ${{ needs.set-env.outputs.environment }}
       branch-name: $ {{ needs.set-env.outputs.branch }}
       job-name: Integration tests
       playwright-run-script: npm run test:integration
@@ -110,7 +110,7 @@ jobs:
     uses: ./.github/workflows/environment-tests.yml
     needs: [ deploy-image, set-env ]
     with:
-      environment-name: ${{ needs.set-env.outputs.environment }}
+      environment: ${{ needs.set-env.outputs.environment }}
       branch-name: $ {{ needs.set-env.outputs.branch }}
       job-name: Smoke deployment tests
       playwright-run-script: npm run test:deployment
