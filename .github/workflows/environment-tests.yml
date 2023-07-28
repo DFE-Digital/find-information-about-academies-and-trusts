@@ -21,6 +21,7 @@ jobs:
   playwright:
     name: ${{ inputs.job-name }}
     runs-on: ubuntu-22.04
+    environment: ${{ inputs.environment-name }}
     defaults:
       run:
         working-directory: tests/playwright
