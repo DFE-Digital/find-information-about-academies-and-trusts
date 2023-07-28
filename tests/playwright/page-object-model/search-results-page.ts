@@ -3,12 +3,12 @@ import { Locator, Page, expect } from '@playwright/test'
 export class SearchResultsPage {
   readonly expect: SearchResultsPageAssertions
   readonly _headerLocator: Locator
-  readonly _searchResultsListLocator: Locator
+  readonly _searchResultsListItemLocator: Locator
 
   constructor (readonly page: Page) {
     this.expect = new SearchResultsPageAssertions(this)
     this._headerLocator = this.page.locator('h1')
-    this._searchResultsListLocator = this.page.locator('ul')
+    this._searchResultsListItemLocator = this.page.locator('li')
   }
 }
 
@@ -20,6 +20,6 @@ class SearchResultsPageAssertions {
   }
 
   async toShowResults (): Promise<void> {
-    await expect(this.searchResultsPage._searchResultsListLocator).not.toHaveCount(0)
+    await expect(this.searchResultsPage._searchResultsListItemLocator).not.toHaveCount(0)
   }
 }
