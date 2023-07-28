@@ -55,7 +55,14 @@ export default defineConfig({
       },
       testDir: './deployment-tests'
     },
-
+    {
+      name: 'integration-tests',
+      use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chrome',
+      },
+      testDir: './integration-tests'
+    },
     {
       name: 'zap-tests',
       use: {
