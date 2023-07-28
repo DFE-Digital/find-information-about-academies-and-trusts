@@ -1,5 +1,5 @@
-name: Integration tests
-run-name: Integration tests for '${{ inputs.environment-name }}' - `${{ inputs.branch-name }}`
+name: Environment tests
+run-name: '${{ inputs.job-name }} for ${{ inputs.environment-name }} - ${{ inputs.branch-name }}'
 
 on:
   workflow_call:
@@ -10,10 +10,16 @@ on:
       branch-name: 
         required: true
         type: string
+      job-name:
+        required: true
+        type: string
+      playwright-run-script:
+        required: true
+        type: string
 
 jobs:
   playwright:
-    name: Integration tests
+    name: ${{ inputs.job-name }}
     runs-on: ubuntu-22.04
     defaults:
       run:
@@ -37,7 +43,7 @@ jobs:
       - name: Run Playwright deployment tests
         env:
           PLAYWRIGHT_BASEURL: ${{ secrets.BASE_URL }} # does this need to be passed down?
-        run: npx playwright test --project=deployment-tests
+        run: '${{ inputs.playwright-run-script }}'
 
       - uses: actions/upload-artifact@v3
         if: always()
