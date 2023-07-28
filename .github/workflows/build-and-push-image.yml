@@ -101,7 +101,7 @@ jobs:
     if: ${{ needs.set-env.outputs.environment != 'test'}}
     with:
       environment: ${{ needs.set-env.outputs.environment }}
-      branch-name: $ {{ needs.set-env.outputs.branch }}
+      branch-name: ${{ needs.set-env.outputs.branch }}
       job-name: Integration tests
       playwright-run-script: npm run test:integration
 
@@ -111,6 +111,6 @@ jobs:
     needs: [ deploy-image, set-env ]
     with:
       environment: ${{ needs.set-env.outputs.environment }}
-      branch-name: $ {{ needs.set-env.outputs.branch }}
+      branch-name: ${{ needs.set-env.outputs.branch }}
       job-name: Smoke deployment tests
       playwright-run-script: npm run test:deployment
