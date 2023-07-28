@@ -22,4 +22,8 @@ class SearchResultsPageAssertions {
   async toShowResults (): Promise<void> {
     await expect(this.searchResultsPage._searchResultsListItemLocator).not.toHaveCount(0)
   }
+
+  async toShowEmptyResultMessage (): Promise<void> {
+    await expect(this.searchResultsPage._searchResultsListItemLocator).toHaveCount(0)
+  }
 }
