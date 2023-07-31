@@ -37,11 +37,11 @@ jobs:
         env:
           CI: true
           PLAYWRIGHT_BASEURL: ${{ secrets.BASE_URL }}
-        run: npx playwright test --project=deployment-tests
+        run: npm run test:deployment
 
       - uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: playwright-report
+          name: deployment-tests-playwright-report
           path: tests/playwright/playwright-report/
           retention-days: 7

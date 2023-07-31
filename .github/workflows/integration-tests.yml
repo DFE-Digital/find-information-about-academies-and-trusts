@@ -35,7 +35,7 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chrome
 
-      - name: Run Playwright deployment tests
+      - name: Run Playwright integration tests
         env:
           PLAYWRIGHT_BASEURL: ${{ secrets.BASE_URL }} 
         run: npm run test:integration
@@ -43,6 +43,6 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: playwright-report
+          name: integration-tests-playwright-report
           path: tests/playwright/playwright-report/
           retention-days: 7
