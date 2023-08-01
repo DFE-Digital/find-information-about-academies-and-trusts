@@ -32,7 +32,7 @@ teardown('Generate ZAP report', async () => {
           }
         })
         .catch((err: string) => {
-          console.log(`Error from the ZAP API: ${err}`)
+          console.log(`Error from the ZAP Passive Scan API: ${err}`)
           recordsRemaining = 0
         })
     }
@@ -40,13 +40,14 @@ teardown('Generate ZAP report', async () => {
     await zap.reports.generate({
       title: 'Report',
       template: 'traditional-html',
-      reportfilename: 'ZAP-Report.html'
+      reportfilename: 'ZAP-Report.html',
+      reportdir: '/zap/wrk'
     })
       .then((resp) => {
         console.log(`${JSON.stringify(resp)}`)
       })
       .catch((err: string) => {
-        console.log(`Error from ZAP API: ${err}`)
+        console.log(`Error from ZAP Report API: ${err}`)
       })
   }
 })
