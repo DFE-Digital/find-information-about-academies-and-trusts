@@ -3,6 +3,8 @@ on:
   pull_request:
     branches:
       - main
+env:
+  NODE_VERSION: 18.13.0
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -10,17 +12,25 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       name: Check out repository
+
     - uses: actions/setup-node@v3
       name: Set up Node.js
       with:
-        node-version: 18.13.0
+        node-version: ${{ env.NODE_VERSION }}
+        cache: npm
+        cache-dependency-path: |
+          DfE.FindInformationAcademiesTrusts/package-lock.json
+          tests/playwright/package-lock.json
+
+    - name: Install dependencies
+      run: |
+        (cd DfE.FindInformationAcademiesTrusts && npm ci)
+        (cd tests/playwright && npm ci)
+
     - name: Analyse front end assets
       run: |
-        cd DfE.FindInformationAcademiesTrusts
-        npm ci
-        npm run lint
+        cd DfE.FindInformationAcademiesTrusts && npm run lint
+
     - name: Analyse playwright tests
       run: |
-        cd tests/playwright
-        npm ci
-        npm run lint
+        cd tests/playwright && npm run lint

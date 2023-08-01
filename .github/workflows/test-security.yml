@@ -63,8 +63,7 @@ jobs:
             DfE.FindInformationAcademiesTrusts/package-lock.json
             tests/playwright/package-lock.json
 
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        name: Install dependencies
+      - name: Install dependencies
         run: npm ci
 
       - name: Get installed Playwright version
