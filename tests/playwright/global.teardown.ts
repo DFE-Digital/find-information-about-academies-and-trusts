@@ -32,7 +32,7 @@ teardown('Generate ZAP report', async () => {
           }
         })
         .catch((err: string) => {
-          console.log(`Error from the ZAP API: ${err}`)
+          console.log(`Error from the ZAP PScan API: ${err}`)
           recordsRemaining = 0
         })
     }
@@ -47,7 +47,7 @@ teardown('Generate ZAP report', async () => {
         console.log(`${JSON.stringify(resp)}`)
       })
       .catch((err: string) => {
-        console.log(`Error from ZAP API: ${err}`)
+        console.log(`Error from ZAP Generate API: ${err}`)
       })
   }
 })
