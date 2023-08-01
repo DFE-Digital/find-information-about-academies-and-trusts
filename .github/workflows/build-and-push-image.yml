@@ -96,12 +96,12 @@ jobs:
 
   run-deployment-tests:
     name: Run deployment tests
-    uses: ./.github/workflows/deployment-smoke-tests.yml
+    uses: ./.github/workflows/deployment-tests.yml
     needs: [ deploy-image, set-env ]
-    if: ${{ needs.set-env.outputs.environment != 'test'}}
     with:
       environment: ${{ needs.set-env.outputs.environment }}
       branch-name: ${{ needs.set-env.outputs.branch }}
+    secrets: inherit
 
   run-integration-tests:
     name: Run integration tests
