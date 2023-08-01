@@ -22,7 +22,6 @@ teardown('Generate ZAP report', async () => {
         .then((resp) => {
           try {
             recordsRemaining = parseInt(resp.recordsToScan, 10)
-            console.log(`Records remaining: ${recordsRemaining}`)
           } catch (err) {
             if (err instanceof Error) {
               console.log(`Error converting result: ${err.message}`)
@@ -33,7 +32,7 @@ teardown('Generate ZAP report', async () => {
           }
         })
         .catch((err: string) => {
-          console.log(`Error from the ZAP PScan API: ${err}`)
+          console.log(`Error from the ZAP Passive Scan API: ${err}`)
           recordsRemaining = 0
         })
     }
