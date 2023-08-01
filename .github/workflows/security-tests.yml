@@ -26,7 +26,7 @@ jobs:
 
       - name: Create directory on runner
         run: |
-          mkdir -m 666 ${{ github.workspace }}/zapoutput
+          mkdir -m 777 ${{ github.workspace }}/zapoutput
 
       - name: Start ZAP container
         env:
