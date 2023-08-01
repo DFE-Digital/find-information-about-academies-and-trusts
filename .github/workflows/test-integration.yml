@@ -1,4 +1,4 @@
-name: Integration tests
+name: Run integration tests
 run-name: Integration tests for '${{ inputs.environment }}' - `${{ inputs.branch-name }}`
 
 on:

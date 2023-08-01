@@ -1,4 +1,4 @@
-name: .NET Build
+name: Build, analyse and test .NET code
 
 on:
   push:
@@ -57,7 +57,7 @@ jobs:
     - name: Install dotnet-stryker (mutation testing tool)
       run: dotnet tool install --global dotnet-stryker
 
-    - name: Build and Analyze solution
+    - name: Build and Analyse solution
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
