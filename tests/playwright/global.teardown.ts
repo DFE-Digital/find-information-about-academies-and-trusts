@@ -41,7 +41,7 @@ teardown('Generate ZAP report', async () => {
       title: 'Report',
       template: 'traditional-html',
       reportfilename: 'ZAP-Report.html',
-      reportdir: '/home/zap'
+      reportdir: '/zap/wrk'
     })
       .then((resp) => {
         console.log(`${JSON.stringify(resp)}`)
