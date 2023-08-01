@@ -86,6 +86,11 @@ dotnet test
 Accessibility and UI tests are written using [Playwright](https://playwright.dev/), with external dependencies (e.g. APIs) mocked using [WireMock](https://github.com/HBOCodeLabs/wiremock-captain). 
 To run these tests locally it is easiest to run your app and the mock API using Docker:
 
+1. Create or update the file `tests/playwright/.env` with
+```dotenv
+PLAYWRIGHT_BASEURL="http://localhost/"
+```
+2. Open a terminal in your repository and run:
 ```bash
 cd DfE.FindInformationAcademiesTrusts.UnitTests/playwright
 
@@ -108,6 +113,25 @@ docker compose -f ../../docker/docker-compose.ci.yml down
 
 ```
 For more information on running and debugging Playwright tests it is worth familiarising yourself with the Playwright docs on [debugging](https://playwright.dev/docs/debug) and [command line flags](https://playwright.dev/docs/test-cli).
+
+### Integration tests
+
+[Integration tests](./test-approach.md) are also run in [Playwright](https://playwright.dev/), but do not have dependencies mocked. If you wish to run these locally you will need to run the app locally before running your tests.
+
+1. Run the .NET application using your preferred IDE or by running `dotnet run`
+2. Check the localhost port the application is running on and add it `tests/playwright/.env` as `PLAYWRIGHT_BASEURL`
+
+```dotenv
+ PLAYWRIGHT_BASEURL="http://localhost:5163"
+```
+
+3. Open a terminal to run your tests
+
+```shell
+ cd DfE.FindInformationAcademiesTrusts.UnitTests/playwright
+ npm install
+ npm run test:integration
+```
 
 ### Accessing test reports in the pipeline
 

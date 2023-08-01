@@ -8,7 +8,9 @@
     "lint:fix": "ts-standard --fix",
     "test:a11y": "npx playwright test accessibility-tests/* --project=chromium --project=firefox --project=webkit --project=\"Microsoft Edge\"",
     "test:ui": "npx playwright test ui-tests/* --project=chromium --project=firefox --project=webkit --project=\"Microsoft Edge\"",
-    "test:ci": "npx playwright test accessibility-tests/* ui-tests/* --project=chromium --project=firefox --project=webkit --project=\"Microsoft Edge\""
+    "test:ci": "npx playwright test accessibility-tests/* ui-tests/* --project=chromium --project=firefox --project=webkit --project=\"Microsoft Edge\"",
+    "test:deployment": "npx playwright test --project=\"deployment-tests\"",
+    "test:integration": "npx playwright test --project=\"integration-tests\""
   },
   "keywords": [],
   "author": "",
@@ -26,5 +28,4 @@
       "playwright.config.ts"
     ]
   }
-
 }
