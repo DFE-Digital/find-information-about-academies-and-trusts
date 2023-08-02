@@ -16,11 +16,6 @@ module.exports = {
           to: path.join(__dirname, 'wwwroot', 'dist', 'images')
         },
         {
-          from: '*.{png, jpg, jpeg, gif, svg}',
-          to: path.join(__dirname, 'wwwroot/dist/images'),
-          context: 'node_modules/dfe-frontend-alpha/packages/assets'
-        },
-        {
           from: 'dfefrontend.js',
           to: path.join(__dirname, 'wwwroot/dist/javascripts'),
           context: 'node_modules/dfe-frontend-alpha/dist'
