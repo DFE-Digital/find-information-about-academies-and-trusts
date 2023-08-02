@@ -1,4 +1,4 @@
-name: Smoke deployment tests
+name: Run smoke deployment tests
 run-name: Deployment tests for '${{ inputs.environment }}' - `${{ inputs.branch-name }}`
 
 on:

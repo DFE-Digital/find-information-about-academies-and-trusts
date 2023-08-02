@@ -1,4 +1,4 @@
-name: Run mock tests
+name: Run UI tests on isolated environment
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   playwright:
-    name: Mock UI tests
+    name: Set up container and run tests
     runs-on: ubuntu-22.04
     defaults:
       run:

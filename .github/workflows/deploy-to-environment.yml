@@ -96,7 +96,7 @@ jobs:
 
   run-deployment-tests:
     name: Run deployment tests
-    uses: ./.github/workflows/deployment-tests.yml
+    uses: ./.github/workflows/test-deployment.yml
     needs: [ deploy-image, set-env ]
     with:
       environment: ${{ needs.set-env.outputs.environment }}
@@ -105,7 +105,7 @@ jobs:
 
   run-integration-tests:
     name: Run integration tests
-    uses: ./.github/workflows/integration-tests.yml
+    uses: ./.github/workflows/test-integration.yml
     needs: [ deploy-image, set-env ]
     if: ${{ needs.set-env.outputs.environment != 'test'}}
     with:

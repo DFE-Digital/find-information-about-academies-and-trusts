@@ -1,4 +1,4 @@
-name: Static code analysis
+name: Lint assets and playwright tests
 on:
   pull_request:
     branches:
@@ -6,7 +6,7 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    name: Lint assets and playwright tests
+    name: Run linters
     steps:
     - uses: actions/checkout@v3
       name: Check out repository
