@@ -17,11 +17,6 @@ module.exports = {
           context: 'node_modules/govuk-frontend/govuk/assets/images'
         },
         {
-          from: 'dfefrontend.js',
-          to: path.join(__dirname, 'wwwroot/dist/javascripts'),
-          context: 'node_modules/dfe-frontend-alpha/dist'
-        },
-        {
           from: path.join(__dirname, 'assets/images'),
           to: path.join(__dirname, 'wwwroot/dist/images')
         }
