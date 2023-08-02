@@ -3,11 +3,11 @@ run-name: Deployment tests for '${{ inputs.environment }}' - `${{ inputs.branch-
 
 on:
   workflow_call:
-    inputs:
-      environment:
+    inputs: 
+      environment: 
         required: true
         type: string
-      branch-name:
+      branch-name: 
         required: true
         type: string
 env:
@@ -58,6 +58,8 @@ jobs:
       - name: Run Playwright deployment tests
         env:
           PLAYWRIGHT_BASEURL: ${{ secrets.BASE_URL }}
+          TEST_USER_ACCOUNT_NAME: ${{ secrets.TEST_USER_ACCOUNT_NAME }}
+          TEST_USER_ACCOUNT_PASSWORD: ${{ secrets.TEST_USER_ACCOUNT_PASSWORD }}
         run: npm run test:deployment
 
       - uses: actions/upload-artifact@v3

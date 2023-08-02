@@ -58,6 +58,8 @@ jobs:
       - name: Run Playwright integration tests
         env:
           PLAYWRIGHT_BASEURL: ${{ secrets.BASE_URL }}
+          TEST_USER_ACCOUNT_NAME: ${{ secrets.TEST_USER_ACCOUNT_NAME }}
+          TEST_USER_ACCOUNT_PASSWORD: ${{ secrets.TEST_USER_ACCOUNT_PASSWORD }}
         run: npm run test:integration
 
       - uses: actions/upload-artifact@v3
