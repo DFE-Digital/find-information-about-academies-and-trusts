@@ -8,7 +8,7 @@ export class SearchResultsPage {
   constructor (readonly page: Page) {
     this.expect = new SearchResultsPageAssertions(this)
     this._headerLocator = this.page.locator('h1')
-    this._searchResultsListItemLocator = this.page.locator('li')
+    this._searchResultsListItemLocator = this.page.locator('main>>li')
   }
 }
 
