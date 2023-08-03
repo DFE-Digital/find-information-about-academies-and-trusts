@@ -66,20 +66,11 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         channel: 'chrome',
-      },
-      testDir: './integration-tests'
-    },
-    {
-      name: 'integration-tests',
-      use: {
-        ...devices['Desktop Chrome'],
-        channel: 'chrome',
         storageState: '.auth/user.json',
       },
       dependencies: ['authenticate-user'],
       testDir: './integration-tests'
     },
-
     {
       name: 'zap-tests',
       use: {

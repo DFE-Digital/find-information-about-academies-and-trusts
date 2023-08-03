@@ -8,6 +8,8 @@ test.describe('When the user is authenticated', () => {
 })
 
 test.describe('When the user is not authenticated', () => {
+  test.use({storageState:'.auth/unauthenticated-user.json'})
+
   test('the user is directed to a sign in form', async ({ page }) => {
     await page.goto('/')
     await expect(page).toHaveTitle('Sign in to your account')
