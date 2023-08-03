@@ -29,5 +29,10 @@
   },
   "dependencies": {
     "govuk-frontend": "^4.6.0"
+  },
+  "standard": {
+    "ignore": [
+      "wwwroot/"
+    ]
   }
 }
