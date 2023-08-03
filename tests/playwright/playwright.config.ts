@@ -28,10 +28,6 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    { 
-      name: 'authenticate-user',
-      use: { ...devices['Desktop Chrome'] },
-      testMatch: /.auth.setup\.ts/ },
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] }
@@ -50,7 +46,14 @@ export default defineConfig({
       name: 'Microsoft Edge',
       use: { ...devices['Desktop Edge'], channel: 'msedge' }
     },
-
+    {
+      name: 'authenticate-user',
+      use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chrome'
+      },
+      testMatch: /.auth.setup\.ts/
+    },
     {
       name: 'deployment-tests',
       use: {
