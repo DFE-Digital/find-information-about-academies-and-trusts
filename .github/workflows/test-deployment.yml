@@ -37,9 +37,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Get installed Playwright version
+      - name: Pin Playwright cache key
         id: playwright-version
-        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages['node_modules/@playwright/test'].version)")" >> $GITHUB_ENV
+        run: |
+          PLAYWRIGHT_VERSION="$(node -e "console.log(require('./package-lock.json').packages['node_modules/@playwright/test'].version)")"
+          PIN_VERSION=${PLAYWRIGHT_VERSION}-`date +%Y-%m-%d`
+          echo "PLAYWRIGHT_VERSION=$PIN_VERSION" >> $GITHUB_ENV
 
       - name: Cache playwright binaries
         uses: actions/cache@v3
