@@ -12,18 +12,9 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, 'assets', 'images'),
-          to: path.join(__dirname, 'wwwroot', 'dist', 'images')
-        },
-        {
-          from: '*.{png, jpg, jpeg, gif, svg}',
+          from: '*.{png,svg}',
           to: path.join(__dirname, 'wwwroot/dist/images'),
-          context: 'node_modules/dfe-frontend-alpha/packages/assets'
-        },
-        {
-          from: 'dfefrontend.js',
-          to: path.join(__dirname, 'wwwroot/dist/javascripts'),
-          context: 'node_modules/dfe-frontend-alpha/dist'
+          context: 'node_modules/govuk-frontend/govuk/assets/images'
         },
         {
           from: path.join(__dirname, 'assets/images'),
