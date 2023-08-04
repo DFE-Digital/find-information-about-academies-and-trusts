@@ -12,9 +12,9 @@ public class TrustSearchTests
         mockTrustsProvider.Setup(t => t.GetTrustsAsync().Result).Returns(
             new[]
             {
-                new Trust("trust 1"),
-                new Trust("trust 2"),
-                new Trust("trust 3")
+                new Trust("trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC"),
+                new Trust("trust 2", "Grant Course, North East Lincolnshire, QH96 9WV"),
+                new Trust("trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ")
             }
         );
         _sut = new TrustSearch(mockTrustsProvider.Object);

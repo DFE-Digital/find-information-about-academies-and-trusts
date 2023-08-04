@@ -11,7 +11,8 @@
   @foreach (var trust in Model.Trusts)
   {
     <li>
-      @Html.DisplayFor(modelItem => trust.Name)
+      <p>@Html.DisplayFor(modelItem => trust.Name)</p>
+      <p>Address: @Html.DisplayFor(modelItem => trust.Address)</p>
     </li>
   }
 </ul>

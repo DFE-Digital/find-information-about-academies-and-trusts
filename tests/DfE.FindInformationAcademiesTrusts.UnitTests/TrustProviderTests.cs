@@ -23,7 +23,8 @@ public class TrustProviderTests
         var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
         {
             Content = new StringContent(
-                "{\"Data\": [{\"GroupName\": \"trust 1\"}, {\"GroupName\": \"trust 2\"}, {\"GroupName\": \"trust 3\"}]}")
+                "{\"Data\": [{\"GroupName\": \"trust 1\", \"TrustAddress\": {\"Street\":null, \"Locality\": null, \"AdditionalLine\": null, \"Town\": null, \"County\": null, \"Postcode\": null}}, {\"GroupName\": \"trust 2\", \"TrustAddress\": {\"Street\":null, \"Locality\": null, \"AdditionalLine\": null, \"Town\": null, \"County\": null, \"Postcode\": null}}, {\"GroupName\": \"trust 3\", \"TrustAddress\": {\"Street\":null, \"Locality\": null, \"AdditionalLine\": null, \"Town\": null, \"County\": null, \"Postcode\": null}}]}"
+            )
         };
 
         _mockHttpClientFactory.SetUpHttpGetResponse(TrustsEndpoint, responseMessage);
@@ -36,9 +37,9 @@ public class TrustProviderTests
 
     [Theory]
     [InlineData(
-        "{\"Data\": [{\"GroupName\": \"trust 1\"}, {\"GroupName\": \"trust 2\"}, {\"GroupName\": \"trust 3\"}]}")]
+        "{\"Data\": [{\"GroupName\": \"trust 1\", \"TrustAddress\": {\"Street\":\"12 Abbey Road\", \"Locality\": \"Dorthy Inlet\", \"AdditionalLine\": \"East Park\", \"Town\": \"Kingston upon Hull\", \"County\": \"East Riding of Yorkshire\", \"Postcode\": \"JY36 9VC\"}}, {\"GroupName\": \"trust 2\", \"TrustAddress\": {\"Street\":null, \"Locality\": null, \"AdditionalLine\": null, \"Town\": null, \"County\": null, \"Postcode\": null}}, {\"GroupName\": \"trust 3\", \"TrustAddress\": {\"Street\":null, \"Locality\": null, \"AdditionalLine\": null, \"Town\": null, \"County\": null, \"Postcode\": null}}]}")]
     [InlineData(
-        "{\"data\": [{\"groupName\": \"trust 1\"}, {\"groupName\": \"trust 2\"}, {\"groupName\": \"trust 3\"}]}")]
+        "{\"data\": [{\"groupName\": \"trust 1\", \"trustAddress\": {\"street\":\"Dorthy Inlet\", \"locality\": null, \"additionalLine\": null, \"town\": \"Kingston upon Hull\", \"county\": null, \"postcode\": \"JY36 9VC\"}}, {\"groupName\": \"trust 2\", \"trustAddress\": {\"street\":null, \"locality\": null, \"additionalLine\": null, \"town\": null, \"county\": null, \"postcode\": null}}, {\"groupName\": \"trust 3\", \"trustAddress\": {\"street\":null, \"locality\": null, \"additionalLine\": null, \"town\": null, \"county\": null, \"postcode\": null}}]}")]
     public async Task GetTrustsAsync_should_handle_json_case_insensitively(string data)
     {
         var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
@@ -52,6 +53,38 @@ public class TrustProviderTests
 
         var result = await sut.GetTrustsAsync();
         result.Should().HaveCount(3);
+    }
+
+    [Theory]
+    [InlineData(
+        "{\"Data\": [{\"GroupName\": \"trust 1\", \"TrustAddress\": {\"Street\":\"12 Abbey Road\", \"Locality\": \"Dorthy Inlet\", \"AdditionalLine\": \"East Park\", \"Town\": \"Kingston upon Hull\", \"County\": \"East Riding of Yorkshire\", \"Postcode\": \"JY36 9VC\"}}]}",
+        "12 Abbey Road, Dorthy Inlet, East Park, Kingston upon Hull, JY36 9VC"
+    )]
+    [InlineData(
+        "{\"Data\": [{\"GroupName\": \"trust 1\", \"TrustAddress\": null}]}",
+        ""
+    )]
+    [InlineData(
+        "{\"Data\": [{\"GroupName\": \"trust 1\", \"TrustAddress\": {\"Street\":\"Dorthy Inlet\"}}]}",
+        "Dorthy Inlet"
+    )]
+    [InlineData(
+        "{\"Data\": [{\"GroupName\": \"trust 1\", \"TrustAddress\": {\"Locality\":\"Dorthy Inlet\"}}]}",
+        "Dorthy Inlet"
+    )]
+    public async Task GetTrustsAsync_should_return_trust_address_formatted_as_string(string data, string expected)
+    {
+        var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
+        {
+            Content = new StringContent(data)
+        };
+
+        _mockHttpClientFactory.SetUpHttpGetResponse(TrustsEndpoint, responseMessage);
+
+        var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
+
+        var result = await sut.GetTrustsAsync();
+        result.First().Address.Should().Be(expected);
     }
 
     [Fact]
