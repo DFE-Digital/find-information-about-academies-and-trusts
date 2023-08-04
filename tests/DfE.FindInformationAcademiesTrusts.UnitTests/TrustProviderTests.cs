@@ -9,7 +9,7 @@ public class TrustProviderTests
 {
     private readonly MockHttpClientFactory _mockHttpClientFactory;
     private readonly MockLogger<ITrustProvider> _mockLogger;
-    private const string TrustsEndpoint = "v2/trusts";
+    private const string TrustsEndpoint = "v3/trusts";
 
     public TrustProviderTests()
     {
@@ -122,7 +122,7 @@ public class TrustProviderTests
         catch
         {
             _mockLogger.VerifyLogError(
-                $"Received {statusCode} from Academies API, \r\nendpoint: https://apiendpoint.dev/v2/trusts");
+                $"Received {statusCode} from Academies API, \r\nendpoint: https://apiendpoint.dev/v3/trusts");
         }
     }
 

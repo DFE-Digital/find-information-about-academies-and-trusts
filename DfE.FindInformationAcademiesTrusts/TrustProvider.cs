@@ -25,7 +25,7 @@ public class TrustProvider : ITrustProvider
     {
         var httpClient = _httpClientFactory.CreateClient("AcademiesApi");
 
-        var httpResponseMessage = await httpClient.GetAsync("v2/trusts");
+        var httpResponseMessage = await httpClient.GetAsync("v3/trusts");
         if (httpResponseMessage.IsSuccessStatusCode)
         {
             await using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();

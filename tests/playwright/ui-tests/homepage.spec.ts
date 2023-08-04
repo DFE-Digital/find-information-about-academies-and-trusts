@@ -11,7 +11,7 @@ test.describe('homepage', () => {
   test.beforeAll(async () => {
     const request: IWireMockRequest = {
       method: 'GET',
-      endpoint: '/v2/trusts'
+      endpoint: '/v3/trusts'
     }
 
     const mockedResponse: IWireMockResponse = {
@@ -40,6 +40,7 @@ test.describe('homepage', () => {
     test(`Searching for a trust with "${searchTerm}" navigates to search page with results for`, async () => {
       await homePage.searchFor(searchTerm)
 
+      await searchPage.expect.toBeOnTheRightPage()
       await searchPage.expect.toBeOnPageWithResultsFor(searchTerm)
     })
   }
