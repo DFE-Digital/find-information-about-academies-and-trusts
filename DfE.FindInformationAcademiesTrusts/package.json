@@ -22,7 +22,7 @@
     "sass": "^1.62.1",
     "sass-loader": "^13.2.2",
     "standard": "^17.0.0",
-    "stylelint": "^14.16.1",
+    "stylelint": "^15.0.0",
     "stylelint-config-gds": "^0.3.0",
     "webpack": "^5.82.1",
     "webpack-cli": "^5.1.1"
