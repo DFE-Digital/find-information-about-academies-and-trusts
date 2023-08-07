@@ -1,5 +1,5 @@
 ARG ASPNET_IMAGE_TAG=7.0-bullseye-slim
-ARG NODEJS_IMAGE_TAG=18-bullseye-slim
+ARG NODEJS_IMAGE_TAG=20-bullseye-slim
 ARG DOTNET_SDK=7.0
 
 # Stage 1 - Build frontend assets
