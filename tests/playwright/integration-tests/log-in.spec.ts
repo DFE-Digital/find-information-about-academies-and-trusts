@@ -11,17 +11,17 @@ test.describe('Log in to application', () => {
     logInPage = new LogInPage(page)
   })
 
-  test.describe('When the user is authenticated', () => {
-    test('the app homepage is displayed', async () => {
+  test.describe('Given the user is authenticated', () => {
+    test('when they navigate to the home page then the app homepage is displayed', async () => {
       await homePage.goTo()
       await homePage.expect.toBeOnTheRightPage()
     })
   })
 
-  test.describe('When the user is not authenticated', () => {
+  test.describe('Given the user is not authenticated', () => {
     test.use({ storageState: '.auth/unauthenticated-user.json' })
 
-    test('the user is directed to a sign in form', async ({ page }) => {
+    test('when they navigate to the home page then the user is directed to a sign in form', async () => {
       await homePage.goTo()
       await logInPage.expect.toBeDirectedToSignIn()
     })
