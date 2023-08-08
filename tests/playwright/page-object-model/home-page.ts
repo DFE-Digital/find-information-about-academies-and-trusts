@@ -27,4 +27,8 @@ class HomePageAssertions {
   async toBeOnTheRightPage (): Promise<void> {
     await expect(this.homePage.page).toHaveTitle('Home page - Find information about academies and trusts')
   }
+
+  async notToBeOnThePage (): Promise<void> {
+    await expect(this.homePage.page).not.toHaveTitle('Home page - Find information about academies and trusts')
+  }
 }
