@@ -37,9 +37,9 @@ public class SearchModelTests
     {
         return new[]
         {
-            new Trust("trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC", "TR00261", "2044"),
-            new Trust("trust 2", "Grant Course, North East Lincolnshire, QH96 9WV", "TR00261", "2044"),
-            new Trust("trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ", "TR00261", "2044")
+            new Trust("trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC", "TR00261", "2044", 0),
+            new Trust("trust 2", "Grant Course, North East Lincolnshire, QH96 9WV", "TR00261", "2044", 3),
+            new Trust("trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ", "TR00261", "2044", 4)
         };
     }
 }

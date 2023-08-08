@@ -39,7 +39,8 @@ public class TrustProvider : ITrustProvider
                     t.GroupName!,
                     TrustAddressAsString(t.TrustAddress),
                     t.Urn!,
-                    t.Ukprn!
+                    t.Ukprn!,
+                    t.Establishments != null ? t.Establishments!.Count() : 0
                 ));
             return transformedData;
         }

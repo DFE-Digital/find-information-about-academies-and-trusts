@@ -87,6 +87,34 @@ public class TrustProviderTests
         result.First().Address.Should().Be(expected);
     }
 
+    [Theory]
+    [InlineData(
+        "{\"Data\": [{\"GroupName\": \"trust 1\", \"Establishments\": []}]}",
+        0
+    )]
+    [InlineData(
+        "{\"Data\": [{\"GroupName\": \"trust 1\", \"Establishments\": [{\"urn\": \"12345\"}]}]}",
+        1
+    )]
+    [InlineData(
+        "{\"Data\": [{\"GroupName\": \"trust 1\", \"Establishments\": [{\"urn\": \"12346\"}, {\"urn\": \"12347\"}, {\"urn\": \"12348\"}]}]}",
+        3
+    )]
+    public async Task GetTrustsAsync_should_include_Academies_count(string data, int expected)
+    {
+        var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
+        {
+            Content = new StringContent(data)
+        };
+
+        _mockHttpClientFactory.SetUpHttpGetResponse(TrustsEndpoint, responseMessage);
+
+        var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
+
+        var result = await sut.GetTrustsAsync();
+        result.First().AcademyCount.Should().Be(expected);
+    }
+
     [Fact]
     public async Task GetTrustsAsync_should_throw_exception_on_http_response_error_code()
     {
