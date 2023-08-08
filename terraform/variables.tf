@@ -278,6 +278,11 @@ variable "key_vault_access_ipv4" {
   type        = list(string)
 }
 
+variable "test_reports_storage_ipv4_allow_list" {
+  description = "List of IPv4 Addresses that are permitted to access the Storage Container that holds CI Test Reports"
+  type        = list(string)
+}
+
 variable "tfvars_filename" {
   description = "tfvars filename. This file is uploaded and stored encrypted within Key Vault, to ensure that the latest tfvars are stored in a shared place."
   type        = string

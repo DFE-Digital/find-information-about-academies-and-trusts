@@ -24,7 +24,7 @@ Use this documentation to configure your local development environment.
 
 You will need:
 
-- .NET 6 SDK
+- .NET 7 SDK
 - npm
 
 Recommended:

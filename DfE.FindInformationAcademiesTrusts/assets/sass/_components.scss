@@ -3,10 +3,10 @@
 .app-banner {
   @include govuk-responsive-padding(5, "top");
   @include govuk-responsive-padding(5, "bottom");
-  background-color: $app-blue-light;
+  background-color: $app-color-blue-light;
 
   .app-banner--heading {
-    color: $color_dfe-blue;
+    color: $app-color-dfe-blue;
   }
 
   .app-banner--body {
