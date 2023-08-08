@@ -37,7 +37,9 @@ public class TrustProvider : ITrustProvider
                 .Where(t => t.GroupName != null)
                 .Select(t => new Trust(
                     t.GroupName!,
-                    TrustAddressAsString(t.TrustAddress)
+                    TrustAddressAsString(t.TrustAddress),
+                    t.Urn!,
+                    t.Ukprn!
                 ));
             return transformedData;
         }
