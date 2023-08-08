@@ -5,28 +5,31 @@
   ViewData["Title"] = "Search";
 }
 
-<h1>Search results for "@Model.Query"</h1>
+<h1 class="govuk-heading-l">Search</h1>
 
-<ul class="govuk-list">
-  @foreach (var trust in Model.Trusts)
-  {
-    <li>
-      <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-top-6">
-        <a href="" class="govuk-link">@Html.DisplayFor(modelItem => trust.Name)</a>
-      </p>
-      <p class="govuk-body govuk-!-margin-0">
-        <span class="govuk-!-font-weight-bold">Address:</span> @Html.DisplayFor(modelItem => trust.Address)
-      </p>
-      <p class="govuk-body govuk-!-margin-0">
-        <span class="govuk-!-font-weight-bold">Urn:</span> @Html.DisplayFor(modelItem => trust.Urn)
-      </p>
-      <p class="govuk-body govuk-!-margin-0">
-        <span class="govuk-!-font-weight-bold">Ukprn:</span> @Html.DisplayFor(modelItem => trust.Ukprn)
-      </p>
-      <p class="govuk-body govuk-!-margin-0">
-        <span class="govuk-!-font-weight-bold">Academies in this trust:</span> @Html.DisplayFor(modelItem => trust.AcademyCount)
-      </p>
-      <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6">
-    </li>
-  }
-</ul>
+<section aria-labelledby="results-details">
+  <h2 id="results-details" class="govuk-heading-m">@Model.Trusts.Count() results for "@Model.Query"</h2>
+  <ul class="govuk-list">
+    @foreach (var trust in Model.Trusts)
+    {
+      <li>
+        <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-top-6">
+          <a href="" class="govuk-link">@Html.DisplayFor(modelItem => trust.Name)</a>
+        </p>
+        <p class="govuk-body govuk-!-margin-0">
+          <span class="govuk-!-font-weight-bold">Address:</span> @Html.DisplayFor(modelItem => trust.Address)
+        </p>
+        <p class="govuk-body govuk-!-margin-0">
+          <span class="govuk-!-font-weight-bold">Urn:</span> @Html.DisplayFor(modelItem => trust.Urn)
+        </p>
+        <p class="govuk-body govuk-!-margin-0">
+          <span class="govuk-!-font-weight-bold">Ukprn:</span> @Html.DisplayFor(modelItem => trust.Ukprn)
+        </p>
+        <p class="govuk-body govuk-!-margin-0">
+          <span class="govuk-!-font-weight-bold">Academies in this trust:</span> @Html.DisplayFor(modelItem => trust.AcademyCount)
+        </p>
+        <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6">
+      </li>
+    }
+  </ul>
+</section>
