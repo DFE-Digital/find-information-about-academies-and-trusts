@@ -13,9 +13,7 @@
     @foreach (var trust in Model.Trusts)
     {
       <li>
-        <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-top-6">
-          <a href="" class="govuk-link">@Html.DisplayFor(modelItem => trust.Name)</a>
-        </p>
+        <a asp-page="./Trusts/Details" asp-route-ukprn="@trust.Ukprn" class="govuk-heading-m govuk-!-font-weight-bold govuk-!-margin-top-6 govuk-link">@Html.DisplayFor(modelItem => trust.Name)</a>
         <p class="govuk-body govuk-!-margin-0">
           <span class="govuk-!-font-weight-bold">Address:</span> @Html.DisplayFor(modelItem => trust.Address)
         </p>
