@@ -84,7 +84,7 @@ jobs:
         uses: azure/CLI@v1
         id: azure
         with:
-          azcliversion: 2.45.0
+          azcliversion: 2.50.0
           inlineScript: |
             az config set extension.use_dynamic_install=yes_without_prompt
             az containerapp update \
