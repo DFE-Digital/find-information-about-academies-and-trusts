@@ -5,10 +5,26 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public class Details : LayoutModel
 {
-    [BindProperty(SupportsGet = true)] public string? Ukprn { get; set; }
+    private readonly ITrustProvider _trustProvider;
 
-
-    public void OnGet()
+    public Details(ITrustProvider trustProvider)
     {
+        _trustProvider = trustProvider;
+    }
+
+    [BindProperty(SupportsGet = true)] public string Ukprn { get; set; } = "";
+    public Trust Trust { get; set; } = default!;
+
+
+    public async Task<IActionResult> OnGetAsync()
+    {
+        if (string.IsNullOrWhiteSpace(Ukprn))
+        {
+            return NotFound();
+        }
+
+        var trust = await _trustProvider.GetTrustByUkprnAsync(Ukprn);
+        Trust = trust;
+        return Page();
     }
 }

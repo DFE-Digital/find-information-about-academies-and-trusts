@@ -6,6 +6,7 @@ namespace DfE.FindInformationAcademiesTrusts;
 public interface ITrustProvider
 {
     public Task<IEnumerable<Trust>> GetTrustsAsync();
+    public Task<Trust> GetTrustByUkprnAsync(string ukprn);
 }
 
 public class TrustProvider : ITrustProvider
@@ -45,7 +46,42 @@ public class TrustProvider : ITrustProvider
         }
 
         var errorMessage = await httpResponseMessage.Content.ReadAsStringAsync();
+        LogHttpError(httpResponseMessage, errorMessage);
+        throw new HttpRequestException("Problem communicating with Academies API");
+    }
 
+    public async Task<Trust> GetTrustByUkprnAsync(string ukprn)
+    {
+        var httpClient = _httpClientFactory.CreateClient("AcademiesApi");
+
+        var httpResponseMessage = await httpClient.GetAsync($"v3/trust/{ukprn}");
+        if (httpResponseMessage.IsSuccessStatusCode)
+        {
+            await using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();
+            var json = await JsonSerializer.DeserializeAsync<ApiSingleResponseV3<TrustResponse>>(contentStream,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            if (json?.Data == null || json.Data?.GiasData?.GroupName == null) throw new JsonException();
+
+            if (json.Data?.GiasData?.GroupName != null)
+            {
+                var trust = new Trust(
+                    json.Data.GiasData.GroupName,
+                    TrustAddressAsString(json.Data.GiasData.GroupContactAddress),
+                    ukprn,
+                    json.Data.Establishments != null ? json.Data.Establishments!.Count() : 0);
+
+                return trust;
+            }
+        }
+
+        var errorMessage = await httpResponseMessage.Content.ReadAsStringAsync();
+        LogHttpError(httpResponseMessage, errorMessage);
+        throw new HttpRequestException("Problem communicating with Academies API");
+    }
+
+    private void LogHttpError(HttpResponseMessage httpResponseMessage, string errorMessage)
+    {
         _logger.LogError(
             "Received {statusCode} from Academies API, \r\nendpoint: {endpoint}, \r\ncontent: {errorMessage}, \r\nheaders: {headers}",
             httpResponseMessage.StatusCode,
@@ -53,8 +89,8 @@ public class TrustProvider : ITrustProvider
             errorMessage,
             httpResponseMessage.Headers
         );
-        throw new HttpRequestException("Problem communicating with Academies API");
     }
+
 
     private string TrustAddressAsString(AddressResponse? addressResponse)
     {
