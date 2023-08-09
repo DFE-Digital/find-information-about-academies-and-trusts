@@ -14,7 +14,7 @@ public class SearchModelTests
 
         var sut = new SearchModel(mockTrustSearch.Object)
         {
-            Query = query
+            KeyWords = query
         };
 
         await sut.OnGetAsync();

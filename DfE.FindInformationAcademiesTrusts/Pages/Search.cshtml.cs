@@ -13,14 +13,14 @@ public class SearchModel : LayoutModel
         _trustSearch = trustSearch;
     }
 
-    [BindProperty(SupportsGet = true)] public string? Query { get; set; }
+    [BindProperty(SupportsGet = true)] public string? KeyWords { get; set; }
     public IEnumerable<Trust> Trusts { get; set; } = Array.Empty<Trust>();
 
     public async Task OnGetAsync()
     {
-        if (!string.IsNullOrEmpty(Query))
+        if (!string.IsNullOrEmpty(KeyWords))
         {
-            Trusts = await _trustSearch.SearchAsync(Query);
+            Trusts = await _trustSearch.SearchAsync(KeyWords);
         }
     }
 }

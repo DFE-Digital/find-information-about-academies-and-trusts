@@ -8,7 +8,7 @@
 <h1 class="govuk-heading-l">Search</h1>
 
 <section aria-labelledby="results-details">
-  <h2 id="results-details" class="govuk-heading-m">@Model.Trusts.Count() results for "@Model.Query"</h2>
+  <h2 id="results-details" class="govuk-heading-m">@Model.Trusts.Count() results for "@Model.KeyWords"</h2>
   <ul class="govuk-list">
     @foreach (var trust in Model.Trusts)
     {

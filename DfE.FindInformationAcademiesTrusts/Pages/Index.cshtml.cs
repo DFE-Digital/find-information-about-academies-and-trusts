@@ -10,5 +10,5 @@ public class IndexModel : LayoutModel
         UsePageWidthContainer = false;
     }
 
-    [BindProperty(SupportsGet = true)] public string Query { get; set; } = "";
+    [BindProperty(SupportsGet = true)] public string KeyWords { get; set; } = "";
 }

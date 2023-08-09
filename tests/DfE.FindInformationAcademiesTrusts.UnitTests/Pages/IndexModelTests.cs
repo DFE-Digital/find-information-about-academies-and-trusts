@@ -5,10 +5,10 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages;
 public class IndexModelTests
 {
     [Fact]
-    public void Query_property_is_empty_by_default()
+    public void KeyWords_property_is_empty_by_default()
     {
         var sut = new IndexModel();
-        sut.Query.Should().Be("");
+        sut.KeyWords.Should().Be("");
     }
 
     [Fact]
