@@ -53,6 +53,25 @@
   }
 }
 
+.app-search-results-summary-list {
+  display: block;
+
+  .app-search-results-summary-list__row {
+    display: flex;
+    margin: 0;
+  }
+
+  .app-search-results-summary-list__item {
+    display: block;
+    padding: 0;
+    width: auto;
+  }
+
+  .app-search-results-summary-list__key {
+    @include govuk-responsive-padding(2, "right");
+  }
+}
+
 @media (width <=40.0525em) {
   .app-search__button {
     padding: 0 8px;

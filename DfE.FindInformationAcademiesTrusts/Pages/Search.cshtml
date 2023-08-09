@@ -14,18 +14,40 @@
     {
       <li>
         <a asp-page="./Trusts/Details" asp-route-ukprn="@trust.Ukprn" class="govuk-heading-m govuk-!-font-weight-bold govuk-!-margin-top-6 govuk-link">@Html.DisplayFor(modelItem => trust.Name)</a>
-        <p class="govuk-body govuk-!-margin-0">
-          <span class="govuk-!-font-weight-bold">Address:</span> @Html.DisplayFor(modelItem => trust.Address)
-        </p>
-        <p class="govuk-body govuk-!-margin-0">
-          <span class="govuk-!-font-weight-bold">Urn:</span> @Html.DisplayFor(modelItem => trust.Urn)
-        </p>
-        <p class="govuk-body govuk-!-margin-0">
-          <span class="govuk-!-font-weight-bold">Ukprn:</span> @Html.DisplayFor(modelItem => trust.Ukprn)
-        </p>
-        <p class="govuk-body govuk-!-margin-0">
-          <span class="govuk-!-font-weight-bold">Academies in this trust:</span> @Html.DisplayFor(modelItem => trust.AcademyCount)
-        </p>
+        <dl class="govuk-summary-list govuk-summary-list--no-border app-search-results-summary-list">
+          <div class="govuk-summary-list__row govuk-body app-search-results-summary-list__row">
+            <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
+              Address:
+            </dt>
+            <dd class="govuk-summary-list__value app-search-results-summary-list__item">
+              @Html.DisplayFor(modelItem => trust.Address)
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row govuk-body app-search-results-summary-list__row">
+            <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
+              Urn:
+            </dt>
+            <dd class="govuk-summary-list__value app-search-results-summary-list__item">
+              @Html.DisplayFor(modelItem => trust.Urn)
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row govuk-body app-search-results-summary-list__row">
+            <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
+              Ukprn:
+            </dt>
+            <dd class="govuk-summary-list__value app-search-results-summary-list__item">
+              @Html.DisplayFor(modelItem => trust.Ukprn)
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row app-search-results-summary-list__row">
+            <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
+              Academies in this trust:
+            </dt>
+            <dd class="govuk-summary-list__value app-search-results-summary-list__item">
+              @Html.DisplayFor(modelItem => trust.AcademyCount)
+            </dd>
+          </div>
+        </dl>
         <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6">
       </li>
     }
