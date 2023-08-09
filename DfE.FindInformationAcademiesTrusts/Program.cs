@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
-using Microsoft.Identity.Web.UI;
 using Serilog;
 
 namespace DfE.FindInformationAcademiesTrusts;
@@ -31,8 +30,8 @@ internal static class Program
 
             AddEnvironmentVariablesTo(builder);
 
-            var mvcBuilder = builder.Services.AddRazorPages();
-            AddAuthenticationServices(builder, mvcBuilder);
+            builder.Services.AddRazorPages();
+            AddAuthenticationServices(builder);
 
             builder.Services.Configure<RouteOptions>(options =>
             {
@@ -118,7 +117,7 @@ internal static class Program
             .ValidateOnStart();
     }
 
-    private static void AddAuthenticationServices(WebApplicationBuilder builder, IMvcBuilder mvcBuilder)
+    private static void AddAuthenticationServices(WebApplicationBuilder builder)
     {
         if (!builder.Environment.IsLocalDevelopment() && !builder.Environment.IsContinuousIntegration())
         {
@@ -140,8 +139,6 @@ internal static class Program
                     options.Cookie.SameSite = SameSiteMode.None;
                     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 });
-
-            mvcBuilder.AddMicrosoftIdentityUI();
         }
     }
 

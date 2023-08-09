@@ -4,14 +4,5 @@
     <li>
       <span class="">Hello @User.Identity?.Name!</span>
     </li>
-    <li >
-      <a class="govuk-link govuk-link--inverse" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">Sign out</a>
-    </li>
-  }
-  else
-  {
-    <li >
-      <a class="govuk-link govuk-link--inverse" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">Sign in</a>
-    </li>
   }
 </ul>
