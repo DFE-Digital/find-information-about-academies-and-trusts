@@ -119,27 +119,39 @@ internal static class Program
 
     private static void AddAuthenticationServices(WebApplicationBuilder builder)
     {
-        if (!builder.Environment.IsLocalDevelopment() && !builder.Environment.IsContinuousIntegration())
+        if (ShouldSkipAuthentication(builder))
+            return;
+
+        builder.Services.AddAuthorization(options =>
         {
-            builder.Services.AddAuthorization(options =>
+            var policyBuilder = new AuthorizationPolicyBuilder();
+            policyBuilder.RequireAuthenticatedUser();
+            options.DefaultPolicy = policyBuilder.Build();
+            options.FallbackPolicy = options.DefaultPolicy;
+        });
+        builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration);
+        builder.Services.Configure<CookieAuthenticationOptions>(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            options =>
             {
-                var policyBuilder = new AuthorizationPolicyBuilder();
-                policyBuilder.RequireAuthenticatedUser();
-                options.DefaultPolicy = policyBuilder.Build();
-                options.FallbackPolicy = options.DefaultPolicy;
+                options.Cookie.Name = ".FindInformationAcademiesTrusts.Login";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
-            builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration);
-            builder.Services.Configure<CookieAuthenticationOptions>(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                options =>
-                {
-                    options.Cookie.Name = ".FindInformationAcademiesTrusts.Login";
-                    options.Cookie.HttpOnly = true;
-                    options.Cookie.IsEssential = true;
-                    options.Cookie.SameSite = SameSiteMode.None;
-                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                });
-        }
+    }
+
+    private static bool ShouldSkipAuthentication(WebApplicationBuilder builder)
+    {
+        if (!builder.Environment.IsLocalDevelopment() && !builder.Environment.IsContinuousIntegration())
+            return false;
+
+        //We need to be sure that this is actually an isolated environment with no access to production data
+        var academiesApiUrl = builder.Configuration.GetSection("AcademiesApi").GetValue<string>("Endpoint")?.ToLower();
+        return string.IsNullOrWhiteSpace(academiesApiUrl)
+               || academiesApiUrl.Contains("localhost")
+               || academiesApiUrl.Contains("wiremock");
     }
 
     private static void ReconfigureLogging(WebApplicationBuilder builder)
