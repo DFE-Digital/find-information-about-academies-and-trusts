@@ -38,7 +38,6 @@ public class TrustProvider : ITrustProvider
                 .Select(t => new Trust(
                     t.GroupName!,
                     TrustAddressAsString(t.TrustAddress),
-                    t.Urn!,
                     t.Ukprn!,
                     t.Establishments != null ? t.Establishments!.Count() : 0
                 ));
