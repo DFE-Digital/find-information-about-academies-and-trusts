@@ -5,12 +5,11 @@ namespace DfE.FindInformationAcademiesTrusts.Pages;
 
 public class SearchModel : LayoutModel
 {
-    private readonly ITrustSearch _trustSearch;
+    private readonly ITrustProvider _trustProvider;
 
-
-    public SearchModel(ITrustSearch trustSearch)
+    public SearchModel(ITrustProvider trustProvider)
     {
-        _trustSearch = trustSearch;
+        _trustProvider = trustProvider;
     }
 
     [BindProperty(SupportsGet = true)] public string? KeyWords { get; set; }
@@ -20,7 +19,7 @@ public class SearchModel : LayoutModel
     {
         if (!string.IsNullOrEmpty(KeyWords))
         {
-            Trusts = await _trustSearch.SearchAsync(KeyWords);
+            Trusts = await _trustProvider.GetTrustsByNameAsync(KeyWords);
         }
     }
 }

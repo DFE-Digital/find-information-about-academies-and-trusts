@@ -6,27 +6,41 @@ namespace DfE.FindInformationAcademiesTrusts;
 public interface ITrustProvider
 {
     public Task<IEnumerable<Trust>> GetTrustsAsync();
+
+    public Task<IEnumerable<Trust>> GetTrustsByNameAsync(string name);
     public Task<Trust> GetTrustByUkprnAsync(string ukprn);
 }
 
 public class TrustProvider : ITrustProvider
 {
-    private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILogger<ITrustProvider> _logger;
+    private readonly HttpClient _httpClient;
 
     public TrustProvider(IHttpClientFactory httpClientFactory,
         ILogger<ITrustProvider> logger)
 
     {
         _logger = logger;
-        _httpClientFactory = httpClientFactory;
+        _httpClient = httpClientFactory.CreateClient("AcademiesApi");
     }
 
     public async Task<IEnumerable<Trust>> GetTrustsAsync()
     {
-        var httpClient = _httpClientFactory.CreateClient("AcademiesApi");
+        var requestUri = "v3/trusts";
 
-        var httpResponseMessage = await httpClient.GetAsync("v3/trusts");
+        return await FetchTrustsAsync(requestUri);
+    }
+
+    public async Task<IEnumerable<Trust>> GetTrustsByNameAsync(string name)
+    {
+        var requestUri = $"v3/trusts?groupName={name}";
+
+        return await FetchTrustsAsync(requestUri);
+    }
+
+    private async Task<IEnumerable<Trust>> FetchTrustsAsync(string requestUri)
+    {
+        var httpResponseMessage = await _httpClient.GetAsync(requestUri);
         if (httpResponseMessage.IsSuccessStatusCode)
         {
             await using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();
@@ -52,9 +66,7 @@ public class TrustProvider : ITrustProvider
 
     public async Task<Trust> GetTrustByUkprnAsync(string ukprn)
     {
-        var httpClient = _httpClientFactory.CreateClient("AcademiesApi");
-
-        var httpResponseMessage = await httpClient.GetAsync($"v3/trust/{ukprn}");
+        var httpResponseMessage = await _httpClient.GetAsync($"v3/trust/{ukprn}");
         if (httpResponseMessage.IsSuccessStatusCode)
         {
             await using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();

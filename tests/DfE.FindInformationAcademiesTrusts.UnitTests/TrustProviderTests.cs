@@ -276,4 +276,22 @@ public class TrustProviderTests
 
         await Invoking(() => sut.GetTrustByUkprnAsync("1234")).Should().ThrowAsync<JsonException>();
     }
+
+    [Fact]
+    public async Task GetTrustsByNameAsync_should_return_trusts_if_success_status()
+    {
+        var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
+        {
+            Content = new StringContent(
+                "{\"Data\": [{\"GroupName\": \"trust 1\", \"TrustAddress\": {\"Street\":null, \"Locality\": null, \"AdditionalLine\": null, \"Town\": null, \"County\": null, \"Postcode\": null}}, {\"GroupName\": \"trust 2\", \"TrustAddress\": {\"Street\":null, \"Locality\": null, \"AdditionalLine\": null, \"Town\": null, \"County\": null, \"Postcode\": null}}, {\"GroupName\": \"trust 3\", \"TrustAddress\": {\"Street\":null, \"Locality\": null, \"AdditionalLine\": null, \"Town\": null, \"County\": null, \"Postcode\": null}}]}"
+            )
+        };
+
+        _mockHttpClientFactory.SetUpHttpGetResponse($"{TrustsEndpoint}?groupName=trust", responseMessage);
+
+        var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
+
+        var result = await sut.GetTrustsByNameAsync("trust");
+        result.Should().HaveCount(3).And.OnlyHaveUniqueItems();
+    }
 }

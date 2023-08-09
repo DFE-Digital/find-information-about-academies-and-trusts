@@ -8,11 +8,11 @@ public class SearchModelTests
     public async Task OnGetAsync_should_search_if_query_parameter()
     {
         var query = "trust";
-        var mockTrustSearch = new Mock<ITrustSearch>();
-        mockTrustSearch.Setup(s => s.SearchAsync(query).Result)
-            .Returns(FakeTrusts());
 
-        var sut = new SearchModel(mockTrustSearch.Object)
+        var mockTrustProvider = new Mock<ITrustProvider>();
+        mockTrustProvider.Setup(s => s.GetTrustsByNameAsync(query).Result)
+            .Returns(FakeTrusts());
+        var sut = new SearchModel(mockTrustProvider.Object)
         {
             KeyWords = query
         };
@@ -25,8 +25,8 @@ public class SearchModelTests
     [Fact]
     public async Task OnGetAsync_should_default_to_empty_trusts_if_no_query()
     {
-        var mockTrustSearch = new Mock<ITrustSearch>();
-        var sut = new SearchModel(mockTrustSearch.Object);
+        var mockTrustProvider = new Mock<ITrustProvider>();
+        var sut = new SearchModel(mockTrustProvider.Object);
 
         await sut.OnGetAsync();
 
