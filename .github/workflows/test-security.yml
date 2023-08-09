@@ -39,7 +39,7 @@ jobs:
         with:
           path: ~/ci/cache/docker/softwaresecurityproject
           key: cache-docker-zap-${{ env.ZAP_VERSION }}
-      
+
       - name: Use cached image if hit
         if: steps.cache-docker-zap.outputs.cache-hit == 'true'
         run: docker image load --input ~/ci/cache/docker/softwaresecurityproject/zap-stable-${{ env.ZAP_VERSION }}.tar
@@ -100,7 +100,7 @@ jobs:
         uses: azure/CLI@v1
         id: azure
         with:
-          azcliversion: 2.49.0
+          azcliversion: 2.50.0
           inlineScript: |
             az storage blob upload \
               --container-name ${{ secrets.OWASP_STORAGE_CONTAINER_NAME }} \
@@ -109,7 +109,7 @@ jobs:
               --name "Dfe.FindInformationAcademiesTrusts/${{ env.checked_out_sha }}/ZAP-Report.html" \
               --auth-mode login \
               --overwrite
-      
+
       - name: Stop ZAP container
         if: always()
         run: docker stop zap_container
