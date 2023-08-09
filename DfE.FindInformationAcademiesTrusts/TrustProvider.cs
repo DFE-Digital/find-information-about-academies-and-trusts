@@ -29,7 +29,7 @@ public class TrustProvider : ITrustProvider
         if (httpResponseMessage.IsSuccessStatusCode)
         {
             await using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();
-            var json = await JsonSerializer.DeserializeAsync<ApiResponseV2<TrustSummaryResponse>>(contentStream,
+            var json = await JsonSerializer.DeserializeAsync<ApiResponseV3<TrustSummaryResponse>>(contentStream,
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
             if (json?.Data == null) throw new JsonException();
