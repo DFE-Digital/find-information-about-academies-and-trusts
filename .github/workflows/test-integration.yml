@@ -3,14 +3,15 @@ run-name: Integration tests for '${{ inputs.environment }}' - `${{ inputs.branch
 
 on:
   workflow_call:
-    inputs: 
-      environment: 
+    inputs:
+      environment:
         required: true
         type: string
-      branch-name: 
+      branch-name:
         required: true
         type: string
-
+env:
+  NODE_VERSION: 18.13.0
 jobs:
   playwright:
     name: Integration tests
@@ -22,22 +23,41 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.ref }} 
+          ref: ${{ github.ref }}
 
-      - name: Set up NodeJS
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
+        name: Set up Node.js
         with:
-          node-version: 18
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            DfE.FindInformationAcademiesTrusts/package-lock.json
+            tests/playwright/package-lock.json
 
       - name: Install dependencies
         run: npm ci
 
+      - name: Pin Playwright cache key
+        id: playwright-version
+        run: |
+          PLAYWRIGHT_VERSION="$(node -e "console.log(require('./package-lock.json').packages['node_modules/@playwright/test'].version)")"
+          PIN_VERSION=${PLAYWRIGHT_VERSION}-`date +%Y-%m-%d`
+          echo "PLAYWRIGHT_VERSION=$PIN_VERSION" >> $GITHUB_ENV
+
+      - name: Cache playwright binaries
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chrome
+        run: npx playwright install --with-deps
 
       - name: Run Playwright integration tests
         env:
-          PLAYWRIGHT_BASEURL: ${{ secrets.BASE_URL }} 
+          PLAYWRIGHT_BASEURL: ${{ secrets.BASE_URL }}
         run: npm run test:integration
 
       - uses: actions/upload-artifact@v3
