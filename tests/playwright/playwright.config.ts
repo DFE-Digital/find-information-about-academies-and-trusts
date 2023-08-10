@@ -46,13 +46,22 @@ export default defineConfig({
       name: 'Microsoft Edge',
       use: { ...devices['Desktop Edge'], channel: 'msedge' }
     },
-
+    {
+      name: 'authenticate-user',
+      use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chrome'
+      },
+      testMatch: /.auth.setup\.ts/
+    },
     {
       name: 'deployment-tests',
       use: {
         ...devices['Desktop Chrome'],
         channel: 'chrome',
+        storageState: '.auth/user.json',
       },
+      dependencies: ['authenticate-user'],
       testDir: './deployment-tests'
     },
     {
@@ -60,7 +69,9 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         channel: 'chrome',
+        storageState: '.auth/user.json',
       },
+      dependencies: ['authenticate-user'],
       testDir: './integration-tests'
     },
     {

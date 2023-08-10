@@ -1,27 +1,27 @@
 import { test } from '@playwright/test'
 import { HomePage } from '../page-object-model/home-page'
-import { SearchResultsPage } from '../page-object-model/search-results-page'
+import { SearchPage } from '../page-object-model/search-page'
 
 test.describe('search for trusts', () => {
   let homePage: HomePage
-  let searchResultsPage: SearchResultsPage
+  let searchPage: SearchPage
 
   test.beforeEach(({ page }) => {
     homePage = new HomePage(page)
-    searchResultsPage = new SearchResultsPage(page)
+    searchPage = new SearchPage(page)
   })
 
   test('returns results', async () => {
     await homePage.goTo()
     await homePage.searchFor('education')
 
-    await searchResultsPage.expect.toShowResults()
+    await searchPage.expect.toShowResults()
   })
 
   test('returns empty results', async () => {
     await homePage.goTo()
     await homePage.searchFor('trust that does not exist')
 
-    await searchResultsPage.expect.toShowEmptyResultMessage()
+    await searchPage.expect.toShowEmptyResultMessage()
   })
 })

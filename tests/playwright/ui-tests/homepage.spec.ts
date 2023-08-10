@@ -1,12 +1,12 @@
 import { test } from '@playwright/test'
 import { IWireMockRequest, IWireMockResponse, WireMock } from 'wiremock-captain'
 import { HomePage } from '../page-object-model/home-page'
-import { SearchResultsPage } from '../page-object-model/search-results-page'
+import { SearchPage } from '../page-object-model/search-page'
 
 test.describe('homepage', () => {
   const mock = new WireMock(process.env.WIREMOCK_BASEURL ?? 'http://localhost:8080')
   let homePage: HomePage
-  let searchResultsPage: SearchResultsPage
+  let searchPage: SearchPage
 
   test.beforeAll(async () => {
     const request: IWireMockRequest = {
@@ -30,17 +30,17 @@ test.describe('homepage', () => {
 
   test.beforeEach(async ({ page }) => {
     homePage = new HomePage(page)
-    searchResultsPage = new SearchResultsPage(page)
+    searchPage = new SearchPage(page)
     await homePage.goTo()
   })
 
   const searchTerms = ['1', 'trust']
 
   for (const searchTerm of searchTerms) {
-    test(`Searching for a trust with "${searchTerm}" navigates to search results page`, async () => {
+    test(`Searching for a trust with "${searchTerm}" navigates to search page with results for`, async () => {
       await homePage.searchFor(searchTerm)
 
-      await searchResultsPage.expect.toBeOnPageWithResultsFor(searchTerm)
+      await searchPage.expect.toBeOnPageWithResultsFor(searchTerm)
     })
   }
 })

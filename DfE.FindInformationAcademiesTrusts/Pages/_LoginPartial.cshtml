@@ -1,0 +1,8 @@
+<ul class="dfe-header__action-links">
+  @if (User.Identity?.IsAuthenticated == true)
+  {
+    <li>
+      <span class="">Hello @User.Identity?.Name!</span>
+    </li>
+  }
+</ul>

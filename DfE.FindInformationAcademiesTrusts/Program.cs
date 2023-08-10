@@ -1,7 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Options;
+using Microsoft.Identity.Web;
 using Serilog;
 
 namespace DfE.FindInformationAcademiesTrusts;
@@ -19,70 +24,25 @@ internal static class Program
         try
         {
             var builder = WebApplication.CreateBuilder(args);
-            if (builder.Environment.IsLocalDevelopment())
-                builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly());
 
             //Reconfigure logging before proceeding so any bootstrap exceptions can be written to App Insights 
-            if (builder.Environment.IsLocalDevelopment() || builder.Environment.IsContinuousIntegration())
-            {
-                builder.Host.UseSerilog((_, loggerConfiguration) => loggerConfiguration
-                    .ReadFrom.Configuration(builder.Configuration)
-                    .WriteTo.Console());
-            }
-            else
-            {
-                builder.Services.AddApplicationInsightsTelemetry();
-                builder.Host.UseSerilog((_, services, loggerConfiguration) => loggerConfiguration
-                    .ReadFrom.Configuration(builder.Configuration)
-                    .WriteTo.ApplicationInsights(services.GetRequiredService<TelemetryConfiguration>(),
-                        TelemetryConverter.Traces));
-            }
+            ReconfigureLogging(builder);
 
-            // Add services to the container.
+            AddEnvironmentVariablesTo(builder);
+
             builder.Services.AddRazorPages();
+            AddAuthenticationServices(builder);
+
             builder.Services.Configure<RouteOptions>(options =>
             {
                 options.LowercaseUrls = true;
                 options.LowercaseQueryStrings = true;
             });
-            builder.Services.AddHttpClient();
-            builder.Services.AddScoped<ITrustSearch, TrustSearch>();
-            builder.Services.AddScoped<ITrustProvider, TrustProvider>();
-            builder.Services.AddOptions<AcademiesApiOptions>()
-                .Bind(builder.Configuration.GetSection(AcademiesApiOptions.ConfigurationSection))
-                .ValidateDataAnnotations()
-                .ValidateOnStart();
 
-            builder.Services.AddHttpClient("AcademiesApi", (provider, httpClient) =>
-            {
-                var academiesApiOptions = provider.GetRequiredService<IOptions<AcademiesApiOptions>>();
-                httpClient.BaseAddress = new Uri(academiesApiOptions.Value.Endpoint!);
-                httpClient.DefaultRequestHeaders.Add("ApiKey", academiesApiOptions.Value.Key);
-            });
+            AddDependenciesTo(builder);
 
-            //Build and configure app
             var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment() && !app.Environment.IsLocalDevelopment())
-            {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseSerilogRequestLogging();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.MapRazorPages();
-            app.UseMiddleware<ResponseHeadersMiddleware>();
-
+            ConfigureHttpRequestPipeline(app);
             app.Run();
         }
         catch (Exception ex)
@@ -92,6 +52,123 @@ internal static class Program
         finally
         {
             Log.CloseAndFlush();
+        }
+    }
+
+    private static void ConfigureHttpRequestPipeline(WebApplication app)
+    {
+        if (!app.Environment.IsDevelopment() && !app.Environment.IsLocalDevelopment())
+        {
+            app.UseExceptionHandler("/Error");
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+        }
+
+        app.UseCookiePolicy(new CookiePolicyOptions
+        {
+            Secure = CookieSecurePolicy.Always, HttpOnly = HttpOnlyPolicy.Always,
+            MinimumSameSitePolicy = SameSiteMode.None
+        });
+
+
+        app.UseHttpsRedirection();
+
+        //For Azure AD redirect uri to remain https
+        var forwardOptions = new ForwardedHeadersOptions
+            { ForwardedHeaders = ForwardedHeaders.All, RequireHeaderSymmetry = false };
+        forwardOptions.KnownNetworks.Clear();
+        forwardOptions.KnownProxies.Clear();
+        app.UseForwardedHeaders(forwardOptions);
+
+        app.UseStaticFiles();
+
+        app.UseSerilogRequestLogging();
+
+        app.UseRouting();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.MapRazorPages();
+        app.UseMiddleware<ResponseHeadersMiddleware>();
+    }
+
+    private static void AddDependenciesTo(WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<ITrustSearch, TrustSearch>();
+        builder.Services.AddScoped<ITrustProvider, TrustProvider>();
+
+        builder.Services.AddHttpClient("AcademiesApi", (provider, httpClient) =>
+        {
+            var academiesApiOptions = provider.GetRequiredService<IOptions<AcademiesApiOptions>>();
+            httpClient.BaseAddress = new Uri(academiesApiOptions.Value.Endpoint!);
+            httpClient.DefaultRequestHeaders.Add("ApiKey", academiesApiOptions.Value.Key);
+        });
+    }
+
+    private static void AddEnvironmentVariablesTo(WebApplicationBuilder builder)
+    {
+        if (builder.Environment.IsLocalDevelopment())
+            builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly());
+
+        builder.Services.AddOptions<AcademiesApiOptions>()
+            .Bind(builder.Configuration.GetSection(AcademiesApiOptions.ConfigurationSection))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+    }
+
+    private static void AddAuthenticationServices(WebApplicationBuilder builder)
+    {
+        if (ShouldSkipAuthentication(builder))
+            return;
+
+        builder.Services.AddAuthorization(options =>
+        {
+            var policyBuilder = new AuthorizationPolicyBuilder();
+            policyBuilder.RequireAuthenticatedUser();
+            options.DefaultPolicy = policyBuilder.Build();
+            options.FallbackPolicy = options.DefaultPolicy;
+        });
+        builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration);
+        builder.Services.Configure<CookieAuthenticationOptions>(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            options =>
+            {
+                options.Cookie.Name = ".FindInformationAcademiesTrusts.Login";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            });
+    }
+
+    private static bool ShouldSkipAuthentication(WebApplicationBuilder builder)
+    {
+        if (!builder.Environment.IsLocalDevelopment() && !builder.Environment.IsContinuousIntegration())
+            return false;
+
+        //We need to be sure that this is actually an isolated environment with no access to production data
+        var academiesApiUrl = builder.Configuration.GetSection("AcademiesApi").GetValue<string>("Endpoint")?.ToLower();
+        return string.IsNullOrWhiteSpace(academiesApiUrl)
+               || academiesApiUrl.Contains("localhost")
+               || academiesApiUrl.Contains("wiremock");
+    }
+
+    private static void ReconfigureLogging(WebApplicationBuilder builder)
+    {
+        if (builder.Environment.IsLocalDevelopment() || builder.Environment.IsContinuousIntegration())
+        {
+            builder.Host.UseSerilog((_, loggerConfiguration) => loggerConfiguration
+                .ReadFrom.Configuration(builder.Configuration)
+                .WriteTo.Console());
+        }
+        else
+        {
+            builder.Services.AddApplicationInsightsTelemetry();
+            builder.Host.UseSerilog((_, services, loggerConfiguration) => loggerConfiguration
+                .ReadFrom.Configuration(builder.Configuration)
+                .WriteTo.ApplicationInsights(services.GetRequiredService<TelemetryConfiguration>(),
+                    TelemetryConverter.Traces));
         }
     }
 }

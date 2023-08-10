@@ -114,21 +114,22 @@ jobs:
               --image ${{ secrets.AZURE_ACR_URL }}/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.sha }} \
               --output none
 
-  run-deployment-tests:
-    name: Run deployment tests
-    uses: ./.github/workflows/test-deployment.yml
-    needs: [ deploy-image, set-env ]
-    with:
-      environment: ${{ needs.set-env.outputs.environment }}
-      branch-name: ${{ needs.set-env.outputs.branch }}
-    secrets: inherit
+  ###### DISABLED UNTIL TEST USER CAN BE USED IN GITHUB WORKFLOWS ###### 
+  # run-deployment-tests:
+  #   name: Run deployment tests
+  #   uses: ./.github/workflows/test-deployment.yml
+  #   needs: [ deploy-image, set-env ]
+  #   with:
+  #     environment: ${{ needs.set-env.outputs.environment }}
+  #     branch-name: ${{ needs.set-env.outputs.branch }}
+  #   secrets: inherit
 
-  run-integration-tests:
-    name: Run integration tests
-    uses: ./.github/workflows/test-integration.yml
-    needs: [ deploy-image, set-env ]
-    if: ${{ needs.set-env.outputs.environment != 'test'}}
-    with:
-      environment: ${{ needs.set-env.outputs.environment }}
-      branch-name: ${{ needs.set-env.outputs.branch }}
-    secrets: inherit
+  # run-integration-tests:
+  #   name: Run integration tests
+  #   uses: ./.github/workflows/test-integration.yml
+  #   needs: [ deploy-image, set-env ]
+  #   if: ${{ needs.set-env.outputs.environment == 'development' || needs.set-env.outputs.environment == 'test' }}
+  #   with:
+  #     environment: ${{ needs.set-env.outputs.environment }}
+  #     branch-name: ${{ needs.set-env.outputs.branch }}
+  #   secrets: inherit
