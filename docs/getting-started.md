@@ -2,43 +2,39 @@
 
 Use this documentation to configure your local development environment.
 
-- [Get it working](#get-it-working)
+- [Get it working (without Docker)](#get-it-working-without-docker)
   - [Prerequisites](#prerequisites)
   - [Configure local user secrets](#configure-local-user-secrets)
   - [Build and watch frontend assets](#build-and-watch-frontend-assets)
   - [Build and run dotnet project](#build-and-run-dotnet-project)
-  - [Run in Docker (optional)](#run-in-docker-optional)
-- [Run tests](#run-tests)
+- [Get it working (with Docker)](#get-it-working-with-docker)
+- [Run tests locally](#run-tests-locally)
   - [Unit tests](#unit-tests)
   - [Accessibility and UI tests](#accessibility-and-ui-tests)
-  - [Accessing tests reports in the pipeline](#accessing-test-reports-in-the-pipeline)
-    - [Viewing Playwright traces](#viewing-playwright-traces)
+  - [Integration and Deployment tests](#integration-and-deployment-tests)
 - [Supercharge your dev environment](#supercharge-your-dev-environment)
   - [Set up continuous testing](#set-up-continuous-testing)
   - [Analyse test coverage](#analyse-test-coverage)
   - [Configure linting and code cleanup](#configure-linting-and-code-cleanup)
 
-## Get it working
+## Get it working (without Docker)
 
 ### Prerequisites
 
-You will need:
-
 - .NET 7 SDK
+- node
 - npm
-
-Recommended:
-
-- Rider or Visual Studio with ReSharper
-- Docker
 
 ### Configure local user secrets
 
 Use the dotnet user secrets tool to set local secrets, any missing required secrets will cause the application to fail at startup with an exception detailing which secrets are missing.
 
 ```bash
-dotnet user-secrets set "AcademiesApi:Endpoint" "[endpoint goes here]"
-dotnet user-secrets set "AcademiesApi:Key" "[key goes here]"
+dotnet user-secrets set "AcademiesApi:Endpoint" "[secret goes here]"
+dotnet user-secrets set "AcademiesApi:Key" "[secret goes here]"
+dotnet user-secrets set "AzureAd:ClientID" "[secret goes here]"
+dotnet user-secrets set "AzureAd:ClientSecret" "[secret goes here]"
+dotnet user-secrets set "AzureAd:TenantID" "[secret goes here]"
 ```
 
 ### Build and watch frontend assets
@@ -50,6 +46,7 @@ cd DfE.FindInformationAcademiesTrusts
 npm install
 npm run dev
 ```
+
 The `npm run dev` script will watch for any changes to your sass and JavaScript entry files. Simply refresh the browser window to reflect changes whilst your dotnet project is running.
 
 You will need to stop (`ctrl-c`) and rerun the script if you change any saved images.
@@ -61,19 +58,33 @@ You will need to stop (`ctrl-c`) and rerun the script if you change any saved im
 
 Note that the default `ASPNETCORE_ENVIRONMENT` for local development is `"LocalDevelopment"` (configured in `launchsettings.json`)
 
-### Run in Docker (optional)
+## Get it working (with Docker)
 
-Under most circumstances you won't need to run the application in Docker locally. If you do need to then:
+Before running the application in Docker:
 
+- ensure the Docker engine is running.
 - navigate to the `docker` directory
-- copy the `.env.example` file, save as `.env` and populate the secrets within
-- run `docker-compose up`
+- copy the `.env.example` file, save as `.env` and populate the application secrets within
 
-## Run tests
+There are two Docker compose files in the `docker` directory:
+
+```bash
+docker compose -f docker-compose.yml up -d --build     # build and run the application alone
+docker compose -f docker-compose.ci.yml up -d --build  # build and run the application and the mock api together -> most useful for tests
+```
+
+Once you are done, ensure that you stop the container(s)!
+
+```bash
+docker compose -f docker-compose.yml down
+docker compose -f docker-compose.ci.yml down
+```
+
+## Run tests locally
 
 ### Unit tests
 
-All .NET code is [unit tested](./test-approach.md) where possible. 
+All .NET code is [unit tested](./test-approach.md) where possible.
 
 You can run unit tests using your preferred IDE, or open a terminal in the project directory and run:
 
@@ -83,14 +94,18 @@ dotnet test
 
 ### Accessibility and UI tests
 
-Accessibility and UI tests are written using [Playwright](https://playwright.dev/), with external dependencies (e.g. APIs) mocked using [WireMock](https://github.com/HBOCodeLabs/wiremock-captain). 
+Accessibility and UI tests are written using [Playwright](https://playwright.dev/), with external dependencies (e.g. APIs) mocked using [WireMock](https://github.com/HBOCodeLabs/wiremock-captain).
 To run these tests locally it is easiest to run your app and the mock API using Docker:
 
 1. Create or update the file `tests/playwright/.env` with
+
 ```dotenv
 PLAYWRIGHT_BASEURL="http://localhost/"
+WIREMOCK_BASEURL="http://localhost:8080"
 ```
+
 2. Open a terminal in your repository and run:
+
 ```bash
 cd DfE.FindInformationAcademiesTrusts.UnitTests/playwright
 
@@ -101,28 +116,30 @@ docker compose -f ../../docker/docker-compose.ci.yml up -d --build
 npm install
 
 # run tests 
-npx playwright test 
+npm run test:ci
 
 # OR
 npx playwright test {folder-name}/* # run a particular set of tests
 npx playright test --headed # run in headed mode
-npx playwright test --trace <mode> # overwrite tracing mode set in config 
+npx playwright test --trace=on # get a time machine attached to each test result in the report
 
 # remove docker image when done
 docker compose -f ../../docker/docker-compose.ci.yml down
-
 ```
+
 For more information on running and debugging Playwright tests it is worth familiarising yourself with the Playwright docs on [debugging](https://playwright.dev/docs/debug) and [command line flags](https://playwright.dev/docs/test-cli).
 
-### Integration tests
+### Integration and Deployment tests
 
-[Integration tests](./test-approach.md) are also run in [Playwright](https://playwright.dev/), but do not have dependencies mocked. If you wish to run these locally you will need to run the app locally before running your tests.
+[Integration and Deployment tests](./test-approach.md) are also run in [Playwright](https://playwright.dev/), but do not have dependencies mocked. If you wish to run these locally you will need to run the app locally before running your tests. Alternatively you can run them against deployed dev or test environments.
 
 1. Run the .NET application using your preferred IDE or by running `dotnet run`
-2. Check the localhost port the application is running on and add it `tests/playwright/.env` as `PLAYWRIGHT_BASEURL`
+2. Configure/create `tests/playwright/.env` and add the following:
 
 ```dotenv
- PLAYWRIGHT_BASEURL="http://localhost:5163"
+PLAYWRIGHT_BASEURL="http://localhost:5163" # This should be the localhost port the application is running on, or the deployed application url you wish to test against
+TEST_USER_ACCOUNT_NAME="<insert here>" # Include the domain name
+TEST_USER_ACCOUNT_PASSWORD="<insert here>" # 
 ```
 
 3. Open a terminal to run your tests
@@ -133,23 +150,9 @@ For more information on running and debugging Playwright tests it is worth famil
  npm run test:integration
 ```
 
-### Accessing test reports in the pipeline
-
-Automated tests are run in the pipeline as a GitHub workflow on opening a pull request to main—as per our [test approach](./test-approach.md). To access reports and traces for tests run in the pipeline:
-
-1. Click on 'details' on the relevant check in the pull request
-2. Click on Summary in the left-hand menu
-3. Under 'Artifacts' you will find downloadable reports
-
-You can also click on the job to see details of any error messages for failed test runs.
-
-#### **Viewing Playwright traces**
-
-If a Playwright test fails, the test is rerun and a [trace](https://playwright.dev/docs/trace-viewer-intro) (recorded test run) is captured. You will need to use a [trace viewer](https://playwright.dev/docs/trace-viewer) to view traces captured during CI.
-
-To access the trace, download the Playwright Report using the step above, and download the zip file of the trace under 'Retry#1'. We suggest dragging and dropping the downloaded zip file into Playwright's [online trace viewer](https://trace.playwright.dev/), or you can also view it [using the command line](https://trace.playwright.dev/). 
-
 ## Supercharge your dev environment
+
+We recommend using Rider or Visual Studio with ReSharper.
 
 ### Set up continuous testing
 
