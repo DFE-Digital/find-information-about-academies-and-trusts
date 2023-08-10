@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
-public class Details : LayoutModel
+public class DetailsModel : LayoutModel
 {
     private readonly ITrustProvider _trustProvider;
 
-    public Details(ITrustProvider trustProvider)
+    public DetailsModel(ITrustProvider trustProvider)
     {
         _trustProvider = trustProvider;
     }
