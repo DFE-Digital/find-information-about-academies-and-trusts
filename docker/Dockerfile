@@ -19,7 +19,7 @@ RUN dotnet publish DfE.FindInformationAcademiesTrusts -c Release -o /app --no-bu
 COPY ./docker/web-docker-entrypoint.sh /app/docker-entrypoint.sh
 
 # Stage 3 - Put into Docker container that will actually be run
-FROM "mcr.microsoft.com/dotnet/aspnet:${ASPNET_IMAGE_TAG}" AS final
+FROM mcr.microsoft.com/dotnet/aspnet:${ASPNET_IMAGE_TAG} AS final
 COPY --from=publish /app /app
 WORKDIR /app
 RUN chmod +x ./docker-entrypoint.sh
