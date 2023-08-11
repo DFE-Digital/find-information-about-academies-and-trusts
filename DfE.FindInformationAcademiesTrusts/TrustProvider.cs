@@ -103,22 +103,16 @@ public class TrustProvider : ITrustProvider
         );
     }
 
-
-    private string TrustAddressAsString(AddressResponse? addressResponse)
+    private static string TrustAddressAsString(AddressResponse? addressResponse)
     {
-        var address = "";
-
-        if (addressResponse != null)
+        if (addressResponse == null) return string.Empty;
+        return string.Join(", ", new[]
         {
-            address += !string.IsNullOrEmpty(addressResponse.Street) ? $"{addressResponse.Street}, " : "";
-            address += !string.IsNullOrEmpty(addressResponse.Locality) ? $"{addressResponse.Locality}, " : "";
-            address += !string.IsNullOrEmpty(addressResponse.AdditionalLine)
-                ? $"{addressResponse.AdditionalLine}, "
-                : "";
-            address += !string.IsNullOrEmpty(addressResponse.Town) ? $"{addressResponse.Town}, " : "";
-            address += !string.IsNullOrEmpty(addressResponse.Postcode) ? $"{addressResponse.Postcode}" : "";
-        }
-
-        return address.TrimEnd().TrimEnd(',');
+            addressResponse.Street,
+            addressResponse.Locality,
+            addressResponse.AdditionalLine,
+            addressResponse.Town,
+            addressResponse.Postcode
+        }.Where(s => !string.IsNullOrWhiteSpace(s)));
     }
 }
