@@ -18,11 +18,6 @@ public class DetailsModel : LayoutModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        if (string.IsNullOrWhiteSpace(Ukprn))
-        {
-            return NotFound();
-        }
-
         var trust = await _trustProvider.GetTrustByUkprnAsync(Ukprn);
         Trust = trust;
         return Page();
