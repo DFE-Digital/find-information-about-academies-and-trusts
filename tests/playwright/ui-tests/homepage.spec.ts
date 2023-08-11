@@ -1,5 +1,5 @@
 import { test } from '@playwright/test'
-import { IWireMockRequest, IWireMockResponse, WireMock } from 'wiremock-captain'
+import { EndpointFeature, IWireMockFeatures, IWireMockRequest, IWireMockResponse, WireMock } from 'wiremock-captain'
 import { HomePage } from '../page-object-model/home-page'
 import { SearchPage } from '../page-object-model/search-page'
 
@@ -18,14 +18,16 @@ test.describe('homepage', () => {
       status: 200,
       body: {
         Data: [
-          { GroupName: 'trust 1' },
-          { GroupName: 'trust 2' },
-          { GroupName: 'trust 3' }
+          { GroupName: 'trust 1', TrustAddress: { Street: null, Locality: null, AdditionalLine: null, Town: null, County: null, Postcode: null }, Ukprn: '123', Establishments: [] },
+          { GroupName: 'trust 2', TrustAddress: { Street: null, Locality: null, AdditionalLine: null, Town: null, County: null, Postcode: null }, Ukprn: '124', Establishments: [] },
+          { GroupName: 'trust 3', TrustAddress: { Street: null, Locality: null, AdditionalLine: null, Town: null, County: null, Postcode: null }, Ukprn: '125', Establishments: [] }
         ]
       }
     }
 
-    await mock.register(request, mockedResponse)
+    const features: IWireMockFeatures = { requestEndpointFeature: EndpointFeature.UrlPath }
+
+    await mock.register(request, mockedResponse, features)
   })
 
   test.beforeEach(async ({ page }) => {
