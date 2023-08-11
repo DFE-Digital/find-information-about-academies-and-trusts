@@ -6,7 +6,6 @@ namespace DfE.FindInformationAcademiesTrusts;
 public interface ITrustProvider
 {
     public Task<IEnumerable<Trust>> GetTrustsAsync();
-
     public Task<IEnumerable<Trust>> GetTrustsByNameAsync(string name);
     public Task<Trust> GetTrustByUkprnAsync(string ukprn);
 }
@@ -53,8 +52,8 @@ public class TrustProvider : ITrustProvider
                 .Select(t => new Trust(
                     t.GroupName!,
                     TrustAddressAsString(t.TrustAddress),
-                    t.Ukprn!,
-                    t.Establishments != null ? t.Establishments!.Count() : 0
+                    t.Ukprn,
+                    t.Establishments?.Count ?? 0
                 ));
             return transformedData;
         }
@@ -73,18 +72,15 @@ public class TrustProvider : ITrustProvider
             var json = await JsonSerializer.DeserializeAsync<ApiSingleResponseV3<TrustResponse>>(contentStream,
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-            if (json?.Data == null || json.Data?.GiasData?.GroupName == null) throw new JsonException();
+            if (json?.Data?.GiasData?.GroupName == null) throw new JsonException();
 
-            if (json.Data?.GiasData?.GroupName != null)
-            {
-                var trust = new Trust(
-                    json.Data.GiasData.GroupName,
-                    TrustAddressAsString(json.Data.GiasData.GroupContactAddress),
-                    ukprn,
-                    json.Data.Establishments != null ? json.Data.Establishments!.Count() : 0);
+            var trust = new Trust(
+                json.Data.GiasData.GroupName,
+                TrustAddressAsString(json.Data.GiasData.GroupContactAddress),
+                json.Data.GiasData.Ukprn,
+                json.Data.Establishments?.Count ?? 0);
 
-                return trust;
-            }
+            return trust;
         }
 
         var errorMessage = await httpResponseMessage.Content.ReadAsStringAsync();

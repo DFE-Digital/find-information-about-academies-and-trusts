@@ -178,7 +178,7 @@ public class TrustProviderTests
         var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
         {
             Content = new StringContent(
-                "{\"Data\": {\"GiasData\": {\"GroupName\": \"trust 1\", \"GroupContactAddress\": {\"Street\":\"12 Abbey Road\", \"Locality\": \"Dorthy Inlet\", \"AdditionalLine\": \"East Park\", \"Town\": \"Kingston upon Hull\", \"County\": \"East Riding of Yorkshire\", \"Postcode\": \"JY36 9VC\"}}, \"ukprn\": \"12347\", \"Establishments\": []}}"
+                "{\"Data\": {\"GiasData\": {\"GroupName\": \"trust 1\", \"GroupContactAddress\": {\"Street\":\"12 Abbey Road\", \"Locality\": \"Dorthy Inlet\", \"AdditionalLine\": \"East Park\", \"Town\": \"Kingston upon Hull\", \"County\": \"East Riding of Yorkshire\", \"Postcode\": \"JY36 9VC\"}, \"ukprn\": \"1234\"}, \"Establishments\": []}}"
             )
         };
 
