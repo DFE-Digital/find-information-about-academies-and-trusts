@@ -6,10 +6,17 @@ public class TrustSearchTests
 {
     private readonly ITrustSearch _sut;
 
+    private readonly Trust[] _fakeTrusts =
+    {
+        new("trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC", "2044", 0),
+        new("trust 2", "Grant Course, North East Lincolnshire, QH96 9WV", "2044", 3),
+        new("trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ", "2044", 24)
+    };
+
     public TrustSearchTests()
     {
         var mockTrustsProvider = new Mock<ITrustProvider>();
-        mockTrustsProvider.Setup(t => t.GetTrustsAsync().Result).Returns(FakeTrusts());
+        mockTrustsProvider.Setup(t => t.GetTrustsAsync().Result).Returns(_fakeTrusts);
         _sut = new TrustSearch(mockTrustsProvider.Object);
     }
 
@@ -52,15 +59,5 @@ public class TrustSearchTests
     {
         await Invoking(() => _sut.SearchAsync(term)).Should().ThrowAsync<ArgumentException>()
             .WithMessage("No search term provided");
-    }
-
-    private static Trust[] FakeTrusts()
-    {
-        return new[]
-        {
-            new Trust("trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC", "2044", 0),
-            new Trust("trust 2", "Grant Course, North East Lincolnshire, QH96 9WV", "2044", 3),
-            new Trust("trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ", "2044", 24)
-        };
     }
 }
