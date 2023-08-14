@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "standard && stylelint \"assets/**/*.(s)?css\"",
-    "lint:fix": "standard --fix && stylelint \"assets/**/*.(s)?css\" --fix",
+    "lint": "standard && stylelint \"assets/**/*.(s)?css\" && prettier . --check",
+    "lint:fix": "standard --fix && stylelint \"assets/**/*.(s)?css\" --fix && prettier . --write",
     "build": "webpack",
     "dev": "webpack --mode=development --watch"
   },
