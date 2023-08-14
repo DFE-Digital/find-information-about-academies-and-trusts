@@ -15,14 +15,6 @@ resource "azurerm_storage_account" "ci-test-reports" {
   tags = local.tags
 }
 
-resource "azurerm_storage_account_network_rules" "ci-test-reports" {
-  storage_account_id         = azurerm_storage_account.ci-test-reports.id
-  default_action             = "Deny"
-  bypass                     = []
-  virtual_network_subnet_ids = []
-  ip_rules                   = local.test_reports_storage_ipv4_allow_list
-}
-
 resource "azurerm_storage_container" "ci-test-reports" {
   name                  = "${local.resource_prefix}-reports"
   storage_account_name  = azurerm_storage_account.ci-test-reports.name

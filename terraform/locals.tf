@@ -50,5 +50,4 @@ locals {
   key_vault_access_users                        = var.key_vault_access_users
   key_vault_access_ipv4                         = var.key_vault_access_ipv4
   tfvars_filename                               = var.tfvars_filename
-  test_reports_storage_ipv4_allow_list          = var.test_reports_storage_ipv4_allow_list
 }
