@@ -1,5 +1,4 @@
 import { test } from '@playwright/test'
-import { IWireMockRequest, WireMock } from 'wiremock-captain'
 import { HomePage } from '../page-object-model/home-page'
 import { SearchPage } from '../page-object-model/search-page'
 import { DetailsPage } from '../page-object-model/trust/details-page'
@@ -9,8 +8,6 @@ test.describe('homepage', () => {
   let homePage: HomePage
   let searchPage: SearchPage
   let mockTrustsProvider: MockTrustsProvider
-
-  const mock = new WireMock(process.env.WIREMOCK_BASEURL ?? 'http://localhost:8080')
 
   test.beforeAll(async () => {
     mockTrustsProvider = new MockTrustsProvider()
@@ -42,34 +39,8 @@ test.describe('homepage', () => {
     const trustName = trustResponse.GroupName
 
     test(`Clicking on a result navigates to the details page for ${trustName}`, async ({ page }) => {
+      await mockTrustsProvider.registerGetTrustByUkprn(trustName, trustResponse.Ukprn)
       const detailsPage = new DetailsPage(page)
-      const trustRequest: IWireMockRequest = {
-        method: 'GET',
-        endpoint: `/v3/trust/${trustResponse.Ukprn}`
-      }
-
-      const mockedTrustResponse = {
-        status: 200,
-        body: {
-          Data: {
-            GiasData: {
-              GroupName: trustName,
-              GroupContactAddress: {
-                Street: '12 Abbey Road',
-                Locality: 'Dorthy Inlet',
-                AdditionalLine: 'East Park',
-                Town: 'Kingston upon Hull',
-                County: 'East Riding of Yorkshire',
-                Postcode: 'JY36 9VC'
-              }
-            },
-            ukprn: trustResponse.Ukprn,
-            Establishments: []
-          }
-        }
-      }
-
-      await mock.register(trustRequest, mockedTrustResponse)
 
       await searchPage.goToSearchFor('trust')
       await searchPage.expect.toBeOnPageWithResultsFor('trust')
