@@ -7,12 +7,6 @@ import { MockTrustsProvider } from '../mocks/mock-trusts-provider'
 test.describe('homepage', () => {
   let homePage: HomePage
   let searchPage: SearchPage
-  let mockTrustsProvider: MockTrustsProvider
-
-  test.beforeAll(async () => {
-    mockTrustsProvider = new MockTrustsProvider()
-    await mockTrustsProvider.registerGetTrusts()
-  })
 
   test.beforeEach(async ({ page }) => {
     homePage = new HomePage(page)
@@ -39,7 +33,6 @@ test.describe('homepage', () => {
     const trustName = trustResponse.GroupName
 
     test(`Clicking on a result navigates to the details page for ${trustName}`, async ({ page }) => {
-      await mockTrustsProvider.registerGetTrustByUkprn(trustName, trustResponse.Ukprn)
       const detailsPage = new DetailsPage(page)
 
       await searchPage.goToSearchFor('trust')
