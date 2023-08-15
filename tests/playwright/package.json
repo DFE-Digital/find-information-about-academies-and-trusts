@@ -11,7 +11,7 @@
     "test:ci": "npx playwright test accessibility-tests/* ui-tests/* --project=chromium --project=firefox --project=webkit --project=\"Microsoft Edge\"",
     "test:deployment": "npx playwright test --project=\"deployment-tests\"",
     "test:integration": "npx playwright test --project=\"integration-tests\"",
-    "test:ui:trace": "npx playwright test ui-tests/* --project=chromium --project=firefox --project=webkit --project=\"Microsoft Edge\" --trace=on"
+    "test:ui:trace": "npx playwright test ui-tests/* --project=chromium --trace=on"
   },
   "keywords": [],
   "author": "",
