@@ -17,7 +17,7 @@ test.describe('search page should not have any automatically detectable accessib
 
   test('when going to a search page with a search term', async ({ page }) => {
     const mockTrustsProvider = new MockTrustsProvider()
-    await mockTrustsProvider.registerEndpoint()
+    await mockTrustsProvider.registerGetTrusts()
 
     const searchPage = new SearchPage(page)
     await searchPage.goToSearchFor('edu')

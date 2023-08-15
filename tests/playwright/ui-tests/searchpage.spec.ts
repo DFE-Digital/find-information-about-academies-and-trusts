@@ -1,37 +1,20 @@
 import { test } from '@playwright/test'
-import { EndpointFeature, IWireMockFeatures, IWireMockRequest, IWireMockResponse, WireMock } from 'wiremock-captain'
+import { IWireMockRequest, WireMock } from 'wiremock-captain'
 import { HomePage } from '../page-object-model/home-page'
 import { SearchPage } from '../page-object-model/search-page'
 import { DetailsPage } from '../page-object-model/trust/details-page'
+import { MockTrustsProvider } from '../mocks/mock-trusts-provider'
 
 test.describe('homepage', () => {
   let homePage: HomePage
   let searchPage: SearchPage
+  let mockTrustsProvider: MockTrustsProvider
 
   const mock = new WireMock(process.env.WIREMOCK_BASEURL ?? 'http://localhost:8080')
 
-  const trustsResponseData = [
-    { GroupName: 'trust 1', TrustAddress: { Street: '12 Paddle Road', Locality: 'Bushy Park', AdditionalLine: 'Letworth', Town: 'Manchester', Postcode: 'MX12 P34' }, Ukprn: '123', Establishments: [{ urn: '123' }] },
-    { GroupName: 'trust 2', TrustAddress: { Street: '12 Paddle Road', Locality: '', AdditionalLine: '', Town: 'Manchester', Postcode: 'MX12 P34' }, Ukprn: '124', Establishments: [{ rn: '456' }, { urn: '789' }] },
-    { GroupName: 'trust 3', TrustAddress: { Street: '', Locality: 'Bushy Park', AdditionalLine: null, Town: 'Manchester', Postcode: '' }, Ukprn: '125', Establishments: [] }
-  ]
-
   test.beforeAll(async () => {
-    const request: IWireMockRequest = {
-      method: 'GET',
-      endpoint: '/v3/trusts'
-    }
-
-    const mockedResponse: IWireMockResponse = {
-      status: 200,
-      body: {
-        Data: trustsResponseData
-      }
-    }
-
-    const features: IWireMockFeatures = { requestEndpointFeature: EndpointFeature.UrlPath }
-
-    await mock.register(request, mockedResponse, features)
+    mockTrustsProvider = new MockTrustsProvider()
+    await mockTrustsProvider.registerGetTrusts()
   })
 
   test.beforeEach(async ({ page }) => {
@@ -55,7 +38,7 @@ test.describe('homepage', () => {
     await searchPage.expect.toShowResultWithAcademiesinTrustCount('trust 1', 0)
   })
 
-  for (const trustResponse of trustsResponseData) {
+  for (const trustResponse of MockTrustsProvider.fakeTrustsResponseData) {
     const trustName = trustResponse.GroupName
 
     test(`Clicking on a result navigates to the details page for ${trustName}`, async ({ page }) => {
