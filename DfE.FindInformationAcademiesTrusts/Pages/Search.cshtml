@@ -5,13 +5,43 @@
   ViewData["Title"] = "Search";
 }
 
-<h1>Search results for "@Model.Query"</h1>
+<h1 class="govuk-heading-l">Search</h1>
 
-<ul class="govuk-list">
-  @foreach (var trust in Model.Trusts)
-  {
-    <li>
-      @Html.DisplayFor(modelItem => trust.Name)
-    </li>
-  }
-</ul>
+<section aria-labelledby="results-details">
+  <h2 id="results-details" class="govuk-heading-m">@Model.Trusts.Count() results for "@Model.KeyWords"</h2>
+  <ul class="govuk-list">
+    @foreach (var trust in Model.Trusts)
+    {
+      <li>
+        <a asp-page="./Trusts/Details" asp-route-ukprn="@trust.Ukprn" class="govuk-heading-m govuk-!-font-weight-bold govuk-!-margin-top-6 govuk-link">@Html.DisplayFor(modelItem => trust.Name)</a>
+        <dl class="govuk-summary-list govuk-summary-list--no-border app-search-results-summary-list">
+          <div class="govuk-summary-list__row govuk-body app-search-results-summary-list__row">
+            <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
+              Address:
+            </dt>
+            <dd class="govuk-summary-list__value app-search-results-summary-list__item">
+              @Html.DisplayFor(modelItem => trust.Address)
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row govuk-body app-search-results-summary-list__row">
+            <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
+              UKPRN:
+            </dt>
+            <dd class="govuk-summary-list__value app-search-results-summary-list__item">
+              @Html.DisplayFor(modelItem => trust.Ukprn)
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row app-search-results-summary-list__row">
+            <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
+              Academies in this trust:
+            </dt>
+            <dd class="govuk-summary-list__value app-search-results-summary-list__item">
+              @Html.DisplayFor(modelItem => trust.AcademyCount)
+            </dd>
+          </div>
+        </dl>
+        <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6">
+      </li>
+    }
+  </ul>
+</section>

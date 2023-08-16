@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test'
+import { PlaywrightTestConfig, defineConfig, devices } from '@playwright/test'
 import * as dotenv from 'dotenv'
 
 dotenv.config()
@@ -6,7 +6,7 @@ dotenv.config()
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+export const baseConfig: PlaywrightTestConfig<{}, {}> = {
   testDir: '.',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -25,8 +25,12 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry'
   },
+  projects: []
 
   /* Configure projects for major browsers */
+}
+export default defineConfig({
+  ...baseConfig, 
   projects: [
     {
       name: 'chromium',

@@ -6,11 +6,12 @@
   "scripts": {
     "lint": "ts-standard",
     "lint:fix": "ts-standard --fix",
-    "test:a11y": "npx playwright test accessibility-tests/* --project=chromium --project=firefox --project=webkit --project=\"Microsoft Edge\"",
-    "test:ui": "npx playwright test ui-tests/* --project=chromium --project=firefox --project=webkit --project=\"Microsoft Edge\"",
-    "test:ci": "npx playwright test accessibility-tests/* ui-tests/* --project=chromium --project=firefox --project=webkit --project=\"Microsoft Edge\"",
+    "test:a11y": "npx playwright test accessibility-tests/* --config=\"playwright.ci.config.ts\" --project=chromium --project=firefox --project=webkit --project=\"Microsoft Edge\"",
+    "test:ui": "npx playwright test ui-tests/* --config=\"playwright.ci.config.ts\" --project=chromium --project=firefox --project=webkit --project=\"Microsoft Edge\"",
+    "test:ci": "npx playwright test accessibility-tests/* ui-tests/* --config=\"playwright.ci.config.ts\" --project=chromium --project=firefox --project=webkit --project=\"Microsoft Edge\"",
     "test:deployment": "npx playwright test --project=\"deployment-tests\"",
-    "test:integration": "npx playwright test --project=\"integration-tests\""
+    "test:integration": "npx playwright test --project=\"integration-tests\"",
+    "test:ui:trace": "npx playwright test ui-tests/* --config=\"playwright.ci.config.ts\" --project=chromium --trace=on"
   },
   "keywords": [],
   "author": "",
@@ -24,7 +25,7 @@
     "zaproxy": "^2.0.0-rc.1"
   },
   "ts-standard": {
-    "ignore": [
+    "ignore": [  
       "playwright.config.ts"
     ]
   }
