@@ -1,0 +1,13 @@
+wwwroot/
+bin/
+node_modules/
+obj/
+
+# Ignoring minified assets - e.g. DfE Frontend
+*.min.css
+
+# JavaScript will be handled by JavaScript Standard
+*.js
+
+# JSON will be handled by .NET project settings
+*.json
