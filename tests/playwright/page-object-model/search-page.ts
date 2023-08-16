@@ -17,6 +17,12 @@ export class SearchPage {
     this._searchResultsListItemLocator = this.page.getByLabel(searchResultsHeadingName).getByRole('listitem')
   }
 
+  readonly expectedSearchResults = [
+    { name: 'trust 1', address: '12 Paddle Road, Bushy Park, Letworth, Manchester, MX12 P34', ukprn: '123', academiesInTrustCount: 1 },
+    { name: 'trust 2', address: '12 Paddle Road, Manchester, MX12 P34', ukprn: '124', academiesInTrustCount: 2 },
+    { name: 'trust 3', address: 'Bushy Park, Manchester', ukprn: '125', academiesInTrustCount: 0 }
+  ]
+
   async goTo (): Promise<void> {
     await this.page.goto('/search')
   }
@@ -25,12 +31,8 @@ export class SearchPage {
     await this.page.goto(`/search/?keywords=${keywords}`)
   }
 
-  getListItemByText (text: string): Locator {
+  getListItemLocatorByText (text: string): Locator {
     return this._searchResultsListItemLocator.filter({ hasText: text })
-  }
-
-  async getAcademiesInTrustsTextBy (trustName: string, count: number): Promise<Locator> {
-    return this._searchResultsListItemLocator.filter({ hasText: trustName }).getByText(`Academies in this trust: ${count}`)
   }
 
   async clickOnSearchResultLinkWithText (text: string): Promise<void> {
@@ -53,19 +55,24 @@ class SearchPageAssertions {
     await expect(this.searchPage._searchResultsListItemLocator).not.toHaveCount(0)
   }
 
-  async toShowResultsWithCount (count: number): Promise<void> {
-    await expect(this.searchPage._searchResultsListItemLocator).toHaveCount(count)
-  }
-
   async toShowEmptyResultMessage (): Promise<void> {
     await expect(this.searchPage._searchResultsListItemLocator).toHaveCount(0)
   }
 
-  async toShowResultWithText (trustName: string, text: string): Promise<void> {
-    await expect(this.searchPage.getListItemByText(trustName)).toContainText(text)
+  async toDisplayNumberOfResultsFound (): Promise<void> {
+    await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(`${this.searchPage.expectedSearchResults.length} results for`)
   }
 
-  async toShowResultWithAcademiesinTrustCount (trustName: string, count: number): Promise<void> {
-    await expect(this.searchPage.getAcademiesInTrustsTextBy(trustName, count)).toBeTruthy()
+  async toSeeInformationForEachResult (): Promise<void> {
+    await expect(this.searchPage._searchResultsListItemLocator).toHaveCount(this.searchPage.expectedSearchResults.length)
+
+    for (const searchResultItem of this.searchPage.expectedSearchResults) {
+      const searchItemLocator = this.searchPage.getListItemLocatorByText(searchResultItem.name)
+      await expect(searchItemLocator).toBeVisible()
+
+      await expect(searchItemLocator).toContainText(`Address: ${searchResultItem.address}`)
+      await expect(searchItemLocator).toContainText(`Academies in this trust: ${searchResultItem.academiesInTrustCount}`)
+      await expect(searchItemLocator).toContainText(`UKPRN: ${searchResultItem.ukprn}`)
+    }
   }
 }
