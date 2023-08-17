@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using DfE.FindInformationAcademiesTrusts.AcademiesApiResponseModels;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using static FluentAssertions.FluentActions;
 
@@ -114,6 +115,36 @@ public class TrustProviderTests
 
         var result = await sut.GetTrustsAsync();
         result.First().AcademyCount.Should().Be(expected);
+    }
+
+    [Fact]
+    public async Task GetTrustsAsync_should_order_trusts_alphabetically_by_name()
+    {
+        var fakeUnorderedTrustResponse = new TrustSummaryResponse[]
+        {
+            new() { Ukprn = "1235", GroupName = "trust 1" },
+            new() { Ukprn = "1234", GroupName = "a trust" },
+            new() { Ukprn = "1236", GroupName = "another trust" }
+        };
+
+        var expectedOrderedTrusts = new Trust[]
+        {
+            new("a trust", "", "1234", 0),
+            new("another trust", "", "1236", 0),
+            new("trust 1", "", "1235", 0)
+        };
+
+        var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
+        {
+            Content = new StringContent("{\"Data\":" + JsonSerializer.Serialize(fakeUnorderedTrustResponse) + "}")
+        };
+
+        _mockHttpClientFactory.SetUpHttpGetResponse(TrustsEndpoint, responseMessage);
+
+        var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
+
+        var result = await sut.GetTrustsAsync();
+        result.Should().BeEquivalentTo(expectedOrderedTrusts);
     }
 
     [Fact]

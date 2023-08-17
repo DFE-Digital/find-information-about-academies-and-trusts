@@ -55,7 +55,7 @@ public class TrustProvider : ITrustProvider
                     t.Ukprn,
                     t.Establishments?.Count ?? 0
                 ));
-            return transformedData;
+            return transformedData.OrderBy(t => t.Name);
         }
 
         var errorMessage = await httpResponseMessage.Content.ReadAsStringAsync();
