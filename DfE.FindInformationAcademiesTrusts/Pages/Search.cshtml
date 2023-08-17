@@ -2,7 +2,7 @@
 @model SearchModel
 
 @{
-  ViewData["Title"] = "Search";
+  ViewData["Title"] = string.IsNullOrWhiteSpace(Model.KeyWords) ? "Search" : $"{Model.KeyWords} - Search";
 }
 
 <h1 class="govuk-heading-l">Search</h1>
