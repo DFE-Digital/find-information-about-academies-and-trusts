@@ -1,13 +1,17 @@
-name: Terraform validation
+name: Terraform
 
 on:
   push:
-    branches: [main, release/**]
+    branches: main
+    paths:
+      - 'terraform/**.tf'
   pull_request:
+    paths:
+      - 'terraform/**.tf'
 
 jobs:
   terraform-validate:
-    name: Terraform Validate
+    name: Validate
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -43,17 +47,8 @@ jobs:
         with:
           entrypoint: terraform
           args: -chdir=terraform fmt -check=true -diff=true
-  terraform-docs-validation:
-    name: Terraform Docs validation
-    needs: terraform-validate
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: Generate Terraform docs
+      - name: Validate Terraform docs
         uses: terraform-docs/gh-actions@v1.0.0
         with:
           working-dir: terraform
@@ -61,3 +56,17 @@ jobs:
           output-file: README.md
           output-method: inject
           fail-on-diff: true
+
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v3
+        with:
+          tflint_version: v0.44.1
+
+      - name: Run TFLint
+        working-directory: terraform
+        run: tflint -f compact
+
+      - name: Run TFSec
+        uses: aquasecurity/tfsec-pr-commenter-action@v1.3.1
+        with:
+          github_token: ${{ github.token }}
