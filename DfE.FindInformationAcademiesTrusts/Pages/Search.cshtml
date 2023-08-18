@@ -12,8 +12,8 @@
   <ul class="govuk-list">
     @foreach (var trust in Model.Trusts)
     {
-      <li>
-        <a asp-page="./Trusts/Details" asp-route-ukprn="@trust.Ukprn" class="govuk-heading-m govuk-!-font-weight-bold govuk-!-margin-top-6 govuk-link">@Html.DisplayFor(modelItem => trust.Name)</a>
+      <li class="govuk-!-margin-bottom-6">
+        <a asp-page="./Trusts/Details" asp-route-ukprn="@trust.Ukprn" class="govuk-!-font-weight-bold govuk-link govuk-!-font-size-24">@Html.DisplayFor(modelItem => trust.Name)</a>
         <dl class="govuk-summary-list govuk-summary-list--no-border app-search-results-summary-list">
           <div class="govuk-summary-list__row govuk-body app-search-results-summary-list__row">
             <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
