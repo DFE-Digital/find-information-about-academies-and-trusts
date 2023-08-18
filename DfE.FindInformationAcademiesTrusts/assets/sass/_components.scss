@@ -54,6 +54,7 @@
 }
 
 .app-search-results-summary-list {
+  @include govuk-responsive-margin(4, "top");
   display: block;
 
   .app-search-results-summary-list__row {
