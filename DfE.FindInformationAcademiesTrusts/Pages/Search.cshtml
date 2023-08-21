@@ -5,7 +5,18 @@
   ViewData["Title"] = string.IsNullOrWhiteSpace(Model.KeyWords) ? "Search" : $"{Model.KeyWords} - Search";
 }
 
-<h1 class="govuk-heading-l">Search</h1>
+<div class="govuk-grid-row govuk-!-margin-bottom-6">
+  <div class="govuk-grid-column-one-half">
+    <form class="govuk-form-group app-search">
+      <h1 class="govuk-label-wrapper">
+        <label class="govuk-label govuk-label--l" for="@Model.InputId">
+          Search
+        </label>
+      </h1>
+      <partial name="_SearchForm" model="Model"/>
+    </form>
+  </div>
+</div>
 
 <section aria-labelledby="results-details">
   <h2 id="results-details" class="govuk-heading-m">@Model.Trusts.Count() results for "@Model.KeyWords"</h2>
