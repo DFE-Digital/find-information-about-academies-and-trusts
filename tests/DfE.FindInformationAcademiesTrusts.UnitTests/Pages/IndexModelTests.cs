@@ -18,4 +18,12 @@ public class IndexModelTests
 
         sut.UsePageWidthContainer.Should().Be(false);
     }
+
+    [Fact]
+    public void InputId_should_have_a_fixed_value()
+    {
+        var sut = new IndexModel();
+
+        sut.InputId.Should().Be("home-search");
+    }
 }

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
-public class IndexModel : LayoutModel
+public class IndexModel : LayoutModel, ISearchFormModel
 {
     public IndexModel()
     {
@@ -11,4 +11,5 @@ public class IndexModel : LayoutModel
     }
 
     [BindProperty(SupportsGet = true)] public string KeyWords { get; set; } = "";
+    public string InputId => "home-search";
 }
