@@ -5,6 +5,8 @@ export class SearchPage {
   readonly _headerLocator: Locator
   readonly _searchResultsListHeaderLocator: Locator
   readonly _searchResultsListItemLocator: Locator
+  readonly _searchInputLocator: Locator
+  readonly _searchButtonLocator: Locator
 
   constructor (readonly page: Page) {
     const searchResultsHeadingName = 'results for'
@@ -15,6 +17,8 @@ export class SearchPage {
       name: searchResultsHeadingName
     })
     this._searchResultsListItemLocator = this.page.getByLabel(searchResultsHeadingName).getByRole('listitem')
+    this._searchInputLocator = this.page.getByLabel('Search')
+    this._searchButtonLocator = this.page.getByRole('button', { name: 'Search' })
   }
 
   readonly expectedSearchResults = [
@@ -37,6 +41,11 @@ export class SearchPage {
 
   async clickOnSearchResultLinkWithText (text: string): Promise<void> {
     await this._searchResultsListItemLocator.getByRole('link', { name: text }).click()
+  }
+
+  async searchForTerm (text: string): Promise<void> {
+    await this._searchInputLocator.fill(text)
+    await this._searchButtonLocator.click()
   }
 }
 
@@ -74,5 +83,9 @@ class SearchPageAssertions {
       await expect(searchItemLocator).toContainText(`Academies in this trust: ${searchResultItem.academiesInTrustCount}`)
       await expect(searchItemLocator).toContainText(`UKPRN: ${searchResultItem.ukprn}`)
     }
+  }
+
+  async toSeeSearchInputContainingSearchTerm (text: string): Promise<void> {
+    await expect(this.searchPage._searchInputLocator).toHaveValue(text)
   }
 }

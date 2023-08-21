@@ -6,6 +6,7 @@ import { MockTrustsProvider } from '../mocks/mock-trusts-provider'
 test.describe('Search page', () => {
   let searchPage: SearchPage
   let detailsPage: DetailsPage
+  let searchTerm: string
 
   test.beforeEach(async ({ page }) => {
     searchPage = new SearchPage(page)
@@ -14,13 +15,21 @@ test.describe('Search page', () => {
 
   test.describe('Given a user searches for a term that returns results', () => {
     test.beforeEach(async () => {
-      await searchPage.goToSearchFor('trust')
-      await searchPage.expect.toBeOnPageWithResultsFor('trust')
+      searchTerm = 'trust'
+      await searchPage.goToSearchFor(searchTerm)
+      await searchPage.expect.toBeOnPageWithResultsFor(searchTerm)
     })
 
     test('then it displays a list of results with information about each trust', async () => {
       await searchPage.expect.toDisplayNumberOfResultsFound()
       await searchPage.expect.toSeeInformationForEachResult()
+    })
+
+    test('the user can edit their search and search again', async () => {
+      await searchPage.expect.toSeeSearchInputContainingSearchTerm(searchTerm)
+      await searchPage.searchForTerm('education')
+      await searchPage.expect.toBeOnPageWithResultsFor('education')
+      await searchPage.expect.toSeeSearchInputContainingSearchTerm('education')
     })
 
     for (const trustResponse of MockTrustsProvider.fakeTrustsResponseData) {
