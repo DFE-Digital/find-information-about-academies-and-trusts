@@ -37,7 +37,8 @@ export class SearchPage {
     ],
     education: [
       { name: 'Abbey Education', address: '13 Paddle Road, Bushy Park, Letworth, Liverpool, MX12 P34', ukprn: '175', academiesInTrustCount: 1 }
-    ]
+    ],
+    non: []
   }
 
   async goTo (): Promise<void> {

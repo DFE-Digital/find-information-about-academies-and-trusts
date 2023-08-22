@@ -10,7 +10,8 @@ export class MockTrustsProvider {
     ],
     education: [
       { GroupName: 'Abbey Education', TrustAddress: { Street: '13 Paddle Road', Locality: 'Bushy Park', AdditionalLine: 'Letworth', Town: 'Liverpool', Postcode: 'MX12 P34' }, Ukprn: '175', Establishments: [{ urn: '123' }] }
-    ]
+    ],
+    non: []
   }
 
   constructor () {

@@ -50,4 +50,11 @@ test.describe('Search page', () => {
       })
     }
   })
+
+  test.describe('Given a user searches for a term that returns no results', () => {
+    test('then they can see an input containing the search term so they can edit it', async () => {
+      await searchPage.goToSearchFor('non')
+      await searchPage.expect.toSeeSearchInputContainingSearchTerm()
+    })
+  })
 })
