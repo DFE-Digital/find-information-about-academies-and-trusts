@@ -1,5 +1,12 @@
 import { Locator, Page, expect } from '@playwright/test'
 
+interface expectedResult {
+  name: string
+  address: string
+  ukprn: string
+  academiesInTrustCount: number
+}
+
 export class SearchPage {
   readonly expect: SearchPageAssertions
   readonly _headerLocator: Locator
@@ -7,6 +14,7 @@ export class SearchPage {
   readonly _searchResultsListItemLocator: Locator
   readonly _searchInputLocator: Locator
   readonly _searchButtonLocator: Locator
+  _currentSearchTerm = ''
 
   constructor (readonly page: Page) {
     const searchResultsHeadingName = 'results for'
@@ -21,18 +29,24 @@ export class SearchPage {
     this._searchButtonLocator = this.page.getByRole('button', { name: 'Search' })
   }
 
-  readonly expectedSearchResults = [
-    { name: 'trust 1', address: '12 Paddle Road, Bushy Park, Letworth, Manchester, MX12 P34', ukprn: '123', academiesInTrustCount: 1 },
-    { name: 'trust 2', address: '12 Paddle Road, Manchester, MX12 P34', ukprn: '124', academiesInTrustCount: 2 },
-    { name: 'trust 3', address: 'Bushy Park, Manchester', ukprn: '125', academiesInTrustCount: 0 }
-  ]
+  readonly expectedSearchResults: { [key: string]: expectedResult[] } = {
+    trust: [
+      { name: 'trust 1', address: '12 Paddle Road, Bushy Park, Letworth, Manchester, MX12 P34', ukprn: '123', academiesInTrustCount: 1 },
+      { name: 'trust 2', address: '12 Paddle Road, Manchester, MX12 P34', ukprn: '124', academiesInTrustCount: 2 },
+      { name: 'trust 3', address: 'Bushy Park, Manchester', ukprn: '125', academiesInTrustCount: 0 }
+    ],
+    education: [
+      { name: 'Abbey Education', address: '13 Paddle Road, Bushy Park, Letworth, Liverpool, MX12 P34', ukprn: '175', academiesInTrustCount: 1 }
+    ]
+  }
 
   async goTo (): Promise<void> {
     await this.page.goto('/search')
   }
 
-  async goToSearchFor (keywords: string): Promise<void> {
-    await this.page.goto(`/search/?keywords=${keywords}`)
+  async goToSearchFor (searchTerm: string): Promise<void> {
+    this._currentSearchTerm = searchTerm
+    await this.page.goto(`/search/?keywords=${searchTerm}`)
   }
 
   getListItemLocatorByText (text: string): Locator {
@@ -43,8 +57,9 @@ export class SearchPage {
     await this._searchResultsListItemLocator.getByRole('link', { name: text }).click()
   }
 
-  async searchForTerm (text: string): Promise<void> {
-    await this._searchInputLocator.fill(text)
+  async searchFor (searchTerm: string): Promise<void> {
+    this._currentSearchTerm = searchTerm
+    await this._searchInputLocator.fill(searchTerm)
     await this._searchButtonLocator.click()
   }
 }
@@ -69,13 +84,14 @@ class SearchPageAssertions {
   }
 
   async toDisplayNumberOfResultsFound (): Promise<void> {
-    await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(`${this.searchPage.expectedSearchResults.length} results for`)
+    await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(`${this.searchPage.expectedSearchResults[this.searchPage._currentSearchTerm].length} results for`)
   }
 
   async toSeeInformationForEachResult (): Promise<void> {
-    await expect(this.searchPage._searchResultsListItemLocator).toHaveCount(this.searchPage.expectedSearchResults.length)
+    const searchTerm = this.searchPage._currentSearchTerm
+    await expect(this.searchPage._searchResultsListItemLocator).toHaveCount(this.searchPage.expectedSearchResults[searchTerm].length)
 
-    for (const searchResultItem of this.searchPage.expectedSearchResults) {
+    for (const searchResultItem of this.searchPage.expectedSearchResults[searchTerm]) {
       const searchItemLocator = this.searchPage.getListItemLocatorByText(searchResultItem.name)
       await expect(searchItemLocator).toBeVisible()
 
@@ -85,7 +101,11 @@ class SearchPageAssertions {
     }
   }
 
-  async toSeeSearchInputContainingSearchTerm (text: string): Promise<void> {
-    await expect(this.searchPage._searchInputLocator).toHaveValue(text)
+  async toSeeSearchInputContainingSearchTerm (): Promise<void> {
+    await expect(this.searchPage._searchInputLocator).toHaveValue(this.searchPage._currentSearchTerm)
+  }
+
+  async toSeeSearchInputContainingNoSearchTerm (): Promise<void> {
+    await expect(this.searchPage._searchInputLocator).toHaveValue('')
   }
 }

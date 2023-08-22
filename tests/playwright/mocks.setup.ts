@@ -3,9 +3,13 @@ import { MockTrustsProvider } from './mocks/mock-trusts-provider'
 
 setup('mock trust provider', async () => {
   const mockTrustProvider = new MockTrustsProvider()
-  await mockTrustProvider.registerGetTrusts()
+  const searchTerm = 'trust'
 
-  for (const trust of MockTrustsProvider.fakeTrustsResponseData) {
+  for (const keyword in MockTrustsProvider.fakeTrustsResponseData) {
+    await mockTrustProvider.registerGetTrustsBy(keyword)
+  }
+
+  for (const trust of MockTrustsProvider.fakeTrustsResponseData[searchTerm]) {
     await mockTrustProvider.registerGetTrustByUkprn(trust.GroupName, trust.Ukprn)
   }
 })

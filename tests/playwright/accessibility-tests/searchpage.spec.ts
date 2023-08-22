@@ -16,8 +16,8 @@ test.describe('search page should not have any automatically detectable accessib
 
   test('when going to a search page with a search term', async ({ page }) => {
     const searchPage = new SearchPage(page)
-    await searchPage.goToSearchFor('edu')
-    await searchPage.expect.toBeOnPageWithResultsFor('edu')
+    await searchPage.goToSearchFor('trust')
+    await searchPage.expect.toBeOnPageWithResultsFor('trust')
 
     const accessibilityScanResults = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
