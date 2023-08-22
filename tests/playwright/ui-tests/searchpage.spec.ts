@@ -13,6 +13,15 @@ test.describe('Search page', () => {
     detailsPage = new DetailsPage(page)
   })
 
+  test.describe('Given a user goes to straight to the search page', () => {
+    test('then they see an empty search input and can search by a new term', async () => {
+      await searchPage.goTo()
+      await searchPage.expect.toSeeSearchInputContainingNoSearchTerm()
+      await searchPage.searchFor(searchTerm)
+      await searchPage.expect.toSeeInformationForEachResult()
+    })
+  })
+
   test.describe('Given a user searches for a term that returns results', () => {
     test.beforeEach(async () => {
       await searchPage.goToSearchFor(searchTerm)
