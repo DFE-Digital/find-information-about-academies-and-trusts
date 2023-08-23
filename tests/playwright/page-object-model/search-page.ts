@@ -11,23 +11,25 @@ export class SearchPage {
   readonly expect: SearchPageAssertions
   readonly _headerLocator: Locator
   readonly _searchResultsListHeaderLocator: Locator
+  readonly _searchResultsSectionLocator: Locator
   readonly _searchResultsListItemLocator: Locator
   readonly _searchInputLocator: Locator
   readonly _searchButtonLocator: Locator
   _currentSearchTerm = ''
 
   constructor (readonly page: Page) {
-    const searchResultsHeadingName = 'results for'
-
     this.expect = new SearchPageAssertions(this)
     this._headerLocator = this.page.locator('h1')
     this._searchResultsListHeaderLocator = this.page.getByRole('heading', {
-      name: searchResultsHeadingName
+      name: this._searchResultsHeadingName
     })
-    this._searchResultsListItemLocator = this.page.getByLabel(searchResultsHeadingName).getByRole('listitem')
+    this._searchResultsSectionLocator = this.page.getByLabel(this._searchResultsHeadingName)
+    this._searchResultsListItemLocator = this._searchResultsSectionLocator.getByRole('listitem')
     this._searchInputLocator = this.page.getByLabel('Search')
     this._searchButtonLocator = this.page.getByRole('button', { name: 'Search' })
   }
+
+  readonly _searchResultsHeadingName = 'results for'
 
   readonly expectedSearchResults: { [key: string]: expectedResult[] } = {
     trust: [
@@ -69,7 +71,9 @@ class SearchPageAssertions {
   constructor (readonly searchPage: SearchPage) {}
 
   async toBeOnPageWithResultsFor (searchTerm: string): Promise<void> {
-    await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(`results for "${searchTerm}"`)
+    await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(
+      `${this.searchPage._searchResultsHeadingName} "${searchTerm}"`
+    )
   }
 
   async toBeOnTheRightPage (): Promise<void> {
@@ -108,5 +112,12 @@ class SearchPageAssertions {
 
   async toSeeSearchInputContainingNoSearchTerm (): Promise<void> {
     await expect(this.searchPage._searchInputLocator).toHaveValue('')
+  }
+
+  async toSeeNoResultsMessage (): Promise<void> {
+    await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(`0 ${this.searchPage._searchResultsHeadingName}`)
+    await expect(this.searchPage._searchResultsSectionLocator).toContainText(
+      'Check the spelling of the trust name. Enter a reference number in the right format'
+    )
   }
 }

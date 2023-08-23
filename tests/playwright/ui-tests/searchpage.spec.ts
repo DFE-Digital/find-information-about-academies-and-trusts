@@ -56,5 +56,10 @@ test.describe('Search page', () => {
       await searchPage.goToSearchFor('non')
       await searchPage.expect.toSeeSearchInputContainingSearchTerm()
     })
+
+    test('they see a helpful message to help them change their search', async () => {
+      await searchPage.goToSearchFor('non')
+      await searchPage.expect.toSeeNoResultsMessage()
+    })
   })
 })
