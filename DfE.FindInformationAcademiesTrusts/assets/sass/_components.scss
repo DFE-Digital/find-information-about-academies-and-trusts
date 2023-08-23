@@ -51,6 +51,12 @@
       border-color: #002644;
     }
   }
+
+  .app-search__button--blue:focus:hover {
+    .app-search__icon {
+      fill: govuk-colour("white");
+    }
+  }
 }
 
 .app-search-results-summary-list {
