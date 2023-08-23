@@ -10,6 +10,6 @@ public class IndexModel : LayoutModel, ISearchFormModel
         UsePageWidthContainer = false;
     }
 
-    [BindProperty(SupportsGet = true)] public string KeyWords { get; set; } = "";
+    [BindProperty(SupportsGet = true)] public string KeyWords { get; set; } = string.Empty;
     public string InputId => "home-search";
 }
