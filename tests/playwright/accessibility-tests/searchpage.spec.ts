@@ -6,6 +6,7 @@ test.describe('search page should not have any automatically detectable accessib
   test('when going to a search page with no search term', async ({ page }) => {
     const searchPage = new SearchPage(page)
     await searchPage.goTo()
+    await searchPage.expect.toSeeNoResultsMessage()
 
     const accessibilityScanResults = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
@@ -18,6 +19,7 @@ test.describe('search page should not have any automatically detectable accessib
     const searchPage = new SearchPage(page)
     await searchPage.goToSearchFor('trust')
     await searchPage.expect.toBeOnPageWithResultsFor('trust')
+    await searchPage.expect.toShowResults()
 
     const accessibilityScanResults = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
