@@ -17,6 +17,7 @@ test.describe('Search page', () => {
     test('then they see an empty search input and can search by a new term', async () => {
       await searchPage.goTo()
       await searchPage.expect.toSeeSearchInputContainingNoSearchTerm()
+      await searchPage.expect.toSeeNoResultsMessage()
       await searchPage.searchFor(searchTerm)
       await searchPage.expect.toSeeInformationForEachResult()
     })
