@@ -48,7 +48,24 @@
 
     &:hover {
       background-color: #002644;
-      border-color: #002644;
+      border-color: govuk-colour("black");
+    }
+
+    &:focus {
+      background-color: govuk-colour("yellow");
+
+      .app-search__icon {
+        fill: govuk-colour("black");
+      }
+    }
+  }
+
+  .app-search__button--blue:focus:hover {
+    border-color: govuk-colour("yellow");
+    background-color: #002644;
+
+    .app-search__icon {
+      fill: govuk-colour("white");
     }
   }
 }

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
-public class SearchModel : LayoutModel
+public class SearchModel : LayoutModel, ISearchFormModel
 {
     private readonly ITrustProvider _trustProvider;
 
@@ -12,7 +12,8 @@ public class SearchModel : LayoutModel
         _trustProvider = trustProvider;
     }
 
-    [BindProperty(SupportsGet = true)] public string? KeyWords { get; set; }
+    public string InputId => "search";
+    [BindProperty(SupportsGet = true)] public string KeyWords { get; set; } = string.Empty;
     public IEnumerable<Trust> Trusts { get; set; } = Array.Empty<Trust>();
 
     public async Task OnGetAsync()

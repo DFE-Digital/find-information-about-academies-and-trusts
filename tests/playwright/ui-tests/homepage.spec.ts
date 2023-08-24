@@ -12,7 +12,7 @@ test.describe('homepage', () => {
     await homePage.goTo()
   })
 
-  const searchTerms = ['1', 'trust']
+  const searchTerms = ['trust', 'education']
 
   for (const searchTerm of searchTerms) {
     test(`Searching for a trust with "${searchTerm}" navigates to search page with results for`, async () => {

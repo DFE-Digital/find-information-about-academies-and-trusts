@@ -39,4 +39,21 @@ public class SearchModelTests
 
         sut.Trusts.Should().BeEmpty();
     }
+
+    [Fact]
+    public void KeyWords_property_is_empty_by_default()
+    {
+        var mockTrustProvider = new Mock<ITrustProvider>();
+        var sut = new SearchModel(mockTrustProvider.Object);
+        sut.KeyWords.Should().Be("");
+    }
+
+    [Fact]
+    public void InputId_should_have_a_fixed_value()
+    {
+        var mockTrustProvider = new Mock<ITrustProvider>();
+        var sut = new SearchModel(mockTrustProvider.Object);
+
+        sut.InputId.Should().Be("search");
+    }
 }
