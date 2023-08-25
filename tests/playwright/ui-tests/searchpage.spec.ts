@@ -17,6 +17,7 @@ test.describe('Search page', () => {
     test('then they see an empty search input and can search by a new term', async () => {
       await searchPage.goTo()
       await searchPage.expect.toSeeSearchInputContainingNoSearchTerm()
+      await searchPage.expect.toSeeNoResultsMessage()
       await searchPage.searchFor(searchTerm)
       await searchPage.expect.toSeeInformationForEachResult()
     })
@@ -55,6 +56,11 @@ test.describe('Search page', () => {
     test('then they can see an input containing the search term so they can edit it', async () => {
       await searchPage.goToSearchFor('non')
       await searchPage.expect.toSeeSearchInputContainingSearchTerm()
+    })
+
+    test('they see a helpful message to help them change their search', async () => {
+      await searchPage.goToSearchFor('non')
+      await searchPage.expect.toSeeNoResultsMessage()
     })
   })
 })
