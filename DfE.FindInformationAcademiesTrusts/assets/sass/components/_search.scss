@@ -30,6 +30,16 @@
     }
   }
 
+  .app-search__button {
+    border-left: none;
+    border-color: govuk-colour("black");
+    border-radius: 0 4px 4px 0;
+    box-shadow: none;
+    display: flex;
+    gap: 10px;
+    height: 3rem;
+  }
+
   .app-search__button--blue {
     background-color: $govuk-link-colour;
 
@@ -40,6 +50,7 @@
     &:hover {
       background-color: #002644;
       border-color: govuk-colour("black");
+      box-shadow: none;
     }
 
     &:focus {
@@ -74,11 +85,8 @@
 
   .autocomplete__input,
   .app-search__input {
-    @extend .govuk-input;
     border-right: none;
-    border-left-color: govuk-colour("black");
-    border-top-color: govuk-colour("black");
-    border-bottom-color: govuk-colour("black");
+    border-color: govuk-colour("black");
     height: 3rem;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 0;
