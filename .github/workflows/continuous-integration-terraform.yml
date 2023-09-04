@@ -27,6 +27,15 @@ jobs:
             exit 1
           fi
 
+      - name: Validate Terraform docs
+        uses: terraform-docs/gh-actions@v1.0.0
+        with:
+          working-dir: terraform
+          config-file: .terraform-docs.yml
+          output-file: README.md
+          output-method: inject
+          fail-on-diff: true
+
       - name: Remove azure backend
         run: rm ./terraform/backend.tf
 
@@ -47,15 +56,6 @@ jobs:
         with:
           entrypoint: terraform
           args: -chdir=terraform fmt -check=true -diff=true
-
-      - name: Validate Terraform docs
-        uses: terraform-docs/gh-actions@v1.0.0
-        with:
-          working-dir: terraform
-          config-file: .terraform-docs.yml
-          output-file: README.md
-          output-method: inject
-          fail-on-diff: true
 
       - name: Setup TFLint
         uses: terraform-linters/setup-tflint@v3
