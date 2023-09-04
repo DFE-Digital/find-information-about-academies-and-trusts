@@ -19,10 +19,6 @@ module.exports = {
         {
           from: path.join(__dirname, 'assets/images'),
           to: path.join(__dirname, 'wwwroot/dist/images')
-        },
-        {
-          from: path.join(__dirname, 'node_modules/accessible-autocomplete/dist/accessible-autocomplete.min.js'),
-          to: path.join(__dirname, 'wwwroot/dist/accessible-autocomplete')
         }
       ]
     })

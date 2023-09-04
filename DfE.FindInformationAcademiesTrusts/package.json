@@ -30,7 +30,8 @@
   },
   "dependencies": {
     "accessible-autocomplete": "^2.0.4",
-    "govuk-frontend": "^4.6.0"
+    "govuk-frontend": "^4.6.0",
+    "xhr2": "^0.2.1"
   },
   "standard": {
     "ignore": [
