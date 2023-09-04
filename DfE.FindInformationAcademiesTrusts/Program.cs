@@ -60,16 +60,16 @@ internal static class Program
         if (!app.Environment.IsDevelopment() && !app.Environment.IsLocalDevelopment())
         {
             app.UseExceptionHandler("/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
+
+        app.UseSecurityHeaders(GetSecurityHeaderPolicies());
 
         app.UseCookiePolicy(new CookiePolicyOptions
         {
             Secure = CookieSecurePolicy.Always, HttpOnly = HttpOnlyPolicy.Always,
             MinimumSameSitePolicy = SameSiteMode.None
         });
-
 
         app.UseHttpsRedirection();
 
@@ -91,6 +91,52 @@ internal static class Program
 
         app.MapRazorPages();
         app.UseMiddleware<ResponseHeadersMiddleware>();
+    }
+
+    private static HeaderPolicyCollection GetSecurityHeaderPolicies()
+    {
+        return new HeaderPolicyCollection()
+            .AddFrameOptionsDeny()
+            .AddXssProtectionBlock()
+            .AddContentTypeOptionsNoSniff()
+            .AddReferrerPolicyStrictOriginWhenCrossOrigin()
+            .RemoveServerHeader()
+            .AddContentSecurityPolicy(cspBuilder =>
+            {
+                cspBuilder.AddDefaultSrc().Self();
+                cspBuilder.AddScriptSrc()
+                    .Self()
+                    .UnsafeInline()
+                    .WithNonce();
+                cspBuilder.AddObjectSrc().None();
+                cspBuilder.AddBlockAllMixedContent();
+                cspBuilder.AddImgSrc().Self();
+                cspBuilder.AddFormAction().Self();
+                cspBuilder.AddFontSrc().Self();
+                cspBuilder.AddStyleSrc().Self();
+                cspBuilder.AddBaseUri().Self();
+                cspBuilder.AddFrameAncestors().None();
+            })
+            .AddPermissionsPolicy(builder =>
+            {
+                builder.AddAccelerometer().None();
+                builder.AddAutoplay().None();
+                builder.AddCamera().None();
+                builder.AddEncryptedMedia().None();
+                builder.AddFullscreen().All();
+                builder.AddGeolocation().None();
+                builder.AddGyroscope().None();
+                builder.AddMagnetometer().None();
+                builder.AddMicrophone().None();
+                builder.AddMidi().None();
+                builder.AddPayment().None();
+                builder.AddPictureInPicture().None();
+                builder.AddSyncXHR().None();
+                builder.AddUsb().None();
+            })
+            .AddCrossOriginOpenerPolicy(builder => { builder.SameOrigin(); })
+            .AddCrossOriginEmbedderPolicy(builder => { builder.RequireCorp(); })
+            .AddCrossOriginResourcePolicy(builder => { builder.SameOrigin(); });
     }
 
     private static void AddDependenciesTo(WebApplicationBuilder builder)

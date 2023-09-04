@@ -28,16 +28,8 @@ public class ResponseHeadersMiddlewareTests
     }
 
     [Theory]
-    [InlineData("X-Frame-Options")]
-    [InlineData("X-Content-Type-Options")]
-    [InlineData("Referrer-Policy")]
-    [InlineData("Permissions-Policy")]
-    [InlineData("X-Permitted-Cross-Domain-Policies")]
     [InlineData("X-Robots-Tag")]
-    [InlineData("Content-Security-Policy")]
-    [InlineData("Cross-Origin-Embedder-Policy")]
-    [InlineData("Cross-Origin-Opener-Policy")]
-    [InlineData("Cross-Origin-Resource-Policy")]
+    [InlineData("Some-Other-Header")]
     public async Task Invoke_should_not_override_existing_headers(string headerName)
     {
         _mockContext.Object.Response.Headers[headerName] = "existing header";
@@ -48,40 +40,10 @@ public class ResponseHeadersMiddlewareTests
     }
 
     [Fact]
-    public async Task Invoke_should_set_XFrameOptions_to_deny()
+    public async Task Invoke_should_set_XRobotTag_header_to_noindex_nofollow()
     {
         await _sut.Invoke(_mockContext.Object);
-        _mockContext.Object.Response.Headers.XFrameOptions.Should().ContainSingle().Which.Should().Be("deny");
-    }
-
-    [Fact]
-    public async Task Invoke_should_set_XContentTypeOptions_to_nosniff()
-    {
-        await _sut.Invoke(_mockContext.Object);
-        _mockContext.Object.Response.Headers.XContentTypeOptions.Should().ContainSingle().Which.Should().Be("nosniff");
-    }
-
-    [Fact]
-    public async Task Invoke_should_set_ContentSecurityPolicy_to_be_secure()
-    {
-        await _sut.Invoke(_mockContext.Object);
-        _mockContext.Object.Response.Headers.ContentSecurityPolicy.Should().ContainSingle().Which.Should().Be(
-            "default-src 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none'");
-    }
-
-    [Theory]
-    [InlineData("Referrer-Policy", "no-referrer")]
-    [InlineData("Permissions-Policy",
-        "accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(),legacy-image-formats=(),magnetometer=(),microphone=(),midi=(),oversized-images=(),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(),unoptimized-images=(),unsized-media=(),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()")]
-    [InlineData("X-Permitted-Cross-Domain-Policies", "none")]
-    [InlineData("X-Robots-Tag", "noindex, nofollow")]
-    [InlineData("Cross-Origin-Embedder-Policy", "require-corp")]
-    [InlineData("Cross-Origin-Opener-Policy", "same-origin")]
-    [InlineData("Cross-Origin-Resource-Policy", "same-origin")]
-    public async Task Invoke_should_set_other_security_headers_to_correct_values(string headername,
-        string expectedValue)
-    {
-        await _sut.Invoke(_mockContext.Object);
-        _mockContext.Object.Response.Headers[headername].Should().ContainSingle().Which.Should().Be(expectedValue);
+        _mockContext.Object.Response.Headers["X-Robots-Tag"].Should().ContainSingle().Which.Should()
+            .Be("noindex, nofollow");
     }
 }
