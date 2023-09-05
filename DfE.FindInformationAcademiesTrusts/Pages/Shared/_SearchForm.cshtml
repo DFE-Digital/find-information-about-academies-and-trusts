@@ -28,12 +28,6 @@
 
 <script type="application/javascript">
   window.onload = () => {
-    const autocompleteTemplate = document.querySelector("#@Model.InputId-js-autocomplete-template")
-    const autocompleteTemplateContents = autocompleteTemplate.content.cloneNode(true)
-    const elementToReplace = document.querySelector("#@Model.InputId-no-js-search-container")
-    
-    elementToReplace.replaceWith(autocompleteTemplateContents)
-    
-    Autocomplete.loadTrustSearch("#@Model.InputId", "#@Model.InputId-selected-trust", "#@Model.InputId-autocomplete-container")
+    Autocomplete.loadTrustSearch("@Model.InputId")
   }
 </script>

@@ -9,9 +9,15 @@ export class Autocomplete {
     }
   }
 
-  loadTrustSearch = async (inputId, hiddenFieldId, autocompleteContainerId) => {
+  loadTrustSearch = async (inputId) => {
+    const autocompleteTemplate = document.getElementById(`${inputId}-js-autocomplete-template`)
+    const autocompleteTemplateContents = autocompleteTemplate.content.cloneNode(true)
+    const elementToReplace = document.getElementById(`${inputId}-no-js-search-container`)
+
+    elementToReplace.replaceWith(autocompleteTemplateContents)
+    
     accessibleAutocomplete({
-      element: document.querySelector(autocompleteContainerId),
+      element: document.getElementById(`${inputId}-autocomplete-container`),
       id: inputId,
       name: 'keywords',
       source: this.suggest,
@@ -26,7 +32,7 @@ export class Autocomplete {
       },
       onConfirm: (selected) => {
         if (selected) {
-          document.querySelector(hiddenFieldId).value = (selected.trustId)
+          document.getElementById(`${inputId}-selected-trust`).value = (selected.trustId)
         }
       }
     })
