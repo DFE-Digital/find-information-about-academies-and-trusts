@@ -1,29 +1,20 @@
 import accessibleAutocomplete from 'accessible-autocomplete'
-const XMLHttpRequest = require('xhr2')
 
 export class Autocomplete {
-  loadTrustSearch = (inputId, hiddenFieldId, autocompleteContainerId) => {
-    let loading = false
-
-    function suggest (query, populateResults) {
-      if (query && !loading) {
-        loading = true
-        const http = new XMLHttpRequest()
-        http.onload = function () {
-          populateResults(JSON.parse(this.responseText))
-          loading = false
-        }
-
-        http.open('GET', `/search?handler=populateautocomplete&keywords=${query}`, true)
-        http.send()
-      }
+  suggest = async (query, populateResults) => {
+    if (query) {
+      const response = await fetch(`/search?handler=populateautocomplete&keywords=${query}`)
+      const results = await response.json()
+      populateResults(results)
     }
+  }
 
+  loadTrustSearch = async (inputId, hiddenFieldId, autocompleteContainerId) => {
     accessibleAutocomplete({
       element: document.querySelector(autocompleteContainerId),
       id: inputId,
       name: 'keywords',
-      source: suggest,
+      source: this.suggest,
       autoselect: false,
       confirmOnBlur: false,
       showNoOptionsFound: false,
