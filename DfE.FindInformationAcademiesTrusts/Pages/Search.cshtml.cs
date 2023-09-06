@@ -24,7 +24,11 @@ public class SearchModel : LayoutModel, ISearchFormModel
     {
         if (!string.IsNullOrWhiteSpace(TrustId))
         {
-            return RedirectToPage("/Trusts/Details", new { Ukprn = TrustId });
+            var trust = await _trustProvider.GetTrustByUkprnAsync(TrustId);
+            if (string.Equals(trust.Name, KeyWords, StringComparison.CurrentCultureIgnoreCase))
+            {
+                return RedirectToPage("/Trusts/Details", new { Ukprn = TrustId });
+            }
         }
 
         Trusts = await GetTrustsForKeywords();
