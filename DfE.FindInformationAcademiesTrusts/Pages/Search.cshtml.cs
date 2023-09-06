@@ -6,6 +6,8 @@ namespace DfE.FindInformationAcademiesTrusts.Pages;
 
 public class SearchModel : LayoutModel, ISearchFormModel
 {
+    public record AutocompleteEntry(string Address, string Name, string? TrustId);
+
     private readonly ITrustProvider _trustProvider;
 
     public SearchModel(ITrustProvider trustProvider)
@@ -39,11 +41,11 @@ public class SearchModel : LayoutModel, ISearchFormModel
     public async Task<IActionResult> OnGetPopulateAutocompleteAsync()
     {
         return new JsonResult((await GetTrustsForKeywords())
-            .Select(trust => new
-            {
-                address = $"{trust.Address}",
-                name = $"{trust.Name}",
-                trustId = $"{trust.Ukprn}"
-            }));
+            .Select(trust =>
+                new AutocompleteEntry(
+                    trust.Address,
+                    trust.Name,
+                    trust.Ukprn
+                )));
     }
 }
