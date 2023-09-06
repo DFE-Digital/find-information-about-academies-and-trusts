@@ -18,9 +18,24 @@ public class SearchModel : LayoutModel, ISearchFormModel
 
     public async Task OnGetAsync()
     {
-        if (!string.IsNullOrEmpty(KeyWords))
-        {
-            Trusts = await _trustProvider.GetTrustsByNameAsync(KeyWords);
-        }
+        Trusts = await GetTrustsForKeywords();
+    }
+
+    private async Task<IEnumerable<Trust>> GetTrustsForKeywords()
+    {
+        return !string.IsNullOrEmpty(KeyWords)
+            ? await _trustProvider.GetTrustsByNameAsync(KeyWords)
+            : Array.Empty<Trust>();
+    }
+
+    public async Task<IActionResult> OnGetPopulateAutocompleteAsync()
+    {
+        return new JsonResult((await GetTrustsForKeywords())
+            .Select(trust => new
+            {
+                address = $"{trust.Address}",
+                name = $"{trust.Name}",
+                trustId = $"{trust.Ukprn}"
+            }));
     }
 }

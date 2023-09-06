@@ -10,12 +10,13 @@
   <meta name="theme-color" content="#0b0c0c">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="~/dist/images/favicon.ico" type="image/x-icon">
-  <link rel="mask-icon" href="~/dist/images/govuk/govuk-mask-icon.svg" color="#0b0c0c">
-  <link rel="apple-touch-icon" sizes="180x180" href="~/dist/images/govuk/govuk-apple-touch-icon-180x180.png">
-  <link rel="apple-touch-icon" sizes="167x167" href="~/dist/images/govuk/govuk-apple-touch-icon-167x167.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="~/dist/images/govuk/govuk-apple-touch-icon-152x152.png">
-  <link rel="apple-touch-icon" href="~/dist/images/govuk/govuk-apple-touch-icon.png">
+  <link rel="mask-icon" href="~/dist/images/govuk-mask-icon.svg" color="#0b0c0c">
+  <link rel="apple-touch-icon" sizes="180x180" href="~/dist/images/govuk-apple-touch-icon-180x180.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="~/dist/images/govuk-apple-touch-icon-167x167.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="~/dist/images/govuk-apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" href="~/dist/images/govuk-apple-touch-icon.png">
   <link rel="stylesheet" href="~/dist/main.css"/>
+  <link rel="stylesheet" href="~/dist/accessible-autocomplete/accessible-autocomplete.min.css"/>
 </head>
 
 <body class="govuk-template__body ">
@@ -32,6 +33,46 @@
 
   <partial name="_Footer"/>
   <script src="~/dist/main.js"></script>
+  <script type="text/javascript" src="~/dist/accessible-autocomplete/accessible-autocomplete.min.js"></script>
+  <script type="application/javascript">
+  function loadAutocompleteForTrustSearch (inputId, hiddenFieldId, autocompleteContainerId) {
+    let loading = false
+    function suggest (query, populateResults) {
+      if (query && !loading) {
+        loading = true
+        const http = new XMLHttpRequest()
+        http.onload = function () {
+          populateResults(JSON.parse(this.responseText))
+          loading = false
+        }
+        
+        http.open('GET', `/search?handler=populateautocomplete&keywords=${query}`, true)
+        http.send()
+      }
+    }
+         
+    accessibleAutocomplete({
+      element: document.querySelector(autocompleteContainerId),
+      id: inputId,
+      name: 'keywords',
+      source: suggest,
+      autoselect: false,
+      confirmOnBlur: false,
+      showNoOptionsFound: false,
+      displayMenu: 'overlay',
+      minLength: 3,
+      templates: {
+        inputValue: function (r) {return r && r.value},
+        suggestion: function (r) {return r && r.hint}
+      },
+      onConfirm: (selected) => {
+        if (selected) {          
+          document.querySelector(hiddenFieldId).value = (selected.trustId)
+        }
+      }
+    })
+  }
+  </script>
   @await RenderSectionAsync("Scripts", false)
 </body>
 

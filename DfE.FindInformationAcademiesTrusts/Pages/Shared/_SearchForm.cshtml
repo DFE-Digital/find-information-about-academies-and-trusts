@@ -6,6 +6,10 @@
 
 <div class="govuk-input__wrapper app-search__form  app-search__form--border">
   <input class="dfe-search__input govuk-!-width-full" id="@Model.InputId" type="search" autocomplete="off" asp-for="KeyWords" name="keywords">
+
+  <div id="@Model.InputId-autocomplete-container"></div>
+  <input type="hidden" id="@Model.InputId-selected-trust" name="Id"/>
+
   <button class="dfe-search__submit app-search__button app-search__button--blue" type="submit">
     <svg class="dfe-icon dfe-icon__search app-search__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
       <path d="M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z"></path>
@@ -13,3 +17,9 @@
     <span class="govuk-visually-hidden">Search</span>
   </button>
 </div>
+
+<script type="application/javascript">
+  window.onload = () => {
+    loadAutocompleteForTrustSearch("#@Model.InputId", "#@Model.InputId-selected-trust", "#@Model.InputId-autocomplete-container")
+  }
+</script>
