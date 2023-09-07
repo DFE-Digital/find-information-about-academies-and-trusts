@@ -9,26 +9,40 @@ export class Autocomplete {
     }
   }
 
-  loadTrustSearch = async (inputId) => {
+  getName = (result) => {
+    // This check for a string is related to a known issue in autocomplete when setting a default value https://github.com/alphagov/accessible-autocomplete/issues/424
+    if (result && typeof (result) !== 'string') return result.name
+    return result
+  }
+
+  getHint = (result) => {
+    const hintText = this.getName(result)
+    if (result?.address) {
+      return `${hintText}<span class="autocomplete__option-hint">${result.address}</span>`
+    }
+    return hintText
+  }
+
+  loadTrustSearch = async (inputId, defaultValue) => {
     const autocompleteTemplate = document.getElementById(`${inputId}-js-autocomplete-template`)
     const autocompleteTemplateContents = autocompleteTemplate.content.cloneNode(true)
     const elementToReplace = document.getElementById(`${inputId}-no-js-search-container`)
 
     elementToReplace.replaceWith(autocompleteTemplateContents)
-    
+
     accessibleAutocomplete({
+      defaultValue,
       element: document.getElementById(`${inputId}-autocomplete-container`),
       id: inputId,
       name: 'keywords',
       source: this.suggest,
       autoselect: false,
       confirmOnBlur: false,
-      showNoOptionsFound: false,
       displayMenu: 'overlay',
       minLength: 3,
       templates: {
-        inputValue: function (r) { return r && r.name },
-        suggestion: function (r) { return r && `${r.name}<span class="autocomplete__option-hint">${r.address}</span>` }
+        inputValue: this.getName,
+        suggestion: this.getHint
       },
       onConfirm: (selected) => {
         if (selected) {
