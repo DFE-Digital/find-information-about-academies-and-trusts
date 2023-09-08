@@ -1,10 +1,29 @@
 import { Locator, Page, expect } from '@playwright/test'
 
+interface expectedResult {
+  name: string
+  address: string
+  ukprn: string
+  academiesInTrustCount: number
+}
+
 export class SearchFormComponent {
   readonly expect: SearchFormComponentAssertions
   readonly searchFormLocator: Locator
   readonly searchInputLocator: Locator
   readonly searchButtonLocator: Locator
+
+  readonly expectedSearchResults: { [key: string]: expectedResult[] } = {
+    trust: [
+      { name: 'trust 1', address: '12 Paddle Road, Bushy Park, Letworth, Manchester, MX12 P34', ukprn: '123', academiesInTrustCount: 1 },
+      { name: 'trust 2', address: '12 Paddle Road, Manchester, MX12 P34', ukprn: '124', academiesInTrustCount: 2 },
+      { name: 'trust 3', address: 'Bushy Park, Manchester', ukprn: '125', academiesInTrustCount: 0 }
+    ],
+    education: [
+      { name: 'Abbey Education', address: '13 Paddle Road, Bushy Park, Letworth, Liverpool, MX12 P34', ukprn: '175', academiesInTrustCount: 1 }
+    ],
+    non: []
+  }
 
   currentSearchTerm: string
 
@@ -57,7 +76,15 @@ class SearchFormComponentAssertions {
     await expect(this.searchForm.getAutocompleteLocator().getByRole('listitem').first()).toHaveText('No results found')
   }
 
-  async toShowAllOfTheResultsInAutocomplete (): Promise<void> {
-    
+  async toShowAllResultsInAutocomplete (): Promise<void> {
+    const listItems = await this.searchForm.searchFormLocator.getByRole('option')
+    await expect(listItems).toHaveCount(this.searchForm.expectedSearchResults[this.searchForm.currentSearchTerm].length)
+
+    for (const searchResultItem of this.searchForm.expectedSearchResults[this.searchForm.currentSearchTerm]) {
+      const searchItemLocator = this.searchForm.getAutocompleteOptionWithText(searchResultItem.name)
+      await expect(searchItemLocator).toBeVisible()
+
+      await expect(searchItemLocator).toContainText(searchResultItem.address)
+    }
   }
 }

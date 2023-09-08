@@ -66,8 +66,9 @@ test.describe('Search page', () => {
         await searchPage.goTo()
       })
 
-      test.only('then they should see a list of options and should be able to select one directly', async () => {
+      test('then they should see a list of options and should be able to select one directly', async () => {
         await searchPage.searchForm.typeSearchTerm(searchTerm)
+        await searchPage.searchForm.expect.toShowAllResultsInAutocomplete()
         await searchPage.searchForm.chooseItemFromAutocompleteWithText('trust 1')
         await searchPage.searchForm.submitSearch()
         await detailsPage.expect.toBeOnTheRightPageFor('trust 1')
