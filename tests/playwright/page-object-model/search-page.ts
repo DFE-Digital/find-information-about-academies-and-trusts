@@ -56,6 +56,14 @@ export class SearchPage {
     return this._searchResultsListItemLocator.filter({ hasText: text })
   }
 
+  getAutocompleteLocator (): Locator {
+    return this.page.locator('#search-autocomplete-container')
+  }
+
+  getAutocompleteOptionWithText (trustName: string): Locator {
+    return this.page.getByRole('option', { name: trustName })
+  }
+
   async clickOnSearchResultLinkWithText (text: string): Promise<void> {
     await this._searchResultsListItemLocator.getByRole('link', { name: text }).click()
   }
@@ -75,7 +83,7 @@ export class SearchPage {
   }
 
   async chooseItemFromAutocompleteWithText (trustName: string): Promise<void> {
-    await this.page.getByRole('option', { name: trustName }).click()
+    await this.getAutocompleteOptionWithText(trustName).click()
   }
 }
 
@@ -131,5 +139,13 @@ class SearchPageAssertions {
     await expect(this.searchPage._searchResultsSectionLocator).toContainText(
       'Check the spelling of the trust name. Enter a reference number in the right format'
     )
+  }
+
+  async toshowNoResultsFoundInAutocomplete (): Promise<void> {
+    await expect(this.searchPage.getAutocompleteLocator().getByRole('listitem').first()).toHaveText('No results found')
+
+    // this assertion is required to check that 'No results found' is not replaced by a list of results
+    // as current behaviour of Autocomplete is to show the 'No results found' message whilst results are being fetched.
+    await expect(this.searchPage.getAutocompleteOptionWithText(this.searchPage._currentSearchTerm)).not.toBeVisible()
   }
 }

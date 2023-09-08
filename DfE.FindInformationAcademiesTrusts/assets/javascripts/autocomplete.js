@@ -39,6 +39,7 @@ export class Autocomplete {
       autoselect: false,
       confirmOnBlur: false,
       displayMenu: 'overlay',
+      showNoOptionsFound: true,
       minLength: 3,
       templates: {
         inputValue: this.getName,

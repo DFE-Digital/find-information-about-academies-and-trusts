@@ -60,19 +60,20 @@ test.describe('Search page', () => {
     }
   })
 
-  test.describe('Given a user is typing a search term which has results', () => {
+  test.describe('Given a user is typing a search term', () => {
     test.beforeEach(async () => {
       await searchPage.goTo()
-      await searchPage.typeSearchTerm(searchTerm)
     })
 
     test('then they should see a list of options and should be able to select one directly', async () => {
+      await searchPage.typeSearchTerm(searchTerm)
       await searchPage.chooseItemFromAutocompleteWithText('trust 1')
       await searchPage.submitSearch()
       await detailsPage.expect.toBeOnTheRightPageFor('trust 1')
     })
 
     test('then they should be able to change their search term to a free text search after selecting a result', async () => {
+      await searchPage.typeSearchTerm(searchTerm)
       await searchPage.chooseItemFromAutocompleteWithText('trust 1')
       await searchPage.typeSearchTerm('education')
       await searchPage.submitSearch()
@@ -81,11 +82,17 @@ test.describe('Search page', () => {
     })
 
     test('then they should be able to change their selection after clicking a result', async () => {
+      await searchPage.typeSearchTerm(searchTerm)
       await searchPage.chooseItemFromAutocompleteWithText('trust 1')
       await searchPage.typeSearchTerm('education')
       await searchPage.chooseItemFromAutocompleteWithText('Abbey Education')
       await searchPage.submitSearch()
       await detailsPage.expect.toBeOnTheRightPageFor('Abbey Education')
+    })
+
+    test('then they should see no results message if there are no matching trusts', async () => {
+      await searchPage.typeSearchTerm('non')
+      await searchPage.expect.toshowNoResultsFoundInAutocomplete()
     })
   })
 
