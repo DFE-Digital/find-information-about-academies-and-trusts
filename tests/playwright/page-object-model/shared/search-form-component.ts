@@ -70,6 +70,7 @@ class SearchFormComponentAssertions {
 
   async toshowNoResultsFoundInAutocomplete (): Promise<void> {
     await expect(this.searchForm.searchFormLocator.getByRole('listitem').first()).toHaveText('No results found')
+    await expect(this.searchForm.searchFormLocator.getByRole('option')).toHaveCount(0)
   }
 
   async toShowAllResultsInAutocomplete (): Promise<void> {

@@ -51,5 +51,9 @@ export class Autocomplete {
         }
       }
     })
+
+    // Fix WCAG accessibility failure 'Required ARIA attribute not present: aria-controls'
+    // related issue on Accessible Autocomplete component: https://github.com/alphagov/accessible-autocomplete/issues/565
+    document.getElementById(inputId).setAttribute('aria-controls', `${inputId}__listbox`)
   }
 }
