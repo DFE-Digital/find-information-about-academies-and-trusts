@@ -61,9 +61,21 @@ export class SearchPage {
   }
 
   async searchFor (searchTerm: string): Promise<void> {
+    await this.typeSearchTerm(searchTerm)
+    await this.submitSearch()
+  }
+
+  async typeSearchTerm (searchTerm: string): Promise<void> {
     this._currentSearchTerm = searchTerm
     await this._searchInputLocator.fill(searchTerm)
+  }
+
+  async submitSearch (): Promise<void> {
     await this._searchButtonLocator.click()
+  }
+
+  async chooseItemFromAutocompleteWithText (trustName: string): Promise<void> {
+    await this.page.getByRole('option', { name: trustName }).click()
   }
 }
 

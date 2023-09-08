@@ -42,6 +42,14 @@ test.describe('Search page', () => {
       await searchPage.expect.toSeeInformationForEachResult()
     })
 
+    test('the user can edit their search and select an item using autocomplete', async () => {
+      await searchPage.expect.toSeeSearchInputContainingSearchTerm()
+      await searchPage.typeSearchTerm('education')
+      await searchPage.chooseItemFromAutocompleteWithText('Abbey Education')
+      await searchPage.submitSearch()
+      await detailsPage.expect.toBeOnTheRightPageFor('Abbey Education')
+    })
+
     for (const trustResponse of MockTrustsProvider.fakeTrustsResponseData[searchTerm]) {
       const trustName = trustResponse.GroupName
 
@@ -50,6 +58,35 @@ test.describe('Search page', () => {
         await detailsPage.expect.toBeOnTheRightPageFor(trustName)
       })
     }
+  })
+
+  test.describe('Given a user is typing a search term which has results', () => {
+    test.beforeEach(async () => {
+      await searchPage.goTo()
+      await searchPage.typeSearchTerm(searchTerm)
+    })
+
+    test('then they should see a list of options and should be able to select one directly', async () => {
+      await searchPage.chooseItemFromAutocompleteWithText('trust 1')
+      await searchPage.submitSearch()
+      await detailsPage.expect.toBeOnTheRightPageFor('trust 1')
+    })
+
+    test('then they should be able to change their search term to a free text search after selecting a result', async () => {
+      await searchPage.chooseItemFromAutocompleteWithText('trust 1')
+      await searchPage.typeSearchTerm('education')
+      await searchPage.submitSearch()
+      await searchPage.expect.toBeOnPageWithResultsFor('education')
+      await searchPage.expect.toSeeInformationForEachResult()
+    })
+
+    test('then they should be able to change their selection after clicking a result', async () => {
+      await searchPage.chooseItemFromAutocompleteWithText('trust 1')
+      await searchPage.typeSearchTerm('education')
+      await searchPage.chooseItemFromAutocompleteWithText('Abbey Education')
+      await searchPage.submitSearch()
+      await detailsPage.expect.toBeOnTheRightPageFor('Abbey Education')
+    })
   })
 
   test.describe('Given a user searches for a term that returns no results', () => {
