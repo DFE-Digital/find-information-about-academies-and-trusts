@@ -34,10 +34,6 @@ export class SearchFormComponent {
     this.searchButtonLocator = this.searchFormLocator.getByRole('button', { name: 'Search' })
   }
 
-  getAutocompleteLocator (): Locator {
-    return this.searchFormLocator.locator('#search-autocomplete-container')
-  }
-
   getAutocompleteOptionWithText (trustName: string): Locator {
     return this.searchFormLocator.getByRole('option', { name: trustName })
   }
@@ -73,7 +69,7 @@ class SearchFormComponentAssertions {
   }
 
   async toshowNoResultsFoundInAutocomplete (): Promise<void> {
-    await expect(this.searchForm.getAutocompleteLocator().getByRole('listitem').first()).toHaveText('No results found')
+    await expect(this.searchForm.searchFormLocator.getByRole('listitem').first()).toHaveText('No results found')
   }
 
   async toShowAllResultsInAutocomplete (): Promise<void> {
