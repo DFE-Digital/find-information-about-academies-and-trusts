@@ -1,23 +1,23 @@
 @model ISearchFormModel
-
-<div class="govuk-hint">
-  Enter trust name, TRN, group ID, UID, UKPRN or Companies House number
-</div>
-
-@* This is used by the no javascript users *@
-<div class="govuk-input__wrapper app-search--main">
-  <div id="@Model.InputId-no-js-search-container">
-    <input class="govuk-input app-search__input" id="@Model.InputId" type="search" asp-for="KeyWords" name="keywords">
+<div data-testid="app-search-form">
+  <div class="govuk-hint">
+    Enter trust name, TRN, group ID, UID, UKPRN or Companies House number
   </div>
 
-  <button class="govuk-button app-search__button app-search__button--blue" type="submit">
-    <svg class="app-search__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
-      <path d="M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z"></path>
-    </svg>
-    <span class="govuk-visually-hidden">Search</span>
-  </button>
-</div>
+  @* This is used by the no javascript users *@
+  <div class="govuk-input__wrapper app-search--main">
+    <div id="@Model.InputId-no-js-search-container">
+      <input class="govuk-input app-search__input" id="@Model.InputId" type="search" asp-for="KeyWords" name="keywords">
+    </div>
 
+    <button class="govuk-button app-search__button app-search__button--blue" type="submit">
+      <svg class="app-search__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
+        <path d="M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z"></path>
+      </svg>
+      <span class="govuk-visually-hidden">Search</span>
+    </button>
+  </div>
+</div>
 @* This template is used by a script to implement autocomplete *@
 <template id="@Model.InputId-js-autocomplete-template">
   <div>

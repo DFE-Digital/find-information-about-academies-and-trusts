@@ -1,4 +1,5 @@
 import { Locator, Page, expect } from '@playwright/test'
+import { SearchFormComponent } from './shared/search-form-component'
 
 interface expectedResult {
   name: string
@@ -9,24 +10,21 @@ interface expectedResult {
 
 export class SearchPage {
   readonly expect: SearchPageAssertions
+  readonly searchForm: SearchFormComponent
   readonly _headerLocator: Locator
   readonly _searchResultsListHeaderLocator: Locator
   readonly _searchResultsSectionLocator: Locator
   readonly _searchResultsListItemLocator: Locator
-  readonly _searchInputLocator: Locator
-  readonly _searchButtonLocator: Locator
-  _currentSearchTerm = ''
 
   constructor (readonly page: Page) {
     this.expect = new SearchPageAssertions(this)
+    this.searchForm = new SearchFormComponent(page, 'Search')
     this._headerLocator = this.page.locator('h1')
     this._searchResultsListHeaderLocator = this.page.getByRole('heading', {
       name: this._searchResultsHeadingName
     })
     this._searchResultsSectionLocator = this.page.getByLabel(this._searchResultsHeadingName)
     this._searchResultsListItemLocator = this._searchResultsSectionLocator.getByRole('listitem')
-    this._searchInputLocator = this.page.getByLabel('Search')
-    this._searchButtonLocator = this.page.getByRole('button', { name: 'Search' })
   }
 
   readonly _searchResultsHeadingName = 'results for'
@@ -48,7 +46,7 @@ export class SearchPage {
   }
 
   async goToSearchFor (searchTerm: string): Promise<void> {
-    this._currentSearchTerm = searchTerm
+    this.searchForm.currentSearchTerm = searchTerm
     await this.page.goto(`/search/?keywords=${searchTerm}`)
   }
 
@@ -56,34 +54,8 @@ export class SearchPage {
     return this._searchResultsListItemLocator.filter({ hasText: text })
   }
 
-  getAutocompleteLocator (): Locator {
-    return this.page.locator('#search-autocomplete-container')
-  }
-
-  getAutocompleteOptionWithText (trustName: string): Locator {
-    return this.page.getByRole('option', { name: trustName })
-  }
-
   async clickOnSearchResultLinkWithText (text: string): Promise<void> {
     await this._searchResultsListItemLocator.getByRole('link', { name: text }).click()
-  }
-
-  async searchFor (searchTerm: string): Promise<void> {
-    await this.typeSearchTerm(searchTerm)
-    await this.submitSearch()
-  }
-
-  async typeSearchTerm (searchTerm: string): Promise<void> {
-    this._currentSearchTerm = searchTerm
-    await this._searchInputLocator.fill(searchTerm)
-  }
-
-  async submitSearch (): Promise<void> {
-    await this._searchButtonLocator.click()
-  }
-
-  async chooseItemFromAutocompleteWithText (trustName: string): Promise<void> {
-    await this.getAutocompleteOptionWithText(trustName).click()
   }
 }
 
@@ -109,11 +81,11 @@ class SearchPageAssertions {
   }
 
   async toDisplayNumberOfResultsFound (): Promise<void> {
-    await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(`${this.searchPage.expectedSearchResults[this.searchPage._currentSearchTerm].length} results for`)
+    await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(`${this.searchPage.expectedSearchResults[this.searchPage.searchForm.currentSearchTerm].length} results for`)
   }
 
   async toSeeInformationForEachResult (): Promise<void> {
-    const searchTerm = this.searchPage._currentSearchTerm
+    const searchTerm = this.searchPage.searchForm.currentSearchTerm
     await expect(this.searchPage._searchResultsListItemLocator).toHaveCount(this.searchPage.expectedSearchResults[searchTerm].length)
 
     for (const searchResultItem of this.searchPage.expectedSearchResults[searchTerm]) {
@@ -126,26 +98,10 @@ class SearchPageAssertions {
     }
   }
 
-  async toSeeSearchInputContainingSearchTerm (): Promise<void> {
-    await expect(this.searchPage._searchInputLocator).toHaveValue(this.searchPage._currentSearchTerm)
-  }
-
-  async toSeeSearchInputContainingNoSearchTerm (): Promise<void> {
-    await expect(this.searchPage._searchInputLocator).toHaveValue('')
-  }
-
   async toSeeNoResultsMessage (): Promise<void> {
     await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(`0 ${this.searchPage._searchResultsHeadingName}`)
     await expect(this.searchPage._searchResultsSectionLocator).toContainText(
       'Check the spelling of the trust name. Enter a reference number in the right format'
     )
-  }
-
-  async toshowNoResultsFoundInAutocomplete (): Promise<void> {
-    await expect(this.searchPage.getAutocompleteLocator().getByRole('listitem').first()).toHaveText('No results found')
-
-    // this assertion is required to check that 'No results found' is not replaced by a list of results
-    // as current behaviour of Autocomplete is to show the 'No results found' message whilst results are being fetched.
-    await expect(this.searchPage.getAutocompleteOptionWithText(this.searchPage._currentSearchTerm)).not.toBeVisible()
   }
 }

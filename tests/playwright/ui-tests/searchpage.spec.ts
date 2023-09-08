@@ -17,9 +17,9 @@ test.describe('Search page', () => {
     test.describe('Given a user goes to straight to the search page', () => {
       test('then they see an empty search input and can search by a new term', async () => {
         await searchPage.goTo()
-        await searchPage.expect.toSeeSearchInputContainingNoSearchTerm()
+        await searchPage.searchForm.expect.inputToContainNoSearchTerm()
         await searchPage.expect.toSeeNoResultsMessage()
-        await searchPage.searchFor(searchTerm)
+        await searchPage.searchForm.searchFor(searchTerm)
         await searchPage.expect.toSeeInformationForEachResult()
       })
     })
@@ -36,18 +36,18 @@ test.describe('Search page', () => {
       })
 
       test('the user can edit their search and search again', async () => {
-        await searchPage.expect.toSeeSearchInputContainingSearchTerm()
-        await searchPage.searchFor('education')
+        await searchPage.searchForm.expect.inputToContainSearchTerm()
+        await searchPage.searchForm.searchFor('education')
         await searchPage.expect.toBeOnPageWithResultsFor('education')
-        await searchPage.expect.toSeeSearchInputContainingSearchTerm()
+        await searchPage.searchForm.expect.inputToContainSearchTerm()
         await searchPage.expect.toSeeInformationForEachResult()
       })
 
       test('the user can edit their search and select an item using autocomplete', async () => {
-        await searchPage.expect.toSeeSearchInputContainingSearchTerm()
-        await searchPage.typeSearchTerm('education')
-        await searchPage.chooseItemFromAutocompleteWithText('Abbey Education')
-        await searchPage.submitSearch()
+        await searchPage.searchForm.expect.inputToContainSearchTerm()
+        await searchPage.searchForm.typeSearchTerm('education')
+        await searchPage.searchForm.chooseItemFromAutocompleteWithText('Abbey Education')
+        await searchPage.searchForm.submitSearch()
         await detailsPage.expect.toBeOnTheRightPageFor('Abbey Education')
       })
 
@@ -66,41 +66,41 @@ test.describe('Search page', () => {
         await searchPage.goTo()
       })
 
-      test('then they should see a list of options and should be able to select one directly', async () => {
-        await searchPage.typeSearchTerm(searchTerm)
-        await searchPage.chooseItemFromAutocompleteWithText('trust 1')
-        await searchPage.submitSearch()
+      test.only('then they should see a list of options and should be able to select one directly', async () => {
+        await searchPage.searchForm.typeSearchTerm(searchTerm)
+        await searchPage.searchForm.chooseItemFromAutocompleteWithText('trust 1')
+        await searchPage.searchForm.submitSearch()
         await detailsPage.expect.toBeOnTheRightPageFor('trust 1')
       })
 
       test('then they should be able to change their search term to a free text search after selecting a result', async () => {
-        await searchPage.typeSearchTerm(searchTerm)
-        await searchPage.chooseItemFromAutocompleteWithText('trust 1')
-        await searchPage.typeSearchTerm('education')
-        await searchPage.submitSearch()
+        await searchPage.searchForm.typeSearchTerm(searchTerm)
+        await searchPage.searchForm.chooseItemFromAutocompleteWithText('trust 1')
+        await searchPage.searchForm.typeSearchTerm('education')
+        await searchPage.searchForm.submitSearch()
         await searchPage.expect.toBeOnPageWithResultsFor('education')
         await searchPage.expect.toSeeInformationForEachResult()
       })
 
       test('then they should be able to change their selection after clicking a result', async () => {
-        await searchPage.typeSearchTerm(searchTerm)
-        await searchPage.chooseItemFromAutocompleteWithText('trust 1')
-        await searchPage.typeSearchTerm('education')
-        await searchPage.chooseItemFromAutocompleteWithText('Abbey Education')
-        await searchPage.submitSearch()
+        await searchPage.searchForm.typeSearchTerm(searchTerm)
+        await searchPage.searchForm.chooseItemFromAutocompleteWithText('trust 1')
+        await searchPage.searchForm.typeSearchTerm('education')
+        await searchPage.searchForm.chooseItemFromAutocompleteWithText('Abbey Education')
+        await searchPage.searchForm.submitSearch()
         await detailsPage.expect.toBeOnTheRightPageFor('Abbey Education')
       })
 
       test('then they should see no results message if there are no matching trusts', async () => {
-        await searchPage.typeSearchTerm('non')
-        await searchPage.expect.toshowNoResultsFoundInAutocomplete()
+        await searchPage.searchForm.typeSearchTerm('non')
+        await searchPage.searchForm.expect.toshowNoResultsFoundInAutocomplete()
       })
     })
 
     test.describe('Given a user searches for a term that returns no results', () => {
       test('then they can see an input containing the search term so they can edit it', async () => {
         await searchPage.goToSearchFor('non')
-        await searchPage.expect.toSeeSearchInputContainingSearchTerm()
+        await searchPage.searchForm.expect.inputToContainSearchTerm()
       })
 
       test('they see a helpful message to help them change their search', async () => {
@@ -116,9 +116,9 @@ test.describe('Search page', () => {
     test.describe('Given a user goes to straight to the search page', () => {
       test('then they see an empty search input and can search by a new term', async () => {
         await searchPage.goTo()
-        await searchPage.expect.toSeeSearchInputContainingNoSearchTerm()
+        await searchPage.searchForm.expect.inputToContainNoSearchTerm()
         await searchPage.expect.toSeeNoResultsMessage()
-        await searchPage.searchFor(searchTerm)
+        await searchPage.searchForm.searchFor(searchTerm)
         await searchPage.expect.toSeeInformationForEachResult()
       })
     })
@@ -135,10 +135,10 @@ test.describe('Search page', () => {
       })
 
       test('the user can edit their search and search again', async () => {
-        await searchPage.expect.toSeeSearchInputContainingSearchTerm()
-        await searchPage.searchFor('education')
+        await searchPage.searchForm.expect.inputToContainSearchTerm()
+        await searchPage.searchForm.searchFor('education')
         await searchPage.expect.toBeOnPageWithResultsFor('education')
-        await searchPage.expect.toSeeSearchInputContainingSearchTerm()
+        await searchPage.searchForm.expect.inputToContainSearchTerm()
         await searchPage.expect.toSeeInformationForEachResult()
       })
 
@@ -155,7 +155,7 @@ test.describe('Search page', () => {
     test.describe('Given a user searches for a term that returns no results', () => {
       test('then they can see an input containing the search term so they can edit it', async () => {
         await searchPage.goToSearchFor('non')
-        await searchPage.expect.toSeeSearchInputContainingSearchTerm()
+        await searchPage.searchForm.expect.inputToContainSearchTerm()
       })
 
       test('they see a helpful message to help them change their search', async () => {
