@@ -28,7 +28,8 @@
   },
   "ts-standard": {
     "ignore": [  
-      "playwright.config.ts"
+      "playwright.config.ts",
+      "playwright-report/*"
     ]
   }
 }
