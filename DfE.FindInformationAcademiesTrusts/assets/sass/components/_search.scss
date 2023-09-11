@@ -44,6 +44,7 @@
     display: flex;
     gap: 10px;
     height: 3rem;
+    width: unset;
   }
 
   .app-search__icon {
@@ -80,12 +81,6 @@
     .app-search__icon {
       fill: govuk-colour("white");
     }
-  }
-}
-
-@media (width <=40.0525em) {
-  .app-search__button {
-    padding: 0 8px;
   }
 }
 
