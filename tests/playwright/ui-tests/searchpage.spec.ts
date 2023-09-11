@@ -8,6 +8,8 @@ test.describe('Search page', () => {
   let searchPage: SearchPage
   let detailsPage: DetailsPage
   const searchTerm = 'trust'
+  const secondSearchTerm = 'education'
+  const searchTermWithNoResults = 'non'
 
   test.beforeEach(async ({ page }) => {
     searchPage = new SearchPage(page)
@@ -41,8 +43,8 @@ test.describe('Search page', () => {
 
         test('the user can edit their search and search again', async () => {
           await searchPage.searchForm.expect.inputToContainSearchTerm()
-          await searchPage.searchForm.searchFor('education')
-          await searchPage.expect.toBeOnPageWithResultsFor('education')
+          await searchPage.searchForm.searchFor(secondSearchTerm)
+          await searchPage.expect.toBeOnPageWithResultsFor(secondSearchTerm)
           await searchPage.searchForm.expect.inputToContainSearchTerm()
           await searchPage.expect.toSeeInformationForEachResult()
         })
@@ -59,12 +61,12 @@ test.describe('Search page', () => {
 
       test.describe('Given a user searches for a term that returns no results', () => {
         test('then they can see an input containing the search term so they can edit it', async () => {
-          await searchPage.goToSearchFor('non')
+          await searchPage.goToSearchFor(searchTermWithNoResults)
           await searchPage.searchForm.expect.inputToContainSearchTerm()
         })
 
         test('they see a helpful message to help them change their search', async () => {
-          await searchPage.goToSearchFor('non')
+          await searchPage.goToSearchFor(searchTermWithNoResults)
           await searchPage.expect.toSeeNoResultsMessage()
         })
       })
@@ -80,7 +82,7 @@ test.describe('Search page', () => {
 
       test('the user can edit their search and select an item using autocomplete', async () => {
         await searchPage.searchForm.expect.inputToContainSearchTerm()
-        await searchPage.searchForm.typeSearchTerm('education')
+        await searchPage.searchForm.typeSearchTerm(secondSearchTerm)
         await searchPage.searchForm.chooseItemFromAutocompleteWithText('Abbey Education')
         await searchPage.searchForm.submitSearch()
         await detailsPage.expect.toBeOnTheRightPageFor('Abbey Education')
@@ -103,23 +105,23 @@ test.describe('Search page', () => {
       test('then they should be able to change their search term to a free text search after selecting a result', async () => {
         await searchPage.searchForm.typeSearchTerm(searchTerm)
         await searchPage.searchForm.chooseItemFromAutocompleteWithText('trust 1')
-        await searchPage.searchForm.typeSearchTerm('education')
+        await searchPage.searchForm.typeSearchTerm(secondSearchTerm)
         await searchPage.searchForm.submitSearch()
-        await searchPage.expect.toBeOnPageWithResultsFor('education')
+        await searchPage.expect.toBeOnPageWithResultsFor(secondSearchTerm)
         await searchPage.expect.toSeeInformationForEachResult()
       })
 
       test('then they should be able to change their selection after clicking a result', async () => {
         await searchPage.searchForm.typeSearchTerm(searchTerm)
         await searchPage.searchForm.chooseItemFromAutocompleteWithText('trust 1')
-        await searchPage.searchForm.typeSearchTerm('education')
+        await searchPage.searchForm.typeSearchTerm(secondSearchTerm)
         await searchPage.searchForm.chooseItemFromAutocompleteWithText('Abbey Education')
         await searchPage.searchForm.submitSearch()
         await detailsPage.expect.toBeOnTheRightPageFor('Abbey Education')
       })
 
       test('then they should see no results message if there are no matching trusts', async () => {
-        await searchPage.searchForm.typeSearchTerm('non')
+        await searchPage.searchForm.typeSearchTerm(searchTermWithNoResults)
         await searchPage.searchForm.expect.toshowNoResultsFoundInAutocomplete()
       })
     })
