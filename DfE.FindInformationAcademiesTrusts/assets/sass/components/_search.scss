@@ -9,6 +9,12 @@
     overflow: visible;
   }
 
+  .autocomplete__hint,
+  .autocomplete__input,
+  .autocomplete__option {
+    @include govuk-font($size: 19);
+  }
+
   .autocomplete__input {
     background-color: govuk-colour("white");
   }
@@ -38,6 +44,11 @@
     display: flex;
     gap: 10px;
     height: 3rem;
+  }
+
+  .app-search__icon {
+    width: 100%;
+    height: 100%;
   }
 
   .app-search__button--blue {
