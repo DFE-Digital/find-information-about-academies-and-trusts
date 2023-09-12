@@ -1,23 +1,19 @@
 import { Locator, Page, expect } from '@playwright/test'
+import { SearchFormComponent } from './shared/search-form-component'
 
 export class HomePage {
   readonly expect: HomePageAssertions
+  readonly searchForm: SearchFormComponent
   readonly _searchBoxLocator: Locator
   readonly _searchButtonLocator: Locator
 
   constructor (readonly page: Page) {
     this.expect = new HomePageAssertions(this)
-    this._searchBoxLocator = this.page.getByLabel('Find information about academies and trusts')
-    this._searchButtonLocator = this.page.getByRole('button', { name: 'Search' })
+    this.searchForm = new SearchFormComponent(page, 'Find information about academies and trusts')
   }
 
   async goTo (): Promise<void> {
     await this.page.goto('/')
-  }
-
-  async searchFor (searchTerm: string): Promise<void> {
-    await this._searchBoxLocator.fill(searchTerm)
-    await this._searchButtonLocator.click()
   }
 }
 

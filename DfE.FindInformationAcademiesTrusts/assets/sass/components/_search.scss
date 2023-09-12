@@ -1,0 +1,113 @@
+@import "../variables";
+
+.app-search {
+  &__form {
+    line-height: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .autocomplete__hint,
+  .autocomplete__input,
+  .autocomplete__option {
+    @include govuk-font($size: 19);
+  }
+
+  .autocomplete__input {
+    background-color: govuk-colour("white");
+  }
+
+  .autocomplete__option {
+    margin-bottom: 0;
+  }
+
+  .autocomplete__option-hint {
+    display: block;
+    @include govuk-font(16);
+    color: $govuk-secondary-text-colour;
+  }
+
+  .autocomplete__option--focused,
+  .autocomplete__option:hover {
+    .autocomplete__option-hint {
+      color: govuk-colour("white");
+    }
+  }
+
+  .app-search__button {
+    border-left: none;
+    border-color: govuk-colour("black");
+    border-radius: 0 4px 4px 0;
+    box-shadow: none;
+    display: flex;
+    gap: 10px;
+    height: 3rem;
+  }
+
+  .app-search__icon {
+    width: 100%;
+    height: 100%;
+  }
+
+  .app-search__button--blue {
+    background-color: $govuk-link-colour;
+
+    .app-search__icon {
+      fill: govuk-colour("white");
+    }
+
+    &:hover {
+      background-color: #002644;
+      border-color: govuk-colour("black");
+      box-shadow: none;
+    }
+
+    &:focus {
+      background-color: govuk-colour("yellow");
+
+      .app-search__icon {
+        fill: govuk-colour("black");
+      }
+    }
+  }
+
+  .app-search__button--blue:focus:hover {
+    border-color: govuk-colour("yellow");
+    background-color: #002644;
+
+    .app-search__icon {
+      fill: govuk-colour("white");
+    }
+  }
+}
+
+@media (width <=40.0525em) {
+  .app-search__button {
+    padding: 0 8px;
+  }
+}
+
+.app-search--main {
+  & > div {
+    width: 100%;
+  }
+
+  .autocomplete__input,
+  .app-search__input {
+    border-right: none;
+    border-color: govuk-colour("black");
+    height: 3rem;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 0;
+  }
+
+  .autocomplete__input:focus,
+  .app-search__input:focus {
+    height: 3rem;
+    box-shadow: 0 0 0 4px govuk-colour("yellow");
+  }
+}
