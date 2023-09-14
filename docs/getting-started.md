@@ -109,22 +109,26 @@ WIREMOCK_BASEURL="http://localhost:8080"
 ```bash
 cd DfE.FindInformationAcademiesTrusts.UnitTests/playwright
 
-# run docker image with build flag to watch for the latest code changes
-docker compose -f ../../docker/docker-compose.ci.yml up -d --build
-
 # install dependencies
 npm install
+
+# run docker image with an application rebuild
+npm run docker:start
 
 # run tests 
 npm run test:ci
 
 # OR
+npm run test:ui # run only ui tests
+npm run test:ui:trace # run only ui tests in chromium, with trace mode
+npm run test:a11y # run only accessibility tests
+
 npx playwright test {folder-name}/* # run a particular set of tests
 npx playright test --headed # run in headed mode
 npx playwright test --trace=on # get a time machine attached to each test result in the report
 
 # remove docker image when done
-docker compose -f ../../docker/docker-compose.ci.yml down
+npm run docker:stop
 ```
 
 For more information on running and debugging Playwright tests it is worth familiarising yourself with the Playwright docs on [debugging](https://playwright.dev/docs/debug) and [command line flags](https://playwright.dev/docs/test-cli).
