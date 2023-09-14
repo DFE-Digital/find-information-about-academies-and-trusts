@@ -112,7 +112,7 @@ cd DfE.FindInformationAcademiesTrusts.UnitTests/playwright
 # install dependencies
 npm install
 
-# run docker image with build flag to watch for the latest code changes
+# run docker image with an application rebuild
 npm run docker:start
 
 # run tests 
