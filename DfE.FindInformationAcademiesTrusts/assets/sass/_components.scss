@@ -39,3 +39,17 @@
     @include govuk-responsive-padding(2, "right");
   }
 }
+
+.app-side-navigation {
+  .ds_side-navigation__list, ul {
+    margin: 0;
+  }
+
+  .ds_side-navigation__list, .ds_side-navigation__list {
+    margin: 0;
+  }
+  
+  .app-side-navigation-highlight-item {
+    margin-left: -12px;
+  }
+}

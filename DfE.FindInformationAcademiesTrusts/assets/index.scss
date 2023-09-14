@@ -2,6 +2,7 @@ $govuk-assets-path: "/node_modules/govuk-frontend/govuk/assets/";
 @import "govuk-frontend/govuk/all";
 @import "./dfefrontend-0.1.8.min.css";
 @import "./sass/components";
+@import "./sass/imports";
 @import "accessible-autocomplete";
 
 .govuk-width-container {
