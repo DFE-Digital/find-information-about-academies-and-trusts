@@ -84,9 +84,27 @@
   }
 }
 
-.app-search--main {
+.app-search__wrapper {
+  display: -ms-flexbox;
+  display: flex;
+
   & > div {
     width: 100%;
+  }
+
+  .govuk-input {
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+  }
+
+  .govuk-input__wrapper .govuk-input:focus {
+    z-index: 2;
+  }
+
+  @media (width <= 19.99em) {
+    .govuk-input__wrapper .govuk-input {
+      max-width: 100%;
+    }
   }
 
   .autocomplete__input,
