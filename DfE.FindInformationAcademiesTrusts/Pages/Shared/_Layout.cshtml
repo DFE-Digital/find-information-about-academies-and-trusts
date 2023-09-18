@@ -24,6 +24,11 @@
   </script>
   <partial name="_Header"/>
 
+  @if (IsSectionDefined("TrustBanner"))
+  {
+    @await RenderSectionAsync("TrustBanner")
+  }
+
   <div class="@Model.GetPageWidthClass("dfe-width-container")">
     <main class="@Model.GetPageWidthClass("govuk-main-wrapper")" id="main-content" role="main">
       @RenderBody()

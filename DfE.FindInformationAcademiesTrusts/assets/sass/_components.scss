@@ -11,7 +11,7 @@
   }
 
   .app-banner--body {
-    color: govuk-colour("black");
+    color: $govuk-secondary-text-colour;
   }
 
   &.app-banner--l {
