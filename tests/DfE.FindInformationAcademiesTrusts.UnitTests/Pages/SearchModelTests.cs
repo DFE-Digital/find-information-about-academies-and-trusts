@@ -16,7 +16,7 @@ public class SearchModelTests
         _sut = new SearchModel(_mockTrustProvider.Object);
     }
 
-    private readonly Trust[] _fakeTrusts =
+    private readonly TrustSearchEntry[] _fakeTrusts =
     {
         new("trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC", "2044", 0),
         new("trust 2", "Grant Course, North East Lincolnshire, QH96 9WV", "2044", 3),
@@ -24,7 +24,7 @@ public class SearchModelTests
     };
 
     private readonly Trust _fakeTrust =
-        new("trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC", "2044", 0);
+        new("trust 1", "2044", "Multi-academy trust");
 
     private const string _trustId = "1234";
 

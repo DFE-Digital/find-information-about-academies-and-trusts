@@ -9,13 +9,13 @@ public class DetailsModelTests
     {
         var mockTrustProvider = new Mock<ITrustProvider>();
         mockTrustProvider.Setup(s => s.GetTrustByUkprnAsync("1234").Result)
-            .Returns(new Trust("test", "test", "test", 0));
+            .Returns(new Trust("test", "test", "Multi-academy trust"));
         var sut = new DetailsModel(mockTrustProvider.Object)
         {
             Ukprn = "1234"
         };
 
         await sut.OnGetAsync();
-        sut.Trust.Should().BeEquivalentTo(new Trust("test", "test", "test", 0));
+        sut.Trust.Should().BeEquivalentTo(new Trust("test", "test", "Multi-academy trust"));
     }
 }

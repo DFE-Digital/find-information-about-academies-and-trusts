@@ -6,7 +6,7 @@ public class TrustSearchTests
 {
     private readonly ITrustSearch _sut;
 
-    private readonly Trust[] _fakeTrusts =
+    private readonly TrustSearchEntry[] _fakeTrusts =
     {
         new("trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC", "2044", 0),
         new("trust 2", "Grant Course, North East Lincolnshire, QH96 9WV", "2044", 3),
