@@ -1,1 +1,4 @@
+$govuk-assets-path: "/node_modules/govuk-frontend/govuk/assets/";
+@import "govuk-frontend/govuk/all";
+@import "accessible-autocomplete";
 @import "./imports/digital-scotland";
