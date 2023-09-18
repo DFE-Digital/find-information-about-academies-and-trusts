@@ -1,3 +1,5 @@
+@model DfE.FindInformationAcademiesTrusts.Pages.Trusts.ITrustsAreaModel
+
 <nav aria-label="Sections" class="ds_side-navigation app-side-navigation" data-module="ds-side-navigation">
   <input type="checkbox" class="fully-hidden  js-toggle-side-navigation" id="show-side-navigation" aria-controls="side-navigation-root"/>
   <label class="ds_side-navigation__expand  ds_link" for="show-side-navigation"><span class="visually-hidden">Show all</span> Pages in this section <span class="ds_side-navigation__expand-indicator"></span></label>
@@ -7,10 +9,10 @@
       <span>About the trust</span>
       <ul class="ds_side-navigation__list">
         <li class="ds_side-navigation__item app-side-navigation-highlight-item">
-          <a href="#" class="ds_side-navigation__link ds_current">Details</a>
+          <a asp-page="./Details" asp-route-ukprn="@Model.Trust.Ukprn" class="ds_side-navigation__link ds_current">Details</a>
         </li>
         <li class="ds_side-navigation__item app-side-navigation-highlight-item">
-          <a href="#" class="ds_side-navigation__link">Contacts</a>
+          <a asp-page="./Contacts" asp-route-ukprn="@Model.Trust.Ukprn" class="ds_side-navigation__link">Contacts</a>
         </li>
       </ul>
     </li>
