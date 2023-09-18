@@ -3,18 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
-public class DetailsModel : LayoutModel, ITrustsAreaModel
+public class ContactsModel : LayoutModel, ITrustsAreaModel
 {
     private readonly ITrustProvider _trustProvider;
 
-    public DetailsModel(ITrustProvider trustProvider)
+    public ContactsModel(ITrustProvider trustProvider)
     {
         _trustProvider = trustProvider;
     }
 
     [BindProperty(SupportsGet = true)] public string Ukprn { get; set; } = "";
     public Trust Trust { get; set; } = default!;
-
 
     public async Task<IActionResult> OnGetAsync()
     {
