@@ -1,0 +1,26 @@
+@{
+  Layout = "_Layout";
+}
+
+@section TrustBanner {
+  <div class="app-banner">
+    <div class="dfe-width-container">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-three-quarters">
+          <p class="govuk-heading-l app-banner--heading govuk-!-margin-bottom-3">@Model.Trust.Name</p>
+          <p class="govuk-body app-banner--body govuk-!-margin-bottom-0">@Model.Trust.Type</p>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    Navigation
+  </div>
+  <div class="govuk-grid-column-three-quarters">
+    @RenderBody()
+  </div>
+</div>
+@await RenderSectionAsync("Scripts", false)

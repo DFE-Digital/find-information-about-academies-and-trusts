@@ -22,7 +22,16 @@
   </script>
   <partial name="_Header"/>
 
-  @RenderBody()
+  @if (IsSectionDefined("TrustBanner"))
+  {
+    @await RenderSectionAsync("TrustBanner")
+  }
+
+  <div class="@Model.GetPageWidthClass("dfe-width-container")">
+    <main class="@Model.GetPageWidthClass("govuk-main-wrapper")" id="main-content" role="main">
+      @RenderBody()
+    </main>
+  </div>
 
   <partial name="_Footer"/>
   <script src="~/dist/main.js"></script>
