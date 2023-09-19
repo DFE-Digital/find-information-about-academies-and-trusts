@@ -1,6 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 
 public class DetailsModelTests
 {
@@ -19,6 +19,16 @@ public class DetailsModelTests
         sut.Trust.Should().BeEquivalentTo(new Trust("test", "test", "Multi-academy trust"));
     }
 
+    [Fact]
+    public async void Ukprn_should_be_empty_string_by_default()
+    {
+        var mockTrustProvider = new Mock<ITrustProvider>();
+        var sut = new DetailsModel(mockTrustProvider.Object);
+
+        await sut.OnGetAsync();
+        sut.Ukprn.Should().BeEquivalentTo(string.Empty);
+    }
+    
     [Fact]
     public void PageName_should_be_Details()
     {
