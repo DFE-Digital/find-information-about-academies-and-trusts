@@ -1,4 +1,50 @@
+// create variables to get and store GOV.UK breakpoints
+// these will be used to update Digital Scotland breakpoints to match the GOV.UK grid system and breakpoints
+$govuk-breakpoint-overrides: if(
+  variable-exists(govuk-breakpoints),
+  $govuk-breakpoints,
+  ()
+);
+
+// create default values incase Design System naming changes in the future
+$govuk-mobile: 320px;
+$govuk-tablet: 641px;
+$govuk-desktop: 769px;
+
+$govuk-mobile: map-get($govuk-breakpoint-overrides, mobile) !default;
+$govuk-tablet: map-get($govuk-breakpoint-overrides, tablet) !default;
+$govuk-desktop: map-get($govuk-breakpoint-overrides, desktop) !default;
+
+$xgovuk-desktop: "990px";
+
+// disable stylelint rule related to naming pattern used for Digital Scotland variables
+// stylelint-disable scss/dollar-variable-pattern
+$ds_breakpoints: (
+  small: "(min-width: #{$govuk-mobile})",
+  medium: "(min-width: #{$govuk-tablet})",
+  large: "(min-width: #{$govuk-desktop})",
+  xlarge: "(min-width: #{$xgovuk-desktop})",
+
+  small-down: "(max-width: #{$govuk-mobile})",
+  medium-down: "(max-width: #{$govuk-tablet})",
+  large-down: "(max-width: #{$govuk-desktop})",
+  small-to-medium:
+    "(min-width: #{$govuk-mobile}) and (max-width: #{$govuk-tablet})",
+  medium-to-large:
+    "(min-width: #{$govuk-tablet}) and (max-width: #{$govuk-desktop})",
+  large-to-xlarge:
+    "(min-width: #{$govuk-desktop}) and (max-width: #{$xgovuk-desktop})",
+  xlarge-up: "(min-width: #{$xgovuk-desktop})",
+
+  // the below are the Digital Scotland values, as GOV.UK does not seem to have an equivalent
+  medium-portrait:
+    "(min-width: 768px) and (orientation: portrait) and (max-width : 1024px)",
+  medium-landscape:
+    "(min-width: 768px) and (orientation: landscape)  and (max-width : 1024px)",
+);
+
 $ds_colour__brand: $govuk-link-colour;
+// stylelint-enable scss/dollar-variable-pattern
 
 @import "@scottish-government/pattern-library/src/base/all-base";
 @import "@scottish-government/pattern-library/src/components/side-navigation/side-navigation";
