@@ -1,5 +1,6 @@
 @{
   Layout = "_Layout";
+  ViewData["Title"] = $"{ViewData["Heading"]} - {Model.Trust.Name}";
 }
 
 @section TrustBanner {
@@ -20,6 +21,10 @@
     <partial name="_TrustNavigation" model="@Model"/>
   </div>
   <div class="govuk-grid-column-three-quarters">
+    <header>
+      <span class="govuk-caption-m">@ViewData["Section"]</span>
+      <h1 class="govuk-heading-l">@ViewData["Heading"]</h1>
+    </header>
     @RenderBody()
   </div>
 </div>
