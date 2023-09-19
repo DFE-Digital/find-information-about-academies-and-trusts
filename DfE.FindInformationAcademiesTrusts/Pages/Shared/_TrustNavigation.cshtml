@@ -4,25 +4,25 @@
 
   private string? GetCurrentLinkClassIf(string linkName)
   {
-    var currentLinkClass = "ds_current";
+    var currentLinkClass = "ds_current govuk-!-font-weight-bold";
     return (string)ViewData["Heading"]! == linkName ? currentLinkClass : null;
   }
 
 }
 
 <nav aria-label="Sections" class="ds_side-navigation app-side-navigation" data-module="ds-side-navigation">
-  <input type="checkbox" class="fully-hidden  js-toggle-side-navigation" id="show-side-navigation" aria-controls="side-navigation-root"/>
-  <label class="ds_side-navigation__expand  ds_link" for="show-side-navigation"><span class="visually-hidden">Show all</span> Pages in this section <span class="ds_side-navigation__expand-indicator"></span></label>
+  <input type="checkbox" class="fully-hidden js-toggle-side-navigation" id="show-side-navigation" aria-controls="side-navigation-root"/>
+  <label class="ds_side-navigation__expand" for="show-side-navigation"><span class="visually-hidden">Show all</span> Pages in this section <span class="ds_side-navigation__expand-indicator"></span></label>
 
-  <ul class="ds_side-navigation__list" id="side-navigation-root">
-    <li class="ds_side-navigation__item  ds_side-navigation__item--has-children">
-      <span>About the trust</span>
-      <ul class="ds_side-navigation__list">
+  <ul class="ds_side-navigation__list app-side-navigation__list" id="side-navigation-root">
+    <li class="ds_side-navigation__item  ds_side-navigation__item--has-children app-side-navigation__item--has-children">
+      <div class="govuk-caption-m app-side-navigation__title">About the trust</div>
+      <ul class="ds_side-navigation__list app-side-navigation__list">
         <li class="ds_side-navigation__item app-side-navigation-highlight-item">
-          <a asp-page="./Details" asp-route-ukprn="@Model.Trust.Ukprn" class="ds_side-navigation__link @GetCurrentLinkClassIf("Details")">Details</a>
+          <a asp-page="./Details" asp-route-ukprn="@Model.Trust.Ukprn" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Details")">Details</a>
         </li>
         <li class="ds_side-navigation__item app-side-navigation-highlight-item">
-          <a asp-page="./Contacts" asp-route-ukprn="@Model.Trust.Ukprn" class="ds_side-navigation__link @GetCurrentLinkClassIf("Contacts")">Contacts</a>
+          <a asp-page="./Contacts" asp-route-ukprn="@Model.Trust.Ukprn" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Contacts")">Contacts</a>
         </li>
       </ul>
     </li>
