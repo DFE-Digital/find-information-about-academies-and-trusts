@@ -1,4 +1,27 @@
+// disable stylelint rule related to naming pattern used for Digital Scotland variables
+// stylelint-disable scss/dollar-variable-pattern
+$ds_breakpoints: (
+  small: "(min-width: 320px)",
+  medium: "(min-width: 641px)",
+  large: "(min-width: 769px)",
+  xlarge: "(min-width: 990px)",
+
+  small-down: "(max-width: 319px)",
+  medium-down: "(max-width: 640px)",
+  large-down: "(max-width: 768px)",
+  small-to-medium: "(min-width: 320px) and (max-width: 641px)",
+  medium-to-large: "(min-width: 641px) and (max-width: 769px)",
+  large-to-xlarge: "(min-width: 769px) and (max-width: 990px)",
+  xlarge-up: "(min-width: 990px)",
+
+  medium-portrait:
+    "(min-width: 768px) and (orientation: portrait) and (max-width : 1024px)",
+  medium-landscape:
+    "(min-width: 768px) and (orientation: landscape)  and (max-width : 1024px)",
+);
+
 $ds_colour__brand: $govuk-link-colour;
+// stylelint-enable scss/dollar-variable-pattern
 
 @import "@scottish-government/pattern-library/src/base/all-base";
 @import "@scottish-government/pattern-library/src/components/side-navigation/side-navigation";
