@@ -1,13 +1,22 @@
-import { Page, expect } from '@playwright/test'
+import { Locator, Page, expect } from '@playwright/test'
 import { TrustHeaderComponent } from '../shared/trust-header-component'
+import { MockTrustsProvider } from '../../mocks/mock-trusts-provider'
 
 export class DetailsPage {
   readonly expect: DetailsPageAssertions
-  readonly _trustHeading: TrustHeaderComponent
+  readonly trustHeading: TrustHeaderComponent
+  readonly pageHeadingLocator: Locator
 
   constructor (readonly page: Page) {
     this.expect = new DetailsPageAssertions(this)
-    this._trustHeading = new TrustHeaderComponent(page)
+    this.trustHeading = new TrustHeaderComponent(page)
+    this.pageHeadingLocator = page.locator('h1')
+  }
+
+  async goTo (
+    ukprn: string = MockTrustsProvider.expectedFormattedTrustResult.ukprn
+  ): Promise<void> {
+    await this.page.goto(`/trusts/details/${ukprn}`)
   }
 }
 
@@ -15,6 +24,12 @@ class DetailsPageAssertions {
   constructor (readonly detailsPage: DetailsPage) {}
 
   async toBeOnTheRightPageFor (trust: string): Promise<void> {
-    await expect(this.detailsPage._trustHeading.locator).toHaveText(trust)
+    await this.detailsPage.trustHeading.expect.toContain(trust)
+    await expect(this.detailsPage.pageHeadingLocator).toHaveText('Details')
+  }
+
+  async toSeeCorrectTrustNameAndTypeInHeader (): Promise<void> {
+    const { name, type } = MockTrustsProvider.expectedFormattedTrustResult
+    await this.detailsPage.trustHeading.expect.toSeeCorrectTrustNameAndType(name, type)
   }
 }

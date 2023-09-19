@@ -14,6 +14,12 @@ export class MockTrustsProvider {
     non: []
   }
 
+  static expectedFormattedTrustResult = {
+    name: 'Abbey Education',
+    ukprn: '175',
+    type: 'Multi-academy trust'
+  }
+
   constructor () {
     this._mock = new WireMock(process.env.WIREMOCK_BASEURL ?? 'http://localhost:8080')
   }
@@ -58,9 +64,10 @@ export class MockTrustsProvider {
               Town: 'Kingston upon Hull',
               County: 'East Riding of Yorkshire',
               Postcode: 'JY36 9VC'
-            }
+            },
+            groupType: 'Multi-academy trust',
+            ukprn
           },
-          ukprn,
           Establishments: []
         }
       }
