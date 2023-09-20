@@ -3,22 +3,22 @@ import { DetailsPage } from '../../page-object-model/trust/details-page'
 import { ContactsPage } from '../../page-object-model/trust/contacts-page'
 
 test.describe('Details page', () => {
-  let detailsPage: DetailsPage
   let contactsPage: ContactsPage
+  let detailsPage: DetailsPage
 
   test.beforeEach(async ({ page }) => {
-    detailsPage = new DetailsPage(page)
     contactsPage = new ContactsPage(page)
-    await detailsPage.goTo()
+    detailsPage = new DetailsPage(page)
+    await contactsPage.goTo()
   })
 
   test('user should see trust name and type', async () => {
-    await detailsPage.expect.toSeeCorrectTrustNameAndTypeInHeader()
+    await contactsPage.expect.toSeeCorrectTrustNameAndTypeInHeader()
   })
 
   test('user should be able to navigate between different sections about a trust', async () => {
-    await detailsPage.trustNavigation.expect.toBeVisible()
-    await detailsPage.trustNavigation.clickOn('Contacts')
-    await contactsPage.expect.toBeOnTheRightPage()
+    await contactsPage.trustNavigation.expect.toBeVisible()
+    await contactsPage.trustNavigation.clickOn('Details')
+    await detailsPage.expect.toBeOnTheRightPage()
   })
 })
