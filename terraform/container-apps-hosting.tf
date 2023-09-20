@@ -1,5 +1,5 @@
 module "azure_container_apps_hosting" {
-  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v0.19.4"
+  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v1.0.0"
 
   environment    = local.environment
   project_name   = local.project_name
@@ -25,7 +25,7 @@ module "azure_container_apps_hosting" {
   container_memory                              = local.container_memory
   container_min_replicas                        = local.container_min_replicas
   container_max_replicas                        = local.container_max_replicas
-  container_scale_rule_concurrent_request_count = local.container_scale_rule_concurrent_request_count
+  # container_scale_rule_concurrent_request_count = local.container_scale_rule_concurrent_request_count
 
   enable_redis_cache   = local.enable_redis_cache
   redis_cache_sku      = local.redis_cache_sku
