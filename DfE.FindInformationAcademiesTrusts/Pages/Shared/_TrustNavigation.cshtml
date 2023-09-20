@@ -19,10 +19,14 @@
       <div class="govuk-caption-m app-side-navigation__title">About the trust</div>
       <ul class="ds_side-navigation__list app-side-navigation__list">
         <li class="ds_side-navigation__item app-side-navigation-highlight-item">
-          <a asp-page="./Details" asp-route-ukprn="@Model.Trust.Ukprn" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Details")">Details</a>
+          <a asp-page="./Details" asp-route-ukprn="@Model.Trust.Ukprn" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Details")">
+            <span class="visually-hidden">Trust</span>Details
+          </a>
         </li>
         <li class="ds_side-navigation__item app-side-navigation-highlight-item">
-          <a asp-page="./Contacts" asp-route-ukprn="@Model.Trust.Ukprn" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Contacts")">Contacts</a>
+          <a asp-page="./Contacts" asp-route-ukprn="@Model.Trust.Ukprn" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Contacts")">
+            <span class="visually-hidden">Trust</span>Contacts
+          </a>
         </li>
       </ul>
     </li>
