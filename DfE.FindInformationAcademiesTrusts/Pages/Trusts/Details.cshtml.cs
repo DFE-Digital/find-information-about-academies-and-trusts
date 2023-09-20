@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
-public class DetailsModel : PageModel, ITrustsAreaModel
+public class DetailsModel : PageModel
 {
     private readonly ITrustProvider _trustProvider;
 
