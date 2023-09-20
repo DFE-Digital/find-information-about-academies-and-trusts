@@ -1,7 +1,7 @@
 import { test } from '@playwright/test'
 import { ContactsPage } from '../../page-object-model/trust/contacts-page'
 
-test.describe('Details page', () => {
+test.describe('Contacts page', () => {
   let contactsPage: ContactsPage
 
   test.beforeEach(async ({ page }) => {
