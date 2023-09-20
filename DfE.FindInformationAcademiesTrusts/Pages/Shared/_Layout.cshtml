@@ -1,6 +1,4 @@
-﻿@model LayoutModel
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" class="govuk-template ">
 
 <head>
@@ -24,16 +22,7 @@
   </script>
   <partial name="_Header"/>
 
-  @if (IsSectionDefined("TrustBanner"))
-  {
-    @await RenderSectionAsync("TrustBanner")
-  }
-
-  <div class="@Model.GetPageWidthClass("dfe-width-container")">
-    <main class="@Model.GetPageWidthClass("govuk-main-wrapper")" id="main-content" role="main">
-      @RenderBody()
-    </main>
-  </div>
+  @RenderBody()
 
   <partial name="_Footer"/>
   <script src="~/dist/main.js"></script>

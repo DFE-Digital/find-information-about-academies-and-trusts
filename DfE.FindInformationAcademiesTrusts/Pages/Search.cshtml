@@ -2,6 +2,7 @@
 @model SearchModel
 
 @{
+  Layout = "_ContentLayout";
   ViewData["Title"] = string.IsNullOrWhiteSpace(Model.KeyWords) ? "Search" : $"{Model.KeyWords} - Search";
 }
 
