@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
-public class SearchModel : LayoutModel, ISearchFormModel
+public class SearchModel : PageModel, ISearchFormModel
 {
     public record AutocompleteEntry(string Address, string Name, string? TrustId);
 

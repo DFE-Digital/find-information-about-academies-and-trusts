@@ -1,9 +1,9 @@
-using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
-public class ContactsModel : LayoutModel, ITrustsAreaModel
+public class ContactsModel : PageModel, ITrustsAreaModel
 {
     private readonly ITrustProvider _trustProvider;
 
