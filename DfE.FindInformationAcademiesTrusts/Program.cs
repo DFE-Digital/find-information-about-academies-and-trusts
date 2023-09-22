@@ -59,7 +59,7 @@ internal static class Program
     {
         if (!app.Environment.IsDevelopment() && !app.Environment.IsLocalDevelopment())
         {
-            app.UseExceptionHandler("/Error");
+            app.UseExceptionHandler("/ProblemWithProduct");
             app.UseHsts();
         }
 
@@ -72,7 +72,7 @@ internal static class Program
         });
 
         app.UseHttpsRedirection();
-
+        app.UseStatusCodePagesWithReExecute("/ProblemWithProduct");
         //For Azure AD redirect uri to remain https
         var forwardOptions = new ForwardedHeadersOptions
             { ForwardedHeaders = ForwardedHeaders.All, RequireHeaderSymmetry = false };
