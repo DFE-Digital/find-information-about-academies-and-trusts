@@ -16,7 +16,7 @@
 
   <ul class="ds_side-navigation__list app-side-navigation__list" id="side-navigation-root">
     <li class="ds_side-navigation__item  ds_side-navigation__item--has-children app-side-navigation__item--has-children">
-      <div class="govuk-caption-m app-side-navigation__title">About the trust</div>
+      <div class="govuk-caption-m app-side-navigation__title">@ViewConstants.AboutTheTrustSectionName</div>
       <ul class="ds_side-navigation__list app-side-navigation__list">
         <li class="ds_side-navigation__item app-side-navigation-highlight-item">
           <a asp-page="./Details" asp-route-ukprn="@Model.Trust.Ukprn" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Details")">
