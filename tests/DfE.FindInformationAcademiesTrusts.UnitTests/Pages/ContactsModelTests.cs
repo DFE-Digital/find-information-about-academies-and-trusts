@@ -28,4 +28,20 @@ public class ContactsModelTests
         await sut.OnGetAsync();
         sut.Ukprn.Should().BeEquivalentTo(string.Empty);
     }
+
+    [Fact]
+    public void PageName_should_be_Contacts()
+    {
+        var mockTrustProvider = new Mock<ITrustProvider>();
+        var sut = new ContactsModel(mockTrustProvider.Object);
+        sut.PageName.Should().Be("Contacts");
+    }
+
+    [Fact]
+    public void PageSection_should_be_AboutTheTrust()
+    {
+        var mockTrustProvider = new Mock<ITrustProvider>();
+        var sut = new ContactsModel(mockTrustProvider.Object);
+        sut.Section.Should().Be("About the trust");
+    }
 }

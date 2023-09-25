@@ -18,4 +18,20 @@ public class DetailsModelTests
         await sut.OnGetAsync();
         sut.Trust.Should().BeEquivalentTo(new Trust("test", "test", "Multi-academy trust"));
     }
+
+    [Fact]
+    public void PageName_should_be_Details()
+    {
+        var mockTrustProvider = new Mock<ITrustProvider>();
+        var sut = new DetailsModel(mockTrustProvider.Object);
+        sut.PageName.Should().Be("Details");
+    }
+
+    [Fact]
+    public void PageSection_should_be_AboutTheTrust()
+    {
+        var mockTrustProvider = new Mock<ITrustProvider>();
+        var sut = new DetailsModel(mockTrustProvider.Object);
+        sut.Section.Should().Be("About the trust");
+    }
 }

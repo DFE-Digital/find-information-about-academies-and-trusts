@@ -1,11 +1,11 @@
-@model DfE.FindInformationAcademiesTrusts.Pages.Trusts.ITrustsAreaModel
+@model ITrustsAreaModel
 
 @functions {
 
-  private string? GetCurrentLinkClassIf(string linkName)
+  private string GetCurrentLinkClassIf(string linkName)
   {
     var currentLinkClass = "ds_current govuk-!-font-weight-bold";
-    return (string)ViewData["Heading"]! == linkName ? currentLinkClass : null;
+    return Model.PageName == linkName ? currentLinkClass : string.Empty;
   }
 
 }

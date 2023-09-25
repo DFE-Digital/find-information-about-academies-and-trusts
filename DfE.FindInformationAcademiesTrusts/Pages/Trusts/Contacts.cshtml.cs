@@ -14,6 +14,8 @@ public class ContactsModel : PageModel, ITrustsAreaModel
 
     [BindProperty(SupportsGet = true)] public string Ukprn { get; set; } = "";
     public Trust Trust { get; set; } = default!;
+    public string PageName => "Contacts";
+    public string Section => "About the trust";
 
     public async Task<IActionResult> OnGetAsync()
     {
