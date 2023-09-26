@@ -63,7 +63,7 @@ jobs:
             ${{ runner.os }}-buildx-
 
       - name: Azure Container Registry login
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.AZURE_ACR_CLIENTID }}
           password: ${{ secrets.AZURE_ACR_SECRET }}
