@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
-public class SearchModel : LayoutModel, ISearchFormModel
+public class SearchModel : PageModel, ISearchFormModel
 {
     public record AutocompleteEntry(string Address, string Name, string? TrustId);
 
@@ -18,7 +18,7 @@ public class SearchModel : LayoutModel, ISearchFormModel
     public string InputId => "search";
     [BindProperty(SupportsGet = true)] public string KeyWords { get; set; } = string.Empty;
     [BindProperty(SupportsGet = true)] public string TrustId { get; set; } = string.Empty;
-    public IEnumerable<Trust> Trusts { get; set; } = Array.Empty<Trust>();
+    public IEnumerable<TrustSearchEntry> Trusts { get; set; } = Array.Empty<TrustSearchEntry>();
 
     public async Task<IActionResult> OnGetAsync()
     {
@@ -35,11 +35,11 @@ public class SearchModel : LayoutModel, ISearchFormModel
         return new PageResult();
     }
 
-    private async Task<IEnumerable<Trust>> GetTrustsForKeywords()
+    private async Task<IEnumerable<TrustSearchEntry>> GetTrustsForKeywords()
     {
         return !string.IsNullOrEmpty(KeyWords)
             ? await _trustProvider.GetTrustsByNameAsync(KeyWords)
-            : Array.Empty<Trust>();
+            : Array.Empty<TrustSearchEntry>();
     }
 
     public async Task<IActionResult> OnGetPopulateAutocompleteAsync()

@@ -127,7 +127,7 @@ public class TrustProviderTests
             new() { Ukprn = "1236", GroupName = "another trust" }
         };
 
-        var expectedOrderedTrusts = new Trust[]
+        var expectedOrderedTrusts = new TrustSearchEntry[]
         {
             new("a trust", "", "1234", 0),
             new("another trust", "", "1236", 0),
@@ -209,7 +209,7 @@ public class TrustProviderTests
         var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
         {
             Content = new StringContent(
-                "{\"Data\": {\"GiasData\": {\"GroupName\": \"trust 1\", \"GroupContactAddress\": {\"Street\":\"12 Abbey Road\", \"Locality\": \"Dorthy Inlet\", \"AdditionalLine\": \"East Park\", \"Town\": \"Kingston upon Hull\", \"County\": \"East Riding of Yorkshire\", \"Postcode\": \"JY36 9VC\"}, \"ukprn\": \"1234\"}, \"Establishments\": []}}"
+                "{\"Data\": {\"GiasData\": {\"GroupName\": \"trust 1\", \"GroupType\": \"Multi-academy trust\", \"GroupContactAddress\": {\"Street\":\"12 Abbey Road\", \"Locality\": \"Dorthy Inlet\", \"AdditionalLine\": \"East Park\", \"Town\": \"Kingston upon Hull\", \"County\": \"East Riding of Yorkshire\", \"Postcode\": \"JY36 9VC\"}, \"ukprn\": \"1234\"}, \"Establishments\": []}}"
             )
         };
 
@@ -219,24 +219,24 @@ public class TrustProviderTests
 
         var result = await sut.GetTrustByUkprnAsync("1234");
         result.Should().BeEquivalentTo(new Trust("trust 1",
-            "12 Abbey Road, Dorthy Inlet, East Park, Kingston upon Hull, JY36 9VC", "1234",
-            0));
+            "1234",
+            "Multi-academy trust"));
     }
 
     [Theory]
     [InlineData(
         "{\"Data\": {\"GiasData\": {\"GroupName\": \"trust 1\", \"GroupContactAddress\": {\"Street\":\"12 Abbey Road\", \"Locality\": \"Dorthy Inlet\", \"AdditionalLine\": \"East Park\", \"Town\": \"Kingston upon Hull\", \"County\": \"East Riding of Yorkshire\", \"Postcode\": \"JY36 9VC\"}, \"ukprn\": \"1234\"}, \"Establishments\": []}}",
-        0
+        ""
     )]
     [InlineData(
-        "{\"Data\": {\"GiasData\": {\"GroupName\": \"trust 1\", \"GroupContactAddress\": {\"Street\":\"12 Abbey Road\", \"Locality\": \"Dorthy Inlet\", \"AdditionalLine\": \"East Park\", \"Town\": \"Kingston upon Hull\", \"County\": \"East Riding of Yorkshire\", \"Postcode\": \"JY36 9VC\"}, \"ukprn\": \"1234\"}, \"Establishments\": [ {\"Urn\": \"123\"}]}}",
-        1
+        "{\"Data\": {\"GiasData\": {\"GroupName\": \"trust 1\", \"GroupType\": \"Single-academy trust\", \"GroupContactAddress\": {\"Street\":\"12 Abbey Road\", \"Locality\": \"Dorthy Inlet\", \"AdditionalLine\": \"East Park\", \"Town\": \"Kingston upon Hull\", \"County\": \"East Riding of Yorkshire\", \"Postcode\": \"JY36 9VC\"}, \"ukprn\": \"1234\"}, \"Establishments\": [ {\"Urn\": \"123\"}]}}",
+        "Single-academy trust"
     )]
     [InlineData(
-        "{\"Data\": {\"GiasData\": {\"GroupName\": \"trust 1\", \"GroupContactAddress\": {\"Street\":\"12 Abbey Road\", \"Locality\": \"Dorthy Inlet\", \"AdditionalLine\": \"East Park\", \"Town\": \"Kingston upon Hull\", \"County\": \"East Riding of Yorkshire\", \"Postcode\": \"JY36 9VC\"}, \"ukprn\": \"1234\"}, \"Establishments\": [{\"Urn\": \"123\"}, {\"Urn\": \"123\"}, {\"Urn\": \"123\"}]}}",
-        3
+        "{\"Data\": {\"GiasData\": {\"GroupName\": \"trust 1\", \"GroupType\": \"Multi-academy trust\", \"GroupContactAddress\": {\"Street\":\"12 Abbey Road\", \"Locality\": \"Dorthy Inlet\", \"AdditionalLine\": \"East Park\", \"Town\": \"Kingston upon Hull\", \"County\": \"East Riding of Yorkshire\", \"Postcode\": \"JY36 9VC\"}, \"ukprn\": \"1234\"}, \"Establishments\": [{\"Urn\": \"123\"}, {\"Urn\": \"123\"}, {\"Urn\": \"123\"}]}}",
+        "Multi-academy trust"
     )]
-    public async Task GetTrustByUkprnAsync_should_include_Academies_count(string data, int expected)
+    public async Task GetTrustByUkprnAsync_should_include_Trust_Type(string data, string expected)
     {
         var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
         {
@@ -248,7 +248,7 @@ public class TrustProviderTests
         var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
 
         var result = await sut.GetTrustByUkprnAsync("1234");
-        result.AcademyCount.Should().Be(expected);
+        result.Type.Should().Be(expected);
     }
 
     [Fact]

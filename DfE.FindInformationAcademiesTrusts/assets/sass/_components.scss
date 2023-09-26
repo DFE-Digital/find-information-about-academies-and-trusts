@@ -1,5 +1,6 @@
 @import "./variables";
 @import "components/search";
+@import "components/side-navigation";
 
 .app-banner {
   @include govuk-responsive-padding(5, "top");
@@ -11,7 +12,7 @@
   }
 
   .app-banner--body {
-    color: govuk-colour("black");
+    color: $govuk-secondary-text-colour;
   }
 
   &.app-banner--l {

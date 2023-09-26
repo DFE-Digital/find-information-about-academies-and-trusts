@@ -1,0 +1,40 @@
+@model ITrustsAreaModel
+
+@{
+  Layout = "_Layout";
+  ViewData["Title"] = $"{Model.PageName} - {Model.Trust.Name}";
+}
+
+<aside class="app-banner" data-testid="app-trust-header">
+  <div class="dfe-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-three-quarters">
+        <h2 class="govuk-heading-l app-banner--heading govuk-!-margin-bottom-3">@Model.Trust.Name</h2>
+        <p class="govuk-body app-banner--body govuk-!-margin-bottom-0">@Model.Trust.Type</p>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<div class="govuk-main-wrapper">
+  <div class="dfe-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-quarter">
+        <partial name="_TrustNavigation" model="@Model"/>
+      </div>
+      <div class="govuk-grid-column-three-quarters">
+        <main id="main-content" role="main">
+          <header>
+            <span class="govuk-caption-m">@Model.Section</span>
+            <h1 class="govuk-heading-l">@Model.PageName</h1>
+          </header>
+          @RenderBody()
+        </main>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+  @await RenderSectionAsync("Scripts", false)
+}

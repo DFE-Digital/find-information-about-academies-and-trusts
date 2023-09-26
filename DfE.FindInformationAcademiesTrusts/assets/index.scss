@@ -1,8 +1,7 @@
-$govuk-assets-path: "/node_modules/govuk-frontend/govuk/assets/";
-@import "govuk-frontend/govuk/all";
 @import "./dfefrontend-0.1.8.min.css";
+@import "./sass/imports";
+@import "./sass/resets";
 @import "./sass/components";
-@import "accessible-autocomplete";
 
 .govuk-width-container {
   max-width: 1200px;

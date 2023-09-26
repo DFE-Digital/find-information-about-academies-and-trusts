@@ -2,7 +2,7 @@ namespace DfE.FindInformationAcademiesTrusts;
 
 public interface ITrustSearch
 {
-    public Task<IEnumerable<Trust>> SearchAsync(string searchTerm);
+    public Task<IEnumerable<TrustSearchEntry>> SearchAsync(string searchTerm);
 }
 
 public class TrustSearch : ITrustSearch
@@ -14,7 +14,7 @@ public class TrustSearch : ITrustSearch
         _trustProvider = trustProvider;
     }
 
-    public async Task<IEnumerable<Trust>> SearchAsync(string searchTerm)
+    public async Task<IEnumerable<TrustSearchEntry>> SearchAsync(string searchTerm)
     {
         if (string.IsNullOrWhiteSpace(searchTerm))
         {

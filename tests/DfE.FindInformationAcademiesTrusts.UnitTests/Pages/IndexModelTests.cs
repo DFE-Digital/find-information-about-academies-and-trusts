@@ -12,14 +12,6 @@ public class IndexModelTests
     }
 
     [Fact]
-    public void UsePageWidthContainer_should_be_false()
-    {
-        var sut = new IndexModel();
-
-        sut.UsePageWidthContainer.Should().Be(false);
-    }
-
-    [Fact]
     public void InputId_should_have_a_fixed_value()
     {
         var sut = new IndexModel();

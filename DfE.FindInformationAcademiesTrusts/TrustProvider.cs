@@ -5,8 +5,8 @@ namespace DfE.FindInformationAcademiesTrusts;
 
 public interface ITrustProvider
 {
-    public Task<IEnumerable<Trust>> GetTrustsAsync();
-    public Task<IEnumerable<Trust>> GetTrustsByNameAsync(string name);
+    public Task<IEnumerable<TrustSearchEntry>> GetTrustsAsync();
+    public Task<IEnumerable<TrustSearchEntry>> GetTrustsByNameAsync(string name);
     public Task<Trust> GetTrustByUkprnAsync(string ukprn);
 }
 
@@ -23,21 +23,21 @@ public class TrustProvider : ITrustProvider
         _httpClient = httpClientFactory.CreateClient("AcademiesApi");
     }
 
-    public async Task<IEnumerable<Trust>> GetTrustsAsync()
+    public async Task<IEnumerable<TrustSearchEntry>> GetTrustsAsync()
     {
         var requestUri = "v3/trusts";
 
         return await FetchTrustsAsync(requestUri);
     }
 
-    public async Task<IEnumerable<Trust>> GetTrustsByNameAsync(string name)
+    public async Task<IEnumerable<TrustSearchEntry>> GetTrustsByNameAsync(string name)
     {
         var requestUri = $"v3/trusts?groupName={name}";
 
         return await FetchTrustsAsync(requestUri);
     }
 
-    private async Task<IEnumerable<Trust>> FetchTrustsAsync(string requestUri)
+    private async Task<IEnumerable<TrustSearchEntry>> FetchTrustsAsync(string requestUri)
     {
         var httpResponseMessage = await _httpClient.GetAsync(requestUri);
         if (httpResponseMessage.IsSuccessStatusCode)
@@ -49,7 +49,7 @@ public class TrustProvider : ITrustProvider
             if (json?.Data == null) throw new JsonException();
             var transformedData = json.Data
                 .Where(t => t.GroupName != null)
-                .Select(t => new Trust(
+                .Select(t => new TrustSearchEntry(
                     t.GroupName!,
                     TrustAddressAsString(t.TrustAddress),
                     t.Ukprn,
@@ -76,9 +76,10 @@ public class TrustProvider : ITrustProvider
 
             var trust = new Trust(
                 json.Data.GiasData.GroupName,
-                TrustAddressAsString(json.Data.GiasData.GroupContactAddress),
                 json.Data.GiasData.Ukprn,
-                json.Data.Establishments?.Count ?? 0);
+                json.Data.GiasData.GroupType ?? string.Empty
+            );
+
 
             return trust;
         }

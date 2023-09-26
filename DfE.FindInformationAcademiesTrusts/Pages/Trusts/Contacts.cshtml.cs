@@ -3,20 +3,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
-public class DetailsModel : PageModel, ITrustsAreaModel
+public class ContactsModel : PageModel, ITrustsAreaModel
 {
     private readonly ITrustProvider _trustProvider;
 
-    public DetailsModel(ITrustProvider trustProvider)
+    public ContactsModel(ITrustProvider trustProvider)
     {
         _trustProvider = trustProvider;
     }
 
     [BindProperty(SupportsGet = true)] public string Ukprn { get; set; } = "";
     public Trust Trust { get; set; } = default!;
-    public string PageName => "Details";
+    public string PageName => "Contacts";
     public string Section => ViewConstants.AboutTheTrustSectionName;
-
 
     public async Task<IActionResult> OnGetAsync()
     {

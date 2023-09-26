@@ -1,8 +1,8 @@
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 
-public class DetailsModelTests
+public class ContactsModelTests
 {
     [Fact]
     public async void OnGetAsync_should_fetch_a_trust_by_ukprn()
@@ -10,7 +10,7 @@ public class DetailsModelTests
         var mockTrustProvider = new Mock<ITrustProvider>();
         mockTrustProvider.Setup(s => s.GetTrustByUkprnAsync("1234").Result)
             .Returns(new Trust("test", "test", "Multi-academy trust"));
-        var sut = new DetailsModel(mockTrustProvider.Object)
+        var sut = new ContactsModel(mockTrustProvider.Object)
         {
             Ukprn = "1234"
         };
@@ -20,18 +20,28 @@ public class DetailsModelTests
     }
 
     [Fact]
-    public void PageName_should_be_Details()
+    public async void Ukprn_should_be_empty_string_by_default()
     {
         var mockTrustProvider = new Mock<ITrustProvider>();
-        var sut = new DetailsModel(mockTrustProvider.Object);
-        sut.PageName.Should().Be("Details");
+        var sut = new ContactsModel(mockTrustProvider.Object);
+
+        await sut.OnGetAsync();
+        sut.Ukprn.Should().BeEquivalentTo(string.Empty);
+    }
+
+    [Fact]
+    public void PageName_should_be_Contacts()
+    {
+        var mockTrustProvider = new Mock<ITrustProvider>();
+        var sut = new ContactsModel(mockTrustProvider.Object);
+        sut.PageName.Should().Be("Contacts");
     }
 
     [Fact]
     public void PageSection_should_be_AboutTheTrust()
     {
         var mockTrustProvider = new Mock<ITrustProvider>();
-        var sut = new DetailsModel(mockTrustProvider.Object);
+        var sut = new ContactsModel(mockTrustProvider.Object);
         sut.Section.Should().Be("About the trust");
     }
 }

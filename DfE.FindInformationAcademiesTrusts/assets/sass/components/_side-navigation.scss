@@ -1,0 +1,24 @@
+.app-side-navigation {
+  margin-top: 0;
+
+  &__title {
+    padding: 0 40px 8px 0;
+  }
+
+  &__list &__list {
+    margin-left: -16px;
+  }
+
+  &__item--has-children {
+    @include govuk-responsive-margin(6, "top");
+    @include govuk-responsive-margin(6, "bottom");
+  }
+}
+
+@include ds_media-query(medium) {
+  .app-side-navigation {
+    &__item--has-children {
+      @include govuk-responsive-margin(0, "top");
+    }
+  }
+}
