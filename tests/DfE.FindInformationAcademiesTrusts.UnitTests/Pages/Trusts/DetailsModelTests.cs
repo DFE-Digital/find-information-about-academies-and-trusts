@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages;
 
@@ -43,5 +44,30 @@ public class DetailsModelTests
         var mockTrustProvider = new Mock<ITrustProvider>();
         var sut = new DetailsModel(mockTrustProvider.Object);
         sut.Section.Should().Be("About the trust");
+    }
+
+    [Fact]
+    public async void OnGetAsync_should_return_not_found_result_if_trust_is_not_found()
+    {
+        var mockTrustProvider = new Mock<ITrustProvider>();
+        mockTrustProvider.Setup(s => s.GetTrustByUkprnAsync("1111").Result)
+            .Returns((Trust?)null);
+
+        var sut = new DetailsModel(mockTrustProvider.Object)
+        {
+            Ukprn = "1111"
+        };
+        var result = await sut.OnGetAsync();
+        result.Should().BeOfType<NotFoundResult>();
+    }
+
+    [Fact]
+    public async void OnGetAsync_should_return_not_found_result_if_Ukprn_is_not_provided()
+    {
+        var mockTrustProvider = new Mock<ITrustProvider>();
+
+        var sut = new DetailsModel(mockTrustProvider.Object);
+        var result = await sut.OnGetAsync();
+        result.Should().BeOfType<NotFoundResult>();
     }
 }

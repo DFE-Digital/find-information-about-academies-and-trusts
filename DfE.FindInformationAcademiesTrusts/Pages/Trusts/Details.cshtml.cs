@@ -21,6 +21,12 @@ public class DetailsModel : PageModel, ITrustsAreaModel
     public async Task<IActionResult> OnGetAsync()
     {
         var trust = await _trustProvider.GetTrustByUkprnAsync(Ukprn);
+
+        if (trust == null)
+        {
+            return new NotFoundResult();
+        }
+
         Trust = trust;
         return Page();
     }

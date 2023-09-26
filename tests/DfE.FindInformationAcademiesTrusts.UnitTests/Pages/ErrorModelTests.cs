@@ -2,19 +2,19 @@ using DfE.FindInformationAcademiesTrusts.Pages;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages;
 
-public class ProblemWithProductModelTests
+public class ErrorModelTests
 {
     [Fact]
     public void Is404Result_should_be_false_by_default()
     {
-        var sut = new ProblemWithProduct();
+        var sut = new ErrorModel();
         sut.Is404Result.Should().BeFalse();
     }
 
     [Fact]
     public void Is404Result_should_be_true_if_404_Status_Code()
     {
-        var sut = new ProblemWithProduct();
+        var sut = new ErrorModel();
         sut.OnGet("404");
 
         sut.Is404Result.Should().BeTrue();
@@ -26,7 +26,7 @@ public class ProblemWithProductModelTests
     [InlineData("403")]
     public void Is404Result_should_be_false_if_not_Status_Code(string code)
     {
-        var sut = new ProblemWithProduct();
+        var sut = new ErrorModel();
         sut.OnGet(code);
         sut.Is404Result.Should().BeFalse();
     }
