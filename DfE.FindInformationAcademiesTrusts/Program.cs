@@ -57,7 +57,7 @@ internal static class Program
 
     private static void ConfigureHttpRequestPipeline(WebApplication app)
     {
-        if (!app.Environment.IsDevelopment() && !app.Environment.IsLocalDevelopment())
+        if (!app.Environment.IsLocalDevelopment())
         {
             app.UseExceptionHandler("/Error");
             app.UseHsts();
