@@ -72,7 +72,7 @@ internal static class Program
         });
 
         app.UseHttpsRedirection();
-
+        app.UseStatusCodePagesWithReExecute("/Error");
         //For Azure AD redirect uri to remain https
         var forwardOptions = new ForwardedHeadersOptions
             { ForwardedHeaders = ForwardedHeaders.All, RequireHeaderSymmetry = false };
