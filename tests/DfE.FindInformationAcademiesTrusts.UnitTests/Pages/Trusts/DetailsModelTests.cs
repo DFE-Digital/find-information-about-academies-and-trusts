@@ -20,6 +20,16 @@ public class DetailsModelTests
     }
 
     [Fact]
+    public async void Ukprn_should_be_empty_string_by_default()
+    {
+        var mockTrustProvider = new Mock<ITrustProvider>();
+        var sut = new DetailsModel(mockTrustProvider.Object);
+
+        await sut.OnGetAsync();
+        sut.Ukprn.Should().BeEquivalentTo(string.Empty);
+    }
+
+    [Fact]
     public void PageName_should_be_Details()
     {
         var mockTrustProvider = new Mock<ITrustProvider>();
