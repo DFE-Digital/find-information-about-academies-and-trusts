@@ -248,7 +248,7 @@ public class TrustProviderTests
         var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
 
         var result = await sut.GetTrustByUkprnAsync("1234");
-        result.Type.Should().Be(expected);
+        result?.Type.Should().Be(expected);
     }
 
     [Fact]
@@ -324,5 +324,20 @@ public class TrustProviderTests
 
         var result = await sut.GetTrustsByNameAsync("trust");
         result.Should().HaveCount(3).And.OnlyHaveUniqueItems();
+    }
+
+    [Fact]
+    public async Task GetTrustsByUkprnAsync_should_return_null_on_Not_Found_Result()
+    {
+        var responseMessage = new HttpResponseMessage(HttpStatusCode.NotFound)
+        {
+            Content = new StringContent("")
+        };
+
+        _mockHttpClientFactory.SetUpHttpGetResponse(TrustEndpoint, responseMessage);
+
+        var sut = new TrustProvider(_mockHttpClientFactory.Object, _mockLogger.Object);
+        var result = await sut.GetTrustByUkprnAsync("1234");
+        result.Should().BeNull();
     }
 }

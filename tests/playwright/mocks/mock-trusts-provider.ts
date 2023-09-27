@@ -20,6 +20,8 @@ export class MockTrustsProvider {
     type: 'Multi-academy trust'
   }
 
+  static nonExistingTrustUkprn = '1111'
+
   constructor () {
     this._mock = new WireMock(process.env.WIREMOCK_BASEURL ?? 'http://localhost:8080')
   }
@@ -74,5 +76,18 @@ export class MockTrustsProvider {
     }
 
     await this._mock.register(trustRequest, mockedTrustResponse)
+  }
+
+  registerGetTrustNotFoundResponse = async (): Promise<void> => {
+    const trustRequest: IWireMockRequest = {
+      method: 'GET',
+      endpoint: `/v3/trust/${MockTrustsProvider.nonExistingTrustUkprn}`
+    }
+
+    const mockedResponse: IWireMockResponse = {
+      status: 404
+    }
+
+    await this._mock.register(trustRequest, mockedResponse)
   }
 }

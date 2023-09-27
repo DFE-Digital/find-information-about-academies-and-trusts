@@ -17,4 +17,6 @@ setup('mock trust provider', async () => {
   for (const trust of MockTrustsProvider.fakeTrustsResponseData[secondSearchTerm]) {
     await mockTrustProvider.registerGetTrustByUkprn(trust.GroupName, trust.Ukprn)
   }
+
+  await mockTrustProvider.registerGetTrustNotFoundResponse()
 })

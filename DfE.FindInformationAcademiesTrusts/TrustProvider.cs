@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text.Json;
 using DfE.FindInformationAcademiesTrusts.AcademiesApiResponseModels;
 
@@ -7,7 +8,7 @@ public interface ITrustProvider
 {
     public Task<IEnumerable<TrustSearchEntry>> GetTrustsAsync();
     public Task<IEnumerable<TrustSearchEntry>> GetTrustsByNameAsync(string name);
-    public Task<Trust> GetTrustByUkprnAsync(string ukprn);
+    public Task<Trust?> GetTrustByUkprnAsync(string ukprn);
 }
 
 public class TrustProvider : ITrustProvider
@@ -63,7 +64,7 @@ public class TrustProvider : ITrustProvider
         throw new HttpRequestException("Problem communicating with Academies API");
     }
 
-    public async Task<Trust> GetTrustByUkprnAsync(string ukprn)
+    public async Task<Trust?> GetTrustByUkprnAsync(string ukprn)
     {
         var httpResponseMessage = await _httpClient.GetAsync($"v3/trust/{ukprn}");
         if (httpResponseMessage.IsSuccessStatusCode)
@@ -80,8 +81,12 @@ public class TrustProvider : ITrustProvider
                 json.Data.GiasData.GroupType ?? string.Empty
             );
 
-
             return trust;
+        }
+
+        if (httpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+        {
+            return null;
         }
 
         var errorMessage = await httpResponseMessage.Content.ReadAsStringAsync();

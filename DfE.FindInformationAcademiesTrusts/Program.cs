@@ -57,7 +57,7 @@ internal static class Program
 
     private static void ConfigureHttpRequestPipeline(WebApplication app)
     {
-        if (!app.Environment.IsDevelopment() && !app.Environment.IsLocalDevelopment())
+        if (!app.Environment.IsLocalDevelopment())
         {
             app.UseExceptionHandler("/Error");
             app.UseHsts();
@@ -72,7 +72,7 @@ internal static class Program
         });
 
         app.UseHttpsRedirection();
-        app.UseStatusCodePagesWithReExecute("/Error");
+        app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
         //For Azure AD redirect uri to remain https
         var forwardOptions = new ForwardedHeadersOptions
             { ForwardedHeaders = ForwardedHeaders.All, RequireHeaderSymmetry = false };
