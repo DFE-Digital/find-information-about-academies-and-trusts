@@ -13,7 +13,9 @@
     "test:deployment": "npx playwright test --project=\"deployment-tests\"",
     "test:integration": "npx playwright test --project=\"integration-tests\"",
     "docker:start": "docker compose -f ../../docker/docker-compose.ci.yml up -d --build",
-    "docker:stop": "docker compose -f ../../docker/docker-compose.ci.yml down"
+    "docker:stop": "docker compose -f ../../docker/docker-compose.ci.yml down",
+    "docker:wiremock": "docker run -itd --rm --name wiremock-container -p 8080:8080 wiremock/wiremock:2.32.0 --record-mappings --verbose",
+    "docker:wiremock:stop": "docker stop wiremock-container"
   },
   "keywords": [],
   "author": "",
