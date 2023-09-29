@@ -1,10 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using Serilog;
@@ -148,6 +150,10 @@ internal static class Program
 
     private static void AddDependenciesTo(WebApplicationBuilder builder)
     {
+        builder.Services.AddDbContext<AcademiesDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("AcademiesDb") ??
+                                 throw new InvalidOperationException("Connection string 'AcademiesDb' not found.")));
+
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
 
