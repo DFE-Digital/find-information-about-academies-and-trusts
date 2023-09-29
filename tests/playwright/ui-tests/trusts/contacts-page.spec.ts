@@ -3,7 +3,7 @@ import { ContactsPage } from '../../page-object-model/trust/contacts-page'
 import { NotFoundPage } from '../../page-object-model/not-found-page'
 import { MockTrustsProvider } from '../../mocks/mock-trusts-provider'
 
-test.describe('Details page', () => {
+test.describe('Contacts page', () => {
   let contactsPage: ContactsPage
   let notFoundPage: NotFoundPage
 
