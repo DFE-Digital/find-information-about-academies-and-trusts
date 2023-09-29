@@ -14,12 +14,7 @@ public class AcademiesDbContext : DbContext
     {
     }
 
-    public virtual DbSet<Group> Groups { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlServer("Name=AcademiesDb:ConnectionString");
-    }
+    public DbSet<Group> Groups { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
