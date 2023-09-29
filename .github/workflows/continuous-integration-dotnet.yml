@@ -55,7 +55,7 @@ jobs:
       run: dotnet tool install --global dotnet-coverage
 
     - name: Install dotnet-stryker (mutation testing tool)
-      run: dotnet tool install --global dotnet-stryker
+      run: dotnet tool restore
 
     - name: Build and Analyse solution
       env:
