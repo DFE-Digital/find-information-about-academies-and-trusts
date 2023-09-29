@@ -37,6 +37,7 @@ dotnet user-secrets set "AcademiesApi:Key" "[secret goes here]"
 dotnet user-secrets set "AzureAd:ClientID" "[secret goes here]"
 dotnet user-secrets set "AzureAd:ClientSecret" "[secret goes here]"
 dotnet user-secrets set "AzureAd:TenantID" "[secret goes here]"
+dotnet user-secrets set "ConnectionStrings:AcademiesDb" "[secret goes here]"
 ```
 
 ### Build and watch frontend assets
