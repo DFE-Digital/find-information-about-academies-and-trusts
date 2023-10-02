@@ -113,6 +113,7 @@ cd tests/playwright
 
 # install dependencies
 npm install
+npx playwright install
 
 # run docker image with an application rebuild
 npm run docker:start
