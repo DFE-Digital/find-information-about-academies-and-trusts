@@ -30,6 +30,7 @@ Use this documentation to configure your local development environment.
 Use the dotnet user secrets tool to set local secrets, any missing required secrets will cause the application to fail at startup with an exception detailing which secrets are missing.
 
 ```bash
+cd DfE.FindInformationAcademiesTrusts
 dotnet user-secrets set "AcademiesApi:Endpoint" "[secret goes here]"
 dotnet user-secrets set "AcademiesApi:Key" "[secret goes here]"
 dotnet user-secrets set "AzureAd:ClientID" "[secret goes here]"
