@@ -109,7 +109,7 @@ WIREMOCK_BASEURL="http://localhost:8080"
 2. Open a terminal in your repository and run:
 
 ```bash
-cd DfE.FindInformationAcademiesTrusts.UnitTests/playwright
+cd tests/playwright
 
 # install dependencies
 npm install
