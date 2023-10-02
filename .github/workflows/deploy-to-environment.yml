@@ -2,7 +2,7 @@ name: Deploy to environment
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ main, '**-feature' ]
     types: [ opened, synchronize, reopened]
   push:
     branches: [ main ]

@@ -2,7 +2,7 @@ name: Run UI tests on isolated environment
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ main, '**-feature' ]
     types: [ opened, synchronize, reopened]
   push:
     branches: [ main ]
