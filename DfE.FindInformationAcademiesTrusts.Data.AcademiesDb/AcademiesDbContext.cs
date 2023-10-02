@@ -1,8 +1,10 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
+﻿using System.Diagnostics.CodeAnalysis;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 
+[ExcludeFromCodeCoverage]
 public class AcademiesDbContext : DbContext
 {
     public AcademiesDbContext()

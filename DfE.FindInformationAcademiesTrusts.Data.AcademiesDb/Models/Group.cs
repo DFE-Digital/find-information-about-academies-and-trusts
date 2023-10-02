@@ -1,5 +1,8 @@
-﻿namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
+
+[ExcludeFromCodeCoverage] // Database model POCO
 public class Group
 {
     public string? GroupUid { get; set; }
