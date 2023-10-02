@@ -30,6 +30,7 @@ Use this documentation to configure your local development environment.
 Use the dotnet user secrets tool to set local secrets, any missing required secrets will cause the application to fail at startup with an exception detailing which secrets are missing.
 
 ```bash
+cd DfE.FindInformationAcademiesTrusts
 dotnet user-secrets set "AcademiesApi:Endpoint" "[secret goes here]"
 dotnet user-secrets set "AcademiesApi:Key" "[secret goes here]"
 dotnet user-secrets set "AzureAd:ClientID" "[secret goes here]"
@@ -108,10 +109,11 @@ WIREMOCK_BASEURL="http://localhost:8080"
 2. Open a terminal in your repository and run:
 
 ```bash
-cd DfE.FindInformationAcademiesTrusts.UnitTests/playwright
+cd tests/playwright
 
 # install dependencies
 npm install
+npx playwright install
 
 # run docker image with an application rebuild
 npm run docker:start
