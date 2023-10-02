@@ -32,3 +32,7 @@ playwright-report/
 playwright/.cache/
 zap-reports/
 .auth/
+
+### Visual Studio and VSCode config
+.vs
+.vscode
