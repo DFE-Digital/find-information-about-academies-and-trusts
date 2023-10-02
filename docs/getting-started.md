@@ -53,6 +53,7 @@ You will need to stop (`ctrl-c`) and rerun the script if you change any saved im
 
 ### Build and run dotnet project
 
+- Install project tools by running `dotnet tool restore` from project directory.
 - Ensure you have [built the frontend assets](#build-and-watch-frontend-assets) before building the dotnet project.
 - Run/debug project as normal in your chosen IDE
 
@@ -169,9 +170,11 @@ We recommend setting Rider to run unit tests on save, for fast feedback on chang
 ### Analyse test coverage
 
 This project uses a [mutation score](https://stryker-mutator.io/docs/) to analyse effective test coverage when opening up a new pull request.
-To check these scores locally you will need to [install Stryker.Net](https://stryker-mutator.io/docs/stryker-net/getting-started/).
+Stryker.Net is included in our dotnet-tools manifest for checking mutation score locally. 
 
-Once Stryker is installed, run the following to run and open a Stryker report:
+Install tools by running `dotnet tool restore`.
+
+Run the following to run and open a Stryker report:
 
 ```bash
 dotnet stryker -o
