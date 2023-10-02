@@ -1,8 +1,9 @@
 name: Lint assets and playwright tests
 on:
   pull_request:
-    branches:
-      - main
+    branches: [ main, '**-feature' ]
+    types: [ opened, synchronize, reopened]
+
 env:
   NODE_VERSION: 18.13.0
 jobs:
