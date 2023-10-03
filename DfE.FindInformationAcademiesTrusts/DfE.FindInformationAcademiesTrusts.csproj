@@ -45,5 +45,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.csproj"/>
+        <ProjectReference Include="..\DfE.FindInformationAcademiesTrusts.Data\DfE.FindInformationAcademiesTrusts.Data.csproj"/>
     </ItemGroup>
 </Project>
