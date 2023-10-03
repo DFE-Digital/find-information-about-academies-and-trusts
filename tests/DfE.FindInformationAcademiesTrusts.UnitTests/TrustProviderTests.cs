@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text.Json;
 using DfE.FindInformationAcademiesTrusts.AcademiesApiResponseModels;
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using static FluentAssertions.FluentActions;
 
