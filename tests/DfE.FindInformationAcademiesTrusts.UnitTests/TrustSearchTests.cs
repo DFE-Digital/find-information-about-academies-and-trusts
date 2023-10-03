@@ -1,3 +1,5 @@
+using DfE.FindInformationAcademiesTrusts.Data;
+
 namespace DfE.FindInformationAcademiesTrusts.UnitTests;
 
 using static FluentActions;

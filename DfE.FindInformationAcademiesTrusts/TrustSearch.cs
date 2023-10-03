@@ -1,9 +1,6 @@
-namespace DfE.FindInformationAcademiesTrusts;
+using DfE.FindInformationAcademiesTrusts.Data;
 
-public interface ITrustSearch
-{
-    public Task<IEnumerable<TrustSearchEntry>> SearchAsync(string searchTerm);
-}
+namespace DfE.FindInformationAcademiesTrusts;
 
 public class TrustSearch : ITrustSearch
 {
