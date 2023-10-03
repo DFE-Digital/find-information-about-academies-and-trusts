@@ -4,8 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 
+public interface IAcademiesDbContext
+{
+    DbSet<Group> Groups { get; }
+}
+
 [ExcludeFromCodeCoverage]
-public class AcademiesDbContext : DbContext
+public class AcademiesDbContext : DbContext, IAcademiesDbContext
 {
     public AcademiesDbContext()
     {
