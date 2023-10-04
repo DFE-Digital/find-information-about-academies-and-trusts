@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using DfE.FindInformationAcademiesTrusts.Authorization;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -148,15 +149,19 @@ internal static class Program
 
     private static void AddDependenciesTo(WebApplicationBuilder builder)
     {
+        
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
-
+        builder.Services.AddSingleton<IAuthorizationHandler, HeaderRequirementHandler>();
+        builder.Services.AddSingleton<IAuthorizationHandler, ClaimsRequirementHandler>();
         builder.Services.AddHttpClient("AcademiesApi", (provider, httpClient) =>
         {
             var academiesApiOptions = provider.GetRequiredService<IOptions<AcademiesApiOptions>>();
             httpClient.BaseAddress = new Uri(academiesApiOptions.Value.Endpoint!);
             httpClient.DefaultRequestHeaders.Add("ApiKey", academiesApiOptions.Value.Key);
         });
+
+        builder.Services.AddHttpContextAccessor();
     }
 
     private static void AddEnvironmentVariablesTo(WebApplicationBuilder builder)
@@ -197,14 +202,14 @@ internal static class Program
 
     private static bool ShouldSkipAuthentication(WebApplicationBuilder builder)
     {
-        if (!builder.Environment.IsLocalDevelopment() && !builder.Environment.IsContinuousIntegration())
+       if (!builder.Environment.IsLocalDevelopment() && !builder.Environment.IsContinuousIntegration())
             return false;
 
-        //We need to be sure that this is actually an isolated environment with no access to production data
+       // We need to be sure that this is actually an isolated environment with no access to production data
         var academiesApiUrl = builder.Configuration.GetSection("AcademiesApi").GetValue<string>("Endpoint")?.ToLower();
         return string.IsNullOrWhiteSpace(academiesApiUrl)
                || academiesApiUrl.Contains("localhost")
-               || academiesApiUrl.Contains("wiremock");
+              || academiesApiUrl.Contains("wiremock");
     }
 
     private static void ReconfigureLogging(WebApplicationBuilder builder)
