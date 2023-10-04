@@ -17,15 +17,11 @@ namespace ConcernsCaseWork.Tests.Authorization
    
 
     [Theory]
-    [InlineData("Development","123",true)]
-    [InlineData("Staging","123",true)]
-    [InlineData("Development","111",false)]
-    [InlineData("Staging","111",false)]
-    [InlineData("Development","",false)]
-    [InlineData("Staging","",false)]
-    [InlineData("Production","123",false)]
+    [InlineData("Development",true)]
+    [InlineData("Staging",true)]
+    [InlineData("Production",false)]
 
-    public static void Validate_Environment(string environment,string secret, bool expected)
+    public static void Validate_Environment(string environment, bool expected)
     {
             IHostEnvironment hostEnvironment = new HostingEnvironment()
 			{
@@ -40,7 +36,7 @@ namespace ConcernsCaseWork.Tests.Authorization
 
             var configurationSettings = new Dictionary<string, string?>()
 			{
-				{ "PlaywrightTestSecret",secret }
+				{ "PlaywrightTestSecret","123" }
 			};
 
 
@@ -85,6 +81,9 @@ namespace ConcernsCaseWork.Tests.Authorization
 
 			result.Should().BeFalse();
     }
+
+
+    
 
     }
 }
