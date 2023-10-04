@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Authorization;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
@@ -13,12 +14,18 @@ namespace ConcernsCaseWork.Tests.Authorization
 	public class AutomationHandlerTests
 	{
 
-    [Theory]
-    [InlineData("Development",true)]
-    [InlineData("Staging",true)]
-    [InlineData("Production",false)]
+   
 
-    public void Validate_Environment(string environment, bool expected)
+    [Theory]
+    [InlineData("Development","123",true)]
+    [InlineData("Staging","123",true)]
+    [InlineData("Development","111",false)]
+    [InlineData("Staging","111",false)]
+    [InlineData("Development","",false)]
+    [InlineData("Staging","",false)]
+    [InlineData("Production","123",false)]
+
+    public static void Validate_Environment(string environment,string secret, bool expected)
     {
             IHostEnvironment hostEnvironment = new HostingEnvironment()
 			{
@@ -33,7 +40,7 @@ namespace ConcernsCaseWork.Tests.Authorization
 
             var configurationSettings = new Dictionary<string, string?>()
 			{
-				{ "PlaywrightTestSecret", "123" }
+				{ "PlaywrightTestSecret",secret }
 			};
 
 
