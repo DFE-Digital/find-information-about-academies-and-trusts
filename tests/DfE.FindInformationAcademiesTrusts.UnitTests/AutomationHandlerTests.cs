@@ -18,7 +18,7 @@ namespace ConcernsCaseWork.Tests.Authorization
     [InlineData("Staging",true)]
     [InlineData("Production",false)]
 
-    public void ValidateEnvironment(string environment, bool expected)
+    public void Validate_Environment(string environment, bool expected)
     {
             IHostEnvironment hostEnvironment = new HostingEnvironment()
 			{
@@ -46,10 +46,38 @@ namespace ConcernsCaseWork.Tests.Authorization
 			result.Should().Be(expected);
     }
 
-  
-   
-    
-    
+    [Theory]
+    [InlineData(null, null)]
+    [InlineData("123", null)]
+    [InlineData("123", "456")]
+    [InlineData("", "")]
+
+    public void Validate_AuthKey(string headerAuthKey, string serverAuthKey)
+    {
+            IHostEnvironment hostEnvironment = new HostingEnvironment()
+			{
+				EnvironmentName = Environments.Development
+			};
+
+			var httpContext = new DefaultHttpContext();
+			httpContext.Request.Headers.Add(HeaderNames.Authorization, $"Bearer {headerAuthKey}");
+
+			Mock<IHttpContextAccessor> mockHttpAccessor = new Mock<IHttpContextAccessor>();
+			mockHttpAccessor.Setup(m => m.HttpContext).Returns(httpContext);
+
+			var configurationSettings = new Dictionary<string, string?>()
+			{
+				{ "PlaywrightTestSecret", serverAuthKey }
+			};
+
+			IConfiguration configuration = new ConfigurationBuilder()
+				.AddInMemoryCollection(configurationSettings)
+				.Build();
+
+			var result = HeaderRequirementHandler.ClientSecretHeaderValid(hostEnvironment, mockHttpAccessor.Object, configuration);
+
+			result.Should().BeFalse();
+    }
 
     }
 }
