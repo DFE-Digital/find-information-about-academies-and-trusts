@@ -36,7 +36,7 @@ public class HeaderRequirementHandler : AuthorizationHandler<DenyAnonymousAuthor
          return false;
       }
 
-      string? authHeader = httpContextAccessor.HttpContext?.Request.Headers[HeaderNames.Authorization].ToString();
+      string? authHeader = httpContextAccessor.HttpContext?.Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", string.Empty);
       
       string? secret = configuration.GetValue<string>("PlaywrightTestSecret");
 
