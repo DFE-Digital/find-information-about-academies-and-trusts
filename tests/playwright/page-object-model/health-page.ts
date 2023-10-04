@@ -12,7 +12,7 @@ export class HealthPage {
     this.body = page.locator('body')
   }
 
-  async goTo(): Promise<void> {
+  async goTo (): Promise<void> {
     await this.page.goto('/health')
   }
 }
