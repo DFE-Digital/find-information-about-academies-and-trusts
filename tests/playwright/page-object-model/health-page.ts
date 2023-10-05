@@ -1,11 +1,7 @@
 import { Locator, Page, expect } from '@playwright/test'
-import { SearchFormComponent } from './shared/search-form-component'
-
 export class HealthPage {
   readonly expect: HealthPageAssertions
-  readonly searchForm: SearchFormComponent
   readonly body: Locator
-  readonly _searchButtonLocator: Locator
 
   constructor (readonly page: Page) {
     this.expect = new HealthPageAssertions(this)
