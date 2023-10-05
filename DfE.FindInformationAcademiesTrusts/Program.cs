@@ -149,11 +149,9 @@ internal static class Program
 
     private static void AddDependenciesTo(WebApplicationBuilder builder)
     {
-        
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
-        builder.Services.AddSingleton<IAuthorizationHandler, HeaderRequirementHandler>();
-        //builder.Services.AddSingleton<IAuthorizationHandler, ClaimsRequirementHandler>();
+        builder.Services.AddScoped<IAuthorizationHandler, HeaderRequirementHandler>();
         builder.Services.AddHttpClient("AcademiesApi", (provider, httpClient) =>
         {
             var academiesApiOptions = provider.GetRequiredService<IOptions<AcademiesApiOptions>>();
@@ -174,7 +172,7 @@ internal static class Program
             .ValidateDataAnnotations()
             .ValidateOnStart();
 
-         builder.Services.AddOptions<TestOverrideOptions>()
+        builder.Services.AddOptions<TestOverrideOptions>()
             .Bind(builder.Configuration.GetSection(TestOverrideOptions.ConfigurationSection));
     }
 
@@ -205,14 +203,14 @@ internal static class Program
 
     private static bool ShouldSkipAuthentication(WebApplicationBuilder builder)
     {
-       if (!builder.Environment.IsLocalDevelopment() && !builder.Environment.IsContinuousIntegration())
+        if (!builder.Environment.IsLocalDevelopment() && !builder.Environment.IsContinuousIntegration())
             return false;
 
-       // We need to be sure that this is actually an isolated environment with no access to production data
+        // We need to be sure that this is actually an isolated environment with no access to production data
         var academiesApiUrl = builder.Configuration.GetSection("AcademiesApi").GetValue<string>("Endpoint")?.ToLower();
         return string.IsNullOrWhiteSpace(academiesApiUrl)
                || academiesApiUrl.Contains("localhost")
-              || academiesApiUrl.Contains("wiremock");
+               || academiesApiUrl.Contains("wiremock");
     }
 
     private static void ReconfigureLogging(WebApplicationBuilder builder)
