@@ -20,4 +20,10 @@ public static class EnvironmentExtensions
     {
         return env.IsEnvironment(TestEnvironmentName);
     }
+
+    public static bool IsLiveEnvironment(this IWebHostEnvironment env)
+    {
+        return !env.IsLocalDevelopment() && !env.IsDevelopment() &&
+               !env.IsContinuousIntegration() && !env.IsTest();
+    }
 }
