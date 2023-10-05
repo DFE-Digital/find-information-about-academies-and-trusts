@@ -1,5 +1,7 @@
+using DfE.FindInformationAcademiesTrusts;
 using DfE.FindInformationAcademiesTrusts.Authorization;
 using FluentAssertions;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -13,20 +15,17 @@ namespace ConcernsCaseWork.Tests.Authorization
 {
 	public class AutomationHandlerTests
 	{
-
-   
-
+		
     [Theory]
     [InlineData("Development",true)]
-    [InlineData("Staging",true)]
+    [InlineData("LocalDevelopment",true)]
+	[InlineData("CI",true)]
     [InlineData("Production",false)]
 
     public static void Validate_Environment(string environment, bool expected)
     {
-            IHostEnvironment hostEnvironment = new HostingEnvironment()
-			{
-				EnvironmentName = environment
-			};
+           var mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
+				mockWebHostEnvironment.SetupGet(m => m.EnvironmentName).Returns(environment);
 
             var httpContext = new DefaultHttpContext();
 			httpContext.Request.Headers.Add(HeaderNames.Authorization, "Bearer 123");
@@ -34,17 +33,15 @@ namespace ConcernsCaseWork.Tests.Authorization
             Mock<IHttpContextAccessor> mockHttpAccessor = new Mock<IHttpContextAccessor>();
 			mockHttpAccessor.Setup(m => m.HttpContext).Returns(httpContext);
 
-            var configurationSettings = new Dictionary<string, string?>()
+            var configurationSettings = new TestOverrideOptions()
 			{
-				{ "PlaywrightTestSecret","123" }
+				PlaywrightTestSecret = "123"
 			};
 
 
-            IConfiguration configuration = new ConfigurationBuilder()
-				.AddInMemoryCollection(configurationSettings)
-				.Build();
+			var sut = new HeaderRequirementHandler(mockWebHostEnvironment.Object,mockHttpAccessor.Object,configurationSettings);	
 
-            var result = HeaderRequirementHandler.ClientSecretHeaderValid(hostEnvironment, mockHttpAccessor.Object, configuration);
+            var result = sut.ClientSecretHeaderValid();
 
 			result.Should().Be(expected);
     }
@@ -55,12 +52,10 @@ namespace ConcernsCaseWork.Tests.Authorization
     [InlineData("123", "456")]
     [InlineData("", "")]
 
-    public void Validate_AuthKey(string headerAuthKey, string serverAuthKey)
+    public void ClientSecretHeaderValid_Should_Return_False_if_Contents_Are_Wrong(string headerAuthKey, string serverAuthKey)
     {
-            IHostEnvironment hostEnvironment = new HostingEnvironment()
-			{
-				EnvironmentName = Environments.Development
-			};
+           var mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
+				mockWebHostEnvironment.SetupGet(m => m.EnvironmentName).Returns("Development");
 
 			var httpContext = new DefaultHttpContext();
 			httpContext.Request.Headers.Add(HeaderNames.Authorization, $"Bearer {headerAuthKey}");
@@ -68,16 +63,14 @@ namespace ConcernsCaseWork.Tests.Authorization
 			Mock<IHttpContextAccessor> mockHttpAccessor = new Mock<IHttpContextAccessor>();
 			mockHttpAccessor.Setup(m => m.HttpContext).Returns(httpContext);
 
-			var configurationSettings = new Dictionary<string, string?>()
+		    var configurationSettings = new TestOverrideOptions()
 			{
-				{ "PlaywrightTestSecret", serverAuthKey }
+				PlaywrightTestSecret = serverAuthKey
 			};
 
-			IConfiguration configuration = new ConfigurationBuilder()
-				.AddInMemoryCollection(configurationSettings)
-				.Build();
+			var sut = new HeaderRequirementHandler(mockWebHostEnvironment.Object,mockHttpAccessor.Object,configurationSettings);	
 
-			var result = HeaderRequirementHandler.ClientSecretHeaderValid(hostEnvironment, mockHttpAccessor.Object, configuration);
+            var result = sut.ClientSecretHeaderValid();
 
 			result.Should().BeFalse();
     }

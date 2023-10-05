@@ -14,31 +14,30 @@ namespace DfE.FindInformationAcademiesTrusts.Authorization;
 public class HeaderRequirementHandler : AuthorizationHandler<DenyAnonymousAuthorizationRequirement>,
    IAuthorizationRequirement
 {
-   private readonly IConfiguration _configuration;
-   private readonly IHostEnvironment _environment;
+   //private readonly IConfiguration _configuration;
+   private readonly IWebHostEnvironment _environment;
    private readonly IHttpContextAccessor _httpContextAccessor;
+   private readonly TestOverrideOptions _testOverrideOptions;
 
-   public HeaderRequirementHandler(IHostEnvironment environment,
-                                   IHttpContextAccessor httpContextAccessor,
-                                   IConfiguration configuration)
+   public HeaderRequirementHandler(IWebHostEnvironment environment,
+                                   IHttpContextAccessor httpContextAccessor,TestOverrideOptions testOverrideOptions)
    {
       _environment = environment;
       _httpContextAccessor = httpContextAccessor;
-      _configuration = configuration;
+      // _configuration = configuration;
+      _testOverrideOptions = testOverrideOptions;
    }
-   public static bool ClientSecretHeaderValid(IHostEnvironment hostEnvironment,
-                                              IHttpContextAccessor httpContextAccessor,
-                                              IConfiguration configuration)
+   public bool ClientSecretHeaderValid()
    {
      
-      if (!hostEnvironment.IsStaging() && !hostEnvironment.IsDevelopment())
+      if (!_environment.IsLocalDevelopment() && !_environment.IsDevelopment() && !_environment.IsContinuousIntegration() && !_environment.IsTest())
       {
          return false;
       }
 
-      string? authHeader = httpContextAccessor.HttpContext?.Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", string.Empty);
+      string? authHeader = _httpContextAccessor.HttpContext?.Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", string.Empty);
       
-      string? secret = configuration.GetValue<string>("PlaywrightTestSecret");
+      string? secret = _testOverrideOptions.PlaywrightTestSecret;
 
       if (string.IsNullOrWhiteSpace(authHeader) || string.IsNullOrWhiteSpace(secret))
       {
@@ -51,19 +50,9 @@ public class HeaderRequirementHandler : AuthorizationHandler<DenyAnonymousAuthor
    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
                                                   DenyAnonymousAuthorizationRequirement requirement)
    {
-      if (ClientSecretHeaderValid(_environment, _httpContextAccessor, _configuration))
+      if (ClientSecretHeaderValid())
       {
         context.Succeed(requirement);
-   
-        string? headerRole = _httpContextAccessor.HttpContext?.Request.Headers["AuthorizationRole"].ToString();
-         if (!string.IsNullOrWhiteSpace(headerRole))
-         {
-            string[] claims = headerRole.Split(',');
-            foreach (string claim in claims)
-            {
-               context.User.Identities.FirstOrDefault()?.AddClaim(new Claim(ClaimTypes.Role, claim));
-            }
-         }
       }
 
       return Task.CompletedTask;
