@@ -42,17 +42,35 @@ public class HeaderRequirementHandlerTests
     }
 
     [Theory]
-    [InlineData(null, null)]
-    [InlineData("123", null)]
-    [InlineData(null, "123")]
-    [InlineData("123", "456")]
+    [InlineData("", null)]
+    [InlineData("Bearer ", null)]
+    [InlineData("Bearer 123", null)]
+    [InlineData("", "123")]
+    [InlineData("Bearer ", "123")]
+    [InlineData("Bearer 123", "456")]
     [InlineData("", "")]
+    [InlineData("Bearer ", "")]
+    [InlineData("Bearer 123", "")]
     public void ClientSecretHeaderValid_should_return_false_if_contents_are_wrong(string headerAuthKey,
         string serverAuthKey)
     {
         _mockWebHostEnvironment.SetupGet(m => m.EnvironmentName).Returns("Development");
         _httpContext.Request.Headers.Add(HeaderNames.Authorization, $"Bearer {headerAuthKey}");
         var configurationSettings = new TestOverrideOptions { PlaywrightTestSecret = serverAuthKey };
+
+        var sut = new HeaderRequirementHandler(_mockWebHostEnvironment.Object, _mockHttpAccessor.Object,
+            configurationSettings);
+
+        var result = sut.IsClientSecretHeaderValid();
+
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void ClientSecretHeaderValid_should_return_false_if_no_auth_header_provided()
+    {
+        _mockWebHostEnvironment.SetupGet(m => m.EnvironmentName).Returns("Development");
+        var configurationSettings = new TestOverrideOptions { PlaywrightTestSecret = "123" };
 
         var sut = new HeaderRequirementHandler(_mockWebHostEnvironment.Object, _mockHttpAccessor.Object,
             configurationSettings);

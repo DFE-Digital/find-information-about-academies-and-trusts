@@ -1,55 +1,45 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.Net.Http.Headers;
 
 namespace DfE.FindInformationAcademiesTrusts.Authorization;
 
-//Handler is registered from the method RequireAuthenticatedUser()
 public class HeaderRequirementHandler : AuthorizationHandler<DenyAnonymousAuthorizationRequirement>,
     IAuthorizationRequirement
 {
-    //private readonly IConfiguration _configuration;
-    private readonly IWebHostEnvironment _environment;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly TestOverrideOptions _testOverrideOptions;
+    private readonly string? _playwrightTestSecret;
+    private readonly bool _isLiveEnvironment;
 
     public HeaderRequirementHandler(IWebHostEnvironment environment,
         IHttpContextAccessor httpContextAccessor, TestOverrideOptions testOverrideOptions)
     {
-        _environment = environment;
         _httpContextAccessor = httpContextAccessor;
-        // _configuration = configuration;
-        _testOverrideOptions = testOverrideOptions;
+        _playwrightTestSecret = testOverrideOptions.PlaywrightTestSecret;
+        _isLiveEnvironment = environment.IsLiveEnvironment();
     }
 
     public bool IsClientSecretHeaderValid()
     {
-        if (!_environment.IsLocalDevelopment() && !_environment.IsDevelopment() &&
-            !_environment.IsContinuousIntegration() && !_environment.IsTest())
-        {
+        if (string.IsNullOrWhiteSpace(_playwrightTestSecret) || _isLiveEnvironment)
             return false;
-        }
 
-        var authHeader = _httpContextAccessor.HttpContext?.Request.Headers[HeaderNames.Authorization].ToString()
-            .Replace("Bearer ", string.Empty);
-
-        var secret = _testOverrideOptions.PlaywrightTestSecret;
-
-        if (string.IsNullOrWhiteSpace(authHeader) || string.IsNullOrWhiteSpace(secret))
-        {
+        var requestHeader = _httpContextAccessor.HttpContext?.Request.Headers[HeaderNames.Authorization];
+        if (string.IsNullOrWhiteSpace(requestHeader))
             return false;
-        }
 
-        return authHeader == secret;
+        var authHeader = requestHeader.Value.ToString().Replace("Bearer ", string.Empty);
+
+        return authHeader == _playwrightTestSecret;
     }
 
+    [ExcludeFromCodeCoverage] // This method is difficult to test, everything that can be tested has been extracted to IsClientSecretHeaderValid
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
         DenyAnonymousAuthorizationRequirement requirement)
     {
         if (IsClientSecretHeaderValid())
-        {
             context.Succeed(requirement);
-        }
 
         return Task.CompletedTask;
     }
