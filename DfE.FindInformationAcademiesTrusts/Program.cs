@@ -153,7 +153,7 @@ internal static class Program
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
         builder.Services.AddSingleton<IAuthorizationHandler, HeaderRequirementHandler>();
-        builder.Services.AddSingleton<IAuthorizationHandler, ClaimsRequirementHandler>();
+        //builder.Services.AddSingleton<IAuthorizationHandler, ClaimsRequirementHandler>();
         builder.Services.AddHttpClient("AcademiesApi", (provider, httpClient) =>
         {
             var academiesApiOptions = provider.GetRequiredService<IOptions<AcademiesApiOptions>>();
@@ -173,6 +173,9 @@ internal static class Program
             .Bind(builder.Configuration.GetSection(AcademiesApiOptions.ConfigurationSection))
             .ValidateDataAnnotations()
             .ValidateOnStart();
+
+         builder.Services.AddOptions<TestOverrideOptions>()
+            .Bind(builder.Configuration.GetSection(TestOverrideOptions.ConfigurationSection));
     }
 
     private static void AddAuthenticationServices(WebApplicationBuilder builder)
