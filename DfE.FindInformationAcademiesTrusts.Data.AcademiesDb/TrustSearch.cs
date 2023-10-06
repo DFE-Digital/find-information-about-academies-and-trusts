@@ -29,6 +29,7 @@ public class TrustSearch : ITrustSearch
             .Where(g => g.GroupName != null &&
                         g.GroupName.Contains(
                             searchTerm)) //note that LINQ translates string.contains to case insensitive SQL
+            .OrderBy(g => g.GroupName)
             .Take(20)
             .Select(g =>
                 new TrustSearchEntry(g.GroupName, _trustHelper.BuildAddressString(g), g.GroupUid, g.GroupId))
