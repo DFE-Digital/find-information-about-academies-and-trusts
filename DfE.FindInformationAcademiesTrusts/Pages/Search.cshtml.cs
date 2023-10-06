@@ -10,10 +10,12 @@ public class SearchModel : PageModel, ISearchFormModel
     public record AutocompleteEntry(string Address, string Name, string? TrustId);
 
     private readonly ITrustProvider _trustProvider;
+    private readonly ITrustSearch _trustSearch;
 
-    public SearchModel(ITrustProvider trustProvider)
+    public SearchModel(ITrustProvider trustProvider, ITrustSearch trustSearch)
     {
         _trustProvider = trustProvider;
+        _trustSearch = trustSearch;
     }
 
     public string InputId => "search";
@@ -39,7 +41,7 @@ public class SearchModel : PageModel, ISearchFormModel
     private async Task<IEnumerable<TrustSearchEntry>> GetTrustsForKeywords()
     {
         return !string.IsNullOrEmpty(KeyWords)
-            ? await _trustProvider.GetTrustsByNameAsync(KeyWords)
+            ? await _trustSearch.SearchAsync(KeyWords)
             : Array.Empty<TrustSearchEntry>();
     }
 
