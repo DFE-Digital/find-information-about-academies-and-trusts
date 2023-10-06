@@ -13,7 +13,7 @@ public class DetailsModel : PageModel, ITrustsAreaModel
         _trustProvider = trustProvider;
     }
 
-    [BindProperty(SupportsGet = true)] public string Ukprn { get; set; } = "";
+    [BindProperty(SupportsGet = true)] public string Uid { get; set; } = "";
     public Trust Trust { get; set; } = default!;
     public string PageName => "Details";
     public string Section => ViewConstants.AboutTheTrustSectionName;
@@ -21,7 +21,7 @@ public class DetailsModel : PageModel, ITrustsAreaModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        var trust = await _trustProvider.GetTrustByUkprnAsync(Ukprn);
+        var trust = await _trustProvider.GetTrustByUkprnAsync(Uid);
 
         if (trust == null)
         {
