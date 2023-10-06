@@ -129,6 +129,23 @@ public class TrustSearchTests
         _mockAcademiesDbContext.Verify(academiesDbContext => academiesDbContext.Groups, Times.Never);
     }
 
+    [Fact]
+    public async Task SearchAsync_should_return_trusts_sorted_alphabetically_by_trust_name()
+    {
+        var names = new[] { "education", "abbey", "educations", "aldridge trust", "abbey trust" };
+        var groups = new List<Group>();
+        foreach (var name in names)
+        {
+            groups.Add(new Group { GroupName = name });
+        }
+
+        _mockAcademiesDbContext.Setup(academiesDbContext => academiesDbContext.Groups)
+            .Returns(MockDbContext.GetMock(groups));
+
+        var result = await _sut.SearchAsync("a");
+        result.Should().BeInAscendingOrder(t => t.Name);
+    }
+
     private List<Group> SetupMockDbContextGroups(int numMatches)
     {
         var groups = new List<Group>();
