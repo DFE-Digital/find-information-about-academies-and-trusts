@@ -9,9 +9,9 @@ public class TrustSearchTests
 
     private readonly TrustSearchEntry[] _fakeTrusts =
     {
-        new("trust 1", "12 Abbey Road, Dorthy Inlet, East Park, Kingston upon Hull, JY36 9VC", "", 0),
-        new("trust 2", "", "", 0),
-        new("trust 3", "Dorthy Inlet", "", 0)
+        new("trust 1", "12 Abbey Road, Dorthy Inlet, East Park, Kingston upon Hull, JY36 9VC", "1", "11", 0),
+        new("trust 2", "", "", "", 0),
+        new("trust 3", "Dorthy Inlet", "", "", 0)
     };
 
     private readonly Mock<IAcademiesDbContext> _mockAcademiesDbContext;
@@ -22,7 +22,7 @@ public class TrustSearchTests
 
         var groups = new List<Group>
         {
-            new() { GroupName = "trust 1" },
+            new() { GroupName = "trust 1", GroupId = "11", GroupUid = "1" },
             new() { GroupName = "trust 2" },
             new() { GroupName = "trust 3" }
         };
@@ -60,6 +60,20 @@ public class TrustSearchTests
     {
         var result = await _sut.SearchAsync("trust");
         result.Should().HaveCount(3).And.OnlyHaveUniqueItems();
+    }
+
+    [Fact]
+    public async Task SearchAsync_should_return_trust_with_Uid()
+    {
+        var result = await _sut.SearchAsync("trust 1");
+        result.Should().ContainSingle().Which.Uid.Should().Be("1");
+    }
+
+    [Fact]
+    public async Task SearchAsync_should_return_trust_with_GroupId()
+    {
+        var result = await _sut.SearchAsync("trust 1");
+        result.Should().ContainSingle().Which.GroupId.Should().Be("11");
     }
 
     [Fact]
