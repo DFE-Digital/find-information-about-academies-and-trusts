@@ -30,7 +30,7 @@ public class SearchModel : PageModel, ISearchFormModel
             var trust = await _trustProvider.GetTrustByUkprnAsync(TrustId);
             if (trust != null && string.Equals(trust.Name, KeyWords, StringComparison.CurrentCultureIgnoreCase))
             {
-                return RedirectToPage("/Trusts/Details", new { Ukprn = TrustId });
+                return RedirectToPage("/Trusts/Details", new { Uid = TrustId });
             }
         }
 
