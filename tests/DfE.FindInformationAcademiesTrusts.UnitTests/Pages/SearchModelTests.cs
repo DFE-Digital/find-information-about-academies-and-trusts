@@ -9,12 +9,14 @@ public class SearchModelTests
 {
     private readonly Mock<ITrustProvider> _mockTrustProvider;
     private readonly SearchModel _sut;
+    private readonly Mock<ITrustSearch> _mockTrustSearch;
 
     public SearchModelTests()
     {
         _mockTrustProvider = new Mock<ITrustProvider>();
+        _mockTrustSearch = new Mock<ITrustSearch>();
 
-        _sut = new SearchModel(_mockTrustProvider.Object);
+        _sut = new SearchModel(_mockTrustProvider.Object, _mockTrustSearch.Object);
     }
 
     private readonly TrustSearchEntry[] _fakeTrusts =
@@ -34,8 +36,7 @@ public class SearchModelTests
     {
         const string query = "trust";
 
-        _mockTrustProvider.Setup(s => s.GetTrustsByNameAsync(query).Result)
-            .Returns(_fakeTrusts);
+        _mockTrustSearch.Setup(s => s.SearchAsync(query).Result).Returns(_fakeTrusts);
         _sut.KeyWords = query;
 
         await _sut.OnGetAsync();
@@ -88,8 +89,8 @@ public class SearchModelTests
 
         _mockTrustProvider.Setup(s => s.GetTrustByUkprnAsync(_trustId).Result)
             .Returns(_fakeTrust);
-        _mockTrustProvider.Setup(s => s.GetTrustsByNameAsync(query).Result)
-            .Returns(_fakeTrusts);
+
+        _mockTrustSearch.Setup(s => s.SearchAsync(query).Result).Returns(_fakeTrusts);
         _sut.KeyWords = query;
         _sut.TrustId = _trustId;
 
@@ -103,9 +104,7 @@ public class SearchModelTests
     public async Task OnGetPopulateAutocompleteAsync_should_return_trusts_matching_keyword()
     {
         const string query = "trust";
-
-        _mockTrustProvider.Setup(s => s.GetTrustsByNameAsync(query).Result)
-            .Returns(_fakeTrusts);
+        _mockTrustSearch.Setup(s => s.SearchAsync(query).Result).Returns(_fakeTrusts);
         _sut.KeyWords = query;
 
         var result = await _sut.OnGetPopulateAutocompleteAsync();
