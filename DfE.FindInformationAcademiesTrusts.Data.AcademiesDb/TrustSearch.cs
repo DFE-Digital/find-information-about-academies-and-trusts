@@ -5,6 +5,11 @@ public class TrustSearch : ITrustSearch
     private readonly IAcademiesDbContext _academiesDbContext;
     private readonly ITrustHelper _trustHelper;
 
+    public TrustSearch(AcademiesDbContext academiesDbContext, ITrustHelper trustHelper)
+        : this((IAcademiesDbContext)academiesDbContext, trustHelper)
+    {
+    }
+
     public TrustSearch(IAcademiesDbContext academiesDbContext, ITrustHelper trustHelper)
     {
         _trustHelper = trustHelper;
