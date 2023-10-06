@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 
 namespace DfE.FindInformationAcademiesTrusts.Authorization;
@@ -13,10 +14,10 @@ public class HeaderRequirementHandler : AuthorizationHandler<DenyAnonymousAuthor
     private readonly bool _isLiveEnvironment;
 
     public HeaderRequirementHandler(IWebHostEnvironment environment,
-        IHttpContextAccessor httpContextAccessor, TestOverrideOptions testOverrideOptions)
+        IHttpContextAccessor httpContextAccessor, IOptions<TestOverrideOptions> testOverrideOptions)
     {
         _httpContextAccessor = httpContextAccessor;
-        _playwrightTestSecret = testOverrideOptions.PlaywrightTestSecret;
+        _playwrightTestSecret = testOverrideOptions.Value.PlaywrightTestSecret;
         _isLiveEnvironment = environment.IsLiveEnvironment();
     }
 
