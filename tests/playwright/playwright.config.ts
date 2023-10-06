@@ -24,6 +24,11 @@ export const baseConfig: PlaywrightTestConfig<{}, {}> = {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: process.env.PLAYWRIGHT_BASEURL,
 
+      // An object containing additional HTTP headers to be sent with every request.
+      extraHTTPHeaders: {
+        'Authorization': 'Bearer ' + process.env.AUTH_BYPASS_SECRET,
+      },
+
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry'
   },
