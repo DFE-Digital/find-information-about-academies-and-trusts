@@ -158,6 +158,7 @@ internal static class Program
 
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
+        builder.Services.AddScoped<ITrustHelper, TrustHelper>();
         builder.Services.AddScoped<IAuthorizationHandler, HeaderRequirementHandler>();
         builder.Services.AddHttpClient("AcademiesApi", (provider, httpClient) =>
         {
