@@ -22,7 +22,8 @@ public class TrustSearch : ITrustSearch
 
         var trustSearchEntries = _academiesDbContext.Groups
             .Where(g => g.GroupName.Contains(searchTerm, StringComparison.InvariantCultureIgnoreCase))
-            .Select(g => new TrustSearchEntry(g.GroupName, _trustHelper.BuildAddressString(g), g.GroupId, 0))
+            .Select(g =>
+                new TrustSearchEntry(g.GroupName, _trustHelper.BuildAddressString(g), g.GroupUid, g.GroupId, 0))
             .AsEnumerable();
 
 
