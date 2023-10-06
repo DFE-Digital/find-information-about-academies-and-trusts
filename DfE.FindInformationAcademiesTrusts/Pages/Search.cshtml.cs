@@ -52,7 +52,7 @@ public class SearchModel : PageModel, ISearchFormModel
                 new AutocompleteEntry(
                     trust.Address,
                     trust.Name,
-                    trust.Ukprn
+                    trust.Uid
                 )));
     }
 }
