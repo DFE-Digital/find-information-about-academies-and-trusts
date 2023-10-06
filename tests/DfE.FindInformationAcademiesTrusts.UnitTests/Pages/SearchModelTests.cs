@@ -115,7 +115,7 @@ public class SearchModelTests
             new SearchModel.AutocompleteEntry(
                 trust.Address,
                 trust.Name,
-                trust.Ukprn
+                trust.Uid
             )));
     }
 

@@ -31,7 +31,7 @@
         @foreach (var trust in Model.Trusts)
         {
           <li class="govuk-!-margin-bottom-6">
-            <a asp-page="./Trusts/Details" asp-route-ukprn="@trust.Ukprn" class="govuk-!-font-weight-bold govuk-link govuk-!-font-size-24">@Html.DisplayFor(modelItem => trust.Name)</a>
+            <a asp-page="./Trusts/Details" asp-route-ukprn="@trust.Uid" class="govuk-!-font-weight-bold govuk-link govuk-!-font-size-24">@Html.DisplayFor(modelItem => trust.Name)</a>
             <dl class="govuk-summary-list govuk-summary-list--no-border app-search-results-summary-list">
               <div class="govuk-summary-list__row govuk-body app-search-results-summary-list__row">
                 <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
@@ -46,7 +46,7 @@
                   UKPRN:
                 </dt>
                 <dd class="govuk-summary-list__value app-search-results-summary-list__item">
-                  @Html.DisplayFor(modelItem => trust.Ukprn)
+                  @Html.DisplayFor(modelItem => trust.Uid)
                 </dd>
               </div>
               <div class="govuk-summary-list__row app-search-results-summary-list__row">
