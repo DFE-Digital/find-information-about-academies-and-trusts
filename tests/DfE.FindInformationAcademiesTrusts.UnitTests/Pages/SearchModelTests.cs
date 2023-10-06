@@ -79,7 +79,7 @@ public class SearchModelTests
 
         result.Should().BeOfType<RedirectToPageResult>();
         var redirectResult = (RedirectToPageResult)result;
-        redirectResult.RouteValues.Should().ContainKey("Ukprn").WhoseValue.Should().Be(_trustId);
+        redirectResult.RouteValues.Should().ContainKey("Uid").WhoseValue.Should().Be(_trustId);
     }
 
     [Fact]
