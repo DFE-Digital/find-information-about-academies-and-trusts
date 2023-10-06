@@ -21,9 +21,9 @@ public class SearchModelTests
 
     private readonly TrustSearchEntry[] _fakeTrusts =
     {
-        new("trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC", "2044", 0),
-        new("trust 2", "Grant Course, North East Lincolnshire, QH96 9WV", "2044", 3),
-        new("trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ", "2044", 4)
+        new("trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC", "2044", "", 0),
+        new("trust 2", "Grant Course, North East Lincolnshire, QH96 9WV", "2044", "", 3),
+        new("trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ", "2044", "", 4)
     };
 
     private readonly Trust _fakeTrust =
@@ -87,6 +87,7 @@ public class SearchModelTests
     {
         const string query = "trust 3";
 
+        _mockTrustSearch.Setup(s => s.SearchAsync(query).Result).Returns(_fakeTrusts);
         _mockTrustProvider.Setup(s => s.GetTrustByUkprnAsync(_trustId).Result)
             .Returns(_fakeTrust);
 
