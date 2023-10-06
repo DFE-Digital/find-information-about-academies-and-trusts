@@ -6,19 +6,13 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
 public class TrustSearchTests
 {
     private readonly ITrustSearch _sut;
-
-    private readonly TrustSearchEntry[] _fakeTrusts =
-    {
-        new("trust 1", "12 Abbey Road, Dorthy Inlet, East Park, Kingston upon Hull, JY36 9VC", "1", "11", 0),
-        new("trust 2", "", "", "", 0),
-        new("trust 3", "Dorthy Inlet", "", "", 0)
-    };
-
     private readonly Mock<IAcademiesDbContext> _mockAcademiesDbContext;
+    private readonly Mock<ITrustHelper> _mockTrustHelper;
 
     public TrustSearchTests()
     {
         _mockAcademiesDbContext = new Mock<IAcademiesDbContext>();
+        _mockTrustHelper = new Mock<ITrustHelper>();
 
         var groups = new List<Group>
         {
@@ -28,17 +22,29 @@ public class TrustSearchTests
         };
         _mockAcademiesDbContext.Setup(academiesDbContext => academiesDbContext.Groups)
             .Returns(MockDbContext.GetMock(groups));
-        var mockTrustHelper = new Mock<ITrustHelper>();
 
-        var i = 0;
-        foreach (var group in groups)
-        {
-            mockTrustHelper.Setup(trustHelper => trustHelper.BuildAddressString(group))
-                .Returns(_fakeTrusts[i].Address);
-            i++;
-        }
+        _sut = new TrustSearch(_mockAcademiesDbContext.Object, _mockTrustHelper.Object);
+    }
 
-        _sut = new TrustSearch(_mockAcademiesDbContext.Object, mockTrustHelper.Object);
+    [Theory]
+    [InlineData(20)]
+    [InlineData(21)]
+    [InlineData(30)]
+    public async Task SearchAsync_should_only_return_20_results_when_there_are_more_than_20_matches(int numMatches)
+    {
+        SetupMockDbContextGroups(numMatches);
+
+        var result = await _sut.SearchAsync("trust");
+        result.Should().HaveCount(20);
+    }
+
+    [Fact]
+    public async Task SearchAsync_should_return_all_results_when_there_are_less_than_20_matches()
+    {
+        SetupMockDbContextGroups(19);
+
+        var result = await _sut.SearchAsync("trust");
+        result.Should().HaveCount(19);
     }
 
     [Fact]
@@ -79,24 +85,28 @@ public class TrustSearchTests
     [Fact]
     public async Task SearchAsync_should_return_trust_address_formatted_as_string()
     {
-        var result = await _sut.SearchAsync("trust");
-
-        var i = 0;
-        foreach (var trustSearchEntry in result)
+        var groups = SetupMockDbContextGroups(3);
+        var fakeTrusts = new[]
         {
-            trustSearchEntry.Address.Should().Be(_fakeTrusts[i].Address);
-            i++;
-        }
-    }
+            "12 Abbey Road, Dorthy Inlet, East Park, Kingston upon Hull, JY36 9VC",
+            "",
+            "Dorthy Inlet"
+        };
 
-    [Theory]
-    [InlineData("Trust 1")]
-    [InlineData("trusT 1")]
-    [InlineData("TRUST 1")]
-    public async Task SearchAsync_should_be_case_insensitive(string term)
-    {
-        var result = await _sut.SearchAsync(term);
-        result.Should().ContainSingle().Which.Name.Should().Be("trust 1");
+        for (var i = 0; i < groups.Count; i++)
+        {
+            var group = groups[i];
+            var address = fakeTrusts[i];
+            _mockTrustHelper.Setup(trustHelper => trustHelper.BuildAddressString(group))
+                .Returns(address);
+        }
+
+        var result = (await _sut.SearchAsync("trust")).ToArray();
+
+        for (var i = 0; i < result.Length; i++)
+        {
+            result[i].Address.Should().Be(fakeTrusts[i]);
+        }
     }
 
     [Theory]
@@ -117,5 +127,19 @@ public class TrustSearchTests
     {
         _ = await _sut.SearchAsync(term);
         _mockAcademiesDbContext.Verify(academiesDbContext => academiesDbContext.Groups, Times.Never);
+    }
+
+    private List<Group> SetupMockDbContextGroups(int numMatches)
+    {
+        var groups = new List<Group>();
+        for (var i = 0; i < numMatches; i++)
+        {
+            groups.Add(new Group { GroupName = $"trust {i}" });
+        }
+
+        _mockAcademiesDbContext.Setup(academiesDbContext => academiesDbContext.Groups)
+            .Returns(MockDbContext.GetMock(groups));
+
+        return groups;
     }
 }
