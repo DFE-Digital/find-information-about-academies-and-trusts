@@ -16,7 +16,7 @@ export class HealthPage {
 class HealthPageAssertions {
   constructor (readonly healthPage: HealthPage) { }
 
-  async toHaveStateMatching (state: string): Promise<void> {
-    await expect(this.healthPage.body).toHaveText(state)
+  async toBeHealthy (): Promise<void> {
+    await expect(this.healthPage.body).toHaveText('Healthy')
   }
 }
