@@ -149,6 +149,7 @@ internal static class Program
 
     private static void AddDependenciesTo(WebApplicationBuilder builder)
     {
+        
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
         builder.Services.AddScoped<IAuthorizationHandler, HeaderRequirementHandler>();
@@ -172,15 +173,12 @@ internal static class Program
             .ValidateDataAnnotations()
             .ValidateOnStart();
 
-        builder.Services.AddOptions<TestOverrideOptions>()
+         builder.Services.AddOptions<TestOverrideOptions>()
             .Bind(builder.Configuration.GetSection(TestOverrideOptions.ConfigurationSection));
     }
 
     private static void AddAuthenticationServices(WebApplicationBuilder builder)
     {
-        if (ShouldSkipAuthentication(builder))
-            return;
-
         builder.Services.AddAuthorization(options =>
         {
             var policyBuilder = new AuthorizationPolicyBuilder();
@@ -200,19 +198,7 @@ internal static class Program
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
     }
-
-    private static bool ShouldSkipAuthentication(WebApplicationBuilder builder)
-    {
-        if (!builder.Environment.IsLocalDevelopment() && !builder.Environment.IsContinuousIntegration())
-            return false;
-
-        // We need to be sure that this is actually an isolated environment with no access to production data
-        var academiesApiUrl = builder.Configuration.GetSection("AcademiesApi").GetValue<string>("Endpoint")?.ToLower();
-        return string.IsNullOrWhiteSpace(academiesApiUrl)
-               || academiesApiUrl.Contains("localhost")
-               || academiesApiUrl.Contains("wiremock");
-    }
-
+    
     private static void ReconfigureLogging(WebApplicationBuilder builder)
     {
         if (builder.Environment.IsLocalDevelopment() || builder.Environment.IsContinuousIntegration())
