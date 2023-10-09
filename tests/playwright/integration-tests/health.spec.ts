@@ -9,6 +9,6 @@ test.describe('Health status endpoint', () => {
 
   test('User can navigate to the health endpoint', async () => {
     await healthPage.goTo()
-    await healthPage.expect.toHaveStateMatching('Healthy')
+    await healthPage.expect.toBeHealthy()
   })
 })
