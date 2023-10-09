@@ -26,13 +26,19 @@ public class TrustSearch : ITrustSearch
         }
 
         var trustSearchEntries = _academiesDbContext.Groups
-            .Where(g => g.GroupName != null &&
-                        g.GroupName.Contains(
-                            searchTerm)) //note that LINQ translates string.contains to case insensitive SQL
+            .Where(g =>
+                g.GroupUid != null &&
+                g.GroupId != null &&
+                g.GroupName != null &&
+                g.GroupName.Contains(searchTerm) &&
+                g.GroupType != null &&
+                (g.GroupType == "Multi-academy trust" ||
+                 g.GroupType == "Single-academy trust")
+            ) //note that LINQ translates string.contains to case insensitive SQL
             .OrderBy(g => g.GroupName)
             .Take(20)
             .Select(g =>
-                new TrustSearchEntry(g.GroupName, _trustHelper.BuildAddressString(g), g.GroupUid, g.GroupId))
+                new TrustSearchEntry(g.GroupName!, _trustHelper.BuildAddressString(g), g.GroupUid!, g.GroupId!))
             .AsEnumerable();
 
 
