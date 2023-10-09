@@ -92,7 +92,7 @@ internal static class Program
 
         app.MapRazorPages();
         app.UseMiddleware<ResponseHeadersMiddleware>();
-        app.MapHealthChecks("/health");
+        app.MapHealthChecks("/health").AllowAnonymous();
     }
 
     private static HeaderPolicyCollection GetSecurityHeaderPolicies()
