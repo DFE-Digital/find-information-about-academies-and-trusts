@@ -14,14 +14,7 @@ public class TrustSearchTests
         _mockAcademiesDbContext = new Mock<IAcademiesDbContext>();
         _mockTrustHelper = new Mock<ITrustHelper>();
 
-        var groups = new List<Group>
-        {
-            new() { GroupName = "trust 1", GroupId = "11", GroupUid = "1" },
-            new() { GroupName = "trust 2" },
-            new() { GroupName = "trust 3" }
-        };
-        _mockAcademiesDbContext.Setup(academiesDbContext => academiesDbContext.Groups)
-            .Returns(MockDbContext.GetMock(groups));
+        SetupMockDbContextGroups(3);
 
         _sut = new TrustSearch(_mockAcademiesDbContext.Object, _mockTrustHelper.Object);
     }
@@ -79,7 +72,7 @@ public class TrustSearchTests
     public async Task SearchAsync_should_return_trust_with_GroupId()
     {
         var result = await _sut.SearchAsync("trust 1");
-        result.Should().ContainSingle().Which.GroupId.Should().Be("11");
+        result.Should().ContainSingle().Which.GroupId.Should().Be("TR01");
     }
 
     [Fact]
@@ -151,7 +144,10 @@ public class TrustSearchTests
         var groups = new List<Group>();
         for (var i = 0; i < numMatches; i++)
         {
-            groups.Add(new Group { GroupName = $"trust {i}" });
+            groups.Add(new Group
+            {
+                GroupName = $"trust {i}", GroupUid = $"{i}", GroupId = $"TR0{i}", GroupType = "Multi-academy trust"
+            });
         }
 
         _mockAcademiesDbContext.Setup(academiesDbContext => academiesDbContext.Groups)
