@@ -1,4 +1,7 @@
 $govuk-assets-path: "/node_modules/govuk-frontend/govuk/assets/";
+$govuk-font-family: blinkmacsystemfont, "Segoe UI", roboto, oxygen-sans, ubuntu,
+  cantarell, "Helvetica Neue", sans-serif;
+
 @import "govuk-frontend/govuk/all";
 @import "accessible-autocomplete";
 @import "./imports/digital-scotland";
