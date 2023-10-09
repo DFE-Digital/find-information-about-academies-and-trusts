@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 
 public class TrustSearch : ITrustSearch
@@ -5,6 +7,7 @@ public class TrustSearch : ITrustSearch
     private readonly IAcademiesDbContext _academiesDbContext;
     private readonly ITrustHelper _trustHelper;
 
+    [ExcludeFromCodeCoverage] // This constructor is used by the DI container and is not unit testable
     public TrustSearch(AcademiesDbContext academiesDbContext, ITrustHelper trustHelper)
         : this((IAcademiesDbContext)academiesDbContext, trustHelper)
     {
