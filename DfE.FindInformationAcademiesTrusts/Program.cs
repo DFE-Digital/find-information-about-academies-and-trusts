@@ -31,6 +31,7 @@ internal static class Program
             AddEnvironmentVariablesTo(builder);
 
             builder.Services.AddRazorPages();
+            builder.Services.AddHealthChecks();
             AddAuthenticationServices(builder);
 
             builder.Services.Configure<RouteOptions>(options =>
@@ -91,6 +92,7 @@ internal static class Program
 
         app.MapRazorPages();
         app.UseMiddleware<ResponseHeadersMiddleware>();
+        app.MapHealthChecks("/health").AllowAnonymous();
     }
 
     private static HeaderPolicyCollection GetSecurityHeaderPolicies()
