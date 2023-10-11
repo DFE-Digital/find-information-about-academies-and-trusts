@@ -1,6 +1,9 @@
 $govuk-assets-path: "/node_modules/govuk-frontend/govuk/assets/";
+
+// Add DfE design system styles
 $govuk-font-family: blinkmacsystemfont, "Segoe UI", roboto, oxygen-sans, ubuntu,
   cantarell, "Helvetica Neue", sans-serif;
+$govuk-page-width: 1200px;
 
 @import "govuk-frontend/govuk/all";
 @import "accessible-autocomplete";
