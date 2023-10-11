@@ -139,6 +139,21 @@ public class TrustSearchTests
         result.Should().BeInAscendingOrder(t => t.Name);
     }
 
+    [Fact]
+    public async Task SearchAsync_should_only_return_single_and_multi_academy_trusts()
+    {
+        var groups = SetupMockDbContextGroups(5);
+
+        groups[0].GroupType = "Federation";
+        groups[1].GroupType = "Single-academy trust";
+        groups[2].GroupType = "Multi-academy trust";
+        groups[3].GroupType = "Trust";
+        groups[4].GroupType = "School sponsor";
+
+        var result = await _sut.SearchAsync("trust");
+        result.Should().HaveCount(2);
+    }
+
     private List<Group> SetupMockDbContextGroups(int numMatches)
     {
         var groups = new List<Group>();
