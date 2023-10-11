@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,19 +9,21 @@ public class SearchModelTests
 {
     private readonly Mock<ITrustProvider> _mockTrustProvider;
     private readonly SearchModel _sut;
+    private readonly Mock<ITrustSearch> _mockTrustSearch;
 
     public SearchModelTests()
     {
         _mockTrustProvider = new Mock<ITrustProvider>();
+        _mockTrustSearch = new Mock<ITrustSearch>();
 
-        _sut = new SearchModel(_mockTrustProvider.Object);
+        _sut = new SearchModel(_mockTrustProvider.Object, _mockTrustSearch.Object);
     }
 
     private readonly TrustSearchEntry[] _fakeTrusts =
     {
-        new("trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC", "2044", 0),
-        new("trust 2", "Grant Course, North East Lincolnshire, QH96 9WV", "2044", 3),
-        new("trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ", "2044", 4)
+        new("trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC", "2044", ""),
+        new("trust 2", "Grant Course, North East Lincolnshire, QH96 9WV", "2044", ""),
+        new("trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ", "2044", "")
     };
 
     private readonly Trust _fakeTrust =
@@ -33,8 +36,7 @@ public class SearchModelTests
     {
         const string query = "trust";
 
-        _mockTrustProvider.Setup(s => s.GetTrustsByNameAsync(query).Result)
-            .Returns(_fakeTrusts);
+        _mockTrustSearch.Setup(s => s.SearchAsync(query).Result).Returns(_fakeTrusts);
         _sut.KeyWords = query;
 
         await _sut.OnGetAsync();
@@ -77,7 +79,7 @@ public class SearchModelTests
 
         result.Should().BeOfType<RedirectToPageResult>();
         var redirectResult = (RedirectToPageResult)result;
-        redirectResult.RouteValues.Should().ContainKey("Ukprn").WhoseValue.Should().Be(_trustId);
+        redirectResult.RouteValues.Should().ContainKey("Uid").WhoseValue.Should().Be(_trustId);
     }
 
     [Fact]
@@ -85,10 +87,11 @@ public class SearchModelTests
     {
         const string query = "trust 3";
 
+        _mockTrustSearch.Setup(s => s.SearchAsync(query).Result).Returns(_fakeTrusts);
         _mockTrustProvider.Setup(s => s.GetTrustByUkprnAsync(_trustId).Result)
             .Returns(_fakeTrust);
-        _mockTrustProvider.Setup(s => s.GetTrustsByNameAsync(query).Result)
-            .Returns(_fakeTrusts);
+
+        _mockTrustSearch.Setup(s => s.SearchAsync(query).Result).Returns(_fakeTrusts);
         _sut.KeyWords = query;
         _sut.TrustId = _trustId;
 
@@ -102,9 +105,7 @@ public class SearchModelTests
     public async Task OnGetPopulateAutocompleteAsync_should_return_trusts_matching_keyword()
     {
         const string query = "trust";
-
-        _mockTrustProvider.Setup(s => s.GetTrustsByNameAsync(query).Result)
-            .Returns(_fakeTrusts);
+        _mockTrustSearch.Setup(s => s.SearchAsync(query).Result).Returns(_fakeTrusts);
         _sut.KeyWords = query;
 
         var result = await _sut.OnGetPopulateAutocompleteAsync();
@@ -115,7 +116,7 @@ public class SearchModelTests
             new SearchModel.AutocompleteEntry(
                 trust.Address,
                 trust.Name,
-                trust.Ukprn
+                trust.Uid
             )));
     }
 

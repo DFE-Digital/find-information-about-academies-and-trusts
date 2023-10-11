@@ -1,3 +1,5 @@
+using DfE.FindInformationAcademiesTrusts.Data;
+
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public interface ITrustsAreaModel

@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests", "tests\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.csproj", "{E20D30CB-8EB1-453B-8C49-77CAFBF16A13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data", "DfE.FindInformationAcademiesTrusts.Data\DfE.FindInformationAcademiesTrusts.Data.csproj", "{DC3BD883-B6DA-4C54-85CB-2CD5D261E8FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{E20D30CB-8EB1-453B-8C49-77CAFBF16A13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E20D30CB-8EB1-453B-8C49-77CAFBF16A13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E20D30CB-8EB1-453B-8C49-77CAFBF16A13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC3BD883-B6DA-4C54-85CB-2CD5D261E8FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC3BD883-B6DA-4C54-85CB-2CD5D261E8FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC3BD883-B6DA-4C54-85CB-2CD5D261E8FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC3BD883-B6DA-4C54-85CB-2CD5D261E8FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0A3416F9-33DB-4870-97EA-7CFF8D828031} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}

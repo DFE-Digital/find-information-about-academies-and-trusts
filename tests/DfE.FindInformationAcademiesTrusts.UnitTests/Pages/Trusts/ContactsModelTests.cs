@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,7 @@ public class ContactsModelTests
     {
         _mockTrustProvider.Setup(s => s.GetTrustByUkprnAsync("1234").Result)
             .Returns(new Trust("test", "test", "Multi-academy trust"));
-        _sut.Ukprn = "1234";
+        _sut.Uid = "1234";
         await _sut.OnGetAsync();
         _sut.Trust.Should().BeEquivalentTo(new Trust("test", "test", "Multi-academy trust"));
     }
@@ -28,7 +29,7 @@ public class ContactsModelTests
     public async void Ukprn_should_be_empty_string_by_default()
     {
         await _sut.OnGetAsync();
-        _sut.Ukprn.Should().BeEquivalentTo(string.Empty);
+        _sut.Uid.Should().BeEquivalentTo(string.Empty);
     }
 
     [Fact]
@@ -49,7 +50,7 @@ public class ContactsModelTests
         _mockTrustProvider.Setup(s => s.GetTrustByUkprnAsync("1111").Result)
             .Returns((Trust?)null);
 
-        _sut.Ukprn = "1111";
+        _sut.Uid = "1111";
 
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
