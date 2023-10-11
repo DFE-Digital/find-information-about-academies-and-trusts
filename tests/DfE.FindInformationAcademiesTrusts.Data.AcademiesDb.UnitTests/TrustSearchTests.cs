@@ -154,6 +154,39 @@ public class TrustSearchTests
         result.Should().HaveCount(2);
     }
 
+    [Fact]
+    public async Task SearchAsync_should_not_return_groups_with_a_null_GroupUid()
+    {
+        var groups = SetupMockDbContextGroups(5);
+
+        groups[0].GroupUid = null;
+
+        var result = await _sut.SearchAsync("trust");
+        result.Should().HaveCount(4);
+    }
+
+    [Fact]
+    public async Task SearchAsync_should_not_return_groups_with_a_null_GroupId()
+    {
+        var groups = SetupMockDbContextGroups(5);
+
+        groups[0].GroupId = null;
+
+        var result = await _sut.SearchAsync("trust");
+        result.Should().HaveCount(4);
+    }
+
+    [Fact]
+    public async Task SearchAsync_should_not_return_groups_with_a_null_GroupName()
+    {
+        var groups = SetupMockDbContextGroups(5);
+
+        groups[0].GroupName = null;
+
+        var result = await _sut.SearchAsync("trust");
+        result.Should().HaveCount(4);
+    }
+
     private List<Group> SetupMockDbContextGroups(int numMatches)
     {
         var groups = new List<Group>();
