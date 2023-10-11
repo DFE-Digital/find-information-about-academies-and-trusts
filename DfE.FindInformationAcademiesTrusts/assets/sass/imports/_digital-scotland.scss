@@ -46,5 +46,26 @@ $ds_breakpoints: (
 $ds_colour__brand: $govuk-link-colour;
 // stylelint-enable scss/dollar-variable-pattern
 
-@import "@scottish-government/pattern-library/src/base/all-base";
+@import "@scottish-government/pattern-library/src/base/helpers/all";
+@import "@scottish-government/pattern-library/src/base/settings/all";
+@import "@scottish-government/pattern-library/src/base/tools/all";
+@import "@scottish-government/pattern-library/src/base/core/box-sizing/box-sizing";
+@import "@scottish-government/pattern-library/src/base/utilities/all";
+
+// Digital Scotland core element styles are also applied to the html element tag, which we do not want, so directly applying the dslink media query to the dslink class
+// from DfE.FindInformationAcademiesTrusts/node_modules/@scottish-government/pattern-library/src/base/core/links/_links.scss
+.ds_link {
+  @include ds_link;
+  background: transparent;
+  border: 0;
+  display: inline;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  margin: 0;
+  min-height: 0;
+  min-width: 0;
+  padding: 0;
+  text-align: left; // .ds_link applied to a button would otherwise have centered text
+}
 @import "@scottish-government/pattern-library/src/components/side-navigation/side-navigation";
