@@ -186,7 +186,10 @@ internal static class Program
             options.DefaultPolicy = policyBuilder.Build();
             options.FallbackPolicy = options.DefaultPolicy;
         });
+
+         if (!builder.Environment.IsContinuousIntegration())
         builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration);
+        
         builder.Services.Configure<CookieAuthenticationOptions>(
             CookieAuthenticationDefaults.AuthenticationScheme,
             options =>
