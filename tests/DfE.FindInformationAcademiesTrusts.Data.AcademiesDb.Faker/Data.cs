@@ -1,6 +1,6 @@
-using DfE.FindInformationAcademiesTrusts.Faker.Helpers;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Helpers;
 
-namespace DfE.FindInformationAcademiesTrusts.Faker;
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker;
 
 public static class Data
 {

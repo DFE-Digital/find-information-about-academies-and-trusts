@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data", "DfE.FindInformationAcademiesTrusts.Data\DfE.FindInformationAcademiesTrusts.Data.csproj", "{DC3BD883-B6DA-4C54-85CB-2CD5D261E8FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Faker", "tests\DfE.FindInformationAcademiesTrusts.Faker\DfE.FindInformationAcademiesTrusts.Faker.csproj", "{CE03C6BD-0160-4265-A287-3EC70103E4C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker", "tests\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.csproj", "{CE03C6BD-0160-4265-A287-3EC70103E4C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
