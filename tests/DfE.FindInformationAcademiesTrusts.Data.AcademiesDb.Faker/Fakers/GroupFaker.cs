@@ -1,8 +1,8 @@
 using Bogus;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Helpers;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
-using DfE.FindInformationAcademiesTrusts.Faker.Helpers;
 
-namespace DfE.FindInformationAcademiesTrusts.Faker.Fakers;
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Fakers;
 
 public class GroupFaker
 {

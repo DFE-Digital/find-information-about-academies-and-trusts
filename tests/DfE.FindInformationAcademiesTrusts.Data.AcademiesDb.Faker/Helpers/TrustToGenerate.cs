@@ -1,4 +1,4 @@
-namespace DfE.FindInformationAcademiesTrusts.Faker.Helpers;
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Helpers;
 
 public class TrustToGenerate
 {
