@@ -18,7 +18,7 @@ public class GroupFaker
             .RuleFor(td => td.GroupContactStreet, f => $"{f.Address.BuildingNumber()} {f.Address.StreetName()}")
             .RuleFor(td => td.GroupContactLocality, f => f.PickRandom(f.Address.StreetName(), string.Empty))
             .RuleFor(td => td.GroupContactTown, f => f.PickRandom(f.Address.City(), string.Empty))
-            .RuleFor(td => td.GroupContactCounty, f => f.Address.County())
+            .RuleFor(td => td.GroupContactCounty, f => f.PickRandom(f.Address.County(), "Not recorded"))
             .RuleFor(td => td.GroupContactPostcode, f => f.Address.ZipCode());
     }
 
