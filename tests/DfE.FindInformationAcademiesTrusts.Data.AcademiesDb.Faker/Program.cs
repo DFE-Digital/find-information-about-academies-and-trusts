@@ -1,10 +1,10 @@
 ﻿using System.Text.Json;
 using Bogus;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Fakers;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Helpers;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
-using DfE.FindInformationAcademiesTrusts.Faker.Fakers;
-using DfE.FindInformationAcademiesTrusts.Faker.Helpers;
 
-namespace DfE.FindInformationAcademiesTrusts.Faker;
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker;
 
 internal static class Program
 {
