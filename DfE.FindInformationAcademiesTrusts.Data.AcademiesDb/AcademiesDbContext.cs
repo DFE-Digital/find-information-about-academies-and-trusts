@@ -39,12 +39,6 @@ public class AcademiesDbContext : DbContext, IAcademiesDbContext
             entity.Property(e => e.CompaniesHouseNumber)
                 .IsUnicode(false)
                 .HasColumnName("Companies House Number");
-            entity.Property(e => e.GroupContactAddress3)
-                .IsUnicode(false)
-                .HasColumnName("Group Contact Address 3");
-            entity.Property(e => e.GroupContactCounty)
-                .IsUnicode(false)
-                .HasColumnName("Group Contact County");
             entity.Property(e => e.GroupContactLocality)
                 .IsUnicode(false)
                 .HasColumnName("Group Contact Locality");
