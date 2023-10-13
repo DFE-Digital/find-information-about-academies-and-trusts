@@ -27,9 +27,9 @@ public class SearchModelTests
     };
 
     private readonly Trust _fakeTrust =
-        new("trust 1", "2044", "Multi-academy trust");
+        new("123", "trust 1", "2044", "Multi-academy trust");
 
-    private const string _trustId = "1234";
+    private const string TrustId = "1234";
 
     [Fact]
     public async Task OnGetAsync_should_search_if_query_parameter()
@@ -55,9 +55,9 @@ public class SearchModelTests
     [Fact]
     public async Task OnGetAsync_should_redirect_to_trust_details_if_given_trustId()
     {
-        _sut.TrustId = _trustId;
+        _sut.TrustId = TrustId;
         _sut.KeyWords = "trust 1";
-        _mockTrustProvider.Setup(s => s.GetTrustByUkprnAsync(_trustId).Result)
+        _mockTrustProvider.Setup(s => s.GetTrustByGroupUidAsync(TrustId).Result)
             .Returns(_fakeTrust);
 
         var result = await _sut.OnGetAsync();
@@ -70,16 +70,16 @@ public class SearchModelTests
     [Fact]
     public async Task OnGetAsync_should_pass_trustId_to_trust_details_if_given_trustId()
     {
-        _sut.TrustId = _trustId;
+        _sut.TrustId = TrustId;
         _sut.KeyWords = "trust 1";
-        _mockTrustProvider.Setup(s => s.GetTrustByUkprnAsync(_trustId).Result)
+        _mockTrustProvider.Setup(s => s.GetTrustByGroupUidAsync(TrustId).Result)
             .Returns(_fakeTrust);
 
         var result = await _sut.OnGetAsync();
 
         result.Should().BeOfType<RedirectToPageResult>();
         var redirectResult = (RedirectToPageResult)result;
-        redirectResult.RouteValues.Should().ContainKey("Uid").WhoseValue.Should().Be(_trustId);
+        redirectResult.RouteValues.Should().ContainKey("Uid").WhoseValue.Should().Be(TrustId);
     }
 
     [Fact]
@@ -88,12 +88,12 @@ public class SearchModelTests
         const string query = "trust 3";
 
         _mockTrustSearch.Setup(s => s.SearchAsync(query).Result).Returns(_fakeTrusts);
-        _mockTrustProvider.Setup(s => s.GetTrustByUkprnAsync(_trustId).Result)
+        _mockTrustProvider.Setup(s => s.GetTrustByGroupUidAsync(TrustId).Result)
             .Returns(_fakeTrust);
 
         _mockTrustSearch.Setup(s => s.SearchAsync(query).Result).Returns(_fakeTrusts);
         _sut.KeyWords = query;
-        _sut.TrustId = _trustId;
+        _sut.TrustId = TrustId;
 
         var result = await _sut.OnGetAsync();
 
