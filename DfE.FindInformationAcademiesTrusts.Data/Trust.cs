@@ -1,3 +1,3 @@
 namespace DfE.FindInformationAcademiesTrusts.Data;
 
-public record Trust(string Name, string? Ukprn, string Type);
+public record Trust(string GroupUid, string Name, string? Ukprn, string Type);
