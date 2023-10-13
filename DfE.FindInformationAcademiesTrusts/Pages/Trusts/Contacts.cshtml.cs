@@ -20,7 +20,7 @@ public class ContactsModel : PageModel, ITrustsAreaModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        var trust = await _trustProvider.GetTrustByGroupUidAsync(Uid);
+        var trust = await _trustProvider.GetTrustByUidAsync(Uid);
 
         if (trust == null)
         {
