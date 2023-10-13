@@ -17,7 +17,7 @@ public class TrustProvider : ITrustProvider
         _academiesDbContext = academiesDbContext;
     }
 
-    public async Task<Trust?> GetTrustByUkprnAsync(string groupUid)
+    public async Task<Trust?> GetTrustByGroupUidAsync(string groupUid)
     {
         Trust? trust = null;
 
@@ -25,7 +25,8 @@ public class TrustProvider : ITrustProvider
         if (group is not null)
         {
             trust = new Trust(
-                group.GroupName,
+                group.GroupUid!,
+                group.GroupName ?? string.Empty,
                 group.Ukprn,
                 group.GroupType ?? string.Empty
             );
