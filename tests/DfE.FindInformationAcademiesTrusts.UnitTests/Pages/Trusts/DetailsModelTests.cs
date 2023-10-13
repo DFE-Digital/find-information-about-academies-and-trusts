@@ -16,9 +16,9 @@ public class DetailsModelTests
     }
 
     [Fact]
-    public async void OnGetAsync_should_fetch_a_trust_by_groupUid()
+    public async void OnGetAsync_should_fetch_a_trust_by_uid()
     {
-        _mockTrustProvider.Setup(s => s.GetTrustByGroupUidAsync("1234").Result)
+        _mockTrustProvider.Setup(s => s.GetTrustByUidAsync("1234").Result)
             .Returns(new Trust("test", "test", "test", "Multi-academy trust"));
         _sut.Uid = "1234";
 
@@ -48,7 +48,7 @@ public class DetailsModelTests
     [Fact]
     public async void OnGetAsync_should_return_not_found_result_if_trust_is_not_found()
     {
-        _mockTrustProvider.Setup(s => s.GetTrustByGroupUidAsync("1111").Result)
+        _mockTrustProvider.Setup(s => s.GetTrustByUidAsync("1111").Result)
             .Returns((Trust?)null);
 
         _sut.Uid = "1111";
@@ -57,7 +57,7 @@ public class DetailsModelTests
     }
 
     [Fact]
-    public async void OnGetAsync_should_return_not_found_result_if_Ukprn_is_not_provided()
+    public async void OnGetAsync_should_return_not_found_result_if_Uid_is_not_provided()
     {
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();

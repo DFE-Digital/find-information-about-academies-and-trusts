@@ -1,4 +1,4 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +18,7 @@ public class OverviewModelTests
     [Fact]
     public async void OnGetAsync_should_fetch_a_trust_by_ukprn()
     {
-        _mockTrustProvider.Setup(s => s.GetTrustByGroupUidAsync("1234").Result)
+        _mockTrustProvider.Setup(s => s.GetTrustByUidAsync("1234").Result)
             .Returns(new Trust("test", "test", "test", "Multi-academy trust"));
         _sut.Uid = "1234";
 
@@ -48,7 +48,7 @@ public class OverviewModelTests
     [Fact]
     public async void OnGetAsync_should_return_not_found_result_if_trust_is_not_found()
     {
-        _mockTrustProvider.Setup(s => s.GetTrustByGroupUidAsync("1111").Result)
+        _mockTrustProvider.Setup(s => s.GetTrustByUidAsync("1111").Result)
             .Returns((Trust?)null);
 
         _sut.Uid = "1111";
