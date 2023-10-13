@@ -17,11 +17,11 @@ public class TrustProvider : ITrustProvider
         _academiesDbContext = academiesDbContext;
     }
 
-    public async Task<Trust?> GetTrustByGroupUidAsync(string groupUid)
+    public async Task<Trust?> GetTrustByUidAsync(string uid)
     {
         Trust? trust = null;
 
-        var group = await _academiesDbContext.Groups.SingleOrDefaultAsync(g => g.GroupUid == groupUid);
+        var group = await _academiesDbContext.Groups.SingleOrDefaultAsync(g => g.GroupUid == uid);
         if (group is not null)
         {
             trust = new Trust(

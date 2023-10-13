@@ -16,12 +16,12 @@ public class TrustProviderTests
     }
 
     [Fact]
-    public async Task GetTrustsByGroupUidAsync_should_return_a_trust_if_group_found()
+    public async Task GetTrustsByUidAsync_should_return_a_trust_if_group_found()
     {
         _groups.Add(new Group
             { GroupName = "trust 1", GroupUid = "1234", GroupType = "Multi-academy trust", Ukprn = "my ukprn" });
 
-        var result = await _sut.GetTrustByGroupUidAsync("1234");
+        var result = await _sut.GetTrustByUidAsync("1234");
 
         result.Should().BeEquivalentTo(new Trust("1234", "trust 1",
             "my ukprn",
@@ -29,9 +29,9 @@ public class TrustProviderTests
     }
 
     [Fact]
-    public async Task GetTrustsByGroupUidAsync_should_return_null_when_group_not_found()
+    public async Task GetTrustsByUidAsync_should_return_null_when_group_not_found()
     {
-        var result = await _sut.GetTrustByGroupUidAsync("987654321");
+        var result = await _sut.GetTrustByUidAsync("987654321");
         result.Should().BeNull();
     }
 }
