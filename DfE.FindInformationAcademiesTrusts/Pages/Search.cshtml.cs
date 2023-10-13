@@ -27,7 +27,7 @@ public class SearchModel : PageModel, ISearchFormModel
     {
         if (!string.IsNullOrWhiteSpace(TrustId))
         {
-            var trust = await _trustProvider.GetTrustByUkprnAsync(TrustId);
+            var trust = await _trustProvider.GetTrustByGroupUidAsync(TrustId);
             if (trust != null && string.Equals(trust.Name, KeyWords, StringComparison.CurrentCultureIgnoreCase))
             {
                 return RedirectToPage("/Trusts/Details", new { Uid = TrustId });
