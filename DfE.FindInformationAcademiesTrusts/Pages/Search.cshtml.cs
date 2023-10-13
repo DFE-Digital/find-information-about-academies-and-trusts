@@ -20,17 +20,17 @@ public class SearchModel : PageModel, ISearchFormModel
 
     public string InputId => "search";
     [BindProperty(SupportsGet = true)] public string KeyWords { get; set; } = string.Empty;
-    [BindProperty(SupportsGet = true)] public string TrustId { get; set; } = string.Empty;
+    [BindProperty(SupportsGet = true)] public string Uid { get; set; } = string.Empty;
     public IEnumerable<TrustSearchEntry> Trusts { get; set; } = Array.Empty<TrustSearchEntry>();
 
     public async Task<IActionResult> OnGetAsync()
     {
-        if (!string.IsNullOrWhiteSpace(TrustId))
+        if (!string.IsNullOrWhiteSpace(Uid))
         {
-            var trust = await _trustProvider.GetTrustByGroupUidAsync(TrustId);
+            var trust = await _trustProvider.GetTrustByUidAsync(Uid);
             if (trust != null && string.Equals(trust.Name, KeyWords, StringComparison.CurrentCultureIgnoreCase))
             {
-                return RedirectToPage("/Trusts/Details", new { Uid = TrustId });
+                return RedirectToPage("/Trusts/Details", new { Uid });
             }
         }
 
