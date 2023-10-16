@@ -277,3 +277,21 @@ variable "tfvars_filename" {
   description = "tfvars filename. This file is uploaded and stored encrypted within Key Vault, to ensure that the latest tfvars are stored in a shared place."
   type        = string
 }
+
+variable "statuscake_api_token" {
+  description = "API token for StatusCake"
+  type        = string
+  sensitive   = true
+}
+
+variable "statuscake_contact_group_name" {
+  description = "Name of the contact group in StatusCake"
+  type        = string
+  default     = ""
+}
+
+variable "statuscake_contact_group_integrations" {
+  description = "List of Integration IDs to connect to your Contact Group"
+  type        = list(string)
+  default     = []
+}
