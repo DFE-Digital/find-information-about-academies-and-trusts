@@ -30,9 +30,5 @@ resource "azurerm_monitor_diagnostic_setting" "ci-test-reports" {
 
   metric {
     category = "Transaction"
-
-    retention_policy {
-      enabled = false
-    }
   }
 }
