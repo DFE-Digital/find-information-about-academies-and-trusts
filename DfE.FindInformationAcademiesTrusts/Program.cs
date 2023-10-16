@@ -114,7 +114,6 @@ internal static class Program
                     .From("https://js.monitor.azure.com/scripts/b/ai.2.min.js");
                 cspBuilder.AddConnectSrc()
                     .Self()
-                    .WithNonce()
                     .From("https://*.in.applicationinsights.azure.com//v2/track");
                 cspBuilder.AddObjectSrc().None();
                 cspBuilder.AddBlockAllMixedContent();
