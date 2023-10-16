@@ -14,10 +14,9 @@ public class TrustHelperTests
             GroupContactStreet = "12 Abbey Road",
             GroupContactLocality = "Dorthy Inlet",
             GroupContactTown = "East Park",
-            GroupContactCounty = "Kingston upon Hull",
             GroupContactPostcode = "JY36 9VC"
         };
-        var expected = "12 Abbey Road, Dorthy Inlet, East Park, Kingston upon Hull, JY36 9VC";
+        var expected = "12 Abbey Road, Dorthy Inlet, East Park, JY36 9VC";
         var result = _sut.BuildAddressString(group);
 
         result.Should().Be(expected);
@@ -39,7 +38,6 @@ public class TrustHelperTests
             GroupContactStreet = string.Empty,
             GroupContactLocality = string.Empty,
             GroupContactTown = string.Empty,
-            GroupContactCounty = string.Empty,
             GroupContactPostcode = string.Empty
         };
         var result = _sut.BuildAddressString(group);
