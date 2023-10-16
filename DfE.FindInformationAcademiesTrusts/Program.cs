@@ -32,6 +32,7 @@ internal static class Program
 
             builder.Services.AddRazorPages();
             builder.Services.AddHealthChecks();
+            builder.Services.AddApplicationInsightsTelemetry();
             AddAuthenticationServices(builder);
 
             builder.Services.Configure<RouteOptions>(options =>
@@ -212,7 +213,6 @@ internal static class Program
         }
         else
         {
-            builder.Services.AddApplicationInsightsTelemetry();
             builder.Host.UseSerilog((_, services, loggerConfiguration) => loggerConfiguration
                 .ReadFrom.Configuration(builder.Configuration)
                 .WriteTo.ApplicationInsights(services.GetRequiredService<TelemetryConfiguration>(),
