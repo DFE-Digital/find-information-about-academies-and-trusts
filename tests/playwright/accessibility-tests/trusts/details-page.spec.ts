@@ -7,7 +7,8 @@ test.describe('Details page', () => {
     await detailsPage.goTo()
     await detailsPage.expect.toSeeCorrectTrustNameAndTypeInHeader()
     await detailsPage.trustNavigation.expect.toBeVisible()
-
+    await detailsPage.expect.toSeeCorrectTrustDetails()
+    await detailsPage.expect.toSeeCorrectTrustReferenceNumbers()
     await expectNoAccessibilityViolations()
   })
 })
