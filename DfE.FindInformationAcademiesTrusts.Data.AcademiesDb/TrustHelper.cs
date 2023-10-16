@@ -16,7 +16,6 @@ public class TrustHelper : ITrustHelper
             group.GroupContactStreet,
             group.GroupContactLocality,
             group.GroupContactTown,
-            group.GroupContactCounty,
             group.GroupContactPostcode
         }.Where(s => !string.IsNullOrWhiteSpace(s)));
     }
