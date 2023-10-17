@@ -49,4 +49,8 @@ locals {
   key_vault_access_users                       = var.key_vault_access_users
   key_vault_access_ipv4                        = var.key_vault_access_ipv4
   tfvars_filename                              = var.tfvars_filename
+  statuscake_api_token                         = var.statuscake_api_token
+  statuscake_monitored_resource_address        = "https://${local.dns_zone_domain_name}${local.monitor_endpoint_healthcheck}"
+  statuscake_contact_group_name                = var.statuscake_contact_group_name
+  statuscake_contact_group_integrations        = var.statuscake_contact_group_integrations
 }
