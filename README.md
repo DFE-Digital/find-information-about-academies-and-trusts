@@ -9,4 +9,5 @@ We are a tool for everyone in DfE to find information which is collated from mul
 - [Supercharge your dev environment](docs/supercharge-your-dev-environment.md)
 - [Application insights](docs/application-insights.md)
 - [Architecture Decision Records (ADRs)](docs/adrs)
+- [Archive branches](docs/archive-branches.md)
 - [Test Approach](docs/test-approach.md)
