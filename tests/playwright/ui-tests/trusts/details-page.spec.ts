@@ -16,6 +16,11 @@ test.describe('Details page', () => {
     await detailsPage.expect.toSeeCorrectTrustNameAndTypeInHeader()
   })
 
+  test('user should see the correct trust information', async () => {
+    await detailsPage.expect.toSeeCorrectTrustDetails()
+    await detailsPage.expect.toSeeCorrectTrustReferenceNumbers()
+  })
+
   test.describe('given a user tries to visit the url without an existing trust', () => {
     test.beforeEach(({ page }) => {
       notFoundPage = new NotFoundPage(page)
