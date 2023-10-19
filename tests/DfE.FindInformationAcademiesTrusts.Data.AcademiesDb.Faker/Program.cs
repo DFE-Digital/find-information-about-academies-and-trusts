@@ -24,8 +24,6 @@ public static class Program
             //The randomizer seed enables us to generate slightly repeatable data sets
             Randomizer.Seed = new Random(28698);
 
-
-
             var fakeGroups = Data.TrustsToGenerate
                 .Select(GenerateGroup).ToArray();
 
