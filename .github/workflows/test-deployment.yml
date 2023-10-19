@@ -12,6 +12,9 @@ on:
         type: string
 env:
   NODE_VERSION: 18.13.0
+  PLAYWRIGHT_VERSION: default
+  LAST_COMMIT_SHA: default
+
 jobs:
   playwright:
     name: Smoke deployment tests
