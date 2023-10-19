@@ -15,11 +15,16 @@ public static class Program
         try
         {
             var dbContextOptions = new DbContextOptionsBuilder<AcademiesDbContext>().UseSqlServer();
+            using var context = new AcademiesDbContext(dbContextOptions.Options);
+            var createScript = context.Database.GenerateCreateScript();
+
+            Directory.CreateDirectory("data");
+            File.WriteAllText("data/createScript.sql", createScript);
 
             //The randomizer seed enables us to generate slightly repeatable data sets
             Randomizer.Seed = new Random(28698);
 
-            Directory.CreateDirectory("data");
+
 
             var fakeGroups = Data.TrustsToGenerate
                 .Select(GenerateGroup).ToArray();
@@ -31,12 +36,9 @@ public static class Program
             var groupProperties = typeof(Group).GetProperties();
             var valuesStrings = fakeGroups.Select(group => $"({GetEntityValues(group, groupProperties)})");
 
-            var insertScript = $"INSERT INTO [gias].[Group] VALUES {string.Join(',', valuesStrings)}";
+            var insertScript =
+                $"INSERT INTO [gias].[Group] ({GetEntityProperties(groupProperties, context)}) VALUES {string.Join(',', valuesStrings)}";
             File.WriteAllText("data/insertScript.sql", insertScript);
-
-            using var context = new AcademiesDbContext(dbContextOptions.Options);
-            var createScript = context.Database.GenerateCreateScript();
-            File.WriteAllText("data/createScript.sql", createScript);
         }
         catch (Exception e)
         {
@@ -56,6 +58,18 @@ public static class Program
             .Select(pi => GetValueAsString(pi.GetValue(obj), pi.PropertyType));
 
         return string.Join(", ", list);
+    }
+
+    private static string GetEntityProperties(PropertyInfo[] propertyInfos, AcademiesDbContext context)
+    {
+        var entityProperties = context.Model.FindEntityTypes(typeof(Group)).FirstOrDefault()!.GetProperties();
+        var columnNames =
+            propertyInfos.Select(pi =>
+            {
+                var columnName = entityProperties.FirstOrDefault(ep => ep.Name == pi.Name)!.GetColumnName();
+                return $"[{columnName}]";
+            });
+        return string.Join(',', columnNames);
     }
 
     private static string GetValueAsString(object? value, Type propertyType)
