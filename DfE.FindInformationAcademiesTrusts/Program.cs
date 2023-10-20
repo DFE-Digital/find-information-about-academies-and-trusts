@@ -204,10 +204,9 @@ internal static class Program
             return false;
 
         //We need to be sure that this is actually an isolated environment with no access to production data
-        var academiesApiUrl = builder.Configuration.GetSection("AcademiesApi").GetValue<string>("Endpoint")?.ToLower();
-        return string.IsNullOrWhiteSpace(academiesApiUrl)
-               || academiesApiUrl.Contains("localhost")
-               || academiesApiUrl.Contains("wiremock");
+        var databaseConnectionString = builder.Configuration.GetConnectionString("AcademiesDb")?.ToLower();
+        return string.IsNullOrWhiteSpace(databaseConnectionString)
+               || databaseConnectionString.Contains("localhost");
     }
 
     private static void ReconfigureLogging(WebApplicationBuilder builder)
