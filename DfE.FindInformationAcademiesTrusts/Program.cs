@@ -32,6 +32,7 @@ internal static class Program
 
             builder.Services.AddRazorPages();
             builder.Services.AddHealthChecks();
+            builder.Services.AddApplicationInsightsTelemetry();
             AddAuthenticationServices(builder);
 
             builder.Services.Configure<RouteOptions>(options =>
@@ -109,7 +110,11 @@ internal static class Program
                 cspBuilder.AddScriptSrc()
                     .Self()
                     .UnsafeInline()
-                    .WithNonce();
+                    .WithNonce()
+                    .From("https://js.monitor.azure.com/scripts/b/ai.2.min.js");
+                cspBuilder.AddConnectSrc()
+                    .Self()
+                    .From("https://*.in.applicationinsights.azure.com//v2/track");
                 cspBuilder.AddObjectSrc().None();
                 cspBuilder.AddBlockAllMixedContent();
                 cspBuilder.AddImgSrc().Self();
@@ -212,7 +217,6 @@ internal static class Program
         }
         else
         {
-            builder.Services.AddApplicationInsightsTelemetry();
             builder.Host.UseSerilog((_, services, loggerConfiguration) => loggerConfiguration
                 .ReadFrom.Configuration(builder.Configuration)
                 .WriteTo.ApplicationInsights(services.GetRequiredService<TelemetryConfiguration>(),
