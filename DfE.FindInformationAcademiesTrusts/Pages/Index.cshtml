@@ -9,7 +9,7 @@
     <div class="dfe-width-container">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-half">
-          <form class="govuk-form-group app-search" asp-page="Search" method="get" role="search" aria-label="sitewide">
+          <form class="govuk-form-group app-search" asp-page="Search" method="get" role="search" aria-label="sitewide" asp-antiforgery="true">
             <h1 class="govuk-label-wrapper">
               <label class="govuk-label govuk-label--xl app-banner--heading govuk-!-margin-bottom-8" for="@Model.InputId">
                 Find information about academies and trusts
