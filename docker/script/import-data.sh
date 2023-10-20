@@ -9,7 +9,7 @@ do
         break
     else
         echo "not ready yet..."
-        sleep 1
+        sleep 3
     fi
 done
 
