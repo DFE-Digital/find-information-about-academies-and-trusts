@@ -1,10 +1,14 @@
 version: "3.8"
 services:
-  wiremock:
-    image: wiremock/wiremock:latest-alpine
+  faker:
+    build:
+      context: ..
+      dockerfile: docker/AcademiesDbFaker.Dockerfile
     ports:
-      - 8080:8080
-    command: --disable-banner
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=mySuperStrong_pa55word!!!
     networks:
       - test-ci
   webapp:
@@ -18,9 +22,8 @@ services:
       - test-ci
     environment:
       - ASPNETCORE_ENVIRONMENT=CI
-      - AcademiesApi__Endpoint=http://wiremock:8080
-      - AcademiesApi__Key=00000000-0000-0000-000-000000000000
       - TestOverride__PlaywrightTestSecret=TestSuperSecret
+      - ConnectionStrings__AcademiesDb=Server=localhost;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true
 
 networks:
   test-ci:
