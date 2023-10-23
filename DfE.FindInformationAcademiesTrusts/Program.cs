@@ -200,6 +200,7 @@ internal static class Program
         //We need to be sure that this is actually an isolated environment with no access to production data
         var databaseConnectionString = builder.Configuration.GetConnectionString("AcademiesDb")?.ToLower();
         return string.IsNullOrWhiteSpace(databaseConnectionString)
+               || databaseConnectionString.Contains("faker")
                || databaseConnectionString.Contains("localhost");
     }
 
