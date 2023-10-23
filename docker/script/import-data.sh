@@ -2,7 +2,8 @@
 #do this in a loop because the timing for when the SQL instance is ready is indeterminate
 for i in {1..50};
 do
-    /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "mySuperStrong_pa55word!!!" -d master -i createScript.sql
+    #the database password should be passed to this script as the first argument
+    /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "$1" -d master -i createScript.sql
     if [ $? -eq 0 ]
     then
         echo "createScript.sql completed"
@@ -14,4 +15,4 @@ do
 done
 
 #run the insert script when done
-/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "mySuperStrong_pa55word!!!" -i insertScript.sql
+/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "$1" -i insertScript.sql
