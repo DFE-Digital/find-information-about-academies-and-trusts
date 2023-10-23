@@ -158,6 +158,39 @@ TEST_USER_ACCOUNT_PASSWORD="<insert here>" #
  npm run test:integration
 ```
 
+### Owasp Zap security tests
+
+To run the owasp zap security scanner locally on the test or dev environments.
+
+1. Run the owasp zap api in docker, please note the post scan test report will be sent to wherever you run this command from. Always stop and restart the owasp zap api in docker before evey test run to ensure you get a clean test report. 
+
+```bash
+docker run --rm -v ${PWD}:/zap/wrk/:rw -u zap -p 8083:8083 -i owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 8083 -config api.disablekey=true -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true
+```
+
+2. Add these environment variables to the .env file in the playwright folder.
+
+```bash
+cd tests/playwright/.env
+
+# add these environmental variable to .env file
+
+PLAYWRIGHT_BASEURL="https://dev.find-information-academies-trusts.education.gov.uk/"
+TEST_USER_ACCOUNT_NAME="<test user>"
+TEST_USER_ACCOUNT_PASSWORD="<test users password>"
+HTTP_PROXY="http://localhost:8083/"
+ZAP=true
+ZAP_PORT=8083
+```
+3. run the tests
+
+```bash
+cd tests/playwright
+
+npx playwright test --project=zap-tests --trace=on
+```
+
+
 ## Supercharge your dev environment
 
 We recommend using Rider or Visual Studio with ReSharper.
