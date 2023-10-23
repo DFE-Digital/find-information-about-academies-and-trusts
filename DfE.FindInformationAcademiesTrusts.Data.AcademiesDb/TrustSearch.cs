@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 
@@ -19,16 +20,14 @@ public class TrustSearch : ITrustSearch
         _academiesDbContext = academiesDbContext;
     }
 
-    public Task<IEnumerable<TrustSearchEntry>> SearchAsync(string searchTerm)
+    public async Task<TrustSearchEntry[]> SearchAsync(string searchTerm)
     {
         if (string.IsNullOrWhiteSpace(searchTerm))
         {
-            return Task.FromResult(
-                Array.Empty<TrustSearchEntry>().AsEnumerable()
-            );
+            return Array.Empty<TrustSearchEntry>();
         }
 
-        var trustSearchEntries = _academiesDbContext.Groups
+        var trustSearchEntries = await _academiesDbContext.Groups
             .Where(g =>
                 g.GroupUid != null &&
                 g.GroupId != null &&
@@ -42,11 +41,8 @@ public class TrustSearch : ITrustSearch
             .Take(20)
             .Select(g =>
                 new TrustSearchEntry(g.GroupName!, _trustHelper.BuildAddressString(g), g.GroupUid!, g.GroupId!))
-            .AsEnumerable();
+            .ToArrayAsync();
 
-
-        return Task.FromResult(
-            trustSearchEntries
-        );
+        return trustSearchEntries;
     }
 }
