@@ -23,7 +23,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=CI
       - TestOverride__PlaywrightTestSecret=TestSuperSecret
-      - ConnectionStrings__AcademiesDb=Server=localhost;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true
+      - ConnectionStrings__AcademiesDb=Server=faker;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true;
 
 networks:
   test-ci:
