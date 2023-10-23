@@ -9,7 +9,6 @@
     <div id="@Model.InputId-no-js-search-container">
       <input class="govuk-input app-search__input" id="@Model.InputId" type="search" asp-for="KeyWords" name="keywords">
     </div>
-    @Html.AntiForgeryToken()
     <button class="govuk-button app-search__button app-search__button--blue" type="submit">
       <svg class="app-search__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <path d="M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z"></path>
