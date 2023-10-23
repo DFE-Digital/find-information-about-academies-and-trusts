@@ -27,11 +27,7 @@ public class Group
 
     public string? GroupContactLocality { get; set; }
 
-    public string? GroupContactAddress3 { get; set; }
-
     public string? GroupContactTown { get; set; }
-
-    public string? GroupContactCounty { get; set; }
 
     public string? GroupContactPostcode { get; set; }
 
