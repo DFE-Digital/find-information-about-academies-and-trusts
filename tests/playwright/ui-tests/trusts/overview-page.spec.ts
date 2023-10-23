@@ -13,7 +13,13 @@ test.describe('Overview page', () => {
   })
 
   test('user should see trust name and type', async () => {
+    await overviewPage.expect.toBeOnTheRightPage()
     await overviewPage.expect.toSeeCorrectTrustNameAndTypeInHeader()
+  })
+
+  test('user should see the correct trust information', async () => {
+    await overviewPage.expect.toSeeCorrectOfstedRatings()
+    await overviewPage.expect.toSeeCorrectOfstedRatings()
   })
 
   test.describe('given a user tries to visit the url without an existing trust', () => {
