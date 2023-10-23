@@ -4,16 +4,16 @@ import { NotFoundPage } from '../../page-object-model/not-found-page'
 import { MockTrustsProvider } from '../../mocks/mock-trusts-provider'
 
 test.describe('Overview page', () => {
-  let detailsPage: OverviewPage
+  let overviewPage: OverviewPage
   let notFoundPage: NotFoundPage
 
   test.beforeEach(async ({ page }) => {
-    detailsPage = new OverviewPage(page)
-    await detailsPage.goTo()
+    overviewPage = new OverviewPage(page)
+    await overviewPage.goTo()
   })
 
   test('user should see trust name and type', async () => {
-    await detailsPage.expect.toSeeCorrectTrustNameAndTypeInHeader()
+    await overviewPage.expect.toSeeCorrectTrustNameAndTypeInHeader()
   })
 
   test.describe('given a user tries to visit the url without an existing trust', () => {
@@ -22,10 +22,10 @@ test.describe('Overview page', () => {
     })
 
     test('then they should see a not found message', async () => {
-      await detailsPage.goTo('')
+      await overviewPage.goTo('')
       await notFoundPage.expect.toBeShownNotFoundMessage()
 
-      await detailsPage.goTo(MockTrustsProvider.nonExistingTrustUkprn)
+      await overviewPage.goTo(MockTrustsProvider.nonExistingTrustUkprn)
       await notFoundPage.expect.toBeShownNotFoundMessage()
     })
   })
