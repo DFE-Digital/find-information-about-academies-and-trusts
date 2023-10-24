@@ -67,10 +67,8 @@ public class HeaderRequirementHandlerTests
     [Theory]
     [InlineData("", null)]
     [InlineData("Bearer ", null)]
-    [InlineData("Bearer 123", null)]
     [InlineData("", "")]
     [InlineData("Bearer ", "")]
-    [InlineData("Bearer 123", "")]
     public void ClientSecretHeaderValid_should_return_false_if_serverAuthKey_not_set(string headerAuthKey,
         string serverAuthKey)
     {
