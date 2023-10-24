@@ -153,24 +153,13 @@ internal static class Program
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
         builder.Services.AddScoped<ITrustHelper, TrustHelper>();
-
-        builder.Services.AddHttpClient("AcademiesApi", (provider, httpClient) =>
-        {
-            var academiesApiOptions = provider.GetRequiredService<IOptions<AcademiesApiOptions>>();
-            httpClient.BaseAddress = new Uri(academiesApiOptions.Value.Endpoint!);
-            httpClient.DefaultRequestHeaders.Add("ApiKey", academiesApiOptions.Value.Key);
-        });
+        
     }
 
     private static void AddEnvironmentVariablesTo(WebApplicationBuilder builder)
     {
         if (builder.Environment.IsLocalDevelopment())
             builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly());
-
-        builder.Services.AddOptions<AcademiesApiOptions>()
-            .Bind(builder.Configuration.GetSection(AcademiesApiOptions.ConfigurationSection))
-            .ValidateDataAnnotations()
-            .ValidateOnStart();
     }
 
     private static void AddAuthenticationServices(WebApplicationBuilder builder)
