@@ -8,6 +8,7 @@ Use this documentation to configure your local development environment.
   - [Build and watch frontend assets](#build-and-watch-frontend-assets)
   - [Build and run dotnet project](#build-and-run-dotnet-project)
 - [Get it working (with Docker)](#get-it-working-with-docker)
+  - [Run the fake database for local development](#run-the-fake-database-for-local-development)
 
 ## Get it working (without Docker)
 
@@ -61,6 +62,11 @@ Before running the application in Docker:
 - navigate to the `docker` directory
 - copy the `.env.example` file, save as `.env` and populate the application secrets within
 
+If you are running on Apple M1 chip the SQL Server image may not work. This can be fixed by:
+
+- Docker Settings > General: [X] Use virtualization framework and
+- Docker Settings > Features in Development: [X] Use Rosetta...
+
 There are two Docker compose files in the `docker` directory:
 
 ```bash
@@ -74,3 +80,13 @@ Once you are done, ensure that you stop the container(s)!
 docker compose -f docker-compose.yml down
 docker compose -f docker-compose.ci.yml down
 ```
+
+### Run the fake database for local development
+
+The `docker-compose.ci.yml` file is used for running our Playwright tests in an isolated environment against a fake database—which you can also use for local development. Follow the steps above to run the docker compose file, and then update your dotnet user secrets to point to the database in the docker container:
+
+```bash
+dotnet user-secrets set "ConnectionStrings:AcademiesDb" "Server=localhost;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true"
+```
+
+You can then run the application as normal.

@@ -1,12 +1,12 @@
-## Run tests locally
+# Run tests locally
 
 Use this documentation to run tests locally.
 
 - [Run tests locally](#run-tests-locally)
-    - [Unit tests](#unit-tests)
-    - [Accessibility and UI tests](#accessibility-and-ui-tests)
-    - [Integration and Deployment tests](#integration-and-deployment-tests)
-    - [Owasp Zap security tests](#integration-and-deployment-tests)
+- [Unit tests](#unit-tests)
+- [Accessibility and UI tests](#accessibility-and-ui-tests)
+- [Integration and Deployment tests](#integration-and-deployment-tests)
+- [Owasp Zap security tests](#integration-and-deployment-tests)
 
 ### Unit tests
 
@@ -20,14 +20,24 @@ dotnet test
 
 ### Accessibility and UI tests
 
-Accessibility and UI tests are written using [Playwright](https://playwright.dev/), with external dependencies (e.g. APIs) mocked using [WireMock](https://github.com/HBOCodeLabs/wiremock-captain).
-To run these tests locally it is easiest to run your app and the mock API using Docker:
+Accessibility and UI tests are written using [Playwright](https://playwright.dev/), with external dependencies (e.g. APIs) mocked using a [fake database](#run-the-fake-database-for-local-development). You can run the tests against a docker instance, or run the application locally.
 
-1. Create or update the file `tests/playwright/.env` with
+1. Create or update the file `tests/playwright/.env`
 
+**If running tests against the docker instance of the app:**
 ```dotenv
 PLAYWRIGHT_BASEURL="http://localhost/"
-WIREMOCK_BASEURL="http://localhost:8080"
+```
+
+**If running tests in your local environment**
+```dotenv
+PLAYWRIGHT_BASEURL="http://localhost:{port} # e.g. http://localhost:5163
+```
+
+For your local environment you will also need to change your database connection string (dotnet user secrets) to point to the docker instance:
+
+```
+dotnet user-secrets set "ConnectionStrings:AcademiesDb" "Server=localhost;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true"
 ```
 
 2. Open a terminal in your repository and run:
@@ -40,7 +50,8 @@ npm install
 npx playwright install
 
 # run docker image with an application rebuild
-npm run docker:start
+# you will need to run this even if you are running tests locally - to create the fake database for tests
+npm run docker:start 
 
 # run tests 
 npm run test:ci
@@ -58,10 +69,9 @@ npx playwright test --trace=on # get a time machine attached to each test result
 npm run docker:stop
 ```
 
-For more information on running and debugging Playwright tests it is worth familiarising yourself with the Playwright docs on [debugging](https://playwright.dev/docs/debug) and [command line flags](https://playwright.dev/docs/test-cli).
+If you are running on Apple M1 chip the SQL Server image may not work in Docker, see [Get it working with Docker](#get-it-working-with-docker) for how to fix this.
 
-> **Warning**
-> There can be some issues with running Docker on Windows. [See this to fix it](.\docker-issues-on-windows.md)
+For more information on running and debugging Playwright tests it is worth familiarising yourself with the Playwright docs on [debugging](https://playwright.dev/docs/debug) and [command line flags](https://playwright.dev/docs/test-cli).
 
 ### Integration and Deployment tests
 
@@ -88,7 +98,7 @@ TEST_USER_ACCOUNT_PASSWORD="<insert here>" #
 
 To run the owasp zap security scanner locally on the test or dev environments.
 
-1. Run the owasp zap api in docker, please note the post scan test report will be sent to wherever you run this command from. Always stop and restart the owasp zap api in docker before evey test run to ensure you get a clean test report.
+1. Run the owasp zap api in docker, please note the post scan test report will be sent to wherever you run this command from. Always stop and restart the owasp zap api in docker before evey test run to ensure you get a clean test report. 
 
 ```bash
 docker run --rm -v ${PWD}:/zap/wrk/:rw -u zap -p 8083:8083 -i owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 8083 -config api.disablekey=true -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true

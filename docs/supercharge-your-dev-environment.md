@@ -3,11 +3,11 @@
 Use this documentation to help supercharge your dev environment. We recommend using Rider or Visual Studio with ReSharper.
 
 - [Supercharge your dev environment](#supercharge-your-dev-environment)
-    - [Set up continuous testing](#set-up-continuous-testing)
-    - [Analyse test coverage](#analyse-test-coverage)
-    - [Configure linting and code cleanup](#configure-linting-and-code-cleanup)
+- [Set up continuous testing](#set-up-continuous-testing)
+- [Analyse test coverage](#analyse-test-coverage)
+- [Configure linting and code cleanup](#configure-linting-and-code-cleanup)
 
-### Set up continuous testing
+## Set up continuous testing
 
 We recommend setting Rider to run unit tests on save, for fast feedback on changes.
 
@@ -15,7 +15,7 @@ We recommend setting Rider to run unit tests on save, for fast feedback on chang
 - Go to Settings -> Build, Execution, Deployment -> Unit Testing -> Continuous Testing and select 'Automatically start tests in continuous testing sessions on **Save**'
 - Go to or open a Unit Tests session (Tests -> Create New Session), open the 'Continuous testing modes' menu and select 'Run all tests'
 
-### Analyse test coverage
+## Analyse test coverage
 
 This project uses a [mutation score](https://stryker-mutator.io/docs/) to analyse effective test coverage when opening up a new pull request.
 Stryker.Net is included in our dotnet-tools manifest for checking mutation score locally.
@@ -30,27 +30,27 @@ dotnet stryker -o
 
 You will be able to find all reports in the `StrykerOutput` folder in your project root.
 
-### Configure linting and code cleanup
+## Configure linting and code cleanup
 
 We recommend setting Rider to clean code on save.
 
 - Open settings
 - Configure JavaScript linting
-    - Go to Languages & Frameworks -> JavaScript -> Code Quality Tools -> ESLint
-    - Select `Manual ESLint configuration`
-    - In the dropdown for ESLint package, press the down arrow and select `.../DfE.FindInformationAcademiesTrusts/node_modules/standard`. If nothing is here then ensure you have done an `npm install` in the project directory
-    - Tick `Run ESLint --fix on save`
-    - Go to Editor > Code style > JavaScript
-    - In the top right click `Set from...` and select `JavaScript Standard Style`
+- Go to Languages & Frameworks -> JavaScript -> Code Quality Tools -> ESLint
+- Select `Manual ESLint configuration`
+- In the dropdown for ESLint package, press the down arrow and select `.../DfE.FindInformationAcademiesTrusts/node_modules/standard`. If nothing is here then ensure you have done an `npm install` in the project directory
+- Tick `Run ESLint --fix on save`
+- Go to Editor > Code style > JavaScript
+- In the top right click `Set from...` and select `JavaScript Standard Style`
 - Configure CSS linting
-    - Go to Languages & Frameworks -> Style Sheets -> Stylelint
-    - Select `Enable`
-    - In the dropdown for Stylelint package, press the down arrow and select `.../DfE.FindInformationAcademiesTrusts/node_modules/styleint`. If nothing is here then ensure you have done an `npm install` in the project directory
-    - In `Run for files` enter: "{\*_/_,\*}.{css,scss}"
+- Go to Languages & Frameworks -> Style Sheets -> Stylelint
+- Select `Enable`
+- In the dropdown for Stylelint package, press the down arrow and select `.../DfE.FindInformationAcademiesTrusts/node_modules/styleint`. If nothing is here then ensure you have done an `npm install` in the project directory
+- In `Run for files` enter: "{\*_/_,\*}.{css,scss}"
 - Configure C# linting
-    - Go to Tools -> Actions on Save
-    - Tick `Reformat and Cleanup Code`
-    - Ensure that Profile is set to `DfE.FindInformationAcademiesTrusts`
+- Go to Tools -> Actions on Save
+- Tick `Reformat and Cleanup Code`
+- Ensure that Profile is set to `DfE.FindInformationAcademiesTrusts`
 
 If using Rider or Resharper then the `DfE.FindInformationAcademiesTrusts.sln.DotSettings` should be automatically identified and used for manual C# code cleanup.
 
