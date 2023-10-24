@@ -59,14 +59,17 @@ jobs:
           CI: true
           PLAYWRIGHT_BASEURL: "http://localhost"
           WIREMOCK_BASEURL: "http://localhost:8080"
+          TestOverride__PlaywrightTestSecret: "${{ secrets.CI_PLAYWRIGHT_TEST_SECRET }}"
+          AUTH_BYPASS_SECRET: "${{ secrets.CI_PLAYWRIGHT_TEST_SECRET }}"
         run: npm run test:ci
 
-      - uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: playwright-report
-          path: tests/playwright/playwright-report/
-          retention-days: 7
+      ## disabled so test secret is not exposed ##
+      #- uses: actions/upload-artifact@v3
+      #  if: always()
+      #  with:
+      #    name: playwright-report
+      #    path: tests/playwright/playwright-report/
+      #    retention-days: 7
 
       - name: Stop services
         if: always()
