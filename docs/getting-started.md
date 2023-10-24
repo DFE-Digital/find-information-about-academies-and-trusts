@@ -8,6 +8,7 @@ Use this documentation to configure your local development environment.
   - [Build and watch frontend assets](#build-and-watch-frontend-assets)
   - [Build and run dotnet project](#build-and-run-dotnet-project)
 - [Get it working (with Docker)](#get-it-working-with-docker)
+  - [Run the fake database for local development](#run-the-fake-database-for-local-development)
 - [Run tests locally](#run-tests-locally)
   - [Unit tests](#unit-tests)
   - [Accessibility and UI tests](#accessibility-and-ui-tests)
@@ -69,6 +70,11 @@ Before running the application in Docker:
 - navigate to the `docker` directory
 - copy the `.env.example` file, save as `.env` and populate the application secrets within
 
+If you are running on Apple M1 chip the SQL Server image may not work. This can be fixed by:
+
+- Docker Settings > General: [X] Use virtualization framework and
+- Docker Settings > Features in Development: [X] Use Rosetta...
+
 There are two Docker compose files in the `docker` directory:
 
 ```bash
@@ -82,6 +88,16 @@ Once you are done, ensure that you stop the container(s)!
 docker compose -f docker-compose.yml down
 docker compose -f docker-compose.ci.yml down
 ```
+
+### Run the fake database for local development
+
+The `docker-compose.ci.yml` file is used for running our Playwright tests in an isolated environment against a fake database—which you can also use for local development. Follow the steps above to run the docker compose file, and then update your dotnet user secrets to point to the database in the docker container:
+
+```
+dotnet user-secrets set "ConnectionStrings:AcademiesDb" "Server=localhost;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true"
+```
+
+You can then run the application as normal.
 
 ## Run tests locally
 
@@ -97,14 +113,24 @@ dotnet test
 
 ### Accessibility and UI tests
 
-Accessibility and UI tests are written using [Playwright](https://playwright.dev/), with external dependencies (e.g. APIs) mocked using [WireMock](https://github.com/HBOCodeLabs/wiremock-captain).
-To run these tests locally it is easiest to run your app and the mock API using Docker:
+Accessibility and UI tests are written using [Playwright](https://playwright.dev/), with external dependencies (e.g. APIs) mocked using a [fake database](#run-the-fake-database-for-local-development). You can run the tests against a docker instance, or run the application locally.
 
-1. Create or update the file `tests/playwright/.env` with
+1. Create or update the file `tests/playwright/.env`
 
+**If running tests against the docker instance of the app:**
 ```dotenv
 PLAYWRIGHT_BASEURL="http://localhost/"
-WIREMOCK_BASEURL="http://localhost:8080"
+```
+
+**If running tests in your local environment**
+```dotenv
+PLAYWRIGHT_BASEURL="http://localhost:{port} # e.g. http://localhost:5163
+```
+
+For your local environment you will also need to change your database connection string (dotnet user secrets) to point to the docker instance:
+
+```
+dotnet user-secrets set "ConnectionStrings:AcademiesDb" "Server=localhost;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true"
 ```
 
 2. Open a terminal in your repository and run:
@@ -117,7 +143,8 @@ npm install
 npx playwright install
 
 # run docker image with an application rebuild
-npm run docker:start
+# you will need to run this even if you are running tests locally - to create the fake database for tests
+npm run docker:start 
 
 # run tests 
 npm run test:ci
@@ -134,6 +161,8 @@ npx playwright test --trace=on # get a time machine attached to each test result
 # remove docker image when done
 npm run docker:stop
 ```
+
+If you are running on Apple M1 chip the SQL Server image may not work in Docker, see [Get it working with Docker](#get-it-working-with-docker) for how to fix this.
 
 For more information on running and debugging Playwright tests it is worth familiarising yourself with the Playwright docs on [debugging](https://playwright.dev/docs/debug) and [command line flags](https://playwright.dev/docs/test-cli).
 
