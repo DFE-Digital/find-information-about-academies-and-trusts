@@ -18,7 +18,7 @@ test.describe('Overview page', () => {
   })
 
   test('user should see the correct trust information', async () => {
-    await overviewPage.expect.toSeeCorrectOfstedRatings()
+    await overviewPage.expect.toSeeCorrectTrustSummary()
     await overviewPage.expect.toSeeCorrectOfstedRatings()
   })
 
