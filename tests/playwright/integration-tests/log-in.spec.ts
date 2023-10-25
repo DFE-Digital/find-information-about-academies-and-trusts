@@ -22,7 +22,8 @@ test.describe('Log in to application', () => {
   })
 
   test.describe('Given the user is not authenticated', () => {
-    test.use({ extraHTTPHeaders: {} })
+    test.use({ extraHTTPHeaders:{'test':'header'} })
+
     test('when they navigate to the home page then the user is directed to a sign in form', async () => {
       await homePage.goTo()
       await logInPage.expect.toBeDirectedToSignIn()
@@ -32,6 +33,5 @@ test.describe('Log in to application', () => {
       await searchPage.goTo()
       await logInPage.expect.toBeDirectedToSignIn()
     })
-    
   })
 })
