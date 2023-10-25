@@ -3,15 +3,18 @@ run-name: Deployment tests for '${{ inputs.environment }}' - `${{ inputs.branch-
 
 on:
   workflow_call:
-    inputs: 
-      environment: 
+    inputs:
+      environment:
         required: true
         type: string
-      branch-name: 
+      branch-name:
         required: true
         type: string
 env:
   NODE_VERSION: 18.13.0
+  PLAYWRIGHT_VERSION: default
+  LAST_COMMIT_SHA: default
+
 jobs:
   playwright:
     name: Smoke deployment tests
@@ -24,6 +27,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
+
+      - name: Set SHA environment variable
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          echo "LAST_COMMIT_SHA=${GITHUB_SHA}" >> $GITHUB_ENV
 
       - uses: actions/setup-node@v3
         name: Set up Node.js
@@ -62,9 +70,27 @@ jobs:
           TEST_USER_ACCOUNT_PASSWORD: ${{ secrets.TEST_USER_ACCOUNT_PASSWORD }}
         run: npm run test:deployment
 
-      - uses: actions/upload-artifact@v3
-        if: always()
+      - name: Prepare report for upload
+        run: |
+          zip -qq -r ${{ inputs.environment }}-${{ env.LAST_COMMIT_SHA }}.zip ./playwright-report/
+
+      - name: Azure login with SPN
+        if: '!cancelled()'
+        uses: azure/login@v1
         with:
-          name: deployment-tests-playwright-report
-          path: tests/playwright/playwright-report/
-          retention-days: 7
+          creds: ${{ secrets.CI_REPORTS_AZ_CREDENTIALS }}
+
+      - name: Push report to blob storage
+        if: '!cancelled()'
+        uses: azure/CLI@v1
+        id: azure
+        with:
+          azcliversion: 2.53.0
+          inlineScript: |
+            az storage blob upload \
+              --container-name ${{ secrets.CI_REPORTS_STORAGE_CONTAINER_NAME }} \
+              --account-name ${{ secrets.CI_REPORTS_STORAGE_ACCOUNT_NAME }} \
+              --file "./tests/playwright/${{ inputs.environment }}-${{ env.LAST_COMMIT_SHA }}.zip" \
+              --name "Dfe.FindInformationAcademiesTrusts/playwright-report/" \
+              --auth-mode login \
+              --overwrite

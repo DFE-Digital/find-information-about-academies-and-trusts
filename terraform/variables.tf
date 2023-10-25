@@ -308,3 +308,9 @@ variable "statuscake_contact_group_email_addresses" {
   type        = list(string)
   default     = []
 }
+
+variable "enable_ci_report_storage_container" {
+  description = "Deploy a Blob Storage Container to store CI Reports in"
+  type        = bool
+  default     = false
+}
