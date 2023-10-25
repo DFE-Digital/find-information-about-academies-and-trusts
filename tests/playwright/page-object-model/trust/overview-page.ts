@@ -16,8 +16,8 @@ export class OverviewPage {
     this.trustHeading = new TrustHeaderComponent(page)
     this.trustNavigation = new TrustNavigationComponent(page)
     this.pageHeadingLocator = page.locator('h1')
-    this.trustSummaryCard = page.locator('[aria-labelledby="trust-information"]')
-    this.trustOfstedTable = page.locator('[aria-labelledby="ofsted-ratings"]')
+    this.trustSummaryCard = page.locator('[data-testid="trust-summary"]')
+    this.trustOfstedTable = page.locator('[data-testid="ofsted-ratings"]')
   }
 
   async goTo (
