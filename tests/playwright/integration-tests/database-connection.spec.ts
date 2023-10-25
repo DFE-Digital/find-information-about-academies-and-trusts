@@ -21,7 +21,6 @@ test.describe('search for trusts', () => {
   test('returns empty results', async () => {
     await homePage.goTo()
     await homePage.searchForm.typeSearchTerm('trust that does not exist')
-    await homePage.searchForm.submitSearch()
-    await searchPage.expect.toShowEmptyResultMessage()
+    await homePage.searchForm.expect.toshowNoResultsFoundInAutocomplete()
   })
 })
