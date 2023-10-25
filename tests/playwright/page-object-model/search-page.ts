@@ -1,5 +1,5 @@
 import { Locator, Page, expect } from '@playwright/test'
-import { SearchFormComponent } from './shared/search-form-component'
+import { CurrentSearch, SearchFormComponent } from './shared/search-form-component'
 
 export class SearchPage {
   readonly expect: SearchPageAssertions
@@ -8,10 +8,16 @@ export class SearchPage {
   readonly _searchResultsListHeaderLocator: Locator
   readonly _searchResultsSectionLocator: Locator
   readonly _searchResultsListItemLocator: Locator
+  currentSearch: CurrentSearch
 
-  constructor (readonly page: Page) {
+  constructor (readonly page: Page, currentSearch: CurrentSearch) {
     this.expect = new SearchPageAssertions(this)
-    this.searchForm = new SearchFormComponent(page, 'Search')
+    this.searchForm = new SearchFormComponent(
+      page,
+      'Search',
+      currentSearch
+    )
+    this.currentSearch = currentSearch
     this._headerLocator = this.page.locator('h1')
     this._searchResultsListHeaderLocator = this.page.getByRole('heading', {
       name: this._searchResultsHeadingName
@@ -27,25 +33,40 @@ export class SearchPage {
   }
 
   async goToSearchFor (searchTerm: string): Promise<void> {
-    this.searchForm.currentSearchTerm = searchTerm
+    this.currentSearch.term = searchTerm
     await this.page.goto(`/search/?keywords=${searchTerm}`)
+  }
+
+  async goToPageWithResults (): Promise<void> {
+    await this.goToSearchFor('mary')
+  }
+
+  async goToPageWithNoResults (): Promise<void> {
+    await this.goToSearchFor('non')
   }
 
   getListItemLocatorByText (text: string): Locator {
     return this._searchResultsListItemLocator.filter({ hasText: text })
   }
 
-  async clickOnSearchResultLinkWithText (text: string): Promise<void> {
-    await this._searchResultsListItemLocator.getByRole('link', { name: text }).click()
+  async clickOnSearchResultLink (resultNumber: number): Promise<void> {
+    const itemToSelect = await this._searchResultsListItemLocator.getByRole('link').nth(resultNumber - 1)
+    const itemText = (await itemToSelect.innerText()).split('\n')
+    this.currentSearch.selectedTrust = {
+      name: itemText[0],
+      address: itemText[1]
+    }
+
+    await itemToSelect.click()
   }
 }
 
 class SearchPageAssertions {
   constructor (readonly searchPage: SearchPage) {}
 
-  async toBeOnPageWithResultsFor (searchTerm: string): Promise<void> {
+  async toBeOnPageWithMatchingResults (): Promise<void> {
     await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(
-      `${this.searchPage._searchResultsHeadingName} "${searchTerm}"`
+      `${this.searchPage._searchResultsHeadingName} "${this.searchPage.currentSearch.term}"`
     )
   }
 
@@ -63,12 +84,12 @@ class SearchPageAssertions {
 
   async toDisplayNumberOfResultsFound (): Promise<void> {
     await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(
-      `${this.searchPage.searchForm.expectedSearchResults[this.searchPage.searchForm.currentSearchTerm].length} results for`
+      `${this.searchPage.searchForm.expectedSearchResults[this.searchPage.searchForm.currentSearch.term].length} results for`
     )
   }
 
   async toSeeInformationForEachResult (): Promise<void> {
-    const searchTerm = this.searchPage.searchForm.currentSearchTerm
+    const searchTerm = this.searchPage.searchForm.currentSearch.term
     await expect(this.searchPage._searchResultsListItemLocator).toHaveCount(this.searchPage.searchForm.expectedSearchResults[searchTerm].length)
 
     for (const searchResultItem of this.searchPage.searchForm.expectedSearchResults[searchTerm]) {

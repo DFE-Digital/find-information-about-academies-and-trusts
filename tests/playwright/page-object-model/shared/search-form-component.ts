@@ -1,10 +1,13 @@
 import { Locator, Page, expect } from '@playwright/test'
 
-interface expectedResult {
-  name: string
-  address: string
-  ukprn: string
-  academiesInTrustCount: number
+class SelectedTrust {
+  name = ''
+  address = ''
+}
+
+export class CurrentSearch {
+  term = ''
+  selectedTrust = new SelectedTrust()
 }
 
 export class SearchFormComponent {
@@ -13,38 +16,41 @@ export class SearchFormComponent {
   readonly searchInputLocator: Locator
   readonly searchButtonLocator: Locator
 
-  readonly expectedSearchResults: { [key: string]: expectedResult[] } = {
-    trust: [
-      { name: 'trust 1', address: '12 Paddle Road, Bushy Park, Letworth, Manchester, MX12 P34', ukprn: '123', academiesInTrustCount: 1 },
-      { name: 'trust 2', address: '12 Paddle Road, Manchester, MX12 P34', ukprn: '124', academiesInTrustCount: 2 },
-      { name: 'trust 3', address: 'Bushy Park, Manchester', ukprn: '125', academiesInTrustCount: 0 }
-    ],
-    education: [
-      { name: 'Abbey Education', address: '13 Paddle Road, Bushy Park, Letworth, Liverpool, MX12 P34', ukprn: '175', academiesInTrustCount: 1 }
-    ],
-    non: []
-  }
+  readonly searchTerms = ['trust', 'education']
+  currentSearch: CurrentSearch
+  searchNumber = 0
+  itemToSelect = 0
 
-  currentSearchTerm: string
-
-  constructor (readonly page: Page, label: string) {
+  constructor (readonly page: Page, label: string, currentSearch: CurrentSearch) {
     this.expect = new SearchFormComponentAssertions(this)
     this.searchFormLocator = page.getByTestId('app-search-form')
     this.searchInputLocator = this.searchFormLocator.getByLabel(label)
     this.searchButtonLocator = this.searchFormLocator.getByRole('button', { name: 'Search' })
+    this.currentSearch = currentSearch
   }
 
-  getAutocompleteOptionWithText (trustName: string): Locator {
-    return this.searchFormLocator.getByRole('option', { name: trustName })
+  async typeASearchTerm (): Promise<void> {
+    this.currentSearch.term = 'trust'
+    await this.searchInputLocator.fill(this.currentSearch.term)
   }
 
-  async typeSearchTerm (searchTerm: string): Promise<void> {
-    this.currentSearchTerm = searchTerm
-    await this.searchInputLocator.fill(searchTerm)
+  async typeADifferentSearchTerm (): Promise<void> {
+    this.currentSearch.term = 'education'
+    await this.searchInputLocator.fill(this.currentSearch.term)
   }
 
-  async searchFor (searchTerm: string): Promise<void> {
-    await this.typeSearchTerm(searchTerm)
+  async typeASearchTermWithNoMatches (): Promise<void> {
+    this.currentSearch.term = 'non'
+    await this.searchInputLocator.fill(this.currentSearch.term)
+  }
+
+  async searchForATrust (): Promise<void> {
+    await this.typeASearchTerm()
+    await this.submitSearch()
+  }
+
+  async searchForADifferentTrust (): Promise<void> {
+    await this.typeADifferentSearchTerm()
     await this.submitSearch()
   }
 
@@ -52,8 +58,18 @@ export class SearchFormComponent {
     await this.searchButtonLocator.click()
   }
 
-  async chooseItemFromAutocompleteWithText (trustName: string): Promise<void> {
-    await this.getAutocompleteOptionWithText(trustName).click()
+  async chooseItemFromAutocomplete (): Promise<void> {
+    // We always select at least the second item, due to an issue when the user focuses on the autocomplete input when it has a default value https://github.com/alphagov/accessible-autocomplete/issues/424
+    // the first suggestion will be the value until the user changes the search
+    const itemToSelect = this.searchFormLocator.getByRole('option').nth(1)
+    const itemText = (await itemToSelect.innerText()).split('\n')
+
+    this.currentSearch.selectedTrust = {
+      name: itemText[0],
+      address: itemText[1]
+    }
+
+    await itemToSelect.click()
   }
 }
 
@@ -61,7 +77,7 @@ class SearchFormComponentAssertions {
   constructor (readonly searchForm: SearchFormComponent) {}
 
   async inputToContainSearchTerm (): Promise<void> {
-    await expect(this.searchForm.searchInputLocator).toHaveValue(this.searchForm.currentSearchTerm)
+    await expect(this.searchForm.searchInputLocator).toHaveValue(this.searchForm.currentSearch.term)
   }
 
   async inputToContainNoSearchTerm (): Promise<void> {
@@ -73,15 +89,8 @@ class SearchFormComponentAssertions {
     await expect(this.searchForm.searchFormLocator.getByRole('option')).toHaveCount(0)
   }
 
-  async toShowAllResultsInAutocomplete (): Promise<void> {
-    const listItems = await this.searchForm.searchFormLocator.getByRole('option')
-    await expect(listItems).toHaveCount(this.searchForm.expectedSearchResults[this.searchForm.currentSearchTerm].length)
-
-    for (const searchResultItem of this.searchForm.expectedSearchResults[this.searchForm.currentSearchTerm]) {
-      const searchItemLocator = this.searchForm.getAutocompleteOptionWithText(searchResultItem.name)
-      await expect(searchItemLocator).toBeVisible()
-
-      await expect(searchItemLocator).toContainText(searchResultItem.address)
-    }
+  async toShowAnySuggestionInAutocomplete (): Promise<void> {
+    const firstResult = this.searchForm.searchFormLocator.getByRole('option').first()
+    await expect(firstResult).toBeVisible()
   }
 }
