@@ -71,7 +71,6 @@ export default defineConfig({
         channel: 'chrome',
         storageState: '.auth/user.json',
       },
-      dependencies: ['authenticate-user'],
       testDir: './deployment-tests'
     },
     {
@@ -81,7 +80,6 @@ export default defineConfig({
         channel: 'chrome',
         storageState: '.auth/user.json',
       },
-      dependencies: ['authenticate-user'],
       testDir: './integration-tests'
     },
     {
