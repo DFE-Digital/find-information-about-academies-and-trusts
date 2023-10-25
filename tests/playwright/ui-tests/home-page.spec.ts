@@ -3,16 +3,19 @@ import { HomePage } from '../page-object-model/home-page'
 import { SearchPage } from '../page-object-model/search-page'
 import { DetailsPage } from '../page-object-model/trust/details-page'
 import { javaScriptContexts } from '../helpers'
+import { CurrentSearch } from '../page-object-model/shared/search-form-component'
 
 test.describe('homepage', () => {
   let homePage: HomePage
   let searchPage: SearchPage
   let detailsPage: DetailsPage
+  let currentSearch: CurrentSearch
 
   test.beforeEach(async ({ page }) => {
-    homePage = new HomePage(page)
-    searchPage = new SearchPage(page)
-    detailsPage = new DetailsPage(page)
+    currentSearch = new CurrentSearch()
+    homePage = new HomePage(page, currentSearch)
+    searchPage = new SearchPage(page, currentSearch)
+    detailsPage = new DetailsPage(page, currentSearch)
     await homePage.goTo()
   })
 
@@ -20,35 +23,34 @@ test.describe('homepage', () => {
     test.describe(`With JavaScript ${javaScriptContext.name}`, () => {
       test.use({ javaScriptEnabled: javaScriptContext.isEnabled })
 
-      const searchTerms = ['trust', 'education']
+      test('Searching for different terms navigates to search page with different results', async () => {
+        await homePage.searchForm.searchForATrust()
+        await searchPage.expect.toBeOnTheRightPage()
+        await searchPage.expect.toBeOnPageWithMatchingResults()
 
-      for (const searchTerm of searchTerms) {
-        test(`Searching for a trust with "${searchTerm}" navigates to search page with results for`, async () => {
-          await homePage.searchForm.searchFor(searchTerm)
-
-          await searchPage.expect.toBeOnTheRightPage()
-          await searchPage.expect.toBeOnPageWithResultsFor(searchTerm)
-        })
-      }
+        await homePage.goTo()
+        await homePage.searchForm.searchForADifferentTrust()
+        await searchPage.expect.toBeOnTheRightPage()
+        await searchPage.expect.toBeOnPageWithMatchingResults()
+      })
     })
   }
 
   test.describe('Only with JavaScript enabled', () => {
     test.describe('Given a user is typing a search term', () => {
       test('then they should see a list of options and should be able to select one directly', async () => {
-        await homePage.searchForm.typeSearchTerm('trust')
-        await homePage.searchForm.expect.toShowAllResultsInAutocomplete()
-        await homePage.searchForm.chooseItemFromAutocompleteWithText('trust 1')
+        await homePage.searchForm.typeASearchTerm()
+        await homePage.searchForm.chooseItemFromAutocomplete()
         await homePage.searchForm.submitSearch()
-        await detailsPage.expect.toBeOnTheRightPageFor('trust 1')
+        await detailsPage.expect.toBeOnTheRightPage()
       })
 
       test('then they should be able to change their search term to a free text search after selecting a result', async () => {
-        await homePage.searchForm.typeSearchTerm('trust')
-        await homePage.searchForm.chooseItemFromAutocompleteWithText('trust 1')
-        await homePage.searchForm.typeSearchTerm('education')
+        await homePage.searchForm.typeASearchTerm()
+        await homePage.searchForm.chooseItemFromAutocomplete()
+        await homePage.searchForm.typeADifferentSearchTerm()
         await homePage.searchForm.submitSearch()
-        await searchPage.expect.toBeOnPageWithResultsFor('education')
+        await searchPage.expect.toBeOnPageWithMatchingResults()
       })
     })
   })
