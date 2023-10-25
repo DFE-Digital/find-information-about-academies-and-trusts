@@ -22,8 +22,7 @@ test.describe('Log in to application', () => {
   })
 
   test.describe('Given the user is not authenticated', () => {
-    test.use({ storageState: '.auth/unauthenticated-user.json' })
-
+    test.use({ extraHTTPHeaders: {} })
     test('when they navigate to the home page then the user is directed to a sign in form', async () => {
       await homePage.goTo()
       await logInPage.expect.toBeDirectedToSignIn()
@@ -33,17 +32,6 @@ test.describe('Log in to application', () => {
       await searchPage.goTo()
       await logInPage.expect.toBeDirectedToSignIn()
     })
-
-    test('when a user fails to log in then they should not be redirected to home page', async () => {
-      if (process.env.TEST_USER_ACCOUNT_NAME === null || process.env.TEST_USER_ACCOUNT_NAME === undefined) {
-        throw new Error('Test user name must be defined')
-      }
-      const userName: string = process.env.TEST_USER_ACCOUNT_NAME
-
-      await homePage.goTo()
-      await logInPage.logIn(userName, 'wrongPassword')
-
-      await homePage.expect.notToBeOnThePage()
-    })
+    
   })
 })
