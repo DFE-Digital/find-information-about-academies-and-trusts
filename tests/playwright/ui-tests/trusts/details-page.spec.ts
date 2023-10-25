@@ -2,13 +2,14 @@ import { test } from '@playwright/test'
 import { DetailsPage } from '../../page-object-model/trust/details-page'
 import { NotFoundPage } from '../../page-object-model/not-found-page'
 import { MockTrustsProvider } from '../../mocks/mock-trusts-provider'
+import { CurrentSearch } from '../../page-object-model/shared/search-form-component'
 
 test.describe('Details page', () => {
   let detailsPage: DetailsPage
   let notFoundPage: NotFoundPage
 
   test.beforeEach(async ({ page }) => {
-    detailsPage = new DetailsPage(page)
+    detailsPage = new DetailsPage(page, new CurrentSearch())
     await detailsPage.goTo()
   })
 

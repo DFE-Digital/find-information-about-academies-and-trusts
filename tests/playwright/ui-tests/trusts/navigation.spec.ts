@@ -1,13 +1,14 @@
 import { test } from '@playwright/test'
 import { DetailsPage } from '../../page-object-model/trust/details-page'
 import { ContactsPage } from '../../page-object-model/trust/contacts-page'
+import { CurrentSearch } from '../../page-object-model/shared/search-form-component'
 
 test.describe('Trust navigation', () => {
   let detailsPage: DetailsPage
   let contactsPage: ContactsPage
 
   test.beforeEach(async ({ page }) => {
-    detailsPage = new DetailsPage(page)
+    detailsPage = new DetailsPage(page, new CurrentSearch())
     contactsPage = new ContactsPage(page)
   })
 
