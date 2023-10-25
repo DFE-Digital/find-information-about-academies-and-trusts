@@ -25,6 +25,6 @@ RUN chmod +x import-data.sh
 
 USER mssql
 WORKDIR /
-RUN (/opt/mssql/bin/sqlservr --accept-eula &) | /import-data.sh ${DB_PASSWORD}
+RUN (/opt/mssql/bin/sqlservr --accept-eula &) | (sleep 10 && /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${DB_PASSWORD} -d master -i createScript.sql) && /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${DB_PASSWORD} -i insertScript.sql
 
 EXPOSE 1433
