@@ -56,6 +56,7 @@ class SearchPageAssertions {
   async toShowResults (): Promise<void> {
     await expect(this.searchPage._searchResultsListItemLocator).not.toHaveCount(0)
   }
+
   async toDisplayNumberOfResultsFound (): Promise<void> {
     await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(
       `${this.searchPage.searchForm.expectedSearchResults[this.searchPage.searchForm.currentSearchTerm].length} results for`
