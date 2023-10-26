@@ -22,7 +22,7 @@ test.describe('Log in to application', () => {
   })
 
   test.describe('Given the user is not authenticated', () => {
-    test.use({ extraHTTPHeaders: { test: 'header' } })
+    test.use({ extraHTTPHeaders: { Authorization: 'unauthenticated user' } })
 
     test('when they navigate to the home page then the user is directed to a sign in form', async () => {
       await homePage.goTo()
