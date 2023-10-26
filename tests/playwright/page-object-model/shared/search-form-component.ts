@@ -16,10 +16,7 @@ export class SearchFormComponent {
   readonly searchInputLocator: Locator
   readonly searchButtonLocator: Locator
 
-  readonly searchTerms = ['trust', 'education']
   currentSearch: CurrentSearch
-  searchNumber = 0
-  itemToSelect = 0
 
   constructor (readonly page: Page, label: string, currentSearch: CurrentSearch) {
     this.expect = new SearchFormComponentAssertions(this)
