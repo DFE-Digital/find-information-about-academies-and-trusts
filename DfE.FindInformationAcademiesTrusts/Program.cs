@@ -149,7 +149,6 @@ internal static class Program
 
     private static void AddDependenciesTo(WebApplicationBuilder builder)
     {
-        
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
         builder.Services.AddScoped<IAuthorizationHandler, HeaderRequirementHandler>();
@@ -173,7 +172,7 @@ internal static class Program
             .ValidateDataAnnotations()
             .ValidateOnStart();
 
-         builder.Services.AddOptions<TestOverrideOptions>()
+        builder.Services.AddOptions<TestOverrideOptions>()
             .Bind(builder.Configuration.GetSection(TestOverrideOptions.ConfigurationSection));
     }
 
@@ -187,9 +186,9 @@ internal static class Program
             options.FallbackPolicy = options.DefaultPolicy;
         });
 
-         if (!builder.Environment.IsContinuousIntegration())
-        builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration);
-        
+        if (!builder.Environment.IsContinuousIntegration())
+            builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration);
+
         builder.Services.Configure<CookieAuthenticationOptions>(
             CookieAuthenticationDefaults.AuthenticationScheme,
             options =>
@@ -201,7 +200,7 @@ internal static class Program
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
     }
-    
+
     private static void ReconfigureLogging(WebApplicationBuilder builder)
     {
         if (builder.Environment.IsLocalDevelopment() || builder.Environment.IsContinuousIntegration())
