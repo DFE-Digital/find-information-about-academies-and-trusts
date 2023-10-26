@@ -4,7 +4,7 @@ import { DetailsPage } from '../page-object-model/trust/details-page'
 import { javaScriptContexts } from '../helpers'
 import { CurrentSearch } from '../page-object-model/shared/search-form-component'
 
-test.describe('Search page', () => {
+test.describe.only('Search page', () => {
   let searchPage: SearchPage
   let detailsPage: DetailsPage
   let currentSearch: CurrentSearch

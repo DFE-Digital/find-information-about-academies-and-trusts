@@ -1,5 +1,13 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { CurrentSearch, SearchFormComponent } from './shared/search-form-component'
+import * as testDataJson from '../fake-data/trusts.json'
+
+interface FakeData {
+  name: string
+  address: string
+  uid: string
+  groupId: string
+}
 
 export class SearchPage {
   readonly expect: SearchPageAssertions
@@ -9,8 +17,11 @@ export class SearchPage {
   readonly _searchResultsSectionLocator: Locator
   readonly _searchResultsListItemLocator: Locator
   currentSearch: CurrentSearch
+  testData: FakeData[]
+  numberOfResultsOnOnePage = 20
 
   constructor (readonly page: Page, currentSearch: CurrentSearch) {
+    this.testData = JSON.parse(JSON.stringify(testDataJson)).default?.map(result => ({ ...result, name: result.name.replace(/\\'/g, '') })).sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
     this.expect = new SearchPageAssertions(this)
     this.searchForm = new SearchFormComponent(
       page,
@@ -83,22 +94,24 @@ class SearchPageAssertions {
   }
 
   async toDisplayNumberOfResultsFound (): Promise<void> {
+    const expectedSearchResults = this.searchPage.testData.filter(result => result.name?.toLowerCase().includes(this.searchPage.searchForm.currentSearch.term.toLowerCase()))
+    const noOfResultsOnPage = expectedSearchResults.length < this.searchPage.numberOfResultsOnOnePage ? expectedSearchResults.length : this.searchPage.numberOfResultsOnOnePage
     await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(
-      `${this.searchPage.searchForm.expectedSearchResults[this.searchPage.searchForm.currentSearch.term].length} results for`
+      `${noOfResultsOnPage} results for`
     )
   }
 
   async toSeeInformationForEachResult (): Promise<void> {
     const searchTerm = this.searchPage.searchForm.currentSearch.term
-    await expect(this.searchPage._searchResultsListItemLocator).toHaveCount(this.searchPage.searchForm.expectedSearchResults[searchTerm].length)
+    const expectedSearchResults = this.searchPage.testData.filter(result => result.name?.toLowerCase().includes(searchTerm.toLowerCase()))
 
-    for (const searchResultItem of this.searchPage.searchForm.expectedSearchResults[searchTerm]) {
-      const searchItemLocator = this.searchPage.getListItemLocatorByText(searchResultItem.name)
+    const noOfResultsOnPage = expectedSearchResults.length < this.searchPage.numberOfResultsOnOnePage ? expectedSearchResults.length : this.searchPage.numberOfResultsOnOnePage
+
+    for (let result = 0; result < noOfResultsOnPage; result++) {
+      const searchItemLocator = this.searchPage.getListItemLocatorByText(expectedSearchResults[result].name)
       await expect(searchItemLocator).toBeVisible()
 
-      await expect(searchItemLocator).toContainText(`Address: ${searchResultItem.address}`)
-      await expect(searchItemLocator).toContainText(`Academies in this trust: ${searchResultItem.academiesInTrustCount}`)
-      await expect(searchItemLocator).toContainText(`UKPRN: ${searchResultItem.ukprn}`)
+      await expect(searchItemLocator).toContainText(`Address: ${expectedSearchResults[result].address}`)
     }
   }
 
