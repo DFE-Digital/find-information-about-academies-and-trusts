@@ -139,7 +139,7 @@ If you want to run tests on a local build you will need to update your secrets f
 ```bash
 "TestOverride:PlaywrightTestSecret": "TestSuperSecret",
 ```
-This will an authorisation header to each playwright request which will match the auth bypass secret in the playwright .env file.
+This will add an authorisation header to each playwright request which should match the auth bypass secret in the playwright .env file.
 
 For more information on running and debugging Playwright tests it is worth familiarising yourself with the Playwright docs on [debugging](https://playwright.dev/docs/debug) and [command line flags](https://playwright.dev/docs/test-cli).
 
