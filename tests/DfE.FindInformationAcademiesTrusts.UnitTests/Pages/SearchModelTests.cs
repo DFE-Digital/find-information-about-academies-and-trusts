@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages;
+using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -18,14 +19,15 @@ public class SearchModelTests
         new("trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ", "2044", "")
     };
 
-    private readonly Trust _fakeTrust =
-        new("2044", "trust 1", "100123456", "Multi-academy trust");
+    private readonly Trust _fakeTrust;
 
     public SearchModelTests()
     {
         Mock<ITrustProvider> mockTrustProvider = new();
         _mockTrustSearch = new Mock<ITrustSearch>();
 
+        var dummyTrustFactory = new DummyTrustFactory();
+        _fakeTrust = dummyTrustFactory.GetDummyTrust();
         mockTrustProvider.Setup(s => s.GetTrustByUidAsync(_fakeTrust.Uid).Result)
             .Returns(_fakeTrust);
         _mockTrustSearch.Setup(s => s.SearchAsync(SearchTermThatMatchesAllFakeTrusts).Result).Returns(_fakeTrusts);
@@ -81,8 +83,8 @@ public class SearchModelTests
     public async Task OnGetAsync_should_not_redirect_to_trust_details_if_trustId_does_not_match_query()
     {
         var differentFakeTrust = new TrustSearchEntry("other trust", "Some address", "987", "TR0987");
-        _mockTrustSearch.Setup(s => s.SearchAsync(differentFakeTrust.Name).Result)
-            .Returns(new[] { differentFakeTrust });
+        _mockTrustSearch.Setup(s => s.SearchAsync(differentFakeTrust.Name))
+            .ReturnsAsync(new[] { differentFakeTrust });
 
         _sut.KeyWords = differentFakeTrust.Name;
         _sut.Uid = _fakeTrust.Uid;

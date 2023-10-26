@@ -7,6 +7,30 @@ public class TrustHelperTests
     private readonly TrustHelper _sut = new();
 
     [Fact]
+    public void CreateTrustFromGroup_should_transform_a_group_into_a_trust()
+    {
+        var group = new Group
+        {
+            GroupName = "trust 1", GroupUid = "1234", GroupType = "Multi-academy trust", Ukprn = "my ukprn",
+            GroupId = "my groupId",
+            GroupContactStreet = "12 Abbey Road",
+            GroupContactLocality = "Dorthy Inlet",
+            GroupContactTown = "East Park",
+            GroupContactPostcode = "JY36 9VC"
+        };
+
+        var result = _sut.CreateTrustFromGroup(group);
+
+        result.Should().BeEquivalentTo(new Trust(
+            "1234",
+            "trust 1",
+            "my groupId",
+            "my ukprn",
+            "Multi-academy trust",
+            "12 Abbey Road, Dorthy Inlet, East Park, JY36 9VC"));
+    }
+
+    [Fact]
     public void BuildAddressString_should_return_full_address_as_string()
     {
         var group = new Group

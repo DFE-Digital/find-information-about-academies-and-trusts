@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
@@ -7,10 +8,12 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 public class ContactsModelTests
 {
     private readonly Mock<ITrustProvider> _mockTrustProvider;
+    private readonly DummyTrustFactory _dummyTrustFactory;
     private readonly ContactsModel _sut;
 
     public ContactsModelTests()
     {
+        _dummyTrustFactory = new DummyTrustFactory();
         _mockTrustProvider = new Mock<ITrustProvider>();
         _sut = new ContactsModel(_mockTrustProvider.Object);
     }
@@ -18,11 +21,12 @@ public class ContactsModelTests
     [Fact]
     public async void OnGetAsync_should_fetch_a_trust_by_Uid()
     {
-        _mockTrustProvider.Setup(s => s.GetTrustByUidAsync("1234").Result)
-            .Returns(new Trust("test", "test", "test", "Multi-academy trust"));
-        _sut.Uid = "1234";
+        var dummyTrust = _dummyTrustFactory.GetDummyTrust("1234");
+        _mockTrustProvider.Setup(s => s.GetTrustByUidAsync(dummyTrust.Uid))
+            .ReturnsAsync(dummyTrust);
+        _sut.Uid = dummyTrust.Uid;
         await _sut.OnGetAsync();
-        _sut.Trust.Should().BeEquivalentTo(new Trust("test", "test", "test", "Multi-academy trust"));
+        _sut.Trust.Should().BeEquivalentTo(dummyTrust);
     }
 
     [Fact]
@@ -47,8 +51,8 @@ public class ContactsModelTests
     [Fact]
     public async void OnGetAsync_should_return_not_found_result_if_trust_is_not_found()
     {
-        _mockTrustProvider.Setup(s => s.GetTrustByUidAsync("1111").Result)
-            .Returns((Trust?)null);
+        _mockTrustProvider.Setup(s => s.GetTrustByUidAsync("1111"))
+            .ReturnsAsync((Trust?)null);
 
         _sut.Uid = "1111";
 
