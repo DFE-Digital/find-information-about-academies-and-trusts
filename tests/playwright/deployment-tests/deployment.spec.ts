@@ -8,6 +8,7 @@ test('is deployed', async ({ page }) => {
   await homePage.goTo()
   await homePage.expect.toBeOnTheRightPage()
 
-  await homePage.searchFor('education')
+  await homePage.searchForm.typeSearchTerm('education')
+  await homePage.searchForm.submitSearch()
   await searchPage.expect.toShowResults()
 })

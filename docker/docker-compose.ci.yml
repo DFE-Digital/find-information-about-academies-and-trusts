@@ -20,6 +20,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=CI
       - AcademiesApi__Endpoint=http://wiremock:8080
       - AcademiesApi__Key=00000000-0000-0000-000-000000000000
+      - TestOverride__PlaywrightTestSecret=TestSuperSecret
 
 networks:
   test-ci:
