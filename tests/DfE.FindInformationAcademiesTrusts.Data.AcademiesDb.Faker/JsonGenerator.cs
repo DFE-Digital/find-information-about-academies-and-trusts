@@ -10,7 +10,9 @@ public static class JsonGenerator
         var serializeOptions = new JsonSerializerOptions
             { WriteIndented = true, PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
-        var jsonisisedTrusts = JsonSerializer.Serialize(fakeGroups, serializeOptions);
-        File.WriteAllText(outputFilePath, jsonisisedTrusts);
+        var trustHelper = new TrustHelper();
+        var trusts = fakeGroups.OrderBy(g => g.GroupName).Select(g => trustHelper.CreateTrustFromGroup(g));
+
+        File.WriteAllText(outputFilePath, JsonSerializer.Serialize(trusts, serializeOptions));
     }
 }
