@@ -61,5 +61,5 @@ data "azurerm_storage_account_blob_container_sas" "ci-test-reports" {
 
 output "ci-test-reports-storage-sas-url" {
   description = "A SAS tokenised URL for accessing the CI Reports in the Blob Storage Container"
-  value       = nonsensitive(local.enable_ci_report_storage_container ? "${azurerm_storage_account.ci-test-reports[0].primary_blob_endpoint}${azurerm_storage_container.ci-test-reports[0].name}${data.azurerm_storage_account_blob_container_sas.ci-test-reports[0].sas}" : null)
+  value       = local.enable_ci_report_storage_container ? nonsensitive("${azurerm_storage_account.ci-test-reports[0].primary_blob_endpoint}${azurerm_storage_container.ci-test-reports[0].name}${data.azurerm_storage_account_blob_container_sas.ci-test-reports[0].sas}") : null
 }
