@@ -105,10 +105,10 @@ To run these tests locally it is easiest to run your app and the mock API using 
 ```dotenv
 PLAYWRIGHT_BASEURL="http://localhost/"
 WIREMOCK_BASEURL="http://localhost:8080"
+AUTH_BYPASS_SECRET="TestSuperSecret"
 ```
 
 2. Open a terminal in your repository and run:
-
 ```bash
 cd tests/playwright
 
@@ -134,6 +134,12 @@ npx playwright test --trace=on # get a time machine attached to each test result
 # remove docker image when done
 npm run docker:stop
 ```
+If you want to run tests on a local build you will need to update your secrets file to include this line.
+
+```bash
+"TestOverride:PlaywrightTestSecret": "TestSuperSecret",
+```
+This will an authorisation header to each playwright request which will match the auth bypass secret in the playwright .env file.
 
 For more information on running and debugging Playwright tests it is worth familiarising yourself with the Playwright docs on [debugging](https://playwright.dev/docs/debug) and [command line flags](https://playwright.dev/docs/test-cli).
 
