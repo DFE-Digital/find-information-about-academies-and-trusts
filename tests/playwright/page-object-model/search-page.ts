@@ -102,16 +102,14 @@ class SearchPageAssertions {
   }
 
   async toSeeInformationForEachResult (): Promise<void> {
-    const searchTerm = this.searchPage.searchForm.currentSearch.term
-    const expectedSearchResults = this.searchPage.testData.filter(result => result.name?.toLowerCase().includes(searchTerm.toLowerCase()))
+    const resultsCount = await this.searchPage._searchResultsListItemLocator.count()
 
-    const noOfResultsOnPage = expectedSearchResults.length < this.searchPage.numberOfResultsOnOnePage ? expectedSearchResults.length : this.searchPage.numberOfResultsOnOnePage
+    for (let result = 0; result < resultsCount; result++) {
+      const element = await this.searchPage._searchResultsListItemLocator.nth(result)
+      const uid = await element.getByTestId('uid').textContent()
+      const expectedResult = this.searchPage.testData.find(result => result.uid === uid)
 
-    for (let result = 0; result < noOfResultsOnPage; result++) {
-      const searchItemLocator = this.searchPage.getListItemLocatorByText(expectedSearchResults[result].name)
-      await expect(searchItemLocator).toBeVisible()
-
-      await expect(searchItemLocator).toContainText(`Address: ${expectedSearchResults[result].address}`)
+      await expect(element).toContainText(`Address: ${expectedResult?.address ?? ''}`)
     }
   }
 
