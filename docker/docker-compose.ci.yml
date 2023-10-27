@@ -1,13 +1,35 @@
 version: "3.8"
 services:
-  faker:
-    build:
-      context: ..
-      dockerfile: docker/AcademiesDbFaker.Dockerfile
-      args:
-        DB_PASSWORD: mySuperStrong_pa55word!!!
+  testdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: mySuperStrong_pa55word!!!
     ports:
       - "1433:1433"
+    networks:
+      - test-ci
+  testdb-health:
+    image: mcr.microsoft.com/mssql-tools:latest
+    command: /bin/bash -c "touch /var/log/sqlcmd.log && tail -f /var/log/sqlcmd.log"
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S testdb -U sa -P 'mySuperStrong_pa55word!!!' -o /var/log/sqlcmd.log
+      interval: "2s"
+      retries: 10
+    depends_on:
+      - testdb
+    networks:
+      - test-ci
+  testdb-import:
+    build:
+      context: ..
+      dockerfile: docker/AcademiesTestDb.Dockerfile
+      args:
+        DB_PASSWORD: mySuperStrong_pa55word!!!
+    command: /bin/bash -c "/opt/mssql-tools/bin/sqlcmd -S testdb -U sa -P "mySuperStrong_pa55word!!!" -d master -i createScript.sql ; /opt/mssql-tools/bin/sqlcmd -S testdb -U sa -P "mySuperStrong_pa55word!!!" -i insertScript.sql"
+    depends_on:
+      testdb-health:
+        condition: service_healthy
     networks:
       - test-ci
   webapp:
@@ -15,13 +37,15 @@ services:
       context: ..
       dockerfile: docker/Dockerfile
     command: /bin/bash -c "./docker-entrypoint.sh dotnet DfE.FindInformationAcademiesTrusts.dll"
+    depends_on:
+      - testdb-import
     ports:
       - 80:80/tcp
     networks:
       - test-ci
     environment:
       - ASPNETCORE_ENVIRONMENT=CI
-      - ConnectionStrings__AcademiesDb=Server=faker;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true;
+      - ConnectionStrings__AcademiesDb=Server=testdb;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true;
 
 networks:
   test-ci:
