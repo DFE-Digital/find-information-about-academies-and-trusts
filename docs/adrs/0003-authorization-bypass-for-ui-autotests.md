@@ -14,16 +14,16 @@ Due to DfE's policy of only allowing certain IP ranges access to authenticate vi
 
 ## Decision
 
-We will implement the dotnet class DenyAnonymousAuthorizationRequirement which allow bypassing of authorization functionality.
+We will implement the dotnet class `AuthorizationHandler<DenyAnonymousAuthorizationRequirement>` which allows bypassing of our standard authorization route.
 
-It requires a secret guid to be stored in azure which is passed in an authorization header with every test automation request.
+It requires a secret to be stored in azure which is passed in an authorization header with every test automation request.
 
 The bypass is only allowed on non production environments.
 
-This method as been used in other Dfe projects within the program.
+This method has been used in other DfE projects within the program.
 
 ## Consequences
 
-Test reporting has to be stopped in the dev and test environments during ci pipeline testing to prevent the test secret being exposed.
+Developers will no longer be able to access a locally running CI docker instance through their browser because the header will be missing from their browser requests
 
-If the test secret is ever exposed during test reporting it needs to be changed in azure.
+Integration and Deployment tests can be reenabled in the pipeline. The security test pipeline will also now function on demand. However uploading Playwright reports directly to the GitHub Action run has to be stopped to prevent the test secret being exposed in the traces. If the test secret is ever exposed during test reporting it needs to be changed in azure.
