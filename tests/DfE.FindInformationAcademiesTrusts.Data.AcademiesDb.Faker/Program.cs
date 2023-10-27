@@ -19,7 +19,7 @@ public static class Program
                 .Select(GenerateGroup).ToArray();
 
             SqlScriptGenerator.GenerateAndSaveSqlScripts(fakeGroups, "data/createScript.sql", "data/insertScript.sql");
-            JsonGenerator.GenerateAndSaveTrustsJson(fakeGroups, "data/output.json");
+            JsonGenerator.GenerateAndSaveTrustsJson(fakeGroups, "data/trusts.json");
         }
         catch (Exception e)
         {
