@@ -12,19 +12,5 @@ RUN dotnet build -c Release
 RUN dotnet run
 
 FROM mcr.microsoft.com/mssql/server:${MSSQL_VERSION} AS sqlserver
-ARG DB_PASSWORD
-ENV ACCEPT_EULA="Y"
-ENV SA_PASSWORD=${DB_PASSWORD}
 
-# Stage 2 - run script to create and seed tables on sql server instance using data
-USER root
 COPY --from=data /tests/DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker/data/ .
-COPY --from=data /docker/script/ .
-
-RUN chmod +x import-data.sh
-
-USER mssql
-WORKDIR /
-RUN (/opt/mssql/bin/sqlservr --accept-eula &) | /import-data.sh ${DB_PASSWORD}
-
-EXPOSE 1433

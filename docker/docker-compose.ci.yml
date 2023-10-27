@@ -1,13 +1,35 @@
 version: "3.8"
 services:
   faker:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: mySuperStrong_pa55word!!!
+    ports:
+      - "1433:1433"
+    networks:
+      - test-ci
+  faker-health:
+    image: mcr.microsoft.com/mssql-tools:latest
+    command: /bin/bash -c "touch /var/log/sqlcmd.log && tail -f /var/log/sqlcmd.log"
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S faker -U sa -P 'mySuperStrong_pa55word!!!' -o /var/log/sqlcmd.log
+      interval: "2s"
+      retries: 10
+    depends_on:
+      - faker
+    networks:
+      - test-ci
+  faker-import:
     build:
       context: ..
       dockerfile: docker/AcademiesDbFaker.Dockerfile
       args:
         DB_PASSWORD: mySuperStrong_pa55word!!!
-    ports:
-      - "1433:1433"
+    command: /bin/bash -c "/opt/mssql-tools/bin/sqlcmd -S faker -U sa -P "mySuperStrong_pa55word!!!" -d master -i createScript.sql ; /opt/mssql-tools/bin/sqlcmd -S faker -U sa -P "mySuperStrong_pa55word!!!" -i insertScript.sql"
+    depends_on:
+      faker-health:
+        condition: service_healthy
     networks:
       - test-ci
   webapp:
@@ -15,6 +37,8 @@ services:
       context: ..
       dockerfile: docker/Dockerfile
     command: /bin/bash -c "./docker-entrypoint.sh dotnet DfE.FindInformationAcademiesTrusts.dll"
+    depends_on:
+      - faker-import
     ports:
       - 80:80/tcp
     networks:
