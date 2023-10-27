@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
+using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
 
@@ -7,25 +8,32 @@ public class TrustProviderTests
 {
     private readonly TrustProvider _sut;
     private readonly List<Group> _groups;
+    private readonly Mock<ITrustHelper> _mockTrustHelper;
+    private readonly DummyTrustFactory _dummyTrustFactory;
 
     public TrustProviderTests()
     {
         var mockAcademiesDbContext = new MockAcademiesDbContext();
         _groups = mockAcademiesDbContext.SetupMockDbContextGroups(5);
-        _sut = new TrustProvider(mockAcademiesDbContext.Object);
+        _dummyTrustFactory = new DummyTrustFactory();
+        _mockTrustHelper = new Mock<ITrustHelper>();
+
+        _sut = new TrustProvider(mockAcademiesDbContext.Object, _mockTrustHelper.Object);
     }
 
     [Fact]
     public async Task GetTrustsByUidAsync_should_return_a_trust_if_group_found()
     {
-        _groups.Add(new Group
-            { GroupName = "trust 1", GroupUid = "1234", GroupType = "Multi-academy trust", Ukprn = "my ukprn" });
+        var group = new Group
+            { GroupName = "trust 1", GroupUid = "1234", GroupType = "Multi-academy trust", Ukprn = "my ukprn" };
+        _groups.Add(group);
+        var expectedTrust = _dummyTrustFactory.GetDummyTrust(group.GroupUid);
+
+        _mockTrustHelper.Setup(t => t.CreateTrustFromGroup(group)).Returns(expectedTrust);
 
         var result = await _sut.GetTrustByUidAsync("1234");
 
-        result.Should().BeEquivalentTo(new Trust("1234", "trust 1",
-            "my ukprn",
-            "Multi-academy trust"));
+        result.Should().Be(expectedTrust);
     }
 
     [Fact]
