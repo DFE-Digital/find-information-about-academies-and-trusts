@@ -59,8 +59,9 @@ jobs:
           CI: true
           PLAYWRIGHT_BASEURL: "http://localhost"
           WIREMOCK_BASEURL: "http://localhost:8080"
+          AUTH_BYPASS_SECRET: "TestSuperSecret"
         run: npm run test:ci
-
+          
       - uses: actions/upload-artifact@v3
         if: always()
         with:

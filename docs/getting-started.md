@@ -73,4 +73,3 @@ Once you are done, ensure that you stop the container(s)!
 docker compose -f docker-compose.yml down
 docker compose -f docker-compose.ci.yml down
 ```
-
