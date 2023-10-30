@@ -106,7 +106,9 @@ class SearchPageAssertions {
       const expectedResult = this.searchPage.testData.find(result => result.uid === uid)
       expect(expectedResult).toBeTruthy()
       if (expectedResult !== null && expectedResult !== undefined) {
+        await expect(element).toContainText(expectedResult.name)
         await expect(element).toContainText(`Address: ${expectedResult.address}`)
+        await expect(element).toContainText(`Group ID/TRN: ${expectedResult.groupId}`)
       }
     }
   }
