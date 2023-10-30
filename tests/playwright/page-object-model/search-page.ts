@@ -1,6 +1,7 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { CurrentSearch, SearchFormComponent } from './shared/search-form-component'
 import { FakeTestData } from '../fake-data/fake-test-data'
+import { SearchTerms } from '../fake-data/search-terms'
 
 export class SearchPage {
   readonly expect: SearchPageAssertions
@@ -42,11 +43,11 @@ export class SearchPage {
   }
 
   async goToPageWithResults (): Promise<void> {
-    await this.goToSearchFor('mary')
+    await this.goToSearchFor(SearchTerms.CommonName)
   }
 
   async goToPageWithNoResults (): Promise<void> {
-    await this.goToSearchFor('non')
+    await this.goToSearchFor(SearchTerms.NoMatches)
   }
 
   getListItemLocatorByText (text: string): Locator {

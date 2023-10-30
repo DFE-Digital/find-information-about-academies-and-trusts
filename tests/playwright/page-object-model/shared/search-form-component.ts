@@ -1,4 +1,5 @@
 import { Locator, Page, expect } from '@playwright/test'
+import { SearchTerms } from '../../fake-data/search-terms'
 
 class SelectedTrust {
   name = ''
@@ -27,17 +28,17 @@ export class SearchFormComponent {
   }
 
   async typeASearchTerm (): Promise<void> {
-    this.currentSearch.term = 'trust'
+    this.currentSearch.term = SearchTerms.First
     await this.searchInputLocator.fill(this.currentSearch.term)
   }
 
   async typeADifferentSearchTerm (): Promise<void> {
-    this.currentSearch.term = 'education'
+    this.currentSearch.term = SearchTerms.Second
     await this.searchInputLocator.fill(this.currentSearch.term)
   }
 
   async typeASearchTermWithNoMatches (): Promise<void> {
-    this.currentSearch.term = 'non'
+    this.currentSearch.term = SearchTerms.NoMatches
     await this.searchInputLocator.fill(this.currentSearch.term)
   }
 
