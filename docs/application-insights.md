@@ -1,6 +1,4 @@
-- [Application Insights](#application-insights)
-
-## Application Insights
+# Application Insights
 
 App insights is the platform we are using for measuring telemetry. By default app insights is on in dev and test environments and off when running locally or building in a pipeline.
 

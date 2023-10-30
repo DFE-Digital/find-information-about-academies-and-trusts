@@ -1,18 +1,12 @@
+## Run tests locally
+
+Use this documentation to run tests locally.
+
 - [Run tests locally](#run-tests-locally)
     - [Unit tests](#unit-tests)
     - [Accessibility and UI tests](#accessibility-and-ui-tests)
     - [Integration and Deployment tests](#integration-and-deployment-tests)
     - [Owasp Zap security tests](#integration-and-deployment-tests)
-- [Supercharge your dev environment](#supercharge-your-dev-environment)
-  - [Set up continuous testing](#set-up-continuous-testing)
-  - [Analyse test coverage](#analyse-test-coverage)
-  - [Configure linting and code cleanup](#configure-linting-and-code-cleanup)
-
-
-
-
-
-## Run tests locally
 
 ### Unit tests
 
@@ -117,63 +111,4 @@ ZAP_PORT=8083
 cd tests/playwright
 
 npx playwright test --project=zap-tests --trace=on
-```
-
-## Supercharge your dev environment
-
-We recommend using Rider or Visual Studio with ReSharper.
-
-### Set up continuous testing
-
-We recommend setting Rider to run unit tests on save, for fast feedback on changes.
-
-- Go to Settings -> Plugins and check that `dotCover` is enabled
-- Go to Settings -> Build, Execution, Deployment -> Unit Testing -> Continuous Testing and select 'Automatically start tests in continuous testing sessions on **Save**'
-- Go to or open a Unit Tests session (Tests -> Create New Session), open the 'Continuous testing modes' menu and select 'Run all tests'
-
-### Analyse test coverage
-
-This project uses a [mutation score](https://stryker-mutator.io/docs/) to analyse effective test coverage when opening up a new pull request.
-Stryker.Net is included in our dotnet-tools manifest for checking mutation score locally.
-
-Install tools by running `dotnet tool restore`.
-
-Open a terminal at the root folder. Run the following to run and open a Stryker report:
-
-```bash
-dotnet stryker -o
-```
-
-You will be able to find all reports in the `StrykerOutput` folder in your project root.
-
-### Configure linting and code cleanup
-
-We recommend setting Rider to clean code on save.
-
-- Open settings
-- Configure JavaScript linting
-  - Go to Languages & Frameworks -> JavaScript -> Code Quality Tools -> ESLint
-  - Select `Manual ESLint configuration`
-  - In the dropdown for ESLint package, press the down arrow and select `.../DfE.FindInformationAcademiesTrusts/node_modules/standard`. If nothing is here then ensure you have done an `npm install` in the project directory
-  - Tick `Run ESLint --fix on save`
-  - Go to Editor > Code style > JavaScript
-  - In the top right click `Set from...` and select `JavaScript Standard Style`
-- Configure CSS linting
-  - Go to Languages & Frameworks -> Style Sheets -> Stylelint
-  - Select `Enable`
-  - In the dropdown for Stylelint package, press the down arrow and select `.../DfE.FindInformationAcademiesTrusts/node_modules/styleint`. If nothing is here then ensure you have done an `npm install` in the project directory
-  - In `Run for files` enter: "{\*_/_,\*}.{css,scss}"
-- Configure C# linting
-  - Go to Tools -> Actions on Save
-  - Tick `Reformat and Cleanup Code`
-  - Ensure that Profile is set to `DfE.FindInformationAcademiesTrusts`
-
-If using Rider or Resharper then the `DfE.FindInformationAcademiesTrusts.sln.DotSettings` should be automatically identified and used for manual C# code cleanup.
-
-You can also run linting on JavaScript, CSS and SCSS files using the command line:
-
-```bash
-cd DfE.FindInformationAcademiesTrusts
-npm run lint ## for a list of issues
-npm run lint:fix ## to scan and fix issues
 ```
