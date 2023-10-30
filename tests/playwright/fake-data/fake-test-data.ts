@@ -14,8 +14,12 @@ export class FakeTestData {
     this._fakeTrusts = JSON.parse(JSON.stringify(testDataJson)).default
   }
 
-  getTrustByUid (uid: string): FakeTrust | undefined {
-    return this._fakeTrusts.find(result => result.uid === uid)
+  getTrustByUid (uid: string): FakeTrust {
+    const fakeTrust = this._fakeTrusts.find(result => result.uid === uid)
+    if (fakeTrust === undefined) {
+      throw new Error(`Expected to find trust in the test data containing UID: ${uid}, but it was not found`)
+    }
+    return fakeTrust
   }
 
   getNumberOfTrustsWithNameMatching (searchTerm: string): number {
