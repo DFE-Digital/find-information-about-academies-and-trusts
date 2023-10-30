@@ -25,4 +25,20 @@ export class FakeTestData {
   getFirstTrust (): FakeTrust {
     return this._fakeTrusts[0]
   }
+
+  getMultiAcademyTrust (): FakeTrust {
+    return this.getTrustWithType('Multi-academy trust')
+  }
+
+  getSingleAcademyTrust (): FakeTrust {
+    return this.getTrustWithType('Single-academy trust')
+  }
+
+  private getTrustWithType (type: string): FakeTrust {
+    const trust = this._fakeTrusts.find(trust => trust.type === type)
+    if (trust === undefined) {
+      throw new Error(`No trusts with type ${type} found in test data`)
+    }
+    return trust
+  }
 }

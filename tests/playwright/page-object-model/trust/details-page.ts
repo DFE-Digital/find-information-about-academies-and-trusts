@@ -37,6 +37,16 @@ export class DetailsPage {
   async goToPageWithUidThatDoesNotExist (): Promise<void> {
     await this.page.goto('/trusts/details/0000')
   }
+
+  async goToMultiAcademyTrust (): Promise<void> {
+    const uid = this.fakeTestData.getMultiAcademyTrust().uid
+    await this.page.goto(`/trusts/details/${uid}`)
+  }
+
+  async goToSingleAcademyTrust (): Promise<void> {
+    const uid = this.fakeTestData.getSingleAcademyTrust().uid
+    await this.page.goto(`/trusts/details/${uid}`)
+  }
 }
 
 class DetailsPageAssertions {
