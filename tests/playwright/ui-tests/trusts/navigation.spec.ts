@@ -2,14 +2,16 @@ import { test } from '@playwright/test'
 import { DetailsPage } from '../../page-object-model/trust/details-page'
 import { ContactsPage } from '../../page-object-model/trust/contacts-page'
 import { CurrentSearch } from '../../page-object-model/shared/search-form-component'
+import { FakeTestData } from '../../fake-data/fake-test-data'
 
 test.describe('Trust navigation', () => {
   let detailsPage: DetailsPage
   let contactsPage: ContactsPage
 
   test.beforeEach(async ({ page }) => {
-    detailsPage = new DetailsPage(page, new CurrentSearch())
-    contactsPage = new ContactsPage(page)
+    const fakeTestData = new FakeTestData()
+    detailsPage = new DetailsPage(page, new CurrentSearch(), fakeTestData)
+    contactsPage = new ContactsPage(page, fakeTestData)
   })
 
   test.describe('Given a user navigates to trust details', () => {
