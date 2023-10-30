@@ -1,14 +1,9 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { SearchTerms } from '../../fake-data/search-terms'
 
-class SelectedTrust {
-  name = ''
-  address = ''
-}
-
 export class CurrentSearch {
   term = ''
-  selectedTrust = new SelectedTrust()
+  selectedTrustName = ''
 }
 
 export class SearchFormComponent {
@@ -62,10 +57,7 @@ export class SearchFormComponent {
     const itemToSelect = this.searchFormLocator.getByRole('option').nth(1)
     const itemText = (await itemToSelect.innerText()).split('\n')
 
-    this.currentSearch.selectedTrust = {
-      name: itemText[0],
-      address: itemText[1]
-    }
+    this.currentSearch.selectedTrustName = itemText[0]
 
     await itemToSelect.click()
   }
