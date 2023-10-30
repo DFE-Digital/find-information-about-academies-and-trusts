@@ -3,15 +3,17 @@ import { SearchPage } from '../page-object-model/search-page'
 import { DetailsPage } from '../page-object-model/trust/details-page'
 import { javaScriptContexts } from '../helpers'
 import { CurrentSearch } from '../page-object-model/shared/search-form-component'
+import { FakeTestData } from '../fake-data/fake-test-data'
 
-test.describe('Search page', () => {
+test.describe.only('Search page', () => {
   let searchPage: SearchPage
   let detailsPage: DetailsPage
   let currentSearch: CurrentSearch
 
   test.beforeEach(async ({ page }) => {
     currentSearch = new CurrentSearch()
-    searchPage = new SearchPage(page, currentSearch)
+    const fakeTestData = new FakeTestData()
+    searchPage = new SearchPage(page, currentSearch, fakeTestData)
     detailsPage = new DetailsPage(page, currentSearch)
   })
 

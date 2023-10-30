@@ -1,13 +1,6 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { CurrentSearch, SearchFormComponent } from './shared/search-form-component'
-import * as testDataJson from '../fake-data/trusts.json'
-
-interface FakeData {
-  name: string
-  address: string
-  uid: string
-  groupId: string
-}
+import { FakeTestData } from '../fake-data/fake-test-data'
 
 export class SearchPage {
   readonly expect: SearchPageAssertions
@@ -17,11 +10,11 @@ export class SearchPage {
   readonly _searchResultsSectionLocator: Locator
   readonly _searchResultsListItemLocator: Locator
   currentSearch: CurrentSearch
-  testData: FakeData[]
+  testData: FakeTestData
   numberOfResultsOnOnePage = 20
 
-  constructor (readonly page: Page, currentSearch: CurrentSearch) {
-    this.testData = JSON.parse(JSON.stringify(testDataJson)).default?.map(result => ({ ...result, name: result.name.replace(/\\'/g, '') })).sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+  constructor (readonly page: Page, currentSearch: CurrentSearch, fakeTestData: FakeTestData) {
+    this.testData = fakeTestData
     this.expect = new SearchPageAssertions(this)
     this.searchForm = new SearchFormComponent(
       page,
@@ -90,8 +83,8 @@ class SearchPageAssertions {
   }
 
   async toDisplayNumberOfResultsFound (): Promise<void> {
-    const expectedSearchResults = this.searchPage.testData.filter(result => result.name?.toLowerCase().includes(this.searchPage.searchForm.currentSearch.term.toLowerCase()))
-    const noOfResultsOnPage = expectedSearchResults.length < this.searchPage.numberOfResultsOnOnePage ? expectedSearchResults.length : this.searchPage.numberOfResultsOnOnePage
+    const expectedNoOfResults = this.searchPage.testData.getNumberOfTrustsWithNameMatching(this.searchPage.searchForm.currentSearch.term)
+    const noOfResultsOnPage = expectedNoOfResults < this.searchPage.numberOfResultsOnOnePage ? expectedNoOfResults : this.searchPage.numberOfResultsOnOnePage
     await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(
       `${noOfResultsOnPage} results for`
     )
@@ -102,10 +95,11 @@ class SearchPageAssertions {
 
     for (let result = 0; result < resultsCount; result++) {
       const element = await this.searchPage._searchResultsListItemLocator.nth(result)
-      const uid = (await element.getByTestId('uid').textContent())?.trim()
-      const expectedResult = this.searchPage.testData.find(result => result.uid === uid)
-      expect(expectedResult).toBeTruthy()
-      if (expectedResult !== null && expectedResult !== undefined) {
+      const uid = (await element.getByTestId('uid').textContent())?.trim() ?? ''
+      expect(uid, 'Expected result to contain a UID value, but it did not').toBeTruthy()
+      const expectedResult = this.searchPage.testData.getTrustByUid(uid)
+      expect(expectedResult, `Expected to find trust in the test data containing UID: ${uid}, but it was not found`).toBeTruthy()
+      if (expectedResult !== undefined) {
         await expect(element).toContainText(expectedResult.name)
         await expect(element).toContainText(`Address: ${expectedResult.address}`)
         await expect(element).toContainText(`Group ID/TRN: ${expectedResult.groupId}`)
