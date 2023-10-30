@@ -60,8 +60,8 @@ npm run docker:stop
 
 For more information on running and debugging Playwright tests it is worth familiarising yourself with the Playwright docs on [debugging](https://playwright.dev/docs/debug) and [command line flags](https://playwright.dev/docs/test-cli).
 
-**Warning**
-There can be some issues with running Docker on Windows. [See this to fix it](.\docker-issues-on-windows.md)
+> **Warning**
+> There can be some issues with running Docker on Windows. [See this to fix it](.\docker-issues-on-windows.md)
 
 ### Integration and Deployment tests
 
