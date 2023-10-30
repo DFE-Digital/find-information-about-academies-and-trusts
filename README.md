@@ -5,5 +5,8 @@ We are a tool for everyone in DfE to find information which is collated from mul
 ## Contents
 
 - [Getting Started](docs/getting-started.md)
+- [Run tests locally](docs/run-tests-locally.md)
+- [Supercharge your dev environment](docs/supercharge-your-dev-environment.md)
+- [Application insights](docs/application-insights.md)
 - [Architecture Decision Records (ADRs)](docs/adrs)
 - [Test Approach](docs/test-approach.md)
