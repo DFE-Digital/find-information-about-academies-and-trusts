@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using Serilog;
 
@@ -204,7 +203,7 @@ internal static class Program
         //We need to be sure that this is actually an isolated environment with no access to production data
         var databaseConnectionString = builder.Configuration.GetConnectionString("AcademiesDb")?.ToLower();
         return string.IsNullOrWhiteSpace(databaseConnectionString)
-               || databaseConnectionString.Contains("faker")
+               || databaseConnectionString.Contains("testdb")
                || databaseConnectionString.Contains("localhost");
     }
 
