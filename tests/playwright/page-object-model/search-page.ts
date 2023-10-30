@@ -56,11 +56,7 @@ export class SearchPage {
 
   async clickOnSearchResultLink (resultNumber: number): Promise<void> {
     const itemToSelect = await this._searchResultsListItemLocator.getByRole('link').nth(resultNumber - 1)
-    const itemText = (await itemToSelect.innerText()).split('\n')
-    this.currentSearch.selectedTrust = {
-      name: itemText[0],
-      address: itemText[1]
-    }
+    this.currentSearch.selectedTrustName = await itemToSelect.innerText()
 
     await itemToSelect.click()
   }

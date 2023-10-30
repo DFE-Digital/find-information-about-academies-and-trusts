@@ -44,7 +44,7 @@ test.describe('homepage', () => {
         await homePage.searchForm.typeASearchTerm()
         await homePage.searchForm.chooseItemFromAutocomplete()
         await homePage.searchForm.submitSearch()
-        await detailsPage.expect.toBeOnTheRightPageFor(currentSearch.selectedTrust.name)
+        await detailsPage.expect.toBeOnTheRightPageFor(currentSearch.selectedTrustName)
       })
 
       test('then they should be able to change their search term to a free text search after selecting a result', async () => {
