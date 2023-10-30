@@ -105,10 +105,10 @@ To run these tests locally it is easiest to run your app and the mock API using 
 ```dotenv
 PLAYWRIGHT_BASEURL="http://localhost/"
 WIREMOCK_BASEURL="http://localhost:8080"
+AUTH_BYPASS_SECRET="TestSuperSecret"
 ```
 
 2. Open a terminal in your repository and run:
-
 ```bash
 cd tests/playwright
 
@@ -134,6 +134,14 @@ npx playwright test --trace=on # get a time machine attached to each test result
 # remove docker image when done
 npm run docker:stop
 ```
+
+If you want to run tests on a local build you will need to update your secrets file
+
+```bash
+dotnet user-secrets set "TestOverride:PlaywrightTestSecret" "TestSuperSecret"
+```
+
+This will add an authorisation header to each playwright request which should match the auth bypass secret in the playwright .env file.
 
 For more information on running and debugging Playwright tests it is worth familiarising yourself with the Playwright docs on [debugging](https://playwright.dev/docs/debug) and [command line flags](https://playwright.dev/docs/test-cli).
 
@@ -162,7 +170,7 @@ TEST_USER_ACCOUNT_PASSWORD="<insert here>" #
 
 To run the owasp zap security scanner locally on the test or dev environments.
 
-1. Run the owasp zap api in docker, please note the post scan test report will be sent to wherever you run this command from. Always stop and restart the owasp zap api in docker before evey test run to ensure you get a clean test report. 
+1. Run the owasp zap api in docker, please note the post scan test report will be sent to wherever you run this command from. Always stop and restart the owasp zap api in docker before evey test run to ensure you get a clean test report.
 
 ```bash
 docker run --rm -v ${PWD}:/zap/wrk/:rw -u zap -p 8083:8083 -i owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 8083 -config api.disablekey=true -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true
@@ -189,7 +197,6 @@ cd tests/playwright
 
 npx playwright test --project=zap-tests --trace=on
 ```
-
 
 ## Supercharge your dev environment
 
@@ -258,7 +265,8 @@ App insights can be enabled locally by including the conncection string in your 
 You can copy the connection string from Azure. Go the the app insights instance (Current instance name is `s184d01-fiat-insights`) and on the overview panel you can copy the connection string. Always use the development environment when testing locally.
 
 ### Tracking events
+
 We are tracking page views and requests automatically. If you would like to track your own events then us the TrackEvent method.
 You can track events in the client using javascript or on the server using the app insights module.
 
-More info can be found here https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview
+More info can be found here <https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview>

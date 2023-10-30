@@ -24,6 +24,10 @@ export const baseConfig: PlaywrightTestConfig<{}, {}> = {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: process.env.PLAYWRIGHT_BASEURL,
 
+      extraHTTPHeaders: {
+        'Authorization': 'Bearer ' + process.env.AUTH_BYPASS_SECRET,
+      },
+
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry'
   },
@@ -53,21 +57,11 @@ export default defineConfig({
       use: { ...devices['Desktop Edge'], channel: 'msedge' }
     },
     {
-      name: 'authenticate-user',
-      use: {
-        ...devices['Desktop Chrome'],
-        channel: 'chrome'
-      },
-      testMatch: /.auth.setup\.ts/
-    },
-    {
       name: 'deployment-tests',
       use: {
         ...devices['Desktop Chrome'],
         channel: 'chrome',
-        storageState: '.auth/user.json',
       },
-      dependencies: ['authenticate-user'],
       testDir: './deployment-tests'
     },
     {
@@ -75,9 +69,7 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         channel: 'chrome',
-        storageState: '.auth/user.json',
       },
-      dependencies: ['authenticate-user'],
       testDir: './integration-tests'
     },
     {

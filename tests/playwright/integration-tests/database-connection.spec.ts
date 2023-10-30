@@ -13,15 +13,15 @@ test.describe('search for trusts', () => {
 
   test('returns results', async () => {
     await homePage.goTo()
-    await homePage.searchFor('education')
-
+    await homePage.searchForm.typeSearchTerm('education')
+    await homePage.searchForm.submitSearch()
     await searchPage.expect.toShowResults()
   })
 
   test('returns empty results', async () => {
     await homePage.goTo()
-    await homePage.searchFor('trust that does not exist')
-
-    await searchPage.expect.toShowEmptyResultMessage()
+    await homePage.searchForm.typeSearchTerm('trust that does not exist')
+    await homePage.searchForm.submitSearch()
+    await searchPage.expect.toSeeNoResultsMessage()
   })
 })

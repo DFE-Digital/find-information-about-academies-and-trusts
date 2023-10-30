@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using DfE.FindInformationAcademiesTrusts.Authorization;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -150,13 +151,15 @@ internal static class Program
     {
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
-
+        builder.Services.AddScoped<IAuthorizationHandler, HeaderRequirementHandler>();
         builder.Services.AddHttpClient("AcademiesApi", (provider, httpClient) =>
         {
             var academiesApiOptions = provider.GetRequiredService<IOptions<AcademiesApiOptions>>();
             httpClient.BaseAddress = new Uri(academiesApiOptions.Value.Endpoint!);
             httpClient.DefaultRequestHeaders.Add("ApiKey", academiesApiOptions.Value.Key);
         });
+
+        builder.Services.AddHttpContextAccessor();
     }
 
     private static void AddEnvironmentVariablesTo(WebApplicationBuilder builder)
@@ -168,13 +171,13 @@ internal static class Program
             .Bind(builder.Configuration.GetSection(AcademiesApiOptions.ConfigurationSection))
             .ValidateDataAnnotations()
             .ValidateOnStart();
+
+        builder.Services.AddOptions<TestOverrideOptions>()
+            .Bind(builder.Configuration.GetSection(TestOverrideOptions.ConfigurationSection));
     }
 
     private static void AddAuthenticationServices(WebApplicationBuilder builder)
     {
-        if (ShouldSkipAuthentication(builder))
-            return;
-
         builder.Services.AddAuthorization(options =>
         {
             var policyBuilder = new AuthorizationPolicyBuilder();
@@ -182,7 +185,10 @@ internal static class Program
             options.DefaultPolicy = policyBuilder.Build();
             options.FallbackPolicy = options.DefaultPolicy;
         });
-        builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration);
+
+        if (!builder.Environment.IsContinuousIntegration())
+            builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration);
+
         builder.Services.Configure<CookieAuthenticationOptions>(
             CookieAuthenticationDefaults.AuthenticationScheme,
             options =>
@@ -193,18 +199,6 @@ internal static class Program
                 options.Cookie.SameSite = SameSiteMode.None;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
-    }
-
-    private static bool ShouldSkipAuthentication(WebApplicationBuilder builder)
-    {
-        if (!builder.Environment.IsLocalDevelopment() && !builder.Environment.IsContinuousIntegration())
-            return false;
-
-        //We need to be sure that this is actually an isolated environment with no access to production data
-        var academiesApiUrl = builder.Configuration.GetSection("AcademiesApi").GetValue<string>("Endpoint")?.ToLower();
-        return string.IsNullOrWhiteSpace(academiesApiUrl)
-               || academiesApiUrl.Contains("localhost")
-               || academiesApiUrl.Contains("wiremock");
     }
 
     private static void ReconfigureLogging(WebApplicationBuilder builder)

@@ -66,8 +66,7 @@ jobs:
       - name: Run Playwright deployment tests
         env:
           PLAYWRIGHT_BASEURL: ${{ secrets.BASE_URL }}
-          TEST_USER_ACCOUNT_NAME: ${{ secrets.TEST_USER_ACCOUNT_NAME }}
-          TEST_USER_ACCOUNT_PASSWORD: ${{ secrets.TEST_USER_ACCOUNT_PASSWORD }}
+          AUTH_BYPASS_SECRET: ${{ secrets.TEST_OVERRIDE_PLAYWRIGHT_TEST_SECRET}}
         run: npm run test:deployment
 
       - name: Prepare report for upload
