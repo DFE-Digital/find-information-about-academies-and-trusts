@@ -1,6 +1,6 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { CurrentSearch, SearchFormComponent } from './shared/search-form-component'
-import { FakeTestData } from '../fake-data/fake-test-data'
+import { FakeTestData, FakeTrust } from '../fake-data/fake-test-data'
 import { SearchTerms } from '../fake-data/search-terms'
 
 export class SearchPage {
@@ -50,12 +50,18 @@ export class SearchPage {
     await this.goToSearchFor(SearchTerms.NoMatches)
   }
 
-  getListItemLocatorByText (text: string): Locator {
-    return this._searchResultsListItemLocator.filter({ hasText: text })
+  getListItemLocatorAt (index: number): Locator {
+    return this._searchResultsListItemLocator.nth(index)
+  }
+
+  async getExpectedResultMatching (element: Locator): Promise<FakeTrust> {
+    const uid = (await element.getByTestId('uid').textContent())?.trim() ?? ''
+    await expect(uid, 'Expected result to contain a UID value, but it did not').toBeTruthy()
+    return this.testData.getTrustByUid(uid)
   }
 
   async clickOnSearchResultLink (resultNumber: number): Promise<void> {
-    const itemToSelect = await this._searchResultsListItemLocator.getByRole('link').nth(resultNumber - 1)
+    const itemToSelect = await this.getListItemLocatorAt(resultNumber).getByRole('link')
     this.currentSearch.selectedTrustName = await itemToSelect.innerText()
 
     await itemToSelect.click()
@@ -94,17 +100,13 @@ class SearchPageAssertions {
   async toSeeInformationForEachResult (): Promise<void> {
     const resultsCount = await this.searchPage._searchResultsListItemLocator.count()
 
-    for (let result = 0; result < resultsCount; result++) {
-      const element = await this.searchPage._searchResultsListItemLocator.nth(result)
-      const uid = (await element.getByTestId('uid').textContent())?.trim() ?? ''
-      expect(uid, 'Expected result to contain a UID value, but it did not').toBeTruthy()
-      const expectedResult = this.searchPage.testData.getTrustByUid(uid)
-      expect(expectedResult, `Expected to find trust in the test data containing UID: ${uid}, but it was not found`).toBeTruthy()
-      if (expectedResult !== undefined) {
-        await expect(element).toContainText(expectedResult.name)
-        await expect(element).toContainText(`Address: ${expectedResult.address}`)
-        await expect(element).toContainText(`Group ID/TRN: ${expectedResult.groupId}`)
-      }
+    for (let resultNumber = 0; resultNumber < resultsCount; resultNumber++) {
+      const resultLocator = await this.searchPage.getListItemLocatorAt(resultNumber)
+      const expectedResult = await this.searchPage.getExpectedResultMatching(resultLocator)
+
+      await expect(resultLocator).toContainText(expectedResult.name)
+      await expect(resultLocator).toContainText(`Address: ${expectedResult.address}`)
+      await expect(resultLocator).toContainText(`Group ID/TRN: ${expectedResult.groupId}`)
     }
   }
 
