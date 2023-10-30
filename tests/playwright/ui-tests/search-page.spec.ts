@@ -14,7 +14,7 @@ test.describe('Search page', () => {
     currentSearch = new CurrentSearch()
     const fakeTestData = new FakeTestData()
     searchPage = new SearchPage(page, currentSearch, fakeTestData)
-    detailsPage = new DetailsPage(page, currentSearch, fakeTestData)
+    detailsPage = new DetailsPage(page, fakeTestData)
   })
 
   for (const javaScriptContext of javaScriptContexts) {
@@ -54,11 +54,11 @@ test.describe('Search page', () => {
 
         test('when the user clicks on different results they are taken to different trust details pages', async () => {
           await searchPage.clickOnSearchResultLink(1)
-          await detailsPage.expect.toBeOnTheRightPage()
+          await detailsPage.expect.toBeOnTheRightPageFor(currentSearch.selectedTrust.name)
 
           await searchPage.goToPageWithResults()
           await searchPage.clickOnSearchResultLink(2)
-          await detailsPage.expect.toBeOnTheRightPage()
+          await detailsPage.expect.toBeOnTheRightPageFor(currentSearch.selectedTrust.name)
         })
       })
 
@@ -88,7 +88,7 @@ test.describe('Search page', () => {
         await searchPage.searchForm.typeASearchTerm()
         await searchPage.searchForm.chooseItemFromAutocomplete()
         await searchPage.searchForm.submitSearch()
-        await detailsPage.expect.toBeOnTheRightPage()
+        await detailsPage.expect.toBeOnTheRightPageFor(currentSearch.selectedTrust.name)
       })
     })
 
@@ -101,7 +101,7 @@ test.describe('Search page', () => {
         await searchPage.searchForm.typeASearchTerm()
         await searchPage.searchForm.chooseItemFromAutocomplete()
         await searchPage.searchForm.submitSearch()
-        await detailsPage.expect.toBeOnTheRightPage()
+        await detailsPage.expect.toBeOnTheRightPageFor(currentSearch.selectedTrust.name)
       })
 
       test('then they should be able to change their search term to a free text search after selecting a result', async () => {
@@ -119,7 +119,7 @@ test.describe('Search page', () => {
         await searchPage.searchForm.typeADifferentSearchTerm()
         await searchPage.searchForm.chooseItemFromAutocomplete()
         await searchPage.searchForm.submitSearch()
-        await detailsPage.expect.toBeOnTheRightPage()
+        await detailsPage.expect.toBeOnTheRightPageFor(currentSearch.selectedTrust.name)
       })
 
       test('then they should see no results message if there are no matching trusts', async () => {

@@ -15,8 +15,7 @@ export class DetailsPage {
   currentSearch: CurrentSearch
   fakeTestData: FakeTestData
 
-  constructor (readonly page: Page, currentSearch: CurrentSearch, fakeTestData: FakeTestData) {
-    this.currentSearch = currentSearch
+  constructor (readonly page: Page, fakeTestData: FakeTestData) {
     this.fakeTestData = fakeTestData
     this.expect = new DetailsPageAssertions(this)
     this.trustHeading = new TrustHeaderComponent(page)
@@ -43,9 +42,14 @@ export class DetailsPage {
 class DetailsPageAssertions {
   constructor (readonly detailsPage: DetailsPage) {}
 
-  async toBeOnTheRightPage (): Promise<void> {
-    await this.detailsPage.trustHeading.expect.toContain(this.detailsPage.currentSearch.selectedTrust.name)
+  async toBeOnTheRightPageFor (trustName: string): Promise<void> {
+    await this.detailsPage.trustHeading.expect.toContain(trustName)
     await expect(this.detailsPage.pageHeadingLocator).toHaveText('Details')
+  }
+
+  async toBeOnTheRightPage (): Promise<void> {
+    const { name } = this.detailsPage.fakeTestData.getFirstTrust()
+    await this.toBeOnTheRightPageFor(name)
   }
 
   async toSeeCorrectTrustNameAndTypeInHeader (): Promise<void> {
