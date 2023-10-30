@@ -1,7 +1,6 @@
 import { test } from '@playwright/test'
 import { DetailsPage } from '../../page-object-model/trust/details-page'
 import { NotFoundPage } from '../../page-object-model/not-found-page'
-import { CurrentSearch } from '../../page-object-model/shared/search-form-component'
 import { FakeTestData } from '../../fake-data/fake-test-data'
 
 test.describe('Details page', () => {
@@ -9,7 +8,7 @@ test.describe('Details page', () => {
   let notFoundPage: NotFoundPage
 
   test.beforeEach(async ({ page }) => {
-    detailsPage = new DetailsPage(page, new CurrentSearch(), new FakeTestData())
+    detailsPage = new DetailsPage(page, new FakeTestData())
     await detailsPage.goTo()
   })
 

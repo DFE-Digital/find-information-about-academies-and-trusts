@@ -4,6 +4,7 @@ import { SearchPage } from '../page-object-model/search-page'
 import { DetailsPage } from '../page-object-model/trust/details-page'
 import { javaScriptContexts } from '../helpers'
 import { CurrentSearch } from '../page-object-model/shared/search-form-component'
+import { FakeTestData } from '../fake-data/fake-test-data'
 
 test.describe('homepage', () => {
   let homePage: HomePage
@@ -13,9 +14,10 @@ test.describe('homepage', () => {
 
   test.beforeEach(async ({ page }) => {
     currentSearch = new CurrentSearch()
+    const fakeTestData = new FakeTestData()
     homePage = new HomePage(page, currentSearch)
-    searchPage = new SearchPage(page, currentSearch)
-    detailsPage = new DetailsPage(page, currentSearch)
+    searchPage = new SearchPage(page, currentSearch, fakeTestData)
+    detailsPage = new DetailsPage(page, fakeTestData)
     await homePage.goTo()
   })
 
@@ -42,7 +44,7 @@ test.describe('homepage', () => {
         await homePage.searchForm.typeASearchTerm()
         await homePage.searchForm.chooseItemFromAutocomplete()
         await homePage.searchForm.submitSearch()
-        await detailsPage.expect.toBeOnTheRightPage()
+        await detailsPage.expect.toBeOnTheRightPageFor(currentSearch.selectedTrust.name)
       })
 
       test('then they should be able to change their search term to a free text search after selecting a result', async () => {

@@ -1,7 +1,6 @@
 import { test } from '@playwright/test'
 import { DetailsPage } from '../../page-object-model/trust/details-page'
 import { ContactsPage } from '../../page-object-model/trust/contacts-page'
-import { CurrentSearch } from '../../page-object-model/shared/search-form-component'
 import { FakeTestData } from '../../fake-data/fake-test-data'
 
 test.describe('Trust navigation', () => {
@@ -10,7 +9,7 @@ test.describe('Trust navigation', () => {
 
   test.beforeEach(async ({ page }) => {
     const fakeTestData = new FakeTestData()
-    detailsPage = new DetailsPage(page, new CurrentSearch(), fakeTestData)
+    detailsPage = new DetailsPage(page, fakeTestData)
     contactsPage = new ContactsPage(page, fakeTestData)
   })
 
