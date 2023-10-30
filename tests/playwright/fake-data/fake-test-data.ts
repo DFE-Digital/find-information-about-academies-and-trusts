@@ -5,6 +5,7 @@ export interface FakeTrust {
   address: string
   uid: string
   groupId: string
+  type: string
 }
 
 export class FakeTestData {
@@ -19,5 +20,9 @@ export class FakeTestData {
 
   getNumberOfTrustsWithNameMatching (searchTerm: string): number {
     return this._fakeTrusts.filter(trust => trust.name?.toLowerCase().includes(searchTerm.toLowerCase())).length
+  }
+
+  getFirstTrust (): FakeTrust {
+    return this._fakeTrusts[0]
   }
 }

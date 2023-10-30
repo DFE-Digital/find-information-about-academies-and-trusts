@@ -1,14 +1,14 @@
 import { test } from '@playwright/test'
 import { ContactsPage } from '../../page-object-model/trust/contacts-page'
 import { NotFoundPage } from '../../page-object-model/not-found-page'
-import { MockTrustsProvider } from '../../mocks/mock-trusts-provider'
+import { FakeTestData } from '../../fake-data/fake-test-data'
 
 test.describe('Contacts page', () => {
   let contactsPage: ContactsPage
   let notFoundPage: NotFoundPage
 
   test.beforeEach(async ({ page }) => {
-    contactsPage = new ContactsPage(page)
+    contactsPage = new ContactsPage(page, new FakeTestData())
     await contactsPage.goTo()
   })
 
@@ -22,10 +22,10 @@ test.describe('Contacts page', () => {
     })
 
     test('then they should see a not found message', async () => {
-      await contactsPage.goTo('')
+      await contactsPage.goToPageWithoutUid()
       await notFoundPage.expect.toBeShownNotFoundMessage()
 
-      await contactsPage.goTo(MockTrustsProvider.nonExistingTrustUkprn)
+      await contactsPage.goToPageWithUidThatDoesNotExist()
       await notFoundPage.expect.toBeShownNotFoundMessage()
     })
   })

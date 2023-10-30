@@ -5,7 +5,7 @@ import { javaScriptContexts } from '../helpers'
 import { CurrentSearch } from '../page-object-model/shared/search-form-component'
 import { FakeTestData } from '../fake-data/fake-test-data'
 
-test.describe.only('Search page', () => {
+test.describe('Search page', () => {
   let searchPage: SearchPage
   let detailsPage: DetailsPage
   let currentSearch: CurrentSearch
@@ -14,7 +14,7 @@ test.describe.only('Search page', () => {
     currentSearch = new CurrentSearch()
     const fakeTestData = new FakeTestData()
     searchPage = new SearchPage(page, currentSearch, fakeTestData)
-    detailsPage = new DetailsPage(page, currentSearch)
+    detailsPage = new DetailsPage(page, currentSearch, fakeTestData)
   })
 
   for (const javaScriptContext of javaScriptContexts) {
