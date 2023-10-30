@@ -20,4 +20,12 @@ class TrustHeaderComponentAssertions {
   async toSeeCorrectTrustNameAndType (name: string, type: string): Promise<void> {
     await expect(this.trustHeader.locator).toHaveText(`${name} ${type}`)
   }
+
+  async toHaveMultiAcademyTrustType (): Promise<void> {
+    await expect(this.trustHeader.locator).toContainText('Multi-academy trust')
+  }
+
+  async toHaveSingleAcademyTrustType (): Promise<void> {
+    await expect(this.trustHeader.locator).toContainText('Single-academy trust')
+  }
 }
