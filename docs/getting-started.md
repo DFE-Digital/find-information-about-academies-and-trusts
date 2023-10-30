@@ -145,6 +145,9 @@ This will add an authorisation header to each playwright request which should ma
 
 For more information on running and debugging Playwright tests it is worth familiarising yourself with the Playwright docs on [debugging](https://playwright.dev/docs/debug) and [command line flags](https://playwright.dev/docs/test-cli).
 
+> **Warning**
+> There can be some issues with running Docker on Windows. [See this to fix it](.\docker-issues-on-windows.md)
+
 ### Integration and Deployment tests
 
 [Integration and Deployment tests](./test-approach.md) are also run in [Playwright](https://playwright.dev/), but do not have dependencies mocked. If you wish to run these locally you will need to run the app locally before running your tests. Alternatively you can run them against deployed dev or test environments.
