@@ -1,7 +1,7 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { TrustHeaderComponent } from '../shared/trust-header-component'
 import { TrustNavigationComponent } from '../shared/trust-navigation-component'
-import { MockTrustsProvider } from '../../mocks/mock-trusts-provider'
+import { FakeTestData, FakeTrust } from '../../fake-data/fake-test-data'
 
 export class OverviewPage {
   readonly expect: OverviewPageAssertions
@@ -11,7 +11,11 @@ export class OverviewPage {
   readonly trustSummaryCard: Locator
   readonly trustOfstedTable: Locator
 
-  constructor (readonly page: Page) {
+  fakeTestData: FakeTestData
+  currentTrust: FakeTrust
+
+  constructor (readonly page: Page, fakeTestData: FakeTestData) {
+    this.fakeTestData = fakeTestData
     this.expect = new OverviewPageAssertions(this)
     this.trustHeading = new TrustHeaderComponent(page)
     this.trustNavigation = new TrustNavigationComponent(page)
@@ -20,10 +24,17 @@ export class OverviewPage {
     this.trustOfstedTable = page.locator('[data-testid="ofsted-ratings"]')
   }
 
-  async goTo (
-    ukprn: string = MockTrustsProvider.expectedFormattedTrustResult.ukprn
-  ): Promise<void> {
-    await this.page.goto(`/trusts/overview/${ukprn}`)
+  async goTo (): Promise<void> {
+    this.currentTrust = this.fakeTestData.getFirstTrust()
+    await this.page.goto(`/trusts/overview/${this.currentTrust.uid}`)
+  }
+
+  async goToPageWithoutUid (): Promise<void> {
+    await this.page.goto('/trusts/overview')
+  }
+
+  async goToPageWithUidThatDoesNotExist (): Promise<void> {
+    await this.page.goto('/trusts/overview/0000')
   }
 }
 
@@ -32,16 +43,15 @@ class OverviewPageAssertions {
 
   async toBeOnTheRightPageFor (trust: string): Promise<void> {
     await this.overviewPage.trustHeading.expect.toContain(trust)
-    await expect(this.overviewPage.pageHeadingLocator).toHaveText('Overview')
+    await this.toBeOnTheRightPage()
   }
 
   async toBeOnTheRightPage (): Promise<void> {
-    const { name } = MockTrustsProvider.expectedFormattedTrustResult
-    await this.toBeOnTheRightPageFor(name)
+    await expect(this.overviewPage.pageHeadingLocator).toHaveText('Overview')
   }
 
   async toSeeCorrectTrustNameAndTypeInHeader (): Promise<void> {
-    const { name, type } = MockTrustsProvider.expectedFormattedTrustResult
+    const { name, type } = this.overviewPage.fakeTestData.getFirstTrust()
     await this.overviewPage.trustHeading.expect.toSeeCorrectTrustNameAndType(name, type)
   }
 
