@@ -8,7 +8,7 @@ Use this documentation to configure your local development environment.
   - [Build and watch frontend assets](#build-and-watch-frontend-assets)
   - [Build and run dotnet project](#build-and-run-dotnet-project)
 - [Get it working (with Docker)](#get-it-working-with-docker)
-  - [Run the fake database for local development](#run-the-fake-database-for-local-development)
+  - [Known issues with Docker](./docker-issues.md)
 
 ## Get it working (without Docker)
 
@@ -24,8 +24,7 @@ Use the dotnet user secrets tool to set local secrets, any missing required secr
 
 ```bash
 cd DfE.FindInformationAcademiesTrusts
-dotnet user-secrets set "AcademiesApi:Endpoint" "[secret goes here]"
-dotnet user-secrets set "AcademiesApi:Key" "[secret goes here]"
+
 dotnet user-secrets set "AzureAd:ClientID" "[secret goes here]"
 dotnet user-secrets set "AzureAd:ClientSecret" "[secret goes here]"
 dotnet user-secrets set "AzureAd:TenantID" "[secret goes here]"
@@ -56,23 +55,39 @@ Note that the default `ASPNETCORE_ENVIRONMENT` for local development is `"LocalD
 
 ## Get it working (with Docker)
 
+> **Warning**
+> If you have trouble getting the docker compose files to work, see [known issues with Docker](./docker-issues.md).
+
 Before running the application in Docker:
 
-- ensure the Docker engine is running.
+- ensure the Docker engine is running
 - navigate to the `docker` directory
-- copy the `.env.example` file, save as `.env` and populate the application secrets within
 
-If you are running on Apple M1 chip the SQL Server image may not work. This can be fixed by:
+Then you can either run:
 
-- Docker Settings > General: [X] Use virtualization framework and
-- Docker Settings > Features in Development: [X] Use Rosetta...
+1. Just the application
 
-There are two Docker compose files in the `docker` directory:
+    The `docker-compose.yml` is used by the GitHub actions pipeline and is as close to the real application as you can get on a local machine.
 
-```bash
-docker compose -f docker-compose.yml up -d --build     # build and run the application alone
-docker compose -f docker-compose.ci.yml up -d --build  # build and run the application and the mock api together -> most useful for tests
-```
+    First copy the `.env.example` file, save as `.env` and populate the application secrets within. Then build and start the container:
+
+    ```bash
+    docker compose -f docker-compose.yml up -d --build     # build and run the application alone
+    ```
+
+1. The application and the fake database
+
+    The `docker-compose.ci.yml` file is used for running our Playwright tests in an isolated environment against a fake database — which you can also use for local development. Follow the steps above to run the docker compose file, and then update your dotnet user secrets to point to the database in the docker container:
+
+    ```bash
+    dotnet user-secrets set "ConnectionStrings:AcademiesDb" "Server=localhost;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true"
+    ```
+
+    You can then run the application as normal.
+
+    ```bash
+    docker compose -f docker-compose.ci.yml up -d --build  # build and run the application and a local db containing fake data -> most useful for tests
+    ```
 
 Once you are done, ensure that you stop the container(s)!
 
@@ -80,13 +95,3 @@ Once you are done, ensure that you stop the container(s)!
 docker compose -f docker-compose.yml down
 docker compose -f docker-compose.ci.yml down
 ```
-
-### Run the fake database for local development
-
-The `docker-compose.ci.yml` file is used for running our Playwright tests in an isolated environment against a fake database—which you can also use for local development. Follow the steps above to run the docker compose file, and then update your dotnet user secrets to point to the database in the docker container:
-
-```bash
-dotnet user-secrets set "ConnectionStrings:AcademiesDb" "Server=localhost;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true"
-```
-
-You can then run the application as normal.
