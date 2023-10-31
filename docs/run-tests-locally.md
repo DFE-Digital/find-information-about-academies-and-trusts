@@ -81,15 +81,21 @@ For more information on running and debugging Playwright tests it is worth famil
 
 ### Integration and Deployment tests
 
-[Integration and Deployment tests](./test-approach.md) are also run in [Playwright](https://playwright.dev/), but do not have dependencies mocked. If you wish to run these locally you will need to run the app locally before running your tests. Alternatively you can run them against deployed dev or test environments.
+[Integration and Deployment tests](./test-approach.md) are also run in [Playwright](https://playwright.dev/), but do not have dependencies mocked. In the pipeline these will be run against deployed environments, but if you wish to run these locally you will need to run the app locally, as you will not be able to run these tests against the docker containers.
 
-1. Run the .NET application using your preferred IDE or by running `dotnet run`
+1. Update the dotnet user-secrets for the application to bypass authentication:
+
+```bash
+cd DfE.FindInformationAcademiesTrusts
+dotnet user-secrets set "TestOverride:PlaywrightTestSecret" "TestSuperSecret"
+```
+
+2. Run the .NET application using your preferred IDE or by running `dotnet run`
 2. Configure/create `tests/playwright/.env` and add the following:
 
 ```dotenv
 PLAYWRIGHT_BASEURL="http://localhost:5163" # This should be the localhost port the application is running on, or the deployed application url you wish to test against
-TEST_USER_ACCOUNT_NAME="<insert here>" # Include the domain name
-TEST_USER_ACCOUNT_PASSWORD="<insert here>" # 
+AUTH_BYPASS_SECRET="TestSuperSecret"
 ```
 
 3. Open a terminal to run your tests
@@ -97,7 +103,9 @@ TEST_USER_ACCOUNT_PASSWORD="<insert here>" #
 ```shell
  cd DfE.FindInformationAcademiesTrusts.UnitTests/playwright
  npm install
+ npx playwright install
  npm run test:integration
+ npm run test:deployment
 ```
 
 ### Owasp Zap security tests
