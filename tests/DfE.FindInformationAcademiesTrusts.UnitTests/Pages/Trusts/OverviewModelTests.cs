@@ -20,7 +20,7 @@ public class OverviewModelTests
     }
 
     [Fact]
-    public async void OnGetAsync_should_fetch_a_trust_by_ukprn()
+    public async void OnGetAsync_should_fetch_a_trust_by_Uid()
     {
         var dummyTrust = _dummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider.Setup(s => s.GetTrustByUidAsync(dummyTrust.Uid))
@@ -32,7 +32,7 @@ public class OverviewModelTests
     }
 
     [Fact]
-    public async void Ukprn_should_be_empty_string_by_default()
+    public async void Uid_should_be_empty_string_by_default()
     {
         await _sut.OnGetAsync();
         _sut.Uid.Should().BeEquivalentTo(string.Empty);
@@ -62,7 +62,7 @@ public class OverviewModelTests
     }
 
     [Fact]
-    public async void OnGetAsync_should_return_not_found_result_if_Ukprn_is_not_provided()
+    public async void OnGetAsync_should_return_not_found_result_if_Uid_is_not_provided()
     {
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
