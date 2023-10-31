@@ -1,7 +1,7 @@
 import { test } from '@playwright/test'
 import { OverviewPage } from '../../page-object-model/trust/overview-page'
 import { NotFoundPage } from '../../page-object-model/not-found-page'
-import { MockTrustsProvider } from '../../mocks/mock-trusts-provider'
+import { FakeTestData } from '../../fake-data/fake-test-data'
 import { javaScriptContexts } from '../../helpers'
 
 test.describe('Overview page', () => {
@@ -9,7 +9,7 @@ test.describe('Overview page', () => {
   let notFoundPage: NotFoundPage
 
   test.beforeEach(async ({ page }) => {
-    overviewPage = new OverviewPage(page)
+    overviewPage = new OverviewPage(page, new FakeTestData())
     await overviewPage.goTo()
   })
 
@@ -33,10 +33,10 @@ test.describe('Overview page', () => {
         })
 
         test('then they should see a not found message', async () => {
-          await overviewPage.goTo('')
+          await overviewPage.goToPageWithoutUid()
           await notFoundPage.expect.toBeShownNotFoundMessage()
 
-          await overviewPage.goTo(MockTrustsProvider.nonExistingTrustUkprn)
+          await overviewPage.goToPageWithUidThatDoesNotExist()
           await notFoundPage.expect.toBeShownNotFoundMessage()
         })
       })
