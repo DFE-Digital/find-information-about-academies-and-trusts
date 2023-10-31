@@ -14,8 +14,11 @@ export class SearchPage {
   testData: FakeTestData
   numberOfResultsOnOnePage = 20
 
-  constructor (readonly page: Page, currentSearch: CurrentSearch, fakeTestData: FakeTestData) {
-    this.testData = fakeTestData
+  constructor (readonly page: Page, currentSearch: CurrentSearch, fakeTestData?: FakeTestData) {
+    if (fakeTestData !== undefined) {
+      this.testData = fakeTestData
+    }
+
     this.expect = new SearchPageAssertions(this)
     this.searchForm = new SearchFormComponent(
       page,
