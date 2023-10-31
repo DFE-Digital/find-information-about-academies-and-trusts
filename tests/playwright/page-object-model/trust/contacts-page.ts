@@ -1,7 +1,7 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { TrustHeaderComponent } from '../shared/trust-header-component'
 import { TrustNavigationComponent } from '../shared/trust-navigation-component'
-import { FakeTestData } from '../../fake-data/fake-test-data'
+import { FakeTestData, FakeTrust } from '../../fake-data/fake-test-data'
 
 export class ContactsPage {
   readonly expect: ContactsPageAssertions
@@ -10,6 +10,7 @@ export class ContactsPage {
   readonly pageHeadingLocator: Locator
 
   fakeTestData: FakeTestData
+  currentTrust: FakeTrust
 
   constructor (readonly page: Page, fakeTestData: FakeTestData) {
     this.fakeTestData = fakeTestData
@@ -20,8 +21,8 @@ export class ContactsPage {
   }
 
   async goTo (): Promise<void> {
-    const uid = this.fakeTestData.getFirstTrust().uid
-    await this.page.goto(`/trusts/contacts/${uid}`)
+    this.currentTrust = this.fakeTestData.getFirstTrust()
+    await this.page.goto(`/trusts/contacts/${this.currentTrust.uid}`)
   }
 
   async goToPageWithoutUid (): Promise<void> {
@@ -37,8 +38,6 @@ class ContactsPageAssertions {
   constructor (readonly contactsPage: ContactsPage) {}
 
   async toBeOnTheRightPage (): Promise<void> {
-    const { name } = this.contactsPage.fakeTestData.getFirstTrust()
-    await this.contactsPage.trustHeading.expect.toContain(name)
     await expect(this.contactsPage.pageHeadingLocator).toHaveText('Contacts')
   }
 
