@@ -27,17 +27,23 @@ Accessibility and UI tests are written using [Playwright](https://playwright.dev
 **If running tests against the docker instance of the app:**
 ```dotenv
 PLAYWRIGHT_BASEURL="http://localhost/"
+AUTH_BYPASS_SECRET="TestSuperSecret"
 ```
 
 **If running tests in your local environment**
 ```dotenv
 PLAYWRIGHT_BASEURL="http://localhost:{port} # e.g. http://localhost:5163
+AUTH_BYPASS_SECRET="TestSuperSecret"
 ```
 
-For your local environment you will also need to change your database connection string (dotnet user secrets) to point to the docker instance:
+For your local environment you will also need to update your dotnet user secrets with the following: 
 
-```
+```bash
+# add testdb connection string
 dotnet user-secrets set "ConnectionStrings:AcademiesDb" "Server=localhost;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true"
+
+# add authorization header for tests - which matches the auth bypass secret set in the playwright .env file
+dotnet user-secrets set "TestOverride:PlaywrightTestSecret" "TestSuperSecret"
 ```
 
 2. Open a terminal in your repository and run:
