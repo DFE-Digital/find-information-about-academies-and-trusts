@@ -2,7 +2,7 @@ import { Locator, Page, expect } from '@playwright/test'
 import { TrustHeaderComponent } from '../shared/trust-header-component'
 import { TrustNavigationComponent } from '../shared/trust-navigation-component'
 import { CurrentSearch } from '../shared/search-form-component'
-import { FakeTestData } from '../../fake-data/fake-test-data'
+import { FakeTestData, FakeTrust } from '../../fake-data/fake-test-data'
 
 export class DetailsPage {
   readonly expect: DetailsPageAssertions
@@ -14,6 +14,7 @@ export class DetailsPage {
 
   currentSearch: CurrentSearch
   fakeTestData: FakeTestData
+  currentTrust: FakeTrust
 
   constructor (readonly page: Page, fakeTestData: FakeTestData) {
     this.fakeTestData = fakeTestData
@@ -26,8 +27,8 @@ export class DetailsPage {
   }
 
   async goTo (): Promise<void> {
-    const uid = this.fakeTestData.getFirstTrust().uid
-    await this.page.goto(`/trusts/details/${uid}`)
+    this.currentTrust = this.fakeTestData.getFirstTrust()
+    await this.page.goto(`/trusts/details/${this.currentTrust.uid}`)
   }
 
   async goToPageWithoutUid (): Promise<void> {
@@ -54,12 +55,11 @@ class DetailsPageAssertions {
 
   async toBeOnTheRightPageFor (trustName: string): Promise<void> {
     await this.detailsPage.trustHeading.expect.toContain(trustName)
-    await expect(this.detailsPage.pageHeadingLocator).toHaveText('Details')
+    await this.toBeOnTheRightPage()
   }
 
   async toBeOnTheRightPage (): Promise<void> {
-    const { name } = this.detailsPage.fakeTestData.getFirstTrust()
-    await this.toBeOnTheRightPageFor(name)
+    await expect(this.detailsPage.pageHeadingLocator).toHaveText('Details')
   }
 
   async toSeeCorrectTrustNameAndTypeInHeader (): Promise<void> {
