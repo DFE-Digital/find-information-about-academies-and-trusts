@@ -195,18 +195,6 @@ internal static class Program
             });
     }
 
-    private static bool ShouldSkipAuthentication(WebApplicationBuilder builder)
-    {
-        if (!builder.Environment.IsLocalDevelopment() && !builder.Environment.IsContinuousIntegration())
-            return false;
-
-        //We need to be sure that this is actually an isolated environment with no access to production data
-        var databaseConnectionString = builder.Configuration.GetConnectionString("AcademiesDb")?.ToLower();
-        return string.IsNullOrWhiteSpace(databaseConnectionString)
-               || databaseConnectionString.Contains("testdb")
-               || databaseConnectionString.Contains("localhost");
-    }
-
     private static void ReconfigureLogging(WebApplicationBuilder builder)
     {
         if (builder.Environment.IsLocalDevelopment() || builder.Environment.IsContinuousIntegration())
