@@ -42,12 +42,12 @@ flowchart TB
   subgraph predeploy[Isolated CI environment]
     predeploy1[Automated UI tests]
     predeploy2[Automated accessibility tests]
-    predeploy3[Automated security tests - ZAP]
   end
 
   subgraph dev[Development environment]
     dev1[Deployment smoke tests]
     dev2[Integration tests]
+    dev3[Automated security tests - ZAP]
   end
 
   predeploy-->testenvapproval
@@ -82,7 +82,7 @@ flowchart TB
   dod-->prod
 
   subgraph prod[Production environment]
-    prod1[Deployment smoke tests]
+    prod1[Manual smoke test]
   end
 
   prod-->adhoc
@@ -128,7 +128,7 @@ Component tests ensure that the units within the application work together as ex
 
 #### UI
 
-UI tests verify that the UI behaves as it should under both happy and unhappy path conditions. These tests are are run in an isolated environment with external dependencies (such as APIs) mocked.
+UI tests verify that the UI behaves as it should under both happy and unhappy path conditions. These tests are are run in an isolated environment with external dependencies (such as APIs and databases) mocked.
 
 #### Integration
 
