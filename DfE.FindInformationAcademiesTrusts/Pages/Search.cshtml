@@ -54,7 +54,7 @@
                 <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
                   UID:
                 </dt>
-                <dd class="govuk-summary-list__value app-search-results-summary-list__item" data-testid="uid" >
+                <dd class="govuk-summary-list__value app-search-results-summary-list__item" data-testid="uid">
                   @Html.DisplayFor(modelItem => trust.Uid)
                 </dd>
               </div>
@@ -66,16 +66,7 @@
     }
     else
     {
-      <p class="govuk-body">Check the spelling of the trust name.</p>
-
-      <p class="govuk-body">Enter a reference number in the right format. For example:</p>
-
-      <ul class="govuk-list govuk-list--bullet">
-        <li>TRN (trust reference number) or Group ID - TR00123</li>
-        <li>UID (unique identifier) - 2034</li>
-        <li>UKPRN (UK provider number) - 100023456</li>
-        <li>Companies House number - 00123456</li>
-      </ul>
+      <p class="govuk-body">Check the spelling of the trust name. Make sure you include the right punctuation.</p>
     }
 
   </section>
