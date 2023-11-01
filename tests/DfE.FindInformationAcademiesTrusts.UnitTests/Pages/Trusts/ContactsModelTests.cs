@@ -8,12 +8,10 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 public class ContactsModelTests
 {
     private readonly Mock<ITrustProvider> _mockTrustProvider;
-    private readonly DummyTrustFactory _dummyTrustFactory;
     private readonly ContactsModel _sut;
 
     public ContactsModelTests()
     {
-        _dummyTrustFactory = new DummyTrustFactory();
         _mockTrustProvider = new Mock<ITrustProvider>();
         _sut = new ContactsModel(_mockTrustProvider.Object);
     }
@@ -21,7 +19,7 @@ public class ContactsModelTests
     [Fact]
     public async void OnGetAsync_should_fetch_a_trust_by_Uid()
     {
-        var dummyTrust = _dummyTrustFactory.GetDummyTrust("1234");
+        var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider.Setup(s => s.GetTrustByUidAsync(dummyTrust.Uid))
             .ReturnsAsync(dummyTrust);
         _sut.Uid = dummyTrust.Uid;

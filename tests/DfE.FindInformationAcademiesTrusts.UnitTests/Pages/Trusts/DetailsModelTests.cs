@@ -9,11 +9,9 @@ public class DetailsModelTests
 {
     private readonly Mock<ITrustProvider> _mockTrustProvider;
     private readonly DetailsModel _sut;
-    private readonly DummyTrustFactory _dummyTrustFactory;
 
     public DetailsModelTests()
     {
-        _dummyTrustFactory = new DummyTrustFactory();
         _mockTrustProvider = new Mock<ITrustProvider>();
         _sut = new DetailsModel(_mockTrustProvider.Object);
     }
@@ -21,7 +19,7 @@ public class DetailsModelTests
     [Fact]
     public async void OnGetAsync_should_fetch_a_trust_by_uid()
     {
-        var dummyTrust = _dummyTrustFactory.GetDummyTrust("1234");
+        var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider.Setup(s => s.GetTrustByUidAsync(dummyTrust.Uid))
             .ReturnsAsync(dummyTrust);
         _sut.Uid = dummyTrust.Uid;
