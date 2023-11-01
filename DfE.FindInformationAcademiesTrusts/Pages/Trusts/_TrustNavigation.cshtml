@@ -19,17 +19,17 @@
       <div class="govuk-caption-m app-side-navigation__title">@ViewConstants.AboutTheTrustSectionName</div>
       <ul class="ds_side-navigation__list app-side-navigation__list">
         <li class="ds_side-navigation__item app-side-navigation-highlight-item">
-          <a asp-page="./Details" asp-route-ukprn="@Model.Trust.Ukprn" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Details")">
+          <a asp-page="./Details" asp-route-uid="@Model.Trust.Uid" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Details")">
             <span class="visually-hidden">Trust</span>Details
           </a>
         </li>
         <li class="ds_side-navigation__item app-side-navigation-highlight-item">
-          <a asp-page="./Overview" asp-route-ukprn="@Model.Trust.Ukprn" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Overview")">
+          <a asp-page="./Overview" asp-route-uid="@Model.Trust.Uid" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Overview")">
             <span class="visually-hidden">Trust</span>Overview
           </a>
         </li>
         <li class="ds_side-navigation__item app-side-navigation-highlight-item">
-          <a asp-page="./Contacts" asp-route-ukprn="@Model.Trust.Ukprn" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Contacts")">
+          <a asp-page="./Contacts" asp-route-uid="@Model.Trust.Uid" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Contacts")">
             <span class="visually-hidden">Trust</span>Contacts
           </a>
         </li>

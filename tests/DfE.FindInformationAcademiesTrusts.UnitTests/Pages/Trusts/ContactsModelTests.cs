@@ -1,4 +1,6 @@
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
@@ -6,29 +8,32 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 public class ContactsModelTests
 {
     private readonly Mock<ITrustProvider> _mockTrustProvider;
+    private readonly DummyTrustFactory _dummyTrustFactory;
     private readonly ContactsModel _sut;
 
     public ContactsModelTests()
     {
+        _dummyTrustFactory = new DummyTrustFactory();
         _mockTrustProvider = new Mock<ITrustProvider>();
         _sut = new ContactsModel(_mockTrustProvider.Object);
     }
 
     [Fact]
-    public async void OnGetAsync_should_fetch_a_trust_by_ukprn()
+    public async void OnGetAsync_should_fetch_a_trust_by_Uid()
     {
-        _mockTrustProvider.Setup(s => s.GetTrustByUkprnAsync("1234").Result)
-            .Returns(new Trust("test", "test", "Multi-academy trust"));
-        _sut.Ukprn = "1234";
+        var dummyTrust = _dummyTrustFactory.GetDummyTrust("1234");
+        _mockTrustProvider.Setup(s => s.GetTrustByUidAsync(dummyTrust.Uid))
+            .ReturnsAsync(dummyTrust);
+        _sut.Uid = dummyTrust.Uid;
         await _sut.OnGetAsync();
-        _sut.Trust.Should().BeEquivalentTo(new Trust("test", "test", "Multi-academy trust"));
+        _sut.Trust.Should().BeEquivalentTo(dummyTrust);
     }
 
     [Fact]
-    public async void Ukprn_should_be_empty_string_by_default()
+    public async void Uid_should_be_empty_string_by_default()
     {
         await _sut.OnGetAsync();
-        _sut.Ukprn.Should().BeEquivalentTo(string.Empty);
+        _sut.Uid.Should().BeEquivalentTo(string.Empty);
     }
 
     [Fact]
@@ -46,17 +51,17 @@ public class ContactsModelTests
     [Fact]
     public async void OnGetAsync_should_return_not_found_result_if_trust_is_not_found()
     {
-        _mockTrustProvider.Setup(s => s.GetTrustByUkprnAsync("1111").Result)
-            .Returns((Trust?)null);
+        _mockTrustProvider.Setup(s => s.GetTrustByUidAsync("1111"))
+            .ReturnsAsync((Trust?)null);
 
-        _sut.Ukprn = "1111";
+        _sut.Uid = "1111";
 
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
 
     [Fact]
-    public async void OnGetAsync_should_return_not_found_result_if_Ukprn_is_not_provided()
+    public async void OnGetAsync_should_return_not_found_result_if_Uid_is_not_provided()
     {
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();

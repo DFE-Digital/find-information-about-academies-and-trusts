@@ -1,7 +1,8 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { TrustHeaderComponent } from '../shared/trust-header-component'
 import { TrustNavigationComponent } from '../shared/trust-navigation-component'
-import { MockTrustsProvider } from '../../mocks/mock-trusts-provider'
+import { CurrentSearch } from '../shared/search-form-component'
+import { FakeTestData, FakeTrust } from '../../fake-data/fake-test-data'
 
 export class DetailsPage {
   readonly expect: DetailsPageAssertions
@@ -11,7 +12,12 @@ export class DetailsPage {
   readonly trustDetailsCardLocator: Locator
   readonly referenceNumbersCardLocator: Locator
 
-  constructor (readonly page: Page) {
+  currentSearch: CurrentSearch
+  fakeTestData: FakeTestData
+  currentTrust: FakeTrust
+
+  constructor (readonly page: Page, fakeTestData: FakeTestData) {
+    this.fakeTestData = fakeTestData
     this.expect = new DetailsPageAssertions(this)
     this.trustHeading = new TrustHeaderComponent(page)
     this.trustNavigation = new TrustNavigationComponent(page)
@@ -20,28 +26,44 @@ export class DetailsPage {
     this.referenceNumbersCardLocator = this.page.getByText('Reference numbers UID')
   }
 
-  async goTo (
-    ukprn: string = MockTrustsProvider.expectedFormattedTrustResult.ukprn
-  ): Promise<void> {
-    await this.page.goto(`/trusts/details/${ukprn}`)
+  async goTo (): Promise<void> {
+    this.currentTrust = this.fakeTestData.getFirstTrust()
+    await this.page.goto(`/trusts/details/${this.currentTrust.uid}`)
+  }
+
+  async goToPageWithoutUid (): Promise<void> {
+    await this.page.goto('/trusts/details')
+  }
+
+  async goToPageWithUidThatDoesNotExist (): Promise<void> {
+    await this.page.goto('/trusts/details/0000')
+  }
+
+  async goToMultiAcademyTrust (): Promise<void> {
+    const uid = this.fakeTestData.getMultiAcademyTrust().uid
+    await this.page.goto(`/trusts/details/${uid}`)
+  }
+
+  async goToSingleAcademyTrust (): Promise<void> {
+    const uid = this.fakeTestData.getSingleAcademyTrust().uid
+    await this.page.goto(`/trusts/details/${uid}`)
   }
 }
 
 class DetailsPageAssertions {
   constructor (readonly detailsPage: DetailsPage) {}
 
-  async toBeOnTheRightPageFor (trust: string): Promise<void> {
-    await this.detailsPage.trustHeading.expect.toContain(trust)
-    await expect(this.detailsPage.pageHeadingLocator).toHaveText('Details')
+  async toBeOnTheRightPageFor (trustName: string): Promise<void> {
+    await this.detailsPage.trustHeading.expect.toContain(trustName)
+    await this.toBeOnTheRightPage()
   }
 
   async toBeOnTheRightPage (): Promise<void> {
-    const { name } = MockTrustsProvider.expectedFormattedTrustResult
-    await this.toBeOnTheRightPageFor(name)
+    await expect(this.detailsPage.pageHeadingLocator).toHaveText('Details')
   }
 
   async toSeeCorrectTrustNameAndTypeInHeader (): Promise<void> {
-    const { name, type } = MockTrustsProvider.expectedFormattedTrustResult
+    const { name, type } = this.detailsPage.fakeTestData.getFirstTrust()
     await this.detailsPage.trustHeading.expect.toSeeCorrectTrustNameAndType(name, type)
   }
 

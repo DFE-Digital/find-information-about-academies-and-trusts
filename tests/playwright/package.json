@@ -9,13 +9,12 @@
     "test:a11y": "npx playwright test accessibility-tests/* --config=\"playwright.ci.config.ts\" --project=chromium --project=firefox --project=webkit --project=\"Microsoft Edge\"",
     "test:ui": "npx playwright test ui-tests/* --config=\"playwright.ci.config.ts\" --project=chromium --project=firefox --project=webkit --project=\"Microsoft Edge\"",
     "test:ci": "npx playwright test accessibility-tests/* ui-tests/* --config=\"playwright.ci.config.ts\" --project=chromium --project=firefox --project=webkit --project=\"Microsoft Edge\"",
+    "test:a11y:trace": "npx playwright test accessibility-tests/* --config=\"playwright.ci.config.ts\" --project=chromium --trace=on",
     "test:ui:trace": "npx playwright test ui-tests/* --config=\"playwright.ci.config.ts\" --project=chromium --trace=on",
     "test:deployment": "npx playwright test --project=\"deployment-tests\"",
     "test:integration": "npx playwright test --project=\"integration-tests\"",
     "docker:start": "docker compose -f ../../docker/docker-compose.ci.yml up -d --build",
-    "docker:stop": "docker compose -f ../../docker/docker-compose.ci.yml down",
-    "docker:wiremock": "docker run -itd --rm --name wiremock-container -p 8080:8080 wiremock/wiremock:2.32.0 --record-mappings --verbose",
-    "docker:wiremock:stop": "docker stop wiremock-container"
+    "docker:stop": "docker compose -f ../../docker/docker-compose.ci.yml down"
   },
   "keywords": [],
   "author": "",
@@ -25,7 +24,6 @@
     "@playwright/test": "^1.34.3",
     "dotenv": "^16.1.3",
     "ts-standard": "^12.0.2",
-    "wiremock-captain": "^3.3.0",
     "zaproxy": "^2.0.0-rc.1"
   },
   "ts-standard": {

@@ -5,30 +5,21 @@ export default defineConfig({
   ...baseConfig,
   projects: [
     {
-      name: 'mock-dependencies',
-      testMatch: /.mocks.setup\.ts/
-    },
-    {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-      dependencies: ['mock-dependencies']
+      use: { ...devices['Desktop Chrome'] }
     },
-
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-      dependencies: ['mock-dependencies']
+      use: { ...devices['Desktop Firefox'] }
     },
 
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-      dependencies: ['mock-dependencies']
+      use: { ...devices['Desktop Safari'] }
     },
     {
       name: 'Microsoft Edge',
-      use: { ...devices['Desktop Edge'], channel: 'msedge' },
-      dependencies: ['mock-dependencies']
+      use: { ...devices['Desktop Edge'], channel: 'msedge' }
     }
   ]
 })

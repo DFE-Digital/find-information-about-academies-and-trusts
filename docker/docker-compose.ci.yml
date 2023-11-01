@@ -1,10 +1,35 @@
 version: "3.8"
 services:
-  wiremock:
-    image: wiremock/wiremock:latest-alpine
+  testdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: mySuperStrong_pa55word!!!
     ports:
-      - 8080:8080
-    command: --disable-banner
+      - "1433:1433"
+    networks:
+      - test-ci
+  testdb-health:
+    image: mcr.microsoft.com/mssql-tools:latest
+    command: /bin/bash -c "touch /var/log/sqlcmd.log && tail -f /var/log/sqlcmd.log"
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S testdb -U sa -P 'mySuperStrong_pa55word!!!' -o /var/log/sqlcmd.log
+      interval: "2s"
+      retries: 10
+    depends_on:
+      - testdb
+    networks:
+      - test-ci
+  testdb-import:
+    build:
+      context: ..
+      dockerfile: docker/AcademiesTestDb.Dockerfile
+      args:
+        DB_PASSWORD: mySuperStrong_pa55word!!!
+    command: /bin/bash -c "/opt/mssql-tools/bin/sqlcmd -S testdb -U sa -P "mySuperStrong_pa55word!!!" -d master -i createScript.sql ; /opt/mssql-tools/bin/sqlcmd -S testdb -U sa -P "mySuperStrong_pa55word!!!" -i insertScript.sql"
+    depends_on:
+      testdb-health:
+        condition: service_healthy
     networks:
       - test-ci
   webapp:
@@ -12,15 +37,16 @@ services:
       context: ..
       dockerfile: docker/Dockerfile
     command: /bin/bash -c "./docker-entrypoint.sh dotnet DfE.FindInformationAcademiesTrusts.dll"
+    depends_on:
+      - testdb-import
     ports:
       - 80:80/tcp
     networks:
       - test-ci
     environment:
       - ASPNETCORE_ENVIRONMENT=CI
-      - AcademiesApi__Endpoint=http://wiremock:8080
-      - AcademiesApi__Key=00000000-0000-0000-000-000000000000
       - TestOverride__PlaywrightTestSecret=TestSuperSecret
+      - ConnectionStrings__AcademiesDb=Server=testdb;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true;
 
 networks:
   test-ci:

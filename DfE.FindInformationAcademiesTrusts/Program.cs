@@ -1,12 +1,14 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using DfE.FindInformationAcademiesTrusts.Authorization;
+using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Serilog;
 
@@ -149,16 +151,14 @@ internal static class Program
 
     private static void AddDependenciesTo(WebApplicationBuilder builder)
     {
+        builder.Services.AddDbContext<AcademiesDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("AcademiesDb") ??
+                                 throw new InvalidOperationException("Connection string 'AcademiesDb' not found.")));
+
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
+        builder.Services.AddScoped<ITrustHelper, TrustHelper>();
         builder.Services.AddScoped<IAuthorizationHandler, HeaderRequirementHandler>();
-        builder.Services.AddHttpClient("AcademiesApi", (provider, httpClient) =>
-        {
-            var academiesApiOptions = provider.GetRequiredService<IOptions<AcademiesApiOptions>>();
-            httpClient.BaseAddress = new Uri(academiesApiOptions.Value.Endpoint!);
-            httpClient.DefaultRequestHeaders.Add("ApiKey", academiesApiOptions.Value.Key);
-        });
-
         builder.Services.AddHttpContextAccessor();
     }
 
@@ -166,12 +166,6 @@ internal static class Program
     {
         if (builder.Environment.IsLocalDevelopment())
             builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly());
-
-        builder.Services.AddOptions<AcademiesApiOptions>()
-            .Bind(builder.Configuration.GetSection(AcademiesApiOptions.ConfigurationSection))
-            .ValidateDataAnnotations()
-            .ValidateOnStart();
-
         builder.Services.AddOptions<TestOverrideOptions>()
             .Bind(builder.Configuration.GetSection(TestOverrideOptions.ConfigurationSection));
     }

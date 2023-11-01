@@ -1,5 +1,5 @@
 import { Locator, Page, expect } from '@playwright/test'
-import { SearchFormComponent } from './shared/search-form-component'
+import { CurrentSearch, SearchFormComponent } from './shared/search-form-component'
 
 export class HomePage {
   readonly expect: HomePageAssertions
@@ -7,9 +7,13 @@ export class HomePage {
   readonly _searchBoxLocator: Locator
   readonly _searchButtonLocator: Locator
 
-  constructor (readonly page: Page) {
+  constructor (readonly page: Page, currentSearch: CurrentSearch) {
     this.expect = new HomePageAssertions(this)
-    this.searchForm = new SearchFormComponent(page, 'Find information about academies and trusts')
+    this.searchForm = new SearchFormComponent(
+      page,
+      'Find information about academies and trusts',
+      currentSearch
+    )
   }
 
   async goTo (): Promise<void> {
