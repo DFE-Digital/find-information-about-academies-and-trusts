@@ -7,6 +7,7 @@ We are a tool for everyone in DfE to find information which is collated from mul
 - [Getting Started](docs/getting-started.md)
 - [Run tests locally](docs/run-tests-locally.md)
 - [Supercharge your dev environment](docs/supercharge-your-dev-environment.md)
+- [Update test data](docs/update-test-data.md)
 - [Application insights](docs/application-insights.md)
 - [Architecture Decision Records (ADRs)](docs/adrs)
 - [Archive branches](docs/archive-branches.md)

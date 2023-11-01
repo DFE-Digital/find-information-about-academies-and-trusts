@@ -84,6 +84,8 @@ Accessibility and UI tests are written using [Playwright](https://playwright.dev
 
 For more information on running and debugging Playwright tests it is worth familiarising yourself with the Playwright docs on [debugging](https://playwright.dev/docs/debug) and [command line flags](https://playwright.dev/docs/test-cli).
 
+If you need to update the mocked test data for UI and Accessibility tests see [update test data](./update-test-data.md)
+
 ## Integration and Deployment tests
 
 [Integration and Deployment tests](./test-approach.md) are also run in [Playwright](https://playwright.dev/), but do not have dependencies mocked. In the pipeline these will be run against deployed environments, but if you wish to run these locally you will need to run the app locally, as you will not be able to run these tests against the docker containers.
