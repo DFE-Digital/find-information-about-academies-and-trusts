@@ -112,7 +112,7 @@ class SearchPageAssertions {
   async toSeeNoResultsMessage (): Promise<void> {
     await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(`0 ${this.searchPage._searchResultsHeadingName}`)
     await expect(this.searchPage._searchResultsSectionLocator).toContainText(
-      'Check the spelling of the trust name. Enter a reference number in the right format'
+      'Check the spelling of the trust name. Make sure you include the right punctuation.'
     )
   }
 }
