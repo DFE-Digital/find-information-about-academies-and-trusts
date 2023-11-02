@@ -17,7 +17,7 @@ public class TrustHelperTests
             GroupContactLocality = "Dorthy Inlet",
             GroupContactTown = "East Park",
             GroupContactPostcode = "JY36 9VC",
-            IncorporatedOnOpenDate = "20 Dec 1990",
+            IncorporatedOnOpenDate = "20/12/1990",
             CompaniesHouseNumber = "00123444"
         };
 
@@ -90,6 +90,13 @@ public class TrustHelperTests
     {
         var result = _sut.BuildAddressString(group);
         result.Should().Be(expected);
+    }
+
+    [Fact]
+    public void FormatDateString_should_return_correctly_formatted_date()
+    {
+        var result = TrustHelper.FormatDateString("27/11/2011");
+        result.Should().Be("27 Nov 2011");
     }
 
     public static IEnumerable<object[]> AddressData =>

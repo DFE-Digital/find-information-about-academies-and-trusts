@@ -1,3 +1,4 @@
+using System.Globalization;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
@@ -19,7 +20,7 @@ public class TrustHelper : ITrustHelper
             group.Ukprn,
             group.GroupType ?? string.Empty,
             BuildAddressString(group),
-            group.IncorporatedOnOpenDate ?? string.Empty,
+            FormatDateString(group.IncorporatedOnOpenDate),
             group.CompaniesHouseNumber ?? string.Empty
         );
     }
@@ -33,5 +34,13 @@ public class TrustHelper : ITrustHelper
             group.GroupContactTown,
             group.GroupContactPostcode
         }.Where(s => !string.IsNullOrWhiteSpace(s)));
+    }
+
+    public static string FormatDateString(string? date)
+    {
+        if (string.IsNullOrEmpty(date)) return "";
+        var newDate = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+        return newDate.ToString("d MMM yyyy");
     }
 }
