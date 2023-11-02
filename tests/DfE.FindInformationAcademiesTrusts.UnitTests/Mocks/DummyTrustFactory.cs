@@ -14,6 +14,6 @@ public class DummyTrustFactory
 
     public static Trust GetDummyTrust(string uid)
     {
-        return new Trust(uid, $"Trust {uid}", "test", "test", "test", "test");
+        return new Trust(uid, $"Trust {uid}", "test", "test", "test", "test", "test", "test");
     }
 }

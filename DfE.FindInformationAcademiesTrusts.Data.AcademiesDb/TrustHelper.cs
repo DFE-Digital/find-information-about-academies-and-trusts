@@ -18,7 +18,9 @@ public class TrustHelper : ITrustHelper
             group.GroupId ?? string.Empty,
             group.Ukprn,
             group.GroupType ?? string.Empty,
-            BuildAddressString(group)
+            BuildAddressString(group),
+            group.IncorporatedOnOpenDate ?? string.Empty,
+            group.CompaniesHouseNumber ?? string.Empty
         );
     }
 

@@ -16,18 +16,24 @@ public class TrustHelperTests
             GroupContactStreet = "12 Abbey Road",
             GroupContactLocality = "Dorthy Inlet",
             GroupContactTown = "East Park",
-            GroupContactPostcode = "JY36 9VC"
+            GroupContactPostcode = "JY36 9VC",
+            IncorporatedOnOpenDate = "20 Dec 1990",
+            CompaniesHouseNumber = "00123444"
         };
 
         var result = _sut.CreateTrustFromGroup(group);
 
         result.Should().BeEquivalentTo(new Trust(
-            "1234",
-            "trust 1",
-            "my groupId",
-            "my ukprn",
-            "Multi-academy trust",
-            "12 Abbey Road, Dorthy Inlet, East Park, JY36 9VC"));
+                "1234",
+                "trust 1",
+                "my groupId",
+                "my ukprn",
+                "Multi-academy trust",
+                "12 Abbey Road, Dorthy Inlet, East Park, JY36 9VC",
+                "20 Dec 1990",
+                "00123444"
+            )
+        );
     }
 
     [Fact]

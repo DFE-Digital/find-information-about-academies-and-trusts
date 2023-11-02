@@ -19,7 +19,9 @@ public class GroupFaker
             .RuleFor(g => g.GroupContactStreet, f => $"{f.Address.BuildingNumber()} {f.Address.StreetName()}")
             .RuleFor(g => g.GroupContactLocality, f => f.PickRandom(f.Address.StreetName(), string.Empty))
             .RuleFor(g => g.GroupContactTown, f => f.PickRandom(f.Address.City(), string.Empty))
-            .RuleFor(g => g.GroupContactPostcode, f => f.Address.ZipCode());
+            .RuleFor(g => g.GroupContactPostcode, f => f.Address.ZipCode())
+            .RuleFor(g => g.IncorporatedOnOpenDate, f => f.Date.Past(10).ToString("dd/MM/yyyy"))
+            .RuleFor(g => g.CompaniesHouseNumber, f => f.Random.Int(1100000, 09999999).ToString("D8"));
     }
 
     public Group Generate()
