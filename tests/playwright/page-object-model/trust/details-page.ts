@@ -68,15 +68,15 @@ class DetailsPageAssertions {
   }
 
   async toSeeCorrectTrustDetails (): Promise<void> {
-    await expect(this.detailsPage.trustDetailsCardLocator).toContainText('Address Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC')
-    await expect(this.detailsPage.trustDetailsCardLocator).toContainText('Opened on 30 Dec 2013')
-    await expect(this.detailsPage.trustDetailsCardLocator).toContainText('Region and territory Yorkshire and the Humber')
+    await expect(this.detailsPage.trustDetailsCardLocator).toContainText(`Address ${this.detailsPage.currentTrust.address}`)
+    await expect(this.detailsPage.trustDetailsCardLocator).toContainText(`Opened on ${this.detailsPage.currentTrust.openedDate}`)
+    await expect(this.detailsPage.trustDetailsCardLocator).toContainText(`Region and territory ${this.detailsPage.currentTrust.regionAndTerritory}`)
   }
 
   async toSeeCorrectTrustReferenceNumbers (): Promise<void> {
-    await expect(this.detailsPage.referenceNumbersCardLocator).toContainText('UID (Unique group identifier) 2412')
-    await expect(this.detailsPage.referenceNumbersCardLocator).toContainText('Group ID (identifier) and TRN (trust reference number) TR3971')
-    await expect(this.detailsPage.referenceNumbersCardLocator).toContainText('UKPRN (UK provider reference number) 10013796')
-    await expect(this.detailsPage.referenceNumbersCardLocator).toContainText('Companies House number 03080547')
+    await expect(this.detailsPage.referenceNumbersCardLocator).toContainText(`UID (Unique group identifier) ${this.detailsPage.currentTrust.uid}`)
+    await expect(this.detailsPage.referenceNumbersCardLocator).toContainText(`Group ID (identifier) and TRN (trust reference number) ${this.detailsPage.currentTrust.groupId}`)
+    await expect(this.detailsPage.referenceNumbersCardLocator).toContainText(`UKPRN (UK provider reference number) ${this.detailsPage.currentTrust.ukprn}`)
+    await expect(this.detailsPage.referenceNumbersCardLocator).toContainText(`Companies House number ${this.detailsPage.currentTrust.companiesHouseNumber}`)
   }
 }
