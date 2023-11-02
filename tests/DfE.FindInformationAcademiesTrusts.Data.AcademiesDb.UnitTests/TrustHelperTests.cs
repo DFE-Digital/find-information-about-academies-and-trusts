@@ -36,6 +36,15 @@ public class TrustHelperTests
         );
     }
 
+    [Theory]
+    [MemberData(nameof(EmptyData))]
+    public void CreateTrustFromGroup_Should_Include_Empty_string_values_if_properties_have_no_value(Group group,
+        Trust expected)
+    {
+        var result = _sut.CreateTrustFromGroup(group);
+        result.Should().BeEquivalentTo(expected);
+    }
+
     [Fact]
     public void BuildAddressString_should_return_full_address_as_string()
     {
@@ -97,6 +106,25 @@ public class TrustHelperTests
             {
                 new Group { GroupContactStreet = "DorthyInlet", GroupContactPostcode = "JY36 9VC" },
                 "DorthyInlet, JY36 9VC"
+            }
+        };
+
+    public static IEnumerable<object[]> EmptyData =>
+        new List<object[]>
+        {
+            new object[]
+            {
+                new Group
+                {
+                    GroupUid = "1", GroupName = "", GroupId = "", GroupType = "", OpenDate = "",
+                    CompaniesHouseNumber = ""
+                },
+                new Trust("1", "", "", null, "", "", "", "")
+            },
+            new object[]
+            {
+                new Group { GroupUid = "2" },
+                new Trust("2", "", "", null, "", "", "", "")
             }
         };
 }
