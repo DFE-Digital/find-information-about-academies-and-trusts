@@ -102,4 +102,18 @@ public static class Data
         new("CANTERBURY CROSS EDUCATION TRUST"),
         new("WESTMINSTER ACADEMY TRUST")
     };
+
+    public static string?[] Region { get; } =
+    {
+        "London",
+        null,
+        "East of England",
+        "South East",
+        "West Midlands",
+        "North West",
+        "North East",
+        "East Midlands",
+        "Yorkshire and the Humber",
+        "South West"
+    };
 }
