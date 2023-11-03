@@ -5,6 +5,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Fakers;
 
 public class AcademiesDbFaker
 {
+    private int _counter = 1233;
     private readonly string?[] _regions;
 
     public AcademiesDbFaker(string?[] regions)
@@ -23,7 +24,7 @@ public class AcademiesDbFaker
 
     private Group GenerateGroup(TrustToGenerate trustToGenerate)
     {
-        var fakeGroup = new GroupFaker(trustToGenerate);
+        var fakeGroup = new GroupFaker(trustToGenerate, _counter++);
         return fakeGroup.Generate();
     }
 
