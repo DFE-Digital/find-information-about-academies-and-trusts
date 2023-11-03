@@ -1,19 +1,24 @@
 using System.Reflection;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Fakers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker;
 
 public static class SqlScriptGenerator
 {
-    public static void GenerateAndSaveSqlScripts(Group[] fakeGroups, string createScriptOutputFilePath,
+    public static void GenerateAndSaveSqlScripts(AcademiesDbData fakeData, string createScriptOutputFilePath,
         string insertScriptOutputFilePath)
     {
         var dbContextOptions = new DbContextOptionsBuilder<AcademiesDbContext>().UseSqlServer();
         using var context = new AcademiesDbContext(dbContextOptions.Options);
 
         GenerateSqlCreateScript(context, createScriptOutputFilePath);
-        GenerateSqlInsertScript(fakeGroups, context, insertScriptOutputFilePath);
+        var insertScript = string.Join("; ",
+            GenerateSqlInsertScriptSegmentFor(fakeData.Groups, context),
+            GenerateSqlInsertScriptSegmentFor(fakeData.MstrTrusts, context)
+        );
+        File.WriteAllText(insertScriptOutputFilePath, insertScript);
     }
 
     private static void GenerateSqlCreateScript(AcademiesDbContext context, string outputFilePath)
@@ -24,14 +29,15 @@ public static class SqlScriptGenerator
         File.WriteAllText(outputFilePath, createScript);
     }
 
-    private static void GenerateSqlInsertScript(Group[] fakeGroups, AcademiesDbContext context, string ouputFilePath)
+    private static string GenerateSqlInsertScriptSegmentFor<T>(T[] fakeObjects, AcademiesDbContext context)
     {
-        var groupProperties = typeof(Group).GetProperties();
-        var valuesStrings = fakeGroups.Select(group => $"({GetEntityValues(group, groupProperties)})");
-
-        var insertScript =
-            $"INSERT INTO [gias].[Group] ({GetEntityProperties(groupProperties, context)}) VALUES {string.Join(',', valuesStrings)}";
-        File.WriteAllText(ouputFilePath, insertScript);
+        var objProperties = typeof(T).GetProperties();
+        var entityType = context.Model.FindEntityTypes(typeof(T)).FirstOrDefault()!;
+        var tableName = $"[{entityType.GetSchema()}].[{entityType.GetTableName()}]";
+        var valuesStrings = fakeObjects.Select(obj => $"({GetEntityValues(obj, objProperties)})");
+        var insertString =
+            $"INSERT INTO {tableName} ({GetEntityProperties(objProperties, entityType)}) VALUES {string.Join(',', valuesStrings)}";
+        return insertString;
     }
 
     private static string GetEntityValues<T>(T obj, PropertyInfo[] entityProperties)
@@ -42,9 +48,9 @@ public static class SqlScriptGenerator
         return string.Join(", ", list);
     }
 
-    private static string GetEntityProperties(PropertyInfo[] propertyInfos, AcademiesDbContext context)
+    private static string GetEntityProperties(PropertyInfo[] propertyInfos, IEntityType entityType)
     {
-        var entityProperties = context.Model.FindEntityTypes(typeof(Group)).FirstOrDefault()!.GetProperties();
+        var entityProperties = entityType.GetProperties();
         var columnNames =
             propertyInfos.Select(pi =>
             {

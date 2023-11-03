@@ -103,7 +103,7 @@ public static class Data
         new("WESTMINSTER ACADEMY TRUST")
     };
 
-    public static string?[] Region { get; } =
+    public static string?[] Regions { get; } =
     {
         "London",
         null,

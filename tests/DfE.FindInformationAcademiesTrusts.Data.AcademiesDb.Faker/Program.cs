@@ -1,7 +1,5 @@
 ﻿using Bogus;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Fakers;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Helpers;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker;
 
@@ -15,21 +13,17 @@ public static class Program
             //The data sets will only change when changes are made to the generator
             Randomizer.Seed = new Random(28698);
 
-            var fakeGroups = Data.TrustsToGenerate
-                .Select(GenerateGroup).ToArray();
 
-            SqlScriptGenerator.GenerateAndSaveSqlScripts(fakeGroups, "data/createScript.sql", "data/insertScript.sql");
-            JsonGenerator.GenerateAndSaveTrustsJson(fakeGroups, "data/trusts.json");
+            var faker = new AcademiesDbFaker(Data.Regions);
+            var academiesDbData = faker.Generate(Data.TrustsToGenerate);
+
+            SqlScriptGenerator.GenerateAndSaveSqlScripts(academiesDbData, "data/createScript.sql",
+                "data/insertScript.sql");
+            JsonGenerator.GenerateAndSaveTrustsJson(academiesDbData, "data/trusts.json");
         }
         catch (Exception e)
         {
             Console.WriteLine($"error {e}");
         }
-    }
-
-    private static Group GenerateGroup(TrustToGenerate trustToGenerate)
-    {
-        var fakeGroup = new GroupFaker(trustToGenerate);
-        return fakeGroup.Generate();
     }
 }
