@@ -22,7 +22,7 @@ Stryker.Net is included in our dotnet-tools manifest for checking mutation score
 
 Install tools by running `dotnet tool restore`.
 
-Open a terminal at the root follRun the following to run and open a Stryker report:
+Open a terminal at the root folder and type the following to run and open a Stryker report:
 
 ```bash
 dotnet stryker -o
