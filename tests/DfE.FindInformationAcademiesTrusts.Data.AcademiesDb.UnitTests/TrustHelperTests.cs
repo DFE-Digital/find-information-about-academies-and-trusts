@@ -21,7 +21,12 @@ public class TrustHelperTests
             CompaniesHouseNumber = "00123444"
         };
 
-        var result = _sut.CreateTrustFromGroup(group);
+        var mstrTrust = new MstrTrust
+        {
+            GroupUid = "1234", GORregion = "North East"
+        };
+
+        var result = _sut.CreateTrustFrom(group, mstrTrust);
 
         result.Should().BeEquivalentTo(new Trust(
                 "1234",
@@ -31,17 +36,18 @@ public class TrustHelperTests
                 "Multi-academy trust",
                 "12 Abbey Road, Dorthy Inlet, East Park, JY36 9VC",
                 "20 Dec 1990",
-                "00123444"
+                "00123444",
+                "North East"
             )
         );
     }
 
     [Theory]
     [MemberData(nameof(EmptyData))]
-    public void CreateTrustFromGroup_Should_Include_Empty_string_values_if_properties_have_no_value(Group group,
-        Trust expected)
+    public void CreateTrustFromGroup_Should_Include_Empty_string_values_if_properties_have_no_value(
+        Group group, MstrTrust mstrTrust, Trust expected)
     {
-        var result = _sut.CreateTrustFromGroup(group);
+        var result = _sut.CreateTrustFrom(group, mstrTrust);
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -123,15 +129,20 @@ public class TrustHelperTests
             {
                 new Group
                 {
-                    GroupUid = "1", GroupName = "", GroupId = "", GroupType = "", OpenDate = "",
+                    GroupUid = "1", GroupName = "", GroupId = "", GroupType = "", IncorporatedOnOpenDate = "",
                     CompaniesHouseNumber = ""
                 },
-                new Trust("1", "", "", null, "", "", "", "")
+                new MstrTrust
+                {
+                    GroupUid = "1", GORregion = ""
+                },
+                new Trust("1", "", "", null, "", "", "", "", "")
             },
             new object[]
             {
                 new Group { GroupUid = "2" },
-                new Trust("2", "", "", null, "", "", "", "")
+                new MstrTrust { GroupUid = "2" },
+                new Trust("2", "", "", null, "", "", "", "", "")
             }
         };
 }

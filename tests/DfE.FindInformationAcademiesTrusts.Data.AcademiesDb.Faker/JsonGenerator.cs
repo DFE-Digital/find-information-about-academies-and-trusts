@@ -11,7 +11,7 @@ public static class JsonGenerator
             { WriteIndented = true, PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
         var trustHelper = new TrustHelper();
-        var trusts = fakeGroups.OrderBy(g => g.GroupName).Select(g => trustHelper.CreateTrustFromGroup(g));
+        var trusts = fakeGroups.OrderBy(g => g.GroupName).Select(g => trustHelper.CreateTrustFrom(g));
 
         File.WriteAllText(outputFilePath, JsonSerializer.Serialize(trusts, serializeOptions));
     }

@@ -20,4 +20,22 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 
         return groups;
     }
+
+    public List<MstrTrust> SetupMockDbContextMstrTrust(int numMatches)
+    {
+        var mstrTrusts = new List<MstrTrust>();
+        for (var i = 0; i < numMatches; i++)
+        {
+            mstrTrusts.Add(new MstrTrust
+            {
+                GroupUid = $"{i}",
+                GORregion = "North East"
+            });
+        }
+
+        Setup(academiesDbContext => academiesDbContext.MstrTrusts)
+            .Returns(new MockDbSet<MstrTrust>(mstrTrusts).Object);
+
+        return mstrTrusts;
+    }
 }

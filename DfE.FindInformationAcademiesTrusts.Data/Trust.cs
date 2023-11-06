@@ -8,5 +8,6 @@ public record Trust(
     string Type,
     string Address,
     string OpenedDate,
-    string CompaniesHouseNumber
+    string CompaniesHouseNumber,
+    string RegionAndTerritory
 );
