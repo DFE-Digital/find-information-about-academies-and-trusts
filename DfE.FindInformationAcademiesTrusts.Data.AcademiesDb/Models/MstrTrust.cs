@@ -6,5 +6,5 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
 public class MstrTrust
 {
     public string? GORregion { get; set; }
-    public string GroupUid { get; set; }
+    public required string GroupUid { get; set; }
 }
