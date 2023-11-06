@@ -30,7 +30,8 @@ public class SearchModelTests
         _fakeTrust = dummyTrustFactory.GetDummyTrust();
         mockTrustProvider.Setup(s => s.GetTrustByUidAsync(_fakeTrust.Uid).Result)
             .Returns(_fakeTrust);
-        _mockTrustSearch.Setup(s => s.SearchAsync(SearchTermThatMatchesAllFakeTrusts).Result).Returns(_fakeTrusts);
+        _mockTrustSearch.Setup(s => s.SearchAsync(SearchTermThatMatchesAllFakeTrusts, It.IsAny<int>()).Result)
+            .Returns(new PaginatedList<TrustSearchEntry>(_fakeTrusts, _fakeTrusts.Length, 1, 1));
 
         _sut = new SearchModel(mockTrustProvider.Object, _mockTrustSearch.Object);
     }
@@ -83,8 +84,8 @@ public class SearchModelTests
     public async Task OnGetAsync_should_not_redirect_to_trust_details_if_trustId_does_not_match_query()
     {
         var differentFakeTrust = new TrustSearchEntry("other trust", "Some address", "987", "TR0987");
-        _mockTrustSearch.Setup(s => s.SearchAsync(differentFakeTrust.Name))
-            .ReturnsAsync(new[] { differentFakeTrust });
+        _mockTrustSearch.Setup(s => s.SearchAsync(differentFakeTrust.Name, It.IsAny<int>()))
+            .ReturnsAsync(new PaginatedList<TrustSearchEntry>(new[] { differentFakeTrust }, 1, 1, 1));
 
         _sut.KeyWords = differentFakeTrust.Name;
         _sut.Uid = _fakeTrust.Uid;
@@ -138,5 +139,34 @@ public class SearchModelTests
     public void InputId_should_have_a_fixed_value()
     {
         _sut.InputId.Should().Be("search");
+    }
+
+    [Fact]
+    public void SearchPageNumber_should_default_to_1()
+    {
+        _sut.SearchPageNumber.Should().Be(1);
+    }
+
+    [Fact]
+    public async Task When_a_different_page_is_requested_return_a_different_page()
+    {
+        _mockTrustSearch.Setup(s => s.SearchAsync(SearchTermThatMatchesAllFakeTrusts, 1))
+            .ReturnsAsync(new PaginatedList<TrustSearchEntry>(_fakeTrusts, 4, 1, 3));
+        var differentFakeTrust =
+            new TrustSearchEntry(SearchTermThatMatchesAllFakeTrusts, "Some address", "987", "TR0987");
+        _mockTrustSearch.Setup(s => s.SearchAsync(differentFakeTrust.Name, 2))
+            .ReturnsAsync(new PaginatedList<TrustSearchEntry>(new[] { differentFakeTrust }, 4, 2, 3));
+
+        _sut.KeyWords = SearchTermThatMatchesAllFakeTrusts;
+        _sut.SearchPageNumber = 1;
+
+        var result = await _sut.OnGetAsync();
+        result.Should().BeOfType<PageResult>();
+        _sut.Trusts.Should().BeEquivalentTo(_fakeTrusts);
+
+        _sut.SearchPageNumber = 2;
+        result = await _sut.OnGetAsync();
+        result.Should().BeOfType<PageResult>();
+        _sut.Trusts.Should().ContainSingle(t => t == differentFakeTrust);
     }
 }
