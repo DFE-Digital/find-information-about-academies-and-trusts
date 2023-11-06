@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker", "tests\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.csproj", "{CE03C6BD-0160-4265-A287-3EC70103E4C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data.UnitTests", "tests\DfE.FindInformationAcademiesTrusts.Data.UnitTests\DfE.FindInformationAcademiesTrusts.Data.UnitTests.csproj", "{03A913EF-6B0B-45E6-8C86-72AF357CEE2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,10 +46,15 @@ Global
 		{CE03C6BD-0160-4265-A287-3EC70103E4C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE03C6BD-0160-4265-A287-3EC70103E4C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE03C6BD-0160-4265-A287-3EC70103E4C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03A913EF-6B0B-45E6-8C86-72AF357CEE2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03A913EF-6B0B-45E6-8C86-72AF357CEE2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03A913EF-6B0B-45E6-8C86-72AF357CEE2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03A913EF-6B0B-45E6-8C86-72AF357CEE2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0A3416F9-33DB-4870-97EA-7CFF8D828031} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
 		{E20D30CB-8EB1-453B-8C49-77CAFBF16A13} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
 		{CE03C6BD-0160-4265-A287-3EC70103E4C9} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
+		{03A913EF-6B0B-45E6-8C86-72AF357CEE2F} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
 	EndGlobalSection
 EndGlobal
