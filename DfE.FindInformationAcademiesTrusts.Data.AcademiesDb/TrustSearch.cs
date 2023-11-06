@@ -20,14 +20,15 @@ public class TrustSearch : ITrustSearch
         _academiesDbContext = academiesDbContext;
     }
 
-    public async Task<TrustSearchEntry[]> SearchAsync(string searchTerm)
+    public async Task<IPaginatedList<TrustSearchEntry>> SearchAsync(string searchTerm, int page = 1)
     {
+        var pageSize = Constants.SearchPageSize;
         if (string.IsNullOrWhiteSpace(searchTerm))
         {
-            return Array.Empty<TrustSearchEntry>();
+            return new PaginatedList<TrustSearchEntry>();
         }
 
-        var trustSearchEntries = await _academiesDbContext.Groups
+        var query = _academiesDbContext.Groups
             .Where(g =>
                 g.GroupUid != null &&
                 g.GroupId != null &&
@@ -36,13 +37,17 @@ public class TrustSearch : ITrustSearch
                 g.GroupType != null &&
                 (g.GroupType == "Multi-academy trust" ||
                  g.GroupType == "Single-academy trust")
-            ) //note that LINQ translates string.contains to case insensitive SQL
+            ); //note that LINQ translates string.contains to case insensitive SQL
+
+        var count = await query.CountAsync();
+        var trustSearchEntries = await query
             .OrderBy(g => g.GroupName)
-            .Take(20)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .Select(g =>
                 new TrustSearchEntry(g.GroupName!, _trustHelper.BuildAddressString(g), g.GroupUid!, g.GroupId!))
             .ToArrayAsync();
 
-        return trustSearchEntries;
+        return new PaginatedList<TrustSearchEntry>(trustSearchEntries, count, page, pageSize);
     }
 }
