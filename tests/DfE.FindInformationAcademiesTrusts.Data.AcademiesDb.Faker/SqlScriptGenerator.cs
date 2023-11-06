@@ -14,11 +14,7 @@ public static class SqlScriptGenerator
         using var context = new AcademiesDbContext(dbContextOptions.Options);
 
         GenerateSqlCreateScript(context, createScriptOutputFilePath);
-        var insertScript = string.Join("; ",
-            GenerateSqlInsertScriptSegmentFor(fakeData.Groups, context),
-            GenerateSqlInsertScriptSegmentFor(fakeData.MstrTrusts, context)
-        );
-        File.WriteAllText(insertScriptOutputFilePath, insertScript);
+        GenerateSqlInsertScript(context, insertScriptOutputFilePath, fakeData);
     }
 
     private static void GenerateSqlCreateScript(AcademiesDbContext context, string outputFilePath)
@@ -27,6 +23,16 @@ public static class SqlScriptGenerator
 
         Directory.CreateDirectory("data");
         File.WriteAllText(outputFilePath, createScript);
+    }
+
+    private static void GenerateSqlInsertScript(AcademiesDbContext context, string outputFilePath,
+        AcademiesDbData fakeData)
+    {
+        var insertScript = string.Join("; ",
+            GenerateSqlInsertScriptSegmentFor(fakeData.Groups, context),
+            GenerateSqlInsertScriptSegmentFor(fakeData.MstrTrusts, context)
+        );
+        File.WriteAllText(outputFilePath, insertScript);
     }
 
     private static string GenerateSqlInsertScriptSegmentFor<T>(T[] fakeObjects, AcademiesDbContext context)
