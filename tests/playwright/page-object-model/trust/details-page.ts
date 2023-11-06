@@ -28,7 +28,7 @@ export class DetailsPage {
 
   async goTo (): Promise<void> {
     this.currentTrust = this.fakeTestData.getFirstTrust()
-    await this.page.goto(`/trusts/details/${this.currentTrust.uid}`)
+    await this.goToWith(this.currentTrust.uid)
   }
 
   async goToPageWithoutUid (): Promise<void> {
@@ -36,17 +36,21 @@ export class DetailsPage {
   }
 
   async goToPageWithUidThatDoesNotExist (): Promise<void> {
-    await this.page.goto('/trusts/details/0000')
+    await this.goToWith('0000')
   }
 
   async goToMultiAcademyTrust (): Promise<void> {
     const uid = this.fakeTestData.getMultiAcademyTrust().uid
-    await this.page.goto(`/trusts/details/${uid}`)
+    await this.goToWith(uid)
   }
 
   async goToSingleAcademyTrust (): Promise<void> {
     const uid = this.fakeTestData.getSingleAcademyTrust().uid
-    await this.page.goto(`/trusts/details/${uid}`)
+    await this.goToWith(uid)
+  }
+
+  async goToWith (uid: string): Promise<void> {
+    await this.page.goto(`/trusts/details?uid=${uid}`)
   }
 }
 
