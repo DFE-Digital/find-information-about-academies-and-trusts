@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
+[ValidateAntiForgeryToken]
 public class SearchModel : PageModel, ISearchFormModel
 {
     public record AutocompleteEntry(string Address, string Name, string? TrustId);
@@ -21,7 +22,9 @@ public class SearchModel : PageModel, ISearchFormModel
     public string InputId => "search";
     [BindProperty(SupportsGet = true)] public string KeyWords { get; set; } = string.Empty;
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = string.Empty;
-    public IEnumerable<TrustSearchEntry> Trusts { get; set; } = Array.Empty<TrustSearchEntry>();
+    [BindProperty(SupportsGet = true)] public int SearchPageNumber { get; set; } = 1;
+
+    public IPaginatedList<TrustSearchEntry> Trusts { get; set; } = new PaginatedList<TrustSearchEntry>();
 
 
     public IActionResult OnPost()
@@ -44,16 +47,16 @@ public class SearchModel : PageModel, ISearchFormModel
         return new PageResult();
     }
 
-    private async Task<IEnumerable<TrustSearchEntry>> GetTrustsForKeywords()
+    private async Task<IPaginatedList<TrustSearchEntry>> GetTrustsForKeywords()
     {
         return !string.IsNullOrEmpty(KeyWords)
-            ? await _trustSearch.SearchAsync(KeyWords)
-            : Array.Empty<TrustSearchEntry>();
+            ? await _trustSearch.SearchAsync(KeyWords, SearchPageNumber)
+            : new PaginatedList<TrustSearchEntry>();
     }
 
     public async Task<IActionResult> OnGetPopulateAutocompleteAsync()
     {
-        return new JsonResult((await GetTrustsForKeywords())
+        return new JsonResult((await GetTrustsForKeywords()).ToArray()
             .Select(trust =>
                 new AutocompleteEntry(
                     trust.Address,
