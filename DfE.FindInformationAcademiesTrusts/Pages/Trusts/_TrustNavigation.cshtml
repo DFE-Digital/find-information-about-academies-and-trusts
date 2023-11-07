@@ -33,6 +33,11 @@
             <span class="visually-hidden">Trust</span>Overview
           </a>
         </li>
+        <li class="ds_side-navigation__item app-side-navigation-highlight-item">
+          <a asp-page="./Academies/Details" asp-route-uid="@Model.Trust.Uid" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Academies details")">
+            Academies in this trust (3)
+          </a>
+        </li>
       </ul>
     </li>
   </ul>
