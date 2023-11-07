@@ -7,7 +7,7 @@ import { FakeTestData } from '../fake-data/fake-test-data'
 import { OverviewPage } from '../page-object-model/trust/overview-page'
 import { PrivacyPage } from '../page-object-model/privacy-page'
 
-test.describe('Trust navigation', () => {
+test.describe('Navigation', () => {
   let homePage: HomePage
   let currentSearch: CurrentSearch
   let detailsPage: DetailsPage
