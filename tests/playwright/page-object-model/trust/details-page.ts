@@ -1,57 +1,24 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { TrustHeaderComponent } from '../shared/trust-header-component'
 import { TrustNavigationComponent } from '../shared/trust-navigation-component'
-import { CurrentSearch } from '../shared/search-form-component'
-import { FakeTestData, FakeTrust } from '../../fake-data/fake-test-data'
+import { FakeTestData } from '../../fake-data/fake-test-data'
 import { formatDateAsExpected } from '../../helpers'
+import { BaseTrustPage } from './base-trust-page'
 
-export class DetailsPage {
+export class DetailsPage extends BaseTrustPage {
   readonly expect: DetailsPageAssertions
   readonly trustHeading: TrustHeaderComponent
   readonly trustNavigation: TrustNavigationComponent
-  readonly pageHeadingLocator: Locator
   readonly trustDetailsCardLocator: Locator
   readonly referenceNumbersCardLocator: Locator
 
-  currentSearch: CurrentSearch
-  fakeTestData: FakeTestData
-  currentTrust: FakeTrust
-
   constructor (readonly page: Page, fakeTestData: FakeTestData) {
-    this.fakeTestData = fakeTestData
+    super(page, fakeTestData, '/trusts/details')
     this.expect = new DetailsPageAssertions(this)
     this.trustHeading = new TrustHeaderComponent(page)
     this.trustNavigation = new TrustNavigationComponent(page)
-    this.pageHeadingLocator = page.locator('h1')
     this.trustDetailsCardLocator = this.page.getByText('Trust details Address')
     this.referenceNumbersCardLocator = this.page.getByText('Reference numbers UID')
-  }
-
-  async goTo (): Promise<void> {
-    this.currentTrust = this.fakeTestData.getFirstTrust()
-    await this.goToWith(this.currentTrust.uid)
-  }
-
-  async goToPageWithoutUid (): Promise<void> {
-    await this.page.goto('/trusts/details')
-  }
-
-  async goToPageWithUidThatDoesNotExist (): Promise<void> {
-    await this.goToWith('0000')
-  }
-
-  async goToMultiAcademyTrust (): Promise<void> {
-    const uid = this.fakeTestData.getMultiAcademyTrust().uid
-    await this.goToWith(uid)
-  }
-
-  async goToSingleAcademyTrust (): Promise<void> {
-    const uid = this.fakeTestData.getSingleAcademyTrust().uid
-    await this.goToWith(uid)
-  }
-
-  async goToWith (uid: string): Promise<void> {
-    await this.page.goto(`/trusts/details?uid=${uid}`)
   }
 }
 
