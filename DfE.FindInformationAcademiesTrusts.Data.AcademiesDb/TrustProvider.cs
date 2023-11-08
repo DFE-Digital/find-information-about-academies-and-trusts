@@ -25,9 +25,10 @@ public class TrustProvider : ITrustProvider
         Trust? trust = null;
 
         var group = await _academiesDbContext.Groups.SingleOrDefaultAsync(g => g.GroupUid == uid);
-        if (group is not null)
+        var mstrTrust = await _academiesDbContext.MstrTrusts.SingleOrDefaultAsync(m => m.GroupUid == uid);
+        if (group is not null && mstrTrust is not null)
         {
-            trust = _trustHelper.CreateTrustFromGroup(group);
+            trust = _trustHelper.CreateTrustFrom(group, mstrTrust);
         }
 
         return trust;

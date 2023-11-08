@@ -3,6 +3,7 @@ import { TrustHeaderComponent } from '../shared/trust-header-component'
 import { TrustNavigationComponent } from '../shared/trust-navigation-component'
 import { CurrentSearch } from '../shared/search-form-component'
 import { FakeTestData, FakeTrust } from '../../fake-data/fake-test-data'
+import { formatDateAsExpected } from '../../helpers'
 
 export class DetailsPage {
   readonly expect: DetailsPageAssertions
@@ -28,7 +29,7 @@ export class DetailsPage {
 
   async goTo (): Promise<void> {
     this.currentTrust = this.fakeTestData.getFirstTrust()
-    await this.page.goto(`/trusts/details/${this.currentTrust.uid}`)
+    await this.goToWith(this.currentTrust.uid)
   }
 
   async goToPageWithoutUid (): Promise<void> {
@@ -36,17 +37,21 @@ export class DetailsPage {
   }
 
   async goToPageWithUidThatDoesNotExist (): Promise<void> {
-    await this.page.goto('/trusts/details/0000')
+    await this.goToWith('0000')
   }
 
   async goToMultiAcademyTrust (): Promise<void> {
     const uid = this.fakeTestData.getMultiAcademyTrust().uid
-    await this.page.goto(`/trusts/details/${uid}`)
+    await this.goToWith(uid)
   }
 
   async goToSingleAcademyTrust (): Promise<void> {
     const uid = this.fakeTestData.getSingleAcademyTrust().uid
-    await this.page.goto(`/trusts/details/${uid}`)
+    await this.goToWith(uid)
+  }
+
+  async goToWith (uid: string): Promise<void> {
+    await this.page.goto(`/trusts/details?uid=${uid}`)
   }
 }
 
@@ -68,15 +73,15 @@ class DetailsPageAssertions {
   }
 
   async toSeeCorrectTrustDetails (): Promise<void> {
-    await expect(this.detailsPage.trustDetailsCardLocator).toContainText('Address Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC')
-    await expect(this.detailsPage.trustDetailsCardLocator).toContainText('Opened on 30 Dec 2013')
-    await expect(this.detailsPage.trustDetailsCardLocator).toContainText('Region and territory Yorkshire and the Humber')
+    await expect(this.detailsPage.trustDetailsCardLocator).toContainText(`Address ${this.detailsPage.currentTrust.address}`)
+    await expect(this.detailsPage.trustDetailsCardLocator).toContainText(`Opened on ${formatDateAsExpected(this.detailsPage.currentTrust.openedDate)}`)
+    await expect(this.detailsPage.trustDetailsCardLocator).toContainText(`Region and territory ${this.detailsPage.currentTrust.regionAndTerritory}`)
   }
 
   async toSeeCorrectTrustReferenceNumbers (): Promise<void> {
-    await expect(this.detailsPage.referenceNumbersCardLocator).toContainText('UID (Unique group identifier) 2412')
-    await expect(this.detailsPage.referenceNumbersCardLocator).toContainText('Group ID (identifier) and TRN (trust reference number) TR3971')
-    await expect(this.detailsPage.referenceNumbersCardLocator).toContainText('UKPRN (UK provider reference number) 10013796')
-    await expect(this.detailsPage.referenceNumbersCardLocator).toContainText('Companies House number 03080547')
+    await expect(this.detailsPage.referenceNumbersCardLocator).toContainText(`UID (Unique group identifier) ${this.detailsPage.currentTrust.uid}`)
+    await expect(this.detailsPage.referenceNumbersCardLocator).toContainText(`Group ID (identifier) and TRN (trust reference number) ${this.detailsPage.currentTrust.groupId}`)
+    await expect(this.detailsPage.referenceNumbersCardLocator).toContainText(`UKPRN (UK provider reference number) ${this.detailsPage.currentTrust.ukprn}`)
+    await expect(this.detailsPage.referenceNumbersCardLocator).toContainText(`Companies House number ${this.detailsPage.currentTrust.companiesHouseNumber}`)
   }
 }

@@ -7,6 +7,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 public interface IAcademiesDbContext
 {
     DbSet<Group> Groups { get; }
+    DbSet<MstrTrust> MstrTrusts { get; set; }
 }
 
 [ExcludeFromCodeCoverage]
@@ -22,11 +23,10 @@ public class AcademiesDbContext : DbContext, IAcademiesDbContext
     }
 
     public DbSet<Group> Groups { get; set; }
+    public DbSet<MstrTrust> MstrTrusts { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("sdd");
-
         modelBuilder.Entity<Group>(entity =>
         {
             entity
@@ -88,6 +88,21 @@ public class AcademiesDbContext : DbContext, IAcademiesDbContext
                 .IsUnicode(false)
                 .HasColumnName("Open date");
             entity.Property(e => e.Ukprn).HasColumnName("UKPRN");
+        });
+
+        modelBuilder.Entity<MstrTrust>(entity =>
+        {
+            entity
+                .HasKey(e => e.GroupUid);
+            entity.ToTable("Trust", "mstr");
+
+            entity.Property(e => e.GroupUid)
+                .IsUnicode(false)
+                .HasColumnName("Group UID");
+
+            entity.Property(e => e.GORregion)
+                .IsUnicode(false)
+                .HasColumnName("GORregion");
         });
     }
 }

@@ -16,18 +16,39 @@ public class TrustHelperTests
             GroupContactStreet = "12 Abbey Road",
             GroupContactLocality = "Dorthy Inlet",
             GroupContactTown = "East Park",
-            GroupContactPostcode = "JY36 9VC"
+            GroupContactPostcode = "JY36 9VC",
+            IncorporatedOnOpenDate = "20/12/1990",
+            CompaniesHouseNumber = "00123444"
         };
 
-        var result = _sut.CreateTrustFromGroup(group);
+        var mstrTrust = new MstrTrust
+        {
+            GroupUid = "1234", GORregion = "North East"
+        };
+
+        var result = _sut.CreateTrustFrom(group, mstrTrust);
 
         result.Should().BeEquivalentTo(new Trust(
-            "1234",
-            "trust 1",
-            "my groupId",
-            "my ukprn",
-            "Multi-academy trust",
-            "12 Abbey Road, Dorthy Inlet, East Park, JY36 9VC"));
+                "1234",
+                "trust 1",
+                "my groupId",
+                "my ukprn",
+                "Multi-academy trust",
+                "12 Abbey Road, Dorthy Inlet, East Park, JY36 9VC",
+                new DateTime(1990, 12, 20),
+                "00123444",
+                "North East"
+            )
+        );
+    }
+
+    [Theory]
+    [MemberData(nameof(EmptyData))]
+    public void CreateTrustFromGroup_Should_Include_Empty_string_values_if_properties_have_no_value(
+        Group group, MstrTrust mstrTrust, Trust expected)
+    {
+        var result = _sut.CreateTrustFrom(group, mstrTrust);
+        result.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -91,6 +112,30 @@ public class TrustHelperTests
             {
                 new Group { GroupContactStreet = "DorthyInlet", GroupContactPostcode = "JY36 9VC" },
                 "DorthyInlet, JY36 9VC"
+            }
+        };
+
+    public static IEnumerable<object[]> EmptyData =>
+        new List<object[]>
+        {
+            new object[]
+            {
+                new Group
+                {
+                    GroupUid = "1", GroupName = "", GroupId = "", GroupType = "", IncorporatedOnOpenDate = "",
+                    CompaniesHouseNumber = ""
+                },
+                new MstrTrust
+                {
+                    GroupUid = "1", GORregion = ""
+                },
+                new Trust("1", "", "", null, "", "", null, "", "")
+            },
+            new object[]
+            {
+                new Group { GroupUid = "2" },
+                new MstrTrust { GroupUid = "2" },
+                new Trust("2", "", "", null, "", "", null, "", "")
             }
         };
 }

@@ -1,642 +1,882 @@
 [
   {
-    "uid": "3591",
+    "uid": "1233",
     "name": "ABBEY LANE ACADEMIES TRUST",
-    "groupId": "TR3448",
-    "ukprn": "10032537",
+    "groupId": "TR2879",
+    "ukprn": "10034481",
     "type": "Multi-academy trust",
-    "address": "962 Jacobi Rest, IY50 5GP"
+    "address": "99627 Mathilde Way, YN0 5GP",
+    "openedDate": "2019-03-01T00:00:00",
+    "companiesHouseNumber": "02851944",
+    "regionAndTerritory": "North West"
   },
   {
-    "uid": "3635",
+    "uid": "1250",
     "name": "ACCLIVITY MULTI-ACADEMY TRUST",
-    "groupId": "TR7349",
-    "ukprn": "10095470",
+    "groupId": "TR9776",
+    "ukprn": "10058132",
     "type": "Multi-academy trust",
-    "address": "305 Lucius Green, Wolff Pass, XF20 0TR"
+    "address": "24755 Donnelly Garden, OY24 1OY",
+    "openedDate": "2014-05-30T00:00:00",
+    "companiesHouseNumber": "03544113",
+    "regionAndTerritory": ""
   },
   {
-    "uid": "1977",
+    "uid": "1270",
     "name": "ADEPT ACADEMY TRUST",
-    "groupId": "TR1544",
-    "ukprn": "10005032",
+    "groupId": "TR4738",
+    "ukprn": "10051788",
     "type": "Multi-academy trust",
-    "address": "242 Stanton Burgs, Ramon Isle, BM54 3CR"
+    "address": "3065 Bergstrom Summit, Jedidiah Ports, West Gaylord, PQ33 6HH",
+    "openedDate": "2017-12-26T00:00:00",
+    "companiesHouseNumber": "03982040",
+    "regionAndTerritory": "North East"
   },
   {
-    "uid": "5793",
+    "uid": "1277",
     "name": "ADVANTAGE ACADEMY TRUST",
-    "groupId": "TR5706",
-    "ukprn": "10080145",
+    "groupId": "TR7879",
+    "ukprn": "10052495",
     "type": "Multi-academy trust",
-    "address": "893 Emard Knolls, Zulaufmouth, GU83 9JB"
+    "address": "25575 Rupert Valley, Conn Fall, SV3 7SF",
+    "openedDate": "2015-01-23T00:00:00",
+    "companiesHouseNumber": "04316208",
+    "regionAndTerritory": "South East"
   },
   {
-    "uid": "4481",
+    "uid": "1244",
     "name": "ASCENDANCY ACADEMY TRUST",
-    "groupId": "TR2616",
-    "ukprn": "10030662",
+    "groupId": "TR7909",
+    "ukprn": "10084820",
     "type": "Multi-academy trust",
-    "address": "99780 Conroy Key, Andreanne Harbors, JM1 9EF"
+    "address": "61300 Emilio Gardens, Crooks Ports, FZ6 0VG",
+    "openedDate": "2022-10-23T00:00:00",
+    "companiesHouseNumber": "02094128",
+    "regionAndTerritory": "North East"
   },
   {
-    "uid": "1993",
+    "uid": "1263",
     "name": "BRIDGE EDUCATION TRUST",
-    "groupId": "TR5710",
-    "ukprn": "10078012",
+    "groupId": "TR9587",
+    "ukprn": "10086065",
     "type": "Multi-academy trust",
-    "address": "11734 Name Village, IF49 7LT"
+    "address": "832 Sven Springs, Mylene Summit, Goyetteview, EM96 0ZZ",
+    "openedDate": "2019-08-05T00:00:00",
+    "companiesHouseNumber": "08295189",
+    "regionAndTerritory": "South West"
   },
   {
-    "uid": "7541",
+    "uid": "1311",
     "name": "CANTERBURY CROSS EDUCATION TRUST",
-    "groupId": "TR3054",
-    "ukprn": "10080627",
+    "groupId": "TR6892",
+    "ukprn": "10011994",
     "type": "Multi-academy trust",
-    "address": "8582 Julian Stravenue, Ed Parkway, Hunterfort, BZ2 9SM"
+    "address": "8885 Dietrich Trail, Spinka Brook, PT1 9KV",
+    "openedDate": "2018-08-17T00:00:00",
+    "companiesHouseNumber": "09410190",
+    "regionAndTerritory": "East of England"
   },
   {
-    "uid": "1367",
+    "uid": "1282",
     "name": "CHALLENGER MULTI-ACADEMY TRUST",
-    "groupId": "TR3748",
-    "ukprn": "10061174",
+    "groupId": "TR7589",
+    "ukprn": "10030562",
     "type": "Multi-academy trust",
-    "address": "071 Baumbach Groves, West Justicechester, XK8 3WS"
+    "address": "96920 Gaylord Knolls, Douglas Stravenue, QN2 9IJ",
+    "openedDate": "2021-11-13T00:00:00",
+    "companiesHouseNumber": "05185253",
+    "regionAndTerritory": "South West"
   },
   {
-    "uid": "9833",
+    "uid": "1254",
     "name": "CHAMPION ACADEMY TRUST",
-    "groupId": "TR359",
-    "ukprn": "10046667",
+    "groupId": "TR1407",
+    "ukprn": "10010535",
     "type": "Multi-academy trust",
-    "address": "16740 Aurelie Trafficway, Mafaldaland, JP91 8RZ"
+    "address": "359 Rhiannon Rest, Smith Crossing, AX0 1MZ",
+    "openedDate": "2021-10-30T00:00:00",
+    "companiesHouseNumber": "08089497",
+    "regionAndTerritory": "North West"
   },
   {
-    "uid": "6861",
+    "uid": "1260",
     "name": "CORNERSTONE MULTI-ACADEMY TRUST",
-    "groupId": "TR2715",
-    "ukprn": "10081829",
+    "groupId": "TR2634",
+    "ukprn": "10040183",
     "type": "Multi-academy trust",
-    "address": "62484 Theodora Courts, Cristian Fort, VS6 0SG"
+    "address": "47738 Pfannerstill Club, Fisher Route, Alenefort, OY5 3SZ",
+    "openedDate": "2021-07-27T00:00:00",
+    "companiesHouseNumber": "06657230",
+    "regionAndTerritory": "London"
   },
   {
-    "uid": "8631",
+    "uid": "1264",
     "name": "CRESCENDO ACADEMY TRUST",
-    "groupId": "TR4697",
-    "ukprn": "10077360",
+    "groupId": "TR276",
+    "ukprn": "10078024",
     "type": "Multi-academy trust",
-    "address": "41514 Moen Cape, Lake Alecmouth, TL8 5TU"
+    "address": "71074 Mayer Shore, Hilpert Greens, JL42 5TF",
+    "openedDate": "2014-02-17T00:00:00",
+    "companiesHouseNumber": "04238039",
+    "regionAndTerritory": "South East"
   },
   {
-    "uid": "2546",
+    "uid": "1243",
     "name": "ECHELON EDUCATION TRUST",
-    "groupId": "TR3690",
-    "ukprn": "10070504",
+    "groupId": "TR7116",
+    "ukprn": "10003920",
     "type": "Multi-academy trust",
-    "address": "05705 Kreiger View, Alford Mountains, Rosannaberg, OJ8 0YK"
+    "address": "5490 Karelle Forks, Sporer Flats, YK3 2HG",
+    "openedDate": "2014-06-01T00:00:00",
+    "companiesHouseNumber": "09139155",
+    "regionAndTerritory": "North West"
   },
   {
-    "uid": "5220",
+    "uid": "1234",
     "name": "EDIFY MULTI-ACADEMY TRUST",
-    "groupId": "TR1968",
-    "ukprn": "10030737",
+    "groupId": "TR3073",
+    "ukprn": "10029064",
     "type": "Multi-academy trust",
-    "address": "87443 Zoila Burgs, Rubieport, AT2 5XC"
+    "address": "744 Jasmin Wells, AA7 2NX",
+    "openedDate": "2022-10-12T00:00:00",
+    "companiesHouseNumber": "01481711",
+    "regionAndTerritory": "East of England"
   },
   {
-    "uid": "2210",
+    "uid": "1240",
     "name": "ELEVATE SCHOOLS TRUST",
-    "groupId": "TR2370",
-    "ukprn": "10054017",
+    "groupId": "TR5760",
+    "ukprn": "10001631",
     "type": "Multi-academy trust",
-    "address": "9502 Conn Village, ZD1 1WO"
+    "address": "91973 Kenyon Drive, Port Brant, WO5 9MS",
+    "openedDate": "2019-09-07T00:00:00",
+    "companiesHouseNumber": "09999948",
+    "regionAndTerritory": "West Midlands"
   },
   {
-    "uid": "6287",
+    "uid": "1253",
     "name": "ELEVATED SCHOOLS TRUST",
-    "groupId": "TR7250",
-    "ukprn": "10046722",
+    "groupId": "TR3436",
+    "ukprn": "10011539",
     "type": "Multi-academy trust",
-    "address": "0934 Deja Shoals, Jarret Gateway, Germainetown, TL4 6AZ"
+    "address": "446 Wilbert Wall, Jamil Fords, Orionport, CW3 7OY",
+    "openedDate": "2018-10-18T00:00:00",
+    "companiesHouseNumber": "06963381",
+    "regionAndTerritory": "North East"
   },
   {
-    "uid": "5326",
+    "uid": "1280",
     "name": "EMPOWER ACADEMY TRUST",
-    "groupId": "TR3705",
-    "ukprn": "10069889",
+    "groupId": "TR340",
+    "ukprn": "10000707",
     "type": "Multi-academy trust",
-    "address": "39155 Margret Key, Pollich Inlet, Lake Roman, LZ02 2GZ"
+    "address": "99030 Bechtelar Crossroad, XB36 8BS",
+    "openedDate": "2022-04-09T00:00:00",
+    "companiesHouseNumber": "07561251",
+    "regionAndTerritory": "Yorkshire and the Humber"
   },
   {
-    "uid": "3595",
+    "uid": "1242",
     "name": "EMPOWERMENT MULTI-ACADEMY TRUST",
-    "groupId": "TR58",
-    "ukprn": "10013479",
+    "groupId": "TR445",
+    "ukprn": "10002002",
     "type": "Multi-academy trust",
-    "address": "32004 Jacinto Loaf, XT88 4IG"
+    "address": "3445 Hermann Stravenue, KI21 3SI",
+    "openedDate": "2023-05-03T00:00:00",
+    "companiesHouseNumber": "05628485",
+    "regionAndTerritory": "London"
   },
   {
-    "uid": "5864",
+    "uid": "1247",
     "name": "EPIC LEARNING TRUST",
-    "groupId": "TR9873",
-    "ukprn": "10019180",
+    "groupId": "TR476",
+    "ukprn": "10077980",
     "type": "Multi-academy trust",
-    "address": "39838 Eli Alley, Beahan Spur, EH24 1DS"
+    "address": "4948 Cummerata Glens, Gregoria Coves, YR7 7MT",
+    "openedDate": "2015-01-20T00:00:00",
+    "companiesHouseNumber": "02048801",
+    "regionAndTerritory": "North East"
   },
   {
-    "uid": "8411",
+    "uid": "1268",
     "name": "EXCEL MULTI-ACADEMY TRUST",
-    "groupId": "TR169",
-    "ukprn": "10048074",
+    "groupId": "TR7147",
+    "ukprn": "10086247",
     "type": "Multi-academy trust",
-    "address": "09243 Schuster Street, Josue Radial, Nyaberg, SW44 7MA"
+    "address": "4740 Kuphal Meadows, Alessia Vista, UN2 3ZC",
+    "openedDate": "2017-01-19T00:00:00",
+    "companiesHouseNumber": "08098286",
+    "regionAndTerritory": "South West"
   },
   {
-    "uid": "6285",
+    "uid": "1271",
     "name": "EXCELLENCE MULTI-ACADEMY TRUST",
-    "groupId": "TR5791",
-    "ukprn": "10006598",
+    "groupId": "TR422",
+    "ukprn": "10098627",
     "type": "Multi-academy trust",
-    "address": "246 Helga Landing, HP3 0ZN"
+    "address": "2926 Metz Mall, Okey Points, Daviston, ZR50 7CA",
+    "openedDate": "2019-09-26T00:00:00",
+    "companiesHouseNumber": "01833958",
+    "regionAndTerritory": ""
   },
   {
-    "uid": "3430",
+    "uid": "1275",
     "name": "FORWARD MULTI-ACADEMY TRUST",
-    "groupId": "TR339",
-    "ukprn": "10021634",
+    "groupId": "TR1383",
+    "ukprn": "10082763",
     "type": "Multi-academy trust",
-    "address": "6015 Nader Orchard, Filomena Center, HN22 1TV"
+    "address": "034 Brooke Drive, Rohan Neck, SO65 5OU",
+    "openedDate": "2016-06-11T00:00:00",
+    "companiesHouseNumber": "08482727",
+    "regionAndTerritory": "North West"
   },
   {
-    "uid": "4374",
+    "uid": "1279",
     "name": "FUSION EDUCATION TRUST",
-    "groupId": "TR7284",
-    "ukprn": "10072876",
+    "groupId": "TR9712",
+    "ukprn": "10014998",
     "type": "Multi-academy trust",
-    "address": "83745 Bayer Islands, South Rachael, JW22 7ZT"
+    "address": "5263 Pollich Inlet, Lake Idellshire, HG9 8LZ",
+    "openedDate": "2022-04-06T00:00:00",
+    "companiesHouseNumber": "04571230",
+    "regionAndTerritory": "South East"
   },
   {
-    "uid": "2094",
+    "uid": "1259",
     "name": "GALVANIZE ACADEMY TRUST",
-    "groupId": "TR1421",
-    "ukprn": "10085200",
+    "groupId": "TR2788",
+    "ukprn": "10094503",
     "type": "Multi-academy trust",
-    "address": "71381 Gage Passage, KO47 3AP"
+    "address": "584 Jenkins Road, MX4 3XC",
+    "openedDate": "2019-01-24T00:00:00",
+    "companiesHouseNumber": "03005016",
+    "regionAndTerritory": "North West"
   },
   {
-    "uid": "4487",
+    "uid": "1239",
     "name": "HORIZON MULTI-ACADEMY TRUST",
-    "groupId": "TR2983",
-    "ukprn": "10088809",
+    "groupId": "TR3720",
+    "ukprn": "10077082",
     "type": "Multi-academy trust",
-    "address": "81379 Kayleigh Wells, Wuckert Station, New Loren, UJ44 4EI"
+    "address": "359 Wuckert Station, Lake Pearlinebury, ME3 1GO",
+    "openedDate": "2019-11-11T00:00:00",
+    "companiesHouseNumber": "09176076",
+    "regionAndTerritory": "North West"
   },
   {
-    "uid": "8487",
+    "uid": "1266",
     "name": "HORIZONS MULTI-ACADEMY TRUST",
-    "groupId": "TR7156",
-    "ukprn": "10032679",
+    "groupId": "TR3031",
+    "ukprn": "10073223",
     "type": "Multi-academy trust",
-    "address": "8478 Mallory Fort, Yvonne Locks, JU7 0AO"
+    "address": "38700 Tromp Tunnel, Hoegerfurt, ZP8 7YA",
+    "openedDate": "2020-10-13T00:00:00",
+    "companiesHouseNumber": "01890178",
+    "regionAndTerritory": "East of England"
   },
   {
-    "uid": "8629",
+    "uid": "1281",
     "name": "ILLUMINATE LEARNING TRUST",
-    "groupId": "TR4592",
-    "ukprn": "10098667",
+    "groupId": "TR423",
+    "ukprn": "10031072",
     "type": "Multi-academy trust",
-    "address": "30019 Batz Junctions, Tomas Cape, PU4 8UX"
+    "address": "0762 Justice Row, Braeden Turnpike, YG6 5HP",
+    "openedDate": "2022-07-13T00:00:00",
+    "companiesHouseNumber": "09699456",
+    "regionAndTerritory": "South East"
   },
   {
-    "uid": "5273",
+    "uid": "1278",
     "name": "ILLUMINATE MULTI-ACADEMY TRUST",
-    "groupId": "TR8067",
-    "ukprn": "10023173",
+    "groupId": "TR7650",
+    "ukprn": "10048780",
     "type": "Multi-academy trust",
-    "address": "07532 Lueilwitz Shores, Brisaville, ZL5 0SV"
+    "address": "6033 Joanne Oval, Isabel Station, Geovannyhaven, SZ7 4JS",
+    "openedDate": "2022-12-19T00:00:00",
+    "companiesHouseNumber": "04041940",
+    "regionAndTerritory": "East of England"
   },
   {
-    "uid": "1386",
+    "uid": "1235",
     "name": "INNOVATE ACADEMY TRUST",
     "groupId": "TR3857",
     "ukprn": "10076731",
     "type": "Multi-academy trust",
-    "address": "76320 Bernardo Streets, Vicenta Points, MG92 0WP"
+    "address": "76320 Bernardo Streets, Vicenta Points, MG92 0WP",
+    "openedDate": "2019-07-15T00:00:00",
+    "companiesHouseNumber": "04979999",
+    "regionAndTerritory": "South West"
   },
   {
-    "uid": "7549",
+    "uid": "1261",
     "name": "INSPIRE MULTI-ACADEMY TRUST",
-    "groupId": "TR2802",
-    "ukprn": "10071831",
+    "groupId": "TR7131",
+    "ukprn": "10097862",
     "type": "Multi-academy trust",
-    "address": "83359 Halvorson Ridge, Bahringerfurt, DE12 6HF"
+    "address": "60611 Della Plaza, TH17 1RI",
+    "openedDate": "2015-05-18T00:00:00",
+    "companiesHouseNumber": "09521072",
+    "regionAndTerritory": "Yorkshire and the Humber"
   },
   {
-    "uid": "8525",
+    "uid": "1255",
     "name": "INTREPID EDUCATION TRUST",
-    "groupId": "TR1399",
-    "ukprn": "10022612",
+    "groupId": "TR6187",
+    "ukprn": "10051236",
     "type": "Multi-academy trust",
-    "address": "309 Adaline Union, OV98 5YF"
+    "address": "6589 Lemke Via, ZH53 7GY",
+    "openedDate": "2017-11-23T00:00:00",
+    "companiesHouseNumber": "06286966",
+    "regionAndTerritory": "North East"
   },
   {
-    "uid": "7265",
+    "uid": "1249",
     "name": "LEGACY EDUCATION TRUST",
-    "groupId": "TR8933",
-    "ukprn": "10065978",
+    "groupId": "TR3135",
+    "ukprn": "10001404",
     "type": "Multi-academy trust",
-    "address": "81595 Annabel Hills, WW92 1AZ"
+    "address": "703 Champlin Rapid, East Abbieshire, YU30 5BQ",
+    "openedDate": "2020-11-21T00:00:00",
+    "companiesHouseNumber": "08791528",
+    "regionAndTerritory": "East of England"
   },
   {
-    "uid": "3687",
+    "uid": "1246",
     "name": "MERIT ACADEMY TRUST",
-    "groupId": "TR9217",
-    "ukprn": "10002741",
+    "groupId": "TR7852",
+    "ukprn": "10089550",
     "type": "Multi-academy trust",
-    "address": "127 Schiller Forest, Ozella Turnpike, Ricemouth, ID32 8VN"
+    "address": "97519 Brandyn Key, Xanderville, YV3 8EH",
+    "openedDate": "2023-11-03T00:00:00",
+    "companiesHouseNumber": "09994759",
+    "regionAndTerritory": "North West"
   },
   {
-    "uid": "5245",
+    "uid": "1258",
     "name": "MILESTONE MULTI-ACADEMY TRUST",
-    "groupId": "TR6548",
-    "ukprn": "10025151",
+    "groupId": "TR8469",
+    "ukprn": "10081058",
     "type": "Multi-academy trust",
-    "address": "1846 Moen Bypass, Jodie Islands, LX09 6XF"
+    "address": "480 Murray Tunnel, FJ5 3GS",
+    "openedDate": "2018-09-09T00:00:00",
+    "companiesHouseNumber": "02786329",
+    "regionAndTerritory": ""
   },
   {
-    "uid": "4887",
+    "uid": "1236",
     "name": "MOMENTUM MULTI-ACADEMY TRUST",
-    "groupId": "TR4359",
-    "ukprn": "10008944",
+    "groupId": "TR894",
+    "ukprn": "10076510",
     "type": "Multi-academy trust",
-    "address": "954 Lee Flats, Feeneyport, LJ6 4RG"
+    "address": "540 Fay Ford, South Adelleberg, QM6 2CI",
+    "openedDate": "2018-03-12T00:00:00",
+    "companiesHouseNumber": "02476236",
+    "regionAndTerritory": "London"
   },
   {
-    "uid": "1232",
+    "uid": "1257",
     "name": "NEW HORIZONS TRUST",
-    "groupId": "TR1980",
-    "ukprn": "10038598",
+    "groupId": "TR82",
+    "ukprn": "10030337",
     "type": "Multi-academy trust",
-    "address": "48384 Rippin Fall, WI2 5HL"
+    "address": "283 Jovany Greens, Janiya Ports, East Rozella, TP00 5JK",
+    "openedDate": "2019-02-28T00:00:00",
+    "companiesHouseNumber": "07991197",
+    "regionAndTerritory": "South West"
   },
   {
-    "uid": "9993",
+    "uid": "1245",
     "name": "NEXUS MULTI-ACADEMY TRUST",
-    "groupId": "TR6072",
-    "ukprn": "10001266",
+    "groupId": "TR3247",
+    "ukprn": "10077751",
     "type": "Multi-academy trust",
-    "address": "211 Orin Extension, Kacey Burgs, South Lukasmouth, AY2 0AX"
+    "address": "35021 Lukas Parkways, North Aishaside, AU12 7RU",
+    "openedDate": "2021-06-11T00:00:00",
+    "companiesHouseNumber": "01459899",
+    "regionAndTerritory": "London"
   },
   {
-    "uid": "8459",
+    "uid": "1273",
     "name": "PATHFINDER MULTI-ACADEMY TRUST",
-    "groupId": "TR125",
-    "ukprn": "10079633",
+    "groupId": "TR9188",
+    "ukprn": "10081792",
     "type": "Multi-academy trust",
-    "address": "25030 Hyatt Parkways, Shields Underpass, Port Erickstad, ZP56 5XV"
+    "address": "98547 Fletcher Radial, EL00 0MB",
+    "openedDate": "2021-02-24T00:00:00",
+    "companiesHouseNumber": "01402379",
+    "regionAndTerritory": "East Midlands"
   },
   {
-    "uid": "7967",
+    "uid": "1248",
     "name": "PEAK MULTI-ACADEMY TRUST",
-    "groupId": "TR9048",
-    "ukprn": "10063401",
+    "groupId": "TR9768",
+    "ukprn": "10054945",
     "type": "Multi-academy trust",
-    "address": "96774 Thompson Course, UY34 9WJ"
+    "address": "7451 Little Springs, GV15 9OD",
+    "openedDate": "2023-03-12T00:00:00",
+    "companiesHouseNumber": "04139461",
+    "regionAndTerritory": "North East"
   },
   {
-    "uid": "2146",
+    "uid": "1251",
     "name": "PINNACLE EDUCATION TRUST",
-    "groupId": "TR319",
-    "ukprn": "10079574",
+    "groupId": "TR6610",
+    "ukprn": "10042464",
     "type": "Multi-academy trust",
-    "address": "59592 Berry Neck, North Aiden, KO3 2QQ"
+    "address": "01145 Curt Plains, Boyer Springs, OH47 9KR",
+    "openedDate": "2014-10-27T00:00:00",
+    "companiesHouseNumber": "09032175",
+    "regionAndTerritory": "East of England"
   },
   {
-    "uid": "4329",
+    "uid": "1265",
     "name": "POTENTIAL LEARNING TRUST",
-    "groupId": "TR3006",
-    "ukprn": "10027119",
+    "groupId": "TR8109",
+    "ukprn": "10003508",
     "type": "Multi-academy trust",
-    "address": "6959 Jaida Manor, Johnny Spring, Hermanfort, XK41 7SP"
+    "address": "834 Nelle Road, Sipes Roads, ER23 9LM",
+    "openedDate": "2019-05-30T00:00:00",
+    "companiesHouseNumber": "06152538",
+    "regionAndTerritory": ""
   },
   {
-    "uid": "4854",
+    "uid": "1238",
     "name": "PROGRESSIVE EDUCATION TRUST",
-    "groupId": "TR2121",
-    "ukprn": "10077922",
+    "groupId": "TR7792",
+    "ukprn": "10097245",
     "type": "Multi-academy trust",
-    "address": "458 Ronaldo Via, CO8 8WK"
+    "address": "5828 Rutherford Flats, VW33 2XD",
+    "openedDate": "2014-12-07T00:00:00",
+    "companiesHouseNumber": "02471956",
+    "regionAndTerritory": "Yorkshire and the Humber"
   },
   {
-    "uid": "6628",
+    "uid": "1256",
     "name": "PROSPECT MULTI-ACADEMY TRUST",
-    "groupId": "TR4527",
-    "ukprn": "10054970",
+    "groupId": "TR108",
+    "ukprn": "10062864",
     "type": "Multi-academy trust",
-    "address": "39869 Gutkowski Mills, DU26 1BK"
+    "address": "172 Dickens Cliff, Alden Extensions, South Rick, LV72 6IG",
+    "openedDate": "2015-11-29T00:00:00",
+    "companiesHouseNumber": "03932465",
+    "regionAndTerritory": "North West"
   },
   {
-    "uid": "3238",
+    "uid": "1272",
     "name": "PROSPERITY EDUCATION TRUST",
-    "groupId": "TR9390",
-    "ukprn": "10026003",
+    "groupId": "TR2060",
+    "ukprn": "10082880",
     "type": "Multi-academy trust",
-    "address": "6541 Nikolaus Groves, Davis Centers, SC0 4CF"
+    "address": "71250 Alfredo Orchard, PD5 9PP",
+    "openedDate": "2017-05-04T00:00:00",
+    "companiesHouseNumber": "05658617",
+    "regionAndTerritory": "East of England"
   },
   {
-    "uid": "9089",
+    "uid": "1267",
     "name": "RISE EDUCATION TRUST",
-    "groupId": "TR8918",
-    "ukprn": "10097735",
+    "groupId": "TR4261",
+    "ukprn": "10004356",
     "type": "Multi-academy trust",
-    "address": "159 Mark Fords, Wildermantown, LB4 4YW"
+    "address": "4988 Jayda Field, Toy Ford, NR4 6TG",
+    "openedDate": "2019-10-14T00:00:00",
+    "companiesHouseNumber": "06220933",
+    "regionAndTerritory": "South West"
   },
   {
-    "uid": "5818",
+    "uid": "1310",
     "name": "SHEFFIELD SOUTH EAST TRUST",
-    "groupId": "TR1858",
-    "ukprn": "10045329",
+    "groupId": "TR893",
+    "ukprn": "10078208",
     "type": "Multi-academy trust",
-    "address": "963 Aisha Stravenue, KH01 1ID"
+    "address": "9841 Loma Parkway, Wilbert Valley, JU6 5NM",
+    "openedDate": "2017-04-06T00:00:00",
+    "companiesHouseNumber": "05398515",
+    "regionAndTerritory": "North West"
   },
   {
-    "uid": "4220",
+    "uid": "1283",
     "name": "ST MARY\u0027S ACADEMY TRUST",
-    "groupId": "TR9597",
-    "ukprn": "10026696",
+    "groupId": "TR3646",
+    "ukprn": "10077868",
     "type": "Single-academy trust",
-    "address": "526 Virginie Shores, KU2 8FG"
+    "address": "36740 Mozelle Square, Matt Isle, South Teresaland, LU8 9DI",
+    "openedDate": "2021-06-27T00:00:00",
+    "companiesHouseNumber": "01189440",
+    "regionAndTerritory": "South East"
   },
   {
-    "uid": "7528",
+    "uid": "1284",
     "name": "ST MARY\u0027S ANGLICAN ACADEMY",
-    "groupId": "TR4274",
-    "ukprn": "10065453",
+    "groupId": "TR1904",
+    "ukprn": "10065549",
     "type": "Single-academy trust",
-    "address": "65293 Clovis Lodge, Orlo Ford, Michelleview, TU2 6JA"
+    "address": "77600 Blaise Meadow, Hunterburgh, GM42 0KY",
+    "openedDate": "2014-02-18T00:00:00",
+    "companiesHouseNumber": "04503965",
+    "regionAndTerritory": "North East"
   },
   {
-    "uid": "1547",
+    "uid": "1285",
     "name": "ST MARY\u0027S CATHOLIC HIGH SCHOOL ACADEMY TRUST",
-    "groupId": "TR4581",
-    "ukprn": "10091692",
+    "groupId": "TR4391",
+    "ukprn": "10053804",
     "type": "Single-academy trust",
-    "address": "10488 Champlin Harbor, AA1 4JD"
+    "address": "2010 Lakin Village, Wisoky Camp, VF58 0TU",
+    "openedDate": "2016-11-20T00:00:00",
+    "companiesHouseNumber": "03164989",
+    "regionAndTerritory": "South West"
   },
   {
-    "uid": "8772",
+    "uid": "1286",
     "name": "ST MARY\u0027S CATHOLIC PRIMARY SCHOOL",
-    "groupId": "TR9919",
-    "ukprn": "10063708",
+    "groupId": "TR747",
+    "ukprn": "10065631",
     "type": "Single-academy trust",
-    "address": "3252 Henri Field, South Kaleb, BF0 5NY"
+    "address": "7065 Bode Crest, Manley Unions, BQ5 2LJ",
+    "openedDate": "2022-04-13T00:00:00",
+    "companiesHouseNumber": "02583599",
+    "regionAndTerritory": "Yorkshire and the Humber"
   },
   {
-    "uid": "7579",
+    "uid": "1287",
     "name": "ST MARY\u0027S CATHOLIC PRIMARY SCHOOL (ACADEMY TRUST), SWINDON",
-    "groupId": "TR9662",
-    "ukprn": "10004077",
+    "groupId": "TR9211",
+    "ukprn": "10071925",
     "type": "Single-academy trust",
-    "address": "7679 Schultz Field, Predovicberg, JS06 5PC"
+    "address": "4258 Rowan Pike, CP44 1PQ",
+    "openedDate": "2017-10-16T00:00:00",
+    "companiesHouseNumber": "05821489",
+    "regionAndTerritory": ""
   },
   {
-    "uid": "2218",
+    "uid": "1288",
     "name": "ST MARY\u0027S CATHOLIC PRIMARY SCHOOL (HERRINGTHORPE), A CATHOLIC VOLUNTARY ACADEMY",
-    "groupId": "TR540",
-    "ukprn": "10066636",
+    "groupId": "TR3904",
+    "ukprn": "10091329",
     "type": "Single-academy trust",
-    "address": "193 Leuschke Extension, Lionel Neck, West Carlos, SJ42 5VL"
+    "address": "94687 Ruecker Drive, Macifort, YP5 4GC",
+    "openedDate": "2020-07-05T00:00:00",
+    "companiesHouseNumber": "03434646",
+    "regionAndTerritory": "South West"
   },
   {
-    "uid": "8653",
+    "uid": "1289",
     "name": "ST MARY\u0027S CATHOLIC PRIMARY SCHOOL (MALTBY)",
-    "groupId": "TR5924",
-    "ukprn": "10002382",
+    "groupId": "TR8784",
+    "ukprn": "10028937",
     "type": "Single-academy trust",
-    "address": "482 O\u0027Hara Turnpike, PN39 3YM"
+    "address": "828 Marielle Rest, Waters Flats, JN69 5UM",
+    "openedDate": "2021-11-17T00:00:00",
+    "companiesHouseNumber": "06224280",
+    "regionAndTerritory": "North West"
   },
   {
-    "uid": "6847",
+    "uid": "1290",
     "name": "ST MARY\u0027S CATHOLIC PRIMARY SCHOOL, CHURCHDOWN",
-    "groupId": "TR8618",
-    "ukprn": "10071294",
+    "groupId": "TR7769",
+    "ukprn": "10036478",
     "type": "Single-academy trust",
-    "address": "7107 Odie Mount, Schiller Drive, Morarmouth, CI2 8HS"
+    "address": "633 Skiles Island, YB06 4TL",
+    "openedDate": "2016-08-29T00:00:00",
+    "companiesHouseNumber": "08468944",
+    "regionAndTerritory": "South East"
   },
   {
-    "uid": "8648",
+    "uid": "1291",
     "name": "ST MARY\u0027S CATHOLIC PRIMARY SCHOOLS TRUST",
-    "groupId": "TR2395",
-    "ukprn": "10089517",
+    "groupId": "TR5748",
+    "ukprn": "10091049",
     "type": "Multi-academy trust",
-    "address": "6699 Filomena Trail, UM15 7JW"
+    "address": "930 Marjorie Harbor, Bauchfurt, AO8 5DW",
+    "openedDate": "2014-07-14T00:00:00",
+    "companiesHouseNumber": "05915255",
+    "regionAndTerritory": ""
   },
   {
-    "uid": "7012",
+    "uid": "1292",
     "name": "ST MARY\u0027S CE ACADEMY, CHESHUNT",
-    "groupId": "TR3833",
-    "ukprn": "10031548",
+    "groupId": "TR1430",
+    "ukprn": "10049762",
     "type": "Single-academy trust",
-    "address": "8303 Schultz Plains, TL7 8OX"
+    "address": "91264 Thomas Plains, Urban Spurs, Sanfordshire, AH0 9II",
+    "openedDate": "2019-08-27T00:00:00",
+    "companiesHouseNumber": "02584157",
+    "regionAndTerritory": "East of England"
   },
   {
-    "uid": "7687",
+    "uid": "1293",
     "name": "ST MARY\u0027S CHURCH OF ENGLAND ACADEMY TRUST",
-    "groupId": "TR9199",
-    "ukprn": "10036765",
+    "groupId": "TR9423",
+    "ukprn": "10097767",
     "type": "Single-academy trust",
-    "address": "36382 Veum Shore, Luna Cliff, South Sheastad, YO14 1YC"
+    "address": "898 Schuster Mission, Lake Billie, MF09 8DL",
+    "openedDate": "2017-08-17T00:00:00",
+    "companiesHouseNumber": "05655575",
+    "regionAndTerritory": "South East"
   },
   {
-    "uid": "3197",
+    "uid": "1294",
     "name": "ST MARY\u0027S CHURCH OF ENGLAND ACADEMY, STOTFOLD",
-    "groupId": "TR6640",
-    "ukprn": "10048751",
+    "groupId": "TR8441",
+    "ukprn": "10046156",
     "type": "Single-academy trust",
-    "address": "96197 Tressie Springs, Jacobs Groves, North Vincenza, KE9 9UX"
+    "address": "67845 Camryn Route, West Demetris, PO9 9KW",
+    "openedDate": "2021-10-31T00:00:00",
+    "companiesHouseNumber": "02084024",
+    "regionAndTerritory": "North West"
   },
   {
-    "uid": "9890",
+    "uid": "1295",
     "name": "ST MARY\u0027S CHURCH OF ENGLAND JUNIOR SCHOOL",
-    "groupId": "TR8266",
-    "ukprn": "10089921",
+    "groupId": "TR9943",
+    "ukprn": "10015651",
     "type": "Single-academy trust",
-    "address": "537 Shayna Landing, DL65 8MF"
+    "address": "4330 Elton Shores, IJ5 4XC",
+    "openedDate": "2021-11-15T00:00:00",
+    "companiesHouseNumber": "09173613",
+    "regionAndTerritory": "North East"
   },
   {
-    "uid": "6490",
+    "uid": "1296",
     "name": "ST MARY\u0027S CHURCH OF ENGLAND PRIMARY ACADEMY, DILWYN",
-    "groupId": "TR7683",
-    "ukprn": "10082430",
+    "groupId": "TR2757",
+    "ukprn": "10054354",
     "type": "Single-academy trust",
-    "address": "5017 Bobby Tunnel, Jones Lake, YK82 1ZE"
+    "address": "29635 Lehner Glens, Schoen Street, New Earnestland, XY65 5WS",
+    "openedDate": "2019-03-02T00:00:00",
+    "companiesHouseNumber": "07727951",
+    "regionAndTerritory": "South East"
   },
   {
-    "uid": "6605",
+    "uid": "1297",
     "name": "ST MARY\u0027S CHURCH OF ENGLAND SCHOOL, NORWOOD GREEN",
-    "groupId": "TR4340",
-    "ukprn": "10036531",
-    "type": "Single-academy trust",
-    "address": "03379 Gianni Trail, XC1 9HO"
-  },
-  {
-    "uid": "3446",
-    "name": "ST MARY\u0027S CHURCH OF ENGLAND VA PRIMARY ACADEMY",
-    "groupId": "TR2198",
-    "ukprn": "10090044",
-    "type": "Single-academy trust",
-    "address": "3585 Orlo Station, YQ55 8SM"
-  },
-  {
-    "uid": "7702",
-    "name": "ST MARY\u0027S PRIMARY SCHOOL, A CATHOLIC VOLUNTARY ACADEMY",
     "groupId": "TR7246",
     "ukprn": "10033189",
     "type": "Single-academy trust",
-    "address": "47805 Lazaro Alley, Pearlie Lights, South Jessieton, QZ11 3PQ"
+    "address": "47805 Lazaro Alley, Pearlie Lights, South Jessieton, QZ11 3PQ",
+    "openedDate": "2017-07-11T00:00:00",
+    "companiesHouseNumber": "04459007",
+    "regionAndTerritory": "London"
   },
   {
-    "uid": "8535",
+    "uid": "1298",
+    "name": "ST MARY\u0027S CHURCH OF ENGLAND VA PRIMARY ACADEMY",
+    "groupId": "TR7505",
+    "ukprn": "10065784",
+    "type": "Single-academy trust",
+    "address": "18963 Jess Circles, Craig Mountain, ZJ60 9CJ",
+    "openedDate": "2023-10-16T00:00:00",
+    "companiesHouseNumber": "03109883",
+    "regionAndTerritory": ""
+  },
+  {
+    "uid": "1299",
+    "name": "ST MARY\u0027S PRIMARY SCHOOL, A CATHOLIC VOLUNTARY ACADEMY",
+    "groupId": "TR3884",
+    "ukprn": "10022500",
+    "type": "Single-academy trust",
+    "address": "9683 Luther Point, Harley Crossing, Evalynfurt, DU2 0AB",
+    "openedDate": "2019-12-06T00:00:00",
+    "companiesHouseNumber": "04460858",
+    "regionAndTerritory": "West Midlands"
+  },
+  {
+    "uid": "1262",
     "name": "SUCCESS MULTI-ACADEMY TRUST",
-    "groupId": "TR5704",
-    "ukprn": "10013249",
+    "groupId": "TR7683",
+    "ukprn": "10072268",
     "type": "Multi-academy trust",
-    "address": "90767 Bethel Roads, Runtechester, CS64 6OO"
+    "address": "7176 Marge Parkways, North Bethchester, DT9 4AY",
+    "openedDate": "2016-10-15T00:00:00",
+    "companiesHouseNumber": "09186752",
+    "regionAndTerritory": "North East"
   },
   {
-    "uid": "6696",
+    "uid": "1300",
     "name": "THE DIOCESE OF CANTERBURY ACADEMIES TRUST",
-    "groupId": "TR3774",
-    "ukprn": "10075056",
+    "groupId": "TR9963",
+    "ukprn": "10002695",
     "type": "Multi-academy trust",
-    "address": "0189 Jacobi Cape, Antwan Cove, Alfredbury, QO93 6BZ"
+    "address": "66616 Mariana Ferry, Pagac Rest, Port Kevon, YC73 7XW",
+    "openedDate": "2019-06-12T00:00:00",
+    "companiesHouseNumber": "01895143",
+    "regionAndTerritory": "East Midlands"
   },
   {
-    "uid": "1973",
+    "uid": "1301",
     "name": "THE DIOCESE OF CHELMSFORD VINE SCHOOLS TRUST",
-    "groupId": "TR3588",
-    "ukprn": "10000620",
+    "groupId": "TR1481",
+    "ukprn": "10037344",
     "type": "Multi-academy trust",
-    "address": "32396 Heathcote Forge, Nader Cape, LD7 2BA"
+    "address": "243 Jed View, LQ81 4XO",
+    "openedDate": "2019-05-07T00:00:00",
+    "companiesHouseNumber": "09149912",
+    "regionAndTerritory": "North East"
   },
   {
-    "uid": "1633",
+    "uid": "1302",
     "name": "THE DIOCESE OF COVENTRY MULTI-ACADEMY TRUST",
-    "groupId": "TR3924",
-    "ukprn": "10037762",
+    "groupId": "TR3125",
+    "ukprn": "10081748",
     "type": "Multi-academy trust",
-    "address": "016 Moen Drives, Goldner Ranch, Mariannachester, WO1 8YC"
+    "address": "677 Casper Grove, Damaris Fall, Willside, WD7 0XV",
+    "openedDate": "2022-05-24T00:00:00",
+    "companiesHouseNumber": "05098138",
+    "regionAndTerritory": "North East"
   },
   {
-    "uid": "7429",
+    "uid": "1303",
     "name": "THE DIOCESE OF ELY MULTI-ACADEMY TRUST",
-    "groupId": "TR3426",
-    "ukprn": "10070437",
+    "groupId": "TR8059",
+    "ukprn": "10023481",
     "type": "Multi-academy trust",
-    "address": "840 Garett Street, Jaquelin Inlet, UH64 8TL"
+    "address": "997 Iliana Union, Welch Shores, East Cesarborough, OC78 2IP",
+    "openedDate": "2017-03-14T00:00:00",
+    "companiesHouseNumber": "03818997",
+    "regionAndTerritory": "South East"
   },
   {
-    "uid": "6713",
+    "uid": "1304",
     "name": "THE DIOCESE OF GLOUCESTER ACADEMIES TRUST",
-    "groupId": "TR8545",
-    "ukprn": "10019464",
+    "groupId": "TR1097",
+    "ukprn": "10026208",
     "type": "Multi-academy trust",
-    "address": "9549 Reba Well, West Geneberg, YY9 1IW"
+    "address": "152 Hayes Drive, Jamey Loop, Baileyburgh, GQ9 6RW",
+    "openedDate": "2022-03-30T00:00:00",
+    "companiesHouseNumber": "06281348",
+    "regionAndTerritory": "North East"
   },
   {
-    "uid": "2306",
+    "uid": "1305",
     "name": "THE DIOCESE OF NORWICH EDUCATION AND ACADEMIES TRUST",
-    "groupId": "TR7947",
-    "ukprn": "10005049",
+    "groupId": "TR3636",
+    "ukprn": "10010147",
     "type": "Multi-academy trust",
-    "address": "814 Feil Villages, Veum Shore, CG21 3BR"
+    "address": "7530 Hartmann Port, EJ16 6GZ",
+    "openedDate": "2020-08-24T00:00:00",
+    "companiesHouseNumber": "01254059",
+    "regionAndTerritory": "London"
   },
   {
-    "uid": "6072",
+    "uid": "1306",
     "name": "THE DIOCESE OF NORWICH ST BENET\u0027S MULTI-ACADEMY TRUST",
-    "groupId": "TR856",
-    "ukprn": "10070446",
+    "groupId": "TR3672",
+    "ukprn": "10048763",
     "type": "Multi-academy trust",
-    "address": "235 Haag Court, Port Eusebio, MM1 9AH"
+    "address": "0099 Abernathy Lodge, Cole Isle, Gaylordport, LI0 6SH",
+    "openedDate": "2014-03-01T00:00:00",
+    "companiesHouseNumber": "02884439",
+    "regionAndTerritory": "South West"
   },
   {
-    "uid": "1013",
+    "uid": "1307",
     "name": "THE DIOCESE OF SHEFFIELD ACADEMIES TRUST",
-    "groupId": "TR3647",
-    "ukprn": "10025842",
+    "groupId": "TR1821",
+    "ukprn": "10042030",
     "type": "Multi-academy trust",
-    "address": "9668 Kristina Island, North Miguel, TU28 3WA"
+    "address": "460 Faye Summit, Mikel Spring, LV9 6HC",
+    "openedDate": "2023-08-28T00:00:00",
+    "companiesHouseNumber": "08362374",
+    "regionAndTerritory": "West Midlands"
   },
   {
-    "uid": "9800",
+    "uid": "1308",
     "name": "THE DIOCESE OF WESTMINSTER ACADEMY TRUST",
-    "groupId": "TR5859",
-    "ukprn": "10019185",
+    "groupId": "TR8707",
+    "ukprn": "10067538",
     "type": "Multi-academy trust",
-    "address": "1662 Hammes Bridge, Jedidiah Parkway, Port Tamiafort, UD3 4OJ"
+    "address": "88707 Jakubowski Garden, Cassie Cove, Lake Elmirafort, OW20 5VE",
+    "openedDate": "2021-01-05T00:00:00",
+    "companiesHouseNumber": "06193174",
+    "regionAndTerritory": "London"
   },
   {
-    "uid": "5715",
+    "uid": "1309",
     "name": "THE DIOCESE OF WORCESTER MULTI ACADEMY TRUST",
-    "groupId": "TR2273",
-    "ukprn": "10014909",
+    "groupId": "TR1174",
+    "ukprn": "10064331",
     "type": "Multi-academy trust",
-    "address": "3067 Vivienne Fall, Hector Route, Adolphuston, BS72 8MW"
+    "address": "8130 Effertz Village, Kunze Drive, Juliannetown, UW9 2OX",
+    "openedDate": "2020-09-02T00:00:00",
+    "companiesHouseNumber": "08348193",
+    "regionAndTerritory": "South West"
   },
   {
-    "uid": "1870",
+    "uid": "1252",
     "name": "THRIVE MULTI-ACADEMY TRUST",
-    "groupId": "TR7766",
-    "ukprn": "10001841",
+    "groupId": "TR3596",
+    "ukprn": "10023922",
     "type": "Multi-academy trust",
-    "address": "8069 Gorczany Knoll, Toyborough, PQ58 0CP"
+    "address": "5658 Arjun Pass, Reilly Loop, Port Eunaview, TG4 2AS",
+    "openedDate": "2019-12-31T00:00:00",
+    "companiesHouseNumber": "01290370",
+    "regionAndTerritory": "East of England"
   },
   {
-    "uid": "7801",
+    "uid": "1276",
     "name": "TRANSCENDENCE EDUCATION TRUST",
-    "groupId": "TR3567",
-    "ukprn": "10013839",
+    "groupId": "TR9626",
+    "ukprn": "10031118",
     "type": "Multi-academy trust",
-    "address": "703 Hester Crossing, NQ7 5PN"
+    "address": "241 Schoen Spurs, Zulauf Park, XJ0 4UG",
+    "openedDate": "2022-03-04T00:00:00",
+    "companiesHouseNumber": "01415506",
+    "regionAndTerritory": ""
   },
   {
-    "uid": "6183",
+    "uid": "1269",
     "name": "UNITY LEARNING TRUST",
-    "groupId": "TR4978",
-    "ukprn": "10049237",
+    "groupId": "TR4181",
+    "ukprn": "10099676",
     "type": "Multi-academy trust",
-    "address": "0935 Cassidy Ports, Quincy Mountain, KZ46 1OI"
+    "address": "6153 Carey Cape, Fritsch Lodge, Stantontown, JF09 4CY",
+    "openedDate": "2017-10-31T00:00:00",
+    "companiesHouseNumber": "01533530",
+    "regionAndTerritory": "South East"
   },
   {
-    "uid": "2032",
+    "uid": "1237",
     "name": "VANGUARD LEARNING TRUST",
-    "groupId": "TR3344",
-    "ukprn": "10056595",
+    "groupId": "TR8316",
+    "ukprn": "10000337",
     "type": "Multi-academy trust",
-    "address": "80787 Mitchell Junction, Oscarton, FF60 4GU"
+    "address": "877 Hoppe Hollow, FR0 4GU",
+    "openedDate": "2019-07-28T00:00:00",
+    "companiesHouseNumber": "02988019",
+    "regionAndTerritory": "South East"
   },
   {
-    "uid": "6347",
+    "uid": "1241",
     "name": "VISIONARY ACADEMY TRUST",
-    "groupId": "TR9154",
-    "ukprn": "10047221",
+    "groupId": "TR450",
+    "ukprn": "10063631",
     "type": "Multi-academy trust",
-    "address": "490 Price Street, PJ22 1QX"
+    "address": "810 Viola Parkways, Gerardberg, QX2 0DC",
+    "openedDate": "2020-03-26T00:00:00",
+    "companiesHouseNumber": "03057358",
+    "regionAndTerritory": "South West"
   },
   {
-    "uid": "2411",
+    "uid": "1274",
     "name": "VITALITY ACADEMY TRUST",
-    "groupId": "TR9144",
-    "ukprn": "10084828",
+    "groupId": "TR2163",
+    "ukprn": "10050184",
     "type": "Multi-academy trust",
-    "address": "4743 Hodkiewicz Springs, LA0 0MB"
+    "address": "0158 Lockman Brooks, NF2 1TV",
+    "openedDate": "2016-04-18T00:00:00",
+    "companiesHouseNumber": "04275021",
+    "regionAndTerritory": "North East"
   },
   {
-    "uid": "2513",
+    "uid": "1312",
     "name": "WESTMINSTER ACADEMY TRUST",
-    "groupId": "TR760",
-    "ukprn": "10059089",
+    "groupId": "TR295",
+    "ukprn": "10047351",
     "type": "Multi-academy trust",
-    "address": "0348 Zieme Gardens, EH6 5JZ"
+    "address": "84294 Dion Rest, Candida Hill, JZ6 6VD",
+    "openedDate": "2023-02-05T00:00:00",
+    "companiesHouseNumber": "07722040",
+    "regionAndTerritory": "North East"
   }
 ]

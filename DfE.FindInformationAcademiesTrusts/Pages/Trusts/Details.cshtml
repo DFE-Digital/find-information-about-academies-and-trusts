@@ -1,4 +1,4 @@
-@page "{uid}"
+@page
 @model DetailsModel
 @{
   Layout = "_TrustLayout";
@@ -16,7 +16,7 @@
             Address
           </dt>
           <dd class="govuk-summary-list__value">
-            Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC
+            @Model.Trust.Address
           </dd>
         </div>
         <div class="govuk-summary-list__row">
@@ -24,7 +24,10 @@
             Opened on
           </dt>
           <dd class="govuk-summary-list__value">
-            30 Dec 2013
+            @if (Model.Trust.OpenedDate is not null)
+            {
+              @Model.Trust.OpenedDate.Value.ToString("d MMM yyyy")
+            }
           </dd>
         </div>
         <div class="govuk-summary-list__row">
@@ -32,7 +35,7 @@
             Region and territory
           </dt>
           <dd class="govuk-summary-list__value">
-            Yorkshire and the Humber
+            @Model.Trust.RegionAndTerritory
           </dd>
         </div>
         <div class="govuk-summary-list__row">
@@ -71,7 +74,7 @@
             UID (Unique group identifier)
           </dt>
           <dd class="govuk-summary-list__value">
-            2412
+            @Model.Trust.Uid
           </dd>
         </div>
         <div class="govuk-summary-list__row">
@@ -79,7 +82,7 @@
             Group ID (identifier) and TRN (trust reference number)
           </dt>
           <dd class="govuk-summary-list__value">
-            TR3971
+            @Model.Trust.GroupId
           </dd>
         </div>
         <div class="govuk-summary-list__row">
@@ -87,7 +90,7 @@
             UKPRN (UK provider reference number)
           </dt>
           <dd class="govuk-summary-list__value">
-            10013796
+            @Model.Trust.Ukprn
           </dd>
         </div>
         <div class="govuk-summary-list__row">
@@ -95,7 +98,7 @@
             Companies House number
           </dt>
           <dd class="govuk-summary-list__value">
-            03080547
+            @Model.Trust.CompaniesHouseNumber
           </dd>
         </div>
       </dl>

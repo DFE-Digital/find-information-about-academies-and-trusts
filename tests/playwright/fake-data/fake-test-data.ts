@@ -6,6 +6,10 @@ export interface FakeTrust {
   uid: string
   groupId: string
   type: string
+  ukprn: string
+  openedDate: string
+  companiesHouseNumber: string
+  regionAndTerritory: string
 }
 
 export class FakeTestData {
