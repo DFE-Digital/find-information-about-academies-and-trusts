@@ -22,7 +22,11 @@ public class TrustHelper : ITrustHelper
             BuildAddressString(group),
             ParseAsDate(group.IncorporatedOnOpenDate),
             group.CompaniesHouseNumber ?? string.Empty,
-            mstrTrust.GORregion ?? string.Empty
+            mstrTrust.GORregion ?? string.Empty,
+            Array.Empty<Academy>(),
+            Array.Empty<Governor>(),
+            null,
+            null
         );
     }
 
