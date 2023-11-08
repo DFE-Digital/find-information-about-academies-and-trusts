@@ -62,12 +62,14 @@
           </li>
         }
       </ul>
-      <partial name="Shared/_Pagination" TItem="TrustSearchEntry"/>
     }
     else
     {
       <p class="govuk-body">Check the spelling of the trust name. Make sure you include the right punctuation.</p>
     }
-
   </section>
 </div>
+@if (Model.PageStatus.TotalResults > 0)
+{
+  <partial name="Shared/_Pagination"/>
+}
