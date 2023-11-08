@@ -1,0 +1,35 @@
+@model IAcademiesAreaModel
+
+@{
+  Layout = "_TrustLayout";
+}
+
+@functions {
+
+  private string? GetAriaCurrentIf(string linkName)
+  {
+    var ariaCurrentValue = "page";
+    return Model.TabName == linkName ? ariaCurrentValue : null;
+  }
+
+}
+
+<nav class="moj-sub-navigation" aria-label="Sub navigation">
+
+  <ul class="moj-sub-navigation__list">
+    <li class="moj-sub-navigation__item">
+      <a id="academies-details-link" class="moj-sub-navigation__link" aria-current="@GetAriaCurrentIf("Details")" asp-page="./Details" asp-route-uid="@Model.Trust.Uid"><span class="visually-hidden">Academies</span>Details</a>
+    </li>
+
+    <li class="moj-sub-navigation__item">
+      <a class="moj-sub-navigation__link" aria-current="@GetAriaCurrentIf("Ofsted ratings")" asp-page="./OfstedRatings" asp-route-uid="@Model.Trust.Uid"><span class="visually-hidden">Academies</span>Ofsted ratings</a>
+    </li>
+  </ul>
+
+</nav>
+
+@RenderBody()
+
+@section Scripts {
+  @await RenderSectionAsync("Scripts", false)
+}
