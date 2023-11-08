@@ -162,7 +162,7 @@ public class SearchModelTests
     [Fact]
     public void PageStatus_should_default_to_empty()
     {
-        _sut.PageStatus.Should().BeEquivalentTo(new Pagination(0, 0, 0));
+        _sut.PageStatus.Should().BeEquivalentTo(new PageStatus(0, 0, 0));
     }
 
     [Fact]

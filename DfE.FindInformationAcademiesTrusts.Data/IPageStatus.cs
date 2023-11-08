@@ -1,6 +1,6 @@
 ﻿namespace DfE.FindInformationAcademiesTrusts.Data;
 
-public interface IPagination
+public interface IPageStatus
 {
     int PageIndex { get; }
     int TotalPages { get; }

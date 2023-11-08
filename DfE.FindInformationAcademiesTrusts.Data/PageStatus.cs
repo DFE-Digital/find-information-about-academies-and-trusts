@@ -1,8 +1,8 @@
 ﻿namespace DfE.FindInformationAcademiesTrusts.Data;
 
-public class Pagination : IPagination
+public class PageStatus : IPageStatus
 {
-    public Pagination(int pageIndex, int totalPages, int totalResults)
+    public PageStatus(int pageIndex, int totalPages, int totalResults)
     {
         PageIndex = pageIndex;
         TotalPages = totalPages;

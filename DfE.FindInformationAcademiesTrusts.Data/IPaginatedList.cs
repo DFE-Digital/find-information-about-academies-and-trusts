@@ -2,5 +2,5 @@
 
 public interface IPaginatedList<T> : IList<T>
 {
-    public Pagination Pagination { get; }
+    public PageStatus PageStatus { get; }
 }

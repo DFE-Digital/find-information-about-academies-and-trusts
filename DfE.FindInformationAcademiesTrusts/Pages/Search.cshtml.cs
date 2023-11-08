@@ -13,7 +13,7 @@ public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
     private readonly ITrustProvider _trustProvider;
     private readonly ITrustSearch _trustSearch;
     public string PageName { get; } = "Search";
-    public IPagination PageStatus { get; set; }
+    public IPageStatus PageStatus { get; set; }
     public Dictionary<string, string> PaginationRouteData { get; set; } = new();
     public string InputId => "search";
     [BindProperty(SupportsGet = true)] public string KeyWords { get; set; } = string.Empty;
@@ -27,7 +27,7 @@ public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
     {
         _trustProvider = trustProvider;
         _trustSearch = trustSearch;
-        PageStatus = Trusts.Pagination;
+        PageStatus = Trusts.PageStatus;
     }
 
     public string InputId => "search";
@@ -55,7 +55,7 @@ public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
         }
 
         Trusts = await GetTrustsForKeywords();
-        PageStatus = Trusts.Pagination;
+        PageStatus = Trusts.PageStatus;
         PaginationRouteData = new Dictionary<string, string> { { "Keywords", KeyWords } };
         return new PageResult();
     }
@@ -69,7 +69,7 @@ public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
 
     public async Task<IActionResult> OnGetPopulateAutocompleteAsync()
     {
-        return new JsonResult((await GetTrustsForKeywords()).ToArray()
+        return new JsonResult((await GetTrustsForKeywords())
             .Select(trust =>
                 new AutocompleteEntry(
                     trust.Address,
