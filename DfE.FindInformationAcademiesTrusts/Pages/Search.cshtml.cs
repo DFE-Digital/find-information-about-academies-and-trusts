@@ -6,17 +6,28 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
 [ValidateAntiForgeryToken]
-public class SearchModel : PageModel, ISearchFormModel
+public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
 {
     public record AutocompleteEntry(string Address, string Name, string? TrustId);
 
     private readonly ITrustProvider _trustProvider;
     private readonly ITrustSearch _trustSearch;
+    public string PageName { get; } = "Search";
+    public IPagination PageStatus { get; set; }
+    public Dictionary<string, string> PaginationRouteData { get; set; } = new();
+    public string InputId => "search";
+    [BindProperty(SupportsGet = true)] public string KeyWords { get; set; } = string.Empty;
+    [BindProperty(SupportsGet = true)] public string Uid { get; set; } = string.Empty;
+    [BindProperty(SupportsGet = true)] public int PageNumber { get; set; } = 1;
+
+    public IPaginatedList<TrustSearchEntry> Trusts { get; set; } =
+        new PaginatedList<TrustSearchEntry>(Array.Empty<TrustSearchEntry>(), 0, 0, Constants.SearchPageSize);
 
     public SearchModel(ITrustProvider trustProvider, ITrustSearch trustSearch)
     {
         _trustProvider = trustProvider;
         _trustSearch = trustSearch;
+        PageStatus = Trusts.Pagination;
     }
 
     public string InputId => "search";
@@ -44,14 +55,16 @@ public class SearchModel : PageModel, ISearchFormModel
         }
 
         Trusts = await GetTrustsForKeywords();
+        PageStatus = Trusts.Pagination;
+        PaginationRouteData = new Dictionary<string, string> { { "Keywords", KeyWords } };
         return new PageResult();
     }
 
     private async Task<IPaginatedList<TrustSearchEntry>> GetTrustsForKeywords()
     {
         return !string.IsNullOrEmpty(KeyWords)
-            ? await _trustSearch.SearchAsync(KeyWords, SearchPageNumber)
-            : new PaginatedList<TrustSearchEntry>();
+            ? await _trustSearch.SearchAsync(KeyWords, PageNumber)
+            : new PaginatedList<TrustSearchEntry>(Array.Empty<TrustSearchEntry>(), 0, 0, Constants.SearchPageSize);
     }
 
     public async Task<IActionResult> OnGetPopulateAutocompleteAsync()

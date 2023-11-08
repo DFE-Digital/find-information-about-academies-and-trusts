@@ -24,7 +24,7 @@
 </div>
 <div class="govuk-grid-row">
   <section aria-labelledby="results-details" class="govuk-grid-column-three-quarters">
-    <h2 id="results-details" class="govuk-heading-m">@Model.Trusts.TotalResults result@(Model.Trusts.TotalResults > 2 ? "s" : "") for "@Model.KeyWords"</h2>
+    <h2 id="results-details" class="govuk-heading-m">@Model.PageStatus.TotalResults result@(Model.PageStatus.TotalResults != 1 ? "s" : "") for "@Model.KeyWords"</h2>
     @if (Model.Trusts.Any())
     {
       <ul class="govuk-list">
@@ -62,7 +62,7 @@
           </li>
         }
       </ul>
-      <partial name="Search/_Pagination"/>
+      <partial name="Shared/_Pagination" TItem="TrustSearchEntry"/>
     }
     else
     {
