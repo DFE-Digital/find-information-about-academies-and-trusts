@@ -32,7 +32,7 @@
     @if (Model.PageStatus.HasPreviousPage && Model.PageStatus.PageIndex - 1 != 1)
     {
       <li class="govuk-pagination__item">
-        <a class="govuk-link govuk-pagination__link" asp-page="/Search" asp-all-route-data="@Model.PaginationRouteData" asp-route-PageNumber="@(Model.PageStatus.PageIndex - 1)">
+        <a class="govuk-link govuk-pagination__link" asp-page="/Search" asp-all-route-data="@Model.PaginationRouteData" asp-route-PageNumber="@(Model.PageStatus.PageIndex - 1)" aria-label="Page @(Model.PageStatus.PageIndex - 1)">
           @(Model.PageStatus.PageIndex - 1)
         </a>
       </li>
@@ -47,7 +47,7 @@
     @if (Model.PageStatus.PageIndex != Model.PageStatus.TotalPages && Model.PageStatus.PageIndex + 1 != Model.PageStatus.TotalPages)
     {
       <li class="govuk-pagination__item">
-        <a class="govuk-link govuk-pagination__link" asp-page="/Search" asp-all-route-data="@Model.PaginationRouteData" asp-route-PageNumber="@(Model.PageStatus.PageIndex + 1)">
+        <a class="govuk-link govuk-pagination__link" asp-page="/Search" asp-all-route-data="@Model.PaginationRouteData" asp-route-PageNumber="@(Model.PageStatus.PageIndex + 1)" aria-label="Page @(Model.PageStatus.PageIndex + 1)">
           @(Model.PageStatus.PageIndex + 1)
         </a>
       </li>
@@ -61,7 +61,7 @@
     @if (Model.PageStatus.PageIndex != Model.PageStatus.TotalPages)
     {
       <li class="govuk-pagination__item">
-        <a class="govuk-link govuk-pagination__link" asp-page="/Search" asp-all-route-data="@Model.PaginationRouteData" asp-route-PageNumber="@(Model.PageStatus.TotalPages)">
+        <a class="govuk-link govuk-pagination__link" asp-page="/Search" asp-all-route-data="@Model.PaginationRouteData" asp-route-PageNumber="@(Model.PageStatus.TotalPages)" aria-label="Page @(Model.PageStatus.TotalPages)">
           @(Model.PageStatus.TotalPages)
         </a>
       </li>
