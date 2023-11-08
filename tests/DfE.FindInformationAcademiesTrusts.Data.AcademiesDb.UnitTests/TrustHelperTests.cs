@@ -37,7 +37,11 @@ public class TrustHelperTests
                 "12 Abbey Road, Dorthy Inlet, East Park, JY36 9VC",
                 new DateTime(1990, 12, 20),
                 "00123444",
-                "North East"
+                "North East",
+                Array.Empty<Academy>(),
+                Array.Empty<Governor>(),
+                null,
+                null
             )
         );
     }
@@ -129,13 +133,19 @@ public class TrustHelperTests
                 {
                     GroupUid = "1", GORregion = ""
                 },
-                new Trust("1", "", "", null, "", "", null, "", "")
+                new Trust("1", "", "", null, "", "", null, "", "", Array.Empty<Academy>(),
+                    Array.Empty<Governor>(),
+                    null,
+                    null)
             },
             new object[]
             {
                 new Group { GroupUid = "2" },
                 new MstrTrust { GroupUid = "2" },
-                new Trust("2", "", "", null, "", "", null, "", "")
+                new Trust("2", "", "", null, "", "", null, "", "", Array.Empty<Academy>(),
+                    Array.Empty<Governor>(),
+                    null,
+                    null)
             }
         };
 }
