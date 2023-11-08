@@ -144,7 +144,25 @@ public class SearchModelTests
     [Fact]
     public void SearchPageNumber_should_default_to_1()
     {
-        _sut.SearchPageNumber.Should().Be(1);
+        _sut.PageNumber.Should().Be(1);
+    }
+
+    [Fact]
+    public void PageName_should_be_search()
+    {
+        _sut.PageName.Should().Be("Search");
+    }
+
+    [Fact]
+    public void PaginationRouteData_should_default_to_empty()
+    {
+        _sut.PaginationRouteData.Should().BeEquivalentTo(new Dictionary<string, string>());
+    }
+
+    [Fact]
+    public void PageStatus_should_default_to_empty()
+    {
+        _sut.PageStatus.Should().BeEquivalentTo(new Pagination(0, 0, 0));
     }
 
     [Fact]
@@ -158,15 +176,17 @@ public class SearchModelTests
             .ReturnsAsync(new PaginatedList<TrustSearchEntry>(new[] { differentFakeTrust }, 4, 2, 3));
 
         _sut.KeyWords = SearchTermThatMatchesAllFakeTrusts;
-        _sut.SearchPageNumber = 1;
+        _sut.PageNumber = 1;
 
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<PageResult>();
         _sut.Trusts.Should().BeEquivalentTo(_fakeTrusts);
+        _sut.PaginationRouteData["Keywords"].Should().Be(SearchTermThatMatchesAllFakeTrusts);
 
-        _sut.SearchPageNumber = 2;
+        _sut.PageNumber = 2;
         result = await _sut.OnGetAsync();
         result.Should().BeOfType<PageResult>();
         _sut.Trusts.Should().ContainSingle(t => t == differentFakeTrust);
+        _sut.PaginationRouteData["Keywords"].Should().Be(SearchTermThatMatchesAllFakeTrusts);
     }
 }
