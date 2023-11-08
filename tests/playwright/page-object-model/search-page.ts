@@ -2,10 +2,12 @@ import { Locator, Page, expect } from '@playwright/test'
 import { CurrentSearch, SearchFormComponent } from './shared/search-form-component'
 import { FakeTestData, FakeTrust } from '../fake-data/fake-test-data'
 import { SearchTerms } from '../fake-data/search-terms'
+import { PaginationComponent } from './shared/pagination-component'
 
 export class SearchPage {
   readonly expect: SearchPageAssertions
   readonly searchForm: SearchFormComponent
+  readonly pagination: PaginationComponent
   readonly _headerLocator: Locator
   readonly _searchResultsListHeaderLocator: Locator
   readonly _searchResultsSectionLocator: Locator
@@ -25,6 +27,7 @@ export class SearchPage {
       'Search',
       currentSearch
     )
+    this.pagination = new PaginationComponent(page)
     this.currentSearch = currentSearch
     this._headerLocator = this.page.locator('h1')
     this._searchResultsListHeaderLocator = this.page.getByRole('heading', {
@@ -47,6 +50,10 @@ export class SearchPage {
 
   async goToPageWithResults (): Promise<void> {
     await this.goToSearchFor(SearchTerms.CommonName)
+  }
+
+  async goToPageWithManyResults (): Promise<void> {
+    await this.goToSearchFor(SearchTerms.First)
   }
 
   async goToPageWithNoResults (): Promise<void> {
