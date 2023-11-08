@@ -2,7 +2,7 @@
 
 @{
   Layout = "_Layout";
-  ViewData["Title"] = $"{Model.PageName} - {Model.Trust.Name}";
+  ViewData["Title"] = $"{Model.PageTitle ?? Model.PageName} - {Model.Trust.Name}";
 }
 
 <aside class="app-banner" data-testid="app-trust-header">
@@ -30,7 +30,7 @@
           </header>
           @RenderBody()
         </main>
-        <partial name="_ReportProblemLink" />
+        <partial name="_ReportProblemLink"/>
       </div>
     </div>
   </div>
