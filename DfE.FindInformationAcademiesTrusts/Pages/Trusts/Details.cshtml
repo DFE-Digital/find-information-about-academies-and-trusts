@@ -24,7 +24,10 @@
             Opened on
           </dt>
           <dd class="govuk-summary-list__value">
-            @Model.Trust.OpenedDate
+            @if (Model.Trust.OpenedDate is not null)
+            {
+              @Model.Trust.OpenedDate.Value.ToString("d MMM yyyy")
+            }
           </dd>
         </div>
         <div class="govuk-summary-list__row">

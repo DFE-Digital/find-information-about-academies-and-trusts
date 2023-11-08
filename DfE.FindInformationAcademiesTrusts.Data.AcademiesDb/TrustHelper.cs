@@ -20,7 +20,7 @@ public class TrustHelper : ITrustHelper
             group.Ukprn,
             group.GroupType ?? string.Empty,
             BuildAddressString(group),
-            FormatDateString(group.IncorporatedOnOpenDate),
+            ParseAsDate(group.IncorporatedOnOpenDate),
             group.CompaniesHouseNumber ?? string.Empty,
             mstrTrust.GORregion ?? string.Empty
         );
@@ -37,11 +37,11 @@ public class TrustHelper : ITrustHelper
         }.Where(s => !string.IsNullOrWhiteSpace(s)));
     }
 
-    public static string FormatDateString(string? date)
+    private static DateTime? ParseAsDate(string? date)
     {
-        if (string.IsNullOrEmpty(date)) return "";
+        if (string.IsNullOrEmpty(date)) return null;
         var newDate = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
-        return newDate.ToString("d MMM yyyy");
+        return newDate;
     }
 }

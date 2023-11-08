@@ -3,6 +3,7 @@ import { TrustHeaderComponent } from '../shared/trust-header-component'
 import { TrustNavigationComponent } from '../shared/trust-navigation-component'
 import { CurrentSearch } from '../shared/search-form-component'
 import { FakeTestData, FakeTrust } from '../../fake-data/fake-test-data'
+import { formatDateAsExpected } from '../../helpers'
 
 export class DetailsPage {
   readonly expect: DetailsPageAssertions
@@ -73,7 +74,7 @@ class DetailsPageAssertions {
 
   async toSeeCorrectTrustDetails (): Promise<void> {
     await expect(this.detailsPage.trustDetailsCardLocator).toContainText(`Address ${this.detailsPage.currentTrust.address}`)
-    await expect(this.detailsPage.trustDetailsCardLocator).toContainText(`Opened on ${this.detailsPage.currentTrust.openedDate}`)
+    await expect(this.detailsPage.trustDetailsCardLocator).toContainText(`Opened on ${formatDateAsExpected(this.detailsPage.currentTrust.openedDate)}`)
     await expect(this.detailsPage.trustDetailsCardLocator).toContainText(`Region and territory ${this.detailsPage.currentTrust.regionAndTerritory}`)
   }
 

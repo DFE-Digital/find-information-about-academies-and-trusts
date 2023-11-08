@@ -35,7 +35,7 @@ public class TrustHelperTests
                 "my ukprn",
                 "Multi-academy trust",
                 "12 Abbey Road, Dorthy Inlet, East Park, JY36 9VC",
-                "20 Dec 1990",
+                new DateTime(1990, 12, 20),
                 "00123444",
                 "North East"
             )
@@ -98,13 +98,6 @@ public class TrustHelperTests
         result.Should().Be(expected);
     }
 
-    [Fact]
-    public void FormatDateString_should_return_correctly_formatted_date()
-    {
-        var result = TrustHelper.FormatDateString("27/11/2011");
-        result.Should().Be("27 Nov 2011");
-    }
-
     public static IEnumerable<object[]> AddressData =>
         new List<object[]>
         {
@@ -136,13 +129,13 @@ public class TrustHelperTests
                 {
                     GroupUid = "1", GORregion = ""
                 },
-                new Trust("1", "", "", null, "", "", "", "", "")
+                new Trust("1", "", "", null, "", "", null, "", "")
             },
             new object[]
             {
                 new Group { GroupUid = "2" },
                 new MstrTrust { GroupUid = "2" },
-                new Trust("2", "", "", null, "", "", "", "", "")
+                new Trust("2", "", "", null, "", "", null, "", "")
             }
         };
 }

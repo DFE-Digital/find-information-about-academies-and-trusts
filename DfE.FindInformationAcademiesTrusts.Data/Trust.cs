@@ -7,7 +7,7 @@ public record Trust(
     string? Ukprn,
     string Type,
     string Address,
-    string OpenedDate,
+    DateTime? OpenedDate,
     string CompaniesHouseNumber,
     string RegionAndTerritory
 );
