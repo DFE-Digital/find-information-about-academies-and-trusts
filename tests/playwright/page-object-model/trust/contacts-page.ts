@@ -8,6 +8,8 @@ export class ContactsPage {
   readonly trustHeading: TrustHeaderComponent
   readonly trustNavigation: TrustNavigationComponent
   readonly pageHeadingLocator: Locator
+  readonly dfeContactsCard: Locator
+  readonly trustContactsCard: Locator
 
   fakeTestData: FakeTestData
   currentTrust: FakeTrust
@@ -18,6 +20,8 @@ export class ContactsPage {
     this.trustHeading = new TrustHeaderComponent(page)
     this.trustNavigation = new TrustNavigationComponent(page)
     this.pageHeadingLocator = page.locator('h1')
+    this.dfeContactsCard = page.locator('[data-testid="dfe-contacts"]')
+    this.trustContactsCard = page.locator('[data-testid="trust-contacts"]')
   }
 
   async goTo (): Promise<void> {
@@ -44,5 +48,24 @@ class ContactsPageAssertions {
   async toSeeCorrectTrustNameAndTypeInHeader (): Promise<void> {
     const { name, type } = this.contactsPage.fakeTestData.getFirstTrust()
     await this.contactsPage.trustHeading.expect.toSeeCorrectTrustNameAndType(name, type)
+  }
+
+  async toSeeCorrectDfeContacts (): Promise<void> {
+    await expect(this.contactsPage.dfeContactsCard).toContainText('Keyshawn Hermiston')
+    await expect(this.contactsPage.dfeContactsCard).toContainText('Keyshawn.Hermiston@education.gov.uk')
+    await expect(this.contactsPage.dfeContactsCard).toContainText('Ayana Lueilwitz')
+    await expect(this.contactsPage.dfeContactsCard).toContainText('Ayana.Lueilwitz@education.gov.uk')
+  }
+
+  async toSeeCorrectTrustContacts (): Promise<void> {
+    await expect(this.contactsPage.trustContactsCard).toContainText('Tyler Welch')
+    await expect(this.contactsPage.trustContactsCard).toContainText('Tyler.Welch@abbeylaneacademiestrust.co.uk')
+    await expect(this.contactsPage.trustContactsCard).toContainText('Telephone: 027 5395 0525')
+    await expect(this.contactsPage.trustContactsCard).toContainText('Courtney Pacocha')
+    await expect(this.contactsPage.trustContactsCard).toContainText('Courtney.Pacocha@abbeylaneacademiestrust.co.uk')
+    await expect(this.contactsPage.trustContactsCard).toContainText('Telephone: 0500 544079')
+    await expect(this.contactsPage.trustContactsCard).toContainText('Lowell Hoppe')
+    await expect(this.contactsPage.trustContactsCard).toContainText('Lowell.Hoppe@abbeylaneacademiestrust.co.uk')
+    await expect(this.contactsPage.trustContactsCard).toContainText('Telephone: 01289 72558')
   }
 }
