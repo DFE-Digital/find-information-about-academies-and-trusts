@@ -14,7 +14,8 @@
     "test:deployment": "npx playwright test --project=\"deployment-tests\"",
     "test:integration": "npx playwright test --project=\"integration-tests\"",
     "docker:start": "docker compose -f ../../docker/docker-compose.ci.yml up -d --build",
-    "docker:stop": "docker compose -f ../../docker/docker-compose.ci.yml down"
+    "docker:stop": "docker compose -f ../../docker/docker-compose.ci.yml down",
+    "docker:restart": "npm run docker:stop && npm run docker:start"
   },
   "keywords": [],
   "author": "",
