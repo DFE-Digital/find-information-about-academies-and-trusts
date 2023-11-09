@@ -11,9 +11,14 @@ export class AcademiesDetailsPage extends BaseAcademiesPage {
   }
 }
 
-class AcademiesDetailsPageAssertions extends BaseAcademiesPageAssertions {
+export class AcademiesDetailsPageAssertions extends BaseAcademiesPageAssertions {
   constructor (readonly detailsPage: AcademiesDetailsPage) {
     super(detailsPage)
+  }
+
+  async toBeOnTheRightPage (): Promise<void> {
+    await this.toBeOnAcademiesInTrustPages()
+    await expect(this.detailsPage.page).toHaveTitle(/details/)
   }
 
   async toDisplayCorrectInformationAboutAcademiesInThatTrust (): Promise<void> {
