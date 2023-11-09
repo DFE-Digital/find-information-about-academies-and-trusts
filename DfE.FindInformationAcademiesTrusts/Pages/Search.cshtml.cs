@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
-[ValidateAntiForgeryToken]
 public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
 {
     public record AutocompleteEntry(string Address, string Name, string? TrustId);
