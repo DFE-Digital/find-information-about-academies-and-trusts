@@ -20,7 +20,9 @@ public class GroupFaker
             .RuleFor(g => g.GroupContactLocality, f => f.PickRandom(f.Address.StreetName(), string.Empty))
             .RuleFor(g => g.GroupContactTown, f => f.PickRandom(f.Address.City(), string.Empty))
             .RuleFor(g => g.GroupContactPostcode, f => f.Address.ZipCode())
-            .RuleFor(g => g.IncorporatedOnOpenDate, f => f.Date.Past(10).ToString("dd/MM/yyyy"))
+            .RuleFor(g => g.IncorporatedOnOpenDate,
+                f => f.Date.Past(10, new DateTime(2023, 11, 9))
+                    .ToString("dd/MM/yyyy")) //Need a ref date for `Date.Past` so the data generated doesn't change every day
             .RuleFor(g => g.CompaniesHouseNumber, f => f.Random.Int(1100000, 09999999).ToString("D8"));
     }
 
