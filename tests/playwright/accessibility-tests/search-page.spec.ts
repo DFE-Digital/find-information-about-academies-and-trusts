@@ -32,6 +32,32 @@ test.describe('search page should not have any automatically detectable accessib
     await expectNoAccessibilityViolations()
   })
 
+  test('when there are multiple pages results you are able to navigate the results', async ({ expectNoAccessibilityViolations }) => {
+    await searchPage.goToPageWithManyResults()
+    await searchPage.pagination.expect.toBeOnSpecificPage(1)
+    await searchPage.pagination.expect.toNotShowPreviousPageLink()
+    await searchPage.pagination.expect.toShowNextPageLink()
+    await searchPage.pagination.selectNextPage()
+    await searchPage.pagination.expect.toBeOnSpecificPage(2)
+    await searchPage.pagination.expect.toShowPreviousPageLink()
+    await searchPage.pagination.expect.toShowNextPageLink()
+    await searchPage.pagination.selectPage(4)
+    await searchPage.pagination.expect.toBeOnSpecificPage(4)
+    await searchPage.pagination.expect.toShowPreviousPageLink()
+    await searchPage.pagination.expect.toNotShowNextPageLink()
+
+    await expectNoAccessibilityViolations()
+  })
+
+  test('when there is one page of results the next and previous buttons are not shown', async ({ expectNoAccessibilityViolations }) => {
+    await searchPage.goToPageWithResults()
+    await searchPage.pagination.expect.toBeOnSpecificPage(1)
+    await searchPage.pagination.expect.toNotShowPreviousPageLink()
+    await searchPage.pagination.expect.toNotShowNextPageLink()
+
+    await expectNoAccessibilityViolations()
+  })
+
   // Skipping this test as the autocomplete element fails accessibility tests when showing the no results found message
   // message: 'Element has children which are not allowed'
   // This is referring to an li element, however the ul and li nesting seems to be correct.
