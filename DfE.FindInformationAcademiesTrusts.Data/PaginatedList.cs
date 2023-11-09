@@ -10,4 +10,9 @@ public class PaginatedList<T> : List<T>, IPaginatedList<T>
         PageStatus = new PageStatus(pageIndex, totalPages, count);
         AddRange(items);
     }
+
+    public static PaginatedList<T> Empty()
+    {
+        return new PaginatedList<T>(Array.Empty<T>(), 0, 0, Constants.SearchPageSize);
+    }
 }

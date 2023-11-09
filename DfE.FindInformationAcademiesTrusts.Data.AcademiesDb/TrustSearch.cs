@@ -25,7 +25,7 @@ public class TrustSearch : ITrustSearch
         var pageSize = Constants.SearchPageSize;
         if (string.IsNullOrWhiteSpace(searchTerm))
         {
-            return new PaginatedList<TrustSearchEntry>(Array.Empty<TrustSearchEntry>(), 0, 0, pageSize);
+            return PaginatedList<TrustSearchEntry>.Empty();
         }
 
         var query = _academiesDbContext.Groups

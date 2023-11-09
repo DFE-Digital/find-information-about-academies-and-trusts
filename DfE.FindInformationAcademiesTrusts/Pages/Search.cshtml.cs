@@ -21,7 +21,7 @@ public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
     [BindProperty(SupportsGet = true)] public int PageNumber { get; set; } = 1;
 
     public IPaginatedList<TrustSearchEntry> Trusts { get; set; } =
-        new PaginatedList<TrustSearchEntry>(Array.Empty<TrustSearchEntry>(), 0, 0, Constants.SearchPageSize);
+        PaginatedList<TrustSearchEntry>.Empty();
 
     public SearchModel(ITrustProvider trustProvider, ITrustSearch trustSearch)
     {
@@ -64,7 +64,7 @@ public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
     {
         return !string.IsNullOrEmpty(KeyWords)
             ? await _trustSearch.SearchAsync(KeyWords, PageNumber)
-            : new PaginatedList<TrustSearchEntry>(Array.Empty<TrustSearchEntry>(), 0, 0, Constants.SearchPageSize);
+            : PaginatedList<TrustSearchEntry>.Empty();
     }
 
     public async Task<IActionResult> OnGetPopulateAutocompleteAsync()
