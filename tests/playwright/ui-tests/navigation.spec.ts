@@ -7,6 +7,7 @@ import { FakeTestData } from '../fake-data/fake-test-data'
 import { OverviewPage } from '../page-object-model/trust/overview-page'
 import { PrivacyPage } from '../page-object-model/privacy-page'
 import { AcademiesDetailsPage } from '../page-object-model/trust/academies/details-page'
+import { AcademiesOfstedRatingsPage } from '../page-object-model/trust/academies/ofsted-ratings-page'
 
 test.describe('Navigation', () => {
   let homePage: HomePage
@@ -16,6 +17,7 @@ test.describe('Navigation', () => {
   let overviewPage: OverviewPage
   let privacyPage: PrivacyPage
   let academiesDetailsPage: AcademiesDetailsPage
+  let academiesOfstedRatingsPage: AcademiesOfstedRatingsPage
 
   test.beforeEach(async ({ page }) => {
     const fakeTestData = new FakeTestData()
@@ -25,6 +27,7 @@ test.describe('Navigation', () => {
     contactsPage = new ContactsPage(page, fakeTestData)
     overviewPage = new OverviewPage(page, fakeTestData)
     academiesDetailsPage = new AcademiesDetailsPage(page, fakeTestData)
+    academiesOfstedRatingsPage = new AcademiesOfstedRatingsPage(page, fakeTestData)
     privacyPage = new PrivacyPage(page)
   })
 
@@ -61,6 +64,14 @@ test.describe('Navigation', () => {
     // Academies in trust => Details
     await academiesDetailsPage.trustNavigation.clickOn('Details')
     await detailsPage.expect.toBeOnTheRightPage()
+  })
+
+  test('user should be able to navigate between different tabs within Academies in trust section', async () => {
+    await academiesDetailsPage.goTo()
+    await academiesDetailsPage.subNavigation.clickOn('Ofsted ratings')
+    await academiesOfstedRatingsPage.expect.toBeOnTheRightPage()
+    await academiesOfstedRatingsPage.subNavigation.clickOn('Details')
+    await academiesDetailsPage.expect.toBeOnTheRightPage()
   })
 
   test('user should be able to navigate to the different links within the footer', async () => {
