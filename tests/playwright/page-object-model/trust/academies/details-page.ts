@@ -1,29 +1,19 @@
-import { Locator, Page, expect } from '@playwright/test'
-import { BaseTrustPage } from '../base-trust-page'
+import { Page, expect } from '@playwright/test'
 import { FakeTestData } from '../../../fake-data/fake-test-data'
+import { BaseAcademiesPage, BaseAcademiesPageAssertions } from './base-academies-page'
 
-export class AcademiesDetailsPage extends BaseTrustPage {
+export class AcademiesDetailsPage extends BaseAcademiesPage {
   readonly expect: AcademiesDetailsPageAssertions
-  readonly academiesTableLocator: Locator
-  readonly academiesRowLocator: Locator
 
   constructor (readonly page: Page, fakeTestData: FakeTestData) {
     super(page, fakeTestData, '/trusts/academies/details')
     this.expect = new AcademiesDetailsPageAssertions(this)
-    this.academiesTableLocator = this.page.getByRole('table')
-    this.academiesRowLocator = this.academiesTableLocator.getByTestId('academy-row')
   }
 }
 
-class AcademiesDetailsPageAssertions {
-  constructor (readonly detailsPage: AcademiesDetailsPage) {}
-
-  async toBeOnTheRightPage (): Promise<void> {
-    await expect(this.detailsPage.pageHeadingLocator).toHaveText('Academies in this trust')
-  }
-
-  async toDisplayInformationForAllAcademiesInThatTrust (): Promise<void> {
-    await expect(this.detailsPage.academiesRowLocator).toHaveCount(3)
+class AcademiesDetailsPageAssertions extends BaseAcademiesPageAssertions {
+  constructor (readonly detailsPage: AcademiesDetailsPage) {
+    super(detailsPage)
   }
 
   async toDisplayCorrectInformationAboutAcademiesInThatTrust (): Promise<void> {
