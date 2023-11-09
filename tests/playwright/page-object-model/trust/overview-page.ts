@@ -1,12 +1,12 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { TrustHeaderComponent } from '../shared/trust-header-component'
-import { TrustNavigationComponent } from '../shared/trust-navigation-component'
+import { NavigationComponent } from '../shared/navigation-component'
 import { FakeTestData, FakeTrust } from '../../fake-data/fake-test-data'
 
 export class OverviewPage {
   readonly expect: OverviewPageAssertions
   readonly trustHeading: TrustHeaderComponent
-  readonly trustNavigation: TrustNavigationComponent
+  readonly trustNavigation: NavigationComponent
   readonly pageHeadingLocator: Locator
   readonly trustSummaryCard: Locator
   readonly trustOfstedTable: Locator
@@ -18,7 +18,7 @@ export class OverviewPage {
     this.fakeTestData = fakeTestData
     this.expect = new OverviewPageAssertions(this)
     this.trustHeading = new TrustHeaderComponent(page)
-    this.trustNavigation = new TrustNavigationComponent(page)
+    this.trustNavigation = new NavigationComponent(page, 'Sections')
     this.pageHeadingLocator = page.locator('h1')
     this.trustSummaryCard = page.locator('[data-testid="trust-summary"]')
     this.trustOfstedTable = page.locator('[data-testid="ofsted-ratings"]')

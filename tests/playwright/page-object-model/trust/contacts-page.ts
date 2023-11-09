@@ -1,12 +1,12 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { TrustHeaderComponent } from '../shared/trust-header-component'
-import { TrustNavigationComponent } from '../shared/trust-navigation-component'
+import { NavigationComponent } from '../shared/navigation-component'
 import { FakeTestData, FakeTrust } from '../../fake-data/fake-test-data'
 
 export class ContactsPage {
   readonly expect: ContactsPageAssertions
   readonly trustHeading: TrustHeaderComponent
-  readonly trustNavigation: TrustNavigationComponent
+  readonly trustNavigation: NavigationComponent
   readonly pageHeadingLocator: Locator
   readonly dfeContactsCard: Locator
   readonly trustContactsCard: Locator
@@ -18,7 +18,7 @@ export class ContactsPage {
     this.fakeTestData = fakeTestData
     this.expect = new ContactsPageAssertions(this)
     this.trustHeading = new TrustHeaderComponent(page)
-    this.trustNavigation = new TrustNavigationComponent(page)
+    this.trustNavigation = new NavigationComponent(page, 'Sections')
     this.pageHeadingLocator = page.locator('h1')
     this.dfeContactsCard = page.locator('[data-testid="dfe-contacts"]')
     this.trustContactsCard = page.locator('[data-testid="trust-contacts"]')

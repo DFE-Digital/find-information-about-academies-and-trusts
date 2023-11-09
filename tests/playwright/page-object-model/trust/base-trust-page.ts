@@ -1,12 +1,12 @@
 import { Locator, Page } from '@playwright/test'
 import { FakeTestData, FakeTrust } from '../../fake-data/fake-test-data'
 import { TrustHeaderComponent } from '../shared/trust-header-component'
-import { TrustNavigationComponent } from '../shared/trust-navigation-component'
+import { NavigationComponent } from '../shared/navigation-component'
 
 export class BaseTrustPage {
   readonly pageHeadingLocator: Locator
   readonly trustHeading: TrustHeaderComponent
-  readonly trustNavigation: TrustNavigationComponent
+  readonly trustNavigation: NavigationComponent
 
   fakeTestData: FakeTestData
   currentTrust: FakeTrust
@@ -17,7 +17,7 @@ export class BaseTrustPage {
     this.fakeTestData = fakeTestData
     this.pageHeadingLocator = page.locator('h1')
     this.trustHeading = new TrustHeaderComponent(page)
-    this.trustNavigation = new TrustNavigationComponent(page)
+    this.trustNavigation = new NavigationComponent(page, 'Sections')
   }
 
   async goTo (): Promise<void> {
