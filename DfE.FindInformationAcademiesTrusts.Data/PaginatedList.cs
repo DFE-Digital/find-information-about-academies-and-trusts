@@ -13,6 +13,6 @@ public class PaginatedList<T> : List<T>, IPaginatedList<T>
 
     public static PaginatedList<T> Empty()
     {
-        return new PaginatedList<T>(Array.Empty<T>(), 0, 0, Constants.SearchPageSize);
+        return new PaginatedList<T>(Array.Empty<T>(), 0, 0, 1);
     }
 }
