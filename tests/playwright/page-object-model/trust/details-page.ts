@@ -1,7 +1,7 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { FakeTestData } from '../../fake-data/fake-test-data'
 import { formatDateAsExpected } from '../../helpers'
-import { BaseTrustPage } from './base-trust-page'
+import { BaseTrustPage, BaseTrustPageAssertions } from './base-trust-page'
 
 export class DetailsPage extends BaseTrustPage {
   readonly expect: DetailsPageAssertions
@@ -16,8 +16,10 @@ export class DetailsPage extends BaseTrustPage {
   }
 }
 
-class DetailsPageAssertions {
-  constructor (readonly detailsPage: DetailsPage) {}
+class DetailsPageAssertions extends BaseTrustPageAssertions {
+  constructor (readonly detailsPage: DetailsPage) {
+    super(detailsPage)
+  }
 
   async toBeOnTheRightPageFor (trustName: string): Promise<void> {
     await this.detailsPage.trustHeading.expect.toContain(trustName)

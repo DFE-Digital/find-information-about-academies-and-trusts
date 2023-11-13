@@ -1,6 +1,6 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { FakeTestData } from '../../fake-data/fake-test-data'
-import { BaseTrustPage } from './base-trust-page'
+import { BaseTrustPage, BaseTrustPageAssertions } from './base-trust-page'
 
 export class ContactsPage extends BaseTrustPage {
   readonly expect: ContactsPageAssertions
@@ -15,16 +15,13 @@ export class ContactsPage extends BaseTrustPage {
   }
 }
 
-class ContactsPageAssertions {
-  constructor (readonly contactsPage: ContactsPage) {}
+class ContactsPageAssertions extends BaseTrustPageAssertions {
+  constructor (readonly contactsPage: ContactsPage) {
+    super(contactsPage)
+  }
 
   async toBeOnTheRightPage (): Promise<void> {
     await expect(this.contactsPage.pageHeadingLocator).toHaveText('Contacts')
-  }
-
-  async toSeeCorrectTrustNameAndTypeInHeader (): Promise<void> {
-    const { name, type } = this.contactsPage.fakeTestData.getFirstTrust()
-    await this.contactsPage.trustHeading.expect.toSeeCorrectTrustNameAndType(name, type)
   }
 
   async toSeeCorrectDfeContacts (): Promise<void> {

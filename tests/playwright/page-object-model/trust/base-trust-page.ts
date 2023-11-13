@@ -4,6 +4,7 @@ import { TrustHeaderComponent } from '../shared/trust-header-component'
 import { NavigationComponent } from '../shared/navigation-component'
 
 export class BaseTrustPage {
+  readonly expect: BaseTrustPageAssertions
   readonly pageHeadingLocator: Locator
   readonly trustHeading: TrustHeaderComponent
   readonly trustNavigation: NavigationComponent
@@ -13,6 +14,7 @@ export class BaseTrustPage {
   pageUrl: string
 
   constructor (readonly page: Page, fakeTestData: FakeTestData, pageUrl: string) {
+    this.expect = new BaseTrustPageAssertions(this)
     this.pageUrl = pageUrl
     this.fakeTestData = fakeTestData
     this.pageHeadingLocator = page.locator('h1')
@@ -45,5 +47,14 @@ export class BaseTrustPage {
 
   async goToWith (uid: string): Promise<void> {
     await this.page.goto(`${this.pageUrl}?uid=${uid}`)
+  }
+}
+
+export class BaseTrustPageAssertions {
+  constructor (readonly trustPage: BaseTrustPage) {}
+
+  async toSeeCorrectTrustNameAndTypeInHeader (): Promise<void> {
+    const { name, type } = this.trustPage.currentTrust
+    await this.trustPage.trustHeading.expect.toSeeCorrectTrustNameAndType(name, type)
   }
 }

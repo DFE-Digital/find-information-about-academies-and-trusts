@@ -1,6 +1,6 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { FakeTestData } from '../../fake-data/fake-test-data'
-import { BaseTrustPage } from './base-trust-page'
+import { BaseTrustPage, BaseTrustPageAssertions } from './base-trust-page'
 
 export class OverviewPage extends BaseTrustPage {
   readonly expect: OverviewPageAssertions
@@ -15,8 +15,10 @@ export class OverviewPage extends BaseTrustPage {
   }
 }
 
-class OverviewPageAssertions {
-  constructor (readonly overviewPage: OverviewPage) {}
+class OverviewPageAssertions extends BaseTrustPageAssertions {
+  constructor (readonly overviewPage: OverviewPage) {
+    super(overviewPage)
+  }
 
   async toBeOnTheRightPage (): Promise<void> {
     await expect(this.overviewPage.pageHeadingLocator).toHaveText('Overview')
