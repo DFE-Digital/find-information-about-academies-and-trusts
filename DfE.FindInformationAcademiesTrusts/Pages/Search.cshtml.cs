@@ -26,9 +26,9 @@ public class SearchModel : PageModel, ISearchFormModel
 
     public IActionResult OnPost()
     {
-        return RedirectToPage("/Search", new { KeyWords });
+        return RedirectToPage("/Search", new { KeyWords, Uid });
     }
-    
+
     public async Task<IActionResult> OnGetAsync()
     {
         if (!string.IsNullOrWhiteSpace(Uid))
