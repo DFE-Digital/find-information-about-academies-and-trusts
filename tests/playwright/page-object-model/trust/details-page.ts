@@ -1,22 +1,16 @@
 import { Locator, Page, expect } from '@playwright/test'
-import { TrustHeaderComponent } from '../shared/trust-header-component'
-import { TrustNavigationComponent } from '../shared/trust-navigation-component'
 import { FakeTestData } from '../../fake-data/fake-test-data'
 import { formatDateAsExpected } from '../../helpers'
 import { BaseTrustPage } from './base-trust-page'
 
 export class DetailsPage extends BaseTrustPage {
   readonly expect: DetailsPageAssertions
-  readonly trustHeading: TrustHeaderComponent
-  readonly trustNavigation: TrustNavigationComponent
   readonly trustDetailsCardLocator: Locator
   readonly referenceNumbersCardLocator: Locator
 
   constructor (readonly page: Page, fakeTestData: FakeTestData) {
     super(page, fakeTestData, '/trusts/details')
     this.expect = new DetailsPageAssertions(this)
-    this.trustHeading = new TrustHeaderComponent(page)
-    this.trustNavigation = new TrustNavigationComponent(page)
     this.trustDetailsCardLocator = this.page.getByText('Trust details Address')
     this.referenceNumbersCardLocator = this.page.getByText('Reference numbers UID')
   }
