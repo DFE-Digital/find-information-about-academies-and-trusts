@@ -1,40 +1,17 @@
 import { Locator, Page, expect } from '@playwright/test'
-import { TrustHeaderComponent } from '../shared/trust-header-component'
-import { NavigationComponent } from '../shared/navigation-component'
-import { FakeTestData, FakeTrust } from '../../fake-data/fake-test-data'
+import { FakeTestData } from '../../fake-data/fake-test-data'
+import { BaseTrustPage } from './base-trust-page'
 
-export class ContactsPage {
+export class ContactsPage extends BaseTrustPage {
   readonly expect: ContactsPageAssertions
-  readonly trustHeading: TrustHeaderComponent
-  readonly trustNavigation: NavigationComponent
-  readonly pageHeadingLocator: Locator
   readonly dfeContactsCard: Locator
   readonly trustContactsCard: Locator
 
-  fakeTestData: FakeTestData
-  currentTrust: FakeTrust
-
   constructor (readonly page: Page, fakeTestData: FakeTestData) {
-    this.fakeTestData = fakeTestData
+    super(page, fakeTestData, '/trusts/contacts')
     this.expect = new ContactsPageAssertions(this)
-    this.trustHeading = new TrustHeaderComponent(page)
-    this.trustNavigation = new NavigationComponent(page, 'Sections')
-    this.pageHeadingLocator = page.locator('h1')
     this.dfeContactsCard = page.locator('[data-testid="dfe-contacts"]')
     this.trustContactsCard = page.locator('[data-testid="trust-contacts"]')
-  }
-
-  async goTo (): Promise<void> {
-    this.currentTrust = this.fakeTestData.getFirstTrust()
-    await this.page.goto(`/trusts/contacts/${this.currentTrust.uid}`)
-  }
-
-  async goToPageWithoutUid (): Promise<void> {
-    await this.page.goto('/trusts/contacts')
-  }
-
-  async goToPageWithUidThatDoesNotExist (): Promise<void> {
-    await this.page.goto('/trusts/contacts/0000')
   }
 }
 

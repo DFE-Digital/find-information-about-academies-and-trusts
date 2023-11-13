@@ -1,50 +1,22 @@
 import { Locator, Page, expect } from '@playwright/test'
-import { TrustHeaderComponent } from '../shared/trust-header-component'
-import { NavigationComponent } from '../shared/navigation-component'
-import { FakeTestData, FakeTrust } from '../../fake-data/fake-test-data'
+import { FakeTestData } from '../../fake-data/fake-test-data'
+import { BaseTrustPage } from './base-trust-page'
 
-export class OverviewPage {
+export class OverviewPage extends BaseTrustPage {
   readonly expect: OverviewPageAssertions
-  readonly trustHeading: TrustHeaderComponent
-  readonly trustNavigation: NavigationComponent
-  readonly pageHeadingLocator: Locator
   readonly trustSummaryCard: Locator
   readonly trustOfstedTable: Locator
 
-  fakeTestData: FakeTestData
-  currentTrust: FakeTrust
-
   constructor (readonly page: Page, fakeTestData: FakeTestData) {
-    this.fakeTestData = fakeTestData
+    super(page, fakeTestData, '/trusts/overview')
     this.expect = new OverviewPageAssertions(this)
-    this.trustHeading = new TrustHeaderComponent(page)
-    this.trustNavigation = new NavigationComponent(page, 'Sections')
-    this.pageHeadingLocator = page.locator('h1')
     this.trustSummaryCard = page.locator('[data-testid="trust-summary"]')
     this.trustOfstedTable = page.locator('[data-testid="ofsted-ratings"]')
-  }
-
-  async goTo (): Promise<void> {
-    this.currentTrust = this.fakeTestData.getFirstTrust()
-    await this.page.goto(`/trusts/overview/${this.currentTrust.uid}`)
-  }
-
-  async goToPageWithoutUid (): Promise<void> {
-    await this.page.goto('/trusts/overview')
-  }
-
-  async goToPageWithUidThatDoesNotExist (): Promise<void> {
-    await this.page.goto('/trusts/overview/0000')
   }
 }
 
 class OverviewPageAssertions {
   constructor (readonly overviewPage: OverviewPage) {}
-
-  async toBeOnTheRightPageFor (trust: string): Promise<void> {
-    await this.overviewPage.trustHeading.expect.toContain(trust)
-    await this.toBeOnTheRightPage()
-  }
 
   async toBeOnTheRightPage (): Promise<void> {
     await expect(this.overviewPage.pageHeadingLocator).toHaveText('Overview')
