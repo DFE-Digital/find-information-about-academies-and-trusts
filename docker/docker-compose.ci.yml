@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  testdb:
+  sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       ACCEPT_EULA: Y
@@ -9,36 +9,39 @@ services:
       - "1433:1433"
     networks:
       - test-ci
-  testdb-health:
-    image: mcr.microsoft.com/mssql-tools:latest
-    command: /bin/bash -c "touch /var/log/sqlcmd.log && tail -f /var/log/sqlcmd.log"
     healthcheck:
-      test: /opt/mssql-tools/bin/sqlcmd -S testdb -U sa -P 'mySuperStrong_pa55word!!!' -o /var/log/sqlcmd.log
+      test: /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P "mySuperStrong_pa55word!!!"
       interval: "2s"
       retries: 10
-    depends_on:
-      - testdb
-    networks:
-      - test-ci
-  testdb-import:
+  generate-sql:
     build:
       context: ..
-      dockerfile: docker/AcademiesTestDb.Dockerfile
-      args:
-        DB_PASSWORD: mySuperStrong_pa55word!!!
-    command: /bin/bash -c "/opt/mssql-tools/bin/sqlcmd -S testdb -U sa -P "mySuperStrong_pa55word!!!" -d master -i createScript.sql ; /opt/mssql-tools/bin/sqlcmd -S testdb -U sa -P "mySuperStrong_pa55word!!!" -i insertScript.sql"
-    depends_on:
-      testdb-health:
-        condition: service_healthy
+      dockerfile: docker/FakeDataGenerator.Dockerfile
     networks:
       - test-ci
+    volumes:
+      - testdb-volume:/data
+  import-sql:
+    image: mcr.microsoft.com/mssql-tools:latest
+    command: |
+      /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P "mySuperStrong_pa55word!!!" -d master -i /data/createScript.sql
+      /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P "mySuperStrong_pa55word!!!" -d master -i /data/insertScript.sql
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      generate-sql:
+        condition: service_completed_successfully
+    networks:
+      - test-ci
+    volumes:
+      - testdb-volume:/data
   webapp:
     build:
       context: ..
       dockerfile: docker/Dockerfile
     command: /bin/bash -c "./docker-entrypoint.sh dotnet DfE.FindInformationAcademiesTrusts.dll"
     depends_on:
-      - testdb-import
+      - import-sql
     ports:
       - 80:80/tcp
     networks:
@@ -46,7 +49,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=CI
       - TestOverride__PlaywrightTestSecret=TestSuperSecret
-      - ConnectionStrings__AcademiesDb=Server=testdb;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true;
+      - ConnectionStrings__AcademiesDb=Server=sqlserver;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true;
 
 networks:
   test-ci:
+
+volumes:
+  testdb-volume:
