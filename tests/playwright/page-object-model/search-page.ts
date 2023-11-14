@@ -48,15 +48,19 @@ export class SearchPage {
     await this.page.goto(`/search?keywords=${searchTerm}`)
   }
 
-  async goToPageWithResults (): Promise<void> {
+  async goToSearchWithResults (): Promise<void> {
     await this.goToSearchFor(SearchTerms.CommonName)
   }
 
-  async goToPageWithManyResults (): Promise<void> {
-    await this.goToSearchFor(SearchTerms.First)
+  async goToSearchWithOnePageOfResults (): Promise<void> {
+    await this.goToSearchFor(SearchTerms.OnePage)
   }
 
-  async goToPageWithNoResults (): Promise<void> {
+  async goToSearchWithManyPagesOfResults (): Promise<void> {
+    await this.goToSearchFor(SearchTerms.ManyPages)
+  }
+
+  async goToSearchWithNoResults (): Promise<void> {
     await this.goToSearchFor(SearchTerms.NoMatches)
   }
 

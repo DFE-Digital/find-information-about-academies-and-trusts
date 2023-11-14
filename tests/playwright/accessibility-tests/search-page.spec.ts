@@ -16,8 +16,8 @@ test.describe('search page should not have any automatically detectable accessib
     await expectNoAccessibilityViolations()
   })
 
-  test('when going to a search page with a search term', async ({ expectNoAccessibilityViolations }) => {
-    await searchPage.goToPageWithResults()
+  test('when going to a search page with a search term that returns one page of results', async ({ expectNoAccessibilityViolations }) => {
+    await searchPage.goToSearchWithResults()
     await searchPage.expect.toBeOnPageWithMatchingResults()
     await searchPage.expect.toShowResults()
 
@@ -32,29 +32,11 @@ test.describe('search page should not have any automatically detectable accessib
     await expectNoAccessibilityViolations()
   })
 
-  test('when there are multiple pages results you are able to navigate the results', async ({ expectNoAccessibilityViolations }) => {
-    await searchPage.goToPageWithManyResults()
-    await searchPage.pagination.expect.toBeOnSpecificPage(1)
-    await searchPage.pagination.expect.toNotShowPreviousPageLink()
-    await searchPage.pagination.expect.toShowNextPageLink()
+  test('when there are multiple pages of results', async ({ expectNoAccessibilityViolations }) => {
+    // Go to second page as this has all the pagination buttons visible
+    await searchPage.goToSearchWithManyPagesOfResults()
     await searchPage.pagination.selectNextPage()
     await searchPage.pagination.expect.toBeOnSpecificPage(2)
-    await searchPage.pagination.expect.toShowPreviousPageLink()
-    await searchPage.pagination.expect.toShowNextPageLink()
-    await searchPage.pagination.selectPage(4)
-    await searchPage.pagination.expect.toBeOnSpecificPage(4)
-    await searchPage.pagination.expect.toShowPreviousPageLink()
-    await searchPage.pagination.expect.toNotShowNextPageLink()
-
-    await expectNoAccessibilityViolations()
-  })
-
-  test('when there is one page of results the next and previous buttons are not shown', async ({ expectNoAccessibilityViolations }) => {
-    await searchPage.goToPageWithResults()
-    await searchPage.pagination.expect.toBeOnSpecificPage(1)
-    await searchPage.pagination.expect.toNotShowPreviousPageLink()
-    await searchPage.pagination.expect.toNotShowNextPageLink()
-
     await expectNoAccessibilityViolations()
   })
 
