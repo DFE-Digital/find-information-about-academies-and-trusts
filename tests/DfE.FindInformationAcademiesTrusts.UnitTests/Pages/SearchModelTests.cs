@@ -189,4 +189,33 @@ public class SearchModelTests
         _sut.Trusts.Should().ContainSingle(t => t == differentFakeTrust);
         _sut.PaginationRouteData["Keywords"].Should().Be(SearchTermThatMatchesAllFakeTrusts);
     }
+
+    [Fact]
+    public void Title_Should_Be_Search_When_Keywords_Are_Empty()
+    {
+        _sut.Title().Should().BeEquivalentTo("Search");
+    }
+
+    [Fact]
+    public void Title_Should_Include_The_Keywords_When_they_Are_Set()
+    {
+        _sut.KeyWords = "Test";
+        _sut.Title().Should().BeEquivalentTo("Search - Test");
+    }
+
+    [Fact]
+    public void Title_Should_Include_The_Keywords_When_they_Are_Set_And_There_Is_Only_one_page()
+    {
+        _sut.KeyWords = "Test";
+        _sut.PageStatus = new PageStatus(1, 1, 1);
+        _sut.Title().Should().BeEquivalentTo("Search - Test");
+    }
+
+    [Fact]
+    public void Title_Should_Include_The_Keywords_And_Page_Number_When_They_Are_Set()
+    {
+        _sut.KeyWords = "Test";
+        _sut.PageStatus = new PageStatus(1, 2, 3);
+        _sut.Title().Should().BeEquivalentTo("Search (page 1 of 2) - Test");
+    }
 }

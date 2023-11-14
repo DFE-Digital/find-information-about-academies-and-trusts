@@ -28,7 +28,7 @@ public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
 
         if (PageStatus.TotalPages > 1)
         {
-            return $"Search (page {PageStatus.PageIndex} of {PageStatus.TotalPages} - {KeyWords}";
+            return $"Search (page {PageStatus.PageIndex} of {PageStatus.TotalPages}) - {KeyWords}";
         }
 
         return $"Search - {KeyWords}";
