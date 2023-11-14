@@ -3,7 +3,7 @@
 
 @{
   Layout = "_ContentLayout";
-  ViewData["Title"] = string.IsNullOrWhiteSpace(Model.KeyWords) ? "Search" : Model.PageStatus.TotalPages > 1 ? $"Search (page {Model.PageStatus.PageIndex} of {Model.PageStatus.TotalPages} - {Model.KeyWords}" : $"Search - {Model.KeyWords}";
+  ViewData["Title"] = Model.Title();
 }
 
 @section reportProblem {

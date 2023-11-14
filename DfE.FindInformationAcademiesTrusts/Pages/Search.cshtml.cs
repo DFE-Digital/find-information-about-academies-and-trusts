@@ -19,6 +19,21 @@ public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = string.Empty;
     [BindProperty(SupportsGet = true)] public int PageNumber { get; set; } = 1;
 
+    public string Title()
+    {
+        if (string.IsNullOrWhiteSpace(KeyWords))
+        {
+            return "Search";
+        }
+
+        if (PageStatus.TotalPages > 1)
+        {
+            return $"Search (page {PageStatus.PageIndex} of {PageStatus.TotalPages} - {KeyWords}";
+        }
+
+        return $"Search - {KeyWords}";
+    }
+
     public IPaginatedList<TrustSearchEntry> Trusts { get; set; } =
         PaginatedList<TrustSearchEntry>.Empty();
 
