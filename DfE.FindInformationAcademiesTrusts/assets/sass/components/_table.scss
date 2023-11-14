@@ -1,0 +1,8 @@
+.app-table-container {
+  overflow: auto;
+
+  // Fix sort icons provided by MOJ design system overlapping slightly on Chrome and Edge
+  [aria-sort] button::before {
+    top: 11px;
+  }
+}
