@@ -1,6 +1,7 @@
 ﻿@using DfE.FindInformationAcademiesTrusts
 @using Microsoft.ApplicationInsights.AspNetCore
+@using Microsoft.Extensions.Options
 @namespace DfE.FindInformationAcademiesTrusts.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper *, NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
-@inject JavaScriptSnippet AppInsightsSnippet
+@inject IOptions<ApplicationInsightsOptions> ApplicationInsightsOptions
