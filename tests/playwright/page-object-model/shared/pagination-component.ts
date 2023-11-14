@@ -52,6 +52,10 @@ class PaginationComponentAssertions {
   }
 
   async toBeOnSpecificPage (pageNumber: number): Promise<void> {
+    // First page does not always contain page number in the url
+    if (pageNumber !== 1) {
+      expect(this.pagination.page.url().toLocaleLowerCase()).toContain(`pagenumber=${pageNumber}`)
+    }
     await expect(this.pagination.locatePageNumber(pageNumber)).toHaveAttribute('aria-current', 'page')
   }
 }
