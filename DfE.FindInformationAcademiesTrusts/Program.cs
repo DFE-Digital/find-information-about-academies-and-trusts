@@ -68,6 +68,7 @@ internal static class Program
             app.UseHsts();
         }
 
+        app.UseSession();
         app.UseSecurityHeaders(GetSecurityHeaderPolicies());
 
         app.UseCookiePolicy(new CookiePolicyOptions
@@ -114,10 +115,12 @@ internal static class Program
                     .Self()
                     .UnsafeInline()
                     .WithNonce()
-                    .From("https://js.monitor.azure.com/scripts/b/ai.2.min.js");
+                    .From("https://js.monitor.azure.com/scripts/b/ai.2.min.js")
+                    .From("https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js");
                 cspBuilder.AddConnectSrc()
                     .Self()
-                    .From("https://*.in.applicationinsights.azure.com//v2/track");
+                    .From("https://*.in.applicationinsights.azure.com//v2/track")
+                    .From("https://*.in.applicationinsights.azure.com/v2/track");
                 cspBuilder.AddObjectSrc().None();
                 cspBuilder.AddBlockAllMixedContent();
                 cspBuilder.AddImgSrc().Self();
@@ -160,6 +163,7 @@ internal static class Program
         builder.Services.AddScoped<ITrustHelper, TrustHelper>();
         builder.Services.AddScoped<IAuthorizationHandler, HeaderRequirementHandler>();
         builder.Services.AddHttpContextAccessor();
+        builder.Services.AddSession(options => { options.IdleTimeout = TimeSpan.FromMinutes(30); });
     }
 
     private static void AddEnvironmentVariablesTo(WebApplicationBuilder builder)
@@ -168,6 +172,8 @@ internal static class Program
             builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly());
         builder.Services.AddOptions<TestOverrideOptions>()
             .Bind(builder.Configuration.GetSection(TestOverrideOptions.ConfigurationSection));
+        builder.Services.AddOptions<ApplicationInsightsOptions>()
+            .Bind(builder.Configuration.GetSection(ApplicationInsightsOptions.ConfigurationSection));
     }
 
     private static void AddAuthenticationServices(WebApplicationBuilder builder)
@@ -188,7 +194,7 @@ internal static class Program
             options =>
             {
                 options.Cookie.Name = ".FindInformationAcademiesTrusts.Login";
-                options.Cookie.HttpOnly = true;
+                options.Cookie.HttpOnly = false;
                 options.Cookie.IsEssential = true;
                 options.Cookie.SameSite = SameSiteMode.None;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
