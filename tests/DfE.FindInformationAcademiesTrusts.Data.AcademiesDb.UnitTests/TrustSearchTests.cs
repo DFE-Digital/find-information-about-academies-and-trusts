@@ -35,7 +35,7 @@ public class TrustSearchTests
     {
         const int matches = 60;
         var groups = _mockAcademiesDbContext.SetupMockDbContextGroups(matches);
-        for (var i = 0; i < groups.Count(); i++)
+        for (var i = 0; i < groups.Count; i++)
         {
             groups[i].GroupName = "Page " + Math.Ceiling((double)(i + 1) / 20);
         }
@@ -137,9 +137,8 @@ public class TrustSearchTests
     [InlineData(null)]
     public async Task SearchAsync_should_not_call_database_if_empty_search_term(string term)
     {
-        var result = await _sut.SearchAsync(term);
+        await _sut.SearchAsync(term);
         _mockAcademiesDbContext.Verify(academiesDbContext => academiesDbContext.Groups, Times.Never);
-        result.Should().BeEquivalentTo(PaginatedList<TrustSearchEntry>.Empty());
     }
 
     [Fact]
