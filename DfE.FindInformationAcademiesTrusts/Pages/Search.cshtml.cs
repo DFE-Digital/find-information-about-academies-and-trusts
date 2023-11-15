@@ -23,6 +23,12 @@ public class SearchModel : PageModel, ISearchFormModel
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = string.Empty;
     public IEnumerable<TrustSearchEntry> Trusts { get; set; } = Array.Empty<TrustSearchEntry>();
 
+
+    public IActionResult OnPost()
+    {
+        return RedirectToPage("/Search", new { KeyWords, Uid });
+    }
+
     public async Task<IActionResult> OnGetAsync()
     {
         if (!string.IsNullOrWhiteSpace(Uid))

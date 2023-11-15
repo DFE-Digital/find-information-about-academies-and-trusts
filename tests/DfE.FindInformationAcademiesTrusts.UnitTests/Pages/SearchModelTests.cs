@@ -113,6 +113,16 @@ public class SearchModelTests
     }
 
     [Fact]
+    public void OnPost_should_always_redirect_to_onGetAsync()
+    {
+        var result = (RedirectToPageResult)_sut.OnPost();
+
+        result.PageName.Should().BeEquivalentTo("/Search");
+        result.RouteValues?["KeyWords"].Should().BeEquivalentTo(string.Empty);
+        result.RouteValues?["Uid"].Should().BeEquivalentTo(string.Empty);
+    }
+
+    [Fact]
     public void KeyWords_property_is_empty_by_default()
     {
         _sut.KeyWords.Should().Be("");
