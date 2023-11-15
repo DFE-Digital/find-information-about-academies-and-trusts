@@ -7,15 +7,18 @@ public class TrustProvider : ITrustProvider
 {
     private readonly IAcademiesDbContext _academiesDbContext;
     private readonly ITrustHelper _trustHelper;
+    private readonly IAcademyHelper _academyHelper;
 
     [ExcludeFromCodeCoverage]
-    public TrustProvider(AcademiesDbContext academiesDbContext, ITrustHelper trustHelper) : this(
-        (IAcademiesDbContext)academiesDbContext, trustHelper)
+    public TrustProvider(AcademiesDbContext academiesDbContext, ITrustHelper trustHelper,
+        IAcademyHelper academyHelper) : this(
+        (IAcademiesDbContext)academiesDbContext, trustHelper, academyHelper)
     {
     }
 
-    public TrustProvider(IAcademiesDbContext academiesDbContext, ITrustHelper trustHelper)
+    public TrustProvider(IAcademiesDbContext academiesDbContext, ITrustHelper trustHelper, IAcademyHelper academyHelper)
     {
+        _academyHelper = academyHelper;
         _academiesDbContext = academiesDbContext;
         _trustHelper = trustHelper;
     }
@@ -28,9 +31,21 @@ public class TrustProvider : ITrustProvider
         var mstrTrust = await _academiesDbContext.MstrTrusts.SingleOrDefaultAsync(m => m.GroupUid == uid);
         if (group is not null && mstrTrust is not null)
         {
-            trust = _trustHelper.CreateTrustFrom(group, mstrTrust, Array.Empty<Academy>());
+            var academies = await GetAcademiesLinkedTo(uid);
+            trust = _trustHelper.CreateTrustFrom(group, mstrTrust, academies);
         }
 
         return trust;
+    }
+
+    private async Task<Academy[]> GetAcademiesLinkedTo(string uid)
+    {
+        return await _academiesDbContext
+            .GroupLinks.Where(gl => gl.GroupUid == uid && gl.Urn != null)
+            .Join(_academiesDbContext.Establishments,
+                gl => gl.Urn!,
+                e => e.Urn.ToString(),
+                (gl, e) => _academyHelper.CreateAcademyFrom(gl, e))
+            .ToArrayAsync();
     }
 }
