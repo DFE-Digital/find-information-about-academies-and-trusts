@@ -19,7 +19,12 @@ public class AcademiesDbFaker
             .Select(GenerateGroup).ToArray();
         var mstrTrusts = groups.Select(GenerateMstrTrust).ToArray();
 
-        return new AcademiesDbData(groups, mstrTrusts);
+        return new AcademiesDbData(
+            Array.Empty<Establishment>(),
+            Array.Empty<Governance>(),
+            Array.Empty<GroupLink>(),
+            groups,
+            mstrTrusts);
     }
 
     private Group GenerateGroup(TrustToGenerate trustToGenerate)
