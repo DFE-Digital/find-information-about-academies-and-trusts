@@ -7,6 +7,7 @@ public class TrustSearch : ITrustSearch
 {
     private readonly IAcademiesDbContext _academiesDbContext;
     private readonly ITrustHelper _trustHelper;
+    private const int PageSize = 20;
 
     [ExcludeFromCodeCoverage] // This constructor is used by the DI container and is not unit testable
     public TrustSearch(AcademiesDbContext academiesDbContext, ITrustHelper trustHelper)
@@ -20,14 +21,14 @@ public class TrustSearch : ITrustSearch
         _academiesDbContext = academiesDbContext;
     }
 
-    public async Task<TrustSearchEntry[]> SearchAsync(string searchTerm)
+    public async Task<IPaginatedList<TrustSearchEntry>> SearchAsync(string searchTerm, int page = 1)
     {
         if (string.IsNullOrWhiteSpace(searchTerm))
         {
-            return Array.Empty<TrustSearchEntry>();
+            return PaginatedList<TrustSearchEntry>.Empty();
         }
 
-        var trustSearchEntries = await _academiesDbContext.Groups
+        var query = _academiesDbContext.Groups
             .Where(g =>
                 g.GroupUid != null &&
                 g.GroupId != null &&
@@ -36,13 +37,17 @@ public class TrustSearch : ITrustSearch
                 g.GroupType != null &&
                 (g.GroupType == "Multi-academy trust" ||
                  g.GroupType == "Single-academy trust")
-            ) //note that LINQ translates string.contains to case insensitive SQL
+            ); //note that LINQ translates string.contains to case insensitive SQL
+
+        var count = await query.CountAsync();
+        var trustSearchEntries = await query
             .OrderBy(g => g.GroupName)
-            .Take(20)
+            .Skip((page - 1) * PageSize)
+            .Take(PageSize)
             .Select(g =>
                 new TrustSearchEntry(g.GroupName!, _trustHelper.BuildAddressString(g), g.GroupUid!, g.GroupId!))
             .ToArrayAsync();
 
-        return trustSearchEntries;
+        return new PaginatedList<TrustSearchEntry>(trustSearchEntries, count, page, PageSize);
     }
 }
