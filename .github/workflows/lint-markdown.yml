@@ -1,0 +1,25 @@
+name: Lint markdown
+on:
+  pull_request:
+    types: [ opened, synchronize, reopened]
+    paths:
+      - 'docs/**'
+
+jobs:
+  mdlint:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout
+        with:
+          ref: ${{ github.ref }}
+
+      - uses: articulate/actions-markdownlint@v1
+        with:
+          files: 'docs/**/*.md'
+          config: './docs/.markdownlint.json'
+
+      - uses: articulate/actions-markdownlint@v1
+        with:
+          files: 'docs/*.md'
+          config: './docs/.markdownlint.json'

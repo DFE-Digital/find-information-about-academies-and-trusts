@@ -9,7 +9,12 @@ public interface ITrustsAreaModel
     /// <summary>
     /// The name of the page as displayed in the page h1
     /// </summary>
-    string PageName { get; init; }
+    string PageName { get; }
+
+    /// <summary>
+    /// The name of the page as displayed in the browser title
+    /// </summary>
+    string? PageTitle { get; init; }
 
     /// <summary>
     /// The name of the section the page sits under in side navigation

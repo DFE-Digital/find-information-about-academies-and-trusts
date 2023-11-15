@@ -6,6 +6,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages;
 
 public class CookiesModel : PageModel
 {
+
     private readonly IHttpContextAccessor _httpContextAccessor;
     public bool PreferencesSet { get; set; }
     public string? ReturnPath { get; set; }
@@ -14,6 +15,10 @@ public class CookiesModel : PageModel
     {
         _httpContextAccessor = httpContextAccessor;
     }
+
+    public bool PreferencesSet { get; set; }
+    public string? ReturnPath { get; set; }
+
 
     public ActionResult OnGet(bool? consent, string returnUrl)
     {

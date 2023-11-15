@@ -1,0 +1,62 @@
+@page
+@model AcademiesDetailsModel
+
+@{
+  Layout = "Academies/_AcademiesLayout";
+}
+
+<section class="govuk-!-margin-top-4 govuk-!-margin-bottom-9 app-table-container">
+  <p class="govuk-body-s">The following links open in a new tab</p>
+  <table class="govuk-table" data-module="moj-sortable-table" aria-describedby="academies-details-link">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-body govuk-table__header" aria-sort="ascending">School name</th>
+        <th scope="col" class="govuk-body govuk-table__header" aria-sort="none">Local authority</th>
+        <th scope="col" class="govuk-body govuk-table__header" aria-sort="none">Type</th>
+        <th scope="col" class="govuk-body govuk-table__header" aria-sort="none">Rural or urban</th>
+        <th scope="col" class="govuk-body govuk-table__header">Get information about schools</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <tr class="govuk-table__row" data-testid="academy-row">
+        <th scope="row" class="govuk-body govuk-table__header" data-sort-value="Barr and Community R.C. School">
+          Barr and Community R.C. School<br/><span class="govuk-!-font-weight-regular">URN: 109174</span>
+        </th>
+        <td class="govuk-body govuk-table__cell">Kingston upon Hull, City of</td>
+        <td class="govuk-body govuk-table__cell">Academy converter</td>
+        <td class="govuk-body govuk-table__cell">Urban minor conurbation</td>
+        <td class="govuk-body govuk-table__cell">
+          <a href="" class="govuk-link" aria-label="Barr and Community R.C. School on Get information about schools (opens in new tab)">
+            More information
+          </a>
+        </td>
+      </tr>
+      <tr class="govuk-table__row" data-testid="academy-row">
+        <th scope="row" class="govuk-body govuk-table__header" data-sort-value="Beacon School">
+          Beacon School<br/><span class="govuk-!-font-weight-regular">URN: 118872</span>
+        </th>
+        <td class="govuk-body govuk-table__cell">North East Lincolnshire</td>
+        <td class="govuk-body govuk-table__cell">Academy sponsor led</td>
+        <td class="govuk-body govuk-table__cell">Urban city and town</td>
+        <td class="govuk-body govuk-table__cell">
+          <a href="" class="govuk-link" aria-label="Beacon School on Get information about schools (opens in new tab)">
+            More information
+          </a>
+        </td>
+      </tr>
+      <tr class="govuk-table__row" data-testid="academy-row">
+        <th scope="row" class="govuk-body govuk-table__header" data-sort-value="George Abbey Secondary Academy">
+          George Abbey Secondary Academy<br/><span class="govuk-!-font-weight-regular">URN: 138867</span>
+        </th>
+        <td class="govuk-body govuk-table__cell">Leeds</td>
+        <td class="govuk-body govuk-table__cell">Academy converter</td>
+        <td class="govuk-body govuk-table__cell">Rural town and fringe</td>
+        <td class="govuk-body govuk-table__cell">
+          <a href="" class="govuk-link" aria-label="George Abbey Secondary Academy on Get information about schools (opens in new tab)">
+            More information
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>

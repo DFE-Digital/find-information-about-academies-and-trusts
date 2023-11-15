@@ -17,6 +17,7 @@ public class TrustsAreaModel : PageModel, ITrustsAreaModel
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = "";
     public Trust Trust { get; set; } = default!;
     public string PageName { get; init; }
+    public string? PageTitle { get; init; }
     public string Section => ViewConstants.AboutTheTrustSectionName;
 
     public async Task<IActionResult> OnGetAsync()

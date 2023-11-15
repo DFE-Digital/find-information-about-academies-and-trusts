@@ -42,7 +42,8 @@ test.describe('Search page', () => {
           await searchPage.expect.toSeeInformationForEachResult()
         })
 
-        test('the user can edit their search and search again', async () => {
+        test('the user can edit their search and search again', async ({ browserName }) => {
+          test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
           await searchPage.searchForm.expect.inputToContainSearchTerm()
           await searchPage.searchForm.searchForATrust()
           await searchPage.expect.toBeOnPageWithMatchingResults()
@@ -83,7 +84,8 @@ test.describe('Search page', () => {
         await searchPage.expect.toBeOnPageWithMatchingResults()
       })
 
-      test('the user can edit their search and select an item using autocomplete', async () => {
+      test('the user can edit their search and select an item using autocomplete', async ({ browserName }) => {
+        test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
         await searchPage.searchForm.expect.inputToContainSearchTerm()
         await searchPage.searchForm.typeASearchTerm()
         await searchPage.searchForm.chooseItemFromAutocomplete()
@@ -97,14 +99,16 @@ test.describe('Search page', () => {
         await searchPage.goTo()
       })
 
-      test('then they should see a list of options and should be able to select one directly', async () => {
+      test('then they should see a list of options and should be able to select one directly', async ({ browserName }) => {
+        test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
         await searchPage.searchForm.typeASearchTerm()
         await searchPage.searchForm.chooseItemFromAutocomplete()
         await searchPage.searchForm.submitSearch()
         await detailsPage.expect.toBeOnTheRightPageFor(currentSearch.selectedTrustName)
       })
 
-      test('then they should be able to change their search term to a free text search after selecting a result', async () => {
+      test('then they should be able to change their search term to a free text search after selecting a result', async ({ browserName }) => {
+        test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
         await searchPage.searchForm.typeASearchTerm()
         await searchPage.searchForm.chooseItemFromAutocomplete()
         await searchPage.searchForm.typeADifferentSearchTerm()
@@ -113,7 +117,8 @@ test.describe('Search page', () => {
         await searchPage.expect.toSeeInformationForEachResult()
       })
 
-      test('then they should be able to change their selection after clicking a result', async () => {
+      test('then they should be able to change their selection after clicking a result', async ({ browserName }) => {
+        test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
         await searchPage.searchForm.typeASearchTerm()
         await searchPage.searchForm.chooseItemFromAutocomplete()
         await searchPage.searchForm.typeADifferentSearchTerm()
