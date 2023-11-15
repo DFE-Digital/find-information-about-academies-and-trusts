@@ -44,14 +44,6 @@ public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
         PageStatus = Trusts.PageStatus;
     }
 
-    public string InputId => "search";
-    [BindProperty(SupportsGet = true)] public string KeyWords { get; set; } = string.Empty;
-    [BindProperty(SupportsGet = true)] public string Uid { get; set; } = string.Empty;
-    [BindProperty(SupportsGet = true)] public int SearchPageNumber { get; set; } = 1;
-
-    public IPaginatedList<TrustSearchEntry> Trusts { get; set; } = new PaginatedList<TrustSearchEntry>();
-
-
     public IActionResult OnPost()
     {
         return RedirectToPage("/Search", new { KeyWords, Uid });
