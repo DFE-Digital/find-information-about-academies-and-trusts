@@ -25,7 +25,8 @@ test.describe('homepage', () => {
     test.describe(`With JavaScript ${javaScriptContext.name}`, () => {
       test.use({ javaScriptEnabled: javaScriptContext.isEnabled })
 
-      test('Searching for different terms navigates to search page with different results', async () => {
+      test('Searching for different terms navigates to search page with different results', async ({ browserName }) => {
+        test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
         await homePage.searchForm.searchForATrust()
         await searchPage.expect.toBeOnTheRightPage()
         await searchPage.expect.toBeOnPageWithMatchingResults()
@@ -40,14 +41,16 @@ test.describe('homepage', () => {
 
   test.describe('Only with JavaScript enabled', () => {
     test.describe('Given a user is typing a search term', () => {
-      test('then they should see a list of options and should be able to select one directly', async () => {
+      test('then they should see a list of options and should be able to select one directly', async ({ browserName }) => {
+        test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
         await homePage.searchForm.typeASearchTerm()
         await homePage.searchForm.chooseItemFromAutocomplete()
         await homePage.searchForm.submitSearch()
         await detailsPage.expect.toBeOnTheRightPageFor(currentSearch.selectedTrustName)
       })
 
-      test('then they should be able to change their search term to a free text search after selecting a result', async () => {
+      test('then they should be able to change their search term to a free text search after selecting a result', async ({ browserName }) => {
+        test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
         await homePage.searchForm.typeASearchTerm()
         await homePage.searchForm.chooseItemFromAutocomplete()
         await homePage.searchForm.typeADifferentSearchTerm()
