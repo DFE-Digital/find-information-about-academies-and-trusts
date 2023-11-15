@@ -12,8 +12,7 @@
 
 <div class="govuk-grid-row govuk-!-margin-bottom-6">
   <div class="govuk-grid-column-one-half">
-    <form class="govuk-form-group app-search" role="search" aria-label="sitewide">
-      @Html.AntiForgeryToken()
+    <form class="govuk-form-group app-search" role="search" aria-label="sitewide" method="post">
       <h1 class="govuk-label-wrapper">
         <label class="govuk-label govuk-label--l" for="@Model.InputId">
           Search

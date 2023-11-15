@@ -42,7 +42,7 @@ export class SearchPage {
 
   async goToSearchFor (searchTerm: string): Promise<void> {
     this.currentSearch.term = searchTerm
-    await this.page.goto(`/search/?keywords=${searchTerm}`)
+    await this.page.goto(`/search?keywords=${searchTerm}`)
   }
 
   async goToPageWithResults (): Promise<void> {
