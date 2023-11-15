@@ -10,4 +10,15 @@ public class OfstedRatingsModel : TrustsAreaModel, IAcademiesAreaModel
     }
 
     public string TabName => "Ofsted ratings";
+    
+    public OfstedRatingCellModel GetOfstedRatingCellModel(DateTime academyJoinedDate, string rating,
+        DateTime? ratingDate)
+    {
+        return new OfstedRatingCellModel
+        {
+            AcademyJoinedDate = academyJoinedDate,
+            Rating = rating,
+            RatingDate = ratingDate
+        };
+    }
 }
