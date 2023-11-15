@@ -24,7 +24,7 @@
         <td class="govuk-body govuk-table__cell">Nov 2018</td>
         <td class="govuk-body govuk-table__cell">
         </td>
-        <td class="govuk-body govuk-table__cell">
+        <td class="govuk-body govuk-table__cell" data-sort-value="@((short)OfstedRatings.NotYetInspected)">
           <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2018, 11, 1), "Not yet inspected", null)"></partial>
         </td>
       </tr>
@@ -33,10 +33,10 @@
           Fay Fort Catholic Primary Academy<br/><span class="govuk-!-font-weight-regular">URN: 109174</span>
         </th>
         <td class="govuk-body govuk-table__cell">Nov 2017</td>
-        <td class="govuk-body govuk-table__cell">
+        <td class="govuk-body govuk-table__cell" data-sort-value="@((short)OfstedRatings.NotYetInspected)">
           <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2017, 11, 1), "Not yet inspected", null)"></partial>
         </td>
-        <td class="govuk-body govuk-table__cell">
+        <td class="govuk-body govuk-table__cell" data-sort-value="@((short)OfstedRatings.Good)">
           <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2017, 11, 1), "Good", new DateTime(2021, 05, 9))"></partial>
         </td>
       </tr>
@@ -45,10 +45,10 @@
           George Abbey Secondary Academy<br/><span class="govuk-!-font-weight-regular">URN: 109174</span>
         </th>
         <td class="govuk-body govuk-table__cell">Nov 2017</td>
-        <td class="govuk-body govuk-table__cell">
-          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2017, 10, 1), "Good", new DateTime(2014, 11, 30));"></partial>
+        <td class="govuk-body govuk-table__cell" data-sort-value="@((short)OfstedRatings.RequiresImprovement)">
+          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2017, 10, 1), "Requires improvement", new DateTime(2014, 11, 30));"></partial>
         </td>
-        <td class="govuk-body govuk-table__cell">
+        <td class="govuk-body govuk-table__cell" data-sort-value="@((short)OfstedRatings.Outstanding)">
           <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2017, 10, 1), "Outstanding", new DateTime(2020, 11, 1))"></partial>
         </td>
       </tr>

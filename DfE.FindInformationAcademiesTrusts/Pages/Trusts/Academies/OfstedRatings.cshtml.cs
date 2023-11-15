@@ -2,6 +2,15 @@ using DfE.FindInformationAcademiesTrusts.Data;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
+public enum OfstedRatings
+{
+    NotYetInspected,
+    Inadequate,
+    RequiresImprovement,
+    Good,
+    Outstanding
+}
+
 public class OfstedRatingsModel : TrustsAreaModel, IAcademiesAreaModel
 {
     public OfstedRatingsModel(ITrustProvider trustProvider) : base(trustProvider, "Academies in this trust")
@@ -10,7 +19,7 @@ public class OfstedRatingsModel : TrustsAreaModel, IAcademiesAreaModel
     }
 
     public string TabName => "Ofsted ratings";
-    
+
     public OfstedRatingCellModel GetOfstedRatingCellModel(DateTime academyJoinedDate, string rating,
         DateTime? ratingDate)
     {
