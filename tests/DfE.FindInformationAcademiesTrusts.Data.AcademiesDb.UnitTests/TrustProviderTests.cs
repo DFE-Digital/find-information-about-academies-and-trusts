@@ -16,8 +16,7 @@ public class TrustProviderTests
         var mockAcademiesDbContext = new MockAcademiesDbContext();
         _groups = mockAcademiesDbContext.SetupMockDbContextGroups(5);
         _mstrTrusts = mockAcademiesDbContext.SetupMockDbContextMstrTrust(5);
-        _mockTrustHelper = new Mock<ITrustHelper>();
-        _mockTrustHelper.Setup(t => t.CreateTrustFrom(It.IsAny<Group>(), It.IsAny<MstrTrust>()))
+        _mockTrustHelper.Setup(t => t.CreateTrustFrom(It.IsAny<Group>(), It.IsAny<MstrTrust>(), It.IsAny<Academy[]>()))
             .Returns(DummyTrustFactory.GetDummyTrust("999"));
 
         _sut = new TrustProvider(mockAcademiesDbContext.Object, _mockTrustHelper.Object);
@@ -36,7 +35,7 @@ public class TrustProviderTests
         _mstrTrusts.Add(mstrTrust);
         var expectedTrust = DummyTrustFactory.GetDummyTrust(group.GroupUid);
 
-        _mockTrustHelper.Setup(t => t.CreateTrustFrom(group, mstrTrust)).Returns(expectedTrust);
+        _mockTrustHelper.Setup(t => t.CreateTrustFrom(group, mstrTrust, It.IsAny<Academy[]>())).Returns(expectedTrust);
 
         var result = await _sut.GetTrustByUidAsync("1234");
 
