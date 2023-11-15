@@ -49,8 +49,10 @@ public class CookiesModel : PageModel
 
     private void RejectCookies()
     {
-        _httpContextAccessor.HttpContext?.Response.Cookies.Delete("ai_session", new CookieOptions { Path = "/",Secure = true });
-        _httpContextAccessor.HttpContext?.Response.Cookies.Delete("ai_user", new CookieOptions { Path = "/",Secure = true });
+        _httpContextAccessor.HttpContext?.Response.Cookies.Delete("ai_session",
+            new CookieOptions { Path = "/", Secure = true, HttpOnly = true });
+        _httpContextAccessor.HttpContext?.Response.Cookies.Delete("ai_user",
+            new CookieOptions { Path = "/", Secure = true, HttpOnly = true });
         _httpContextAccessor.HttpContext?.Session.SetInt32("CookieStatus",
             (int)CookieStatusEnums.CookieStatus.Rejected);
     }
