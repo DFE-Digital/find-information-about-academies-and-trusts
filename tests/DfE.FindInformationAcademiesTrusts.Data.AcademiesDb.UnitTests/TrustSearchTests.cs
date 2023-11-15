@@ -31,6 +31,26 @@ public class TrustSearchTests
     }
 
     [Fact]
+    public async Task SearchAsync_should_return_the_correct_results_page_when_there_are_more_than_20_matches()
+    {
+        const int matches = 60;
+        var groups = _mockAcademiesDbContext.SetupMockDbContextGroups(matches);
+        for (var i = 0; i < groups.Count; i++)
+        {
+            groups[i].GroupName = "Page " + Math.Ceiling((double)(i + 1) / 20);
+        }
+
+        var result = await _sut.SearchAsync("Page");
+        result.All(entry => entry.Name == "Page 1").Should().Be(true);
+
+        result = await _sut.SearchAsync("Page", 2);
+        result.All(entry => entry.Name == "Page 2").Should().Be(true);
+
+        result = await _sut.SearchAsync("Page", 3);
+        result.All(entry => entry.Name == "Page 3").Should().Be(true);
+    }
+
+    [Fact]
     public async Task SearchAsync_should_return_all_results_when_there_are_less_than_20_matches()
     {
         _mockAcademiesDbContext.SetupMockDbContextGroups(19);
@@ -117,7 +137,7 @@ public class TrustSearchTests
     [InlineData(null)]
     public async Task SearchAsync_should_not_call_database_if_empty_search_term(string term)
     {
-        _ = await _sut.SearchAsync(term);
+        await _sut.SearchAsync(term);
         _mockAcademiesDbContext.Verify(academiesDbContext => academiesDbContext.Groups, Times.Never);
     }
 
