@@ -14,7 +14,8 @@ public static class JsonGenerator
         var trusts = fakeData.Groups
             .OrderBy(g => g.GroupName)
             .Select(g => trustHelper
-                .CreateTrustFrom(g, fakeData.MstrTrusts.FirstOrDefault(t => t.GroupUid == g.GroupUid)!)
+                .CreateTrustFrom(g, fakeData.MstrTrusts.FirstOrDefault(t => t.GroupUid == g.GroupUid)!,
+                    Array.Empty<Academy>())
             );
 
         File.WriteAllText(outputFilePath, JsonSerializer.Serialize(trusts, serializeOptions));

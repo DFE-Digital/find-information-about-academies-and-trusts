@@ -26,7 +26,7 @@ public class TrustHelperTests
             GroupUid = "1234", GORregion = "North East"
         };
 
-        var result = _sut.CreateTrustFrom(group, mstrTrust);
+        var result = _sut.CreateTrustFrom(group, mstrTrust, Array.Empty<Academy>());
 
         result.Should().BeEquivalentTo(new Trust(
                 "1234",
@@ -51,7 +51,7 @@ public class TrustHelperTests
     public void CreateTrustFromGroup_Should_Include_Empty_string_values_if_properties_have_no_value(
         Group group, MstrTrust mstrTrust, Trust expected)
     {
-        var result = _sut.CreateTrustFrom(group, mstrTrust);
+        var result = _sut.CreateTrustFrom(group, mstrTrust, Array.Empty<Academy>());
         result.Should().BeEquivalentTo(expected);
     }
 
