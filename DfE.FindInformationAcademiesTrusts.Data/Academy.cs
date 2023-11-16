@@ -2,6 +2,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data;
 
 public record Academy(
     int Urn,
+    DateTime DateAcademyJoinedTrust,
     string? EstablishmentName,
     string? TypeOfEstablishment,
     string? LocalAuthority,
