@@ -134,7 +134,7 @@ If everything looks good, answer `yes` and wait for the new infrastructure to be
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.77.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.79.0 |
 
 ## Modules
 
@@ -151,6 +151,7 @@ If everything looks good, answer `yes` and wait for the new infrastructure to be
 | [azurerm_monitor_diagnostic_setting.ci-test-reports](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
 | [azurerm_storage_account.ci-test-reports](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
 | [azurerm_storage_container.ci-test-reports](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
+| [azurerm_storage_management_policy.ci-test-reports](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_management_policy) | resource |
 | [azurerm_storage_account_blob_container_sas.ci-test-reports](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/storage_account_blob_container_sas) | data source |
 
 ## Inputs
