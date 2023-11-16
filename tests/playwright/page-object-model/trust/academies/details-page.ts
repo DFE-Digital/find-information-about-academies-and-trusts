@@ -22,10 +22,10 @@ export class AcademiesDetailsPageAssertions extends BaseAcademiesPageAssertions 
   }
 
   async toDisplayCorrectInformationAboutAcademiesInThatTrust (): Promise<void> {
-    await expect(this.detailsPage.academiesTableLocator).toContainText('Barr and Community R.C. SchoolURN: 109174')
-    await expect(this.detailsPage.academiesTableLocator).toContainText('URN: 109174')
-    await expect(this.detailsPage.academiesTableLocator).toContainText('Kingston upon Hull, City of')
-    await expect(this.detailsPage.academiesTableLocator).toContainText('Academy converter')
-    await expect(this.detailsPage.academiesTableLocator).toContainText('Urban minor conurbation')
+    await expect(this.detailsPage.academiesTable.locator).toContainText('Barr and Community R.C. SchoolURN: 109174')
+    await expect(this.detailsPage.academiesTable.locator).toContainText('URN: 109174')
+    await expect(this.detailsPage.academiesTable.locator).toContainText('Kingston upon Hull, City of')
+    await expect(this.detailsPage.academiesTable.locator).toContainText('Academy converter')
+    await expect(this.detailsPage.academiesTable.locator).toContainText('Urban minor conurbation')
   }
 }
