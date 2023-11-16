@@ -12,6 +12,7 @@ env:
   ZAP_PORT: 9876
   ZAP_API_KEY: 5c93eec3-b5c0-4252-9061-017ebff89450
   NODE_VERSION: 18.13.0
+  LAST_COMMIT_SHA: default
 
 jobs:
   run-tests-with-zap:
@@ -22,8 +23,13 @@ jobs:
       run:
         working-directory: tests/playwright
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Set SHA environment variable
+        run: |
+          echo "LAST_COMMIT_SHA=${GITHUB_SHA:(-7)}" >> $GITHUB_ENV
 
       - name: Create directory on runner
         run: |
@@ -84,7 +90,7 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright tests
+      - name: Run Playwright security tests
         env:
           CI: true
           PLAYWRIGHT_BASEURL: ${{ secrets.BASE_URL }}
@@ -96,18 +102,33 @@ jobs:
           ZAP_PORT: ${{ env.ZAP_PORT }}
         run: npx playwright test --project=zap-tests
 
-      - uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: playwright-report
-          path: tests/playwright/playwright-report/
-          retention-days: 7
-
-      - name: Get git sha
+      - name: Prepare report for upload
         if: '!cancelled()'
         run: |
-          CHECKED_OUT_SHA="$(git log -1 '--format=format:%H')"
-          echo "checked_out_sha=${CHECKED_OUT_SHA}" >> $GITHUB_ENV
+          zip -qq -r ${{ inputs.environment }}-${{ env.LAST_COMMIT_SHA }}.zip ./playwright-report/
+
+      - name: Azure login with SPN
+        if: '!cancelled()'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.CI_REPORTS_AZ_CREDENTIALS }}
+
+      - name: Push report to blob storage
+        if: '!cancelled()'
+        uses: azure/CLI@v1
+        id: azure
+        with:
+          azcliversion: 2.53.0
+          inlineScript: |
+            GIT_REF=${{ github.base_ref }}
+            GIT_BRANCH=${GIT_REF//\//-}
+            az storage blob upload \
+              --container-name ${{ secrets.CI_REPORTS_STORAGE_CONTAINER_NAME }} \
+              --account-name ${{ secrets.CI_REPORTS_STORAGE_ACCOUNT_NAME }} \
+              --file "./tests/playwright/${{ inputs.environment }}-${{ env.LAST_COMMIT_SHA }}.zip" \
+              --name "Dfe.FindInformationAcademiesTrusts/$GIT_BRANCH/test-security-${{ env.LAST_COMMIT_SHA }}.zip" \
+              --auth-mode login \
+              --overwrite
 
       - name: Azure login with SPN
         if: '!cancelled()'
@@ -118,15 +139,15 @@ jobs:
       - name: Push report to blob storage
         if: '!cancelled()'
         uses: azure/CLI@v1
-        id: azure
         with:
-          azcliversion: 2.50.0
+          azcliversion: 2.53.0
           inlineScript: |
+            CHECKED_OUT_SHA="$(git log -1 '--format=format:%H')"
             az storage blob upload \
               --container-name ${{ secrets.OWASP_STORAGE_CONTAINER_NAME }} \
               --account-name ${{ secrets.OWASP_STORAGE_ACCOUNT_NAME }} \
               --file "${{ github.workspace }}/zapoutput/ZAP-Report.html" \
-              --name "Dfe.FindInformationAcademiesTrusts/${{ env.checked_out_sha }}/ZAP-Report.html" \
+              --name "Dfe.FindInformationAcademiesTrusts/$CHECKED_OUT_SHA/ZAP-Report.html" \
               --auth-mode login \
               --overwrite
 
