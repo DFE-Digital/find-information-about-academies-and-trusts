@@ -1,6 +1,6 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { FakeTestData } from '../../../fake-data/fake-test-data'
-import { BaseTrustPage } from '../base-trust-page'
+import { BaseTrustPage, BaseTrustPageAssertions } from '../base-trust-page'
 import { NavigationComponent } from '../../shared/navigation-component'
 
 export class BaseAcademiesPage extends BaseTrustPage {
@@ -18,8 +18,10 @@ export class BaseAcademiesPage extends BaseTrustPage {
   }
 }
 
-export class BaseAcademiesPageAssertions {
-  constructor (readonly academiesPage: BaseAcademiesPage) {}
+export class BaseAcademiesPageAssertions extends BaseTrustPageAssertions {
+  constructor (readonly academiesPage: BaseAcademiesPage) {
+    super(academiesPage)
+  }
 
   async toBeOnAcademiesInTrustPages (): Promise<void> {
     await expect(this.academiesPage.pageHeadingLocator).toHaveText('Academies in this trust')
