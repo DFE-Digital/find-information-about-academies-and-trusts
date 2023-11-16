@@ -30,7 +30,7 @@ public class CookiesModelTests
     [InlineData("page")]
     [InlineData("")]
     [InlineData(null)]
-    public void Visit_cookies_page_from_footer(string page)
+    public void OnGet_should_show_page_if_directly_navigated_to_from_another_page(string page)
     {
         var result = _sut.OnGet(null, page);
         Assert.IsType<PageResult>(result);
@@ -39,7 +39,7 @@ public class CookiesModelTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Set_preferences_from_cookie_banner(bool? preferences)
+    public void OnGet_should_redirect_to_original_page_if_preferences_set_from_cookie_banner(bool? preferences)
     {
         var result = _sut.OnGet(preferences, "page");
         Assert.IsType<RedirectResult>(result);
@@ -48,7 +48,7 @@ public class CookiesModelTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Set_preferences_from_cookie_page(bool preferences)
+    public void OnPost_should_redirect_to_original_page_if_preferences_set_from_cookie_page(bool preferences)
     {
         var result = _sut.OnPost(preferences, "page");
         _sut.PreferencesSet.Should().Be(true);
