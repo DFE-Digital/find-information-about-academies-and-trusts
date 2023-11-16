@@ -26,10 +26,11 @@ public class AcademyHelperTests
             OfstedRatingName = "Good"
         };
 
-        var result = _sut.CreateAcademyFrom(new GroupLink(), establishment);
+        var result = _sut.CreateAcademyFrom(new GroupLink { JoinedDate = "16/11/2023" }, establishment);
 
         result.Should().BeEquivalentTo(new Academy(
                 1234,
+                new DateTime(2023, 11, 16),
                 "trust 1",
                 "Academy sponsor led",
                 "my la",

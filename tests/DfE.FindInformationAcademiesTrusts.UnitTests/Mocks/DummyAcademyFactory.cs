@@ -15,6 +15,7 @@ public class DummyAcademyFactory
     public static Academy GetDummyAcademy(int urn)
     {
         return new Academy(urn,
+            new DateTime(2023, 11, 16),
             $"Academy {urn}",
             "test",
             "test",

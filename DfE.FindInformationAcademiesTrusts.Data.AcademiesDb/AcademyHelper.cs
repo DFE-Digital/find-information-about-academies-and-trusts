@@ -14,6 +14,7 @@ public class AcademyHelper : IAcademyHelper
     {
         return new Academy(
             establishment.Urn,
+            DateTime.ParseExact(gl.JoinedDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture),
             establishment.EstablishmentName,
             establishment.TypeOfEstablishmentName,
             establishment.LaName,
@@ -24,13 +25,13 @@ public class AcademyHelper : IAcademyHelper
             establishment.PercentageFsm,
             new AgeRange(establishment.StatutoryLowAge!, establishment.StatutoryHighAge!),
             establishment.OfstedRatingName != null
-                ? new OfstedRating(establishment.OfstedRatingName, ParseAsDate(establishment.OfstedLastInsp))
+                ? new OfstedRating(establishment.OfstedRatingName, ParseAsNullableDate(establishment.OfstedLastInsp))
                 : null,
             null
         );
     }
 
-    private static DateTime? ParseAsDate(string? date)
+    private static DateTime? ParseAsNullableDate(string? date)
     {
         if (string.IsNullOrEmpty(date)) return null;
         var newDate = DateTime.ParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
