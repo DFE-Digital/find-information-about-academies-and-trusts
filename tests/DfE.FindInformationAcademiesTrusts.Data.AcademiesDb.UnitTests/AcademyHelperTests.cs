@@ -13,6 +13,7 @@ public class AcademyHelperTests
         {
             Urn = 1234,
             EstablishmentName = "trust 1",
+            TypeOfEstablishmentName = "Academy sponsor led",
             LaName = "my la",
             UrbanRuralName = "urban",
             PhaseOfEducationName = "Primary",
@@ -30,6 +31,7 @@ public class AcademyHelperTests
         result.Should().BeEquivalentTo(new Academy(
                 1234,
                 "trust 1",
+                "Academy sponsor led",
                 "my la",
                 "urban",
                 "Primary",

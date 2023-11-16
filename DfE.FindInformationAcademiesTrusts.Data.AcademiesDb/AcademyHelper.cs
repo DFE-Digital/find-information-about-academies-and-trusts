@@ -15,6 +15,7 @@ public class AcademyHelper : IAcademyHelper
         return new Academy(
             establishment.Urn,
             establishment.EstablishmentName,
+            establishment.TypeOfEstablishmentName,
             establishment.LaName,
             establishment.UrbanRuralName,
             establishment.PhaseOfEducationName,

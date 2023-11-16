@@ -22,6 +22,7 @@ public class DummyAcademyFactory
             "test",
             "test",
             "test",
+            "test",
             null,
             null,
             null);
