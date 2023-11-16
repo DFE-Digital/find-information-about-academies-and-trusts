@@ -5,13 +5,13 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 
 public interface ITrustHelper
 {
-    Trust CreateTrustFrom(Group group, MstrTrust mstrTrust, Academy[] academies);
+    Trust CreateTrustFrom(Group group, MstrTrust? mstrTrust, Academy[] academies);
     string BuildAddressString(Group group);
 }
 
 public class TrustHelper : ITrustHelper
 {
-    public Trust CreateTrustFrom(Group group, MstrTrust mstrTrust, Academy[] academies)
+    public Trust CreateTrustFrom(Group group, MstrTrust? mstrTrust, Academy[] academies)
     {
         return new Trust(
             group.GroupUid!,
@@ -22,7 +22,7 @@ public class TrustHelper : ITrustHelper
             BuildAddressString(group),
             ParseAsDate(group.IncorporatedOnOpenDate),
             group.CompaniesHouseNumber ?? string.Empty,
-            mstrTrust.GORregion ?? string.Empty,
+            mstrTrust?.GORregion ?? string.Empty,
             academies,
             Array.Empty<Governor>(),
             null,

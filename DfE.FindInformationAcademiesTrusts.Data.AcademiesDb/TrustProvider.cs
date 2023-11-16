@@ -25,17 +25,13 @@ public class TrustProvider : ITrustProvider
 
     public async Task<Trust?> GetTrustByUidAsync(string uid)
     {
-        Trust? trust = null;
-
         var group = await _academiesDbContext.Groups.SingleOrDefaultAsync(g => g.GroupUid == uid);
-        var mstrTrust = await _academiesDbContext.MstrTrusts.SingleOrDefaultAsync(m => m.GroupUid == uid);
-        if (group is not null && mstrTrust is not null)
-        {
-            var academies = await GetAcademiesLinkedTo(uid);
-            trust = _trustHelper.CreateTrustFrom(group, mstrTrust, academies);
-        }
+        if (group is null) return null;
 
-        return trust;
+        var mstrTrust = await _academiesDbContext.MstrTrusts.SingleOrDefaultAsync(m => m.GroupUid == uid);
+        var academies = await GetAcademiesLinkedTo(uid);
+
+        return _trustHelper.CreateTrustFrom(group, mstrTrust, academies);
     }
 
     private async Task<Academy[]> GetAcademiesLinkedTo(string uid)

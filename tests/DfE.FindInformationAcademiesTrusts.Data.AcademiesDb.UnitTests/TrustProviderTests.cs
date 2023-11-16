@@ -49,13 +49,18 @@ public class TrustProviderTests
     }
 
     [Fact]
-    public async Task GetTrustsByUidAsync_should_return_null_mstrTrust_not_found()
+    public async Task GetTrustsByUidAsync_should_return_a_trust_if_mstrTrust_not_found()
     {
         var groupUid = "987654321";
-        CreateGroup(groupUid);
+        var group = CreateGroup(groupUid);
+        var expectedTrust = DummyTrustFactory.GetDummyTrust(groupUid);
+
+        _mockTrustHelper.Setup(t => t.CreateTrustFrom(group, It.IsAny<MstrTrust>(), It.IsAny<Academy[]>()))
+            .Returns(expectedTrust);
 
         var result = await _sut.GetTrustByUidAsync(groupUid);
-        result.Should().BeNull();
+
+        result.Should().Be(expectedTrust);
     }
 
     [Fact]
