@@ -39,6 +39,32 @@ resource "azurerm_monitor_diagnostic_setting" "ci-test-reports" {
   }
 }
 
+resource "azurerm_storage_management_policy" "ci-test-reports" {
+  count = local.enable_ci_report_storage_container ? 1 : 0
+
+  storage_account_id = azurerm_storage_account.ci-test-reports[0].id
+
+  rule {
+    name    = "ci-report-cool-off"
+    enabled = true
+
+    filters {
+      blob_types = ["blockBlob"]
+    }
+
+    actions {
+      base_blob {
+        tier_to_cool_after_days_since_creation_greater_than = 7
+        delete_after_days_since_creation_greater_than       = 14
+      }
+
+      snapshot {
+        delete_after_days_since_creation_greater_than = 14
+      }
+    }
+  }
+}
+
 data "azurerm_storage_account_blob_container_sas" "ci-test-reports" {
   count = local.enable_ci_report_storage_container ? 1 : 0
 
