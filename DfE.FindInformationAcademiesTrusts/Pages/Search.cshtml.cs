@@ -70,18 +70,21 @@ public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
                 )));
     }
 
-    public string Title()
+    public string Title
     {
-        if (string.IsNullOrWhiteSpace(KeyWords))
+        get
         {
-            return "Search";
-        }
+            if (string.IsNullOrWhiteSpace(KeyWords))
+            {
+                return "Search";
+            }
 
-        if (PageStatus.TotalPages > 1)
-        {
-            return $"Search (page {PageStatus.PageIndex} of {PageStatus.TotalPages}) - {KeyWords}";
-        }
+            if (PageStatus.TotalPages > 1)
+            {
+                return $"Search (page {PageStatus.PageIndex} of {PageStatus.TotalPages}) - {KeyWords}";
+            }
 
-        return $"Search - {KeyWords}";
+            return $"Search - {KeyWords}";
+        }
     }
 }

@@ -193,14 +193,14 @@ public class SearchModelTests
     [Fact]
     public void Title_Should_Be_Search_When_Keywords_Are_Empty()
     {
-        _sut.Title().Should().BeEquivalentTo("Search");
+        _sut.Title.Should().BeEquivalentTo("Search");
     }
 
     [Fact]
     public void Title_Should_Include_The_Keywords_When_they_Are_Set()
     {
         _sut.KeyWords = "Test";
-        _sut.Title().Should().BeEquivalentTo("Search - Test");
+        _sut.Title.Should().BeEquivalentTo("Search - Test");
     }
 
     [Fact]
@@ -208,7 +208,7 @@ public class SearchModelTests
     {
         _sut.KeyWords = "Test";
         _sut.PageStatus = new PageStatus(1, 1, 1);
-        _sut.Title().Should().BeEquivalentTo("Search - Test");
+        _sut.Title.Should().BeEquivalentTo("Search - Test");
     }
 
     [Fact]
@@ -216,6 +216,6 @@ public class SearchModelTests
     {
         _sut.KeyWords = "Test";
         _sut.PageStatus = new PageStatus(1, 2, 3);
-        _sut.Title().Should().BeEquivalentTo("Search (page 1 of 2) - Test");
+        _sut.Title.Should().BeEquivalentTo("Search (page 1 of 2) - Test");
     }
 }
