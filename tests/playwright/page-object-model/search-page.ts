@@ -97,9 +97,9 @@ class SearchPageAssertions {
     await expect(this.searchPage._searchResultsListItemLocator).not.toHaveCount(0)
   }
 
-  async toSeeInformationForEachResult (): Promise<void> {
+  async toSeeInformationForUpToMaximumNumberOfResultsPerPage (): Promise<void> {
     const resultsCount = await this.searchPage._searchResultsListItemLocator.count()
-    expect(resultsCount, `should be a maxium of ${this.searchPage.numberOfResultsOnOnePage} results per page`)
+    expect(resultsCount, `should be a maximum of ${this.searchPage.numberOfResultsOnOnePage} results per page`)
       .toBeLessThanOrEqual(this.searchPage.numberOfResultsOnOnePage)
 
     for (let resultNumber = 0; resultNumber < resultsCount; resultNumber++) {

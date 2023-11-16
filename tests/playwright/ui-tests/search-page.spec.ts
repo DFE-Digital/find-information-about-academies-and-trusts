@@ -27,7 +27,7 @@ test.describe('Search page', () => {
           await searchPage.searchForm.expect.inputToContainNoSearchTerm()
           await searchPage.expect.toSeeNoResultsMessage()
           await searchPage.searchForm.searchForATrust()
-          await searchPage.expect.toSeeInformationForEachResult()
+          await searchPage.expect.toSeeInformationForUpToMaximumNumberOfResultsPerPage()
         })
       })
 
@@ -39,7 +39,7 @@ test.describe('Search page', () => {
 
         test('then it displays a list of results with information about each trust', async () => {
           await searchPage.expect.toDisplayTotalNumberOfResultsFound()
-          await searchPage.expect.toSeeInformationForEachResult()
+          await searchPage.expect.toSeeInformationForUpToMaximumNumberOfResultsPerPage()
         })
 
         test('the user can edit their search and search again', async ({ browserName }) => {
@@ -50,7 +50,7 @@ test.describe('Search page', () => {
           await searchPage.searchForm.searchForADifferentTrust()
           await searchPage.searchForm.expect.inputToContainSearchTerm()
           await searchPage.expect.toBeOnPageWithMatchingResults()
-          await searchPage.expect.toSeeInformationForEachResult()
+          await searchPage.expect.toSeeInformationForUpToMaximumNumberOfResultsPerPage()
         })
 
         test('when the user clicks on different results they are taken to different trust details pages', async () => {
@@ -70,9 +70,9 @@ test.describe('Search page', () => {
           await searchPage.pagination.expect.toBeOnSpecificPage(1)
         })
 
-        test('the correct number of results are returned', async () => {
+        test('the correct total number of results are displayed and infomation is only shown for one page of results', async () => {
           await searchPage.expect.toDisplayTotalNumberOfResultsFound()
-          await searchPage.expect.toSeeInformationForEachResult()
+          await searchPage.expect.toSeeInformationForUpToMaximumNumberOfResultsPerPage()
         })
 
         test('the next page link is visible when there is another page', async () => {
@@ -95,9 +95,10 @@ test.describe('Search page', () => {
           await searchPage.goToSearchWithOnePageOfResults()
         })
 
-        test('the correct number of results are returned', async () => {
-          await searchPage.expect.toDisplayTotalNumberOfResultsFound()
-          await searchPage.expect.toSeeInformationForEachResult()
+        test('only 1 result is shown', async () => {
+          await searchPage.expect.toDisplayOneResultFound()
+          await searchPage.expect.toBeOnPageWithMatchingResults()
+          await searchPage.expect.toSeeInformationForUpToMaximumNumberOfResultsPerPage()
         })
 
         test('the next and previous page links are not visible', async () => {
@@ -158,7 +159,7 @@ test.describe('Search page', () => {
         await searchPage.searchForm.typeADifferentSearchTerm()
         await searchPage.searchForm.submitSearch()
         await searchPage.expect.toBeOnPageWithMatchingResults()
-        await searchPage.expect.toSeeInformationForEachResult()
+        await searchPage.expect.toSeeInformationForUpToMaximumNumberOfResultsPerPage()
       })
 
       test('then they should be able to change their selection after clicking a result', async ({ browserName }) => {
