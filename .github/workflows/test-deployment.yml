@@ -69,6 +69,7 @@ jobs:
         run: npm run test:deployment
 
       - name: Prepare report for upload
+        if: '!cancelled()'
         run: |
           zip -qq -r ${{ inputs.environment }}-${{ env.LAST_COMMIT_SHA }}.zip ./playwright-report/
 

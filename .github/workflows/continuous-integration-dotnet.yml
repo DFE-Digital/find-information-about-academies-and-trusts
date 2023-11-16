@@ -84,6 +84,7 @@ jobs:
         dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
     - name: Prepare report for upload
+      if: '!cancelled()'
       run: |
         zip -qq -r ${{ env.LAST_COMMIT_SHA }}.zip ./**/mutation-report.html
 

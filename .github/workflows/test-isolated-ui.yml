@@ -71,6 +71,7 @@ jobs:
         run: npm run test:ci
 
       - name: Prepare report for upload
+        if: '!cancelled()'
         run: |
           zip -qq -r ${{ env.LAST_COMMIT_SHA }}.zip ./playwright-report/
 

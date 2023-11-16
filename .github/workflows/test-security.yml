@@ -103,6 +103,7 @@ jobs:
         run: npx playwright test --project=zap-tests
 
       - name: Prepare report for upload
+        if: '!cancelled()'
         run: |
           zip -qq -r ${{ inputs.environment }}-${{ env.LAST_COMMIT_SHA }}.zip ./playwright-report/
 
