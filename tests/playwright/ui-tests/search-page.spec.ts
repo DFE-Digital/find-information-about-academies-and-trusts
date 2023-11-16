@@ -38,7 +38,7 @@ test.describe('Search page', () => {
         })
 
         test('then it displays a list of results with information about each trust', async () => {
-          await searchPage.expect.toDisplayNumberOfResultsFound()
+          await searchPage.expect.toDisplayTotalNumberOfResultsFound()
           await searchPage.expect.toSeeInformationForEachResult()
         })
 
@@ -70,6 +70,11 @@ test.describe('Search page', () => {
           await searchPage.pagination.expect.toBeOnSpecificPage(1)
         })
 
+        test('the correct number of results are returned', async () => {
+          await searchPage.expect.toDisplayTotalNumberOfResultsFound()
+          await searchPage.expect.toSeeInformationForEachResult()
+        })
+
         test('the next page link is visible when there is another page', async () => {
           await searchPage.pagination.expect.toShowNextPageLink()
           await searchPage.pagination.selectPage(4)
@@ -88,6 +93,11 @@ test.describe('Search page', () => {
       test.describe('given that there is only 1 page of results', () => {
         test.beforeEach(async () => {
           await searchPage.goToSearchWithOnePageOfResults()
+        })
+
+        test('the correct number of results are returned', async () => {
+          await searchPage.expect.toDisplayTotalNumberOfResultsFound()
+          await searchPage.expect.toSeeInformationForEachResult()
         })
 
         test('the next and previous page links are not visible', async () => {
