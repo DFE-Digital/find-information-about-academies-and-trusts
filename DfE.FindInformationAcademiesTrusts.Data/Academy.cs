@@ -3,6 +3,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data;
 public record Academy(
     int Urn,
     string? EstablishmentName,
+    string? TypeOfEstablishment,
     string? LocalAuthority,
     string? UrbanRural,
     string? PhaseOfEducation,
