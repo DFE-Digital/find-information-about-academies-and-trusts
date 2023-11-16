@@ -21,11 +21,13 @@ on:
 
 env:
   JAVA_VERSION: '17'
+  LAST_COMMIT_SHA: default
 
 jobs:
   build:
     name: Build .NET
     runs-on: ubuntu-latest
+    environment: development
     steps:
     - name: Check out code
       uses: actions/checkout@v4
@@ -81,9 +83,29 @@ jobs:
         dotnet stryker -r "cleartext" -r "html" --threshold-high 90 --threshold-low 81 --break-at 80
         dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
-    - uses: actions/upload-artifact@v3
-      if: always()
+    - name: Prepare report for upload
+      run: |
+        zip -qq -r ${{ env.LAST_COMMIT_SHA }}.zip ./**/mutation-report.html
+
+    - name: Azure login with SPN
+      if: '!cancelled()'
+      uses: azure/login@v1
       with:
-        name: mutation-report
-        path: ./**/mutation-report.html
-        retention-days: 7
+        creds: ${{ secrets.CI_REPORTS_AZ_CREDENTIALS }}
+
+    - name: Push report to blob storage
+      if: '!cancelled()'
+      uses: azure/CLI@v1
+      id: azure
+      with:
+        azcliversion: 2.53.0
+        inlineScript: |
+          GIT_REF=${{ github.base_ref }}
+          GIT_BRANCH=${GIT_REF//\//-}
+          az storage blob upload \
+            --container-name ${{ secrets.CI_REPORTS_STORAGE_CONTAINER_NAME }} \
+            --account-name ${{ secrets.CI_REPORTS_STORAGE_ACCOUNT_NAME }} \
+            --file "./${{ env.LAST_COMMIT_SHA }}.zip" \
+            --name "Dfe.FindInformationAcademiesTrusts/$GIT_BRANCH/test-mutation-${{ env.LAST_COMMIT_SHA }}.zip" \
+            --auth-mode login \
+            --overwrite
