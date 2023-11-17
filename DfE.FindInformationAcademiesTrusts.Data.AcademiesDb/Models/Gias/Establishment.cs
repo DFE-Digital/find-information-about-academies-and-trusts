@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 
 [ExcludeFromCodeCoverage] // Database model POCO
 public class Establishment

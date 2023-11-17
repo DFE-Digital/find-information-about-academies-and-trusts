@@ -1,4 +1,4 @@
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;

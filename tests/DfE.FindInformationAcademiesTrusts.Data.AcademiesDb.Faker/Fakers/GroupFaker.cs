@@ -1,6 +1,6 @@
 using Bogus;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Helpers;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Fakers;
 

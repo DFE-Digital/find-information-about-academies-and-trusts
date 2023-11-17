@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 
