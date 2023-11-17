@@ -16,8 +16,8 @@ test.describe('search page should not have any automatically detectable accessib
     await expectNoAccessibilityViolations()
   })
 
-  test('when going to a search page with a search term', async ({ expectNoAccessibilityViolations }) => {
-    await searchPage.goToPageWithResults()
+  test('when going to a search page with a search term that returns one page of results', async ({ expectNoAccessibilityViolations }) => {
+    await searchPage.goToSearchWithResults()
     await searchPage.expect.toBeOnPageWithMatchingResults()
     await searchPage.expect.toShowResults()
 
@@ -29,6 +29,14 @@ test.describe('search page should not have any automatically detectable accessib
     await searchPage.searchForm.typeASearchTerm()
     await searchPage.searchForm.expect.toShowAnySuggestionInAutocomplete()
 
+    await expectNoAccessibilityViolations()
+  })
+
+  test('when there are multiple pages of results', async ({ expectNoAccessibilityViolations }) => {
+    // Go to second page as this has all the pagination buttons visible
+    await searchPage.goToSearchWithManyPagesOfResults()
+    await searchPage.pagination.selectNextPage()
+    await searchPage.pagination.expect.toBeOnSpecificPage(2)
     await expectNoAccessibilityViolations()
   })
 

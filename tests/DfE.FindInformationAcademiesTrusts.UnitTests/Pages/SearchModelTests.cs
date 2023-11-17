@@ -30,7 +30,8 @@ public class SearchModelTests
         _fakeTrust = dummyTrustFactory.GetDummyTrust();
         mockTrustProvider.Setup(s => s.GetTrustByUidAsync(_fakeTrust.Uid).Result)
             .Returns(_fakeTrust);
-        _mockTrustSearch.Setup(s => s.SearchAsync(SearchTermThatMatchesAllFakeTrusts).Result).Returns(_fakeTrusts);
+        _mockTrustSearch.Setup(s => s.SearchAsync(SearchTermThatMatchesAllFakeTrusts, It.IsAny<int>()).Result)
+            .Returns(new PaginatedList<TrustSearchEntry>(_fakeTrusts, _fakeTrusts.Length, 1, 1));
 
         _sut = new SearchModel(mockTrustProvider.Object, _mockTrustSearch.Object);
     }
@@ -83,8 +84,8 @@ public class SearchModelTests
     public async Task OnGetAsync_should_not_redirect_to_trust_details_if_trustId_does_not_match_query()
     {
         var differentFakeTrust = new TrustSearchEntry("other trust", "Some address", "987", "TR0987");
-        _mockTrustSearch.Setup(s => s.SearchAsync(differentFakeTrust.Name))
-            .ReturnsAsync(new[] { differentFakeTrust });
+        _mockTrustSearch.Setup(s => s.SearchAsync(differentFakeTrust.Name, It.IsAny<int>()))
+            .ReturnsAsync(new PaginatedList<TrustSearchEntry>(new[] { differentFakeTrust }, 1, 1, 1));
 
         _sut.KeyWords = differentFakeTrust.Name;
         _sut.Uid = _fakeTrust.Uid;
@@ -138,5 +139,83 @@ public class SearchModelTests
     public void InputId_should_have_a_fixed_value()
     {
         _sut.InputId.Should().Be("search");
+    }
+
+    [Fact]
+    public void SearchPageNumber_should_default_to_1()
+    {
+        _sut.PageNumber.Should().Be(1);
+    }
+
+    [Fact]
+    public void PageName_should_be_search()
+    {
+        _sut.PageName.Should().Be("Search");
+    }
+
+    [Fact]
+    public void PaginationRouteData_should_default_to_empty()
+    {
+        _sut.PaginationRouteData.Should().BeEquivalentTo(new Dictionary<string, string>());
+    }
+
+    [Fact]
+    public void PageStatus_should_default_to_empty()
+    {
+        _sut.PageStatus.Should().BeEquivalentTo(new PageStatus(0, 0, 0));
+    }
+
+    [Fact]
+    public async Task When_a_different_page_is_requested_return_a_different_page()
+    {
+        _mockTrustSearch.Setup(s => s.SearchAsync(SearchTermThatMatchesAllFakeTrusts, 1))
+            .ReturnsAsync(new PaginatedList<TrustSearchEntry>(_fakeTrusts, 4, 1, 3));
+        var differentFakeTrust =
+            new TrustSearchEntry(SearchTermThatMatchesAllFakeTrusts, "Some address", "987", "TR0987");
+        _mockTrustSearch.Setup(s => s.SearchAsync(differentFakeTrust.Name, 2))
+            .ReturnsAsync(new PaginatedList<TrustSearchEntry>(new[] { differentFakeTrust }, 4, 2, 3));
+
+        _sut.KeyWords = SearchTermThatMatchesAllFakeTrusts;
+        _sut.PageNumber = 1;
+
+        var result = await _sut.OnGetAsync();
+        result.Should().BeOfType<PageResult>();
+        _sut.Trusts.Should().BeEquivalentTo(_fakeTrusts);
+        _sut.PaginationRouteData["Keywords"].Should().Be(SearchTermThatMatchesAllFakeTrusts);
+
+        _sut.PageNumber = 2;
+        result = await _sut.OnGetAsync();
+        result.Should().BeOfType<PageResult>();
+        _sut.Trusts.Should().ContainSingle(t => t == differentFakeTrust);
+        _sut.PaginationRouteData["Keywords"].Should().Be(SearchTermThatMatchesAllFakeTrusts);
+    }
+
+    [Fact]
+    public void Title_Should_Be_Search_When_Keywords_Are_Empty()
+    {
+        _sut.Title.Should().BeEquivalentTo("Search");
+    }
+
+    [Fact]
+    public void Title_Should_Include_The_Keywords_When_they_Are_Set()
+    {
+        _sut.KeyWords = "Test";
+        _sut.Title.Should().BeEquivalentTo("Search - Test");
+    }
+
+    [Fact]
+    public void Title_Should_Include_The_Keywords_When_they_Are_Set_And_There_Is_Only_one_page()
+    {
+        _sut.KeyWords = "Test";
+        _sut.PageStatus = new PageStatus(1, 1, 1);
+        _sut.Title.Should().BeEquivalentTo("Search - Test");
+    }
+
+    [Fact]
+    public void Title_Should_Include_The_Keywords_And_Page_Number_When_They_Are_Set()
+    {
+        _sut.KeyWords = "Test";
+        _sut.PageStatus = new PageStatus(1, 2, 3);
+        _sut.Title.Should().BeEquivalentTo("Search (page 1 of 2) - Test");
     }
 }

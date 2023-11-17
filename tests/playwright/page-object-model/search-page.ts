@@ -2,10 +2,12 @@ import { Locator, Page, expect } from '@playwright/test'
 import { CurrentSearch, SearchFormComponent } from './shared/search-form-component'
 import { FakeTestData, FakeTrust } from '../fake-data/fake-test-data'
 import { SearchTerms } from '../fake-data/search-terms'
+import { PaginationComponent } from './shared/pagination-component'
 
 export class SearchPage {
   readonly expect: SearchPageAssertions
   readonly searchForm: SearchFormComponent
+  readonly pagination: PaginationComponent
   readonly _headerLocator: Locator
   readonly _searchResultsListHeaderLocator: Locator
   readonly _searchResultsSectionLocator: Locator
@@ -18,7 +20,6 @@ export class SearchPage {
     if (fakeTestData !== undefined) {
       this.testData = fakeTestData
     }
-
     this.expect = new SearchPageAssertions(this)
     this.searchForm = new SearchFormComponent(
       page,
@@ -26,11 +27,13 @@ export class SearchPage {
       currentSearch
     )
     this.currentSearch = currentSearch
+    this.pagination = new PaginationComponent(page)
     this._headerLocator = this.page.locator('h1')
+    const resultsHeadingRegex = /result(s)? for/i
     this._searchResultsListHeaderLocator = this.page.getByRole('heading', {
-      name: this._searchResultsHeadingName
+      name: resultsHeadingRegex
     })
-    this._searchResultsSectionLocator = this.page.getByLabel(this._searchResultsHeadingName)
+    this._searchResultsSectionLocator = this.page.getByLabel(resultsHeadingRegex)
     this._searchResultsListItemLocator = this._searchResultsSectionLocator.getByRole('listitem')
   }
 
@@ -45,11 +48,19 @@ export class SearchPage {
     await this.page.goto(`/search?keywords=${searchTerm}`)
   }
 
-  async goToPageWithResults (): Promise<void> {
+  async goToSearchWithResults (): Promise<void> {
     await this.goToSearchFor(SearchTerms.CommonName)
   }
 
-  async goToPageWithNoResults (): Promise<void> {
+  async goToSearchWithOnePageOfResults (): Promise<void> {
+    await this.goToSearchFor(SearchTerms.OnePage)
+  }
+
+  async goToSearchWithManyPagesOfResults (): Promise<void> {
+    await this.goToSearchFor(SearchTerms.ManyPages)
+  }
+
+  async goToSearchWithNoResults (): Promise<void> {
     await this.goToSearchFor(SearchTerms.NoMatches)
   }
 
@@ -75,9 +86,7 @@ class SearchPageAssertions {
   constructor (readonly searchPage: SearchPage) {}
 
   async toBeOnPageWithMatchingResults (): Promise<void> {
-    await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(
-      `${this.searchPage._searchResultsHeadingName} "${this.searchPage.currentSearch.term}"`
-    )
+    await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(this.searchPage.currentSearch.term)
   }
 
   async toBeOnTheRightPage (): Promise<void> {
@@ -88,16 +97,10 @@ class SearchPageAssertions {
     await expect(this.searchPage._searchResultsListItemLocator).not.toHaveCount(0)
   }
 
-  async toDisplayNumberOfResultsFound (): Promise<void> {
-    const expectedNoOfResults = this.searchPage.testData.getNumberOfTrustsWithNameMatching(this.searchPage.searchForm.currentSearch.term)
-    const noOfResultsOnPage = expectedNoOfResults < this.searchPage.numberOfResultsOnOnePage ? expectedNoOfResults : this.searchPage.numberOfResultsOnOnePage
-    await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(
-      `${noOfResultsOnPage} results for`
-    )
-  }
-
-  async toSeeInformationForEachResult (): Promise<void> {
+  async toSeeInformationForUpToMaximumNumberOfResultsPerPage (): Promise<void> {
     const resultsCount = await this.searchPage._searchResultsListItemLocator.count()
+    expect(resultsCount, `should be a maximum of ${this.searchPage.numberOfResultsOnOnePage} results per page`)
+      .toBeLessThanOrEqual(this.searchPage.numberOfResultsOnOnePage)
 
     for (let resultNumber = 0; resultNumber < resultsCount; resultNumber++) {
       const resultLocator = await this.searchPage.getListItemLocatorAt(resultNumber)
@@ -109,10 +112,23 @@ class SearchPageAssertions {
     }
   }
 
+  async toDisplayTotalNumberOfResultsFound (): Promise<void> {
+    const expectedNoOfResults = this.searchPage.testData.getNumberOfTrustsWithNameMatching(this.searchPage.searchForm.currentSearch.term)
+    await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(
+      `${expectedNoOfResults} results`
+    )
+  }
+
   async toSeeNoResultsMessage (): Promise<void> {
     await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(`0 ${this.searchPage._searchResultsHeadingName}`)
     await expect(this.searchPage._searchResultsSectionLocator).toContainText(
       'Check the spelling of the trust name. Make sure you include the right punctuation.'
+    )
+  }
+
+  async toDisplayOneResultFound (): Promise<void> {
+    await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(
+      '1 result'
     )
   }
 }

@@ -27,19 +27,19 @@ test.describe('Search page', () => {
           await searchPage.searchForm.expect.inputToContainNoSearchTerm()
           await searchPage.expect.toSeeNoResultsMessage()
           await searchPage.searchForm.searchForATrust()
-          await searchPage.expect.toSeeInformationForEachResult()
+          await searchPage.expect.toSeeInformationForUpToMaximumNumberOfResultsPerPage()
         })
       })
 
       test.describe('Given a user searches for a term that returns results', () => {
         test.beforeEach(async () => {
-          await searchPage.goToPageWithResults()
+          await searchPage.goToSearchWithResults()
           await searchPage.expect.toBeOnPageWithMatchingResults()
         })
 
         test('then it displays a list of results with information about each trust', async () => {
-          await searchPage.expect.toDisplayNumberOfResultsFound()
-          await searchPage.expect.toSeeInformationForEachResult()
+          await searchPage.expect.toDisplayTotalNumberOfResultsFound()
+          await searchPage.expect.toSeeInformationForUpToMaximumNumberOfResultsPerPage()
         })
 
         test('the user can edit their search and search again', async ({ browserName }) => {
@@ -50,27 +50,72 @@ test.describe('Search page', () => {
           await searchPage.searchForm.searchForADifferentTrust()
           await searchPage.searchForm.expect.inputToContainSearchTerm()
           await searchPage.expect.toBeOnPageWithMatchingResults()
-          await searchPage.expect.toSeeInformationForEachResult()
+          await searchPage.expect.toSeeInformationForUpToMaximumNumberOfResultsPerPage()
         })
 
         test('when the user clicks on different results they are taken to different trust details pages', async () => {
           await searchPage.clickOnSearchResultLink(1)
           await detailsPage.expect.toBeOnTheRightPageFor(currentSearch.selectedTrustName)
 
-          await searchPage.goToPageWithResults()
+          await searchPage.goToSearchWithResults()
           await searchPage.clickOnSearchResultLink(2)
           await detailsPage.expect.toBeOnTheRightPageFor(currentSearch.selectedTrustName)
         })
       })
 
+      test.describe('given that there are multiple pages of results', () => {
+        test.beforeEach(async () => {
+          await searchPage.goToSearchWithManyPagesOfResults()
+          await searchPage.expect.toBeOnPageWithMatchingResults()
+          await searchPage.pagination.expect.toBeOnSpecificPage(1)
+        })
+
+        test('the correct total number of results are displayed and infomation is only shown for one page of results', async () => {
+          await searchPage.expect.toDisplayTotalNumberOfResultsFound()
+          await searchPage.expect.toSeeInformationForUpToMaximumNumberOfResultsPerPage()
+        })
+
+        test('the next page link is visible when there is another page', async () => {
+          await searchPage.pagination.expect.toShowNextPageLink()
+          await searchPage.pagination.selectPage(4)
+          await searchPage.pagination.expect.toBeOnSpecificPage(4)
+          await searchPage.pagination.expect.toNotShowNextPageLink()
+        })
+
+        test('the previous page link is visible when there is another page', async () => {
+          await searchPage.pagination.expect.toNotShowPreviousPageLink()
+          await searchPage.pagination.selectNextPage()
+          await searchPage.pagination.expect.toBeOnSpecificPage(2)
+          await searchPage.pagination.expect.toShowPreviousPageLink()
+        })
+      })
+
+      test.describe('given that there is only 1 page of results', () => {
+        test.beforeEach(async () => {
+          await searchPage.goToSearchWithOnePageOfResults()
+        })
+
+        test('only 1 result is shown', async () => {
+          await searchPage.expect.toDisplayOneResultFound()
+          await searchPage.expect.toBeOnPageWithMatchingResults()
+          await searchPage.expect.toSeeInformationForUpToMaximumNumberOfResultsPerPage()
+        })
+
+        test('the next and previous page links are not visible', async () => {
+          await searchPage.pagination.expect.toBeOnSpecificPage(1)
+          await searchPage.pagination.expect.toNotShowNextPageLink()
+          await searchPage.pagination.expect.toNotShowPreviousPageLink()
+        })
+      })
+
       test.describe('Given a user searches for a term that returns no results', () => {
         test('then they can see an input containing the search term so they can edit it', async () => {
-          await searchPage.goToPageWithNoResults()
+          await searchPage.goToSearchWithNoResults()
           await searchPage.searchForm.expect.inputToContainSearchTerm()
         })
 
         test('they see a helpful message to help them change their search', async () => {
-          await searchPage.goToPageWithNoResults()
+          await searchPage.goToSearchWithNoResults()
           await searchPage.expect.toSeeNoResultsMessage()
         })
       })
@@ -80,7 +125,7 @@ test.describe('Search page', () => {
   test.describe('Only with JavaScript enabled', () => {
     test.describe('Given a user searches for a term that returns results', () => {
       test.beforeEach(async () => {
-        await searchPage.goToPageWithResults()
+        await searchPage.goToSearchWithResults()
         await searchPage.expect.toBeOnPageWithMatchingResults()
       })
 
@@ -114,7 +159,7 @@ test.describe('Search page', () => {
         await searchPage.searchForm.typeADifferentSearchTerm()
         await searchPage.searchForm.submitSearch()
         await searchPage.expect.toBeOnPageWithMatchingResults()
-        await searchPage.expect.toSeeInformationForEachResult()
+        await searchPage.expect.toSeeInformationForUpToMaximumNumberOfResultsPerPage()
       })
 
       test('then they should be able to change their selection after clicking a result', async ({ browserName }) => {
