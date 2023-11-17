@@ -21,7 +21,7 @@ public class AcademiesDbFaker
         var mstrTrusts = groups.Select(GenerateMstrTrust).ToArray();
 
         return new AcademiesDbData(
-            Array.Empty<Establishment>(),
+            Array.Empty<GiasEstablishment>(),
             Array.Empty<Governance>(),
             Array.Empty<GroupLink>(),
             groups,
