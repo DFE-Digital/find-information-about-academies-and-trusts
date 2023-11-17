@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
+using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Factories;
 
@@ -7,27 +8,27 @@ public class TrustFactoryTests
 {
     private readonly TrustFactory _sut = new();
 
-    [Fact]
-    public void CreateTrustFromGroup_should_transform_a_group_and_mstrTrust_into_a_trust()
+    private readonly Group _testGroup = new()
     {
-        var group = new Group
-        {
-            GroupName = "trust 1", GroupUid = "1234", GroupType = "Multi-academy trust", Ukprn = "my ukprn",
-            GroupId = "my groupId",
-            GroupContactStreet = "12 Abbey Road",
-            GroupContactLocality = "Dorthy Inlet",
-            GroupContactTown = "East Park",
-            GroupContactPostcode = "JY36 9VC",
-            IncorporatedOnOpenDate = "20/12/1990",
-            CompaniesHouseNumber = "00123444"
-        };
+        GroupName = "trust 1", GroupUid = "1234", GroupType = "Multi-academy trust", Ukprn = "my ukprn",
+        GroupId = "my groupId",
+        GroupContactStreet = "12 Abbey Road",
+        GroupContactLocality = "Dorthy Inlet",
+        GroupContactTown = "East Park",
+        GroupContactPostcode = "JY36 9VC",
+        IncorporatedOnOpenDate = "20/12/1990",
+        CompaniesHouseNumber = "00123444"
+    };
 
+    [Fact]
+    public void CreateTrustFrom_should_transform_a_group_and_mstrTrust_into_a_trust()
+    {
         var mstrTrust = new MstrTrust
         {
             GroupUid = "1234", GORregion = "North East"
         };
 
-        var result = _sut.CreateTrustFrom(group, mstrTrust, Array.Empty<Academy>());
+        var result = _sut.CreateTrustFrom(_testGroup, mstrTrust, Array.Empty<Academy>(), Array.Empty<Governor>());
 
         result.Should().BeEquivalentTo(new Trust(
                 "1234",
@@ -47,23 +48,10 @@ public class TrustFactoryTests
         );
     }
 
-
     [Fact]
-    public void CreateTrustFromGroup_should_transform_a_group_without_mstrTrust_into_a_trust()
+    public void CreateTrustFrom_should_transform_a_group_without_mstrTrust_into_a_trust()
     {
-        var group = new Group
-        {
-            GroupName = "trust 1", GroupUid = "1234", GroupType = "Multi-academy trust", Ukprn = "my ukprn",
-            GroupId = "my groupId",
-            GroupContactStreet = "12 Abbey Road",
-            GroupContactLocality = "Dorthy Inlet",
-            GroupContactTown = "East Park",
-            GroupContactPostcode = "JY36 9VC",
-            IncorporatedOnOpenDate = "20/12/1990",
-            CompaniesHouseNumber = "00123444"
-        };
-
-        var result = _sut.CreateTrustFrom(group, null, Array.Empty<Academy>());
+        var result = _sut.CreateTrustFrom(_testGroup, null, Array.Empty<Academy>(), Array.Empty<Governor>());
 
         result.Should().BeEquivalentTo(new Trust(
                 "1234",
@@ -83,12 +71,32 @@ public class TrustFactoryTests
         );
     }
 
+    [Fact]
+    public void CreateTrustFrom_should_set_academies_from_parameters()
+    {
+        var academies = new[] { DummyAcademyFactory.GetDummyAcademy(1234546) };
+
+        var result = _sut.CreateTrustFrom(_testGroup, null, academies, Array.Empty<Governor>());
+
+        result.Academies.Should().Equal(academies);
+    }
+
+    [Fact]
+    public void CreateTrustFrom_should_set_governors_from_parameters()
+    {
+        var governors = new[] { DummyGovernorFactory.GetDummyGovernor("1234546") };
+
+        var result = _sut.CreateTrustFrom(_testGroup, null, Array.Empty<Academy>(), governors);
+
+        result.Governors.Should().Equal(governors);
+    }
+
     [Theory]
     [MemberData(nameof(EmptyData))]
     public void CreateTrustFromGroup_Should_Include_Empty_string_values_if_properties_have_no_value(
         Group group, MstrTrust mstrTrust, Trust expected)
     {
-        var result = _sut.CreateTrustFrom(group, mstrTrust, Array.Empty<Academy>());
+        var result = _sut.CreateTrustFrom(group, mstrTrust, Array.Empty<Academy>(), Array.Empty<Governor>());
         result.Should().BeEquivalentTo(expected);
     }
 

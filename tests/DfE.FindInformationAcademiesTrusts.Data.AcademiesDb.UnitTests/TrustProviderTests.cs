@@ -32,7 +32,8 @@ public class TrustProviderTests
         var mstrTrust = CreateMstrTrust(groupUid);
         var expectedTrust = DummyTrustFactory.GetDummyTrust(groupUid);
 
-        _mockTrustHelper.Setup(t => t.CreateTrustFrom(group, mstrTrust, It.IsAny<Academy[]>())).Returns(expectedTrust);
+        _mockTrustHelper.Setup(t => t.CreateTrustFrom(group, mstrTrust, It.IsAny<Academy[]>(), Array.Empty<Governor>()))
+            .Returns(expectedTrust);
 
         var result = await _sut.GetTrustByUidAsync(groupUid);
 
@@ -56,7 +57,8 @@ public class TrustProviderTests
         var group = CreateGroup(groupUid);
         var expectedTrust = DummyTrustFactory.GetDummyTrust(groupUid);
 
-        _mockTrustHelper.Setup(t => t.CreateTrustFrom(group, It.IsAny<MstrTrust>(), It.IsAny<Academy[]>()))
+        _mockTrustHelper.Setup(t =>
+                t.CreateTrustFrom(group, It.IsAny<MstrTrust>(), It.IsAny<Academy[]>(), Array.Empty<Governor>()))
             .Returns(expectedTrust);
 
         var result = await _sut.GetTrustByUidAsync(groupUid);
@@ -82,14 +84,14 @@ public class TrustProviderTests
         SetUpAcademiesLinkedToTrust(_establishments.Skip(5).Take(3), CreateGroup("Some other trust"));
 
         _mockTrustHelper
-            .Setup(t => t.CreateTrustFrom(group, mstrTrust, It.IsAny<Academy[]>()))
+            .Setup(t => t.CreateTrustFrom(group, mstrTrust, It.IsAny<Academy[]>(), Array.Empty<Governor>()))
             .Returns(DummyTrustFactory.GetDummyTrust(groupUid));
 
         await _sut.GetTrustByUidAsync(groupUid);
 
         _mockTrustHelper.Verify(t =>
             t.CreateTrustFrom(group, mstrTrust,
-                It.Is<Academy[]>(a => expectedAcademies.SequenceEqual(a)))
+                It.Is<Academy[]>(a => expectedAcademies.SequenceEqual(a)), Array.Empty<Governor>())
         );
     }
 
@@ -104,12 +106,13 @@ public class TrustProviderTests
         SetUpAcademiesLinkedToTrust(_establishments.Skip(5).Take(3), CreateGroup("Some other trust"));
 
         _mockTrustHelper
-            .Setup(t => t.CreateTrustFrom(group, mstrTrust, It.IsAny<Academy[]>()))
+            .Setup(t => t.CreateTrustFrom(group, mstrTrust, It.IsAny<Academy[]>(), Array.Empty<Governor>()))
             .Returns(DummyTrustFactory.GetDummyTrust(groupUid));
 
         await _sut.GetTrustByUidAsync(groupUid);
 
-        _mockTrustHelper.Verify(t => t.CreateTrustFrom(group, mstrTrust, It.Is<Academy[]>(a => !a.Any())));
+        _mockTrustHelper.Verify(t =>
+            t.CreateTrustFrom(group, mstrTrust, It.Is<Academy[]>(a => !a.Any()), Array.Empty<Governor>()));
     }
 
     private List<Academy> SetUpAcademiesLinkedToTrust(IEnumerable<Establishment> establishmentsLinkedToTrust,

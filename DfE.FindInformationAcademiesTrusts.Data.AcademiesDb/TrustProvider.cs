@@ -33,7 +33,7 @@ public class TrustProvider : ITrustProvider
         var mstrTrust = await _academiesDbContext.MstrTrusts.SingleOrDefaultAsync(m => m.GroupUid == uid);
         var academies = await GetAcademiesLinkedTo(uid);
 
-        return _trustFactory.CreateTrustFrom(group, mstrTrust, academies);
+        return _trustFactory.CreateTrustFrom(group, mstrTrust, academies, Array.Empty<Governor>());
     }
 
     private async Task<Academy[]> GetAcademiesLinkedTo(string uid)
