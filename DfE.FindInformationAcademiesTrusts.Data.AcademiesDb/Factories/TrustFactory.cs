@@ -1,13 +1,14 @@
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
 
-namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 
-public interface ITrustHelper
+public interface ITrustFactory
 {
     Trust CreateTrustFrom(Group group, MstrTrust? mstrTrust, Academy[] academies);
 }
 
-public class TrustHelper : ITrustHelper
+public class TrustFactory : ITrustFactory
 {
     public Trust CreateTrustFrom(Group group, MstrTrust? mstrTrust, Academy[] academies)
     {

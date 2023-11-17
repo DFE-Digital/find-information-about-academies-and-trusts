@@ -1,4 +1,5 @@
 using System.Text.Json;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Fakers;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker;
@@ -10,7 +11,7 @@ public static class JsonGenerator
         var serializeOptions = new JsonSerializerOptions
             { WriteIndented = true, PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
-        var trustHelper = new TrustHelper();
+        var trustHelper = new TrustFactory();
         var trusts = fakeData.Groups
             .OrderBy(g => g.GroupName)
             .Select(g => trustHelper
