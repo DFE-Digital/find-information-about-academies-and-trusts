@@ -46,6 +46,17 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             academiesDbContext => academiesDbContext.Establishments);
     }
 
+    public List<Governance> SetupMockDbContextGovernance(int numMatches, string groupUid)
+    {
+        return SetupMockDbContext(numMatches,
+            i => new Governance
+            {
+                Uid = groupUid,
+                Forename1 = $"Governor {i}"
+            },
+            academiesDbContext => academiesDbContext.Governances);
+    }
+
     private List<T> SetupMockDbContext<T>(int numMatches, Func<int, T> itemCreator,
         Expression<Func<IAcademiesDbContext, DbSet<T>>> dbContextTable) where T : class
     {

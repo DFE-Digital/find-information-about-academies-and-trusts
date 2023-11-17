@@ -84,7 +84,7 @@ public class TrustFactoryTests
     [Fact]
     public void CreateTrustFrom_should_set_governors_from_parameters()
     {
-        var governors = new[] { DummyGovernorFactory.GetDummyGovernor("1234546") };
+        var governors = new[] { DummyGovernorFactory.GetDummyGovernor("1234546", "1234") };
 
         var result = _sut.CreateTrustFrom(_testGroup, null, Array.Empty<Academy>(), governors);
 
