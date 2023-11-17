@@ -1,6 +1,5 @@
 using System.Text.Json;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Fakers;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker;
 
@@ -16,7 +15,7 @@ public static class JsonGenerator
             .OrderBy(g => g.GroupName)
             .Select(g => trustHelper
                 .CreateTrustFrom(g, fakeData.MstrTrusts.FirstOrDefault(t => t.GroupUid == g.GroupUid)!,
-                    Array.Empty<Academy>())
+                    Array.Empty<Academy>(), Array.Empty<Governor>())
             );
 
         File.WriteAllText(outputFilePath, JsonSerializer.Serialize(trusts, serializeOptions));

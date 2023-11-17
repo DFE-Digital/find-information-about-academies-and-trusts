@@ -5,12 +5,12 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 
 public interface ITrustFactory
 {
-    Trust CreateTrustFrom(Group group, MstrTrust? mstrTrust, Academy[] academies);
+    Trust CreateTrustFrom(Group group, MstrTrust? mstrTrust, Academy[] academies, Governor[] governors);
 }
 
 public class TrustFactory : ITrustFactory
 {
-    public Trust CreateTrustFrom(Group group, MstrTrust? mstrTrust, Academy[] academies)
+    public Trust CreateTrustFrom(Group group, MstrTrust? mstrTrust, Academy[] academies, Governor[] governors)
     {
         return new Trust(
             group.GroupUid!,
@@ -23,7 +23,7 @@ public class TrustFactory : ITrustFactory
             group.CompaniesHouseNumber ?? string.Empty,
             mstrTrust?.GORregion ?? string.Empty,
             academies,
-            Array.Empty<Governor>(),
+            governors,
             null,
             null
         );
