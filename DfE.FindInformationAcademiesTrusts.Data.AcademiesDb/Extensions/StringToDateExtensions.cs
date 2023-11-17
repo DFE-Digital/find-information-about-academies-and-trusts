@@ -5,8 +5,8 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 
 public static class StringToDateExtensions
 {
-    private static readonly Regex SlashRegex = new(@"^\d\d/\d\d/\d\d\d\d$");
-    private static readonly Regex DashRegex = new(@"^\d\d\-\d\d\-\d\d\d\d$");
+    private static readonly Regex SlashRegex = new(@"^\d\d/\d\d/\d\d\d\d$", RegexOptions.NonBacktracking);
+    private static readonly Regex DashRegex = new(@"^\d\d\-\d\d\-\d\d\d\d$", RegexOptions.NonBacktracking);
 
     public static DateTime? ParseAsNullableDate(this string? dateString)
     {
