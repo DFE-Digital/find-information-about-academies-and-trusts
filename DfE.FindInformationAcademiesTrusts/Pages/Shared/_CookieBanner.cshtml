@@ -1,7 +1,7 @@
 @if (!Context.Session.Keys.Contains("CookieStatus"))
 {
-  Context.Response.Cookies.Delete("ai_session", new CookieOptions { Path = "/" });
-  Context.Response.Cookies.Delete("ai_user", new CookieOptions { Path = "/" });
+  Context.Response.Cookies.Delete("ai_session", new CookieOptions { Path = "/", Secure = true, HttpOnly = true });
+  Context.Response.Cookies.Delete("ai_user", new CookieOptions { Path = "/", Secure = true, HttpOnly = true });
   <div data-test="cookie-banner" class="app-cookie-banner" id="appCookieBanner" aria-label="cookie banner">
     <div class="govuk-width-container">
       <div class="app-cookie-banner__container" id="cookieActionsContainer">

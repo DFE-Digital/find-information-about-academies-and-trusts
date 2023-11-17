@@ -1,12 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
 public class CookiesModel : PageModel
 {
+
+    private readonly IHttpContextAccessor _httpContextAccessor;
     public bool PreferencesSet { get; set; }
     public string? ReturnPath { get; set; }
+
+    public CookiesModel(IHttpContextAccessor httpContextAccessor)
+    {
+        _httpContextAccessor = httpContextAccessor;
+    }
 
     public ActionResult OnGet(bool? consent, string returnUrl)
     {
@@ -16,7 +24,7 @@ public class CookiesModel : PageModel
 
         if (consent == false) RejectCookies();
 
-        if (returnUrl == null || consent == null) return Page();
+        if (returnUrl.IsNullOrEmpty() || consent == null) return Page();
 
         return Redirect(returnUrl);
     }
@@ -36,13 +44,17 @@ public class CookiesModel : PageModel
 
     private void AcceptCookies()
     {
-        HttpContext.Session.SetInt32("CookieStatus", (int) CookieStatusEnums.CookieStatus.Accepted);
+        _httpContextAccessor.HttpContext?.Session.SetInt32("CookieStatus",
+            (int)CookieStatusEnums.CookieStatus.Accepted);
     }
 
     private void RejectCookies()
     {
-        Response.Cookies.Delete("ai_session", new CookieOptions { Path = "/" });
-        Response.Cookies.Delete("ai_user", new CookieOptions { Path = "/" });
-        HttpContext.Session.SetInt32("CookieStatus", (int) CookieStatusEnums.CookieStatus.Rejected);
+        _httpContextAccessor.HttpContext?.Response.Cookies.Delete("ai_session",
+            new CookieOptions { Path = "/", Secure = true, HttpOnly = true });
+        _httpContextAccessor.HttpContext?.Response.Cookies.Delete("ai_user",
+            new CookieOptions { Path = "/", Secure = true, HttpOnly = true });
+        _httpContextAccessor.HttpContext?.Session.SetInt32("CookieStatus",
+            (int)CookieStatusEnums.CookieStatus.Rejected);
     }
 }
