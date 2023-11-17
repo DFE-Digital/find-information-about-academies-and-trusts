@@ -25,17 +25,9 @@ public class AcademyHelper : IAcademyHelper
             establishment.PercentageFsm,
             new AgeRange(establishment.StatutoryLowAge!, establishment.StatutoryHighAge!),
             establishment.OfstedRatingName != null
-                ? new OfstedRating(establishment.OfstedRatingName, ParseAsNullableDate(establishment.OfstedLastInsp))
+                ? new OfstedRating(establishment.OfstedRatingName, establishment.OfstedLastInsp.ParseAsNullableDate())
                 : null,
             null
         );
-    }
-
-    private static DateTime? ParseAsNullableDate(string? date)
-    {
-        if (string.IsNullOrEmpty(date)) return null;
-        var newDate = DateTime.ParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-
-        return newDate;
     }
 }
