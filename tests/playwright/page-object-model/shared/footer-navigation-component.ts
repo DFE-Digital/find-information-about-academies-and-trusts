@@ -4,13 +4,19 @@ export class FooterNavigationComponent {
   readonly expect: FooterNavigationComponentAssertions
   readonly locator: Locator
   readonly privacyPolicyLinkLocator: Locator
+  readonly cookiesPageLinkLocator: Locator
   constructor (readonly page: Page) {
     this.expect = new FooterNavigationComponentAssertions(this)
     this.privacyPolicyLinkLocator = page.getByTestId('privacy-policy-link')
+    this.cookiesPageLinkLocator = page.getByTestId('cookies-page-footer-link')
   }
 
   async clickPrivacyPolicy (): Promise<void> {
     await this.privacyPolicyLinkLocator.click()
+  }
+
+  async clickCookies (): Promise<void> {
+    await this.cookiesPageLinkLocator.click()
   }
 }
 class FooterNavigationComponentAssertions {

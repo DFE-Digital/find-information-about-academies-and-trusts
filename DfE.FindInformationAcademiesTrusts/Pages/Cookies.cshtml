@@ -1,4 +1,5 @@
 @page
+@using Microsoft.AspNetCore.Http.Extensions
 @model CookiesModel
 
 @{
@@ -59,10 +60,10 @@
 
     <h1 class="govuk-heading-l">Optional analytics cookies</h1>
     <p class="govuk-body">
-      With your permission, we use Find information about academies and trusts to collect data about how you use this site. This information helps us to improve our service.
+      With your permission, we use Application Insights to collect data about how you use this site. This information helps us to improve our service.
     </p>
     <p class="govuk-body">
-      Find information about academies and trusts is not allowed to use or share our analytics data with anyone. Find information about academies and trusts stores anonymised information about:
+      Application Insights is not allowed to use or share our analytics data with anyone. Application Insights stores anonymised information about:
     </p>
     <ul class="govuk-list govuk-list--bullet">
       <li>how you got to this site</li>
@@ -82,13 +83,13 @@
       <tbody class="govuk-table__body">
         <tr>
           <td class="govuk-table__cell">ai_user</td>
-          <td class="govuk-table__cell">To be confirmed</td>
-          <td class="govuk-table__cell">To be confirmed</td>
+          <td class="govuk-table__cell">Checks if you have visited this site before. This helps us count how many people visit our site.</td>
+          <td class="govuk-table__cell">2 years</td>
         </tr>
         <tr>
           <td class="govuk-table__cell">ai-session</td>
-          <td class="govuk-table__cell">To be confirmed</td>
-          <td class="govuk-table__cell">To be confirmed</td>
+          <td class="govuk-table__cell">Checks if you have visited this site before. This helps us count how many people visit our site.</td>
+          <td class="govuk-table__cell">30 minutes</td>
         </tr>
       </tbody>
     </table>
@@ -96,20 +97,20 @@
 </div>
 <form method="post" name="frmCookies" novalidate="">
   <div class="govuk-form-group">
-    <input type="hidden" name="redirectPath" value="@HttpContext.Request.Path"/>
+    <input type="hidden" name="redirectPath" value="@HttpContext.Request.GetDisplayUrl()"/>
     <fieldset class="govuk-fieldset">
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
         <h3 class="govuk-fieldset__heading">Do you want to accept cookies that measure your website use?</h3>
       </legend>
       <div class="govuk-radios">
         <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="cookies-accept" type="radio" name="consent" value="true">
+          <input class="govuk-radios__input" id="cookies-accept" type="radio" name="consent" value="true" data-test="accept-cookies" checked="@(HttpContext.Session.GetInt32("CookieStatus") == 1)">
           <label class="govuk-label govuk-radios__label" for="cookies-accept">
             Yes
           </label>
         </div>
         <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="cookies-reject" type="radio" name="consent" value="false">
+          <input class="govuk-radios__input" id="cookies-reject" type="radio" name="consent" value="false" data-test="reject-cookies" checked="@(HttpContext.Session.GetInt32("CookieStatus") == 2)">
           <label class="govuk-label govuk-radios__label" for="cookies-reject">
             No
           </label>
@@ -117,5 +118,5 @@
       </div>
     </fieldset>
   </div>
-  <button type="submit" class="govuk-button" data-module="govuk-button">Save changes</button>
+  <button type="submit" class="govuk-button" data-module="govuk-button" data-test="save-changes">Save changes</button>
 </form>

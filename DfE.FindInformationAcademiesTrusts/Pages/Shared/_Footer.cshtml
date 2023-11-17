@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Http.Extensions
 <footer class="govuk-footer " role="contentinfo">
   <div class="govuk-width-container ">
     <div class="govuk-footer__meta">
@@ -8,7 +9,7 @@
             <a asp-page="/Privacy" class="govuk-footer__link" data-testid="privacy-policy-link">Privacy</a>
           </li>
           <li class="govuk-footer__inline-list-item">
-            <a asp-page="/Cookies" class="govuk-footer__link" data-testid="cookie-policy-link" asp-route-returnUrl="@Context.Request.Path">Cookies</a>
+            <a asp-page="/Cookies" class="govuk-footer__link" data-testid="cookies-page-footer-link" asp-route-returnUrl="@Context.Request.GetDisplayUrl()">Cookies</a>
           </li>
         </ul>
         <svg class="govuk-footer__licence-logo" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 483.2 195.7" height="17" width="41">

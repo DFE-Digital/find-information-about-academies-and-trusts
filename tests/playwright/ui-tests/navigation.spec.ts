@@ -6,6 +6,7 @@ import { ContactsPage } from '../page-object-model/trust/contacts-page'
 import { FakeTestData } from '../fake-data/fake-test-data'
 import { OverviewPage } from '../page-object-model/trust/overview-page'
 import { PrivacyPage } from '../page-object-model/privacy-page'
+import { CookiesPage } from '../page-object-model/cookies-page'
 import { AcademiesDetailsPage } from '../page-object-model/trust/academies/details-page'
 import { AcademiesOfstedRatingsPage } from '../page-object-model/trust/academies/ofsted-ratings-page'
 
@@ -16,6 +17,7 @@ test.describe('Navigation', () => {
   let contactsPage: ContactsPage
   let overviewPage: OverviewPage
   let privacyPage: PrivacyPage
+  let cookiesPage: CookiesPage
   let academiesDetailsPage: AcademiesDetailsPage
   let academiesOfstedRatingsPage: AcademiesOfstedRatingsPage
 
@@ -29,6 +31,7 @@ test.describe('Navigation', () => {
     academiesDetailsPage = new AcademiesDetailsPage(page, fakeTestData)
     academiesOfstedRatingsPage = new AcademiesOfstedRatingsPage(page, fakeTestData)
     privacyPage = new PrivacyPage(page)
+    cookiesPage = new CookiesPage(page)
   })
 
   test('user should be able to navigate between different sections about a trust', async () => {
@@ -79,5 +82,15 @@ test.describe('Navigation', () => {
     await homePage.goTo()
     await homePage.footerNavigation.clickPrivacyPolicy()
     await privacyPage.expect.toBeOnTheRightPage()
+    // Footer Via HomePage => Cookies-page
+    await homePage.footerNavigation.clickCookies()
+    await cookiesPage.expect.toBeOnTheRightPage()
+  })
+
+  test('user should be able to navigate from the cookie banner to the cookie page', async () => {
+    // Cookie banner Via HomePage => Cookie
+    await homePage.goTo()
+    await homePage.cookieBannerNavigation.clickCookiesPage()
+    await cookiesPage.expect.toBeOnTheRightPage()
   })
 })
