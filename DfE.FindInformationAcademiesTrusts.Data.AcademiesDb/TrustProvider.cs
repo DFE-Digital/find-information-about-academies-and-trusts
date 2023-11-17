@@ -9,18 +9,20 @@ public class TrustProvider : ITrustProvider
     private readonly IAcademiesDbContext _academiesDbContext;
     private readonly ITrustFactory _trustFactory;
     private readonly IAcademyFactory _academyFactory;
+    private readonly IGovernorFactory _governorFactory;
 
     [ExcludeFromCodeCoverage]
     public TrustProvider(AcademiesDbContext academiesDbContext, ITrustFactory trustFactory,
-        IAcademyFactory academyFactory) : this(
-        (IAcademiesDbContext)academiesDbContext, trustFactory, academyFactory)
+        IAcademyFactory academyFactory, IGovernorFactory governorFactory) : this(
+        (IAcademiesDbContext)academiesDbContext, trustFactory, academyFactory, governorFactory)
     {
     }
 
     public TrustProvider(IAcademiesDbContext academiesDbContext, ITrustFactory trustFactory,
-        IAcademyFactory academyFactory)
+        IAcademyFactory academyFactory, IGovernorFactory governorFactory)
     {
         _academyFactory = academyFactory;
+        _governorFactory = governorFactory;
         _academiesDbContext = academiesDbContext;
         _trustFactory = trustFactory;
     }
@@ -32,8 +34,17 @@ public class TrustProvider : ITrustProvider
 
         var mstrTrust = await _academiesDbContext.MstrTrusts.SingleOrDefaultAsync(m => m.GroupUid == uid);
         var academies = await GetAcademiesLinkedTo(uid);
+        var governors = await GetGovernorsLinkedTo(uid);
 
-        return _trustFactory.CreateTrustFrom(group, mstrTrust, academies, Array.Empty<Governor>());
+        return _trustFactory.CreateTrustFrom(group, mstrTrust, academies, governors);
+    }
+
+    private async Task<Governor[]> GetGovernorsLinkedTo(string uid)
+    {
+        return await _academiesDbContext.Governances
+            .Where(g => g.Uid == uid)
+            .Select(g => _governorFactory.CreateFrom(g))
+            .ToArrayAsync();
     }
 
     private async Task<Academy[]> GetAcademiesLinkedTo(string uid)

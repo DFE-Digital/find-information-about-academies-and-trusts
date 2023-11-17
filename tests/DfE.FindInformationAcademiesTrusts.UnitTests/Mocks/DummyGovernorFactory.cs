@@ -6,16 +6,16 @@ public class DummyGovernorFactory
 {
     private int _numberGenerated;
 
-    public Governor GetDummyGovernor()
+    public Governor GetDummyGovernor(string uid)
     {
         _numberGenerated++;
-        return GetDummyGovernor(_numberGenerated.ToString());
+        return GetDummyGovernor(_numberGenerated.ToString(), uid);
     }
 
-    public static Governor GetDummyGovernor(string gid)
+    public static Governor GetDummyGovernor(string gid, string uid)
     {
         return new Governor(gid,
-            "uid",
+            uid,
             $"Governor {gid}",
             "test",
             "test",
