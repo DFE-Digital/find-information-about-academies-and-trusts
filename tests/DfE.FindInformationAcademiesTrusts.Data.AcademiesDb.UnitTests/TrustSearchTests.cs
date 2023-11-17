@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
@@ -6,16 +7,13 @@ public class TrustSearchTests
 {
     private readonly ITrustSearch _sut;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext;
-    private readonly Mock<ITrustHelper> _mockTrustHelper;
 
     public TrustSearchTests()
     {
         _mockAcademiesDbContext = new MockAcademiesDbContext();
-        _mockTrustHelper = new Mock<ITrustHelper>();
-
         _mockAcademiesDbContext.SetupMockDbContextGroups(3);
 
-        _sut = new TrustSearch(_mockAcademiesDbContext.Object, _mockTrustHelper.Object);
+        _sut = new TrustSearch(_mockAcademiesDbContext.Object);
     }
 
     [Theory]
@@ -78,27 +76,23 @@ public class TrustSearchTests
     public async Task SearchAsync_should_return_trust_address_formatted_as_string()
     {
         var groups = _mockAcademiesDbContext.SetupMockDbContextGroups(3);
-        var fakeTrusts = new[]
-        {
-            "12 Abbey Road, Dorthy Inlet, East Park, Kingston upon Hull, JY36 9VC",
-            "",
-            "Dorthy Inlet"
-        };
 
-        for (var i = 0; i < groups.Count; i++)
+        groups.Add(new Group
         {
-            var group = groups[i];
-            var address = fakeTrusts[i];
-            _mockTrustHelper.Setup(trustHelper => trustHelper.BuildAddressString(group))
-                .Returns(address);
-        }
+            GroupUid = "1234",
+            GroupType = "Multi-academy trust",
+            GroupId = "TR01234",
+            GroupName = "trust 1234",
+            GroupContactStreet = "12 Abbey Road",
+            GroupContactLocality = "Dorthy Inlet",
+            GroupContactTown = "East Park",
+            GroupContactPostcode = "JY36 9VC"
+        });
 
         var result = (await _sut.SearchAsync("trust")).ToArray();
 
-        for (var i = 0; i < result.Length; i++)
-        {
-            result[i].Address.Should().Be(fakeTrusts[i]);
-        }
+        result.Single(t => t.Uid == "1234")
+            .Address.Should().Be("12 Abbey Road, Dorthy Inlet, East Park, JY36 9VC");
     }
 
     [Theory]
