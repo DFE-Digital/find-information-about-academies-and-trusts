@@ -84,7 +84,7 @@ jobs:
         dotnet restore DfE.FindInformationAcademiesTrusts
         dotnet build DfE.FindInformationAcademiesTrusts -c Release
         dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
-        dotnet stryker -r "cleartext" -r "html" --threshold-high 90 --threshold-low 81 --break-at 80
+        dotnet stryker -r "cleartext" -r "html" --threshold-high 100 --threshold-low 100 --break-at 99
         dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
     - name: Prepare report for upload
