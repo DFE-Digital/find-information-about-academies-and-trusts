@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
@@ -6,21 +7,22 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 public class TrustProvider : ITrustProvider
 {
     private readonly IAcademiesDbContext _academiesDbContext;
-    private readonly ITrustHelper _trustHelper;
-    private readonly IAcademyHelper _academyHelper;
+    private readonly ITrustFactory _trustFactory;
+    private readonly IAcademyFactory _academyFactory;
 
     [ExcludeFromCodeCoverage]
-    public TrustProvider(AcademiesDbContext academiesDbContext, ITrustHelper trustHelper,
-        IAcademyHelper academyHelper) : this(
-        (IAcademiesDbContext)academiesDbContext, trustHelper, academyHelper)
+    public TrustProvider(AcademiesDbContext academiesDbContext, ITrustFactory trustFactory,
+        IAcademyFactory academyFactory) : this(
+        (IAcademiesDbContext)academiesDbContext, trustFactory, academyFactory)
     {
     }
 
-    public TrustProvider(IAcademiesDbContext academiesDbContext, ITrustHelper trustHelper, IAcademyHelper academyHelper)
+    public TrustProvider(IAcademiesDbContext academiesDbContext, ITrustFactory trustFactory,
+        IAcademyFactory academyFactory)
     {
-        _academyHelper = academyHelper;
+        _academyFactory = academyFactory;
         _academiesDbContext = academiesDbContext;
-        _trustHelper = trustHelper;
+        _trustFactory = trustFactory;
     }
 
     public async Task<Trust?> GetTrustByUidAsync(string uid)
@@ -31,7 +33,7 @@ public class TrustProvider : ITrustProvider
         var mstrTrust = await _academiesDbContext.MstrTrusts.SingleOrDefaultAsync(m => m.GroupUid == uid);
         var academies = await GetAcademiesLinkedTo(uid);
 
-        return _trustHelper.CreateTrustFrom(group, mstrTrust, academies);
+        return _trustFactory.CreateTrustFrom(group, mstrTrust, academies);
     }
 
     private async Task<Academy[]> GetAcademiesLinkedTo(string uid)
@@ -41,7 +43,7 @@ public class TrustProvider : ITrustProvider
             .Join(_academiesDbContext.Establishments,
                 gl => gl.Urn!,
                 e => e.Urn.ToString(),
-                (gl, e) => _academyHelper.CreateAcademyFrom(gl, e))
+                (gl, e) => _academyFactory.CreateAcademyFrom(gl, e))
             .ToArrayAsync();
     }
 }

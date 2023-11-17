@@ -1,4 +1,6 @@
-namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
+
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Extensions;
 
 public class StringToDateExtensionsTests
 {

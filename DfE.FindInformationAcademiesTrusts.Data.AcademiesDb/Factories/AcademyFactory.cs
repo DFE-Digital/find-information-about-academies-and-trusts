@@ -1,14 +1,15 @@
 using System.Globalization;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
 
-namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 
-public interface IAcademyHelper
+public interface IAcademyFactory
 {
     Academy CreateAcademyFrom(GroupLink gl, Establishment establishment);
 }
 
-public class AcademyHelper : IAcademyHelper
+public class AcademyFactory : IAcademyFactory
 {
     public Academy CreateAcademyFrom(GroupLink gl, Establishment establishment)
     {

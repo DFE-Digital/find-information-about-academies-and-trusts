@@ -3,6 +3,7 @@ using System.Reflection;
 using DfE.FindInformationAcademiesTrusts.Authorization;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -157,8 +158,8 @@ internal static class Program
 
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
-        builder.Services.AddScoped<ITrustHelper, TrustHelper>();
-        builder.Services.AddScoped<IAcademyHelper, AcademyHelper>();
+        builder.Services.AddScoped<ITrustFactory, TrustFactory>();
+        builder.Services.AddScoped<IAcademyFactory, AcademyFactory>();
         builder.Services.AddScoped<IAuthorizationHandler, HeaderRequirementHandler>();
         builder.Services.AddHttpContextAccessor();
     }

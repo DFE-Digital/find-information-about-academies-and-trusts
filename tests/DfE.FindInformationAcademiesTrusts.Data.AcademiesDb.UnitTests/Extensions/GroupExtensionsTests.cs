@@ -1,6 +1,7 @@
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
 
-namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Extensions;
 
 public class GroupExtensionsTests
 {
