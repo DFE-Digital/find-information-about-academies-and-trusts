@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
 public class AcademiesDetailsModel : TrustsAreaModel, IAcademiesAreaModel
@@ -8,5 +9,5 @@ public class AcademiesDetailsModel : TrustsAreaModel, IAcademiesAreaModel
         PageTitle = "Academies details";
     }
 
-    public string TabName => "Details";
+    public string TabName => "Details are";
 }

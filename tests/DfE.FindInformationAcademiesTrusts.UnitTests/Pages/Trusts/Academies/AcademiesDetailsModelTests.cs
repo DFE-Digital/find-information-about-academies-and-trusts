@@ -22,6 +22,6 @@ public class AcademiesDetailsModelTests
     [Fact]
     public void TabName_should_be_Details()
     {
-        _sut.TabName.Should().Be("Details");
+        _sut.TabName.Should().Be("Details are");
     }
 }
