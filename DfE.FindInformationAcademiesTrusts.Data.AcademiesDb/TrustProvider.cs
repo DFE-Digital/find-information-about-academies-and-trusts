@@ -51,7 +51,7 @@ public class TrustProvider : ITrustProvider
     {
         return await _academiesDbContext
             .GroupLinks.Where(gl => gl.GroupUid == uid && gl.Urn != null)
-            .Join(_academiesDbContext.Establishments,
+            .Join(_academiesDbContext.GiasEstablishments,
                 gl => gl.Urn!,
                 e => e.Urn.ToString(),
                 (gl, e) => _academyFactory.CreateAcademyFrom(gl, e))

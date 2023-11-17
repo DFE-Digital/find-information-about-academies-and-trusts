@@ -9,7 +9,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 
 public interface IAcademiesDbContext
 {
-    DbSet<Establishment> Establishments { get; }
+    DbSet<GiasEstablishment> GiasEstablishments { get; }
     DbSet<Governance> Governances { get; }
     DbSet<GroupLink> GroupLinks { get; }
     DbSet<Group> Groups { get; }
@@ -32,7 +32,7 @@ public class AcademiesDbContext : DbContext, IAcademiesDbContext
     {
     }
 
-    public DbSet<Establishment> Establishments { get; set; }
+    public DbSet<GiasEstablishment> GiasEstablishments { get; set; }
     public DbSet<Governance> Governances { get; set; }
     public DbSet<GroupLink> GroupLinks { get; set; }
     public DbSet<Group> Groups { get; set; }
@@ -44,7 +44,7 @@ public class AcademiesDbContext : DbContext, IAcademiesDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Establishment>(entity =>
+        modelBuilder.Entity<GiasEstablishment>(entity =>
         {
             entity.HasKey(e => e.Urn);
 

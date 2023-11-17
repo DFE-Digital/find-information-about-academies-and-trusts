@@ -6,27 +6,28 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 
 public interface IAcademyFactory
 {
-    Academy CreateAcademyFrom(GroupLink gl, Establishment establishment);
+    Academy CreateAcademyFrom(GroupLink gl, GiasEstablishment giasEstablishment);
 }
 
 public class AcademyFactory : IAcademyFactory
 {
-    public Academy CreateAcademyFrom(GroupLink gl, Establishment establishment)
+    public Academy CreateAcademyFrom(GroupLink gl, GiasEstablishment giasEstablishment)
     {
         return new Academy(
-            establishment.Urn,
+            giasEstablishment.Urn,
             DateTime.ParseExact(gl.JoinedDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture),
-            establishment.EstablishmentName,
-            establishment.TypeOfEstablishmentName,
-            establishment.LaName,
-            establishment.UrbanRuralName,
-            establishment.PhaseOfEducationName,
-            establishment.NumberOfPupils,
-            establishment.SchoolCapacity,
-            establishment.PercentageFsm,
-            new AgeRange(establishment.StatutoryLowAge!, establishment.StatutoryHighAge!),
-            establishment.OfstedRatingName != null
-                ? new OfstedRating(establishment.OfstedRatingName, establishment.OfstedLastInsp.ParseAsNullableDate())
+            giasEstablishment.EstablishmentName,
+            giasEstablishment.TypeOfEstablishmentName,
+            giasEstablishment.LaName,
+            giasEstablishment.UrbanRuralName,
+            giasEstablishment.PhaseOfEducationName,
+            giasEstablishment.NumberOfPupils,
+            giasEstablishment.SchoolCapacity,
+            giasEstablishment.PercentageFsm,
+            new AgeRange(giasEstablishment.StatutoryLowAge!, giasEstablishment.StatutoryHighAge!),
+            giasEstablishment.OfstedRatingName != null
+                ? new OfstedRating(giasEstablishment.OfstedRatingName,
+                    giasEstablishment.OfstedLastInsp.ParseAsNullableDate())
                 : null,
             null
         );

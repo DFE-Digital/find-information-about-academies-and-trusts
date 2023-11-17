@@ -11,7 +11,7 @@ public class TrustProviderTests
     private readonly TrustProvider _sut;
     private readonly List<Group> _groups;
     private readonly List<MstrTrust> _mstrTrusts;
-    private readonly List<Establishment> _establishments;
+    private readonly List<GiasEstablishment> _giasEstablishments;
     private readonly List<Governance> _governances;
     private readonly Mock<ITrustFactory> _mockTrustFactory = new();
     private readonly Mock<IAcademyFactory> _mockAcademyFactory = new();
@@ -22,9 +22,8 @@ public class TrustProviderTests
     {
         _groups = _mockAcademiesDbContext.SetupMockDbContextGroups(5);
         _mstrTrusts = _mockAcademiesDbContext.SetupMockDbContextMstrTrust(5);
-        _establishments = _mockAcademiesDbContext.SetupMockDbContextEstablishment(15);
+        _giasEstablishments = _mockAcademiesDbContext.SetupMockDbContextGiasEstablishment(15);
         _governances = _mockAcademiesDbContext.SetupMockDbContextGovernance(20, "Some other trust");
-
 
         _sut = new TrustProvider(_mockAcademiesDbContext.Object, _mockTrustFactory.Object, _mockAcademyFactory.Object,
             _mockGovernorFactory.Object);
@@ -87,8 +86,8 @@ public class TrustProviderTests
         var group = CreateGroup(groupUid);
         var mstrTrust = CreateMstrTrust(groupUid);
 
-        var expectedAcademies = SetUpAcademiesLinkedToTrust(_establishments.Take(3), group);
-        SetUpAcademiesLinkedToTrust(_establishments.Skip(5).Take(3), CreateGroup("Some other trust"));
+        var expectedAcademies = SetUpAcademiesLinkedToTrust(_giasEstablishments.Take(3), group);
+        SetUpAcademiesLinkedToTrust(_giasEstablishments.Skip(5).Take(3), CreateGroup("Some other trust"));
 
         _mockTrustFactory
             .Setup(t => t.CreateTrustFrom(group, mstrTrust, It.IsAny<Academy[]>(), Array.Empty<Governor>()))
@@ -110,7 +109,7 @@ public class TrustProviderTests
         var group = CreateGroup(groupUid);
         var mstrTrust = CreateMstrTrust(groupUid);
 
-        SetUpAcademiesLinkedToTrust(_establishments.Skip(5).Take(3), CreateGroup("Some other trust"));
+        SetUpAcademiesLinkedToTrust(_giasEstablishments.Skip(5).Take(3), CreateGroup("Some other trust"));
 
         _mockTrustFactory
             .Setup(t => t.CreateTrustFrom(group, mstrTrust, It.IsAny<Academy[]>(), Array.Empty<Governor>()))
@@ -160,16 +159,16 @@ public class TrustProviderTests
             t.CreateTrustFrom(group, null, It.IsAny<Academy[]>(), It.Is<Governor[]>(g => !g.Any())));
     }
 
-    private List<Academy> SetUpAcademiesLinkedToTrust(IEnumerable<Establishment> establishmentsLinkedToTrust,
+    private List<Academy> SetUpAcademiesLinkedToTrust(IEnumerable<GiasEstablishment> giasEstablishmentsLinkedToTrust,
         Group group)
     {
         var establishmentGroupLinks =
-            _mockAcademiesDbContext.LinkEstablishmentsToGroup(establishmentsLinkedToTrust, group);
+            _mockAcademiesDbContext.LinkGiasEstablishmentsToGroup(giasEstablishmentsLinkedToTrust, group);
         var academiesLinkedToTrust = new List<Academy>();
-        foreach (var (establishment, groupLink) in establishmentGroupLinks)
+        foreach (var (giasEstablishment, groupLink) in establishmentGroupLinks)
         {
-            var dummyAcademy = DummyAcademyFactory.GetDummyAcademy(establishment.Urn);
-            _mockAcademyFactory.Setup(a => a.CreateAcademyFrom(groupLink, establishment))
+            var dummyAcademy = DummyAcademyFactory.GetDummyAcademy(giasEstablishment.Urn);
+            _mockAcademyFactory.Setup(a => a.CreateAcademyFrom(groupLink, giasEstablishment))
                 .Returns(dummyAcademy);
             academiesLinkedToTrust.Add(dummyAcademy);
         }
