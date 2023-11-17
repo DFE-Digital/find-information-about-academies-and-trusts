@@ -1,12 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 
 [ExcludeFromCodeCoverage] // Database model POCO
-public class GroupLink
+public class Group
 {
-    public string? Urn { get; set; }
-
     public string? GroupUid { get; set; }
 
     public string? GroupId { get; set; }
@@ -25,25 +23,23 @@ public class GroupLink
 
     public string? GroupStatus { get; set; }
 
-    public string? JoinedDate { get; set; }
+    public string? GroupContactStreet { get; set; }
 
-    public string? EstablishmentName { get; set; }
+    public string? GroupContactLocality { get; set; }
 
-    public string? TypeOfEstablishmentCode { get; set; }
+    public string? GroupContactTown { get; set; }
 
-    public string? TypeOfEstablishmentName { get; set; }
+    public string? GroupContactPostcode { get; set; }
 
-    public string? PhaseOfEducationCode { get; set; }
+    public string? HeadOfGroupTitle { get; set; }
 
-    public string? PhaseOfEducationName { get; set; }
+    public string? HeadOfGroupFirstName { get; set; }
 
-    public string? LaCode { get; set; }
+    public string? HeadOfGroupLastName { get; set; }
 
-    public string? LaName { get; set; }
+    public string? Ukprn { get; set; }
 
     public string? IncorporatedOnOpenDate { get; set; }
 
     public string? OpenDate { get; set; }
-
-    public string? UrnGroupUid { get; set; }
 }
