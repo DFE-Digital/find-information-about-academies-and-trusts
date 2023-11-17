@@ -35,6 +35,10 @@ jobs:
         ref: ${{ github.ref }}
         fetch-depth: 0 # Shallow clones disabled for a better relevancy of SC analysis
 
+    - name: Set SHA environment variable
+      run: |
+        echo "LAST_COMMIT_SHA=${GITHUB_SHA:(-7)}" >> $GITHUB_ENV
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
@@ -86,7 +90,7 @@ jobs:
     - name: Prepare report for upload
       if: '!cancelled()'
       run: |
-        zip -qq -r ${{ env.LAST_COMMIT_SHA }}.zip ./**/mutation-report.html
+        zip -qq -r ${{ env.LAST_COMMIT_SHA }}.zip ./StrykerOutput/**/reports/mutation-report.html
 
     - name: Azure login with SPN
       if: '!cancelled()'
