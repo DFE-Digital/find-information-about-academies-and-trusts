@@ -7,4 +7,5 @@ public record Governor(
     string? Role,
     string? AppointingBody,
     DateTime? DateOfAppointment,
+    DateTime? DateOfTermEnd,
     string? Email) : Person(FullName, Email);
