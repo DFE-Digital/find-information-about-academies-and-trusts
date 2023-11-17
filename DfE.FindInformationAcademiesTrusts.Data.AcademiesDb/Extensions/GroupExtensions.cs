@@ -1,6 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
 
-namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 
 public static class GroupExtensions
 {

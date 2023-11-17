@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -10,8 +11,8 @@ public class TrustProviderTests
     private readonly List<Group> _groups;
     private readonly List<MstrTrust> _mstrTrusts;
     private readonly List<Establishment> _establishments;
-    private readonly Mock<ITrustHelper> _mockTrustHelper = new();
-    private readonly Mock<IAcademyHelper> _mockAcademyHelper = new();
+    private readonly Mock<ITrustFactory> _mockTrustHelper = new();
+    private readonly Mock<IAcademyFactory> _mockAcademyHelper = new();
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
 
     public TrustProviderTests()

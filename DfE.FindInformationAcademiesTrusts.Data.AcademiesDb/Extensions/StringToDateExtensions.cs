@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 
 public static class StringToDateExtensions
 {

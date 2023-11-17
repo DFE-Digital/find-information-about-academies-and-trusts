@@ -1,10 +1,11 @@
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
 
-namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Factories;
 
-public class AcademyHelperTests
+public class AcademyFactoryTests
 {
-    private readonly AcademyHelper _sut = new();
+    private readonly AcademyFactory _sut = new();
 
     [Fact]
     public void CreateAcademyFrom_should_transform_an_establishment_into_an_academy()

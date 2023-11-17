@@ -1,10 +1,11 @@
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
 
-namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Factories;
 
-public class TrustHelperTests
+public class TrustFactoryTests
 {
-    private readonly TrustHelper _sut = new();
+    private readonly TrustFactory _sut = new();
 
     [Fact]
     public void CreateTrustFromGroup_should_transform_a_group_and_mstrTrust_into_a_trust()
