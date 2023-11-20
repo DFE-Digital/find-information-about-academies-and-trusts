@@ -160,6 +160,7 @@ internal static class Program
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
         builder.Services.AddScoped<ITrustFactory, TrustFactory>();
         builder.Services.AddScoped<IAcademyFactory, AcademyFactory>();
+        builder.Services.AddScoped<IGovernorFactory, GovernorFactory>();
         builder.Services.AddScoped<IAuthorizationHandler, HeaderRequirementHandler>();
         builder.Services.AddHttpContextAccessor();
     }
