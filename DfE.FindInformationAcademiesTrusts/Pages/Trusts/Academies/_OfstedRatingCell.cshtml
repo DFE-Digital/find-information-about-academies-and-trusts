@@ -1,0 +1,14 @@
+@model OfstedRatingCellModel
+
+<span class="govuk-!-font-weight-bold">@Model.Rating</span>
+<span>
+  @if (Model.HasRating() && Model.RatingDate is not null)
+  {
+    <br/>
+    @Model.RatingDate.Value.ToString(ViewConstants.ViewDateFormat)
+    <br/>
+    <strong class="@Model.GetTagClasses() govuk-!-margin-top-2 govuk-!-margin-bottom-1">
+      @Model.GetTagText()
+    </strong>
+  }
+</span>
