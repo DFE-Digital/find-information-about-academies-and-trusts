@@ -23,7 +23,7 @@ public class AcademiesDbFaker
         return new AcademiesDbData(
             Array.Empty<GiasEstablishment>(),
             Array.Empty<GiasGovernance>(),
-            Array.Empty<GroupLink>(),
+            Array.Empty<GiasGroupLink>(),
             groups,
             mstrTrusts);
     }

@@ -50,7 +50,7 @@ public class TrustProvider : ITrustProvider
     private async Task<Academy[]> GetAcademiesLinkedTo(string uid)
     {
         return await _academiesDbContext
-            .GroupLinks.Where(gl => gl.GroupUid == uid && gl.Urn != null)
+            .GiasGroupLinks.Where(gl => gl.GroupUid == uid && gl.Urn != null)
             .Join(_academiesDbContext.GiasEstablishments,
                 gl => gl.Urn!,
                 e => e.Urn.ToString(),
