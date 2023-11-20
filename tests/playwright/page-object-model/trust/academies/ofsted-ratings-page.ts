@@ -32,7 +32,7 @@ class AcademiesOfstedRatingsPageAssertions extends BaseAcademiesPageAssertions {
     await expect(firstRowComponent.rowHeaderLocator).toContainText('Barr and Community R.C. School')
     await expect(firstRowComponent.rowHeaderLocator).toContainText('URN: 109174')
     await expect(firstRowComponent.cellLocator(ColumnHeading.DateJoined)).toContainText('Nov 2018')
-    await expect(firstRowComponent.cellLocator(ColumnHeading.PreviousOfstedRatings)).not.toContainText('Not yet inspected')
+    await expect(firstRowComponent.cellLocator(ColumnHeading.PreviousOfstedRatings)).toContainText('Not yet inspected')
     await expect(firstRowComponent.cellLocator(ColumnHeading.CurrentOfstedRatings)).toContainText('Not yet inspected')
 
     const secondRowComponent = this.ofstedRatingsPage.academiesTable.getRowComponentAt(2)
