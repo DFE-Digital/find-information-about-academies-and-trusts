@@ -47,15 +47,15 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             academiesDbContext => academiesDbContext.GiasEstablishments);
     }
 
-    public List<Governance> SetupMockDbContextGovernance(int numMatches, string groupUid)
+    public List<GiasGovernance> SetupMockDbContextGiasGovernance(int numMatches, string groupUid)
     {
         return SetupMockDbContext(numMatches,
-            i => new Governance
+            i => new GiasGovernance
             {
                 Uid = groupUid,
                 Forename1 = $"Governor {i}"
             },
-            academiesDbContext => academiesDbContext.Governances);
+            academiesDbContext => academiesDbContext.GiasGovernances);
     }
 
     private List<T> SetupMockDbContext<T>(int numMatches, Func<int, T> itemCreator,

@@ -3,7 +3,7 @@
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 
 [ExcludeFromCodeCoverage] // Database model POCO
-public class Governance
+public class GiasGovernance
 {
     public string? Gid { get; set; }
 

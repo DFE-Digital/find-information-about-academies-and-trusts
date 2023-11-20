@@ -5,34 +5,34 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 
 public interface IGovernorFactory
 {
-    Governor CreateFrom(Governance g);
+    Governor CreateFrom(GiasGovernance giasGovernance);
 }
 
 public class GovernorFactory : IGovernorFactory
 {
-    public Governor CreateFrom(Governance governance)
+    public Governor CreateFrom(GiasGovernance giasGovernance)
     {
         return new Governor(
-            governance.Gid!,
-            governance.Uid!,
-            GetFullName(governance),
-            governance.Role,
-            governance.AppointingBody,
-            governance.DateOfAppointment.ParseAsNullableDate(),
-            governance.DateTermOfOfficeEndsEnded.ParseAsNullableDate(),
+            giasGovernance.Gid!,
+            giasGovernance.Uid!,
+            GetFullName(giasGovernance),
+            giasGovernance.Role,
+            giasGovernance.AppointingBody,
+            giasGovernance.DateOfAppointment.ParseAsNullableDate(),
+            giasGovernance.DateTermOfOfficeEndsEnded.ParseAsNullableDate(),
             null
         );
     }
 
-    private static string GetFullName(Governance governance)
+    private static string GetFullName(GiasGovernance giasGovernance)
     {
-        var fullName = governance.Forename1!; //Forename1 is always populated
+        var fullName = giasGovernance.Forename1!; //Forename1 is always populated
 
-        if (!string.IsNullOrWhiteSpace(governance.Forename2))
-            fullName += $" {governance.Forename2}";
+        if (!string.IsNullOrWhiteSpace(giasGovernance.Forename2))
+            fullName += $" {giasGovernance.Forename2}";
 
-        if (!string.IsNullOrWhiteSpace(governance.Surname))
-            fullName += $" {governance.Surname}";
+        if (!string.IsNullOrWhiteSpace(giasGovernance.Surname))
+            fullName += $" {giasGovernance.Surname}";
 
         return fullName;
     }

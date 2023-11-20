@@ -10,7 +10,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 public interface IAcademiesDbContext
 {
     DbSet<GiasEstablishment> GiasEstablishments { get; }
-    DbSet<Governance> Governances { get; }
+    DbSet<GiasGovernance> GiasGovernances { get; }
     DbSet<GroupLink> GroupLinks { get; }
     DbSet<Group> Groups { get; }
     DbSet<MstrTrust> MstrTrusts { get; }
@@ -33,7 +33,7 @@ public class AcademiesDbContext : DbContext, IAcademiesDbContext
     }
 
     public DbSet<GiasEstablishment> GiasEstablishments { get; set; }
-    public DbSet<Governance> Governances { get; set; }
+    public DbSet<GiasGovernance> GiasGovernances { get; set; }
     public DbSet<GroupLink> GroupLinks { get; set; }
     public DbSet<Group> Groups { get; set; }
     public DbSet<MstrTrust> MstrTrusts { get; set; }
@@ -398,7 +398,7 @@ public class AcademiesDbContext : DbContext, IAcademiesDbContext
                 .HasColumnName("UrbanRural (name)");
         });
 
-        modelBuilder.Entity<Governance>(entity =>
+        modelBuilder.Entity<GiasGovernance>(entity =>
         {
             entity
                 .HasNoKey()

@@ -41,7 +41,7 @@ public class TrustProvider : ITrustProvider
 
     private async Task<Governor[]> GetGovernorsLinkedTo(string uid)
     {
-        return await _academiesDbContext.Governances
+        return await _academiesDbContext.GiasGovernances
             .Where(g => g.Uid == uid)
             .Select(g => _governorFactory.CreateFrom(g))
             .ToArrayAsync();
