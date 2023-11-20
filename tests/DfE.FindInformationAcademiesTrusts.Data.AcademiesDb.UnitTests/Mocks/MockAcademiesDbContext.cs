@@ -15,10 +15,10 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             .Returns(new MockDbSet<GroupLink>(_groupLinks).Object);
     }
 
-    public List<Group> SetupMockDbContextGroups(int numMatches)
+    public List<GiasGroup> SetupMockDbContextGiasGroups(int numMatches)
     {
         return SetupMockDbContext(numMatches,
-            i => new Group
+            i => new GiasGroup
             {
                 GroupName = $"trust {i}", GroupUid = $"{i}", GroupId = $"TR0{i}", GroupType = "Multi-academy trust"
             },
@@ -73,15 +73,15 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         return items;
     }
 
-    public List<(GiasEstablishment giasEstablishment, GroupLink groupLink)> LinkGiasEstablishmentsToGroup(
-        IEnumerable<GiasEstablishment> giasEstablishments, Group group)
+    public List<(GiasEstablishment giasEstablishment, GroupLink groupLink)> LinkGiasEstablishmentsToGiasGroup(
+        IEnumerable<GiasEstablishment> giasEstablishments, GiasGroup giasGroup)
     {
         var establishmentGroupLinks = new List<(GiasEstablishment, GroupLink)>();
         foreach (var giasEstablishment in giasEstablishments)
         {
             var groupLink = new GroupLink
             {
-                GroupUid = group.GroupUid,
+                GroupUid = giasGroup.GroupUid,
                 Urn = giasEstablishment.Urn.ToString()
             };
 

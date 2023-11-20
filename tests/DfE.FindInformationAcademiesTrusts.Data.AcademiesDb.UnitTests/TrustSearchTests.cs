@@ -11,7 +11,7 @@ public class TrustSearchTests
     public TrustSearchTests()
     {
         _mockAcademiesDbContext = new MockAcademiesDbContext();
-        _mockAcademiesDbContext.SetupMockDbContextGroups(3);
+        _mockAcademiesDbContext.SetupMockDbContextGiasGroups(3);
 
         _sut = new TrustSearch(_mockAcademiesDbContext.Object);
     }
@@ -22,7 +22,7 @@ public class TrustSearchTests
     [InlineData(30)]
     public async Task SearchAsync_should_only_return_20_results_when_there_are_more_than_20_matches(int numMatches)
     {
-        _mockAcademiesDbContext.SetupMockDbContextGroups(numMatches);
+        _mockAcademiesDbContext.SetupMockDbContextGiasGroups(numMatches);
 
         var result = await _sut.SearchAsync("trust");
         result.Should().HaveCount(20);
@@ -32,7 +32,7 @@ public class TrustSearchTests
     public async Task SearchAsync_should_return_the_correct_results_page_when_there_are_more_than_20_matches()
     {
         const int matches = 60;
-        var groups = _mockAcademiesDbContext.SetupMockDbContextGroups(matches);
+        var groups = _mockAcademiesDbContext.SetupMockDbContextGiasGroups(matches);
         for (var i = 0; i < groups.Count; i++)
         {
             groups[i].GroupName = "Page " + Math.Ceiling((double)(i + 1) / 20);
@@ -51,7 +51,7 @@ public class TrustSearchTests
     [Fact]
     public async Task SearchAsync_should_return_all_results_when_there_are_less_than_20_matches()
     {
-        _mockAcademiesDbContext.SetupMockDbContextGroups(19);
+        _mockAcademiesDbContext.SetupMockDbContextGiasGroups(19);
 
         var result = await _sut.SearchAsync("trust");
         result.Should().HaveCount(19);
@@ -95,9 +95,9 @@ public class TrustSearchTests
     [Fact]
     public async Task SearchAsync_should_return_trust_address_formatted_as_string()
     {
-        var groups = _mockAcademiesDbContext.SetupMockDbContextGroups(3);
+        var giasGroups = _mockAcademiesDbContext.SetupMockDbContextGiasGroups(3);
 
-        groups.Add(new Group
+        giasGroups.Add(new GiasGroup
         {
             GroupUid = "1234",
             GroupType = "Multi-academy trust",
@@ -138,7 +138,7 @@ public class TrustSearchTests
     [Fact]
     public async Task SearchAsync_should_return_trusts_sorted_alphabetically_by_trust_name()
     {
-        var groups = _mockAcademiesDbContext.SetupMockDbContextGroups(5);
+        var groups = _mockAcademiesDbContext.SetupMockDbContextGiasGroups(5);
         var names = new[] { "education", "abbey", "educations", "aldridge trust", "abbey trust" };
         for (var i = 0; i < names.Length; i++)
         {
@@ -152,7 +152,7 @@ public class TrustSearchTests
     [Fact]
     public async Task SearchAsync_should_only_return_single_and_multi_academy_trusts()
     {
-        var groups = _mockAcademiesDbContext.SetupMockDbContextGroups(5);
+        var groups = _mockAcademiesDbContext.SetupMockDbContextGiasGroups(5);
 
         groups[0].GroupType = "Federation";
         groups[1].GroupType = "Single-academy trust";
@@ -167,7 +167,7 @@ public class TrustSearchTests
     [Fact]
     public async Task SearchAsync_should_not_return_groups_with_a_null_GroupUid()
     {
-        var groups = _mockAcademiesDbContext.SetupMockDbContextGroups(5);
+        var groups = _mockAcademiesDbContext.SetupMockDbContextGiasGroups(5);
 
         groups[0].GroupUid = null;
 
@@ -178,7 +178,7 @@ public class TrustSearchTests
     [Fact]
     public async Task SearchAsync_should_not_return_groups_with_a_null_GroupId()
     {
-        var groups = _mockAcademiesDbContext.SetupMockDbContextGroups(5);
+        var groups = _mockAcademiesDbContext.SetupMockDbContextGiasGroups(5);
 
         groups[0].GroupId = null;
 
@@ -189,7 +189,7 @@ public class TrustSearchTests
     [Fact]
     public async Task SearchAsync_should_not_return_groups_with_a_null_GroupName()
     {
-        var groups = _mockAcademiesDbContext.SetupMockDbContextGroups(5);
+        var groups = _mockAcademiesDbContext.SetupMockDbContextGiasGroups(5);
 
         groups[0].GroupName = null;
 

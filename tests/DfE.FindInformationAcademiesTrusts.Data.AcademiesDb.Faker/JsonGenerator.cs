@@ -11,7 +11,7 @@ public static class JsonGenerator
             { WriteIndented = true, PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
         var trustHelper = new TrustFactory();
-        var trusts = fakeData.Groups
+        var trusts = fakeData.GiasGroups
             .OrderBy(g => g.GroupName)
             .Select(g => trustHelper
                 .CreateTrustFrom(g, fakeData.MstrTrusts.FirstOrDefault(t => t.GroupUid == g.GroupUid)!,

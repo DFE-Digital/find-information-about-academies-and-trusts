@@ -6,22 +6,22 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 
 public interface ITrustFactory
 {
-    Trust CreateTrustFrom(Group group, MstrTrust? mstrTrust, Academy[] academies, Governor[] governors);
+    Trust CreateTrustFrom(GiasGroup giasGroup, MstrTrust? mstrTrust, Academy[] academies, Governor[] governors);
 }
 
 public class TrustFactory : ITrustFactory
 {
-    public Trust CreateTrustFrom(Group group, MstrTrust? mstrTrust, Academy[] academies, Governor[] governors)
+    public Trust CreateTrustFrom(GiasGroup giasGroup, MstrTrust? mstrTrust, Academy[] academies, Governor[] governors)
     {
         return new Trust(
-            group.GroupUid!,
-            group.GroupName ?? string.Empty,
-            group.GroupId ?? string.Empty,
-            group.Ukprn,
-            group.GroupType ?? string.Empty,
-            group.BuildAddressString(),
-            group.IncorporatedOnOpenDate.ParseAsNullableDate(),
-            group.CompaniesHouseNumber ?? string.Empty,
+            giasGroup.GroupUid!,
+            giasGroup.GroupName ?? string.Empty,
+            giasGroup.GroupId ?? string.Empty,
+            giasGroup.Ukprn,
+            giasGroup.GroupType ?? string.Empty,
+            giasGroup.BuildAddressString(),
+            giasGroup.IncorporatedOnOpenDate.ParseAsNullableDate(),
+            giasGroup.CompaniesHouseNumber ?? string.Empty,
             mstrTrust?.GORregion ?? string.Empty,
             academies,
             governors,

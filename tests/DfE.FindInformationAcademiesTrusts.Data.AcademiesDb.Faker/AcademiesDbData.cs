@@ -5,4 +5,4 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker;
 
 public record AcademiesDbData(GiasEstablishment[] GiasEstablishments, GiasGovernance[] GiasGovernances,
     GroupLink[] GroupLinks,
-    Group[] Groups, MstrTrust[] MstrTrusts);
+    GiasGroup[] GiasGroups, MstrTrust[] MstrTrusts);

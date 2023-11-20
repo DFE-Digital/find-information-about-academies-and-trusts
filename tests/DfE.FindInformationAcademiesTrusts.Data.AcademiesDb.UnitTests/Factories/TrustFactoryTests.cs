@@ -9,7 +9,7 @@ public class TrustFactoryTests
 {
     private readonly TrustFactory _sut = new();
 
-    private readonly Group _testGroup = new()
+    private readonly GiasGroup _testGiasGroup = new()
     {
         GroupName = "trust 1", GroupUid = "1234", GroupType = "Multi-academy trust", Ukprn = "my ukprn",
         GroupId = "my groupId",
@@ -29,7 +29,7 @@ public class TrustFactoryTests
             GroupUid = "1234", GORregion = "North East"
         };
 
-        var result = _sut.CreateTrustFrom(_testGroup, mstrTrust, Array.Empty<Academy>(), Array.Empty<Governor>());
+        var result = _sut.CreateTrustFrom(_testGiasGroup, mstrTrust, Array.Empty<Academy>(), Array.Empty<Governor>());
 
         result.Should().BeEquivalentTo(new Trust(
                 "1234",
@@ -52,7 +52,7 @@ public class TrustFactoryTests
     [Fact]
     public void CreateTrustFrom_should_transform_a_group_without_mstrTrust_into_a_trust()
     {
-        var result = _sut.CreateTrustFrom(_testGroup, null, Array.Empty<Academy>(), Array.Empty<Governor>());
+        var result = _sut.CreateTrustFrom(_testGiasGroup, null, Array.Empty<Academy>(), Array.Empty<Governor>());
 
         result.Should().BeEquivalentTo(new Trust(
                 "1234",
@@ -77,7 +77,7 @@ public class TrustFactoryTests
     {
         var academies = new[] { DummyAcademyFactory.GetDummyAcademy(1234546) };
 
-        var result = _sut.CreateTrustFrom(_testGroup, null, academies, Array.Empty<Governor>());
+        var result = _sut.CreateTrustFrom(_testGiasGroup, null, academies, Array.Empty<Governor>());
 
         result.Academies.Should().Equal(academies);
     }
@@ -87,7 +87,7 @@ public class TrustFactoryTests
     {
         var governors = new[] { DummyGovernorFactory.GetDummyGovernor("1234546", "1234") };
 
-        var result = _sut.CreateTrustFrom(_testGroup, null, Array.Empty<Academy>(), governors);
+        var result = _sut.CreateTrustFrom(_testGiasGroup, null, Array.Empty<Academy>(), governors);
 
         result.Governors.Should().Equal(governors);
     }
@@ -95,9 +95,9 @@ public class TrustFactoryTests
     [Theory]
     [MemberData(nameof(EmptyData))]
     public void CreateTrustFromGroup_Should_Include_Empty_string_values_if_properties_have_no_value(
-        Group group, MstrTrust mstrTrust, Trust expected)
+        GiasGroup giasGroup, MstrTrust mstrTrust, Trust expected)
     {
-        var result = _sut.CreateTrustFrom(group, mstrTrust, Array.Empty<Academy>(), Array.Empty<Governor>());
+        var result = _sut.CreateTrustFrom(giasGroup, mstrTrust, Array.Empty<Academy>(), Array.Empty<Governor>());
         result.Should().BeEquivalentTo(expected);
     }
 
@@ -106,7 +106,7 @@ public class TrustFactoryTests
         {
             new object[]
             {
-                new Group
+                new GiasGroup
                 {
                     GroupUid = "1", GroupName = "", GroupId = "", GroupType = "", IncorporatedOnOpenDate = "",
                     CompaniesHouseNumber = ""
@@ -122,7 +122,7 @@ public class TrustFactoryTests
             },
             new object[]
             {
-                new Group { GroupUid = "2" },
+                new GiasGroup { GroupUid = "2" },
                 new MstrTrust { GroupUid = "2" },
                 new Trust("2", "", "", null, "", "", null, "", "", Array.Empty<Academy>(),
                     Array.Empty<Governor>(),

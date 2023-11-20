@@ -4,13 +4,13 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Fakers;
 
-public class GroupFaker
+public class GiasGroupFaker
 {
-    private readonly Faker<Group> _groupFaker;
+    private readonly Faker<GiasGroup> _giasGroupFaker;
 
-    public GroupFaker(TrustToGenerate trustToGenerate, int uid)
+    public GiasGroupFaker(TrustToGenerate trustToGenerate, int uid)
     {
-        _groupFaker = new Faker<Group>("en_GB")
+        _giasGroupFaker = new Faker<GiasGroup>("en_GB")
             .RuleFor(g => g.GroupName, trustToGenerate.Name)
             .RuleFor(g => g.GroupUid, f => $"{uid}")
             .RuleFor(g => g.GroupId, f => $"TR{f.Random.Int(0, 9999)}")
@@ -26,8 +26,8 @@ public class GroupFaker
             .RuleFor(g => g.CompaniesHouseNumber, f => f.Random.Int(1100000, 09999999).ToString("D8"));
     }
 
-    public Group Generate()
+    public GiasGroup Generate()
     {
-        return _groupFaker.Generate();
+        return _giasGroupFaker.Generate();
     }
 }

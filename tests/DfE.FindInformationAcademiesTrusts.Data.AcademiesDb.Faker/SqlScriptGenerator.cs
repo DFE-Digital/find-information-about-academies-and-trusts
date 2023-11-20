@@ -1,5 +1,4 @@
 using System.Reflection;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Fakers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -29,7 +28,7 @@ public static class SqlScriptGenerator
         AcademiesDbData fakeData)
     {
         var insertScript = string.Join("; ",
-            GenerateSqlInsertScriptSegmentFor(fakeData.Groups, context),
+            GenerateSqlInsertScriptSegmentFor(fakeData.GiasGroups, context),
             GenerateSqlInsertScriptSegmentFor(fakeData.MstrTrusts, context)
         );
         File.WriteAllText(outputFilePath, insertScript);
