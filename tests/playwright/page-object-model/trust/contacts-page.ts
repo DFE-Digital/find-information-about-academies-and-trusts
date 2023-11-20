@@ -10,8 +10,8 @@ export class ContactsPage extends BaseTrustPage {
   constructor (readonly page: Page, fakeTestData: FakeTestData) {
     super(page, fakeTestData, '/trusts/contacts')
     this.expect = new ContactsPageAssertions(this)
-    this.dfeContactsCard = page.locator('[data-testid="dfe-contacts"]')
-    this.trustContactsCard = page.locator('[data-testid="trust-contacts"]')
+    this.dfeContactsCard = page.getByText('DfE contacts Trust relationship manager')
+    this.trustContactsCard = page.getByText('Trust Contacts Accounting officer')
   }
 }
 
