@@ -11,7 +11,7 @@ public interface IAcademiesDbContext
 {
     DbSet<GiasEstablishment> GiasEstablishments { get; }
     DbSet<GiasGovernance> GiasGovernances { get; }
-    DbSet<GroupLink> GroupLinks { get; }
+    DbSet<GiasGroupLink> GiasGroupLinks { get; }
     DbSet<GiasGroup> Groups { get; }
     DbSet<MstrTrust> MstrTrusts { get; }
     DbSet<CdmAccount> CdmAccounts { get; }
@@ -34,7 +34,7 @@ public class AcademiesDbContext : DbContext, IAcademiesDbContext
 
     public DbSet<GiasEstablishment> GiasEstablishments { get; set; }
     public DbSet<GiasGovernance> GiasGovernances { get; set; }
-    public DbSet<GroupLink> GroupLinks { get; set; }
+    public DbSet<GiasGroupLink> GiasGroupLinks { get; set; }
     public DbSet<GiasGroup> Groups { get; set; }
     public DbSet<MstrTrust> MstrTrusts { get; set; }
     public DbSet<CdmAccount> CdmAccounts { get; set; }
@@ -436,7 +436,7 @@ public class AcademiesDbContext : DbContext, IAcademiesDbContext
                 .HasColumnName("URN");
         });
 
-        modelBuilder.Entity<GroupLink>(entity =>
+        modelBuilder.Entity<GiasGroupLink>(entity =>
         {
             entity
                 .HasNoKey()

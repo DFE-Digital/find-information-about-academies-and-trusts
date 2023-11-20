@@ -27,7 +27,7 @@ public class AcademyFactoryTests
             OfstedRatingName = "Good"
         };
 
-        var result = _sut.CreateAcademyFrom(new GroupLink { JoinedDate = "16/11/2023" }, giasEstablishment);
+        var result = _sut.CreateAcademyFrom(new GiasGroupLink { JoinedDate = "16/11/2023" }, giasEstablishment);
 
         result.Should().BeEquivalentTo(new Academy(
                 1234,

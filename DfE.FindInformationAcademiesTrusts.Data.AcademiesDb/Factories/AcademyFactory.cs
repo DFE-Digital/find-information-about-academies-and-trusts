@@ -6,12 +6,12 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 
 public interface IAcademyFactory
 {
-    Academy CreateAcademyFrom(GroupLink gl, GiasEstablishment giasEstablishment);
+    Academy CreateAcademyFrom(GiasGroupLink gl, GiasEstablishment giasEstablishment);
 }
 
 public class AcademyFactory : IAcademyFactory
 {
-    public Academy CreateAcademyFrom(GroupLink gl, GiasEstablishment giasEstablishment)
+    public Academy CreateAcademyFrom(GiasGroupLink gl, GiasEstablishment giasEstablishment)
     {
         return new Academy(
             giasEstablishment.Urn,

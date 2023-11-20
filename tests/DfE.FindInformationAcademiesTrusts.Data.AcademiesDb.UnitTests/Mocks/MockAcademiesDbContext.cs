@@ -7,12 +7,12 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 
 public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 {
-    private readonly List<GroupLink> _groupLinks = new();
+    private readonly List<GiasGroupLink> _giasGroupLinks = new();
 
     public MockAcademiesDbContext()
     {
-        Setup(academiesDbContext => academiesDbContext.GroupLinks)
-            .Returns(new MockDbSet<GroupLink>(_groupLinks).Object);
+        Setup(academiesDbContext => academiesDbContext.GiasGroupLinks)
+            .Returns(new MockDbSet<GiasGroupLink>(_giasGroupLinks).Object);
     }
 
     public List<GiasGroup> SetupMockDbContextGiasGroups(int numMatches)
@@ -73,20 +73,20 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         return items;
     }
 
-    public List<(GiasEstablishment giasEstablishment, GroupLink groupLink)> LinkGiasEstablishmentsToGiasGroup(
+    public List<(GiasEstablishment giasEstablishment, GiasGroupLink groupLink)> LinkGiasEstablishmentsToGiasGroup(
         IEnumerable<GiasEstablishment> giasEstablishments, GiasGroup giasGroup)
     {
-        var establishmentGroupLinks = new List<(GiasEstablishment, GroupLink)>();
+        var establishmentGroupLinks = new List<(GiasEstablishment, GiasGroupLink)>();
         foreach (var giasEstablishment in giasEstablishments)
         {
-            var groupLink = new GroupLink
+            var giasGroupLink = new GiasGroupLink
             {
                 GroupUid = giasGroup.GroupUid,
                 Urn = giasEstablishment.Urn.ToString()
             };
 
-            establishmentGroupLinks.Add((giasEstablishment, groupLink));
-            _groupLinks.Add(groupLink);
+            establishmentGroupLinks.Add((giasEstablishment, giasGroupLink));
+            _giasGroupLinks.Add(giasGroupLink);
         }
 
         return establishmentGroupLinks;

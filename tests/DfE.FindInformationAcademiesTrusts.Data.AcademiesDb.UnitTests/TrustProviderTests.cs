@@ -165,10 +165,10 @@ public class TrustProviderTests
         var establishmentGroupLinks =
             _mockAcademiesDbContext.LinkGiasEstablishmentsToGiasGroup(giasEstablishmentsLinkedToTrust, giasGroup);
         var academiesLinkedToTrust = new List<Academy>();
-        foreach (var (giasEstablishment, groupLink) in establishmentGroupLinks)
+        foreach (var (giasEstablishment, giasGroupLink) in establishmentGroupLinks)
         {
             var dummyAcademy = DummyAcademyFactory.GetDummyAcademy(giasEstablishment.Urn);
-            _mockAcademyFactory.Setup(a => a.CreateAcademyFrom(groupLink, giasEstablishment))
+            _mockAcademyFactory.Setup(a => a.CreateAcademyFrom(giasGroupLink, giasEstablishment))
                 .Returns(dummyAcademy);
             academiesLinkedToTrust.Add(dummyAcademy);
         }
