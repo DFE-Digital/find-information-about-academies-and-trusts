@@ -23,10 +23,10 @@
         </th>
         <td class="govuk-body govuk-table__cell">Nov 2018</td>
         <td class="govuk-body govuk-table__cell">
-          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2018, 11, 1), "Not yet inspected", null)"></partial>
+          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2018, 11, 1, 0, 0, 0, DateTimeKind.Utc), "Not yet inspected", null)"></partial>
         </td>
         <td class="govuk-body govuk-table__cell" data-sort-value="@((short)OfstedRatings.NotYetInspected)">
-          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2018, 11, 1), "Not yet inspected", null)"></partial>
+          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2018, 11, 1, 0, 0, 0, DateTimeKind.Utc), "Not yet inspected", null)"></partial>
         </td>
       </tr>
       <tr class="govuk-table__row" data-testid="academy-row">
@@ -35,10 +35,10 @@
         </th>
         <td class="govuk-body govuk-table__cell">Nov 2017</td>
         <td class="govuk-body govuk-table__cell" data-sort-value="@((short)OfstedRatings.NotYetInspected)">
-          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2017, 11, 1), "Not yet inspected", null)"></partial>
+          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2017, 11, 1, 0, 0, 0, DateTimeKind.Utc), "Not yet inspected", null)"></partial>
         </td>
         <td class="govuk-body govuk-table__cell" data-sort-value="@((short)OfstedRatings.Good)">
-          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2017, 11, 1), "Good", new DateTime(2021, 05, 9))"></partial>
+          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2017, 11, 1, 0, 0, 0, DateTimeKind.Utc), "Good", new DateTime(2021, 05, 9, 0, 0, 0, DateTimeKind.Utc))"></partial>
         </td>
       </tr>
       <tr class="govuk-table__row" data-testid="academy-row">
@@ -47,10 +47,10 @@
         </th>
         <td class="govuk-body govuk-table__cell">Nov 2017</td>
         <td class="govuk-body govuk-table__cell" data-sort-value="@((short)OfstedRatings.RequiresImprovement)">
-          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2017, 10, 1), "Requires improvement", new DateTime(2014, 11, 30));"></partial>
+          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2017, 10, 1, 0, 0, 0, DateTimeKind.Utc), "Requires improvement", new DateTime(2014, 11, 30, 0, 0, 0, DateTimeKind.Utc))"></partial>
         </td>
         <td class="govuk-body govuk-table__cell" data-sort-value="@((short)OfstedRatings.Outstanding)">
-          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2017, 10, 1), "Outstanding", new DateTime(2020, 11, 1))"></partial>
+          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2017, 10, 1, 0, 0, 0, DateTimeKind.Utc), "Outstanding", new DateTime(2020, 11, 1, 0, 0, 0, DateTimeKind.Utc))"></partial>
         </td>
       </tr>
     </tbody>
