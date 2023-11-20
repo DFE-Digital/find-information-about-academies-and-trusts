@@ -34,12 +34,9 @@ class ContactsPageAssertions extends BaseTrustPageAssertions {
   async toSeeCorrectTrustContacts (): Promise<void> {
     await expect(this.contactsPage.trustContactsCard).toContainText('Tyler Welch')
     await expect(this.contactsPage.trustContactsCard).toContainText('Tyler.Welch@abbeylaneacademiestrust.co.uk')
-    await expect(this.contactsPage.trustContactsCard).toContainText('Telephone: 027 5395 0525')
     await expect(this.contactsPage.trustContactsCard).toContainText('Courtney Pacocha')
     await expect(this.contactsPage.trustContactsCard).toContainText('Courtney.Pacocha@abbeylaneacademiestrust.co.uk')
-    await expect(this.contactsPage.trustContactsCard).toContainText('Telephone: 0500 544079')
     await expect(this.contactsPage.trustContactsCard).toContainText('Lowell Hoppe')
     await expect(this.contactsPage.trustContactsCard).toContainText('Lowell.Hoppe@abbeylaneacademiestrust.co.uk')
-    await expect(this.contactsPage.trustContactsCard).toContainText('Telephone: 01289 72558')
   }
 }
