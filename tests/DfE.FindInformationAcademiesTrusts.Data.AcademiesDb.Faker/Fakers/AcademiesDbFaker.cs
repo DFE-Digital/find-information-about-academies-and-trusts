@@ -28,14 +28,14 @@ public class AcademiesDbFaker
             mstrTrusts);
     }
 
-    private Group GenerateGroup(TrustToGenerate trustToGenerate)
+    private GiasGroup GenerateGroup(TrustToGenerate trustToGenerate)
     {
-        var fakeGroup = new GroupFaker(trustToGenerate, _counter++);
+        var fakeGroup = new GiasGroupFaker(trustToGenerate, _counter++);
         return fakeGroup.Generate();
     }
 
-    private MstrTrust GenerateMstrTrust(Group group)
+    private MstrTrust GenerateMstrTrust(GiasGroup giasGroup)
     {
-        return new MstrTrustFaker(group.GroupUid!, _regions).Generate();
+        return new MstrTrustFaker(giasGroup.GroupUid!, _regions).Generate();
     }
 }

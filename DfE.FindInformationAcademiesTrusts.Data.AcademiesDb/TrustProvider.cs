@@ -29,14 +29,14 @@ public class TrustProvider : ITrustProvider
 
     public async Task<Trust?> GetTrustByUidAsync(string uid)
     {
-        var group = await _academiesDbContext.Groups.SingleOrDefaultAsync(g => g.GroupUid == uid);
-        if (group is null) return null;
+        var giasGroup = await _academiesDbContext.Groups.SingleOrDefaultAsync(g => g.GroupUid == uid);
+        if (giasGroup is null) return null;
 
         var mstrTrust = await _academiesDbContext.MstrTrusts.SingleOrDefaultAsync(m => m.GroupUid == uid);
         var academies = await GetAcademiesLinkedTo(uid);
         var governors = await GetGovernorsLinkedTo(uid);
 
-        return _trustFactory.CreateTrustFrom(group, mstrTrust, academies, governors);
+        return _trustFactory.CreateTrustFrom(giasGroup, mstrTrust, academies, governors);
     }
 
     private async Task<Governor[]> GetGovernorsLinkedTo(string uid)
