@@ -9,9 +9,9 @@ export class CookieBannerComponent {
 
   constructor (readonly page: Page) {
     this.expect = new CookieBannerNavigationComponentAssertions(this)
-    this.acceptCookiesLocator = page.locator('[data-test="cookie-banner-accept"]')
-    this.rejectCookiesLocator = page.locator('[data-test="cookie-banner-reject"]')
-    this.cookiePageLinkLocator = page.locator('[data-test="cookies-page-link"]')
+    this.acceptCookiesLocator = page.getByRole('button', { name: 'Accept analytics cookies' })
+    this.rejectCookiesLocator = page.getByRole('button', { name: 'Reject analytics cookies' })
+    this.cookiePageLinkLocator = page.getByRole('link', { name: 'set your cookie preferences' })
   }
 
   async clickAcceptCookies (): Promise<void> {
