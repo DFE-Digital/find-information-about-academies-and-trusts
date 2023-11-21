@@ -34,7 +34,7 @@ public static class SqlScriptGenerator
         File.WriteAllText(outputFilePath, insertScript);
     }
 
-    private static string GenerateSqlInsertScriptSegmentFor<T>(T[] fakeObjects, AcademiesDbContext context)
+    private static string GenerateSqlInsertScriptSegmentFor<T>(List<T> fakeObjects, AcademiesDbContext context)
     {
         var objProperties = typeof(T).GetProperties();
         var entityType = context.Model.FindEntityTypes(typeof(T)).FirstOrDefault()!;
