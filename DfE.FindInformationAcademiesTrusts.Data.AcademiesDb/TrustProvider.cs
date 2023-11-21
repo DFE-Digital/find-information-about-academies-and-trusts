@@ -43,7 +43,7 @@ public class TrustProvider : ITrustProvider
     {
         return await _academiesDbContext.GiasGovernances
             .Where(g => g.Uid == uid)
-            .Select(g => _governorFactory.CreateFrom(g))
+            .Select(g => _governorFactory.CreateFrom(g, null))
             .ToArrayAsync();
     }
 
