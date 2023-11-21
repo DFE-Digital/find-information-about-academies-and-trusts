@@ -115,8 +115,8 @@ internal static class Program
                     .Self()
                     .UnsafeInline()
                     .WithNonce()
-                    .From("https://js.monitor.azure.com/scripts/b/ai.2.min.js")
-                    .From("https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js");
+                    .From(new []{"https://js.monitor.azure.com/scripts/b/ai.2.min.js", 
+                        "https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js"});
                 cspBuilder.AddConnectSrc()
                     .Self()
                     .From("https://*.in.applicationinsights.azure.com//v2/track")
