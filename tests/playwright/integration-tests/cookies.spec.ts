@@ -16,13 +16,11 @@ test.describe('cookies', () => {
     await homePage.expect.toBeOnTheRightPage()
   })
 
-  test('cookies are removed when user rejects cookies', async ({ browserName }) => {
+  test('app insights cookies are removed when user rejects cookies', async ({ browserName }) => {
     test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
-    await homePage.page.waitForTimeout(5000)
     await cookiesPage.expect.appInsightCookiesDoNotExist()
     await homePage.cookieBannerNavigation.clickAcceptCookies()
     await homePage.goTo()
-    await homePage.page.waitForTimeout(5000)
     await cookiesPage.expect.appInsightCookiesExist()
     await homePage.footerNavigation.clickCookies()
     await cookiesPage.rejectCookies()

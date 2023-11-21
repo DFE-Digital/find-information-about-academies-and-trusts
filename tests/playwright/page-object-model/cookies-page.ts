@@ -57,15 +57,14 @@ class CookiesPageAssertions {
   }
 
   async appInsightCookiesExist (): Promise<void> {
-    const cookies = await this.cookiesPage.page.context().cookies()
-    const aiCookies = cookies.filter(cookie => cookie.name === 'ai_user' || cookie.name === 'ai_session')
-    expect(aiCookies).toHaveLength(2)
+    await expect(async () => expect((await this.cookiesPage.page.context().cookies()).filter(cookie => cookie.name === 'ai_user' || cookie.name === 'ai_session')).toHaveLength(2)).toPass({
+      timeout: 10_000
+    })
   }
 
   async appInsightCookiesDoNotExist (): Promise<void> {
-    const cookies = await this.cookiesPage.page.context().cookies()
-    // expect(cookies).toHaveLength(0);
-    const aiCookies = cookies.filter(cookie => cookie.name === 'ai_user' || cookie.name === 'ai_session')
-    expect(aiCookies).toHaveLength(0)
+    await expect(async () => expect((await this.cookiesPage.page.context().cookies()).filter(cookie => cookie.name === 'ai_user' || cookie.name === 'ai_session')).toHaveLength(0)).toPass({
+      timeout: 10_000
+    })
   }
 }
