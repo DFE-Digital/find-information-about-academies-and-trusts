@@ -97,7 +97,7 @@
 </div>
 <form method="post" name="frmCookies" novalidate="">
   <div class="govuk-form-group">
-    <input type="hidden" name="redirectPath" value="@HttpContext.Request.GetDisplayUrl()"/>
+    <input type="hidden" name="redirectPath" value="@(HttpContext.Request.Path + HttpContext.Request.QueryString)"/>
     <fieldset class="govuk-fieldset">
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
         <h3 class="govuk-fieldset__heading">Do you want to accept cookies that measure your website use?</h3>
