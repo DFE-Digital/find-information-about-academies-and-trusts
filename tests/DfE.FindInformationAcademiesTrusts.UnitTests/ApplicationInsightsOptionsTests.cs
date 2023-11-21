@@ -9,4 +9,11 @@ public class ApplicationInsightsOptionsTests
         var sut = ApplicationInsightsOptions.ConfigurationSection;
         sut.Should().BeEquivalentTo(expectedConfigurationSection);
     }
+
+    [Fact]
+    public void ApplicationInsightsOptions_Should_Have_A_Nullable_String_Available_Called_ConnectionString()
+    {
+        var sut = new ApplicationInsightsOptions();
+        sut.ConnectionString.Should().Be(null);
+    }
 }
