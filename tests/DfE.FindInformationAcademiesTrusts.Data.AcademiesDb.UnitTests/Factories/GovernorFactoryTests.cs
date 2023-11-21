@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Factories;
 
@@ -24,7 +25,7 @@ public class GovernorFactoryTests
             Title = "Mr"
         };
 
-        var result = _sut.CreateFrom(giasGovernance);
+        var result = _sut.CreateFrom(giasGovernance, null);
 
         result.Should().BeEquivalentTo(new Governor(
                 "1011111",
@@ -37,6 +38,39 @@ public class GovernorFactoryTests
                 null
             )
         );
+    }
+
+    [Fact]
+    public void CreateFrom_should_default_email_to_null_if_no_mstrTrustGovernance()
+    {
+        var giasGovernance = new GiasGovernance
+        {
+            Gid = "1011111",
+            Uid = "1234"
+        };
+
+        var result = _sut.CreateFrom(giasGovernance, null);
+
+        result.Email.Should().BeNull();
+    }
+
+    [Fact]
+    public void CreateFrom_should_use_email_from_mstrTrustGovernance_if_present()
+    {
+        var giasGovernance = new GiasGovernance
+        {
+            Gid = "1011111",
+            Uid = "1234"
+        };
+        var mstrTrustGovernance = new MstrTrustGovernance
+        {
+            Gid = "1011111",
+            Email = "ms.governor@thetrust.com"
+        };
+
+        var result = _sut.CreateFrom(giasGovernance, mstrTrustGovernance);
+
+        result.Email.Should().Be("ms.governor@thetrust.com");
     }
 
     [Theory]
@@ -60,7 +94,7 @@ public class GovernorFactoryTests
             Title = "not used"
         };
 
-        var result = _sut.CreateFrom(giasGovernance);
+        var result = _sut.CreateFrom(giasGovernance, null);
 
         result.FullName.Should().Be(expectedFullName);
     }

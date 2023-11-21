@@ -196,7 +196,7 @@ public class TrustProviderTests
         foreach (var giasGovernance in newGiasGovernances)
         {
             var dummyGovernor = dummyGovernorFactory.GetDummyGovernor(groupUid);
-            _mockGovernorFactory.Setup(g => g.CreateFrom(giasGovernance))
+            _mockGovernorFactory.Setup(g => g.CreateFrom(giasGovernance, null))
                 .Returns(dummyGovernor);
             governorsLinkedToTrust.Add(dummyGovernor);
         }
