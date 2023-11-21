@@ -40,11 +40,11 @@ class CookiesPageAssertions {
     await expect(this.cookiesPage.body).toContainText('Essential cookies')
   }
 
-  async returnToLinkPageToBeVisble (): Promise<void> {
+  async returnToLinkPageToBeVisible (): Promise<void> {
     await expect(this.cookiesPage.returnToPageLocator).toBeVisible()
   }
 
-  async returnToLinkPageToNotBeVisble (): Promise<void> {
+  async returnToLinkPageToNotBeVisible (): Promise<void> {
     await expect(this.cookiesPage.returnToPageLocator).toHaveCount(0)
   }
 
@@ -54,5 +54,18 @@ class CookiesPageAssertions {
 
   async rejectCookiesRadioButtonIsChecked (): Promise<void> {
     await expect(this.cookiesPage.rejectRadioButtonLocator).toBeChecked()
+  }
+
+  async appInsightCookiesExist (): Promise<void> {
+    const cookies = await this.cookiesPage.page.context().cookies()
+    const aiCookies = cookies.filter(cookie => cookie.name === 'ai_user' || cookie.name === 'ai_session')
+    expect(aiCookies).toHaveLength(2)
+  }
+
+  async appInsightCookiesDoNotExist (): Promise<void> {
+    const cookies = await this.cookiesPage.page.context().cookies()
+    // expect(cookies).toHaveLength(0);
+    const aiCookies = cookies.filter(cookie => cookie.name === 'ai_user' || cookie.name === 'ai_session')
+    expect(aiCookies).toHaveLength(0)
   }
 }
