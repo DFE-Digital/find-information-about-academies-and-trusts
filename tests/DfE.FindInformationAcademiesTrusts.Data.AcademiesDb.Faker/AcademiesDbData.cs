@@ -1,6 +1,8 @@
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker;
 
-public record AcademiesDbData(Establishment[] Establishments, Governance[] Governances, GroupLink[] GroupLinks,
-    Group[] Groups, MstrTrust[] MstrTrusts);
+public record AcademiesDbData(GiasEstablishment[] GiasEstablishments, GiasGovernance[] GiasGovernances,
+    GiasGroupLink[] GiasGroupLinks,
+    GiasGroup[] GiasGroups, MstrTrust[] MstrTrusts);

@@ -1,5 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Factories;
 
@@ -8,9 +8,9 @@ public class GovernorFactoryTests
     private readonly GovernorFactory _sut = new();
 
     [Fact]
-    public void CreateFrom_should_transform_a_governance_into_a_governor()
+    public void CreateFrom_should_transform_a_giasGovernance_into_a_governor()
     {
-        var governance = new Governance
+        var giasGovernance = new GiasGovernance
         {
             Gid = "1011111",
             Uid = "1234",
@@ -24,7 +24,7 @@ public class GovernorFactoryTests
             Title = "Mr"
         };
 
-        var result = _sut.CreateFrom(governance);
+        var result = _sut.CreateFrom(giasGovernance);
 
         result.Should().BeEquivalentTo(new Governor(
                 "1011111",
@@ -46,7 +46,7 @@ public class GovernorFactoryTests
     public void GetFullName_should_return_full_name(string forename1, string forename2, string surname,
         string expectedFullName)
     {
-        var governance = new Governance
+        var giasGovernance = new GiasGovernance
         {
             Gid = "1011111",
             Uid = "1234",
@@ -60,7 +60,7 @@ public class GovernorFactoryTests
             Title = "not used"
         };
 
-        var result = _sut.CreateFrom(governance);
+        var result = _sut.CreateFrom(giasGovernance);
 
         result.FullName.Should().Be(expectedFullName);
     }

@@ -29,19 +29,19 @@ public class TrustProvider : ITrustProvider
 
     public async Task<Trust?> GetTrustByUidAsync(string uid)
     {
-        var group = await _academiesDbContext.Groups.SingleOrDefaultAsync(g => g.GroupUid == uid);
-        if (group is null) return null;
+        var giasGroup = await _academiesDbContext.Groups.SingleOrDefaultAsync(g => g.GroupUid == uid);
+        if (giasGroup is null) return null;
 
         var mstrTrust = await _academiesDbContext.MstrTrusts.SingleOrDefaultAsync(m => m.GroupUid == uid);
         var academies = await GetAcademiesLinkedTo(uid);
         var governors = await GetGovernorsLinkedTo(uid);
 
-        return _trustFactory.CreateTrustFrom(group, mstrTrust, academies, governors);
+        return _trustFactory.CreateTrustFrom(giasGroup, mstrTrust, academies, governors);
     }
 
     private async Task<Governor[]> GetGovernorsLinkedTo(string uid)
     {
-        return await _academiesDbContext.Governances
+        return await _academiesDbContext.GiasGovernances
             .Where(g => g.Uid == uid)
             .Select(g => _governorFactory.CreateFrom(g))
             .ToArrayAsync();
@@ -50,8 +50,8 @@ public class TrustProvider : ITrustProvider
     private async Task<Academy[]> GetAcademiesLinkedTo(string uid)
     {
         return await _academiesDbContext
-            .GroupLinks.Where(gl => gl.GroupUid == uid && gl.Urn != null)
-            .Join(_academiesDbContext.Establishments,
+            .GiasGroupLinks.Where(gl => gl.GroupUid == uid && gl.Urn != null)
+            .Join(_academiesDbContext.GiasEstablishments,
                 gl => gl.Urn!,
                 e => e.Urn.ToString(),
                 (gl, e) => _academyFactory.CreateAcademyFrom(gl, e))

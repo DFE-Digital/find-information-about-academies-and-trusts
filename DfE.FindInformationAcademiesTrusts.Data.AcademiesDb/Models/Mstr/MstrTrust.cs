@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 
 [ExcludeFromCodeCoverage] // Database model POCO
 public class MstrTrust

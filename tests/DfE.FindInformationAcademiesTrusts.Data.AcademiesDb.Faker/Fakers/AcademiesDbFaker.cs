@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Helpers;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Fakers;
 
@@ -20,21 +21,21 @@ public class AcademiesDbFaker
         var mstrTrusts = groups.Select(GenerateMstrTrust).ToArray();
 
         return new AcademiesDbData(
-            Array.Empty<Establishment>(),
-            Array.Empty<Governance>(),
-            Array.Empty<GroupLink>(),
+            Array.Empty<GiasEstablishment>(),
+            Array.Empty<GiasGovernance>(),
+            Array.Empty<GiasGroupLink>(),
             groups,
             mstrTrusts);
     }
 
-    private Group GenerateGroup(TrustToGenerate trustToGenerate)
+    private GiasGroup GenerateGroup(TrustToGenerate trustToGenerate)
     {
-        var fakeGroup = new GroupFaker(trustToGenerate, _counter++);
+        var fakeGroup = new GiasGroupFaker(trustToGenerate, _counter++);
         return fakeGroup.Generate();
     }
 
-    private MstrTrust GenerateMstrTrust(Group group)
+    private MstrTrust GenerateMstrTrust(GiasGroup giasGroup)
     {
-        return new MstrTrustFaker(group.GroupUid!, _regions).Generate();
+        return new MstrTrustFaker(giasGroup.GroupUid!, _regions).Generate();
     }
 }

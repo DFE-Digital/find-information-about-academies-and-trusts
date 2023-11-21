@@ -1,23 +1,24 @@
 using System.Linq.Expressions;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 
 public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 {
-    private readonly List<GroupLink> _groupLinks = new();
+    private readonly List<GiasGroupLink> _giasGroupLinks = new();
 
     public MockAcademiesDbContext()
     {
-        Setup(academiesDbContext => academiesDbContext.GroupLinks)
-            .Returns(new MockDbSet<GroupLink>(_groupLinks).Object);
+        Setup(academiesDbContext => academiesDbContext.GiasGroupLinks)
+            .Returns(new MockDbSet<GiasGroupLink>(_giasGroupLinks).Object);
     }
 
-    public List<Group> SetupMockDbContextGroups(int numMatches)
+    public List<GiasGroup> SetupMockDbContextGiasGroups(int numMatches)
     {
         return SetupMockDbContext(numMatches,
-            i => new Group
+            i => new GiasGroup
             {
                 GroupName = $"trust {i}", GroupUid = $"{i}", GroupId = $"TR0{i}", GroupType = "Multi-academy trust"
             },
@@ -35,26 +36,26 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             academiesDbContext => academiesDbContext.MstrTrusts);
     }
 
-    public List<Establishment> SetupMockDbContextEstablishment(int numMatches)
+    public List<GiasEstablishment> SetupMockDbContextGiasEstablishment(int numMatches)
     {
         return SetupMockDbContext(numMatches,
-            i => new Establishment
+            i => new GiasEstablishment
             {
                 Urn = i,
                 EstablishmentName = $"Academy {i}"
             },
-            academiesDbContext => academiesDbContext.Establishments);
+            academiesDbContext => academiesDbContext.GiasEstablishments);
     }
 
-    public List<Governance> SetupMockDbContextGovernance(int numMatches, string groupUid)
+    public List<GiasGovernance> SetupMockDbContextGiasGovernance(int numMatches, string groupUid)
     {
         return SetupMockDbContext(numMatches,
-            i => new Governance
+            i => new GiasGovernance
             {
                 Uid = groupUid,
                 Forename1 = $"Governor {i}"
             },
-            academiesDbContext => academiesDbContext.Governances);
+            academiesDbContext => academiesDbContext.GiasGovernances);
     }
 
     private List<T> SetupMockDbContext<T>(int numMatches, Func<int, T> itemCreator,
@@ -72,20 +73,20 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         return items;
     }
 
-    public List<(Establishment establishment, GroupLink groupLink)> LinkEstablishmentsToGroup(
-        IEnumerable<Establishment> establishments, Group group)
+    public List<(GiasEstablishment giasEstablishment, GiasGroupLink groupLink)> LinkGiasEstablishmentsToGiasGroup(
+        IEnumerable<GiasEstablishment> giasEstablishments, GiasGroup giasGroup)
     {
-        var establishmentGroupLinks = new List<(Establishment, GroupLink)>();
-        foreach (var establishment in establishments)
+        var establishmentGroupLinks = new List<(GiasEstablishment, GiasGroupLink)>();
+        foreach (var giasEstablishment in giasEstablishments)
         {
-            var groupLink = new GroupLink
+            var giasGroupLink = new GiasGroupLink
             {
-                GroupUid = group.GroupUid,
-                Urn = establishment.Urn.ToString()
+                GroupUid = giasGroup.GroupUid,
+                Urn = giasEstablishment.Urn.ToString()
             };
 
-            establishmentGroupLinks.Add((establishment, groupLink));
-            _groupLinks.Add(groupLink);
+            establishmentGroupLinks.Add((giasEstablishment, giasGroupLink));
+            _giasGroupLinks.Add(giasGroupLink);
         }
 
         return establishmentGroupLinks;

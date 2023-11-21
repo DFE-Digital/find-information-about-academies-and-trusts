@@ -1,5 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Factories;
 
@@ -8,9 +8,9 @@ public class AcademyFactoryTests
     private readonly AcademyFactory _sut = new();
 
     [Fact]
-    public void CreateAcademyFrom_should_transform_an_establishment_into_an_academy()
+    public void CreateAcademyFrom_should_transform_a_giasEstablishment_into_an_academy()
     {
-        var establishment = new Establishment
+        var giasEstablishment = new GiasEstablishment
         {
             Urn = 1234,
             EstablishmentName = "trust 1",
@@ -27,7 +27,7 @@ public class AcademyFactoryTests
             OfstedRatingName = "Good"
         };
 
-        var result = _sut.CreateAcademyFrom(new GroupLink { JoinedDate = "16/11/2023" }, establishment);
+        var result = _sut.CreateAcademyFrom(new GiasGroupLink { JoinedDate = "16/11/2023" }, giasEstablishment);
 
         result.Should().BeEquivalentTo(new Academy(
                 1234,
