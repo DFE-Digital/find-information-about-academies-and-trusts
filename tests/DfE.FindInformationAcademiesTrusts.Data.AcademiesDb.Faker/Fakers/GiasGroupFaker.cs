@@ -8,26 +8,28 @@ public class GiasGroupFaker
 {
     private readonly Faker<GiasGroup> _giasGroupFaker;
 
-    public GiasGroupFaker(TrustToGenerate trustToGenerate, int uid)
+    public GiasGroupFaker(DateTime refDate)
     {
         _giasGroupFaker = new Faker<GiasGroup>("en_GB")
-            .RuleFor(g => g.GroupName, trustToGenerate.Name)
-            .RuleFor(g => g.GroupUid, f => $"{uid}")
             .RuleFor(g => g.GroupId, f => $"TR{f.Random.Int(0, 9999)}")
             .RuleFor(g => g.Ukprn, f => $"100{f.Random.Int(0, 99999):D5}")
-            .RuleFor(g => g.GroupType, trustToGenerate.TrustType)
             .RuleFor(g => g.GroupContactStreet, f => $"{f.Address.BuildingNumber()} {f.Address.StreetName()}")
             .RuleFor(g => g.GroupContactLocality, f => f.PickRandom(f.Address.StreetName(), string.Empty))
             .RuleFor(g => g.GroupContactTown, f => f.PickRandom(f.Address.City(), string.Empty))
             .RuleFor(g => g.GroupContactPostcode, f => f.Address.ZipCode())
             .RuleFor(g => g.IncorporatedOnOpenDate,
-                f => f.Date.Past(10, new DateTime(2023, 11, 9))
-                    .ToString("dd/MM/yyyy")) //Need a ref date for `Date.Past` so the data generated doesn't change every day
+                f => f.Date.Past(10, refDate)
+                    .ToString("dd/MM/yyyy"))
             .RuleFor(g => g.CompaniesHouseNumber, f => f.Random.Int(1100000, 09999999).ToString("D8"));
     }
 
-    public GiasGroup Generate()
+    public GiasGroup Generate(TrustToGenerate trustToGenerate, int uid)
     {
-        return _giasGroupFaker.Generate();
+        var fakeGiasGroup = _giasGroupFaker.Generate();
+        fakeGiasGroup.GroupName = trustToGenerate.Name;
+        fakeGiasGroup.GroupType = trustToGenerate.TrustType;
+        fakeGiasGroup.GroupUid = uid.ToString();
+
+        return fakeGiasGroup;
     }
 }
