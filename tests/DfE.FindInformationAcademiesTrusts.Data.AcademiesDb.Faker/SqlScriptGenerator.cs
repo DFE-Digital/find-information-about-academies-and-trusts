@@ -1,5 +1,4 @@
 using System.Reflection;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Fakers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -29,13 +28,15 @@ public static class SqlScriptGenerator
         AcademiesDbData fakeData)
     {
         var insertScript = string.Join("; ",
-            GenerateSqlInsertScriptSegmentFor(fakeData.Groups, context),
-            GenerateSqlInsertScriptSegmentFor(fakeData.MstrTrusts, context)
+            GenerateSqlInsertScriptSegmentFor(fakeData.GiasGroups, context),
+            GenerateSqlInsertScriptSegmentFor(fakeData.MstrTrusts, context),
+            GenerateSqlInsertScriptSegmentFor(fakeData.GiasGroupLinks, context),
+            GenerateSqlInsertScriptSegmentFor(fakeData.GiasEstablishments, context)
         );
         File.WriteAllText(outputFilePath, insertScript);
     }
 
-    private static string GenerateSqlInsertScriptSegmentFor<T>(T[] fakeObjects, AcademiesDbContext context)
+    private static string GenerateSqlInsertScriptSegmentFor<T>(List<T> fakeObjects, AcademiesDbContext context)
     {
         var objProperties = typeof(T).GetProperties();
         var entityType = context.Model.FindEntityTypes(typeof(T)).FirstOrDefault()!;

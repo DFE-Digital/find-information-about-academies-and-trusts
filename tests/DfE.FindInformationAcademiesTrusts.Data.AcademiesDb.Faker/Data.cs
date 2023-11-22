@@ -116,4 +116,59 @@ public static class Data
         "Yorkshire and the Humber",
         "South West"
     };
+
+    public static string[] LocalAuthorities { get; } =
+    {
+        "Barnsley",
+        "Bradford",
+        "Calderdale",
+        "Doncaster",
+        "East Riding of Yorkshire",
+        "Kingston upon Hull, City of",
+        "Kirklees",
+        "Leeds",
+        "North East Lincolnshire",
+        "North Lincolnshire",
+        "North Yorkshire",
+        "Rotherham",
+        "Sheffield",
+        "Wakefield",
+        "York"
+    };
+
+    public static string[] Schools { get; } =
+    {
+        "St. Mary's",
+        "St. Marys",
+        "St. John's",
+        "St. Peter's",
+        "St. Joseph's",
+        "St. Paul's",
+        "St. James'",
+        "St. James's",
+        "St. Anne's",
+        "St. Catherine's",
+        "Momentum Community",
+        "Barr and Community",
+        "Beacon",
+        "Co-op",
+        "George Abbey",
+        "Glyn",
+        "Greensward",
+        "Halewood",
+        "Harris",
+        "Holly Lodge Girls'",
+        "Lampton",
+        "Limehurst",
+        "Longhill",
+        "Malbank",
+        "Meridian",
+        "Mulberry",
+        "Northwood",
+        "Oasis",
+        "Horizon",
+        "Peacehaven Community",
+        "Queen Elizabeth's",
+        "Queensbridge"
+    };
 }

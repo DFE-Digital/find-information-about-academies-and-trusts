@@ -14,7 +14,7 @@ public static class Program
             Randomizer.Seed = new Random(28698);
 
 
-            var faker = new AcademiesDbFaker(Data.Regions);
+            var faker = new AcademiesDbFaker(Data.Regions, Data.LocalAuthorities, Data.Schools);
             var academiesDbData = faker.Generate(Data.TrustsToGenerate);
 
             SqlScriptGenerator.GenerateAndSaveSqlScripts(academiesDbData, "data/createScript.sql",

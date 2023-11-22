@@ -1,15 +1,13 @@
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 
-namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Fakers;
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker;
 
 public class AcademiesDbData
 {
-    public readonly Group[] Groups;
-    public readonly MstrTrust[] MstrTrusts;
-
-    public AcademiesDbData(Group[] groups, MstrTrust[] mstrTrusts)
-    {
-        Groups = groups;
-        MstrTrusts = mstrTrusts;
-    }
+    public List<GiasEstablishment> GiasEstablishments { get; } = new();
+    public List<GiasGovernance> GiasGovernances { get; } = new();
+    public List<GiasGroupLink> GiasGroupLinks { get; } = new();
+    public List<GiasGroup> GiasGroups { get; } = new();
+    public List<MstrTrust> MstrTrusts { get; } = new();
 }

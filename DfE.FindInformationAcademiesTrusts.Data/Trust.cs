@@ -9,5 +9,9 @@ public record Trust(
     string Address,
     DateTime? OpenedDate,
     string CompaniesHouseNumber,
-    string RegionAndTerritory
+    string RegionAndTerritory,
+    Academy[] Academies,
+    Governor[] Governors,
+    Person? TrustRelationshipManager,
+    Person? SfsoLead
 );

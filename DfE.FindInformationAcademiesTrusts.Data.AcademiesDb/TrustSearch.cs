@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
@@ -6,18 +7,16 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 public class TrustSearch : ITrustSearch
 {
     private readonly IAcademiesDbContext _academiesDbContext;
-    private readonly ITrustHelper _trustHelper;
     private const int PageSize = 20;
 
     [ExcludeFromCodeCoverage] // This constructor is used by the DI container and is not unit testable
-    public TrustSearch(AcademiesDbContext academiesDbContext, ITrustHelper trustHelper)
-        : this((IAcademiesDbContext)academiesDbContext, trustHelper)
+    public TrustSearch(AcademiesDbContext academiesDbContext)
+        : this((IAcademiesDbContext)academiesDbContext)
     {
     }
 
-    public TrustSearch(IAcademiesDbContext academiesDbContext, ITrustHelper trustHelper)
+    public TrustSearch(IAcademiesDbContext academiesDbContext)
     {
-        _trustHelper = trustHelper;
         _academiesDbContext = academiesDbContext;
     }
 
@@ -45,7 +44,7 @@ public class TrustSearch : ITrustSearch
             .Skip((page - 1) * PageSize)
             .Take(PageSize)
             .Select(g =>
-                new TrustSearchEntry(g.GroupName!, _trustHelper.BuildAddressString(g), g.GroupUid!, g.GroupId!))
+                new TrustSearchEntry(g.GroupName!, g.BuildAddressString(), g.GroupUid!, g.GroupId!))
             .ToArrayAsync();
 
         return new PaginatedList<TrustSearchEntry>(trustSearchEntries, count, page, PageSize);
