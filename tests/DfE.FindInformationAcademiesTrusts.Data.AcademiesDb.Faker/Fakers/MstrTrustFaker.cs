@@ -7,15 +7,16 @@ public class MstrTrustFaker
 {
     private readonly Faker<MstrTrust> _mstrTrustFaker;
 
-    public MstrTrustFaker(string uid, string?[] region)
+    public MstrTrustFaker(string?[] region)
     {
         _mstrTrustFaker = new Faker<MstrTrust>()
-            .RuleFor(t => t.GroupUid, uid)
             .RuleFor(t => t.GORregion, f => f.PickRandom(region));
     }
 
-    public MstrTrust Generate()
+    public MstrTrust Generate(string uid)
     {
-        return _mstrTrustFaker.Generate();
+        var fakeMstrTrust = _mstrTrustFaker.Generate();
+        fakeMstrTrust.GroupUid = uid;
+        return fakeMstrTrust;
     }
 }

@@ -7,21 +7,24 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Fakers;
 public class AcademiesDbFaker
 {
     private int _counter = 1233;
-    private readonly string?[] _regions;
+    private readonly Bogus.Faker _generalFaker = new();
+
     private readonly string?[] _localAuthorities;
     private readonly GiasGroupLinkFaker _giasGroupLinkFaker;
-    private readonly Bogus.Faker _generalFaker = new();
     private readonly GiasEstablishmentFaker _giasEstablishmentFaker;
+    private readonly GiasGroupFaker _giasGroupFaker;
+    private readonly MstrTrustFaker _mstrTrustFaker;
 
     public AcademiesDbFaker(string?[] regions, string?[] localAuthorities, string[] fakeSchoolNames)
     {
         // Need a ref date for any use of `faker.Date` so the data generated doesn't change every day
         var refDate = new DateTime(2023, 11, 9);
 
-        _regions = regions;
         _localAuthorities = localAuthorities;
+        _giasGroupFaker = new GiasGroupFaker(refDate);
         _giasEstablishmentFaker = new GiasEstablishmentFaker(fakeSchoolNames);
         _giasGroupLinkFaker = new GiasGroupLinkFaker(refDate);
+        _mstrTrustFaker = new MstrTrustFaker(regions);
     }
 
     public AcademiesDbData Generate(TrustToGenerate[] trustsToGenerate)
@@ -44,13 +47,12 @@ public class AcademiesDbFaker
 
     private GiasGroup GenerateGroup(TrustToGenerate trustToGenerate)
     {
-        var fakeGroup = new GiasGroupFaker(trustToGenerate, _counter++);
-        return fakeGroup.Generate();
+        return _giasGroupFaker.Generate(trustToGenerate, _counter++);
     }
 
     private MstrTrust GenerateMstrTrust(string? uid)
     {
-        return new MstrTrustFaker(uid!, _regions).Generate();
+        return _mstrTrustFaker.Generate(uid!);
     }
 
     private GiasGroupLink GenerateGroupLink(GiasEstablishment establishment, GiasGroup giasGroup)
