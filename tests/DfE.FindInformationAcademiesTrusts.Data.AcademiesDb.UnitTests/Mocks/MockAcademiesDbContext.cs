@@ -53,9 +53,21 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             i => new GiasGovernance
             {
                 Uid = groupUid,
+                Gid = i.ToString(),
                 Forename1 = $"Governor {i}"
             },
             academiesDbContext => academiesDbContext.GiasGovernances);
+    }
+
+    public List<MstrTrustGovernance> SetupMockDbContextMstrTrustGovernance(int numMatches)
+    {
+        return SetupMockDbContext(numMatches,
+            i => new MstrTrustGovernance
+            {
+                Gid = i.ToString(),
+                Forename1 = $"Governor {i}"
+            },
+            academiesDbContext => academiesDbContext.MstrTrustGovernances);
     }
 
     private List<T> SetupMockDbContext<T>(int numMatches, Func<int, T> itemCreator,
