@@ -11,9 +11,9 @@ public class ApplicationInsightsOptionsTests
     }
 
     [Fact]
-    public void ApplicationInsightsOptions_Should_Have_A_Nullable_String_Available_Called_ConnectionString()
+    public void ApplicationInsightsOptions_Should_Have_A_String_Available_Called_ConnectionString()
     {
         var sut = new ApplicationInsightsOptions();
-        sut.ConnectionString.Should().Be(null);
+        sut.ConnectionString.Should().BeNull();
     }
 }
