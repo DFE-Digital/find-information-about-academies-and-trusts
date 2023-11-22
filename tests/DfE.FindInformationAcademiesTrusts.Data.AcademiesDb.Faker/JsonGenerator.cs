@@ -11,12 +11,19 @@ public static class JsonGenerator
             { WriteIndented = true, PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
         var trustHelper = new TrustFactory();
+        var academyFactory = new AcademyFactory();
         var trusts = fakeData.GiasGroups
             .OrderBy(g => g.GroupName)
-            .Select(g => trustHelper
-                .CreateTrustFrom(g, fakeData.MstrTrusts.FirstOrDefault(t => t.GroupUid == g.GroupUid)!,
-                    Array.Empty<Academy>(), Array.Empty<Governor>())
-            );
+            .Select(g =>
+            {
+                var academies = fakeData.GiasGroupLinks.Where(gl => gl.GroupUid == g.GroupUid && gl.Urn != null)
+                    .Join(fakeData.GiasEstablishments, e => e.Urn, gl => gl.Urn.ToString(),
+                        (gl, e) => academyFactory.CreateAcademyFrom(gl, e)).ToArray();
+
+                return trustHelper
+                    .CreateTrustFrom(g, fakeData.MstrTrusts.FirstOrDefault(t => t.GroupUid == g.GroupUid)!,
+                        academies, Array.Empty<Governor>());
+            });
 
         File.WriteAllText(outputFilePath, JsonSerializer.Serialize(trusts, serializeOptions));
     }
