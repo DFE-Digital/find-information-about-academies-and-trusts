@@ -29,7 +29,9 @@ public static class SqlScriptGenerator
     {
         var insertScript = string.Join("; ",
             GenerateSqlInsertScriptSegmentFor(fakeData.GiasGroups, context),
-            GenerateSqlInsertScriptSegmentFor(fakeData.MstrTrusts, context)
+            GenerateSqlInsertScriptSegmentFor(fakeData.MstrTrusts, context),
+            GenerateSqlInsertScriptSegmentFor(fakeData.GiasGroupLinks, context),
+            GenerateSqlInsertScriptSegmentFor(fakeData.GiasEstablishments, context)
         );
         File.WriteAllText(outputFilePath, insertScript);
     }
