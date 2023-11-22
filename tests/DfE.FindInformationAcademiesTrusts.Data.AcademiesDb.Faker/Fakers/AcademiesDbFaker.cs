@@ -9,15 +9,19 @@ public class AcademiesDbFaker
     private int _counter = 1233;
     private readonly string?[] _regions;
     private readonly string?[] _localAuthorities;
-    private readonly GiasGroupLinkFaker _giasGroupLinkFaker = new();
+    private readonly GiasGroupLinkFaker _giasGroupLinkFaker;
     private readonly Bogus.Faker _generalFaker = new();
-    private readonly GiasEstablishmentFaker _establishmentFaker;
+    private readonly GiasEstablishmentFaker _giasEstablishmentFaker;
 
     public AcademiesDbFaker(string?[] regions, string?[] localAuthorities, string[] fakeSchoolNames)
     {
+        // Need a ref date for any use of `faker.Date` so the data generated doesn't change every day
+        var refDate = new DateTime(2023, 11, 9);
+
         _regions = regions;
         _localAuthorities = localAuthorities;
-        _establishmentFaker = new GiasEstablishmentFaker(fakeSchoolNames);
+        _giasEstablishmentFaker = new GiasEstablishmentFaker(fakeSchoolNames);
+        _giasGroupLinkFaker = new GiasGroupLinkFaker(refDate);
     }
 
     public AcademiesDbData Generate(TrustToGenerate[] trustsToGenerate)
@@ -59,14 +63,14 @@ public class AcademiesDbFaker
 
     private IEnumerable<GiasEstablishment> GenerateAcademies(TrustToGenerate trustToGenerate, string uid)
     {
-        _establishmentFaker.SetUid(uid).SetLocalAuthoritiesSelection(
+        _giasEstablishmentFaker.SetUid(uid).SetLocalAuthoritiesSelection(
             _generalFaker.PickRandom(_localAuthorities, _generalFaker.Random.Int(1, 4)).ToArray());
 
         if (trustToGenerate.Schools.Any())
         {
-            return _establishmentFaker.Generate(trustToGenerate.Schools);
+            return _giasEstablishmentFaker.Generate(trustToGenerate.Schools);
         }
 
-        return _establishmentFaker.Generate(_generalFaker.Random.Int(0, 11));
+        return _giasEstablishmentFaker.Generate(_generalFaker.Random.Int(0, 11));
     }
 }

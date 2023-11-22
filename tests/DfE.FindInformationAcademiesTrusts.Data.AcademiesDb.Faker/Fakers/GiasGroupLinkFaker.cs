@@ -9,12 +9,12 @@ public class GiasGroupLinkFaker
     private readonly Faker<GiasGroupLink> _groupLinkFaker;
     private string? _giasGroupOpenedDate;
 
-    public GiasGroupLinkFaker()
+    public GiasGroupLinkFaker(DateTime refDate)
     {
         _groupLinkFaker = new Faker<GiasGroupLink>("en_GB")
             .RuleFor(t => t.JoinedDate, f => f.Date.Between(
                     DateTime.ParseExact(_giasGroupOpenedDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture),
-                    new DateTime(2023, 11, 9)).ToString("dd/MM/yyyy")
+                    refDate).ToString("dd/MM/yyyy")
             );
     }
 
