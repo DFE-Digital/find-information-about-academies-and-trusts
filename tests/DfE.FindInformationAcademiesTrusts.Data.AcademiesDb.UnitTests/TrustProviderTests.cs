@@ -13,6 +13,7 @@ public class TrustProviderTests
     private readonly List<MstrTrust> _mstrTrusts;
     private readonly List<GiasEstablishment> _giasEstablishments;
     private readonly List<GiasGovernance> _giasGovernances;
+    private readonly List<MstrTrustGovernance> _mstrTrustGovernances;
     private readonly Mock<ITrustFactory> _mockTrustFactory = new();
     private readonly Mock<IAcademyFactory> _mockAcademyFactory = new();
     private readonly Mock<IGovernorFactory> _mockGovernorFactory = new();
@@ -24,6 +25,7 @@ public class TrustProviderTests
         _mstrTrusts = _mockAcademiesDbContext.SetupMockDbContextMstrTrust(5);
         _giasEstablishments = _mockAcademiesDbContext.SetupMockDbContextGiasEstablishment(15);
         _giasGovernances = _mockAcademiesDbContext.SetupMockDbContextGiasGovernance(20, "Some other trust");
+        _mstrTrustGovernances = _mockAcademiesDbContext.SetupMockDbContextMstrTrustGovernance(20);
 
         _sut = new TrustProvider(_mockAcademiesDbContext.Object, _mockTrustFactory.Object, _mockAcademyFactory.Object,
             _mockGovernorFactory.Object);
@@ -130,10 +132,6 @@ public class TrustProviderTests
 
         var expectedGovernors = SetUpGovernorsLinkedToTrust(5, groupUid);
 
-        _mockTrustFactory
-            .Setup(t => t.CreateTrustFrom(giasGroup, mstrTrust, Array.Empty<Academy>(), It.IsAny<Governor[]>()))
-            .Returns(DummyTrustFactory.GetDummyTrust(groupUid));
-
         await _sut.GetTrustByUidAsync(groupUid);
 
         _mockTrustFactory.Verify(t =>
@@ -178,25 +176,30 @@ public class TrustProviderTests
 
     private List<Governor> SetUpGovernorsLinkedToTrust(int num, string groupUid)
     {
-        var newGiasGovernances = new List<GiasGovernance>();
-        for (var i = 0; i < num; i++)
-        {
-            newGiasGovernances.Add(new GiasGovernance
-            {
-                Uid = groupUid,
-                Forename1 = $"Governor {i}"
-            });
-        }
-
-        _giasGovernances.AddRange(newGiasGovernances);
-
+        var numExistingGovernances = _giasGovernances.Count;
         var governorsLinkedToTrust = new List<Governor>();
 
-        var dummyGovernorFactory = new DummyGovernorFactory();
-        foreach (var giasGovernance in newGiasGovernances)
+        for (var i = 0; i < num; i++)
         {
-            var dummyGovernor = dummyGovernorFactory.GetDummyGovernor(groupUid);
-            _mockGovernorFactory.Setup(g => g.CreateFrom(giasGovernance))
+            var gid = (i + numExistingGovernances).ToString();
+            var giasGovernance = new GiasGovernance
+            {
+                Gid = gid,
+                Uid = groupUid,
+                Forename1 = $"Governor {i}"
+            };
+            var mstrTrustGovernance = new MstrTrustGovernance
+            {
+                Gid = gid,
+                Forename1 = $"Governor {i}",
+                Email = $"governor{i}@trust{groupUid}.com"
+            };
+
+            _giasGovernances.Add(giasGovernance);
+            _mstrTrustGovernances.Add(mstrTrustGovernance);
+
+            var dummyGovernor = DummyGovernorFactory.GetDummyGovernor(gid, groupUid);
+            _mockGovernorFactory.Setup(g => g.CreateFrom(giasGovernance, mstrTrustGovernance))
                 .Returns(dummyGovernor);
             governorsLinkedToTrust.Add(dummyGovernor);
         }
