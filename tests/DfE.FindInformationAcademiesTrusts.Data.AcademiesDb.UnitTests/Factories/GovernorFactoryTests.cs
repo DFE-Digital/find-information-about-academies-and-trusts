@@ -8,6 +8,12 @@ public class GovernorFactoryTests
 {
     private readonly GovernorFactory _sut = new();
 
+    private readonly MstrTrustGovernance _mstrTrustGovernance = new()
+    {
+        Gid = "1011111",
+        Email = "ms.governor@thetrust.com"
+    };
+
     [Fact]
     public void CreateFrom_should_transform_a_giasGovernance_into_a_governor()
     {
@@ -18,44 +24,23 @@ public class GovernorFactoryTests
             AppointingBody = "Appointed by GB/board",
             DateOfAppointment = "01/09/2023",
             DateTermOfOfficeEndsEnded = "01/09/2024",
-            Forename1 = "Oliver",
-            Forename2 = "Jane",
-            Surname = "Wood",
-            Role = "Trustee",
-            Title = "Mr"
+            Role = "Trustee"
         };
 
-        var result = _sut.CreateFrom(giasGovernance, null);
+        var result = _sut.CreateFrom(giasGovernance, _mstrTrustGovernance);
 
-        result.Should().BeEquivalentTo(new Governor(
-                "1011111",
-                "1234",
-                "Oliver Jane Wood",
-                "Trustee",
-                "Appointed by GB/board",
-                new DateTime(2023, 09, 01),
-                new DateTime(2024, 09, 01),
-                null
-            )
-        );
+        result.GID.Should().Be("1011111");
+        result.UID.Should().Be("1234");
+        result.Role.Should().Be("Trustee");
+        result.AppointingBody.Should().Be("Appointed by GB/board");
+        result.DateOfAppointment.Should().Be(new DateTime(2023, 09, 01));
+        result.DateOfTermEnd.Should().Be(new DateTime(2024, 09, 01));
     }
 
-    [Fact]
-    public void CreateFrom_should_default_email_to_null_if_no_mstrTrustGovernance()
-    {
-        var giasGovernance = new GiasGovernance
-        {
-            Gid = "1011111",
-            Uid = "1234"
-        };
-
-        var result = _sut.CreateFrom(giasGovernance, null);
-
-        result.Email.Should().BeNull();
-    }
-
-    [Fact]
-    public void CreateFrom_should_use_email_from_mstrTrustGovernance_if_present()
+    [Theory]
+    [InlineData("ms.governor@thetrust.com")]
+    [InlineData("")]
+    public void CreateFrom_should_use_email_from_mstrTrustGovernance(string email)
     {
         var giasGovernance = new GiasGovernance
         {
@@ -65,12 +50,12 @@ public class GovernorFactoryTests
         var mstrTrustGovernance = new MstrTrustGovernance
         {
             Gid = "1011111",
-            Email = "ms.governor@thetrust.com"
+            Email = email
         };
 
         var result = _sut.CreateFrom(giasGovernance, mstrTrustGovernance);
 
-        result.Email.Should().Be("ms.governor@thetrust.com");
+        result.Email.Should().Be(email);
     }
 
     [Theory]
@@ -94,7 +79,7 @@ public class GovernorFactoryTests
             Title = "not used"
         };
 
-        var result = _sut.CreateFrom(giasGovernance, null);
+        var result = _sut.CreateFrom(giasGovernance, _mstrTrustGovernance);
 
         result.FullName.Should().Be(expectedFullName);
     }

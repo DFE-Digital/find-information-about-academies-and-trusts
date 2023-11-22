@@ -6,12 +6,12 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 
 public interface IGovernorFactory
 {
-    Governor CreateFrom(GiasGovernance giasGovernance, MstrTrustGovernance? mstrGovernance);
+    Governor CreateFrom(GiasGovernance giasGovernance, MstrTrustGovernance mstrGovernance);
 }
 
 public class GovernorFactory : IGovernorFactory
 {
-    public Governor CreateFrom(GiasGovernance giasGovernance, MstrTrustGovernance? mstrGovernance)
+    public Governor CreateFrom(GiasGovernance giasGovernance, MstrTrustGovernance mstrGovernance)
     {
         return new Governor(
             giasGovernance.Gid!,
@@ -21,7 +21,7 @@ public class GovernorFactory : IGovernorFactory
             giasGovernance.AppointingBody,
             giasGovernance.DateOfAppointment.ParseAsNullableDate(),
             giasGovernance.DateTermOfOfficeEndsEnded.ParseAsNullableDate(),
-            mstrGovernance?.Email
+            mstrGovernance.Email
         );
     }
 
