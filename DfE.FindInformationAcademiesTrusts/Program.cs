@@ -69,6 +69,7 @@ internal static class Program
             app.UseHsts();
         }
 
+        app.UseSession();
         app.UseSecurityHeaders(GetSecurityHeaderPolicies());
 
         app.UseCookiePolicy(new CookiePolicyOptions
