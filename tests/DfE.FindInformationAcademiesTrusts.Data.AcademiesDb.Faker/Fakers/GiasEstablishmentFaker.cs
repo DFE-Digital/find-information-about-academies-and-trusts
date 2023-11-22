@@ -38,10 +38,10 @@ public class GiasEstablishmentFaker
                     set.RuleFor(e => e.PhaseOfEducationName, f => f.PickRandom("Primary", "Secondary"))
                         .RuleFor(e => e.EstablishmentName, GenerateSchoolName)
                         .RuleFor(e => e.StatutoryLowAge, (f, e) =>
-                            e.PhaseOfEducationName == "Primary" ? f.PickRandom("4", "5") : "11"
+                            GetMinAge(e.PhaseOfEducationName, f)
                         )
                         .RuleFor(e => e.StatutoryHighAge,
-                            (f, e) => e.PhaseOfEducationName == "Primary" ? "11" : f.PickRandom("16", "18"));
+                            (f, e) => GetMaxAge(e.PhaseOfEducationName, f));
                 })
                 .RuleSet("definedSchoolName",
                     set =>
@@ -55,9 +55,9 @@ public class GiasEstablishmentFaker
                                         ? "Secondary"
                                         : f.PickRandom("Primary", "Secondary"))
                             .RuleFor(e => e.StatutoryLowAge,
-                                (f, e) => e.PhaseOfEducationName == "Primary" ? f.PickRandom("4", "5") : "11")
+                                (f, e) => GetMinAge(e.PhaseOfEducationName, f))
                             .RuleFor(e => e.StatutoryHighAge,
-                                (f, a) => a.PhaseOfEducationName == "Primary" ? "11" : f.PickRandom("16", "18"));
+                                (f, e) => GetMaxAge(e.PhaseOfEducationName, f));
                     })
             ;
     }
@@ -74,6 +74,16 @@ public class GiasEstablishmentFaker
         name = $"{name} {faker.PickRandom("School", "Academy")}";
 
         return name;
+    }
+
+    private string GetMinAge(string? phaseOfEducationName, Bogus.Faker faker)
+    {
+        return phaseOfEducationName == "Primary" ? faker.PickRandom("4", "5") : "11";
+    }
+
+    private string GetMaxAge(string? phaseOfEducationName, Bogus.Faker faker)
+    {
+        return phaseOfEducationName == "Primary" ? "11" : faker.PickRandom("16", "18");
     }
 
     public GiasEstablishmentFaker SetLocalAuthoritiesSelection(IEnumerable<string?> localAuthorities)
