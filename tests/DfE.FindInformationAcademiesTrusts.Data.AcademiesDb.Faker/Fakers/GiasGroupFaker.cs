@@ -20,7 +20,8 @@ public class GiasGroupFaker
             .RuleFor(g => g.IncorporatedOnOpenDate,
                 f => f.Date.Past(10, refDate)
                     .ToString("dd/MM/yyyy"))
-            .RuleFor(g => g.CompaniesHouseNumber, f => f.Random.Int(1100000, 09999999).ToString("D8"));
+            .RuleFor(g => g.CompaniesHouseNumber, f => f.Random.Int(1100000, 09999999).ToString("D8"))
+            .RuleFor(g => g.GroupStatus, f => f.PickRandom("Open", "Open", "Closed"));
     }
 
     public GiasGroup Generate(TrustToGenerate trustToGenerate, int uid)

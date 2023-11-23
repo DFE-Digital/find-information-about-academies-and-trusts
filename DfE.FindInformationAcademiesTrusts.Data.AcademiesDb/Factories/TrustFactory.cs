@@ -28,7 +28,8 @@ public class TrustFactory : ITrustFactory
             academies,
             governors,
             trustRelationshipManager,
-            sfsoLead
+            sfsoLead,
+            giasGroup.GroupStatus ?? string.Empty
         );
     }
 }

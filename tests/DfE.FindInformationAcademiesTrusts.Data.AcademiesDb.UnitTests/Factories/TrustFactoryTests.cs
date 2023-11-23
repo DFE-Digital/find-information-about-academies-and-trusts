@@ -18,7 +18,8 @@ public class TrustFactoryTests
         GroupContactTown = "East Park",
         GroupContactPostcode = "JY36 9VC",
         IncorporatedOnOpenDate = "20/12/1990",
-        CompaniesHouseNumber = "00123444"
+        CompaniesHouseNumber = "00123444",
+        GroupStatus = "Open"
     };
 
     [Fact]
@@ -45,7 +46,8 @@ public class TrustFactoryTests
                 Array.Empty<Academy>(),
                 Array.Empty<Governor>(),
                 null,
-                null
+                null,
+                "Open"
             )
         );
     }
@@ -69,7 +71,8 @@ public class TrustFactoryTests
                 Array.Empty<Academy>(),
                 Array.Empty<Governor>(),
                 null,
-                null
+                null,
+                "Open"
             )
         );
     }
@@ -134,7 +137,7 @@ public class TrustFactoryTests
                 new GiasGroup
                 {
                     GroupUid = "1", GroupName = "", GroupId = "", GroupType = "", IncorporatedOnOpenDate = "",
-                    CompaniesHouseNumber = ""
+                    CompaniesHouseNumber = "", GroupStatus = ""
                 },
                 new MstrTrust
                 {
@@ -143,7 +146,7 @@ public class TrustFactoryTests
                 new Trust("1", "", "", null, "", "", null, "", "", Array.Empty<Academy>(),
                     Array.Empty<Governor>(),
                     null,
-                    null)
+                    null, "")
             },
             new object[]
             {
@@ -152,7 +155,7 @@ public class TrustFactoryTests
                 new Trust("2", "", "", null, "", "", null, "", "", Array.Empty<Academy>(),
                     Array.Empty<Governor>(),
                     null,
-                    null)
+                    null, "")
             }
         };
 }

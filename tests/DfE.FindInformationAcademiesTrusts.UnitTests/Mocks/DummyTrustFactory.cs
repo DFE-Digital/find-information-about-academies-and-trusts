@@ -26,6 +26,8 @@ public class DummyTrustFactory
             Array.Empty<Academy>(),
             Array.Empty<Governor>(),
             null,
-            null);
+            null,
+            "Open"
+        );
     }
 }

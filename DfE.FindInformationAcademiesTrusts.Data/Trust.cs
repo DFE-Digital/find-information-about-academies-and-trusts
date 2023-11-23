@@ -13,5 +13,12 @@ public record Trust(
     Academy[] Academies,
     Governor[] Governors,
     Person? TrustRelationshipManager,
-    Person? SfsoLead
-);
+    Person? SfsoLead,
+    string Status
+)
+{
+    public bool IsOpen()
+    {
+        return Status == "Open";
+    }
+}
