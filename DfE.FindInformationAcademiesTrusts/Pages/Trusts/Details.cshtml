@@ -44,17 +44,26 @@
           </dt>
           <dd class="govuk-summary-list__value">
             <p class="govuk-body">
-              <a class="govuk-link" href="#">Companies House</a>
+              <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.CompaniesHouseLink">Companies House</a>
             </p>
-            <p class="govuk-body">
-              <a class="govuk-link" href="#">Get information about schools</a>
-            </p>
-            <p class="govuk-body">
-              <a class="govuk-link" href="#">Schools financial benchmarking</a>
-            </p>
-            <p class="govuk-body">
-              <a class="govuk-link" href="#">Find school college and performance data in England</a>
-            </p>
+            @if (Model.GetInformationAboutSchoolsLink is not null)
+            {
+              <p class="govuk-body">
+                <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.GetInformationAboutSchoolsLink">Get information about schools</a>
+              </p>
+            }
+            @if (Model.SchoolsFinancialBenchmarkingLink is not null)
+            {
+              <p class="govuk-body">
+                <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.SchoolsFinancialBenchmarkingLink">Schools financial benchmarking</a>
+              </p>
+            }
+            @if (Model.FindSchoolPerformanceLink is not null)
+            {
+              <p class="govuk-body">
+                <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.FindSchoolPerformanceLink">Find school college and performance data in England</a>
+              </p>
+            }
           </dd>
         </div>
       </dl>
