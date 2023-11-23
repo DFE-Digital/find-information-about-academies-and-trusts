@@ -164,7 +164,7 @@ internal static class Program
         builder.Services.AddScoped<IGovernorFactory, GovernorFactory>();
         builder.Services.AddScoped<IPersonFactory, PersonFactory>();
         builder.Services.AddScoped<IAuthorizationHandler, HeaderRequirementHandler>();
-        builder.Services.AddScoped<ILinksToOtherServices, LinksToOtherServices>();
+        builder.Services.AddScoped<IOtherServicesLinkBuilder, OtherServicesLinkBuilder>();
         builder.Services.AddHttpContextAccessor();
     }
 

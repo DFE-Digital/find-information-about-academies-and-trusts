@@ -8,27 +8,14 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 public class DetailsModelTests
 {
     private readonly DetailsModel _sut;
-    private readonly string _mockTrustUid = "1234";
-    private readonly string _mockCompaniesHouseNo = "123456";
-    private readonly int _mockAcademyUrn = 1111;
-    private readonly string _mockFinancialBenchmarkingTrustLink = "FinancialBenchmarkingTrustLink";
-    private readonly string _mockFinancialBenchmarkingSchoolLink = "FinancialBenchmarkingSchoolLink";
-    private readonly string _mockFindSchoolPerformanceTrustLink = "FindSchoolPerformanceTrustLink";
-    private readonly string _mockFindSchoolPerformanceSchoolLink = "FindSchoolPerformanceSchoolLink";
-
+    private readonly Mock<IOtherServicesLinkBuilder> _mockLinksToOtherServices = new();
 
     public DetailsModelTests()
     {
-        var mockLinksToOtherServices = new Mock<ILinksToOtherServices>();
-        mockLinksToOtherServices.Setup(s => s.SchoolFinancialBenchmarkingServiceTrustLink(_mockCompaniesHouseNo))
-            .Returns(_mockFinancialBenchmarkingTrustLink);
-        mockLinksToOtherServices.Setup(s => s.SchoolFinancialBenchmarkingServiceSchoolLink(_mockAcademyUrn.ToString()))
-            .Returns(_mockFinancialBenchmarkingSchoolLink);
-        mockLinksToOtherServices.Setup(s => s.FindSchoolPerformanceDataTrustLink(_mockTrustUid))
-            .Returns(_mockFindSchoolPerformanceTrustLink);
-        mockLinksToOtherServices.Setup(s => s.FindSchoolPerformanceDataSchoolLink(_mockAcademyUrn.ToString()))
-            .Returns(_mockFindSchoolPerformanceSchoolLink);
-        _sut = new DetailsModel(new Mock<ITrustProvider>().Object, mockLinksToOtherServices.Object);
+        var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
+        var mockTrustProvider = new Mock<ITrustProvider>();
+        mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrust);
+        _sut = new DetailsModel(mockTrustProvider.Object, _mockLinksToOtherServices.Object);
     }
 
     [Fact]
@@ -38,84 +25,71 @@ public class DetailsModelTests
     }
 
     [Fact]
-    public void SchoolsFinancialBenchmarkingLink_Should_return_trust_link_if_multi_academy_trust()
+    public async Task CompaniesHouseLink_is_null_if_link_builder_returns_null()
     {
-        _sut.Trust = DummyTrustFactory.GetDummyMultiAcademyTrust(_mockTrustUid, _mockCompaniesHouseNo);
-        var result = _sut.SchoolsFinancialBenchmarkingLink();
-
-        result.Should()
-            .Be(_mockFinancialBenchmarkingTrustLink);
+        _mockLinksToOtherServices.Setup(l => l.CompaniesHouseListingLink(_sut.Trust)).Returns((string?)null);
+        await _sut.OnGetAsync();
+        _sut.CompaniesHouseLink.Should().BeNull();
     }
 
     [Fact]
-    public void SchoolsFinancialBenchmarkingLink_Should_return_school_link_if_single_academy_trust()
+    public async Task CompaniesHouseLink_is_string_if_link_builder_returns_string()
     {
-        var dummyAcademy = DummyAcademyFactory.GetDummyAcademy(_mockAcademyUrn);
-
-        _sut.Trust = DummyTrustFactory.GetDummySingleAcademyTrust(_mockTrustUid, dummyAcademy);
-        var result = _sut.SchoolsFinancialBenchmarkingLink();
-
-        result.Should()
-            .Be(_mockFinancialBenchmarkingSchoolLink);
+        _mockLinksToOtherServices.Setup(l => l.CompaniesHouseListingLink(_sut.Trust)).Returns("url");
+        await _sut.OnGetAsync();
+        _sut.CompaniesHouseLink.Should().Be("url");
     }
 
     [Fact]
-    public void FindSchoolPerformanceDataLink_should_return_trust_link_if_multi_academy_trust()
+    public async Task GetInformationAboutSchoolsLink_is_null_if_link_builder_returns_null()
     {
-        _sut.Trust = DummyTrustFactory.GetDummyMultiAcademyTrust(_mockTrustUid);
-        var result = _sut.FindSchoolPerformanceDataLink();
-
-        result.Should()
-            .Be(_mockFindSchoolPerformanceTrustLink);
+        _mockLinksToOtherServices.Setup(l => l.GetInformationAboutSchoolsListingLink(_sut.Trust))
+            .Returns((string?)null);
+        await _sut.OnGetAsync();
+        _sut.GetInformationAboutSchoolsLink.Should().BeNull();
     }
 
     [Fact]
-    public void FindSchoolPerformanceDataLink_Should_return_school_link_if_single_academy_trust()
+    public async Task GetInformationAboutSchoolsLink_is_string_if_link_builder_returns_string()
     {
-        var dummyAcademy = DummyAcademyFactory.GetDummyAcademy(_mockAcademyUrn);
-
-        _sut.Trust = DummyTrustFactory.GetDummySingleAcademyTrust(_mockTrustUid, dummyAcademy);
-        var result = _sut.FindSchoolPerformanceDataLink();
-
-        result.Should()
-            .Be(_mockFindSchoolPerformanceSchoolLink);
+        _mockLinksToOtherServices.Setup(l => l.GetInformationAboutSchoolsListingLink(_sut.Trust)).Returns("url");
+        await _sut.OnGetAsync();
+        _sut.GetInformationAboutSchoolsLink.Should().Be("url");
     }
 
     [Fact]
-    public void IsMultiAcademyTrustOrHasAcademy_should_return_true_if_multi_academy_trust()
+    public async Task SchoolsFinancialBenchmarkingLink_is_null_if_link_builder_returns_null()
     {
-        _sut.Trust = DummyTrustFactory.GetDummyMultiAcademyTrust(_mockTrustUid);
-        var result = _sut.IsMultiAcademyTrustOrHasAcademy();
-
-        result.Should().BeTrue();
+        _mockLinksToOtherServices.Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(_sut.Trust))
+            .Returns((string?)null);
+        await _sut.OnGetAsync();
+        _sut.SchoolsFinancialBenchmarkingLink.Should().BeNull();
     }
 
     [Fact]
-    public void IsMultiAcademyTrustOrHasAcademy_should_return_true_if_single_academy_trust_and_has_academies()
+    public async Task SchoolsFinancialBenchmarkingLink_is_string_if_link_builder_returns_string()
     {
-        var dummyAcademy = DummyAcademyFactory.GetDummyAcademy(_mockAcademyUrn);
-
-        _sut.Trust = DummyTrustFactory.GetDummySingleAcademyTrust(_mockTrustUid, dummyAcademy);
-
-        var result = _sut.IsMultiAcademyTrustOrHasAcademy();
-
-        result.Should().BeTrue();
+        _mockLinksToOtherServices.Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(_sut.Trust))
+            .Returns("url");
+        await _sut.OnGetAsync();
+        _sut.SchoolsFinancialBenchmarkingLink.Should().Be("url");
     }
 
     [Fact]
-    public void
-        IsMultiAcademyTrustOrHasAcademy_should_return_false_if_single_academy_trust_and_does_not_have_academies()
+    public async Task FindSchoolPerformanceLink_is_null_if_link_builder_returns_null()
     {
-        _sut.Trust = DummyTrustFactory.GetDummySingleAcademyTrust(_mockTrustUid);
-        var result = _sut.IsMultiAcademyTrustOrHasAcademy();
-        result.Should().BeFalse();
+        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(_sut.Trust))
+            .Returns((string?)null);
+        await _sut.OnGetAsync();
+        _sut.FindSchoolPerformanceLink.Should().BeNull();
     }
 
     [Fact]
-    public void IsMultiAcademyTrustOrHasAcademy_should_return_false_if_neither_multi_or_single_academy_trust()
+    public async Task FindSchoolPerformanceLink_is_string_if_link_builder_returns_string()
     {
-        _sut.Trust = DummyTrustFactory.GetDummyTrust(_mockTrustUid);
-        var result = _sut.IsMultiAcademyTrustOrHasAcademy();
-        result.Should().BeFalse();
+        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(_sut.Trust))
+            .Returns("url");
+        await _sut.OnGetAsync();
+        _sut.FindSchoolPerformanceLink.Should().Be("url");
     }
 }

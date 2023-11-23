@@ -20,7 +20,7 @@ public class TrustsAreaModel : PageModel, ITrustsAreaModel
     public string? PageTitle { get; init; }
     public string Section => ViewConstants.AboutTheTrustSectionName;
 
-    public async Task<IActionResult> OnGetAsync()
+    public virtual async Task<IActionResult> OnGetAsync()
     {
         var trust = await _trustProvider.GetTrustByUidAsync(Uid);
 

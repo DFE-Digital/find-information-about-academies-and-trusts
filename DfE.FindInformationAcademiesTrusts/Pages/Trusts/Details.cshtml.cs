@@ -1,45 +1,33 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public class DetailsModel : TrustsAreaModel
 {
-    public ILinksToOtherServices LinksToOtherServices;
+    private readonly IOtherServicesLinkBuilder _otherServicesLinkBuilder;
+    public string? CompaniesHouseLink { get; set; }
+    public string? GetInformationAboutSchoolsLink { get; set; }
+    public string? SchoolsFinancialBenchmarkingLink { get; set; }
+    public string? FindSchoolPerformanceLink { get; set; }
 
-    public DetailsModel(ITrustProvider trustProvider, ILinksToOtherServices linksToOtherServices) : base(trustProvider,
+    public DetailsModel(ITrustProvider trustProvider, IOtherServicesLinkBuilder otherServicesLinkBuilder) : base(
+        trustProvider,
         "Details")
     {
-        LinksToOtherServices = linksToOtherServices;
+        _otherServicesLinkBuilder = otherServicesLinkBuilder;
     }
 
-    public string SchoolsFinancialBenchmarkingLink()
+    public override async Task<IActionResult> OnGetAsync()
     {
-        if (Trust.IsMultiAcademyTrust())
-        {
-            return
-                LinksToOtherServices.SchoolFinancialBenchmarkingServiceTrustLink(Trust.CompaniesHouseNumber);
-        }
+        var pageResult = await base.OnGetAsync();
 
-        return LinksToOtherServices.SchoolFinancialBenchmarkingServiceSchoolLink(GetSingleAcademyUrn());
-    }
+        CompaniesHouseLink = _otherServicesLinkBuilder.CompaniesHouseListingLink(Trust);
+        GetInformationAboutSchoolsLink = _otherServicesLinkBuilder.GetInformationAboutSchoolsListingLink(Trust);
+        SchoolsFinancialBenchmarkingLink =
+            _otherServicesLinkBuilder.SchoolFinancialBenchmarkingServiceListingLink(Trust);
+        FindSchoolPerformanceLink = _otherServicesLinkBuilder.FindSchoolPerformanceDataListingLink(Trust);
 
-    public string FindSchoolPerformanceDataLink()
-    {
-        if (Trust.IsMultiAcademyTrust())
-        {
-            return LinksToOtherServices.FindSchoolPerformanceDataTrustLink(Trust.Uid);
-        }
-
-        return LinksToOtherServices.FindSchoolPerformanceDataSchoolLink(GetSingleAcademyUrn());
-    }
-
-    public bool IsMultiAcademyTrustOrHasAcademy()
-    {
-        return Trust.IsMultiAcademyTrust() || (Trust.IsSingleAcademyTrust() && Trust.Academies.Any());
-    }
-
-    private string GetSingleAcademyUrn()
-    {
-        return Trust.Academies.FirstOrDefault()?.Urn.ToString() ?? string.Empty;
+        return pageResult;
     }
 }
