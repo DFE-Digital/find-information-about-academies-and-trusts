@@ -80,4 +80,42 @@ public class DetailsModelTests
         result.Should()
             .Be(_mockFindSchoolPerformanceSchoolLink);
     }
+
+    [Fact]
+    public void IsMultiAcademyTrustOrHasAcademy_should_return_true_if_multi_academy_trust()
+    {
+        _sut.Trust = DummyTrustFactory.GetDummyMultiAcademyTrust(_mockTrustUid);
+        var result = _sut.IsMultiAcademyTrustOrHasAcademy();
+
+        result.Should().BeTrue();
+    }
+
+    [Fact]
+    public void IsMultiAcademyTrustOrHasAcademy_should_return_true_if_single_academy_trust_and_has_academies()
+    {
+        var dummyAcademy = DummyAcademyFactory.GetDummyAcademy(_mockAcademyUrn);
+
+        _sut.Trust = DummyTrustFactory.GetDummySingleAcademyTrust(_mockTrustUid, dummyAcademy);
+
+        var result = _sut.IsMultiAcademyTrustOrHasAcademy();
+
+        result.Should().BeTrue();
+    }
+
+    [Fact]
+    public void
+        IsMultiAcademyTrustOrHasAcademy_should_return_false_if_single_academy_trust_and_does_not_have_academies()
+    {
+        _sut.Trust = DummyTrustFactory.GetDummySingleAcademyTrust(_mockTrustUid);
+        var result = _sut.IsMultiAcademyTrustOrHasAcademy();
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void IsMultiAcademyTrustOrHasAcademy_should_return_false_if_neither_multi_or_single_academy_trust()
+    {
+        _sut.Trust = DummyTrustFactory.GetDummyTrust(_mockTrustUid);
+        var result = _sut.IsMultiAcademyTrustOrHasAcademy();
+        result.Should().BeFalse();
+    }
 }

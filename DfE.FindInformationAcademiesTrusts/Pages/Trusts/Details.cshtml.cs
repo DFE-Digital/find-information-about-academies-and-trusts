@@ -20,12 +20,7 @@ public class DetailsModel : TrustsAreaModel
                 LinksToOtherServices.SchoolFinancialBenchmarkingServiceTrustLink(Trust.CompaniesHouseNumber);
         }
 
-        if (Trust.IsSingleAcademyTrust())
-        {
-            return LinksToOtherServices.SchoolFinancialBenchmarkingServiceSchoolLink(GetSingleAcademyUrn());
-        }
-
-        return string.Empty;
+        return LinksToOtherServices.SchoolFinancialBenchmarkingServiceSchoolLink(GetSingleAcademyUrn());
     }
 
     public string FindSchoolPerformanceDataLink()
@@ -35,12 +30,12 @@ public class DetailsModel : TrustsAreaModel
             return LinksToOtherServices.FindSchoolPerformanceDataTrustLink(Trust.Uid);
         }
 
-        if (Trust.IsSingleAcademyTrust())
-        {
-            return LinksToOtherServices.FindSchoolPerformanceDataSchoolLink(GetSingleAcademyUrn());
-        }
+        return LinksToOtherServices.FindSchoolPerformanceDataSchoolLink(GetSingleAcademyUrn());
+    }
 
-        return string.Empty;
+    public bool IsMultiAcademyTrustOrHasAcademy()
+    {
+        return Trust.IsMultiAcademyTrust() || (Trust.IsSingleAcademyTrust() && Trust.Academies.Any());
     }
 
     private string GetSingleAcademyUrn()

@@ -51,12 +51,15 @@
               <p class="govuk-body">
                 <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.LinksToOtherServices.GetInformationAboutSchoolsGroupLink(Model.Trust.Uid)">Get information about schools</a>
               </p>
-              <p class="govuk-body">
-                <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.SchoolsFinancialBenchmarkingLink()">Schools financial benchmarking</a>
-              </p>
-              <p class="govuk-body">
-                <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.FindSchoolPerformanceDataLink()">Find school college and performance data in England</a>
-              </p>
+              @if (Model.IsMultiAcademyTrustOrHasAcademy())
+              {
+                <p class="govuk-body">
+                  <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.LinksToOtherServices.SchoolFinancialBenchmarkingServiceTrustLink(Model.Trust.Uid)">Schools financial benchmarking</a>
+                </p>
+                <p class="govuk-body">
+                  <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.FindSchoolPerformanceDataLink()">Find school college and performance data in England</a>
+                </p>
+              }
             }
           </dd>
         </div>

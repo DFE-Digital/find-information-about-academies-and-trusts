@@ -17,9 +17,9 @@ public class DummyTrustFactory
         return GetDummyTrust(uid, "Multi-academy trust", companiesHouseNumber);
     }
 
-    public static Trust GetDummySingleAcademyTrust(string uid, Academy academy)
+    public static Trust GetDummySingleAcademyTrust(string uid, Academy? academy = null)
     {
-        Academy[] academies = { academy };
+        var academies = academy is not null ? new[] { academy } : Array.Empty<Academy>();
         return GetDummyTrust(uid, "Single-academy trust", academies: academies);
     }
 
