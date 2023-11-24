@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
@@ -9,14 +10,13 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
 public class TrustProviderTests
 {
     private readonly TrustProvider _sut;
-    private readonly List<GiasGroup> _giasGroups;
-    private readonly List<MstrTrust> _mstrTrusts;
     private readonly List<GiasEstablishment> _giasEstablishments;
     private readonly List<GiasGovernance> _giasGovernances;
     private readonly List<MstrTrustGovernance> _mstrTrustGovernances;
     private readonly Mock<ITrustFactory> _mockTrustFactory = new();
     private readonly Mock<IAcademyFactory> _mockAcademyFactory = new();
     private readonly Mock<IGovernorFactory> _mockGovernorFactory = new();
+    private readonly Mock<IPersonFactory> _mockPersonFactory = new();
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
     private readonly string _groupUidToGet = "1234";
     private readonly GiasGroup _giasGroupInDb;
@@ -24,8 +24,8 @@ public class TrustProviderTests
 
     public TrustProviderTests()
     {
-        _giasGroups = _mockAcademiesDbContext.SetupMockDbContextGiasGroups(5);
-        _mstrTrusts = _mockAcademiesDbContext.SetupMockDbContextMstrTrust(5);
+        _mockAcademiesDbContext.SetupMockDbContextGiasGroups(5);
+        _mockAcademiesDbContext.SetupMockDbContextMstrTrust(5);
         _giasEstablishments = _mockAcademiesDbContext.SetupMockDbContextGiasEstablishment(15);
         _giasGovernances = _mockAcademiesDbContext.SetupMockDbContextGiasGovernance(20, "Some other trust");
         _mstrTrustGovernances = _mockAcademiesDbContext.SetupMockDbContextMstrTrustGovernance(20);
@@ -34,7 +34,7 @@ public class TrustProviderTests
         SetUpGovernorsLinkedToTrust(5, "Some other trust");
 
         _sut = new TrustProvider(_mockAcademiesDbContext.Object, _mockTrustFactory.Object, _mockAcademyFactory.Object,
-            _mockGovernorFactory.Object);
+            _mockGovernorFactory.Object, _mockPersonFactory.Object);
 
         _giasGroupInDb = _mockAcademiesDbContext.CreateGiasGroup(_groupUidToGet);
         _mstrTrustInDb = _mockAcademiesDbContext.CreateMstrTrust(_groupUidToGet);
@@ -147,6 +147,50 @@ public class TrustProviderTests
                 null, null));
     }
 
+    [Fact]
+    public async Task GetTrustByUidAsync_should_give_null_to_trustFactory_when_no_linked_trustRelationshipManager()
+    {
+        await _sut.GetTrustByUidAsync(_groupUidToGet);
+
+        _mockTrustFactory.Verify(t =>
+            t.CreateTrustFrom(_giasGroupInDb, _mstrTrustInDb, It.IsAny<Academy[]>(), It.IsAny<Governor[]>(),
+                null, null));
+    }
+
+    [Fact]
+    public async Task GetTrustByUidAsync_should_give_linked_trustRelationshipManager_to_trustFactory()
+    {
+        var expectedTrustRelationshipManager =
+            CreateTrustRelationshipManager(_groupUidToGet, "trustRelationshipManager", "trm@education.gov.uk");
+        await _sut.GetTrustByUidAsync(_groupUidToGet);
+
+        _mockTrustFactory.Verify(t =>
+            t.CreateTrustFrom(_giasGroupInDb, _mstrTrustInDb, It.IsAny<Academy[]>(), It.IsAny<Governor[]>(),
+                expectedTrustRelationshipManager, null));
+    }
+
+    [Fact]
+    public async Task GetTrustByUidAsync_should_give_null_to_trustFactory_when_no_linked_sfsoLead()
+    {
+        await _sut.GetTrustByUidAsync(_groupUidToGet);
+
+        _mockTrustFactory.Verify(t =>
+            t.CreateTrustFrom(_giasGroupInDb, _mstrTrustInDb, It.IsAny<Academy[]>(), It.IsAny<Governor[]>(),
+                null, null));
+    }
+
+    [Fact]
+    public async Task GetTrustByUidAsync_should_give_linked_sfsoLead_to_trustFactory()
+    {
+        var expectedSfsoLead =
+            CreateSfsoLead(_groupUidToGet, "SFSO Lead", "sfsoLead@education.gov.uk");
+        await _sut.GetTrustByUidAsync(_groupUidToGet);
+
+        _mockTrustFactory.Verify(t =>
+            t.CreateTrustFrom(_giasGroupInDb, _mstrTrustInDb, It.IsAny<Academy[]>(), It.IsAny<Governor[]>(),
+                null, expectedSfsoLead));
+    }
+
     private List<Academy> SetUpAcademiesLinkedToTrust(IEnumerable<GiasEstablishment> giasEstablishmentsLinkedToTrust,
         GiasGroup giasGroup)
     {
@@ -195,5 +239,32 @@ public class TrustProviderTests
         }
 
         return governorsLinkedToTrust;
+    }
+
+    private Person CreateTrustRelationshipManager(string groupUid, string fullName, string email)
+    {
+        return CreatePerson(groupUid, fullName, email,
+            (cdmAccount, cdmSystemuser) => cdmAccount.SipTrustrelationshipmanager = cdmSystemuser.Systemuserid);
+    }
+
+    private Person CreateSfsoLead(string groupUid, string fullName, string email)
+    {
+        return CreatePerson(groupUid, fullName, email,
+            (cdmAccount, cdmSystemuser) => cdmAccount.SipAmsdlead = cdmSystemuser.Systemuserid);
+    }
+
+    private Person CreatePerson(string groupUid, string fullName, string email,
+        Action<CdmAccount, CdmSystemuser> accountSetup)
+    {
+        var person = new Person(fullName, email);
+
+        var cdmAccount = _mockAcademiesDbContext.CreateCdmAccount(groupUid);
+        var cdmSystemuser = _mockAcademiesDbContext.CreateCdmSystemuser(fullName, email);
+
+        accountSetup(cdmAccount, cdmSystemuser);
+
+        _mockPersonFactory.Setup(p => p.CreateFrom(cdmSystemuser)).Returns(person);
+
+        return person;
     }
 }

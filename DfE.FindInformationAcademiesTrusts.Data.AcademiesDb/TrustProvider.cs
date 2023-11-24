@@ -10,19 +10,21 @@ public class TrustProvider : ITrustProvider
     private readonly ITrustFactory _trustFactory;
     private readonly IAcademyFactory _academyFactory;
     private readonly IGovernorFactory _governorFactory;
+    private readonly IPersonFactory _personFactory;
 
     [ExcludeFromCodeCoverage]
     public TrustProvider(AcademiesDbContext academiesDbContext, ITrustFactory trustFactory,
-        IAcademyFactory academyFactory, IGovernorFactory governorFactory) : this(
-        (IAcademiesDbContext)academiesDbContext, trustFactory, academyFactory, governorFactory)
+        IAcademyFactory academyFactory, IGovernorFactory governorFactory, IPersonFactory personFactory) : this(
+        (IAcademiesDbContext)academiesDbContext, trustFactory, academyFactory, governorFactory, personFactory)
     {
     }
 
     public TrustProvider(IAcademiesDbContext academiesDbContext, ITrustFactory trustFactory,
-        IAcademyFactory academyFactory, IGovernorFactory governorFactory)
+        IAcademyFactory academyFactory, IGovernorFactory governorFactory, IPersonFactory personFactory)
     {
         _academyFactory = academyFactory;
         _governorFactory = governorFactory;
+        _personFactory = personFactory;
         _academiesDbContext = academiesDbContext;
         _trustFactory = trustFactory;
     }
@@ -35,8 +37,29 @@ public class TrustProvider : ITrustProvider
         var mstrTrust = await _academiesDbContext.MstrTrusts.SingleOrDefaultAsync(m => m.GroupUid == uid);
         var academies = await GetAcademiesLinkedTo(uid);
         var governors = await GetGovernorsLinkedTo(uid);
+        var trustRelationshipManager = await GetTrustRelationshipManagerLinkedTo(uid);
+        var sfsoLead = await GetSfsoLeadLinkedTo(uid);
 
-        return _trustFactory.CreateTrustFrom(giasGroup, mstrTrust, academies, governors, null, null);
+        return _trustFactory.CreateTrustFrom(giasGroup, mstrTrust, academies, governors, trustRelationshipManager,
+            sfsoLead);
+    }
+
+    private async Task<Person?> GetTrustRelationshipManagerLinkedTo(string uid)
+    {
+        return await _academiesDbContext.CdmAccounts
+            .Where(a => a.SipUid == uid)
+            .Join(_academiesDbContext.CdmSystemusers, account => account.SipTrustrelationshipmanager,
+                systemuser => systemuser.Systemuserid, (_, systemuser) => _personFactory.CreateFrom(systemuser))
+            .SingleOrDefaultAsync();
+    }
+
+    private async Task<Person?> GetSfsoLeadLinkedTo(string uid)
+    {
+        return await _academiesDbContext.CdmAccounts
+            .Where(a => a.SipUid == uid)
+            .Join(_academiesDbContext.CdmSystemusers, account => account.SipAmsdlead,
+                systemuser => systemuser.Systemuserid, (_, systemuser) => _personFactory.CreateFrom(systemuser))
+            .SingleOrDefaultAsync();
     }
 
     private async Task<Governor[]> GetGovernorsLinkedTo(string uid)
