@@ -22,7 +22,7 @@ public static class JsonGenerator
 
                 return trustHelper
                     .CreateTrustFrom(g, fakeData.MstrTrusts.FirstOrDefault(t => t.GroupUid == g.GroupUid)!,
-                        academies, Array.Empty<Governor>());
+                        academies, Array.Empty<Governor>(), null, null);
             });
 
         File.WriteAllText(outputFilePath, JsonSerializer.Serialize(trusts, serializeOptions));

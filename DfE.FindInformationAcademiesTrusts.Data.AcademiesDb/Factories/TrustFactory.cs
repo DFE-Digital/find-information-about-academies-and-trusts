@@ -6,12 +6,14 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 
 public interface ITrustFactory
 {
-    Trust CreateTrustFrom(GiasGroup giasGroup, MstrTrust? mstrTrust, Academy[] academies, Governor[] governors);
+    Trust CreateTrustFrom(GiasGroup giasGroup, MstrTrust? mstrTrust, Academy[] academies, Governor[] governors,
+        Person? trustRelationshipManager, Person? sfsoLead);
 }
 
 public class TrustFactory : ITrustFactory
 {
-    public Trust CreateTrustFrom(GiasGroup giasGroup, MstrTrust? mstrTrust, Academy[] academies, Governor[] governors)
+    public Trust CreateTrustFrom(GiasGroup giasGroup, MstrTrust? mstrTrust, Academy[] academies, Governor[] governors,
+        Person? trustRelationshipManager, Person? sfsoLead)
     {
         return new Trust(
             giasGroup.GroupUid!,
@@ -25,8 +27,8 @@ public class TrustFactory : ITrustFactory
             mstrTrust?.GORregion ?? string.Empty,
             academies,
             governors,
-            null,
-            null
+            trustRelationshipManager,
+            sfsoLead
         );
     }
 }

@@ -36,7 +36,7 @@ public class TrustProvider : ITrustProvider
         var academies = await GetAcademiesLinkedTo(uid);
         var governors = await GetGovernorsLinkedTo(uid);
 
-        return _trustFactory.CreateTrustFrom(giasGroup, mstrTrust, academies, governors);
+        return _trustFactory.CreateTrustFrom(giasGroup, mstrTrust, academies, governors, null, null);
     }
 
     private async Task<Governor[]> GetGovernorsLinkedTo(string uid)
