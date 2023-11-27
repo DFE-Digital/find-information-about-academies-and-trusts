@@ -29,7 +29,8 @@ public class TrustFactoryTests
             GroupUid = "1234", GORregion = "North East"
         };
 
-        var result = _sut.CreateTrustFrom(_testGiasGroup, mstrTrust, Array.Empty<Academy>(), Array.Empty<Governor>());
+        var result = _sut.CreateTrustFrom(_testGiasGroup, mstrTrust, Array.Empty<Academy>(), Array.Empty<Governor>(),
+            null, null);
 
         result.Should().BeEquivalentTo(new Trust(
                 "1234",
@@ -52,7 +53,8 @@ public class TrustFactoryTests
     [Fact]
     public void CreateTrustFrom_should_transform_a_group_without_mstrTrust_into_a_trust()
     {
-        var result = _sut.CreateTrustFrom(_testGiasGroup, null, Array.Empty<Academy>(), Array.Empty<Governor>());
+        var result = _sut.CreateTrustFrom(_testGiasGroup, null, Array.Empty<Academy>(), Array.Empty<Governor>(), null,
+            null);
 
         result.Should().BeEquivalentTo(new Trust(
                 "1234",
@@ -77,7 +79,7 @@ public class TrustFactoryTests
     {
         var academies = new[] { DummyAcademyFactory.GetDummyAcademy(1234546) };
 
-        var result = _sut.CreateTrustFrom(_testGiasGroup, null, academies, Array.Empty<Governor>());
+        var result = _sut.CreateTrustFrom(_testGiasGroup, null, academies, Array.Empty<Governor>(), null, null);
 
         result.Academies.Should().Equal(academies);
     }
@@ -87,9 +89,31 @@ public class TrustFactoryTests
     {
         var governors = new[] { DummyGovernorFactory.GetDummyGovernor("1234546", "1234") };
 
-        var result = _sut.CreateTrustFrom(_testGiasGroup, null, Array.Empty<Academy>(), governors);
+        var result = _sut.CreateTrustFrom(_testGiasGroup, null, Array.Empty<Academy>(), governors, null, null);
 
         result.Governors.Should().Equal(governors);
+    }
+
+    [Fact]
+    public void CreateTrustFrom_should_set_trustRelationshipManager_from_parameters()
+    {
+        var trustRelationshipManager = new Person("trust relationship manager", "trm@education.gov.uk");
+
+        var result = _sut.CreateTrustFrom(_testGiasGroup, null, Array.Empty<Academy>(), Array.Empty<Governor>(),
+            trustRelationshipManager, null);
+
+        result.TrustRelationshipManager.Should().Be(trustRelationshipManager);
+    }
+
+    [Fact]
+    public void CreateTrustFrom_should_set_sfsoLead_from_parameters()
+    {
+        var sfsoLead = new Person("SFSO Lead", "sfsoLead@education.gov.uk");
+
+        var result = _sut.CreateTrustFrom(_testGiasGroup, null, Array.Empty<Academy>(), Array.Empty<Governor>(), null,
+            sfsoLead);
+
+        result.SfsoLead.Should().Be(sfsoLead);
     }
 
     [Theory]
@@ -97,7 +121,8 @@ public class TrustFactoryTests
     public void CreateTrustFromGroup_Should_Include_Empty_string_values_if_properties_have_no_value(
         GiasGroup giasGroup, MstrTrust mstrTrust, Trust expected)
     {
-        var result = _sut.CreateTrustFrom(giasGroup, mstrTrust, Array.Empty<Academy>(), Array.Empty<Governor>());
+        var result = _sut.CreateTrustFrom(giasGroup, mstrTrust, Array.Empty<Academy>(), Array.Empty<Governor>(), null,
+            null);
         result.Should().BeEquivalentTo(expected);
     }
 

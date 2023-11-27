@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
@@ -9,41 +10,55 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
 public class TrustProviderTests
 {
     private readonly TrustProvider _sut;
-    private readonly List<GiasGroup> _giasGroups;
-    private readonly List<MstrTrust> _mstrTrusts;
     private readonly List<GiasEstablishment> _giasEstablishments;
     private readonly List<GiasGovernance> _giasGovernances;
     private readonly List<MstrTrustGovernance> _mstrTrustGovernances;
     private readonly Mock<ITrustFactory> _mockTrustFactory = new();
     private readonly Mock<IAcademyFactory> _mockAcademyFactory = new();
     private readonly Mock<IGovernorFactory> _mockGovernorFactory = new();
+    private readonly Mock<IPersonFactory> _mockPersonFactory = new();
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
+    private readonly string _groupUidToGet = "1234";
+    private readonly GiasGroup _giasGroupInDb;
+    private readonly MstrTrust _mstrTrustInDb;
 
     public TrustProviderTests()
     {
-        _giasGroups = _mockAcademiesDbContext.SetupMockDbContextGiasGroups(5);
-        _mstrTrusts = _mockAcademiesDbContext.SetupMockDbContextMstrTrust(5);
+        _mockAcademiesDbContext.SetupMockDbContextGiasGroups(5);
+        _mockAcademiesDbContext.SetupMockDbContextMstrTrust(5);
         _giasEstablishments = _mockAcademiesDbContext.SetupMockDbContextGiasEstablishment(15);
         _giasGovernances = _mockAcademiesDbContext.SetupMockDbContextGiasGovernance(20, "Some other trust");
         _mstrTrustGovernances = _mockAcademiesDbContext.SetupMockDbContextMstrTrustGovernance(20);
+        SetUpAcademiesLinkedToTrust(_giasEstablishments.Skip(10).Take(3),
+            _mockAcademiesDbContext.CreateGiasGroup("Some other trust"));
+        SetUpGovernorsLinkedToTrust(5, "Some other trust");
 
         _sut = new TrustProvider(_mockAcademiesDbContext.Object, _mockTrustFactory.Object, _mockAcademyFactory.Object,
-            _mockGovernorFactory.Object);
+            _mockGovernorFactory.Object, _mockPersonFactory.Object);
+
+        _giasGroupInDb = _mockAcademiesDbContext.CreateGiasGroup(_groupUidToGet);
+        _mstrTrustInDb = _mockAcademiesDbContext.CreateMstrTrust(_groupUidToGet);
+
+        _mockTrustFactory
+            .Setup(t => t.CreateTrustFrom(It.IsAny<GiasGroup>(), It.IsAny<MstrTrust>(),
+                It.IsAny<Academy[]>(), It.IsAny<Governor[]>(),
+                It.IsAny<Person>(), It.IsAny<Person>()))
+            .Returns((GiasGroup g, MstrTrust _, Academy[] _, Governor[] _, Person _, Person _) =>
+                DummyTrustFactory.GetDummyTrust(g.GroupUid!));
     }
 
     [Fact]
     public async Task GetTrustsByUidAsync_should_return_a_trust_if_giasGroup_and_mstrTrust_found()
     {
-        var groupUid = "1234";
-        var giasGroup = CreateGiasGroup(groupUid);
-        var mstrTrust = CreateMstrTrust(groupUid);
-        var expectedTrust = DummyTrustFactory.GetDummyTrust(groupUid);
+        var expectedTrust = DummyTrustFactory.GetDummyTrust(_groupUidToGet);
 
         _mockTrustFactory
-            .Setup(t => t.CreateTrustFrom(giasGroup, mstrTrust, It.IsAny<Academy[]>(), Array.Empty<Governor>()))
+            .Setup(t => t.CreateTrustFrom(_giasGroupInDb, _mstrTrustInDb,
+                It.IsAny<Academy[]>(), It.IsAny<Governor[]>(),
+                It.IsAny<Person>(), It.IsAny<Person>()))
             .Returns(expectedTrust);
 
-        var result = await _sut.GetTrustByUidAsync(groupUid);
+        var result = await _sut.GetTrustByUidAsync(_groupUidToGet);
 
         result.Should().Be(expectedTrust);
     }
@@ -51,25 +66,27 @@ public class TrustProviderTests
     [Fact]
     public async Task GetTrustsByUidAsync_should_return_null_when_giasGroup_not_found()
     {
-        var groupUid = "987654321";
-        CreateMstrTrust(groupUid);
+        const string groupUidWithoutGiasGroup = "987654321";
+        _mockAcademiesDbContext.CreateMstrTrust(groupUidWithoutGiasGroup);
 
-        var result = await _sut.GetTrustByUidAsync(groupUid);
+        var result = await _sut.GetTrustByUidAsync(groupUidWithoutGiasGroup);
         result.Should().BeNull();
     }
 
     [Fact]
     public async Task GetTrustsByUidAsync_should_return_a_trust_if_mstrTrust_not_found()
     {
-        var groupUid = "987654321";
-        var giasGroup = CreateGiasGroup(groupUid);
-        var expectedTrust = DummyTrustFactory.GetDummyTrust(groupUid);
+        const string groupUidWithoutMstrTrust = "987654321";
+        var giasGroup = _mockAcademiesDbContext.CreateGiasGroup(groupUidWithoutMstrTrust);
+        var expectedTrust = DummyTrustFactory.GetDummyTrust(groupUidWithoutMstrTrust);
 
         _mockTrustFactory.Setup(t =>
-                t.CreateTrustFrom(giasGroup, It.IsAny<MstrTrust>(), It.IsAny<Academy[]>(), Array.Empty<Governor>()))
+                t.CreateTrustFrom(giasGroup, null,
+                    It.IsAny<Academy[]>(), It.IsAny<Governor[]>(),
+                    It.IsAny<Person>(), It.IsAny<Person>()))
             .Returns(expectedTrust);
 
-        var result = await _sut.GetTrustByUidAsync(groupUid);
+        var result = await _sut.GetTrustByUidAsync(groupUidWithoutMstrTrust);
 
         result.Should().Be(expectedTrust);
     }
@@ -77,29 +94,20 @@ public class TrustProviderTests
     [Fact]
     public async Task GetTrustsByUidAsync_should_return_null_if_both_giasGroup_and_mstrTrust_not_found()
     {
-        var result = await _sut.GetTrustByUidAsync("987654321");
+        var result = await _sut.GetTrustByUidAsync("this uid doesn't exist");
         result.Should().BeNull();
     }
 
     [Fact]
     public async Task GetTrustByUidAsync_should_only_give_academies_linked_to_trust_to_trustFactory()
     {
-        const string groupUid = "1234";
-        var giasGroup = CreateGiasGroup(groupUid);
-        var mstrTrust = CreateMstrTrust(groupUid);
+        var expectedAcademies = SetUpAcademiesLinkedToTrust(_giasEstablishments.Take(3), _giasGroupInDb);
 
-        var expectedAcademies = SetUpAcademiesLinkedToTrust(_giasEstablishments.Take(3), giasGroup);
-        SetUpAcademiesLinkedToTrust(_giasEstablishments.Skip(5).Take(3), CreateGiasGroup("Some other trust"));
-
-        _mockTrustFactory
-            .Setup(t => t.CreateTrustFrom(giasGroup, mstrTrust, It.IsAny<Academy[]>(), Array.Empty<Governor>()))
-            .Returns(DummyTrustFactory.GetDummyTrust(groupUid));
-
-        await _sut.GetTrustByUidAsync(groupUid);
+        await _sut.GetTrustByUidAsync(_groupUidToGet);
 
         _mockTrustFactory.Verify(t =>
-            t.CreateTrustFrom(giasGroup, mstrTrust,
-                It.Is<Academy[]>(a => expectedAcademies.SequenceEqual(a)), Array.Empty<Governor>())
+            t.CreateTrustFrom(_giasGroupInDb, _mstrTrustInDb,
+                It.Is<Academy[]>(a => expectedAcademies.SequenceEqual(a)), Array.Empty<Governor>(), null, null)
         );
     }
 
@@ -107,36 +115,24 @@ public class TrustProviderTests
     public async Task
         GetTrustByUidAsync_should_give_empty_academies_array_to_trustFactory_when_no_academies_linked_to_trust()
     {
-        const string groupUid = "1234";
-        var giasGroup = CreateGiasGroup(groupUid);
-        var mstrTrust = CreateMstrTrust(groupUid);
-
-        SetUpAcademiesLinkedToTrust(_giasEstablishments.Skip(5).Take(3), CreateGiasGroup("Some other trust"));
-
-        _mockTrustFactory
-            .Setup(t => t.CreateTrustFrom(giasGroup, mstrTrust, It.IsAny<Academy[]>(), Array.Empty<Governor>()))
-            .Returns(DummyTrustFactory.GetDummyTrust(groupUid));
-
-        await _sut.GetTrustByUidAsync(groupUid);
+        await _sut.GetTrustByUidAsync(_groupUidToGet);
 
         _mockTrustFactory.Verify(t =>
-            t.CreateTrustFrom(giasGroup, mstrTrust, It.Is<Academy[]>(a => !a.Any()), Array.Empty<Governor>()));
+            t.CreateTrustFrom(_giasGroupInDb, _mstrTrustInDb, It.Is<Academy[]>(a => !a.Any()), Array.Empty<Governor>(),
+                null,
+                null));
     }
 
     [Fact]
     public async Task GetTrustByUidAsync_should_only_give_governors_linked_to_trust_to_trustFactory()
     {
-        const string groupUid = "1234";
-        var giasGroup = CreateGiasGroup(groupUid);
-        var mstrTrust = CreateMstrTrust(groupUid);
+        var expectedGovernors = SetUpGovernorsLinkedToTrust(5, _groupUidToGet);
 
-        var expectedGovernors = SetUpGovernorsLinkedToTrust(5, groupUid);
-
-        await _sut.GetTrustByUidAsync(groupUid);
+        await _sut.GetTrustByUidAsync(_groupUidToGet);
 
         _mockTrustFactory.Verify(t =>
-            t.CreateTrustFrom(giasGroup, mstrTrust, Array.Empty<Academy>(),
-                It.Is<Governor[]>(g => expectedGovernors.SequenceEqual(g)))
+            t.CreateTrustFrom(_giasGroupInDb, _mstrTrustInDb, Array.Empty<Academy>(),
+                It.Is<Governor[]>(g => expectedGovernors.SequenceEqual(g)), null, null)
         );
     }
 
@@ -144,17 +140,55 @@ public class TrustProviderTests
     public async Task
         GetTrustByUidAsync_should_give_empty_governors_array_to_trustFactory_when_no_governors_linked_to_trust()
     {
-        const string groupUid = "1234";
-        var giasGroup = CreateGiasGroup(groupUid);
-
-        _mockTrustFactory
-            .Setup(t => t.CreateTrustFrom(giasGroup, null, Array.Empty<Academy>(), Array.Empty<Governor>()))
-            .Returns(DummyTrustFactory.GetDummyTrust(groupUid));
-
-        await _sut.GetTrustByUidAsync(groupUid);
+        await _sut.GetTrustByUidAsync(_groupUidToGet);
 
         _mockTrustFactory.Verify(t =>
-            t.CreateTrustFrom(giasGroup, null, It.IsAny<Academy[]>(), It.Is<Governor[]>(g => !g.Any())));
+            t.CreateTrustFrom(_giasGroupInDb, _mstrTrustInDb, It.IsAny<Academy[]>(), It.Is<Governor[]>(g => !g.Any()),
+                null, null));
+    }
+
+    [Fact]
+    public async Task GetTrustByUidAsync_should_give_null_to_trustFactory_when_no_linked_trustRelationshipManager()
+    {
+        await _sut.GetTrustByUidAsync(_groupUidToGet);
+
+        _mockTrustFactory.Verify(t =>
+            t.CreateTrustFrom(_giasGroupInDb, _mstrTrustInDb, It.IsAny<Academy[]>(), It.IsAny<Governor[]>(),
+                null, null));
+    }
+
+    [Fact]
+    public async Task GetTrustByUidAsync_should_give_linked_trustRelationshipManager_to_trustFactory()
+    {
+        var expectedTrustRelationshipManager =
+            CreateTrustRelationshipManager(_groupUidToGet, "trustRelationshipManager", "trm@education.gov.uk");
+        await _sut.GetTrustByUidAsync(_groupUidToGet);
+
+        _mockTrustFactory.Verify(t =>
+            t.CreateTrustFrom(_giasGroupInDb, _mstrTrustInDb, It.IsAny<Academy[]>(), It.IsAny<Governor[]>(),
+                expectedTrustRelationshipManager, null));
+    }
+
+    [Fact]
+    public async Task GetTrustByUidAsync_should_give_null_to_trustFactory_when_no_linked_sfsoLead()
+    {
+        await _sut.GetTrustByUidAsync(_groupUidToGet);
+
+        _mockTrustFactory.Verify(t =>
+            t.CreateTrustFrom(_giasGroupInDb, _mstrTrustInDb, It.IsAny<Academy[]>(), It.IsAny<Governor[]>(),
+                null, null));
+    }
+
+    [Fact]
+    public async Task GetTrustByUidAsync_should_give_linked_sfsoLead_to_trustFactory()
+    {
+        var expectedSfsoLead =
+            CreateSfsoLead(_groupUidToGet, "SFSO Lead", "sfsoLead@education.gov.uk");
+        await _sut.GetTrustByUidAsync(_groupUidToGet);
+
+        _mockTrustFactory.Verify(t =>
+            t.CreateTrustFrom(_giasGroupInDb, _mstrTrustInDb, It.IsAny<Academy[]>(), It.IsAny<Governor[]>(),
+                null, expectedSfsoLead));
     }
 
     private List<Academy> SetUpAcademiesLinkedToTrust(IEnumerable<GiasEstablishment> giasEstablishmentsLinkedToTrust,
@@ -207,21 +241,30 @@ public class TrustProviderTests
         return governorsLinkedToTrust;
     }
 
-    private MstrTrust CreateMstrTrust(string groupUid)
+    private Person CreateTrustRelationshipManager(string groupUid, string fullName, string email)
     {
-        var mstrTrust = new MstrTrust
-        {
-            GroupUid = groupUid, GORregion = "North East"
-        };
-        _mstrTrusts.Add(mstrTrust);
-        return mstrTrust;
+        return CreatePerson(groupUid, fullName, email,
+            (cdmAccount, cdmSystemuser) => cdmAccount.SipTrustrelationshipmanager = cdmSystemuser.Systemuserid);
     }
 
-    private GiasGroup CreateGiasGroup(string groupUid)
+    private Person CreateSfsoLead(string groupUid, string fullName, string email)
     {
-        var giasGroup = new GiasGroup
-            { GroupName = "trust 1", GroupUid = groupUid, GroupType = "Multi-academy trust", Ukprn = "my ukprn" };
-        _giasGroups.Add(giasGroup);
-        return giasGroup;
+        return CreatePerson(groupUid, fullName, email,
+            (cdmAccount, cdmSystemuser) => cdmAccount.SipAmsdlead = cdmSystemuser.Systemuserid);
+    }
+
+    private Person CreatePerson(string groupUid, string fullName, string email,
+        Action<CdmAccount, CdmSystemuser> accountSetup)
+    {
+        var person = new Person(fullName, email);
+
+        var cdmAccount = _mockAcademiesDbContext.CreateCdmAccount(groupUid);
+        var cdmSystemuser = _mockAcademiesDbContext.CreateCdmSystemuser(fullName, email);
+
+        accountSetup(cdmAccount, cdmSystemuser);
+
+        _mockPersonFactory.Setup(p => p.CreateFrom(cdmSystemuser)).Returns(person);
+
+        return person;
     }
 }
