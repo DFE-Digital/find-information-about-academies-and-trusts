@@ -36,7 +36,7 @@ public class CookiesModel : PageModel
 
         if (consent == false) RejectCookies();
 
-        PreferencesSet = true;
+        DisplayCookieChangedMessageOnCookiesPage = true;
 
         return Page();
     }
