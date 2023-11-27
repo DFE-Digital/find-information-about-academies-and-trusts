@@ -31,7 +31,9 @@ public static class SqlScriptGenerator
             GenerateSqlInsertScriptSegmentFor(fakeData.GiasGroups, context),
             GenerateSqlInsertScriptSegmentFor(fakeData.MstrTrusts, context),
             GenerateSqlInsertScriptSegmentFor(fakeData.GiasGroupLinks, context),
-            GenerateSqlInsertScriptSegmentFor(fakeData.GiasEstablishments, context)
+            GenerateSqlInsertScriptSegmentFor(fakeData.GiasEstablishments, context),
+            GenerateSqlInsertScriptSegmentFor(fakeData.CdmAccounts, context),
+            GenerateSqlInsertScriptSegmentFor(fakeData.CdmSystemusers, context)
         );
         File.WriteAllText(outputFilePath, insertScript);
     }

@@ -14,6 +14,8 @@ public class AcademiesDbFaker
     private readonly GiasEstablishmentFaker _giasEstablishmentFaker;
     private readonly GiasGroupFaker _giasGroupFaker;
     private readonly MstrTrustFaker _mstrTrustFaker;
+    private readonly CdmAccountFaker _cdmAccountFaker = new();
+    private readonly CdmSystemuserFaker _cdmSystemuserFaker = new();
 
     public AcademiesDbFaker(string?[] regions, string?[] localAuthorities, string[] fakeSchoolNames)
     {
