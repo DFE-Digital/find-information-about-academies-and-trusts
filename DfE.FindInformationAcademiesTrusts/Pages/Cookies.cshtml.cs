@@ -37,7 +37,7 @@ public class CookiesModel : PageModel
             return Page();
         }
 
-        return Redirect(ReturnPath!);
+        return LocalRedirect(ReturnPath!);
     }
 
     public ActionResult OnPost()
@@ -84,7 +84,7 @@ public class CookiesModel : PageModel
         // Expect to be a path eg starts with a slash
         // If its not a path it didn't come from us
         // Treat it as incorrect and remove it
-        if (ReturnPath.IsNullOrEmpty() || !ReturnPath!.StartsWith("/"))
+        if (ReturnPath.IsNullOrEmpty() || !ReturnPath!.StartsWith("/") || !Url.IsLocalUrl(ReturnPath))
         {
             ReturnPath = "/";
         }
