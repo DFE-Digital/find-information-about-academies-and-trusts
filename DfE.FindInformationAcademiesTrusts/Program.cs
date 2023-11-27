@@ -70,7 +70,6 @@ internal static class Program
             app.UseHsts();
         }
 
-        app.UseSession();
         app.UseSecurityHeaders(GetSecurityHeaderPolicies());
 
         app.UseCookiePolicy(new CookiePolicyOptions
@@ -171,7 +170,6 @@ internal static class Program
         builder.Services.AddScoped<IPersonFactory, PersonFactory>();
         builder.Services.AddScoped<IAuthorizationHandler, HeaderRequirementHandler>();
         builder.Services.AddHttpContextAccessor();
-        builder.Services.AddSession(options => { options.IdleTimeout = TimeSpan.FromMinutes(30); });
     }
 
     private static void AddEnvironmentVariablesTo(WebApplicationBuilder builder)
