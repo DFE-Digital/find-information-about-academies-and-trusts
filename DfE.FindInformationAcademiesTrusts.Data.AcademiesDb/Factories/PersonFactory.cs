@@ -11,6 +11,6 @@ public class PersonFactory : IPersonFactory
 {
     public Person CreateFrom(CdmSystemuser cdmSystemuser)
     {
-        throw new NotImplementedException();
+        return new Person(cdmSystemuser.Fullname!, cdmSystemuser.Internalemailaddress!);
     }
 }
