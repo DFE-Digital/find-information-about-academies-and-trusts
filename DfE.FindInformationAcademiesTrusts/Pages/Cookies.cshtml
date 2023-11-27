@@ -16,7 +16,7 @@
     </div>
     <div class="govuk-notification-banner__content">
       <p class="govuk-notification-banner__heading">
-        You’ve set your cookie preferences. <a class="govuk-notification-banner__link" data-test="success-banner-return-link" href="@Model.ReturnPath">Go back to the page you were looking at</a>.
+        You’ve set your cookie preferences. <a class="govuk-notification-banner__link" href="@Model.ReturnPath">Go back to the page you were looking at</a>.
       </p>
     </div>
   </div>
@@ -123,13 +123,13 @@
       </legend>
       <div class="govuk-radios">
         <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="cookies-accept" type="radio" name="consent" value="true" data-test="accept-cookies" checked="@Model.Consent">
+          <input class="govuk-radios__input" id="cookies-accept" type="radio" name="consent" value="true" checked="@Model.Consent">
           <label class="govuk-label govuk-radios__label" for="cookies-accept">
             Yes
           </label>
         </div>
         <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="cookies-reject" type="radio" name="consent" value="false" data-test="reject-cookies" checked="@(!Model.Consent)">
+          <input class="govuk-radios__input" id="cookies-reject" type="radio" name="consent" value="false" checked="@(!Model.Consent)">
           <label class="govuk-label govuk-radios__label" for="cookies-reject">
             No
           </label>
@@ -137,5 +137,5 @@
       </div>
     </fieldset>
   </div>
-  <button type="submit" class="govuk-button" data-module="govuk-button" data-test="save-changes">Save changes</button>
+  <button type="submit" class="govuk-button" data-module="govuk-button">Save changes</button>
 </form>

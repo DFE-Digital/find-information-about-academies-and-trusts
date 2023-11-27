@@ -13,7 +13,7 @@ export class CookiesPage {
     this.acceptRadioButtonLocator = page.getByLabel('Yes')
     this.rejectRadioButtonLocator = page.getByLabel('No')
     this.saveChangesButtonLocator = page.getByRole('button', { name: 'Save changes' })
-    this.returnToPageLocator = page.locator('[data-test="success-banner-return-link"]')
+    this.returnToPageLocator = page.getByRole('link', { name: 'Go back to the page you were looking at' })
   }
 
   async goTo (): Promise<void> {
