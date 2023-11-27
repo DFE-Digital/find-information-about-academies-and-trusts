@@ -1,3 +1,5 @@
+using DfE.FindInformationAcademiesTrusts.Options;
+
 namespace DfE.FindInformationAcademiesTrusts.UnitTests;
 
 public class ApplicationInsightsOptionsTests

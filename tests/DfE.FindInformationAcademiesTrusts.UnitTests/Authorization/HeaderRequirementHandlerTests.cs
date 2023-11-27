@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Authorization;
+using DfE.FindInformationAcademiesTrusts.Options;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;

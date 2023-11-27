@@ -4,6 +4,7 @@ using DfE.FindInformationAcademiesTrusts.Authorization;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
+using DfE.FindInformationAcademiesTrusts.Options;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;

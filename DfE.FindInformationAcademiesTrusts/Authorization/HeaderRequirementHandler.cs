@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using DfE.FindInformationAcademiesTrusts.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.Extensions.Options;

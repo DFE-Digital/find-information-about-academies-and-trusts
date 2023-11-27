@@ -1,4 +1,4 @@
-namespace DfE.FindInformationAcademiesTrusts;
+namespace DfE.FindInformationAcademiesTrusts.Options;
 
 public class ApplicationInsightsOptions
 {
