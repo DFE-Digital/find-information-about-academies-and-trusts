@@ -20,6 +20,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.csproj"/>
+        <ProjectReference Include="..\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.csproj"/>
     </ItemGroup>
 
 </Project>
