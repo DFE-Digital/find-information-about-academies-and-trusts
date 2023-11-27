@@ -33,6 +33,9 @@ public class AcademiesDbFaker
     {
         var academiesDbData = new AcademiesDbData();
 
+        var dfeContacts = _cdmSystemuserFaker.Generate(10);
+        academiesDbData.CdmSystemusers.AddRange(dfeContacts);
+
         foreach (var trustToGenerate in trustsToGenerate)
         {
             var group = GenerateGroup(trustToGenerate);
