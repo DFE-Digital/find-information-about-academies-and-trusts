@@ -1,15 +1,12 @@
+using DfE.FindInformationAcademiesTrusts.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
 public class CookiesModel : PageModel
 {
-    public static string ConsentCookieName = ".FindInformationAcademiesTrust.CookieConsent";
-    public static string DeleteCookieTempDataName = "DeleteCookie";
-    public static string CookieChangedTempDataName = "CookieResponse";
     private readonly IHttpContextAccessor _httpContextAccessor;
     public bool DisplayCookieChangedMessageOnCookiesPage { get; set; }
     [BindProperty(SupportsGet = true)] public string? ReturnPath { get; set; }
@@ -34,7 +31,7 @@ public class CookiesModel : PageModel
         {
             if (CookiesPreferencesHaveBeenSet())
             {
-                Consent = OptionalCookiesAreAccepted(_httpContextAccessor.HttpContext!, TempData);
+                Consent = CookiesExtensions.OptionalCookiesAreAccepted(_httpContextAccessor.HttpContext!, TempData);
             }
 
             return Page();
@@ -60,8 +57,8 @@ public class CookiesModel : PageModel
         {
             CookieOptions cookieOptions = new()
                 { Expires = DateTime.UtcNow.AddYears(1), Secure = true, HttpOnly = true };
-            Response.Cookies.Append(ConsentCookieName, Consent.Value.ToString(), cookieOptions);
-            TempData[CookieChangedTempDataName] = true;
+            Response.Cookies.Append(CookiesExtensions.ConsentCookieName, Consent.Value.ToString(), cookieOptions);
+            TempData[CookiesExtensions.CookieChangedTempDataName] = true;
         }
 
         if (Consent is false)
@@ -78,7 +75,7 @@ public class CookiesModel : PageModel
                 }
             }
 
-            TempData[DeleteCookieTempDataName] = true;
+            TempData[CookiesExtensions.DeleteCookieTempDataName] = true;
         }
     }
 
@@ -93,25 +90,9 @@ public class CookiesModel : PageModel
         }
     }
 
-    /// <summary>
-    /// Returns whether the user has accepted or rejected optional cookies
-    /// </summary>
-    /// <param name="context">The current HTTP context</param>
-    /// <param name="tempData">The temporary data returned from the response</param>
-    /// <returns></returns>
-    public static bool OptionalCookiesAreAccepted(HttpContext context, ITempDataDictionary tempData)
-    {
-        if (tempData[DeleteCookieTempDataName] is not null)
-        {
-            return false;
-        }
-
-        return context.Request.Cookies.ContainsKey(ConsentCookieName) &&
-               bool.Parse(context.Request.Cookies[ConsentCookieName]!);
-    }
 
     private bool CookiesPreferencesHaveBeenSet()
     {
-        return _httpContextAccessor.HttpContext!.Request.Cookies.ContainsKey(ConsentCookieName);
+        return _httpContextAccessor.HttpContext!.Request.Cookies.ContainsKey(CookiesExtensions.ConsentCookieName);
     }
 }
