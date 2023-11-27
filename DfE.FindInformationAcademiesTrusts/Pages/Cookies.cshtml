@@ -22,16 +22,16 @@
   </div>
 }
 
-<h1 class="govuk-heading-xl">Cookie preferences</h1>
+<h1 class="govuk-heading-l">Cookie preferences</h1>
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-column-three-quarters">
     <p class="govuk-body">
       Cookies are small files saved on your phone, tablet or computer when you visit a website.
     </p>
     <p class="govuk-body">
       We use cookies to make Find information about academies and trusts work and collect information about how you use our service.
     </p>
-    <h2 class="govuk-heading-l">Essential cookies</h2>
+    <h2 class="govuk-heading-m">Essential cookies</h2>
     <p class="govuk-body">
       Essential cookies keep your information secure while you use this site. We do not need to ask permission to use them.
     </p>
@@ -72,7 +72,7 @@
       </tbody>
     </table>
 
-    <h1 class="govuk-heading-l">Optional analytics cookies</h1>
+    <h2 class="govuk-heading-m">Optional analytics cookies</h2>
     <p class="govuk-body">
       With your permission, we use Application Insights to collect data about how you use this site. This information helps us to improve our service.
     </p>
@@ -109,28 +109,32 @@
     </table>
   </div>
 </div>
-<form method="post" name="frmCookies">
-  <div class="govuk-form-group">
-    <input type="hidden" name="redirectPath" value="@(HttpContext.Request.Path + HttpContext.Request.QueryString)"/>
-    <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-        <h3 class="govuk-fieldset__heading">Do you want to accept cookies that measure your website use?</h3>
-      </legend>
-      <div class="govuk-radios">
-        <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="cookies-accept" type="radio" name="consent" value="true" checked="@Model.Consent">
-          <label class="govuk-label govuk-radios__label" for="cookies-accept">
-            Yes
-          </label>
-        </div>
-        <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="cookies-reject" type="radio" name="consent" value="false" checked="@(!Model.Consent)">
-          <label class="govuk-label govuk-radios__label" for="cookies-reject">
-            No
-          </label>
-        </div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form method="post" name="frmCookies">
+      <div class="govuk-form-group">
+        <input type="hidden" name="redirectPath" value="@(HttpContext.Request.Path + HttpContext.Request.QueryString)"/>
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h3 class="govuk-fieldset__heading">Do you want to accept cookies that measure your website use?</h3>
+          </legend>
+          <div class="govuk-radios">
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="cookies-accept" type="radio" name="consent" value="true" checked="@Model.Consent">
+              <label class="govuk-label govuk-radios__label" for="cookies-accept">
+                Yes
+              </label>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="cookies-reject" type="radio" name="consent" value="false" checked="@(!Model.Consent)">
+              <label class="govuk-label govuk-radios__label" for="cookies-reject">
+                No
+              </label>
+            </div>
+          </div>
+        </fieldset>
       </div>
-    </fieldset>
+      <button type="submit" class="govuk-button" data-module="govuk-button">Save changes</button>
+    </form>
   </div>
-  <button type="submit" class="govuk-button" data-module="govuk-button">Save changes</button>
-</form>
+</div>
