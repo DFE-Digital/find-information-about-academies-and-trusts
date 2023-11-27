@@ -9,6 +9,6 @@
    // cr: 0,
    cfg: { // Application Insights Configuration
     connectionString: '@ApplicationInsightsOptions.Value.ConnectionString',
-    disableCookiesUsage : @Json.Serialize(Context.Session.GetInt32("CookieStatus") != (int)CookieStatusEnums.CookieStatus.Accepted)
+    disableCookiesUsage : @Json.Serialize(CookiesModel.OptionalCookiesAreAccepted(Context, TempData) is false)
    }});
-   </script>
+</script>

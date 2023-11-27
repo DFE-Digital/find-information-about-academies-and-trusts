@@ -1,25 +1,42 @@
-@if (!Context.Session.Keys.Contains("CookieStatus"))
+@{
+  var returnPath = string.IsNullOrWhiteSpace(Context.Request.Query["returnPath"]) ? Context.Request.Path + Context.Request.QueryString : Context.Request.Query["returnPath"].ToString();
+}
+
+@if (!Context.Request.Cookies.ContainsKey(CookiesModel.ConsentCookieName) && TempData["DeleteCookies"] is null)
 {
-  Context.Response.Cookies.Delete("ai_session", new CookieOptions { Path = "/", Secure = true, HttpOnly = true });
-  Context.Response.Cookies.Delete("ai_user", new CookieOptions { Path = "/", Secure = true, HttpOnly = true });
-  <div data-test="cookie-banner" class="app-cookie-banner" id="appCookieBanner" aria-label="cookie banner">
-    <div class="govuk-width-container">
-      <div class="app-cookie-banner__container" id="cookieActionsContainer">
-        <p class="govuk-body">
-          We use cookies to
-          <a class="govuk-link" data-test="cookie-banner-link-1" asp-page="/Cookies">collect information</a>
-          about how you use the <a class="govuk-link" asp-page="/Index" data-test="cookie-banner-conversion-link">Find information about academies and trusts</a> part of our service.
-        </p>
-        <div>
-          <a role="button" draggable="false" data-test="cookie-banner-accept" class="govuk-button govuk-!-margin-bottom-2" asp-page="/cookies" asp-route-consent="true" asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)">
-            Accept analytics cookies
-          </a>
-          <a role="button" draggable="false" data-test="cookie-banner-reject" class="govuk-button govuk-!-margin-bottom-2" asp-page="/cookies" asp-route-consent="false" asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)">
-            Reject analytics cookies
-          </a>
-          <p class="inline-message govuk-body">
-            or <a class="govuk-link" data-test="cookies-page-link" asp-page="/cookies" asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)">set your cookie preferences</a>
-          </p>
+  <div class="govuk-cookie-banner " data-nosnippet role="region" aria-label="Cookies on Find Infomation about Academies and Trusts" data-test="cookie-banner">
+    <div class="govuk-cookie-banner__message govuk-width-container">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <h2 class="govuk-cookie-banner__heading govuk-heading-m">Cookies on Find Infomation about Academies and Trusts</h2>
+          <div class="govuk-cookie-banner__content">
+            <p class="govuk-body">We use some essential cookies to make this service work.</p>
+            <p class="govuk-body">We’d also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
+          </div>
+        </div>
+      </div>
+      <div class="govuk-button-group">
+        <a role="button" draggable="false" data-test="cookie-banner-accept" class="govuk-button govuk-!-margin-bottom-2" asp-page="/cookies" asp-route-consent="true" asp-route-returnPath="@returnPath">
+          Accept analytics cookies
+        </a>
+        <a role="button" draggable="false" data-test="cookie-banner-reject" class="govuk-button govuk-!-margin-bottom-2" asp-page="/cookies" asp-route-consent="false" asp-route-returnPath="@returnPath">
+          Reject analytics cookies
+        </a>
+        <a class="govuk-link" data-test="cookies-page-link" asp-page="/cookies" asp-route-returnPath="@returnPath">View cookies</a>
+      </div>
+    </div>
+  </div>
+}
+
+@if (TempData[CookiesModel.CookieChangedTempDataName] is not null)
+{
+  <div class="govuk-cookie-banner " data-nosnippet role="region" aria-label="Cookies on [name of service]">
+    <div class="govuk-cookie-banner__message govuk-width-container">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <div class="govuk-cookie-banner__content">
+            <p class="govuk-body">You’ve @(TempData[CookiesModel.DeleteCookieTempDataName] is null ? "accepted" : "rejected") additional cookies. You can <a class="govuk-link" asp-page="/cookies" asp-route-returnPath="@returnPath">change your cookie settings</a> at any time.</p>
+          </div>
         </div>
       </div>
     </div>
