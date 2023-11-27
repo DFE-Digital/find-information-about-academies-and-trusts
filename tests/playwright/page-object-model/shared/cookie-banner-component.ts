@@ -2,7 +2,6 @@ import { Locator, Page, expect } from '@playwright/test'
 
 export class CookieBannerComponent {
   readonly expect: CookieBannerNavigationComponentAssertions
-  readonly locator: Locator
   readonly acceptCookiesLocator: Locator
   readonly rejectCookiesLocator: Locator
   readonly cookiePageLinkLocator: Locator
