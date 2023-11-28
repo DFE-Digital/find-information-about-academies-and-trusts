@@ -73,17 +73,18 @@ public static class SqlScriptGenerator
     {
         if (value is null)
             return "NULL";
+
         if (propertyType == typeof(string))
         {
             return TransformIntoSqlSafeString(value.ToString());
         }
 
-        if (propertyType == typeof(int))
+        if (propertyType == typeof(int) || propertyType == typeof(Guid) || propertyType == typeof(Guid?))
         {
             return value.ToString()!;
         }
 
-        throw new Exception("unknown type");
+        throw new ApplicationException($"Can't get value as string for unknown type '{propertyType}'");
     }
 
     private static string TransformIntoSqlSafeString(string? unsantisedString)
