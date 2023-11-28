@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace DfE.FindInformationAcademiesTrusts.Extensions;
+namespace DfE.FindInformationAcademiesTrusts;
 
-public static class CookiesExtensions
+public static class CookiesHelper
 {
     public const string ConsentCookieName = ".FindInformationAcademiesTrust.CookieConsent";
     public const string DeleteCookieTempDataName = "DeleteCookie";

@@ -1,4 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Extensions;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,14 +36,14 @@ public class CookiesModelTests
 
     private void SetupAcceptedCookie()
     {
-        _mockRequestCookies.Setup(m => m.ContainsKey(CookiesExtensions.ConsentCookieName)).Returns(true);
-        _mockRequestCookies.Setup(m => m[CookiesExtensions.ConsentCookieName]).Returns("True");
+        _mockRequestCookies.Setup(m => m.ContainsKey(CookiesHelper.ConsentCookieName)).Returns(true);
+        _mockRequestCookies.Setup(m => m[CookiesHelper.ConsentCookieName]).Returns("True");
     }
 
     private void SetupRejectedCookie()
     {
-        _mockRequestCookies.Setup(m => m.ContainsKey(CookiesExtensions.ConsentCookieName)).Returns(true);
-        _mockRequestCookies.Setup(m => m[CookiesExtensions.ConsentCookieName]).Returns("False");
+        _mockRequestCookies.Setup(m => m.ContainsKey(CookiesHelper.ConsentCookieName)).Returns(true);
+        _mockRequestCookies.Setup(m => m[CookiesHelper.ConsentCookieName]).Returns("False");
     }
 
     private void SetupOptionalCookies()
@@ -245,7 +244,7 @@ public class CookiesModelTests
         _sut.Consent = consent;
         _sut.OnGet();
         _mockResponseCookies.Verify(
-            m => m.Append(CookiesExtensions.ConsentCookieName, value, It.IsAny<CookieOptions>()), Times.Once);
+            m => m.Append(CookiesHelper.ConsentCookieName, value, It.IsAny<CookieOptions>()), Times.Once);
     }
 
     [Theory]
@@ -256,7 +255,7 @@ public class CookiesModelTests
         _sut.Consent = consent;
         _sut.OnPost();
         _mockResponseCookies.Verify(
-            m => m.Append(CookiesExtensions.ConsentCookieName, value, It.IsAny<CookieOptions>()), Times.Once);
+            m => m.Append(CookiesHelper.ConsentCookieName, value, It.IsAny<CookieOptions>()), Times.Once);
     }
 
     // (Cookie appended Delete called if needed/TempData is not null)
@@ -326,7 +325,7 @@ public class CookiesModelTests
     {
         _sut.Consent = consent;
         _sut.OnGet();
-        Assert.NotNull(_tempData[CookiesExtensions.CookieChangedTempDataName]);
+        Assert.NotNull(_tempData[CookiesHelper.CookieChangedTempDataName]);
     }
 
     [Theory]
@@ -336,21 +335,21 @@ public class CookiesModelTests
     {
         _sut.Consent = consent;
         _sut.OnPost();
-        Assert.NotNull(_tempData[CookiesExtensions.CookieChangedTempDataName]);
+        Assert.NotNull(_tempData[CookiesHelper.CookieChangedTempDataName]);
     }
 
     [Fact]
     public void OnGet_does_not_set_tempdata_cookie_changed_when_consent_is_not_given()
     {
         _sut.OnGet();
-        Assert.Null(_tempData[CookiesExtensions.CookieChangedTempDataName]);
+        Assert.Null(_tempData[CookiesHelper.CookieChangedTempDataName]);
     }
 
     [Fact]
     public void OnPost_does_not_set_tempdata_cookie_changed_when_consent_is_not_given()
     {
         _sut.OnPost();
-        Assert.Null(_tempData[CookiesExtensions.CookieChangedTempDataName]);
+        Assert.Null(_tempData[CookiesHelper.CookieChangedTempDataName]);
     }
 
     [Theory]
@@ -360,7 +359,7 @@ public class CookiesModelTests
     {
         _sut.Consent = consent;
         _sut.OnGet();
-        Assert.Null(_tempData[CookiesExtensions.DeleteCookieTempDataName]);
+        Assert.Null(_tempData[CookiesHelper.DeleteCookieTempDataName]);
     }
 
     [Theory]
@@ -370,7 +369,7 @@ public class CookiesModelTests
     {
         _sut.Consent = consent;
         _sut.OnPost();
-        Assert.Null(_tempData[CookiesExtensions.DeleteCookieTempDataName]);
+        Assert.Null(_tempData[CookiesHelper.DeleteCookieTempDataName]);
     }
 
     [Fact]
@@ -378,7 +377,7 @@ public class CookiesModelTests
     {
         _sut.Consent = false;
         _sut.OnGet();
-        Assert.NotNull(_tempData[CookiesExtensions.DeleteCookieTempDataName]);
+        Assert.NotNull(_tempData[CookiesHelper.DeleteCookieTempDataName]);
     }
 
     [Fact]
@@ -386,6 +385,6 @@ public class CookiesModelTests
     {
         _sut.Consent = false;
         _sut.OnPost();
-        Assert.NotNull(_tempData[CookiesExtensions.DeleteCookieTempDataName]);
+        Assert.NotNull(_tempData[CookiesHelper.DeleteCookieTempDataName]);
     }
 }

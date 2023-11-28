@@ -1,4 +1,4 @@
-@if (CookiesExtensions.ShowCookieBanner(Context, TempData))
+@if (CookiesHelper.ShowCookieBanner(Context, TempData))
 {
   <div class="govuk-cookie-banner " data-nosnippet role="region" aria-label="Cookies on Find Infomation about Academies and Trusts">
     <div class="govuk-cookie-banner__message govuk-width-container">
@@ -12,26 +12,26 @@
         </div>
       </div>
       <div class="govuk-button-group">
-        <a role="button" draggable="false" class="govuk-button govuk-!-margin-bottom-2" asp-page="/cookies" asp-route-consent="true" asp-route-returnPath="@CookiesExtensions.ReturnPath(Context)">
+        <a role="button" draggable="false" class="govuk-button govuk-!-margin-bottom-2" asp-page="/cookies" asp-route-consent="true" asp-route-returnPath="@CookiesHelper.ReturnPath(Context)">
           Accept analytics cookies
         </a>
-        <a role="button" draggable="false" class="govuk-button govuk-!-margin-bottom-2" asp-page="/cookies" asp-route-consent="false" asp-route-returnPath="@CookiesExtensions.ReturnPath(Context)">
+        <a role="button" draggable="false" class="govuk-button govuk-!-margin-bottom-2" asp-page="/cookies" asp-route-consent="false" asp-route-returnPath="@CookiesHelper.ReturnPath(Context)">
           Reject analytics cookies
         </a>
-        <a class="govuk-link" asp-page="/cookies" asp-route-returnPath="@CookiesExtensions.ReturnPath(Context)">View cookies</a>
+        <a class="govuk-link" asp-page="/cookies" asp-route-returnPath="@CookiesHelper.ReturnPath(Context)">View cookies</a>
       </div>
     </div>
   </div>
 }
 
-@if (TempData[CookiesExtensions.CookieChangedTempDataName] is not null)
+@if (TempData[CookiesHelper.CookieChangedTempDataName] is not null)
 {
   <div class="govuk-cookie-banner " data-nosnippet role="region" aria-label="Cookies on Find Infomation about Academies and Trusts">
     <div class="govuk-cookie-banner__message govuk-width-container">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
           <div class="govuk-cookie-banner__content">
-            <p class="govuk-body">You’ve @(TempData[CookiesExtensions.DeleteCookieTempDataName] is null ? "accepted" : "rejected") additional cookies. You can <a class="govuk-link" asp-page="/cookies" asp-route-returnPath="@CookiesExtensions.ReturnPath(Context)">change your cookie settings</a> at any time.</p>
+            <p class="govuk-body">You’ve @(TempData[CookiesHelper.DeleteCookieTempDataName] is null ? "accepted" : "rejected") additional cookies. You can <a class="govuk-link" asp-page="/cookies" asp-route-returnPath="@CookiesHelper.ReturnPath(Context)">change your cookie settings</a> at any time.</p>
           </div>
         </div>
       </div>

@@ -1,4 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.IdentityModel.Tokens;
@@ -31,7 +30,7 @@ public class CookiesModel : PageModel
         {
             if (CookiesPreferencesHaveBeenSet())
             {
-                Consent = CookiesExtensions.OptionalCookiesAreAccepted(_httpContextAccessor.HttpContext!, TempData);
+                Consent = CookiesHelper.OptionalCookiesAreAccepted(_httpContextAccessor.HttpContext!, TempData);
             }
 
             return Page();
@@ -57,9 +56,9 @@ public class CookiesModel : PageModel
         {
             CookieOptions cookieOptions = new()
                 { Expires = DateTime.UtcNow.AddYears(1), Secure = true, HttpOnly = true };
-            _httpContextAccessor.HttpContext!.Response.Cookies.Append(CookiesExtensions.ConsentCookieName,
+            _httpContextAccessor.HttpContext!.Response.Cookies.Append(CookiesHelper.ConsentCookieName,
                 Consent.Value.ToString(), cookieOptions);
-            TempData[CookiesExtensions.CookieChangedTempDataName] = true;
+            TempData[CookiesHelper.CookieChangedTempDataName] = true;
         }
 
         if (Consent is false)
@@ -73,7 +72,7 @@ public class CookiesModel : PageModel
                 }
             }
 
-            TempData[CookiesExtensions.DeleteCookieTempDataName] = true;
+            TempData[CookiesHelper.DeleteCookieTempDataName] = true;
         }
     }
 
@@ -91,6 +90,6 @@ public class CookiesModel : PageModel
 
     private bool CookiesPreferencesHaveBeenSet()
     {
-        return _httpContextAccessor.HttpContext!.Request.Cookies.ContainsKey(CookiesExtensions.ConsentCookieName);
+        return _httpContextAccessor.HttpContext!.Request.Cookies.ContainsKey(CookiesHelper.ConsentCookieName);
     }
 }
