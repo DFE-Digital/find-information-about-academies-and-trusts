@@ -47,7 +47,7 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
 
         if (trust.IsOpen() && trust.IsSingleAcademyTrust() && trust.Academies.Any())
         {
-            return $"{SchoolFinancialBenchmarkingServiceBaseUrl}/school?urn={GetSingleAcademyUrn(trust)}";
+            return $"{SchoolFinancialBenchmarkingServiceBaseUrl}/school?urn={trust.FirstAcademyUrn()}";
         }
 
         return null;
@@ -62,14 +62,9 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
 
         if (trust.IsOpen() && trust.IsSingleAcademyTrust() && trust.Academies.Any())
         {
-            return $"{FindSchoolPerformanceDataBaseUrl}/school/{GetSingleAcademyUrn(trust)}";
+            return $"{FindSchoolPerformanceDataBaseUrl}/school/{trust.FirstAcademyUrn()}";
         }
 
         return null;
-    }
-
-    private string GetSingleAcademyUrn(Trust trust)
-    {
-        return trust.Academies.FirstOrDefault()?.Urn.ToString() ?? string.Empty;
     }
 }

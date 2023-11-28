@@ -61,4 +61,21 @@ public class TrustTests
         var result = sut.IsOpen();
         result.Should().BeFalse();
     }
+
+    [Fact]
+    public void FirstAcademyUrn_should_return_first_Academy_urn_as_string_if_exists()
+    {
+        Academy[] dummyAcademies = { DummyAcademyFactory.GetDummyAcademy(111) };
+        var sut = DummyTrustFactory.GetDummyTrust("1234", academies: dummyAcademies);
+        var result = sut.FirstAcademyUrn();
+        result.Should().Be("111");
+    }
+
+    [Fact]
+    public void FirstAcademyUrn_should_be_empty_string_if_no_academies()
+    {
+        var sut = DummyTrustFactory.GetDummyTrust("1234");
+        var result = sut.FirstAcademyUrn();
+        result.Should().BeEmpty();
+    }
 }

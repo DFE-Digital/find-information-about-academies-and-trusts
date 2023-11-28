@@ -31,4 +31,9 @@ public record Trust(
     {
         return Status == "Open";
     }
+
+    public string FirstAcademyUrn()
+    {
+        return Academies.FirstOrDefault()?.Urn.ToString() ?? string.Empty;
+    }
 }
