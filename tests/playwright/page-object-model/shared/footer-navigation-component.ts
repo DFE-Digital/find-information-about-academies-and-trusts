@@ -8,7 +8,7 @@ export class FooterNavigationComponent {
   constructor (readonly page: Page) {
     this.expect = new FooterNavigationComponentAssertions(this)
     this.privacyPolicyLinkLocator = page.getByTestId('privacy-policy-link')
-    this.accessibilityStatementLinkLocator = page.getByTestId('accessibility-statement-link')
+    this.accessibilityStatementLinkLocator = page.getByRole('link', { name: 'Accessibility statement' })
   }
 
   async clickPrivacyPolicy (): Promise<void> {
