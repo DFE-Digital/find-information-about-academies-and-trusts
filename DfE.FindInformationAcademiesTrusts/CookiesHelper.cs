@@ -7,6 +7,7 @@ public static class CookiesHelper
     public const string ConsentCookieName = ".FindInformationAcademiesTrust.CookieConsent";
     public const string DeleteCookieTempDataName = "DeleteCookie";
     public const string CookieChangedTempDataName = "CookieResponse";
+    public const string ReturnPathQuery = "returnPath";
 
     /// <summary>
     /// Returns whether the user has accepted or rejected optional cookies
@@ -27,14 +28,14 @@ public static class CookiesHelper
 
     public static string ReturnPath(HttpContext context)
     {
-        return string.IsNullOrWhiteSpace(context.Request.Query["returnPath"])
+        return string.IsNullOrWhiteSpace(context.Request.Query[ReturnPathQuery])
             ? context.Request.Path + context.Request.QueryString
-            : context.Request.Query["returnPath"].ToString();
+            : context.Request.Query[ReturnPathQuery].ToString();
     }
 
     public static bool ShowCookieBanner(HttpContext context, ITempDataDictionary tempData)
     {
         return !context.Request.Cookies.ContainsKey(ConsentCookieName) &&
-               tempData["DeleteCookies"] is null;
+               tempData[DeleteCookieTempDataName] is null;
     }
 }
