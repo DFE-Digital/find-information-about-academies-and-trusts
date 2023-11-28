@@ -4,9 +4,9 @@ namespace DfE.FindInformationAcademiesTrusts.Extensions;
 
 public static class CookiesExtensions
 {
-    public static string ConsentCookieName = ".FindInformationAcademiesTrust.CookieConsent";
-    public static string DeleteCookieTempDataName = "DeleteCookie";
-    public static string CookieChangedTempDataName = "CookieResponse";
+    public const string ConsentCookieName = ".FindInformationAcademiesTrust.CookieConsent";
+    public const string DeleteCookieTempDataName = "DeleteCookie";
+    public const string CookieChangedTempDataName = "CookieResponse";
 
     /// <summary>
     /// Returns whether the user has accepted or rejected optional cookies
