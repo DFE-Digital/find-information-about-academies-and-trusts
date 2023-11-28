@@ -31,6 +31,11 @@ public class GiasGroupFaker
         fakeGiasGroup.GroupType = trustToGenerate.TrustType;
         fakeGiasGroup.GroupUid = uid.ToString();
 
+        if (trustToGenerate.Status is not null)
+        {
+            fakeGiasGroup.GroupStatus = trustToGenerate.Status;
+        }
+
         return fakeGiasGroup;
     }
 }
