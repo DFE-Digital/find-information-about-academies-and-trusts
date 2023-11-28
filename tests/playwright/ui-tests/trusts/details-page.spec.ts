@@ -34,4 +34,26 @@ test.describe('Details page', () => {
       await notFoundPage.expect.toBeShownNotFoundMessage()
     })
   })
+
+  test.describe('Links to other services', () => {
+    test('given a user visits a page for an open mult-academy trust', async () => {
+      await detailsPage.goToOpenMultiAcademyTrust()
+      await detailsPage.expect.toSeeCorrectLinksForOpenTrust()
+    })
+
+    test('given a user visits a page for an open single-academy trust with academies', async () => {
+      await detailsPage.goToOpenSingleAcademyTrustWithAcademies()
+      await detailsPage.expect.toSeeCorrectLinksForOpenTrust()
+    })
+
+    test('given a user tries to visit a page for an open single-academy trust with no academies', async () => {
+      await detailsPage.goToOpenSingleAcademyTrustWithNoAcademies()
+      await detailsPage.expect.toSeeCorrectLinksForSingleAcademyTrustWithNoAcademies()
+    })
+
+    test('given a user tries to visit a page for a closed trust', async () => {
+      await detailsPage.goToClosedTrust()
+      await detailsPage.expect.toSeeCorrectLinksForClosedTrust()
+    })
+  })
 })

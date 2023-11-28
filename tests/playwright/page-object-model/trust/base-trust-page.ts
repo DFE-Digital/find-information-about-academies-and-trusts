@@ -35,14 +35,29 @@ export class BaseTrustPage {
     await this.goToWith('0000')
   }
 
-  async goToMultiAcademyTrust (): Promise<void> {
-    const uid = this.fakeTestData.getMultiAcademyTrust().uid
-    await this.goToWith(uid)
+  async goToOpenMultiAcademyTrust (): Promise<void> {
+    this.currentTrust = this.fakeTestData.getOpenMultiAcademyTrust()
+    await this.goToWith(this.currentTrust.uid)
   }
 
-  async goToSingleAcademyTrust (): Promise<void> {
-    const uid = this.fakeTestData.getSingleAcademyTrust().uid
-    await this.goToWith(uid)
+  async goToOpenSingleAcademyTrust (): Promise<void> {
+    this.currentTrust = this.fakeTestData.getOpenSingleAcademyTrust()
+    await this.goToWith(this.currentTrust.uid)
+  }
+
+  async goToOpenSingleAcademyTrustWithAcademies (): Promise<void> {
+    this.currentTrust = this.fakeTestData.getOpenSingleAcademyTrustWithAcademies()
+    await this.goToWith(this.currentTrust.uid)
+  }
+
+  async goToOpenSingleAcademyTrustWithNoAcademies (): Promise<void> {
+    this.currentTrust = this.fakeTestData.getOpenSingleAcademyTrustWithNoAcademies()
+    await this.goToWith(this.currentTrust.uid)
+  }
+
+  async goToClosedTrust (): Promise<void> {
+    this.currentTrust = this.fakeTestData.getClosedTrust()
+    await this.goToWith(this.currentTrust.uid)
   }
 
   async goToWith (uid: string): Promise<void> {
