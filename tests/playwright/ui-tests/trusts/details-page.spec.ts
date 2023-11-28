@@ -34,4 +34,26 @@ test.describe('Details page', () => {
       await notFoundPage.expect.toBeShownNotFoundMessage()
     })
   })
+
+  test.describe('User should see expected links to other services when visiting a page for', () => {
+    test('an open multi-academy trust', async () => {
+      await detailsPage.goToOpenMultiAcademyTrust()
+      await detailsPage.expect.toSeeCorrectLinksForOpenTrust()
+    })
+
+    test('an open single-academy trust with academies', async () => {
+      await detailsPage.goToOpenSingleAcademyTrustWithAcademies()
+      await detailsPage.expect.toSeeCorrectLinksForOpenTrust()
+    })
+
+    test('an open single-academy trust with no academies', async () => {
+      await detailsPage.goToOpenSingleAcademyTrustWithNoAcademies()
+      await detailsPage.expect.toSeeCorrectLinksForSingleAcademyTrustWithNoAcademies()
+    })
+
+    test('a closed trust', async () => {
+      await detailsPage.goToClosedTrust()
+      await detailsPage.expect.toSeeCorrectLinksForClosedTrust()
+    })
+  })
 })
