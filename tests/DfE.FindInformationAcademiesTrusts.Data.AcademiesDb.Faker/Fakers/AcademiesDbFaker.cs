@@ -1,6 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Helpers;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Fakers;
 
@@ -33,14 +32,14 @@ public class AcademiesDbFaker
     {
         var academiesDbData = new AcademiesDbData();
 
-        var dfeContacts = _cdmSystemuserFaker.Generate(10);
-        academiesDbData.CdmSystemusers.AddRange(dfeContacts);
+        ConfigureDfeContacts(academiesDbData);
 
         foreach (var trustToGenerate in trustsToGenerate)
         {
-            var group = GenerateGroup(trustToGenerate);
+            var group = _giasGroupFaker.Generate(trustToGenerate, _counter++);
             academiesDbData.GiasGroups.Add(group);
-            academiesDbData.MstrTrusts.Add(GenerateMstrTrust(group.GroupUid));
+            academiesDbData.MstrTrusts.Add(_mstrTrustFaker.Generate(group.GroupUid!));
+            academiesDbData.CdmAccounts.Add(_cdmAccountFaker.Generate(group.GroupUid!));
 
             var academies = GenerateAcademies(trustToGenerate, group.GroupUid!).ToArray();
             academiesDbData.GiasEstablishments.AddRange(academies);
@@ -50,14 +49,12 @@ public class AcademiesDbFaker
         return academiesDbData;
     }
 
-    private GiasGroup GenerateGroup(TrustToGenerate trustToGenerate)
+    private void ConfigureDfeContacts(AcademiesDbData academiesDbData)
     {
-        return _giasGroupFaker.Generate(trustToGenerate, _counter++);
-    }
-
-    private MstrTrust GenerateMstrTrust(string? uid)
-    {
-        return _mstrTrustFaker.Generate(uid!);
+        var dfeContacts = _cdmSystemuserFaker.Generate(50);
+        academiesDbData.CdmSystemusers.AddRange(dfeContacts);
+        _cdmAccountFaker.SetSfsoLeads(dfeContacts.Take(25).Select(c => c.Systemuserid));
+        _cdmAccountFaker.SetTrustRelationshipManagers(dfeContacts.Skip(25).Select(c => c.Systemuserid));
     }
 
     private GiasGroupLink GenerateGroupLink(GiasEstablishment establishment, GiasGroup giasGroup)
