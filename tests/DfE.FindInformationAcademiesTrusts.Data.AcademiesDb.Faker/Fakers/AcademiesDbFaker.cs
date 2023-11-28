@@ -68,6 +68,11 @@ public class AcademiesDbFaker
         _giasEstablishmentFaker.SetUid(uid).SetLocalAuthoritiesSelection(
             _generalFaker.PickRandom(_localAuthorities, _generalFaker.Random.Int(1, 4)).ToArray());
 
+        if (trustToGenerate.HasNoAcademies)
+        {
+            return Array.Empty<GiasEstablishment>();
+        }
+
         if (trustToGenerate.Schools.Any())
         {
             return _giasEstablishmentFaker.Generate(trustToGenerate.Schools);

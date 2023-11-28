@@ -606,163 +606,18 @@
   {
     "uid": "1311",
     "name": "CANTERBURY CROSS EDUCATION TRUST",
-    "groupId": "TR1509",
-    "ukprn": "10039223",
-    "type": "Multi-academy trust",
-    "address": "511 Kautzer Plaza, Lake Abelardo, KS68 0JE",
-    "openedDate": "2016-06-20T00:00:00",
-    "companiesHouseNumber": "05502833",
-    "regionAndTerritory": "North West",
-    "academies": [
-      {
-        "urn": 13116598,
-        "dateAcademyJoinedTrust": "2023-07-19T00:00:00",
-        "establishmentName": "Oasis School",
-        "typeOfEstablishment": "Free school",
-        "localAuthority": "North Yorkshire",
-        "urbanRural": "Urban city and town",
-        "phaseOfEducation": "Primary",
-        "numberOfPupils": "1999",
-        "schoolCapacity": "2043",
-        "percentageFreeSchoolMeals": "13",
-        "ageRange": {
-          "minimum": 5,
-          "maximum": 11
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      },
-      {
-        "urn": 13116312,
-        "dateAcademyJoinedTrust": "2017-06-05T00:00:00",
-        "establishmentName": "Horizon Primary Academy",
-        "typeOfEstablishment": "Free school",
-        "localAuthority": "Wakefield",
-        "urbanRural": "Rural town and fringe",
-        "phaseOfEducation": "Primary",
-        "numberOfPupils": "761",
-        "schoolCapacity": "1054",
-        "percentageFreeSchoolMeals": "19",
-        "ageRange": {
-          "minimum": 5,
-          "maximum": 11
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      },
-      {
-        "urn": 13117860,
-        "dateAcademyJoinedTrust": "2020-09-06T00:00:00",
-        "establishmentName": "George Abbey R.C. Academy",
-        "typeOfEstablishment": "Academy sponsor led",
-        "localAuthority": "North Yorkshire",
-        "urbanRural": "Rural village in a sparse setting",
-        "phaseOfEducation": "Primary",
-        "numberOfPupils": "2201",
-        "schoolCapacity": "1981",
-        "percentageFreeSchoolMeals": "23",
-        "ageRange": {
-          "minimum": 4,
-          "maximum": 11
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      },
-      {
-        "urn": 13111939,
-        "dateAcademyJoinedTrust": "2018-11-21T00:00:00",
-        "establishmentName": "Halewood Secondary Academy",
-        "typeOfEstablishment": "Free school",
-        "localAuthority": "Wakefield",
-        "urbanRural": "Urban major conurbation",
-        "phaseOfEducation": "Secondary",
-        "numberOfPupils": "1319",
-        "schoolCapacity": "1792",
-        "percentageFreeSchoolMeals": "8",
-        "ageRange": {
-          "minimum": 11,
-          "maximum": 16
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      },
-      {
-        "urn": 13113137,
-        "dateAcademyJoinedTrust": "2017-06-23T00:00:00",
-        "establishmentName": "Block Rapid Church of England Primary Academy",
-        "typeOfEstablishment": "Academy sponsor led",
-        "localAuthority": "Kirklees",
-        "urbanRural": "Rural village in a sparse setting",
-        "phaseOfEducation": "Primary",
-        "numberOfPupils": "1090",
-        "schoolCapacity": "2052",
-        "percentageFreeSchoolMeals": "25",
-        "ageRange": {
-          "minimum": 4,
-          "maximum": 11
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      },
-      {
-        "urn": 13114724,
-        "dateAcademyJoinedTrust": "2021-04-21T00:00:00",
-        "establishmentName": "Mulberry School",
-        "typeOfEstablishment": "Academy sponsor led",
-        "localAuthority": "North Yorkshire",
-        "urbanRural": "Urban minor conurbation",
-        "phaseOfEducation": "Secondary",
-        "numberOfPupils": "1626",
-        "schoolCapacity": "2898",
-        "percentageFreeSchoolMeals": "9",
-        "ageRange": {
-          "minimum": 11,
-          "maximum": 18
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      },
-      {
-        "urn": 13113162,
-        "dateAcademyJoinedTrust": "2021-05-11T00:00:00",
-        "establishmentName": "Malbank C of E Primary School",
-        "typeOfEstablishment": "Free school",
-        "localAuthority": "Kirklees",
-        "urbanRural": "Urban major conurbation",
-        "phaseOfEducation": "Primary",
-        "numberOfPupils": "777",
-        "schoolCapacity": "717",
-        "percentageFreeSchoolMeals": "29",
-        "ageRange": {
-          "minimum": 4,
-          "maximum": 11
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      },
-      {
-        "urn": 13112502,
-        "dateAcademyJoinedTrust": "2017-09-04T00:00:00",
-        "establishmentName": "Meridian CE Secondary School",
-        "typeOfEstablishment": "Free school",
-        "localAuthority": "Kirklees",
-        "urbanRural": "Rural village in a sparse setting",
-        "phaseOfEducation": "Secondary",
-        "numberOfPupils": "567",
-        "schoolCapacity": "878",
-        "percentageFreeSchoolMeals": "27",
-        "ageRange": {
-          "minimum": 11,
-          "maximum": 16
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      }
-    ],
+    "groupId": "TR4795",
+    "ukprn": "10078946",
+    "type": "Single-academy trust",
+    "address": "61223 Fisher Landing, SY53 9PQ",
+    "openedDate": "2017-02-08T00:00:00",
+    "companiesHouseNumber": "03509380",
+    "regionAndTerritory": "East Midlands",
+    "academies": [],
     "governors": [],
     "trustRelationshipManager": null,
     "sfsoLead": null,
-    "status": "Open"
+    "status": "Closed"
   },
   {
     "uid": "1282",
@@ -4669,199 +4524,18 @@
   {
     "uid": "1310",
     "name": "SHEFFIELD SOUTH EAST TRUST",
-    "groupId": "TR1822",
-    "ukprn": "10027297",
+    "groupId": "TR1613",
+    "ukprn": "10010116",
     "type": "Multi-academy trust",
-    "address": "58462 Lynch Square, Batz Valley, GF3 6GL",
-    "openedDate": "2015-09-24T00:00:00",
-    "companiesHouseNumber": "08031616",
-    "regionAndTerritory": "North West",
-    "academies": [
-      {
-        "urn": 13108746,
-        "dateAcademyJoinedTrust": "2018-02-01T00:00:00",
-        "establishmentName": "Northwood R.C. Academy",
-        "typeOfEstablishment": "Free school",
-        "localAuthority": "Rotherham",
-        "urbanRural": "Rural village in a sparse setting",
-        "phaseOfEducation": "Secondary",
-        "numberOfPupils": "1530",
-        "schoolCapacity": "1218",
-        "percentageFreeSchoolMeals": "19",
-        "ageRange": {
-          "minimum": 11,
-          "maximum": 16
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      },
-      {
-        "urn": 13104493,
-        "dateAcademyJoinedTrust": "2019-05-23T00:00:00",
-        "establishmentName": "Greensward Cofe Academy",
-        "typeOfEstablishment": "Free school",
-        "localAuthority": "Sheffield",
-        "urbanRural": "Rural village in a sparse setting",
-        "phaseOfEducation": "Primary",
-        "numberOfPupils": "3489",
-        "schoolCapacity": "2884",
-        "percentageFreeSchoolMeals": "16",
-        "ageRange": {
-          "minimum": 4,
-          "maximum": 11
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      },
-      {
-        "urn": 13101509,
-        "dateAcademyJoinedTrust": "2016-12-04T00:00:00",
-        "establishmentName": "Glyn Academy",
-        "typeOfEstablishment": "Academy converter",
-        "localAuthority": "Sheffield",
-        "urbanRural": "Rural town and fringe",
-        "phaseOfEducation": "Secondary",
-        "numberOfPupils": "2323",
-        "schoolCapacity": "2204",
-        "percentageFreeSchoolMeals": "15",
-        "ageRange": {
-          "minimum": 11,
-          "maximum": 18
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      },
-      {
-        "urn": 13105248,
-        "dateAcademyJoinedTrust": "2021-01-02T00:00:00",
-        "establishmentName": "Meridian Cofe Primary Academy",
-        "typeOfEstablishment": "Academy converter",
-        "localAuthority": "Rotherham",
-        "urbanRural": "Urban minor conurbation",
-        "phaseOfEducation": "Primary",
-        "numberOfPupils": "1564",
-        "schoolCapacity": "1292",
-        "percentageFreeSchoolMeals": "25",
-        "ageRange": {
-          "minimum": 5,
-          "maximum": 11
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      },
-      {
-        "urn": 13103996,
-        "dateAcademyJoinedTrust": "2016-12-17T00:00:00",
-        "establishmentName": "Holly Lodge Girls\u0027 Primary Academy",
-        "typeOfEstablishment": "Academy converter",
-        "localAuthority": "Rotherham",
-        "urbanRural": "Rural town and fringe",
-        "phaseOfEducation": "Primary",
-        "numberOfPupils": "2487",
-        "schoolCapacity": "2496",
-        "percentageFreeSchoolMeals": "17",
-        "ageRange": {
-          "minimum": 5,
-          "maximum": 11
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      },
-      {
-        "urn": 13106360,
-        "dateAcademyJoinedTrust": "2016-10-06T00:00:00",
-        "establishmentName": "Co-op Primary School",
-        "typeOfEstablishment": "Academy sponsor led",
-        "localAuthority": "Rotherham",
-        "urbanRural": "Rural village in a sparse setting",
-        "phaseOfEducation": "Primary",
-        "numberOfPupils": "319",
-        "schoolCapacity": "297",
-        "percentageFreeSchoolMeals": "5",
-        "ageRange": {
-          "minimum": 4,
-          "maximum": 11
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      },
-      {
-        "urn": 13102308,
-        "dateAcademyJoinedTrust": "2019-07-21T00:00:00",
-        "establishmentName": "Greensward R.C. Primary Academy",
-        "typeOfEstablishment": "Academy converter",
-        "localAuthority": "Rotherham",
-        "urbanRural": "Urban city and town",
-        "phaseOfEducation": "Primary",
-        "numberOfPupils": "976",
-        "schoolCapacity": "1136",
-        "percentageFreeSchoolMeals": "20",
-        "ageRange": {
-          "minimum": 5,
-          "maximum": 11
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      },
-      {
-        "urn": 13107709,
-        "dateAcademyJoinedTrust": "2017-03-26T00:00:00",
-        "establishmentName": "Queensbridge Catholic Secondary School",
-        "typeOfEstablishment": "Academy converter",
-        "localAuthority": "Rotherham",
-        "urbanRural": "Urban major conurbation",
-        "phaseOfEducation": "Secondary",
-        "numberOfPupils": "1242",
-        "schoolCapacity": "1135",
-        "percentageFreeSchoolMeals": "18",
-        "ageRange": {
-          "minimum": 11,
-          "maximum": 18
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      },
-      {
-        "urn": 13104851,
-        "dateAcademyJoinedTrust": "2021-03-05T00:00:00",
-        "establishmentName": "Longhill Cofe School",
-        "typeOfEstablishment": "Free school",
-        "localAuthority": "Sheffield",
-        "urbanRural": "Rural village in a sparse setting",
-        "phaseOfEducation": "Primary",
-        "numberOfPupils": "902",
-        "schoolCapacity": "1892",
-        "percentageFreeSchoolMeals": "8",
-        "ageRange": {
-          "minimum": 5,
-          "maximum": 11
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      },
-      {
-        "urn": 13101234,
-        "dateAcademyJoinedTrust": "2023-02-18T00:00:00",
-        "establishmentName": "Barr and Community School",
-        "typeOfEstablishment": "Free school",
-        "localAuthority": "Rotherham",
-        "urbanRural": "Rural town and fringe",
-        "phaseOfEducation": "Secondary",
-        "numberOfPupils": "2788",
-        "schoolCapacity": "2387",
-        "percentageFreeSchoolMeals": "1",
-        "ageRange": {
-          "minimum": 11,
-          "maximum": 16
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      }
-    ],
+    "address": "32858 Kuphal Mountain, HF5 8LR",
+    "openedDate": "2021-04-20T00:00:00",
+    "companiesHouseNumber": "09139542",
+    "regionAndTerritory": "East Midlands",
+    "academies": [],
     "governors": [],
     "trustRelationshipManager": null,
     "sfsoLead": null,
-    "status": "Closed"
+    "status": "Open"
   },
   {
     "uid": "1283",
@@ -6754,26 +6428,7 @@
     "openedDate": "2015-09-14T00:00:00",
     "companiesHouseNumber": "08024943",
     "regionAndTerritory": "North West",
-    "academies": [
-      {
-        "urn": 13091910,
-        "dateAcademyJoinedTrust": "2021-07-07T00:00:00",
-        "establishmentName": "Peacehaven Community R.C. Secondary Academy",
-        "typeOfEstablishment": "Academy converter",
-        "localAuthority": "York",
-        "urbanRural": "Rural town and fringe",
-        "phaseOfEducation": "Secondary",
-        "numberOfPupils": "2456",
-        "schoolCapacity": "2669",
-        "percentageFreeSchoolMeals": "25",
-        "ageRange": {
-          "minimum": 11,
-          "maximum": 16
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      }
-    ],
+    "academies": [],
     "governors": [],
     "trustRelationshipManager": null,
     "sfsoLead": null,
@@ -7496,54 +7151,17 @@
   {
     "uid": "1312",
     "name": "WESTMINSTER ACADEMY TRUST",
-    "groupId": "TR1191",
-    "ukprn": "10014972",
-    "type": "Multi-academy trust",
-    "address": "668 Ransom Rest, Jordon Islands, QF34 4CF",
-    "openedDate": "2023-07-25T00:00:00",
-    "companiesHouseNumber": "07795150",
-    "regionAndTerritory": "North East",
-    "academies": [
-      {
-        "urn": 13122342,
-        "dateAcademyJoinedTrust": "2023-08-15T00:00:00",
-        "establishmentName": "St. Peter\u0027s R.C. School",
-        "typeOfEstablishment": "Academy sponsor led",
-        "localAuthority": "Barnsley",
-        "urbanRural": "Urban city and town",
-        "phaseOfEducation": "Secondary",
-        "numberOfPupils": "1704",
-        "schoolCapacity": "2715",
-        "percentageFreeSchoolMeals": "16",
-        "ageRange": {
-          "minimum": 11,
-          "maximum": 18
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      },
-      {
-        "urn": 13125562,
-        "dateAcademyJoinedTrust": "2023-08-04T00:00:00",
-        "establishmentName": "St. Catherine\u0027s Church of England School",
-        "typeOfEstablishment": "Academy sponsor led",
-        "localAuthority": "Leeds",
-        "urbanRural": "Rural village in a sparse setting",
-        "phaseOfEducation": "Secondary",
-        "numberOfPupils": "2465",
-        "schoolCapacity": "2541",
-        "percentageFreeSchoolMeals": "21",
-        "ageRange": {
-          "minimum": 11,
-          "maximum": 16
-        },
-        "currentOfstedRating": null,
-        "previousOfstedRating": null
-      }
-    ],
+    "groupId": "TR8932",
+    "ukprn": "10007140",
+    "type": "Single-academy trust",
+    "address": "2949 Lang Harbors, Lilla Turnpike, BH5 2SS",
+    "openedDate": "2018-12-06T00:00:00",
+    "companiesHouseNumber": "06555798",
+    "regionAndTerritory": "",
+    "academies": [],
     "governors": [],
     "trustRelationshipManager": null,
     "sfsoLead": null,
-    "status": "Closed"
+    "status": "Open"
   }
 ]
