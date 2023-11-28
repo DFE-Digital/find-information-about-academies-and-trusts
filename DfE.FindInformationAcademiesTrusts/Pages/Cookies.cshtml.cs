@@ -57,21 +57,19 @@ public class CookiesModel : PageModel
         {
             CookieOptions cookieOptions = new()
                 { Expires = DateTime.UtcNow.AddYears(1), Secure = true, HttpOnly = true };
-            Response.Cookies.Append(CookiesExtensions.ConsentCookieName, Consent.Value.ToString(), cookieOptions);
+            _httpContextAccessor.HttpContext!.Response.Cookies.Append(CookiesExtensions.ConsentCookieName,
+                Consent.Value.ToString(), cookieOptions);
             TempData[CookiesExtensions.CookieChangedTempDataName] = true;
         }
 
         if (Consent is false)
         {
-            foreach (var cookie in Request.Cookies.Keys)
+            var optionalCookieMatches = new[] { "ai_session", "ai_user" };
+            foreach (var cookie in optionalCookieMatches)
             {
-                var optionalCookieMatches = new[] { "ai_session", "ai_user" };
-                foreach (var match in optionalCookieMatches)
+                if (_httpContextAccessor.HttpContext!.Request.Cookies.ContainsKey(cookie))
                 {
-                    if (match == cookie)
-                    {
-                        Response.Cookies.Delete(cookie);
-                    }
+                    _httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie);
                 }
             }
 
