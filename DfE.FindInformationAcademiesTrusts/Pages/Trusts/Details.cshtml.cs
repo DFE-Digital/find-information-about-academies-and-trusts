@@ -22,6 +22,8 @@ public class DetailsModel : TrustsAreaModel
     {
         var pageResult = await base.OnGetAsync();
 
+        if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
+
         CompaniesHouseLink = _otherServicesLinkBuilder.CompaniesHouseListingLink(Trust);
         GetInformationAboutSchoolsLink = _otherServicesLinkBuilder.GetInformationAboutSchoolsListingLink(Trust);
         SchoolsFinancialBenchmarkingLink =
