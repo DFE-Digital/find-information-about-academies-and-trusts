@@ -43,9 +43,12 @@
             Information from other services (opens in a new tab)
           </dt>
           <dd class="govuk-summary-list__value">
-            <p class="govuk-body">
-              <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.CompaniesHouseLink">Companies House</a>
-            </p>
+            @if (Model.CompaniesHouseLink is not null)
+            {
+              <p class="govuk-body">
+                <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.CompaniesHouseLink">Companies House</a>
+              </p>
+            }
             @if (Model.GetInformationAboutSchoolsLink is not null)
             {
               <p class="govuk-body">

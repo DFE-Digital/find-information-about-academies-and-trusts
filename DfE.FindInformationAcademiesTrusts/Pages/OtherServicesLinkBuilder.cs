@@ -33,8 +33,9 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
         return null;
     }
 
-    public string CompaniesHouseListingLink(Trust trust)
+    public string? CompaniesHouseListingLink(Trust trust)
     {
+        if (string.IsNullOrEmpty(trust.CompaniesHouseNumber)) return null;
         return $"{CompaniesHouseBaseUrl}/company/{trust.CompaniesHouseNumber}";
     }
 

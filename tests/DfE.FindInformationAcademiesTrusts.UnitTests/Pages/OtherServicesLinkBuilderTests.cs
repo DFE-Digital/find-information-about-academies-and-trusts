@@ -15,7 +15,15 @@ public class OtherServicesLinkBuilderTests
         var result = _sut.CompaniesHouseListingLink(dummyTrust);
         result.Should().Contain("/company/2345");
     }
-    
+
+    [Fact]
+    public void CompaniesHouseListingLink_should_return_null_if_trust_has_no_CompaniesHouseNumber()
+    {
+        var dummyTrust = DummyTrustFactory.GetDummyTrust("1234", companiesHouseNumber: "");
+        var result = _sut.CompaniesHouseListingLink(dummyTrust);
+        result.Should().BeNull();
+    }
+
     [Fact]
     public void GetInformationAboutSchoolsListingLink_should_return_url_containing_trust_uid_if_trust_is_open()
     {
