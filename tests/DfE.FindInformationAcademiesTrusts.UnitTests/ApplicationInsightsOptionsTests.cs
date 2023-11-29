@@ -5,17 +5,15 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests;
 public class ApplicationInsightsOptionsTests
 {
     [Fact]
-    public void ApplicationInsightsOptions_Should_Return_Correct_Section_String()
+    public void Configuration_section_should_be_ApplicationInsights()
     {
-        var expectedConfigurationSection = "ApplicationInsights";
-        var sut = ApplicationInsightsOptions.ConfigurationSection;
-        sut.Should().BeEquivalentTo(expectedConfigurationSection);
+        ApplicationInsightsOptions.ConfigurationSection.Should().Be("ApplicationInsights");
     }
 
     [Fact]
-    public void ApplicationInsightsOptions_Should_Have_A_String_Available_Called_ConnectionString()
+    public void ConnectionString_should_default_to_null()
     {
-        var sut = new ApplicationInsightsOptions();
+        ApplicationInsightsOptions sut = new();
         sut.ConnectionString.Should().BeNull();
     }
 }
