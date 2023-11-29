@@ -12,6 +12,7 @@ public class CdmAccountFaker
     public CdmAccountFaker()
     {
         _cdmAccountFaker
+            .RuleFor(a => a.Id, f => f.Random.Guid())
             .RuleFor(a => a.SipTrustrelationshipmanager, f => f.PickRandom(_trustRelationshipManagerIds))
             .RuleFor(a => a.SipAmsdlead, f => f.PickRandom(_sfsoLeadIds));
     }
