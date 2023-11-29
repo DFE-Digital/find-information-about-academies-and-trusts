@@ -244,7 +244,8 @@ public class CookiesModelTests
         _sut.Consent = consent;
         _sut.OnGet();
         _mockResponseCookies.Verify(
-            m => m.Append(CookiesHelper.ConsentCookieName, value, It.IsAny<CookieOptions>()), Times.Once);
+            m => m.Append(CookiesHelper.ConsentCookieName, value,
+                It.Is<CookieOptions>(c => c.Secure == true && c.HttpOnly == true)), Times.Once);
     }
 
     [Theory]
@@ -255,7 +256,8 @@ public class CookiesModelTests
         _sut.Consent = consent;
         _sut.OnPost();
         _mockResponseCookies.Verify(
-            m => m.Append(CookiesHelper.ConsentCookieName, value, It.IsAny<CookieOptions>()), Times.Once);
+            m => m.Append(CookiesHelper.ConsentCookieName, value,
+                It.Is<CookieOptions>(c => c.Secure == true && c.HttpOnly == true)), Times.Once);
     }
 
     // (Cookie appended Delete called if needed/TempData is not null)
@@ -326,6 +328,7 @@ public class CookiesModelTests
         _sut.Consent = consent;
         _sut.OnGet();
         Assert.NotNull(_tempData[CookiesHelper.CookieChangedTempDataName]);
+        Assert.True(_tempData[CookiesHelper.CookieChangedTempDataName].As<bool>());
     }
 
     [Theory]
@@ -336,6 +339,7 @@ public class CookiesModelTests
         _sut.Consent = consent;
         _sut.OnPost();
         Assert.NotNull(_tempData[CookiesHelper.CookieChangedTempDataName]);
+        Assert.True(_tempData[CookiesHelper.CookieChangedTempDataName].As<bool>());
     }
 
     [Fact]
@@ -378,6 +382,7 @@ public class CookiesModelTests
         _sut.Consent = false;
         _sut.OnGet();
         Assert.NotNull(_tempData[CookiesHelper.DeleteCookieTempDataName]);
+        Assert.True(_tempData[CookiesHelper.DeleteCookieTempDataName].As<bool>());
     }
 
     [Fact]
@@ -386,5 +391,6 @@ public class CookiesModelTests
         _sut.Consent = false;
         _sut.OnPost();
         Assert.NotNull(_tempData[CookiesHelper.DeleteCookieTempDataName]);
+        Assert.True(_tempData[CookiesHelper.DeleteCookieTempDataName].As<bool>());
     }
 }
