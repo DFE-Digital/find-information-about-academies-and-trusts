@@ -125,20 +125,54 @@ public class CookiesHelperTests
     [Fact]
     public void ShowCookieBanner_is_true_when_consent_cookie_does_not_exist_and_temp_data_does_not_exist()
     {
+        var result = CookiesHelper.ShowCookieBanner(_mockContext.Object, _mockTempData.Object);
+        Assert.True(result);
     }
 
-    [Fact]
-    public void ShowCookieBanner_is_false_when_consent_cookie_exists_and_temp_data_does_not_exist()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void ShowCookieBanner_is_false_when_consent_cookie_exists_and_temp_data_does_not_exist(bool cookieAccepted)
     {
+        if (cookieAccepted)
+        {
+            SetupAcceptedCookie();
+        }
+
+        if (cookieAccepted == false)
+        {
+            SetupRejectedCookie();
+        }
+
+        var result = CookiesHelper.ShowCookieBanner(_mockContext.Object, _mockTempData.Object);
+        Assert.False(result);
     }
 
     [Fact]
     public void ShowCookieBanner_is_false_when_consent_cookie_does_not_exist_and_temp_data_exists()
     {
+        SetTempDataCookieDeleted();
+        var result = CookiesHelper.ShowCookieBanner(_mockContext.Object, _mockTempData.Object);
+        Assert.False(result);
     }
 
-    [Fact]
-    public void ShowCookieBanner_is_false_when_consent_cookie_exists_and_temp_data_exists()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void ShowCookieBanner_is_false_when_consent_cookie_exists_and_temp_data_exists(bool cookieAccepted)
     {
+        if (cookieAccepted)
+        {
+            SetupAcceptedCookie();
+        }
+
+        if (cookieAccepted == false)
+        {
+            SetupRejectedCookie();
+        }
+
+        SetTempDataCookieDeleted();
+        var result = CookiesHelper.ShowCookieBanner(_mockContext.Object, _mockTempData.Object);
+        Assert.False(result);
     }
 }
