@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Pages;
+using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -11,49 +12,23 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages;
 
 public class CookiesModelTests
 {
-    private readonly Mock<IResponseCookies> _mockResponseCookies;
-    private readonly Mock<IRequestCookieCollection> _mockRequestCookies;
+    private readonly MockHttpContext _mockHttpContext;
     private readonly CookiesModel _sut;
     private readonly TempDataDictionary _tempData;
 
     public CookiesModelTests()
     {
         Mock<IHttpContextAccessor> mockHttpAccessor = new();
-        var httpContext = new DefaultHttpContext();
-        _mockResponseCookies = new Mock<IResponseCookies>();
-        _mockRequestCookies = new Mock<IRequestCookieCollection>();
-        mockHttpAccessor.Setup(m => m.HttpContext).Returns(httpContext);
-        mockHttpAccessor.Setup(m => m.HttpContext!.Response.Cookies).Returns(_mockResponseCookies.Object);
-        mockHttpAccessor.Setup(m => m.HttpContext!.Request.Cookies).Returns(_mockRequestCookies.Object);
-        var actionContext = new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
-        _tempData = new TempDataDictionary(httpContext, Mock.Of<ITempDataProvider>());
+        _mockHttpContext = new MockHttpContext();
+        mockHttpAccessor.Setup(m => m.HttpContext).Returns(_mockHttpContext.Object);
+        var actionContext = new ActionContext(_mockHttpContext.Object, new RouteData(), new ActionDescriptor());
+        _tempData = new TempDataDictionary(_mockHttpContext.Object, Mock.Of<ITempDataProvider>());
         _sut = new CookiesModel(mockHttpAccessor.Object)
         {
             TempData = _tempData,
             Url = new UrlHelper(actionContext)
         };
     }
-
-    private void SetupAcceptedCookie()
-    {
-        _mockRequestCookies.Setup(m => m.ContainsKey(CookiesHelper.ConsentCookieName)).Returns(true);
-        _mockRequestCookies.Setup(m => m[CookiesHelper.ConsentCookieName]).Returns("True");
-    }
-
-    private void SetupRejectedCookie()
-    {
-        _mockRequestCookies.Setup(m => m.ContainsKey(CookiesHelper.ConsentCookieName)).Returns(true);
-        _mockRequestCookies.Setup(m => m[CookiesHelper.ConsentCookieName]).Returns("False");
-    }
-
-    private void SetupOptionalCookies()
-    {
-        _mockRequestCookies.Setup(m => m.ContainsKey("ai_user")).Returns(true);
-        _mockRequestCookies.Setup(m => m["ai_user"]).Returns("True");
-        _mockRequestCookies.Setup(m => m.ContainsKey("ai_session")).Returns(true);
-        _mockRequestCookies.Setup(m => m["ai_session"]).Returns("True");
-    }
-
 
     //Check return path is set correctly
     //Return path set correctly when valid local path
@@ -117,14 +92,7 @@ public class CookiesModelTests
     [InlineData(false, false)]
     public void OnGet_should_not_change_consent_when_it_is_provided(bool consent, bool? accepted)
     {
-        if (accepted == true)
-        {
-            SetupAcceptedCookie();
-        }
-        else if (accepted == false)
-        {
-            SetupRejectedCookie();
-        }
+        _mockHttpContext.SetupConsentCookie(accepted);
 
         _sut.Consent = consent;
         _sut.OnGet();
@@ -140,14 +108,7 @@ public class CookiesModelTests
     [InlineData(false, false)]
     public void OnPost_should_not_change_consent_when_it_is_provided(bool consent, bool? accepted)
     {
-        if (accepted == true)
-        {
-            SetupAcceptedCookie();
-        }
-        else if (accepted == false)
-        {
-            SetupRejectedCookie();
-        }
+        _mockHttpContext.SetupConsentCookie(accepted);
 
         _sut.Consent = consent;
         _sut.OnPost();
@@ -161,14 +122,7 @@ public class CookiesModelTests
     [InlineData(false)]
     public void OnGet_should_set_consent_when_it_not_provided_and_the_cookie_has_been_set(bool accepted)
     {
-        if (accepted)
-        {
-            SetupAcceptedCookie();
-        }
-        else
-        {
-            SetupRejectedCookie();
-        }
+        _mockHttpContext.SetupConsentCookie(accepted);
 
         _sut.OnGet();
         Assert.Equal(accepted, _sut.Consent);
@@ -243,9 +197,7 @@ public class CookiesModelTests
     {
         _sut.Consent = consent;
         _sut.OnGet();
-        _mockResponseCookies.Verify(
-            m => m.Append(CookiesHelper.ConsentCookieName, value,
-                It.Is<CookieOptions>(c => c.Secure == true && c.HttpOnly == true)), Times.Once);
+        _mockHttpContext.VerifySecureCookieAdded(CookiesHelper.ConsentCookieName, value);
     }
 
     [Theory]
@@ -255,68 +207,68 @@ public class CookiesModelTests
     {
         _sut.Consent = consent;
         _sut.OnPost();
-        _mockResponseCookies.Verify(
-            m => m.Append(CookiesHelper.ConsentCookieName, value,
-                It.Is<CookieOptions>(c => c.Secure == true && c.HttpOnly == true)), Times.Once);
+        _mockHttpContext.VerifySecureCookieAdded(CookiesHelper.ConsentCookieName, value);
     }
 
     // (Cookie appended Delete called if needed/TempData is not null)
-    [Fact]
-    public void OnGet_removes_cookies_when_consent_is_false()
+    [Theory]
+    [InlineData("ai_session")]
+    [InlineData("ai_user")]
+    public void OnGet_removes_optional_cookie_when_consent_is_false(string cookieName)
     {
-        SetupOptionalCookies();
+        _mockHttpContext.SetupOptionalCookies();
         _sut.Consent = false;
         _sut.OnGet();
-        _mockResponseCookies.Verify(
-            m => m.Delete(It.IsAny<string>()), Times.Exactly(2));
+        _mockHttpContext.VerifyCookieDeleted(cookieName);
     }
 
-    [Fact]
-    public void OnPost_removes_cookies_when_consent_is_false()
+    [Theory]
+    [InlineData("ai_session")]
+    [InlineData("ai_user")]
+    public void OnPost_removes_optional_cookie_when_consent_is_false(string cookieName)
     {
-        SetupOptionalCookies();
+        _mockHttpContext.SetupOptionalCookies();
         _sut.Consent = false;
         _sut.OnPost();
-        _mockResponseCookies.Verify(
-            m => m.Delete(It.IsAny<string>()), Times.Exactly(2));
+        _mockHttpContext.VerifyCookieDeleted(cookieName);
     }
 
     [Fact]
-    public void OnGet_does_not_removes_cookies_when_consent_is_true()
+    public void OnGet_does_not_remove_cookies_when_consent_is_true()
     {
-        SetupOptionalCookies();
+        _mockHttpContext.SetupOptionalCookies();
+        _mockHttpContext.SetupAcceptedCookie();
         _sut.Consent = true;
         _sut.OnGet();
-        _mockResponseCookies.Verify(
-            m => m.Delete(It.IsAny<string>()), Times.Exactly(0));
+        _mockHttpContext.VerifyNoCookiesDeleted();
     }
 
     [Fact]
-    public void OnPost_does_not_removes_cookies_when_consent_is_true()
+    public void OnPost_does_not_remove_cookies_when_consent_is_true()
     {
-        SetupOptionalCookies();
+        _mockHttpContext.SetupOptionalCookies();
+        _mockHttpContext.SetupAcceptedCookie();
         _sut.Consent = true;
         _sut.OnPost();
-        _mockResponseCookies.Verify(
-            m => m.Delete(It.IsAny<string>()), Times.Exactly(0));
+        _mockHttpContext.VerifyNoCookiesDeleted();
     }
 
     [Fact]
-    public void OnGet_does_not_removes_cookies_when_there_are_no_cookies_to_remove()
+    public void OnGet_does_not_remove_cookies_when_there_are_no_optional_cookies_to_remove()
     {
+        _mockHttpContext.SetupRejectedCookie();
         _sut.Consent = false;
         _sut.OnGet();
-        _mockResponseCookies.Verify(
-            m => m.Delete(It.IsAny<string>()), Times.Exactly(0));
+        _mockHttpContext.VerifyNoCookiesDeleted();
     }
 
     [Fact]
-    public void OnPost_does_not_removes_cookies_when_there_are_no_cookies_to_remove()
+    public void OnPost_does_not_remove_cookies_when_there_are_no_optional_cookies_to_remove()
     {
+        _mockHttpContext.SetupRejectedCookie();
         _sut.Consent = false;
         _sut.OnPost();
-        _mockResponseCookies.Verify(
-            m => m.Delete(It.IsAny<string>()), Times.Exactly(0));
+        _mockHttpContext.VerifyNoCookiesDeleted();
     }
 
     //TempData

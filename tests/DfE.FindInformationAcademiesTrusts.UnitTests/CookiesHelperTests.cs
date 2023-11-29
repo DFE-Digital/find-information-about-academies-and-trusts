@@ -1,19 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests;
 
 public class CookiesHelperTests
 {
-    private readonly Mock<HttpContext> _mockContext;
+    private readonly MockHttpContext _mockContext;
     private readonly Mock<ITempDataDictionary> _mockTempData;
 
     public CookiesHelperTests()
     {
-        _mockContext = new Mock<HttpContext>();
+        _mockContext = new MockHttpContext();
         _mockTempData = new Mock<ITempDataDictionary>();
-        _mockContext.Setup(m => m.Request.Cookies[CookiesHelper.ConsentCookieName]).Returns("False");
-        _mockContext.Setup(m => m.Request.Query[It.IsAny<string>()]).Returns("");
     }
 
     private void SetTempDataCookieDeleted()
@@ -21,47 +19,10 @@ public class CookiesHelperTests
         _mockTempData.Setup(m => m[CookiesHelper.DeleteCookieTempDataName]).Returns(true);
     }
 
-    private void SetupAcceptedCookie()
-    {
-        _mockContext.Setup(m => m.Request.Cookies.ContainsKey(CookiesHelper.ConsentCookieName)).Returns(true);
-        _mockContext.Setup(m => m.Request.Cookies[CookiesHelper.ConsentCookieName]).Returns("True");
-    }
-
-    private void SetupRejectedCookie()
-    {
-        _mockContext.Setup(m => m.Request.Cookies.ContainsKey(CookiesHelper.ConsentCookieName)).Returns(true);
-        _mockContext.Setup(m => m.Request.Cookies[CookiesHelper.ConsentCookieName]).Returns("False");
-    }
-
-    private void SetQueryReturnPath(string path)
-    {
-        _mockContext.Setup(m => m.Request.Query[CookiesHelper.ReturnPathQuery]).Returns(path);
-    }
-
-    private void SetPath(string path)
-    {
-        if (path[0] is not '/')
-        {
-            path = "/" + path;
-        }
-
-        _mockContext.Setup(m => m.Request.Path).Returns(path);
-    }
-
-    private void SetQueryString(string queryString)
-    {
-        if (queryString[0] is not '?')
-        {
-            queryString = "?" + queryString;
-        }
-
-        _mockContext.Setup(m => m.Request.QueryString).Returns(new QueryString(queryString));
-    }
-
     [Fact]
     public void OptionalCookiesAreAccepted_is_true_when_Accepted_cookie_exists()
     {
-        SetupAcceptedCookie();
+        _mockContext.SetupAcceptedCookie();
         var result = CookiesHelper.OptionalCookiesAreAccepted(_mockContext.Object, _mockTempData.Object);
         Assert.True(result);
     }
@@ -69,7 +30,7 @@ public class CookiesHelperTests
     [Fact]
     public void OptionalCookiesAreAccepted_is_false_when_Rejected_cookie_exists()
     {
-        SetupRejectedCookie();
+        _mockContext.SetupRejectedCookie();
         var result = CookiesHelper.OptionalCookiesAreAccepted(_mockContext.Object, _mockTempData.Object);
         Assert.False(result);
     }
@@ -80,15 +41,7 @@ public class CookiesHelperTests
     [InlineData(null)]
     public void OptionalCookiesAreAccepted_is_false_when_DeleteCookieTempData_exists(bool? cookieAccepted)
     {
-        if (cookieAccepted == true)
-        {
-            SetupAcceptedCookie();
-        }
-
-        if (cookieAccepted == false)
-        {
-            SetupRejectedCookie();
-        }
+        _mockContext.SetupConsentCookie(cookieAccepted);
 
         SetTempDataCookieDeleted();
         var result = CookiesHelper.OptionalCookiesAreAccepted(_mockContext.Object, _mockTempData.Object);
@@ -105,9 +58,9 @@ public class CookiesHelperTests
     [Fact]
     public void If_ReturnPath_Exists_in_query_then_ReturnPath_function_always_returns_it()
     {
-        SetQueryReturnPath("Expected");
-        SetPath("/Path");
-        SetQueryString("?QueryString");
+        _mockContext.SetQueryReturnPath("Expected");
+        _mockContext.SetPath("/Path");
+        _mockContext.SetQueryString("?QueryString");
         var result = CookiesHelper.ReturnPath(_mockContext.Object);
         Assert.Equal("Expected", result);
     }
@@ -116,8 +69,8 @@ public class CookiesHelperTests
     public void
         If_ReturnPath_does_not_exist_in_query_then_ReturnPath_function_always_returns_the_original_path_and_query()
     {
-        SetPath("/Path");
-        SetQueryString("?QueryString");
+        _mockContext.SetPath("/Path");
+        _mockContext.SetQueryString("?QueryString");
         var result = CookiesHelper.ReturnPath(_mockContext.Object);
         Assert.Equal("/Path?QueryString", result);
     }
@@ -134,15 +87,7 @@ public class CookiesHelperTests
     [InlineData(false)]
     public void ShowCookieBanner_is_false_when_consent_cookie_exists_and_temp_data_does_not_exist(bool cookieAccepted)
     {
-        if (cookieAccepted)
-        {
-            SetupAcceptedCookie();
-        }
-
-        if (cookieAccepted == false)
-        {
-            SetupRejectedCookie();
-        }
+        _mockContext.SetupConsentCookie(cookieAccepted);
 
         var result = CookiesHelper.ShowCookieBanner(_mockContext.Object, _mockTempData.Object);
         Assert.False(result);
@@ -161,15 +106,7 @@ public class CookiesHelperTests
     [InlineData(false)]
     public void ShowCookieBanner_is_false_when_consent_cookie_exists_and_temp_data_exists(bool cookieAccepted)
     {
-        if (cookieAccepted)
-        {
-            SetupAcceptedCookie();
-        }
-
-        if (cookieAccepted == false)
-        {
-            SetupRejectedCookie();
-        }
+        _mockContext.SetupConsentCookie(cookieAccepted);
 
         SetTempDataCookieDeleted();
         var result = CookiesHelper.ShowCookieBanner(_mockContext.Object, _mockTempData.Object);
