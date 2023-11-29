@@ -64,12 +64,10 @@ public class CookiesModel : PageModel
         if (Consent is false)
         {
             var optionalCookieMatches = new[] { "ai_session", "ai_user" };
-            foreach (var cookie in optionalCookieMatches)
+            foreach (var cookie in optionalCookieMatches.Where(cookie =>
+                         _httpContextAccessor.HttpContext!.Request.Cookies.ContainsKey(cookie)))
             {
-                if (_httpContextAccessor.HttpContext!.Request.Cookies.ContainsKey(cookie))
-                {
-                    _httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie);
-                }
+                _httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie);
             }
 
             TempData[CookiesHelper.DeleteCookieTempDataName] = true;
