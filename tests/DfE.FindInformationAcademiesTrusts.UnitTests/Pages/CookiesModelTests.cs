@@ -41,7 +41,7 @@ public class CookiesModelTests
     {
         _sut.ReturnPath = path;
         _sut.OnGet();
-        Assert.Equivalent(path, _sut.ReturnPath);
+        _sut.ReturnPath.Should().Be(path);
     }
 
     [Theory]
@@ -53,7 +53,7 @@ public class CookiesModelTests
     {
         _sut.ReturnPath = path;
         _sut.OnPost();
-        Assert.Equivalent(path, _sut.ReturnPath);
+        _sut.ReturnPath.Should().Be(path);
     }
 
     //Return path set to / when invalid
@@ -66,7 +66,7 @@ public class CookiesModelTests
     {
         _sut.ReturnPath = path;
         _sut.OnGet();
-        Assert.Equivalent("/", _sut.ReturnPath);
+        _sut.ReturnPath.Should().Be("/");
     }
 
     [Theory]
@@ -78,7 +78,7 @@ public class CookiesModelTests
     {
         _sut.ReturnPath = path;
         _sut.OnPost();
-        Assert.Equivalent("/", _sut.ReturnPath);
+        _sut.ReturnPath.Should().Be("/");
     }
 
     //Check Consent is set correctly
@@ -93,10 +93,9 @@ public class CookiesModelTests
     public void OnGet_should_not_change_consent_when_it_is_provided(bool consent, bool? accepted)
     {
         _mockHttpContext.SetupConsentCookie(accepted);
-
         _sut.Consent = consent;
         _sut.OnGet();
-        Assert.Equivalent(consent, _sut.Consent);
+        _sut.Consent.Should().Be(consent);
     }
 
     [Theory]
@@ -109,13 +108,10 @@ public class CookiesModelTests
     public void OnPost_should_not_change_consent_when_it_is_provided(bool consent, bool? accepted)
     {
         _mockHttpContext.SetupConsentCookie(accepted);
-
         _sut.Consent = consent;
         _sut.OnPost();
-        Assert.Equal(consent, _sut.Consent);
+        _sut.Consent.Should().Be(consent);
     }
-
-    //Check consent set when there is a previous consent value
 
     [Theory]
     [InlineData(true)]
@@ -123,44 +119,38 @@ public class CookiesModelTests
     public void OnGet_should_set_consent_when_it_not_provided_and_the_cookie_has_been_set(bool accepted)
     {
         _mockHttpContext.SetupConsentCookie(accepted);
-
         _sut.OnGet();
-        Assert.Equal(accepted, _sut.Consent);
+        _sut.Consent.Should().Be(accepted);
     }
 
     [Fact]
     public void OnGet_should_not_set_consent_when_it_not_provided_and_the_cookie_has_not_been_set()
     {
         _sut.OnGet();
-        Assert.Null(_sut.Consent);
+        _sut.Consent.Should().BeNull();
     }
 
     [Fact]
     public void OnPost_should_not_set_consent_when_it_not_provided_and_the_cookie_has_not_been_set()
     {
         _sut.OnPost();
-        Assert.Null(_sut.Consent);
+        _sut.Consent.Should().BeNull();
     }
 
-    //Check DisplayCookieChangedMessageOnCookiesPage is set correctly
-    // True if post 
-    // False if get 
     [Fact]
     public void OnGet_DisplayCookieChangedMessageOnCookiesPage_should_always_be_false()
     {
         _sut.OnGet();
-        Assert.False(_sut.DisplayCookieChangedMessageOnCookiesPage);
+        _sut.DisplayCookieChangedMessageOnCookiesPage.Should().BeFalse();
     }
 
     [Fact]
     public void OnPost_DisplayCookieChangedMessageOnCookiesPage_should_always_be_true()
     {
         _sut.OnPost();
-        Assert.True(_sut.DisplayCookieChangedMessageOnCookiesPage);
+        _sut.DisplayCookieChangedMessageOnCookiesPage.Should().BeTrue();
     }
 
-    //On get returns correctly for redirect (banner/consent)
-    //True if get and consent is given (with or without path)
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
@@ -168,25 +158,21 @@ public class CookiesModelTests
     {
         _sut.Consent = consent;
         var result = _sut.OnGet();
-        Assert.IsType<LocalRedirectResult>(result);
+        result.Should().BeOfType<LocalRedirectResult>();
     }
 
-    //On get returns correctly for page load (no consent or no return path)
-    //True if get and consent not given (with or without path)
     [Fact]
     public void OnGet_returns_Cookies_page_when_consent_is_not_given()
     {
         var result = _sut.OnGet();
-        Assert.IsType<PageResult>(result);
+        result.Should().BeOfType<PageResult>();
     }
 
-    //On post returns correctly
-    //True if post, consent is given or not, path is given or not
     [Fact]
     public void OnPost_returns_Cookies_page()
     {
         var result = _sut.OnPost();
-        Assert.IsType<PageResult>(result);
+        result.Should().BeOfType<PageResult>();
     }
 
     // Consent cookie appended (value true or false depending on test)
@@ -280,7 +266,7 @@ public class CookiesModelTests
         _sut.Consent = consent;
         _sut.OnGet();
         Assert.NotNull(_tempData[CookiesHelper.CookieChangedTempDataName]);
-        Assert.True(_tempData[CookiesHelper.CookieChangedTempDataName].As<bool>());
+        _tempData[CookiesHelper.CookieChangedTempDataName].As<bool>().Should().BeTrue();
     }
 
     [Theory]
@@ -291,21 +277,21 @@ public class CookiesModelTests
         _sut.Consent = consent;
         _sut.OnPost();
         Assert.NotNull(_tempData[CookiesHelper.CookieChangedTempDataName]);
-        Assert.True(_tempData[CookiesHelper.CookieChangedTempDataName].As<bool>());
+        _tempData[CookiesHelper.CookieChangedTempDataName].As<bool>().Should().BeTrue();
     }
 
     [Fact]
     public void OnGet_does_not_set_tempdata_cookie_changed_when_consent_is_not_given()
     {
         _sut.OnGet();
-        Assert.Null(_tempData[CookiesHelper.CookieChangedTempDataName]);
+        _tempData[CookiesHelper.CookieChangedTempDataName].Should().BeNull();
     }
 
     [Fact]
     public void OnPost_does_not_set_tempdata_cookie_changed_when_consent_is_not_given()
     {
         _sut.OnPost();
-        Assert.Null(_tempData[CookiesHelper.CookieChangedTempDataName]);
+        _tempData[CookiesHelper.CookieChangedTempDataName].Should().BeNull();
     }
 
     [Theory]
@@ -315,7 +301,7 @@ public class CookiesModelTests
     {
         _sut.Consent = consent;
         _sut.OnGet();
-        Assert.Null(_tempData[CookiesHelper.DeleteCookieTempDataName]);
+        _tempData[CookiesHelper.DeleteCookieTempDataName].Should().BeNull();
     }
 
     [Theory]
@@ -325,7 +311,7 @@ public class CookiesModelTests
     {
         _sut.Consent = consent;
         _sut.OnPost();
-        Assert.Null(_tempData[CookiesHelper.DeleteCookieTempDataName]);
+        _tempData[CookiesHelper.DeleteCookieTempDataName].Should().BeNull();
     }
 
     [Fact]
@@ -333,8 +319,8 @@ public class CookiesModelTests
     {
         _sut.Consent = false;
         _sut.OnGet();
-        Assert.NotNull(_tempData[CookiesHelper.DeleteCookieTempDataName]);
-        Assert.True(_tempData[CookiesHelper.DeleteCookieTempDataName].As<bool>());
+        _tempData[CookiesHelper.DeleteCookieTempDataName].Should().NotBeNull();
+        _tempData[CookiesHelper.DeleteCookieTempDataName].As<bool>().Should().BeTrue();
     }
 
     [Fact]
@@ -342,7 +328,7 @@ public class CookiesModelTests
     {
         _sut.Consent = false;
         _sut.OnPost();
-        Assert.NotNull(_tempData[CookiesHelper.DeleteCookieTempDataName]);
-        Assert.True(_tempData[CookiesHelper.DeleteCookieTempDataName].As<bool>());
+        _tempData[CookiesHelper.DeleteCookieTempDataName].Should().NotBeNull();
+        _tempData[CookiesHelper.DeleteCookieTempDataName].As<bool>().Should().BeTrue();
     }
 }
