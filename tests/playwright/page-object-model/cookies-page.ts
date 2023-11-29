@@ -56,6 +56,14 @@ class CookiesPageAssertions {
     await expect(this.cookiesPage.rejectRadioButtonLocator).toBeChecked()
   }
 
+  async acceptCookiesRadioButtonIsNotChecked (): Promise<void> {
+    await expect(this.cookiesPage.acceptRadioButtonLocator).not.toBeChecked()
+  }
+
+  async rejectCookiesRadioButtonIsNotChecked (): Promise<void> {
+    await expect(this.cookiesPage.rejectRadioButtonLocator).not.toBeChecked()
+  }
+
   async appInsightCookiesExist (): Promise<void> {
     await expect(async () => expect((await this.cookiesPage.page.context().cookies()).filter(cookie => cookie.name === 'ai_user' || cookie.name === 'ai_session')).toHaveLength(2)).toPass({
       timeout: 10_000
