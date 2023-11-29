@@ -28,6 +28,12 @@ public class AcademiesDetailsModelTests
     }
 
     [Fact]
+    public void PageName_should_be_AcademiesInThisTrust()
+    {
+        _sut.PageName.Should().Be("Academies in this trust");
+    }
+
+    [Fact]
     public void OtherServicesLinkBuilder_should_be_injected()
     {
         _sut.LinkBuilder.Should().Be(_mockLinkBuilder.Object);
