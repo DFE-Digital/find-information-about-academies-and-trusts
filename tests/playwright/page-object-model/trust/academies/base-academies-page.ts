@@ -1,5 +1,5 @@
 import { Locator, Page, expect } from '@playwright/test'
-import { FakeTestData } from '../../../fake-data/fake-test-data'
+import { FakeAcademy, FakeTestData } from '../../../fake-data/fake-test-data'
 import { BaseTrustPage, BaseTrustPageAssertions } from '../base-trust-page'
 import { NavigationComponent } from '../../shared/navigation-component'
 import { TableComponent } from '../../shared/table-component'
@@ -17,6 +17,12 @@ export class BaseAcademiesPage extends BaseTrustPage {
     this.academiesRowLocator = this.academiesTable.locator.getByTestId('academy-row')
     this.subNavigation = new NavigationComponent(page, 'Academies tabs')
   }
+
+  async getExpectedAcademyMatching (element: Locator): Promise<FakeAcademy> {
+    const urn = (await element.textContent())?.split('URN:')[1]?.trim() ?? ''
+    expect(urn, 'Expected result to contain a urn value, but it did not').toBeTruthy()
+    return FakeTestData.getTrustAcademyByUrn(this.currentTrust, +urn)
+  }
 }
 
 export class BaseAcademiesPageAssertions extends BaseTrustPageAssertions {
@@ -29,6 +35,6 @@ export class BaseAcademiesPageAssertions extends BaseTrustPageAssertions {
   }
 
   async toDisplayInformationForAllAcademiesInThatTrust (): Promise<void> {
-    await expect(this.academiesPage.academiesRowLocator).toHaveCount(3)
+    await expect(this.academiesPage.academiesRowLocator).toHaveCount(this.trustPage.currentTrust.academies.length)
   }
 }
