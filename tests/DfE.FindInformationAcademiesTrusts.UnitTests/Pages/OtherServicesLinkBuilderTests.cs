@@ -40,6 +40,14 @@ public class OtherServicesLinkBuilderTests
         result.Should().BeNull();
     }
 
+    [Fact]
+    public void GetInformationAboutSchoolsListingLink_should_return_academy_urn_if_academy_is_provided()
+    {
+        var dummyAcademy = DummyAcademyFactory.GetDummyAcademy(111);
+        var result = _sut.GetInformationAboutSchoolsListingLink(dummyAcademy);
+        result.Should().Contain("/Establishments/Establishment/Details/111");
+    }
+
     [Theory]
     [InlineData("Multi-academy trust", 0)]
     [InlineData("Multi-academy trust", 2)]

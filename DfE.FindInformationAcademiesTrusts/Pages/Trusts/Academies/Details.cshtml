@@ -28,7 +28,7 @@
           <td class="govuk-body govuk-table__cell">@academy.TypeOfEstablishment</td>
           <td class="govuk-body govuk-table__cell">@academy.UrbanRural</td>
           <td class="govuk-body govuk-table__cell">
-            <a href="" class="govuk-link" aria-label="@academy.EstablishmentName on Get information about schools (opens in new tab)">
+            <a href="@Model.LinkBuilder.GetInformationAboutSchoolsListingLink(academy)" class="govuk-link" rel="noreferrer noopener" target="_blank" aria-label="@academy.EstablishmentName on Get information about schools (opens in new tab)">
               More information
             </a>
           </td>

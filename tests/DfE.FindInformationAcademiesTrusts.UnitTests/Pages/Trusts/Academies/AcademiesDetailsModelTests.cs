@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
@@ -10,7 +11,8 @@ public class AcademiesDetailsModelTests
     public AcademiesDetailsModelTests()
     {
         var mockTrustProvider = new Mock<ITrustProvider>();
-        _sut = new AcademiesDetailsModel(mockTrustProvider.Object);
+        var mockLinkBuilder = new Mock<IOtherServicesLinkBuilder>();
+        _sut = new AcademiesDetailsModel(mockTrustProvider.Object, mockLinkBuilder.Object);
     }
 
     [Fact]
