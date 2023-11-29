@@ -5,6 +5,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages;
 public interface IOtherServicesLinkBuilder
 {
     string? GetInformationAboutSchoolsListingLink(Trust trust);
+    string GetInformationAboutSchoolsListingLink(Academy academy);
     string? CompaniesHouseListingLink(Trust trust);
     string? SchoolFinancialBenchmarkingServiceListingLink(Trust trust);
     string? FindSchoolPerformanceDataListingLink(Trust trust);
@@ -31,6 +32,11 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
         }
 
         return null;
+    }
+
+    public string GetInformationAboutSchoolsListingLink(Academy academy)
+    {
+        return $"{GetInformationAboutSchoolsBaseUrl}/Establishments/Establishment/Details/{academy.Urn}";
     }
 
     public string? CompaniesHouseListingLink(Trust trust)
