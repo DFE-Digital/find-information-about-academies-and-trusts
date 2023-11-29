@@ -27,13 +27,17 @@ public static class SqlScriptGenerator
     private static void GenerateSqlInsertScript(AcademiesDbContext context, string outputFilePath,
         AcademiesDbData fakeData)
     {
-        var insertScript = string.Join("; ",
+        var insertScripts = new[]
+        {
             GenerateSqlInsertScriptSegmentFor(fakeData.GiasGroups, context),
             GenerateSqlInsertScriptSegmentFor(fakeData.MstrTrusts, context),
             GenerateSqlInsertScriptSegmentFor(fakeData.GiasGroupLinks, context),
-            GenerateSqlInsertScriptSegmentFor(fakeData.GiasEstablishments, context)
-        );
-        File.WriteAllText(outputFilePath, insertScript);
+            GenerateSqlInsertScriptSegmentFor(fakeData.GiasEstablishments, context),
+            GenerateSqlInsertScriptSegmentFor(fakeData.CdmAccounts, context),
+            GenerateSqlInsertScriptSegmentFor(fakeData.CdmSystemusers, context)
+        };
+
+        File.WriteAllLines(outputFilePath, insertScripts);
     }
 
     private static string GenerateSqlInsertScriptSegmentFor<T>(List<T> fakeObjects, AcademiesDbContext context)
@@ -43,7 +47,7 @@ public static class SqlScriptGenerator
         var tableName = $"[{entityType.GetSchema()}].[{entityType.GetTableName()}]";
         var valuesStrings = fakeObjects.Select(obj => $"({GetEntityValues(obj, objProperties)})");
         var insertString =
-            $"INSERT INTO {tableName} ({GetEntityProperties(objProperties, entityType)}) VALUES {string.Join(',', valuesStrings)}";
+            $"INSERT INTO {tableName} ({GetEntityProperties(objProperties, entityType)}) VALUES {string.Join(',', valuesStrings)};";
         return insertString;
     }
 
@@ -71,6 +75,7 @@ public static class SqlScriptGenerator
     {
         if (value is null)
             return "NULL";
+
         if (propertyType == typeof(string))
         {
             return TransformIntoSqlSafeString(value.ToString());
@@ -81,7 +86,12 @@ public static class SqlScriptGenerator
             return value.ToString()!;
         }
 
-        throw new Exception("unknown type");
+        if (propertyType == typeof(Guid) || propertyType == typeof(Guid?))
+        {
+            return $"'{value}'";
+        }
+
+        throw new ApplicationException($"Can't get value as string for unknown type '{propertyType}'");
     }
 
     private static string TransformIntoSqlSafeString(string? unsantisedString)
