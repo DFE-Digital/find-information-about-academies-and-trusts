@@ -6,6 +6,7 @@ import { ContactsPage } from '../page-object-model/trust/contacts-page'
 import { FakeTestData } from '../fake-data/fake-test-data'
 import { OverviewPage } from '../page-object-model/trust/overview-page'
 import { PrivacyPage } from '../page-object-model/privacy-page'
+import { AccessibilityPage } from '../page-object-model/accessibility-page'
 import { AcademiesDetailsPage } from '../page-object-model/trust/academies/details-page'
 import { AcademiesOfstedRatingsPage } from '../page-object-model/trust/academies/ofsted-ratings-page'
 
@@ -16,6 +17,7 @@ test.describe('Navigation', () => {
   let contactsPage: ContactsPage
   let overviewPage: OverviewPage
   let privacyPage: PrivacyPage
+  let accessibilityPage: AccessibilityPage
   let academiesDetailsPage: AcademiesDetailsPage
   let academiesOfstedRatingsPage: AcademiesOfstedRatingsPage
 
@@ -29,6 +31,7 @@ test.describe('Navigation', () => {
     academiesDetailsPage = new AcademiesDetailsPage(page, fakeTestData)
     academiesOfstedRatingsPage = new AcademiesOfstedRatingsPage(page, fakeTestData)
     privacyPage = new PrivacyPage(page)
+    accessibilityPage = new AccessibilityPage(page)
   })
 
   test('user should be able to navigate between different sections about a trust', async () => {
@@ -79,5 +82,9 @@ test.describe('Navigation', () => {
     await homePage.goTo()
     await homePage.footerNavigation.clickPrivacyPolicy()
     await privacyPage.expect.toBeOnTheRightPage()
+    // Footer Via HomePage => Accessibility statement
+    await homePage.goTo()
+    await homePage.footerNavigation.clickAccessibilityStatement()
+    await accessibilityPage.expect.toBeOnTheRightPage()
   })
 })
