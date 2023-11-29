@@ -11,12 +11,15 @@ export interface FakeTrust {
   companiesHouseNumber: string
   regionAndTerritory: string
   status: string
-  academies: FakeAcademies[]
+  academies: FakeAcademy[]
 }
 
-export interface FakeAcademies {
+export interface FakeAcademy {
   urn: number
   establishmentName: string
+  typeOfEstablishment: string
+  localAuthority: string
+  urbanRural: string
 }
 
 export class FakeTestData {
@@ -79,5 +82,13 @@ export class FakeTestData {
       throw new Error(`No trusts with type ${type} found in test data`)
     }
     return trust
+  }
+
+  static getTrustAcademyByUrn (trust: FakeTrust, urn: number): FakeAcademy {
+    const academy = trust.academies.find(academy => academy.urn === urn)
+    if (academy === undefined) {
+      throw new Error(`Expected to find academy in the test data containing URN: ${urn}, but it was not found`)
+    }
+    return academy
   }
 }
