@@ -11,6 +11,8 @@ export interface FakeTrust {
   companiesHouseNumber: string
   regionAndTerritory: string
   status: string
+  sfsoLead: FakePerson
+  trustRelationshipManager: FakePerson
   academies: FakeAcademy[]
 }
 
@@ -30,6 +32,10 @@ export interface FakeAcademy {
   percentageFull: number
 }
 
+export interface FakePerson {
+  fullName: string
+  email: string
+}
 export class FakeTestData {
   _fakeTrusts: FakeTrust[]
   constructor () {

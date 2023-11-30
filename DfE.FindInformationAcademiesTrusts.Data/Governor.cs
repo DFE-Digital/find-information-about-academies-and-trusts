@@ -8,4 +8,7 @@ public record Governor(
     string? AppointingBody,
     DateTime? DateOfAppointment,
     DateTime? DateOfTermEnd,
-    string? Email) : Person(FullName, Email);
+    string? Email) : Person(FullName, Email)
+{
+    public bool IsCurrentGovernor => DateOfTermEnd == null || DateOfTermEnd >= DateTime.Today;
+}

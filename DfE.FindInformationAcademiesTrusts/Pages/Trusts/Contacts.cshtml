@@ -69,7 +69,7 @@
 
       @if (contactToDisplay is null)
       {
-        <p class="govuk-body">@Model.ContactInformationNotAvailableMessage</p>
+        <p class="govuk-body">@ContactsModel.ContactInformationNotAvailableMessage</p>
       }
 
       else if (contactToDisplay?.FullName is not null)
@@ -79,23 +79,23 @@
 
       else
       {
-        <p class="govuk-body">@Model.ContactNameNotAvailableMessage</p>
+        <p class="govuk-body">@ContactsModel.ContactNameNotAvailableMessage</p>
       }
 
       <p class="govuk-body">
         @if (contactToDisplay is null)
         {
-          <a class="govuk-body">@Model.ContactInformationNotAvailableMessage</a>
+          <a class="govuk-body">@ContactsModel.ContactInformationNotAvailableMessage</a>
         }
 
         else if (contactToDisplay?.Email is not null)
         {
-          <a class="govuk-link" href="mailto:@contactToDisplay.Email">@contactToDisplay.Email</a>
+          <a class="govuk-link" href="mailto:@contactToDisplay.Email" rel="noopener" target="_blank">@contactToDisplay.Email</a>
         }
 
         else
         {
-          <a class="govuk-body">@Model.ContactEmailNotAvailableMessage</a>
+          <a class="govuk-body">@ContactsModel.ContactEmailNotAvailableMessage</a>
         }
       </p>
     </dd>

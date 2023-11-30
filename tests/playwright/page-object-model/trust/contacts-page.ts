@@ -25,10 +25,10 @@ class ContactsPageAssertions extends BaseTrustPageAssertions {
   }
 
   async toSeeCorrectDfeContacts (): Promise<void> {
-    await expect(this.contactsPage.dfeContactsCard).toContainText('Keyshawn Hermiston')
-    await expect(this.contactsPage.dfeContactsCard).toContainText('Keyshawn.Hermiston@education.gov.uk')
-    await expect(this.contactsPage.dfeContactsCard).toContainText('Ayana Lueilwitz')
-    await expect(this.contactsPage.dfeContactsCard).toContainText('Ayana.Lueilwitz@education.gov.uk')
+    await expect(this.contactsPage.dfeContactsCard).toContainText(this.contactsPage.currentTrust.trustRelationshipManager.fullName)
+    await expect(this.contactsPage.dfeContactsCard).toContainText(this.contactsPage.currentTrust.trustRelationshipManager.email)
+    await expect(this.contactsPage.dfeContactsCard).toContainText(this.contactsPage.currentTrust.sfsoLead.fullName)
+    await expect(this.contactsPage.dfeContactsCard).toContainText(this.contactsPage.currentTrust.sfsoLead.email)
   }
 
   async toSeeCorrectTrustContacts (): Promise<void> {

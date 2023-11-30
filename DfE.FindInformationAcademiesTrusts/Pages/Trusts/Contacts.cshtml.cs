@@ -11,11 +11,11 @@ public class ContactsModel : TrustsAreaModel
 
     public Governor? ChiefFinancialOfficer { get; set; }
 
-    public string ContactNameNotAvailableMessage = "No contact name available";
+    public const string ContactNameNotAvailableMessage = "No contact name available";
 
-    public string ContactEmailNotAvailableMessage = "No contact email available";
+    public const string ContactEmailNotAvailableMessage = "No contact email available";
 
-    public string ContactInformationNotAvailableMessage = "No contact information available";
+    public const string ContactInformationNotAvailableMessage = "No contact information available";
 
     public ContactsModel(ITrustProvider trustProvider) : base(trustProvider, "Contacts")
     {
@@ -24,12 +24,15 @@ public class ContactsModel : TrustsAreaModel
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();
+
+        if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
+
         ChairOfTrustees = Trust.Governors.FirstOrDefault(x =>
-            x.Role == "Chair of Trustees" && (x.DateOfTermEnd == null || x.DateOfTermEnd >= DateTime.Now));
+            x is { Role: "Chair Of Trustees", IsCurrentGovernor: true });
         AccountingOfficer = Trust.Governors.FirstOrDefault(x =>
-            x.Role == "Accounting Officer" && (x.DateOfTermEnd == null || x.DateOfTermEnd >= DateTime.Now));
+            x is { Role: "Accounting Officer", IsCurrentGovernor: true });
         ChiefFinancialOfficer = Trust.Governors.FirstOrDefault(x =>
-            x.Role == "Chief Financial Officer" && (x.DateOfTermEnd == null || x.DateOfTermEnd >= DateTime.Now));
+            x is { Role: "Chief Financial Officer", IsCurrentGovernor: true });
 
         return pageResult;
     }
