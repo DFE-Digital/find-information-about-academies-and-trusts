@@ -31,6 +31,8 @@ public static class SqlScriptGenerator
         {
             GenerateSqlInsertScriptSegmentFor(fakeData.GiasGroups, context),
             GenerateSqlInsertScriptSegmentFor(fakeData.MstrTrusts, context),
+            GenerateSqlInsertScriptSegmentFor(fakeData.MstrTrustGovernances, context),
+            GenerateSqlInsertScriptSegmentFor(fakeData.GiasGovernances, context),
             GenerateSqlInsertScriptSegmentFor(fakeData.GiasGroupLinks, context),
             GenerateSqlInsertScriptSegmentFor(fakeData.GiasEstablishments, context),
             GenerateSqlInsertScriptSegmentFor(fakeData.CdmAccounts, context),
@@ -81,7 +83,7 @@ public static class SqlScriptGenerator
             return TransformIntoSqlSafeString(value.ToString());
         }
 
-        if (propertyType == typeof(int))
+        if (propertyType == typeof(int) || propertyType == typeof(long))
         {
             return value.ToString()!;
         }
