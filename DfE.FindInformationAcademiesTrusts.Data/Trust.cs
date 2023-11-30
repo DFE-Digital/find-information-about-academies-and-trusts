@@ -13,5 +13,22 @@ public record Trust(
     Academy[] Academies,
     Governor[] Governors,
     Person? TrustRelationshipManager,
-    Person? SfsoLead
-);
+    Person? SfsoLead,
+    string Status
+)
+{
+    public bool IsMultiAcademyTrust()
+    {
+        return Type == "Multi-academy trust";
+    }
+
+    public bool IsSingleAcademyTrust()
+    {
+        return Type == "Single-academy trust";
+    }
+
+    public bool IsOpen()
+    {
+        return Status == "Open";
+    }
+}

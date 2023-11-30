@@ -12,12 +12,12 @@ test.describe('Trust header', () => {
 
   test.describe('user should see the trust type in the header', () => {
     test('when user navigates to multi-academy trust', async () => {
-      await detailsPage.goToMultiAcademyTrust()
+      await detailsPage.goToOpenMultiAcademyTrust()
       await detailsPage.trustHeading.expect.toHaveMultiAcademyTrustType()
     })
 
     test('when user navigates to single-academy trust', async () => {
-      await detailsPage.goToSingleAcademyTrust()
+      await detailsPage.goToOpenSingleAcademyTrust()
       await detailsPage.trustHeading.expect.toHaveSingleAcademyTrustType()
     })
   })
