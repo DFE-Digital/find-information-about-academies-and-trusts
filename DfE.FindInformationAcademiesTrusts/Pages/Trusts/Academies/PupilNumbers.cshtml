@@ -24,7 +24,7 @@
           <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@academy.EstablishmentName">
             @academy.EstablishmentName<br/><span class="govuk-!-font-weight-regular">URN: @academy.Urn</span>
           </th>
-          <td class="govuk-body govuk-table__cell">
+          <td class="govuk-body govuk-table__cell" data-sort-value="@Model.PhaseAndAgeRangeSortValue(academy)">
             @academy.PhaseOfEducation<br/>
             @academy.AgeRange.Minimum - @academy.AgeRange.Maximum
           </td>

@@ -10,4 +10,9 @@ public class PupilNumbersModel : TrustsAreaModel, IAcademiesAreaModel
     }
 
     public string TabName => "Pupil numbers";
+
+    public string PhaseAndAgeRangeSortValue(Academy academy)
+    {
+        return $"{academy.PhaseOfEducation}{academy.AgeRange.Minimum:D2}{academy.AgeRange.Maximum:D2}";
+    }
 }
