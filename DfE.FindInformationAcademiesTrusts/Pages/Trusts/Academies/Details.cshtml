@@ -18,45 +18,22 @@
       </tr>
     </thead>
     <tbody class="govuk-table__body">
-      <tr class="govuk-table__row" data-testid="academy-row">
-        <th scope="row" class="govuk-body govuk-table__header" data-sort-value="Barr and Community R.C. School">
-          Barr and Community R.C. School<br/><span class="govuk-!-font-weight-regular">URN: 109174</span>
-        </th>
-        <td class="govuk-body govuk-table__cell">Kingston upon Hull, City of</td>
-        <td class="govuk-body govuk-table__cell">Academy converter</td>
-        <td class="govuk-body govuk-table__cell">Urban minor conurbation</td>
-        <td class="govuk-body govuk-table__cell">
-          <a href="" class="govuk-link" aria-label="Barr and Community R.C. School on Get information about schools (opens in new tab)">
-            More information
-          </a>
-        </td>
-      </tr>
-      <tr class="govuk-table__row" data-testid="academy-row">
-        <th scope="row" class="govuk-body govuk-table__header" data-sort-value="Beacon School">
-          Beacon School<br/><span class="govuk-!-font-weight-regular">URN: 118872</span>
-        </th>
-        <td class="govuk-body govuk-table__cell">North East Lincolnshire</td>
-        <td class="govuk-body govuk-table__cell">Academy sponsor led</td>
-        <td class="govuk-body govuk-table__cell">Urban city and town</td>
-        <td class="govuk-body govuk-table__cell">
-          <a href="" class="govuk-link" aria-label="Beacon School on Get information about schools (opens in new tab)">
-            More information
-          </a>
-        </td>
-      </tr>
-      <tr class="govuk-table__row" data-testid="academy-row">
-        <th scope="row" class="govuk-body govuk-table__header" data-sort-value="George Abbey Secondary Academy">
-          George Abbey Secondary Academy<br/><span class="govuk-!-font-weight-regular">URN: 138867</span>
-        </th>
-        <td class="govuk-body govuk-table__cell">Leeds</td>
-        <td class="govuk-body govuk-table__cell">Academy converter</td>
-        <td class="govuk-body govuk-table__cell">Rural town and fringe</td>
-        <td class="govuk-body govuk-table__cell">
-          <a href="" class="govuk-link" aria-label="George Abbey Secondary Academy on Get information about schools (opens in new tab)">
-            More information
-          </a>
-        </td>
-      </tr>
+      @foreach (var academy in Model.Trust.Academies)
+      {
+        <tr class="govuk-table__row" data-testid="academy-row">
+          <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@academy.EstablishmentName">
+            @academy.EstablishmentName<br/><span class="govuk-!-font-weight-regular">URN: @academy.Urn</span>
+          </th>
+          <td class="govuk-body govuk-table__cell">@academy.LocalAuthority</td>
+          <td class="govuk-body govuk-table__cell">@academy.TypeOfEstablishment</td>
+          <td class="govuk-body govuk-table__cell">@academy.UrbanRural</td>
+          <td class="govuk-body govuk-table__cell">
+            <a href="@Model.LinkBuilder.GetInformationAboutSchoolsListingLink(academy)" class="govuk-link" rel="noreferrer noopener" target="_blank" aria-label="@academy.EstablishmentName on Get information about schools (opens in new tab)">
+              More information
+            </a>
+          </td>
+        </tr>
+      }
     </tbody>
   </table>
 </section>
