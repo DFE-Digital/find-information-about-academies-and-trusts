@@ -12,20 +12,25 @@ public class AcademiesDbFaker
     private readonly GiasGroupLinkFaker _giasGroupLinkFaker;
     private readonly GiasEstablishmentFaker _giasEstablishmentFaker;
     private readonly GiasGroupFaker _giasGroupFaker;
+    private readonly GiasGovernanceFaker _giasGovernanceFaker;
     private readonly MstrTrustFaker _mstrTrustFaker;
+    private readonly MstrTrustGovernanceFaker _mstrTrustGovernanceFaker;
     private readonly CdmAccountFaker _cdmAccountFaker = new();
     private readonly CdmSystemuserFaker _cdmSystemuserFaker = new();
 
-    public AcademiesDbFaker(string?[] regions, string?[] localAuthorities, string[] fakeSchoolNames)
+    public AcademiesDbFaker(string?[] regions, string?[] localAuthorities, string[] fakeSchoolNames,
+        Dictionary<string, string[]> governorAppointingBodies)
     {
         // Need a ref date for any use of `faker.Date` so the data generated doesn't change every day
         var refDate = new DateTime(2023, 11, 9);
 
         _localAuthorities = localAuthorities;
         _giasGroupFaker = new GiasGroupFaker(refDate);
+        _giasGovernanceFaker = new GiasGovernanceFaker(refDate, governorAppointingBodies);
         _giasEstablishmentFaker = new GiasEstablishmentFaker(fakeSchoolNames);
         _giasGroupLinkFaker = new GiasGroupLinkFaker(refDate);
         _mstrTrustFaker = new MstrTrustFaker(regions);
+        _mstrTrustGovernanceFaker = new MstrTrustGovernanceFaker();
     }
 
     public AcademiesDbData Generate(TrustToGenerate[] trustsToGenerate)
@@ -38,12 +43,17 @@ public class AcademiesDbFaker
         {
             var group = _giasGroupFaker.Generate(trustToGenerate, _counter++);
             academiesDbData.GiasGroups.Add(group);
-            academiesDbData.MstrTrusts.Add(_mstrTrustFaker.Generate(group.GroupUid!));
-            academiesDbData.CdmAccounts.Add(_cdmAccountFaker.Generate(group.GroupUid!));
+            var groupUid = group.GroupUid!;
+            academiesDbData.MstrTrusts.Add(_mstrTrustFaker.Generate(groupUid));
+            academiesDbData.CdmAccounts.Add(_cdmAccountFaker.Generate(groupUid));
 
-            var academies = GenerateAcademies(trustToGenerate, group.GroupUid!).ToArray();
+            var academies = GenerateAcademies(trustToGenerate, groupUid).ToArray();
             academiesDbData.GiasEstablishments.AddRange(academies);
             academiesDbData.GiasGroupLinks.AddRange(academies.Select(academy => GenerateGroupLink(academy, group)));
+
+            var giasGovernances = _giasGovernanceFaker.Generate(groupUid);
+            academiesDbData.GiasGovernances.AddRange(giasGovernances);
+            academiesDbData.MstrTrustGovernances.AddRange(_mstrTrustGovernanceFaker.Generate(giasGovernances));
         }
 
         return academiesDbData;

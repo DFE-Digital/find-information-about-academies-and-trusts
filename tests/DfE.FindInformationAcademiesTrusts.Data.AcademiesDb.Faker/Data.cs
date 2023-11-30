@@ -140,6 +140,87 @@ public static class Data
         "York"
     };
 
+    public static Dictionary<string, string[]> GovernorAppointingBodies { get; } = new()
+    {
+        {
+            "Accounting Officer", new[]
+            {
+                "N/A"
+            }
+        },
+        {
+            "Chair of Trustees", new[]
+            {
+                "Any additional members appointed by the members of the academy trust",
+                "Appointed by academy members",
+                "Appointed by foundation/Trust",
+                "Appointed by GB/board",
+                "Appointed by Regional Schools Commissioner (RSC)",
+                "Appointed by trustees",
+                "Elected by parents",
+                "Ex-officio by virtue of office as headteacher/principal",
+                "Ex-officio foundation governor (appointed by foundation by virtue of the office they hold)",
+                "Foundation/sponsor members",
+                "Interim Executive Board",
+                "N/A",
+                "Nominated by other body and appointed by GB",
+                "Original (signatory) members",
+                "Persons who are appointed by the foundation body or sponsor (if applicable)"
+            }
+        },
+        {
+            "Chief Financial Officer", new[]
+            {
+                "N/A"
+            }
+        },
+        {
+            "Member", new[]
+            {
+                "Any additional members appointed by the members of the academy trust",
+                "Appointed by academy members",
+                "Appointed by foundation/Trust",
+                "Appointed by GB/board",
+                "Appointed by Regional Schools Commissioner (RSC)",
+                "Elected by parents",
+                "Elected by school staff",
+                "Ex-officio by virtue of office as headteacher/principal",
+                "Ex-officio foundation governor (appointed by foundation by virtue of the office they hold)",
+                "Foundation/sponsor members",
+                "Interim Executive Board",
+                "N/A",
+                "Nominated by other body and appointed by GB",
+                "Original (signatory) members",
+                "Parent appointed by GB/board due to no election candidates",
+                "Persons who are appointed by the foundation body or sponsor (if applicable)"
+            }
+        },
+        {
+            "Trustee", new[]
+            {
+                "Any additional members appointed by the members of the academy trust",
+                "Appointed by academy members",
+                "Appointed by foundation/Trust",
+                "Appointed by GB/board",
+                "Appointed by LA",
+                "Appointed by Regional Schools Commissioner (RSC)",
+                "Appointed by trustees",
+                "Elected by parents",
+                "Elected by school staff",
+                "Ex-officio by virtue of office as headteacher/principal",
+                "Ex-officio foundation governor (appointed by foundation by virtue of the office they hold)",
+                "Foundation/sponsor members",
+                "Interim Executive Board",
+                "N/A",
+                "Nominated by LA and appointed by GB",
+                "Nominated by other body and appointed by GB",
+                "Original (signatory) members",
+                "Parent appointed by GB/board due to no election candidates",
+                "Persons who are appointed by the foundation body or sponsor (if applicable)"
+            }
+        }
+    };
+
     public static string[] Schools { get; } =
     {
         "St. Mary's",
