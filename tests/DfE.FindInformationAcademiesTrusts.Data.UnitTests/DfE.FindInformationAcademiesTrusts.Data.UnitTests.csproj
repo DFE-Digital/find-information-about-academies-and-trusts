@@ -27,7 +27,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\DfE.FindInformationAcademiesTrusts.Data\DfE.FindInformationAcademiesTrusts.Data.csproj"/>
-        <ProjectReference Include="..\DfE.FindInformationAcademiesTrusts.UnitTests\DfE.FindInformationAcademiesTrusts.UnitTests.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -1,6 +1,4 @@
-using DfE.FindInformationAcademiesTrusts.Data;
-
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
+namespace DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 
 public class DummyTrustFactory
 {

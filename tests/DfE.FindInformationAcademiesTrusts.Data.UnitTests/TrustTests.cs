@@ -1,4 +1,4 @@
-using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
+using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.UnitTests;
 

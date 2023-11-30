@@ -1,6 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
