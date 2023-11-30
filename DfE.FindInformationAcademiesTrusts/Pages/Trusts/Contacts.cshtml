@@ -1,4 +1,5 @@
 @page
+@using DfE.FindInformationAcademiesTrusts.Data
 @model ContactsModel
 
 @{
@@ -16,23 +17,13 @@
           <dt class="govuk-summary-list__key">
             Trust relationship manager
           </dt>
-          <dd class="govuk-summary-list__value">
-            <p class="govuk-body">Keyshawn Hermiston</p>
-            <p class="govuk-body">
-              <a class="govuk-link" href="#">Keyshawn.Hermiston@education.gov.uk</a>
-            </p>
-          </dd>
+          @{ DisplayContact(Model.Trust.TrustRelationshipManager); }
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
             SFSO (Schools financial support and oversight) lead
           </dt>
-          <dd class="govuk-summary-list__value">
-            <p class="govuk-body">Ayana Lueilwitz</p>
-            <p class="govuk-body">
-              <a class="govuk-link" href="#">Ayana.Lueilwitz@education.gov.uk</a>
-            </p>
-          </dd>
+          @{ DisplayContact(Model.Trust.SfsoLead); }
         </div>
       </dl>
     </div>
@@ -50,37 +41,64 @@
           <dt class="govuk-summary-list__key">
             Accounting officer
           </dt>
-          <dd class="govuk-summary-list__value">
-            <p class="govuk-body">Tyler Welch</p>
-            <p class="govuk-body">
-              <a class="govuk-link" href="#">Tyler.Welch@abbeylaneacademiestrust.co.uk</a>
-            </p>
-          </dd>
+          @{ DisplayContact(Model.AccountingOfficer); }
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
             Chair of trustees
           </dt>
-          <dd class="govuk-summary-list__value">
-            <p class="govuk-body">Courtney Pacocha</p>
-            <p class="govuk-body">
-              <a class="govuk-link" href="#">Courtney.Pacocha@abbeylaneacademiestrust.co.uk</a>
-            </p>
-          </dd>
+          @{ DisplayContact(Model.ChairOfTrustees); }
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
             Chief financial officer
           </dt>
-          <dd class="govuk-summary-list__value">
-            <p class="govuk-body">Lowell Hoppe</p>
-            <p class="govuk-body">
-              <a class="govuk-link" href="#">Lowell.Hoppe@abbeylaneacademiestrust.co.uk</a>
-            </p>
-          </dd>
+          @{ DisplayContact(Model.ChiefFinancialOfficer); }
         </div>
 
       </dl>
     </div>
   </div>
 </section>
+
+@functions {
+
+  private void DisplayContact(Person? contactToDisplay)
+  {
+    <dd class="govuk-summary-list__value">
+
+      @if (contactToDisplay is null)
+      {
+        <p class="govuk-body">@Model.ContactInformationNotAvailableMessage</p>
+      }
+
+      else if (contactToDisplay?.FullName is not null)
+      {
+        <p class="govuk-body">@contactToDisplay.FullName</p>
+      }
+
+      else
+      {
+        <p class="govuk-body">@Model.ContactNameNotAvailableMessage</p>
+      }
+
+      <p class="govuk-body">
+        @if (contactToDisplay is null)
+        {
+          <a class="govuk-body">@Model.ContactInformationNotAvailableMessage</a>
+        }
+
+        else if (contactToDisplay?.Email is not null)
+        {
+          <a class="govuk-link" href="mailto:@contactToDisplay.Email">@contactToDisplay.Email</a>
+        }
+
+        else
+        {
+          <a class="govuk-body">@Model.ContactEmailNotAvailableMessage</a>
+        }
+      </p>
+    </dd>
+  }
+
+}
