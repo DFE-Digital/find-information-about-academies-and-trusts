@@ -13,5 +13,19 @@ public record Academy(
     string? PercentageFreeSchoolMeals,
     AgeRange AgeRange,
     OfstedRating? CurrentOfstedRating,
-    OfstedRating? PreviousOfstedRating
-);
+    OfstedRating? PreviousOfstedRating)
+{
+    public float? PercentageFull
+    {
+        get
+        {
+            if (this is { NumberOfPupils: not null, SchoolCapacity: not null } &&
+                SchoolCapacity != 0)
+            {
+                return (float)Math.Round((int)NumberOfPupils / (float)SchoolCapacity * 100);
+            }
+
+            return null;
+        }
+    }
+}

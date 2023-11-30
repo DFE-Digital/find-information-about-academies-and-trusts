@@ -26,7 +26,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 127
       },
       {
         "urn": 12335382,
@@ -44,7 +45,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 49
       },
       {
         "urn": 12333702,
@@ -62,7 +64,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 114
       },
       {
         "urn": 12337501,
@@ -80,7 +83,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 95
       },
       {
         "urn": 12339659,
@@ -98,7 +102,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 100
       }
     ],
     "governors": [
@@ -280,7 +285,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 79
       },
       {
         "urn": 12501357,
@@ -298,7 +304,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 54
       },
       {
         "urn": 12508072,
@@ -316,7 +323,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 116
       },
       {
         "urn": 12503901,
@@ -334,7 +342,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 115
       },
       {
         "urn": 12503590,
@@ -352,7 +361,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 86
       },
       {
         "urn": 12505375,
@@ -370,7 +380,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 94
       },
       {
         "urn": 12509987,
@@ -388,7 +399,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 106
       },
       {
         "urn": 12507275,
@@ -406,7 +418,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 105
       },
       {
         "urn": 12501625,
@@ -424,7 +437,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 50
       },
       {
         "urn": 12502150,
@@ -442,7 +456,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 72
       }
     ],
     "governors": [
@@ -794,7 +809,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 87
       },
       {
         "urn": 12704777,
@@ -812,7 +828,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 101
       },
       {
         "urn": 12703073,
@@ -830,7 +847,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 129
       },
       {
         "urn": 12701519,
@@ -848,7 +866,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 90
       },
       {
         "urn": 12704775,
@@ -866,7 +885,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 80
       },
       {
         "urn": 12703298,
@@ -884,7 +904,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 44
       },
       {
         "urn": 12702763,
@@ -902,7 +923,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 66
       }
     ],
     "governors": [
@@ -1104,7 +1126,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 69
       },
       {
         "urn": 12772336,
@@ -1122,7 +1145,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 79
       },
       {
         "urn": 12771133,
@@ -1140,7 +1164,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 52
       },
       {
         "urn": 12772144,
@@ -1158,7 +1183,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 101
       },
       {
         "urn": 12772035,
@@ -1176,7 +1202,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 74
       },
       {
         "urn": 12772390,
@@ -1194,7 +1221,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 124
       },
       {
         "urn": 12772077,
@@ -1212,7 +1240,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 48
       },
       {
         "urn": 12772398,
@@ -1230,7 +1259,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 107
       },
       {
         "urn": 12772403,
@@ -1248,7 +1278,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 56
       }
     ],
     "governors": [
@@ -1430,7 +1461,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 96
       },
       {
         "urn": 12445925,
@@ -1448,7 +1480,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 78
       },
       {
         "urn": 12441372,
@@ -1466,7 +1499,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 95
       },
       {
         "urn": 12444733,
@@ -1484,7 +1518,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 66
       },
       {
         "urn": 12448038,
@@ -1502,7 +1537,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 67
       }
     ],
     "governors": [
@@ -1714,7 +1750,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 106
       },
       {
         "urn": 12638075,
@@ -1732,7 +1769,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 100
       },
       {
         "urn": 12631294,
@@ -1750,7 +1788,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 94
       },
       {
         "urn": 12635448,
@@ -1768,7 +1807,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 61
       },
       {
         "urn": 12631433,
@@ -1786,7 +1826,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 87
       },
       {
         "urn": 12638582,
@@ -1804,7 +1845,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 129
       },
       {
         "urn": 12638628,
@@ -1822,7 +1864,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 107
       },
       {
         "urn": 12639030,
@@ -1840,7 +1883,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 68
       },
       {
         "urn": 12632297,
@@ -1858,7 +1902,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 98
       }
     ],
     "governors": [
@@ -2373,7 +2418,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 66
       }
     ],
     "governors": [
@@ -2725,7 +2771,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 125
       },
       {
         "urn": 12545468,
@@ -2743,7 +2790,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 121
       },
       {
         "urn": 12545631,
@@ -2761,7 +2809,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 46
       },
       {
         "urn": 12549515,
@@ -2779,7 +2828,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 67
       },
       {
         "urn": 12547521,
@@ -2797,7 +2847,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 79
       },
       {
         "urn": 12545511,
@@ -2815,7 +2866,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 62
       }
     ],
     "governors": [
@@ -3157,7 +3209,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 127
       },
       {
         "urn": 12603712,
@@ -3175,7 +3228,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 114
       },
       {
         "urn": 12609503,
@@ -3193,7 +3247,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 91
       },
       {
         "urn": 12603053,
@@ -3211,7 +3266,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 114
       },
       {
         "urn": 12603670,
@@ -3229,7 +3285,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 111
       }
     ],
     "governors": [
@@ -3511,7 +3568,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 88
       },
       {
         "urn": 12643357,
@@ -3529,7 +3587,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 122
       },
       {
         "urn": 12649631,
@@ -3547,7 +3606,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 120
       }
     ],
     "governors": [
@@ -3669,7 +3729,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 50
       },
       {
         "urn": 12435272,
@@ -3687,7 +3748,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 80
       },
       {
         "urn": 12434705,
@@ -3705,7 +3767,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 41
       },
       {
         "urn": 12431834,
@@ -3723,7 +3786,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 118
       },
       {
         "urn": 12431637,
@@ -3741,7 +3805,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 98
       },
       {
         "urn": 12431054,
@@ -3759,7 +3824,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 69
       },
       {
         "urn": 12437500,
@@ -3777,7 +3843,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 95
       },
       {
         "urn": 12433965,
@@ -3795,7 +3862,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 76
       }
     ],
     "governors": [
@@ -3947,7 +4015,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 121
       },
       {
         "urn": 12342340,
@@ -3965,7 +4034,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 69
       },
       {
         "urn": 12345086,
@@ -3983,7 +4053,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 59
       }
     ],
     "governors": [
@@ -4285,7 +4356,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 71
       },
       {
         "urn": 12407011,
@@ -4303,7 +4375,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 74
       }
     ],
     "governors": [
@@ -4545,7 +4618,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 124
       },
       {
         "urn": 12537504,
@@ -4563,7 +4637,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 49
       },
       {
         "urn": 12535383,
@@ -4581,7 +4656,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 98
       },
       {
         "urn": 12531872,
@@ -4599,7 +4675,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 72
       },
       {
         "urn": 12531224,
@@ -4617,7 +4694,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 46
       },
       {
         "urn": 12533658,
@@ -4635,7 +4713,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 44
       },
       {
         "urn": 12532697,
@@ -4653,7 +4732,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 97
       },
       {
         "urn": 12533286,
@@ -4671,7 +4751,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 102
       },
       {
         "urn": 12536228,
@@ -4689,7 +4770,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 79
       },
       {
         "urn": 12531338,
@@ -4707,7 +4789,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 62
       }
     ],
     "governors": [
@@ -4999,7 +5082,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 83
       },
       {
         "urn": 12801966,
@@ -5017,7 +5101,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 123
       },
       {
         "urn": 12801874,
@@ -5035,7 +5120,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 61
       },
       {
         "urn": 12803554,
@@ -5053,7 +5139,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 98
       },
       {
         "urn": 12808575,
@@ -5071,7 +5158,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 94
       },
       {
         "urn": 12809272,
@@ -5089,7 +5177,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 81
       },
       {
         "urn": 12803909,
@@ -5107,7 +5196,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 79
       },
       {
         "urn": 12807471,
@@ -5125,7 +5215,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 121
       }
     ],
     "governors": [
@@ -5307,7 +5398,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 53
       },
       {
         "urn": 12425545,
@@ -5325,7 +5417,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 102
       },
       {
         "urn": 12429405,
@@ -5343,7 +5436,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 102
       }
     ],
     "governors": [
@@ -5555,7 +5649,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 83
       },
       {
         "urn": 12474799,
@@ -5573,7 +5668,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 107
       },
       {
         "urn": 12475910,
@@ -5591,7 +5687,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 117
       },
       {
         "urn": 12474507,
@@ -5609,7 +5706,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 90
       },
       {
         "urn": 12472756,
@@ -5627,7 +5725,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 51
       },
       {
         "urn": 12473317,
@@ -5645,7 +5744,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 129
       },
       {
         "urn": 12476371,
@@ -5663,7 +5763,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 100
       },
       {
         "urn": 12478123,
@@ -5681,7 +5782,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 88
       },
       {
         "urn": 12476663,
@@ -5699,7 +5801,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 68
       },
       {
         "urn": 12476105,
@@ -5717,7 +5820,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 113
       }
     ],
     "governors": [
@@ -6079,7 +6183,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 68
       },
       {
         "urn": 12687770,
@@ -6097,7 +6202,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 41
       },
       {
         "urn": 12688396,
@@ -6115,7 +6221,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 97
       },
       {
         "urn": 12683506,
@@ -6133,7 +6240,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 59
       }
     ],
     "governors": [
@@ -6408,7 +6516,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 116
       },
       {
         "urn": 12759773,
@@ -6426,7 +6535,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 57
       },
       {
         "urn": 12753676,
@@ -6444,7 +6554,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 44
       }
     ],
     "governors": [
@@ -6676,7 +6787,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 87
       },
       {
         "urn": 12797079,
@@ -6694,7 +6806,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 43
       },
       {
         "urn": 12799029,
@@ -6712,7 +6825,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 111
       }
     ],
     "governors": [
@@ -6944,7 +7058,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 103
       },
       {
         "urn": 12594839,
@@ -6962,7 +7077,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 52
       },
       {
         "urn": 12593420,
@@ -6980,7 +7096,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 57
       },
       {
         "urn": 12597670,
@@ -6998,7 +7115,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 73
       },
       {
         "urn": 12597330,
@@ -7016,7 +7134,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 74
       },
       {
         "urn": 12592663,
@@ -7034,7 +7153,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 99
       },
       {
         "urn": 12599515,
@@ -7052,7 +7172,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 78
       },
       {
         "urn": 12593706,
@@ -7070,7 +7191,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 118
       },
       {
         "urn": 12597978,
@@ -7088,7 +7210,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 100
       },
       {
         "urn": 12596299,
@@ -7106,7 +7229,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 93
       },
       {
         "urn": 12591616,
@@ -7124,7 +7248,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 118
       }
     ],
     "governors": [
@@ -7233,7 +7358,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 52
       },
       {
         "urn": 12399742,
@@ -7251,7 +7377,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 103
       },
       {
         "urn": 12392420,
@@ -7269,7 +7396,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 125
       },
       {
         "urn": 12399390,
@@ -7287,7 +7415,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 67
       },
       {
         "urn": 12391398,
@@ -7305,7 +7434,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 42
       },
       {
         "urn": 12393756,
@@ -7323,7 +7453,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 88
       },
       {
         "urn": 12396822,
@@ -7341,7 +7472,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 105
       },
       {
         "urn": 12393150,
@@ -7359,7 +7491,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 46
       }
     ],
     "governors": [
@@ -7711,7 +7844,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 84
       },
       {
         "urn": 12666810,
@@ -7729,7 +7863,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 117
       },
       {
         "urn": 12665188,
@@ -7747,7 +7882,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 70
       },
       {
         "urn": 12662190,
@@ -7765,7 +7901,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 49
       },
       {
         "urn": 12667300,
@@ -7783,7 +7920,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 99
       },
       {
         "urn": 12666846,
@@ -7801,7 +7939,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 100
       },
       {
         "urn": 12669078,
@@ -7819,7 +7958,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 68
       }
     ],
     "governors": [
@@ -7911,7 +8051,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 101
       }
     ],
     "governors": [
@@ -8103,7 +8244,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 104
       },
       {
         "urn": 12784567,
@@ -8121,7 +8263,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 108
       },
       {
         "urn": 12788649,
@@ -8139,7 +8282,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 101
       },
       {
         "urn": 12787008,
@@ -8157,7 +8301,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 129
       },
       {
         "urn": 12784924,
@@ -8175,7 +8320,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 64
       },
       {
         "urn": 12789096,
@@ -8193,7 +8339,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 94
       },
       {
         "urn": 12787201,
@@ -8211,7 +8358,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 100
       }
     ],
     "governors": [
@@ -8513,7 +8661,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 52
       },
       {
         "urn": 12358306,
@@ -8531,7 +8680,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 76
       },
       {
         "urn": 12355084,
@@ -8549,7 +8699,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 99
       },
       {
         "urn": 12351633,
@@ -8567,7 +8718,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 62
       },
       {
         "urn": 12351937,
@@ -8585,7 +8737,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 54
       },
       {
         "urn": 12357759,
@@ -8603,7 +8756,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 64
       },
       {
         "urn": 12356297,
@@ -8621,7 +8775,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 88
       },
       {
         "urn": 12352122,
@@ -8639,7 +8794,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 45
       },
       {
         "urn": 12352831,
@@ -8657,7 +8813,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 87
       },
       {
         "urn": 12357941,
@@ -8675,7 +8832,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 100
       }
     ],
     "governors": [
@@ -8987,7 +9145,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 87
       },
       {
         "urn": 12615317,
@@ -9005,7 +9164,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 77
       },
       {
         "urn": 12616609,
@@ -9023,7 +9183,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 41
       },
       {
         "urn": 12617251,
@@ -9041,7 +9202,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 113
       }
     ],
     "governors": [
@@ -9343,7 +9505,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 102
       }
     ],
     "governors": [
@@ -9635,7 +9798,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 104
       },
       {
         "urn": 12491829,
@@ -9653,7 +9817,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 47
       }
     ],
     "governors": [
@@ -9765,7 +9930,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 67
       },
       {
         "urn": 12468541,
@@ -9783,7 +9949,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 42
       },
       {
         "urn": 12464896,
@@ -9801,7 +9968,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 91
       },
       {
         "urn": 12461950,
@@ -9819,7 +9987,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 45
       },
       {
         "urn": 12463777,
@@ -9837,7 +10006,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 62
       },
       {
         "urn": 12463208,
@@ -9855,7 +10025,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 107
       },
       {
         "urn": 12468669,
@@ -9873,7 +10044,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 118
       },
       {
         "urn": 12468726,
@@ -9891,7 +10063,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 42
       },
       {
         "urn": 12461642,
@@ -9909,7 +10082,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 130
       }
     ],
     "governors": [
@@ -10031,7 +10205,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 115
       },
       {
         "urn": 12588074,
@@ -10049,7 +10224,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 81
       },
       {
         "urn": 12585672,
@@ -10067,7 +10243,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 48
       },
       {
         "urn": 12588641,
@@ -10085,7 +10262,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 68
       },
       {
         "urn": 12589359,
@@ -10103,7 +10281,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 106
       },
       {
         "urn": 12587092,
@@ -10121,7 +10300,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 125
       },
       {
         "urn": 12585839,
@@ -10139,7 +10319,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 41
       },
       {
         "urn": 12586991,
@@ -10157,7 +10338,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 73
       },
       {
         "urn": 12585479,
@@ -10175,7 +10357,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 100
       },
       {
         "urn": 12587995,
@@ -10193,7 +10376,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 60
       }
     ],
     "governors": [
@@ -10395,7 +10579,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 125
       },
       {
         "urn": 12363877,
@@ -10413,7 +10598,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 101
       },
       {
         "urn": 12368315,
@@ -10431,7 +10617,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 60
       },
       {
         "urn": 12362767,
@@ -10449,7 +10636,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 61
       },
       {
         "urn": 12369421,
@@ -10467,7 +10655,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 76
       },
       {
         "urn": 12361734,
@@ -10485,7 +10674,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 67
       },
       {
         "urn": 12364257,
@@ -10503,7 +10693,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 112
       },
       {
         "urn": 12364836,
@@ -10521,7 +10712,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 104
       }
     ],
     "governors": [
@@ -10653,7 +10845,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 50
       },
       {
         "urn": 12571339,
@@ -10671,7 +10864,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 120
       },
       {
         "urn": 12573615,
@@ -10689,7 +10883,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 108
       },
       {
         "urn": 12572884,
@@ -10707,7 +10902,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 56
       },
       {
         "urn": 12573233,
@@ -10725,7 +10921,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 123
       },
       {
         "urn": 12573811,
@@ -10743,7 +10940,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 73
       },
       {
         "urn": 12577870,
@@ -10761,7 +10959,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 76
       },
       {
         "urn": 12576635,
@@ -10779,7 +10978,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 56
       },
       {
         "urn": 12574136,
@@ -10797,7 +10997,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 44
       }
     ],
     "governors": [
@@ -11129,7 +11330,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 65
       },
       {
         "urn": 12456097,
@@ -11147,7 +11349,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 94
       }
     ],
     "governors": [
@@ -11459,7 +11662,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 121
       },
       {
         "urn": 12733641,
@@ -11477,7 +11681,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 49
       },
       {
         "urn": 12738255,
@@ -11495,7 +11700,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 56
       },
       {
         "urn": 12731124,
@@ -11513,7 +11719,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 84
       },
       {
         "urn": 12736791,
@@ -11531,7 +11738,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 114
       },
       {
         "urn": 12732167,
@@ -11549,7 +11757,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 106
       },
       {
         "urn": 12733140,
@@ -11567,7 +11776,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 109
       },
       {
         "urn": 12731901,
@@ -11585,7 +11795,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 48
       },
       {
         "urn": 12737774,
@@ -11603,7 +11814,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 116
       },
       {
         "urn": 12732013,
@@ -11621,7 +11833,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 55
       },
       {
         "urn": 12731931,
@@ -11639,7 +11852,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 113
       }
     ],
     "governors": [
@@ -11871,7 +12085,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 107
       },
       {
         "urn": 12488822,
@@ -11889,7 +12104,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 45
       },
       {
         "urn": 12482187,
@@ -11907,7 +12123,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 100
       },
       {
         "urn": 12483402,
@@ -11925,7 +12142,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 56
       },
       {
         "urn": 12482920,
@@ -11943,7 +12161,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 65
       }
     ],
     "governors": [
@@ -12055,7 +12274,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 103
       }
     ],
     "governors": [
@@ -12247,7 +12467,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 117
       },
       {
         "urn": 12653733,
@@ -12265,7 +12486,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 45
       }
     ],
     "governors": [
@@ -12437,7 +12659,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 42
       }
     ],
     "governors": [
@@ -12539,7 +12762,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 89
       },
       {
         "urn": 12566840,
@@ -12557,7 +12781,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 95
       },
       {
         "urn": 12569845,
@@ -12575,7 +12800,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 72
       },
       {
         "urn": 12563934,
@@ -12593,7 +12819,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 44
       },
       {
         "urn": 12568050,
@@ -12611,7 +12838,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 53
       },
       {
         "urn": 12568932,
@@ -12629,7 +12857,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 93
       },
       {
         "urn": 12564844,
@@ -12647,7 +12876,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 73
       },
       {
         "urn": 12569314,
@@ -12665,7 +12895,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 124
       },
       {
         "urn": 12563994,
@@ -12683,7 +12914,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 88
       },
       {
         "urn": 12567148,
@@ -12701,7 +12933,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 82
       },
       {
         "urn": 12568423,
@@ -12719,7 +12952,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 114
       }
     ],
     "governors": [
@@ -12961,7 +13195,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 119
       },
       {
         "urn": 12729265,
@@ -12979,7 +13214,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 80
       },
       {
         "urn": 12727937,
@@ -12997,7 +13233,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 84
       },
       {
         "urn": 12724049,
@@ -13015,7 +13252,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 111
       },
       {
         "urn": 12722603,
@@ -13033,7 +13271,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 85
       }
     ],
     "governors": [
@@ -13345,7 +13584,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 108
       },
       {
         "urn": 12676629,
@@ -13363,7 +13603,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 88
       }
     ],
     "governors": [
@@ -13698,7 +13939,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 44
       }
     ],
     "governors": [
@@ -14000,7 +14242,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 96
       }
     ],
     "governors": [
@@ -14192,7 +14435,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 114
       }
     ],
     "governors": [
@@ -14394,7 +14638,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 99
       }
     ],
     "governors": [
@@ -14656,7 +14901,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 64
       }
     ],
     "governors": [
@@ -14758,7 +15004,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 41
       }
     ],
     "governors": [
@@ -14920,7 +15167,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 43
       }
     ],
     "governors": [
@@ -15182,7 +15430,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 82
       }
     ],
     "governors": [
@@ -15471,7 +15720,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 40
       },
       {
         "urn": 12915211,
@@ -15489,7 +15739,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 95
       },
       {
         "urn": 12913301,
@@ -15507,7 +15758,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 117
       },
       {
         "urn": 12919451,
@@ -15525,7 +15777,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 92
       },
       {
         "urn": 12919387,
@@ -15543,7 +15796,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 53
       },
       {
         "urn": 12911177,
@@ -15561,7 +15815,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 106
       },
       {
         "urn": 12915098,
@@ -15579,7 +15834,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 93
       },
       {
         "urn": 12911852,
@@ -15597,7 +15853,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 73
       },
       {
         "urn": 12912395,
@@ -15615,7 +15872,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 110
       }
     ],
     "governors": [
@@ -15897,7 +16155,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 129
       }
     ],
     "governors": [
@@ -16189,7 +16448,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 83
       }
     ],
     "governors": [
@@ -16421,7 +16681,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 130
       }
     ],
     "governors": [
@@ -16703,7 +16964,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 82
       }
     ],
     "governors": [
@@ -16795,7 +17057,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 81
       }
     ],
     "governors": [
@@ -17067,7 +17330,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 117
       }
     ],
     "governors": [
@@ -17279,7 +17543,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 121
       }
     ],
     "governors": [
@@ -17541,7 +17806,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 103
       }
     ],
     "governors": [
@@ -17763,7 +18029,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 72
       },
       {
         "urn": 12621696,
@@ -17781,7 +18048,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 112
       },
       {
         "urn": 12626626,
@@ -17799,7 +18067,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 111
       },
       {
         "urn": 12627082,
@@ -17817,7 +18086,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 43
       },
       {
         "urn": 12628550,
@@ -17835,7 +18105,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 75
       },
       {
         "urn": 12629773,
@@ -17853,7 +18124,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 68
       },
       {
         "urn": 12623777,
@@ -17871,7 +18143,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 93
       },
       {
         "urn": 12624514,
@@ -17889,7 +18162,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 51
       }
     ],
     "governors": [
@@ -17981,7 +18255,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 92
       },
       {
         "urn": 13007416,
@@ -17999,7 +18274,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 112
       },
       {
         "urn": 13003350,
@@ -18017,7 +18293,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 79
       },
       {
         "urn": 13003060,
@@ -18035,7 +18312,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 55
       },
       {
         "urn": 13003996,
@@ -18053,7 +18331,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 78
       },
       {
         "urn": 13002477,
@@ -18071,7 +18350,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 123
       },
       {
         "urn": 13009468,
@@ -18089,7 +18369,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 71
       },
       {
         "urn": 13006616,
@@ -18107,7 +18388,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 111
       },
       {
         "urn": 13001370,
@@ -18125,7 +18407,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 121
       },
       {
         "urn": 13009087,
@@ -18143,7 +18426,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 82
       },
       {
         "urn": 13004183,
@@ -18161,7 +18445,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 55
       }
     ],
     "governors": [
@@ -18400,7 +18685,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 128
       },
       {
         "urn": 13011305,
@@ -18418,7 +18704,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 124
       },
       {
         "urn": 13013736,
@@ -18436,7 +18723,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 120
       },
       {
         "urn": 13014075,
@@ -18454,7 +18742,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 85
       },
       {
         "urn": 13012615,
@@ -18472,7 +18761,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 43
       },
       {
         "urn": 13015038,
@@ -18490,7 +18780,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 114
       },
       {
         "urn": 13014070,
@@ -18508,7 +18799,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 53
       },
       {
         "urn": 13016843,
@@ -18526,7 +18818,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 89
       },
       {
         "urn": 13011617,
@@ -18544,7 +18837,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 51
       },
       {
         "urn": 13019377,
@@ -18562,7 +18856,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 109
       },
       {
         "urn": 13019046,
@@ -18580,7 +18875,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 81
       }
     ],
     "governors": [
@@ -18782,7 +19078,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 99
       },
       {
         "urn": 13027761,
@@ -18800,7 +19097,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 83
       },
       {
         "urn": 13023360,
@@ -18818,7 +19116,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 60
       },
       {
         "urn": 13028982,
@@ -18836,7 +19135,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 84
       },
       {
         "urn": 13024057,
@@ -18854,7 +19154,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 71
       },
       {
         "urn": 13028352,
@@ -18872,7 +19173,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 95
       },
       {
         "urn": 13027123,
@@ -18890,7 +19192,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 45
       }
     ],
     "governors": [
@@ -19192,7 +19495,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 123
       },
       {
         "urn": 13036585,
@@ -19210,7 +19514,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 125
       },
       {
         "urn": 13035506,
@@ -19228,7 +19533,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 106
       },
       {
         "urn": 13033881,
@@ -19246,7 +19552,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 113
       },
       {
         "urn": 13037394,
@@ -19264,7 +19571,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 69
       },
       {
         "urn": 13035748,
@@ -19282,7 +19590,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 120
       },
       {
         "urn": 13036088,
@@ -19300,7 +19609,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 77
       },
       {
         "urn": 13036907,
@@ -19318,7 +19628,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 74
       },
       {
         "urn": 13036640,
@@ -19336,7 +19647,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 66
       },
       {
         "urn": 13032314,
@@ -19354,7 +19666,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 92
       }
     ],
     "governors": [
@@ -19779,7 +20092,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 50
       },
       {
         "urn": 13053350,
@@ -19797,7 +20111,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 82
       },
       {
         "urn": 13059890,
@@ -19815,7 +20130,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 60
       },
       {
         "urn": 13054727,
@@ -19833,7 +20149,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 78
       },
       {
         "urn": 13051670,
@@ -19851,7 +20168,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 118
       },
       {
         "urn": 13058380,
@@ -19869,7 +20187,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 91
       },
       {
         "urn": 13058216,
@@ -19887,7 +20206,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 52
       },
       {
         "urn": 13056454,
@@ -19905,7 +20225,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 79
       }
     ],
     "governors": [
@@ -20127,7 +20448,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 70
       },
       {
         "urn": 13062958,
@@ -20145,7 +20467,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 121
       },
       {
         "urn": 13065281,
@@ -20163,7 +20486,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 65
       },
       {
         "urn": 13067699,
@@ -20181,7 +20505,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 77
       },
       {
         "urn": 13069734,
@@ -20199,7 +20524,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 71
       },
       {
         "urn": 13062572,
@@ -20217,7 +20543,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 96
       },
       {
         "urn": 13066307,
@@ -20235,7 +20562,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 76
       },
       {
         "urn": 13065782,
@@ -20253,7 +20581,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 92
       }
     ],
     "governors": [
@@ -20525,7 +20854,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 50
       },
       {
         "urn": 13071793,
@@ -20543,7 +20873,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 108
       },
       {
         "urn": 13078775,
@@ -20561,7 +20892,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 89
       },
       {
         "urn": 13078070,
@@ -20579,7 +20911,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 96
       },
       {
         "urn": 13075147,
@@ -20597,7 +20930,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 127
       },
       {
         "urn": 13078582,
@@ -20615,7 +20949,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 62
       }
     ],
     "governors": [
@@ -20767,7 +21102,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 51
       },
       {
         "urn": 13083688,
@@ -20785,7 +21121,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 91
       },
       {
         "urn": 13082117,
@@ -20803,7 +21140,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 111
       },
       {
         "urn": 13082732,
@@ -20821,7 +21159,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 42
       },
       {
         "urn": 13085776,
@@ -20839,7 +21178,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 55
       }
     ],
     "governors": [
@@ -21494,7 +21834,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 79
       }
     ],
     "governors": [
@@ -21806,7 +22147,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 114
       },
       {
         "urn": 12765013,
@@ -21824,7 +22166,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 110
       },
       {
         "urn": 12766366,
@@ -21842,7 +22185,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 69
       },
       {
         "urn": 12766984,
@@ -21860,7 +22204,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 115
       },
       {
         "urn": 12769841,
@@ -21878,7 +22223,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 128
       },
       {
         "urn": 12768251,
@@ -21896,7 +22242,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 103
       },
       {
         "urn": 12768799,
@@ -21914,7 +22261,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 85
       },
       {
         "urn": 12762166,
@@ -21932,7 +22280,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 112
       }
     ],
     "governors": [
@@ -22131,7 +22480,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 41
       },
       {
         "urn": 12697877,
@@ -22149,7 +22499,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 60
       },
       {
         "urn": 12699575,
@@ -22167,7 +22518,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 100
       },
       {
         "urn": 12697746,
@@ -22185,7 +22537,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 50
       },
       {
         "urn": 12698503,
@@ -22203,7 +22556,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 75
       },
       {
         "urn": 12692064,
@@ -22221,7 +22575,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 51
       },
       {
         "urn": 12697188,
@@ -22239,7 +22594,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 100
       }
     ],
     "governors": [
@@ -22468,7 +22824,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 65
       },
       {
         "urn": 12378841,
@@ -22486,7 +22843,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 89
       }
     ],
     "governors": [
@@ -22678,7 +23036,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 62
       }
     ],
     "governors": [
@@ -22940,7 +23299,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 67
       },
       {
         "urn": 12744848,
@@ -22958,7 +23318,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 53
       },
       {
         "urn": 12748302,
@@ -22976,7 +23337,8 @@
           "maximum": 16
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 57
       },
       {
         "urn": 12746116,
@@ -22994,7 +23356,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 108
       },
       {
         "urn": 12748205,
@@ -23012,7 +23375,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 124
       },
       {
         "urn": 12749476,
@@ -23030,7 +23394,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 123
       },
       {
         "urn": 12747595,
@@ -23048,7 +23413,8 @@
           "maximum": 11
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 59
       },
       {
         "urn": 12741723,
@@ -23066,7 +23432,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 123
       },
       {
         "urn": 12744900,
@@ -23084,7 +23451,8 @@
           "maximum": 18
         },
         "currentOfstedRating": null,
-        "previousOfstedRating": null
+        "previousOfstedRating": null,
+        "percentageFull": 104
       }
     ],
     "governors": [
