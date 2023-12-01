@@ -22,20 +22,30 @@ public class DummyAcademyFactory
         return academies.ToArray();
     }
 
-    public static Academy GetDummyAcademy(int urn)
+    public static Academy GetDummyAcademy(int urn,
+        string typeOfEstablishment = "test",
+        string localAuthority = "test",
+        string urbanRural = "test",
+        string phaseOfEducation = "test",
+        string? numberOfPupils = "test",
+        string? schoolCapacity = "test",
+        string? percentageFreeSchoolMeals = "test",
+        AgeRange? ageRange = null,
+        OfstedRating? currentOfstedRating = null,
+        OfstedRating? previousOfstedRating = null)
     {
         return new Academy(urn,
             new DateTime(2023, 11, 16),
             $"Academy {urn}",
-            "test",
-            "test",
-            "test",
-            "test",
-            "test",
-            "test",
-            "test",
-            null,
-            null,
-            null);
+            typeOfEstablishment,
+            localAuthority,
+            urbanRural,
+            phaseOfEducation,
+            numberOfPupils,
+            schoolCapacity,
+            percentageFreeSchoolMeals,
+            ageRange,
+            currentOfstedRating,
+            previousOfstedRating);
     }
 }
