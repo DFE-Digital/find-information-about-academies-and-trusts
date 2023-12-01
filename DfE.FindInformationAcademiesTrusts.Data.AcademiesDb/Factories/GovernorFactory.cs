@@ -17,8 +17,8 @@ public class GovernorFactory : IGovernorFactory
             giasGovernance.Gid!,
             giasGovernance.Uid!,
             GetFullName(giasGovernance),
-            giasGovernance.Role,
-            giasGovernance.AppointingBody,
+            giasGovernance.Role!,
+            giasGovernance.AppointingBody!,
             giasGovernance.DateOfAppointment.ParseAsNullableDate(),
             giasGovernance.DateTermOfOfficeEndsEnded.ParseAsNullableDate(),
             mstrGovernance.Email
