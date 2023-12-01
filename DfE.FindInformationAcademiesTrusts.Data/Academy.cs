@@ -11,7 +11,7 @@ public record Academy(
     string? NumberOfPupils,
     string? SchoolCapacity,
     string? PercentageFreeSchoolMeals,
-    AgeRange? AgeRange,
+    AgeRange AgeRange,
     OfstedRating? CurrentOfstedRating,
     OfstedRating? PreviousOfstedRating
 );

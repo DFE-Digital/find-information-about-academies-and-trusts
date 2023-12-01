@@ -44,7 +44,7 @@ public class DummyAcademyFactory
             numberOfPupils,
             schoolCapacity,
             percentageFreeSchoolMeals,
-            ageRange,
+            ageRange ?? new AgeRange(1, 11),
             currentOfstedRating,
             previousOfstedRating);
     }
