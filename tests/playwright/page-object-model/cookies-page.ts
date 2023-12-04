@@ -17,7 +17,7 @@ export class CookiesPage {
   }
 
   async goTo (): Promise<void> {
-    await this.page.goto('/privacy')
+    await this.page.goto('/cookies')
   }
 
   async acceptCookies (): Promise<void> {
