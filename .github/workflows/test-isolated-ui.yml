@@ -10,6 +10,7 @@ on:
 env:
   NODE_VERSION: 18.13.0
   LAST_COMMIT_SHA: default
+  BRANCH_NAME: main
 
 jobs:
   playwright:
@@ -23,6 +24,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
+
+      - if: github.event_name == 'pull_request'
+        name: Get source branch for pull request
+        run: |
+          GIT_REF=${{ github.head_ref }}
+          echo "BRANCH_NAME=${GIT_REF}" >> $GITHUB_ENV
 
       - name: Set SHA environment variable
         run: |
@@ -88,13 +95,11 @@ jobs:
         with:
           azcliversion: 2.53.0
           inlineScript: |
-            GIT_REF=${{ github.base_ref }}
-            GIT_BRANCH=${GIT_REF//\//-}
             az storage blob upload \
               --container-name ${{ secrets.CI_REPORTS_STORAGE_CONTAINER_NAME }} \
               --account-name ${{ secrets.CI_REPORTS_STORAGE_ACCOUNT_NAME }} \
               --file "./tests/playwright/${{ env.LAST_COMMIT_SHA }}.zip" \
-              --name "Dfe.FindInformationAcademiesTrusts/$GIT_BRANCH/test-ui-${{ env.LAST_COMMIT_SHA }}.zip" \
+              --name "Dfe.FindInformationAcademiesTrusts/${{ env.BRANCH_NAME }}/test-ui-${{ env.LAST_COMMIT_SHA }}.zip" \
               --auth-mode login \
               --overwrite
 
