@@ -1,0 +1,15 @@
+{
+  "cookies": [
+    {
+      "name": ".FindInformationAcademiesTrust.CookieConsent",
+      "value": "True",
+      "domain": "localhost",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

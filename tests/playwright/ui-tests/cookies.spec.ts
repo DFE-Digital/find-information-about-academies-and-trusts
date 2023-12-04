@@ -8,6 +8,9 @@ test.describe('cookiespage', () => {
   let cookiesPage: CookiesPage
   let currentSearch: CurrentSearch
 
+  //reset cookies to default
+  test.use({ storageState: { cookies: [], origins: [] } });
+
   test.beforeEach(async ({ page, context }) => {
     currentSearch = new CurrentSearch()
     homePage = new HomePage(page, currentSearch)

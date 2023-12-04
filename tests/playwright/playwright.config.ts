@@ -28,6 +28,7 @@ export const baseConfig: PlaywrightTestConfig<{}, {}> = {
         'Authorization': 'Bearer ' + process.env.AUTH_BYPASS_SECRET,
       },
 
+    storageState: 'cookiesAccepted.json',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry'
   },
