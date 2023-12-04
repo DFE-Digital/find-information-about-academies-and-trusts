@@ -84,7 +84,7 @@ test.describe('Navigation', () => {
     await privacyPage.expect.toBeOnTheRightPage()
     // Cookie banner Via HomePage => Cookie
     await homePage.goTo()
-    await homePage.cookieBannerNavigation.clickCookiesPage()
+    await homePage.footerNavigation.clickCookies()
     await cookiesPage.expect.toBeOnTheRightPage()
   })
 })

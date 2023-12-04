@@ -11,7 +11,7 @@ export class CookieBannerComponent {
 
   constructor (readonly page: Page) {
     this.expect = new CookieBannerNavigationComponentAssertions(this)
-    this.banner = page.getByLabel('Cookies on Find Infomation about Academies and Trusts')
+    this.banner = page.getByLabel('Cookies on Find information about academies and trusts')
     this.acceptCookiesLocator = this.banner.getByRole('button', { name: 'Accept analytics cookies' })
     this.rejectCookiesLocator = this.banner.getByRole('button', { name: 'Reject analytics cookies' })
     this.cookiePageLinkLocator = this.banner.getByRole('link', { name: 'View cookies' })
