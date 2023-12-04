@@ -24,9 +24,21 @@ jobs:
       environment: ${{ steps.var.outputs.environment }}
       branch: ${{ steps.var.outputs.branch }}
     steps:
+      - if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        name: Get branch name for push/dispatch event
+        run: |
+          GIT_REF=${{ github.ref_name }}
+          echo "branch_ref=${GIT_REF}" >> $GITHUB_ENV
+
+      - if: github.event_name == 'pull_request'
+        name: Get source branch for pull request
+        run: |
+          GIT_REF=${{ github.head_ref }}
+          echo "branch_ref=${GIT_REF}" >> $GITHUB_ENV
+
       - id: var
         run: |
-          GIT_REF=${{ github.ref }}
+          GIT_REF=${{ env.branch_ref }}
           GIT_BRANCH=${GIT_REF##*/}
           INPUT=${{ github.event.inputs.environment }}
           ENVIRONMENT=${INPUT:-"development"}
