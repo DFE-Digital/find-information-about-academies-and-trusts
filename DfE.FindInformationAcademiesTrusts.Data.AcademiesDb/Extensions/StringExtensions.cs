@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 
-public static class StringToDateExtensions
+public static class StringExtensions
 {
     private static readonly Regex SlashRegex = new(@"^\d\d/\d\d/\d\d\d\d$", RegexOptions.NonBacktracking);
     private static readonly Regex DashRegex = new(@"^\d\d\-\d\d\-\d\d\d\d$", RegexOptions.NonBacktracking);
@@ -23,5 +23,10 @@ public static class StringToDateExtensions
         }
 
         throw new ArgumentException($"Cannot parse date in unknown format - {dateString}");
+    }
+
+    public static int? ParseAsNullableInt(this string? numberString)
+    {
+        return int.TryParse(numberString, out var number) ? number : null;
     }
 }

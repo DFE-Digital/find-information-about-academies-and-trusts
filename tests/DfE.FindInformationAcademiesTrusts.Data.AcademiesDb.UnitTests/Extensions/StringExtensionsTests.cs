@@ -2,7 +2,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Extensions;
 
-public class StringToDateExtensionsTests
+public class StringExtensionsTests
 {
     [Theory]
     [InlineData("not a date string")]
@@ -55,4 +55,38 @@ public class StringToDateExtensionsTests
             new object[] { "29-02-2016", new DateTime(2016, 02, 29) },
             new object[] { "30-01-2015", new DateTime(2015, 01, 30) }
         };
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("    ")]
+    public void ParseAsNullableInt_should_return_null_when_passed_null_or_empty(string? input)
+    {
+        var result = input.ParseAsNullableInt();
+
+        result.Should().BeNull();
+    }
+
+    [Theory]
+    [InlineData("t")]
+    [InlineData("test")]
+    [InlineData("12ee")]
+    [InlineData("%")]
+    public void ParseAsNullableInt_should_return_null_when_passed_value_that_cannot_be_parsed(string? input)
+    {
+        var result = input.ParseAsNullableInt();
+
+        result.Should().BeNull();
+    }
+
+    [Theory]
+    [InlineData("0", 0)]
+    [InlineData("1", 1)]
+    [InlineData("1000", 1000)]
+    [InlineData("99", 99)]
+    public void ParseAsNullableInt_should_return_correctly_parsed_int(string? input, int? expected)
+    {
+        var result = input.ParseAsNullableInt();
+        result.Should().Be(expected);
+    }
 }
