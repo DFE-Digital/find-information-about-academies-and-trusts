@@ -7,8 +7,8 @@ test.describe('Cookies', () => {
   let cookiesPage: CookiesPage
   let homePage: HomePage
 
-  //reset cookies to default
-  test.use({ storageState: { cookies: [], origins: [] } });
+  // reset cookies to default
+  test.use({ storageState: { cookies: [], origins: [] } })
 
   test.beforeEach(async ({ page }) => {
     cookiesPage = new CookiesPage(page)
@@ -20,29 +20,29 @@ test.describe('Cookies', () => {
     await cookiesPage.expect.toBeOnTheRightPage()
     await expectNoAccessibilityViolations()
 
-    await cookiesPage.acceptCookies();
+    await cookiesPage.acceptCookies()
     await expectNoAccessibilityViolations()
   })
 
   test('accepted banner should have no automatically detectable accessibility issues', async ({ expectNoAccessibilityViolations }) => {
     await homePage.goTo()
-    await homePage.cookieBannerNavigation.expect.isVisible()
+    await homePage.cookieBanner.expect.toAskForCookiePreferences()
     await expectNoAccessibilityViolations()
 
-    await homePage.cookieBannerNavigation.clickAcceptCookies()
-    await homePage.cookieBannerNavigation.expect.isNotVisible()
-    await homePage.cookieBannerNavigation.expect.isAccepted()
+    await homePage.cookieBanner.acceptCookies()
+    await homePage.cookieBanner.expect.notToAskForCookiePreferences()
+    await homePage.cookieBanner.expect.toShowCookiesAcceptedMessage()
     await expectNoAccessibilityViolations()
   })
 
   test('rejected banner should have no automatically detectable accessibility issues', async ({ expectNoAccessibilityViolations }) => {
     await homePage.goTo()
-    await homePage.cookieBannerNavigation.expect.isVisible()
+    await homePage.cookieBanner.expect.toAskForCookiePreferences()
     await expectNoAccessibilityViolations()
 
-    await homePage.cookieBannerNavigation.clickRejectCookies()
-    await homePage.cookieBannerNavigation.expect.isNotVisible()
-    await homePage.cookieBannerNavigation.expect.isRejected()
+    await homePage.cookieBanner.rejectCookies()
+    await homePage.cookieBanner.expect.notToAskForCookiePreferences()
+    await homePage.cookieBanner.expect.toShowCookiesRejectedMessage()
     await expectNoAccessibilityViolations()
   })
 })

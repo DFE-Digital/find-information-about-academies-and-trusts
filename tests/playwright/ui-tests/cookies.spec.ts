@@ -2,107 +2,152 @@ import { test } from '@playwright/test'
 import { HomePage } from '../page-object-model/home-page'
 import { CookiesPage } from '../page-object-model/cookies-page'
 import { CurrentSearch } from '../page-object-model/shared/search-form-component'
+import { PrivacyPage } from '../page-object-model/privacy-page'
+import { DetailsPage } from '../page-object-model/trust/details-page'
+import { FakeTestData } from '../fake-data/fake-test-data'
+import { SearchPage } from '../page-object-model/search-page'
 
-test.describe('cookiespage', () => {
+test.describe('Cookies', () => {
   let homePage: HomePage
   let cookiesPage: CookiesPage
-  let currentSearch: CurrentSearch
+  let privacyPage: PrivacyPage
+  let detailsPage: DetailsPage
+  let searchPage: SearchPage
 
-  //reset cookies to default
-  test.use({ storageState: { cookies: [], origins: [] } });
-
-  test.beforeEach(async ({ page, context }) => {
-    currentSearch = new CurrentSearch()
-    homePage = new HomePage(page, currentSearch)
+  test.beforeEach(async ({ page }) => {
+    const currentSearch = new CurrentSearch()
     cookiesPage = new CookiesPage(page)
-    await homePage.goTo()
+    homePage = new HomePage(page, currentSearch)
+    searchPage = new SearchPage(page, currentSearch)
+    privacyPage = new PrivacyPage(page)
+    detailsPage = new DetailsPage(page, new FakeTestData())
   })
 
-  test('user should be able to accept cookies at cookies page', async ({ browserName }) => {
-    test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
-    await homePage.footerNavigation.clickCookies()
-    await cookiesPage.expect.returnToLinkPageToNotBeVisible()
-    await cookiesPage.expect.acceptCookiesRadioButtonIsNotChecked()
-    await cookiesPage.expect.rejectCookiesRadioButtonIsNotChecked()
-    await cookiesPage.acceptCookies()
-    await cookiesPage.expect.returnToLinkPageToBeVisible()
-    await homePage.cookieBannerNavigation.expect.isAccepted()
-    await cookiesPage.clickBackToHomePage()
-    await homePage.expect.toBeOnTheRightPage()
-    await homePage.footerNavigation.clickCookies()
-    await cookiesPage.expect.acceptCookiesRadioButtonIsChecked()
-    await cookiesPage.expect.rejectCookiesRadioButtonIsNotChecked()
+  // reset cookies to default
+  test.use({ storageState: { cookies: [], origins: [] } })
+
+  test.describe('page', () => {
+    test('user should be able to accept cookies at cookies page', async ({ browserName }) => {
+      test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
+
+      await cookiesPage.goTo()
+      await cookiesPage.expect.acceptCookiesRadioButtonNotToBeChecked()
+      await cookiesPage.expect.rejectCookiesRadioButtonNotToBeChecked()
+
+      await cookiesPage.acceptCookies()
+
+      await homePage.cookieBanner.expect.toShowCookiesAcceptedMessage()
+
+      await cookiesPage.expect.acceptCookiesRadioButtonToBeChecked()
+      await cookiesPage.expect.rejectCookiesRadioButtonNotToBeChecked()
+    })
+
+    test('user should be able to reject cookies at cookies page', async ({ browserName }) => {
+      test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
+
+      await cookiesPage.goTo()
+      await cookiesPage.expect.acceptCookiesRadioButtonNotToBeChecked()
+      await cookiesPage.expect.rejectCookiesRadioButtonNotToBeChecked()
+
+      await cookiesPage.rejectCookies()
+
+      await homePage.cookieBanner.expect.toShowCookiesRejectedMessage()
+
+      await cookiesPage.expect.acceptCookiesRadioButtonNotToBeChecked()
+      await cookiesPage.expect.rejectCookiesRadioButtonToBeChecked()
+    })
+
+    test('user should be able to return to previous page after setting cookie preferences', async ({ browserName }) => {
+      test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
+
+      await homePage.goTo()
+      await homePage.footerNavigation.goToCookies()
+
+      await cookiesPage.expect.returnToLinkPageToNotBeVisible()
+      await cookiesPage.acceptCookies()
+      await cookiesPage.expect.returnToLinkPageToBeVisible()
+
+      await cookiesPage.returnToPreviousPageViaLink()
+      await homePage.expect.toBeOnTheRightPage()
+
+      await homePage.footerNavigation.goToPrivacyPolicy()
+      await privacyPage.expect.toBeOnTheRightPage()
+
+      await privacyPage.footerNavigation.goToCookies()
+      await cookiesPage.expect.returnToLinkPageToNotBeVisible()
+      await cookiesPage.rejectCookies()
+      await cookiesPage.expect.returnToLinkPageToBeVisible()
+
+      await cookiesPage.returnToPreviousPageViaLink()
+      await privacyPage.expect.toBeOnTheRightPage()
+    })
   })
 
-  test('user should be able to reject cookies at cookies page', async ({ browserName }) => {
-    test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
-    await homePage.footerNavigation.clickCookies()
-    await cookiesPage.expect.returnToLinkPageToNotBeVisible()
-    await cookiesPage.expect.acceptCookiesRadioButtonIsNotChecked()
-    await cookiesPage.expect.rejectCookiesRadioButtonIsNotChecked()
-    await cookiesPage.rejectCookies()
-    await cookiesPage.expect.returnToLinkPageToBeVisible()
-    await homePage.cookieBannerNavigation.expect.isRejected()
-    await cookiesPage.clickBackToHomePage()
-    await homePage.expect.toBeOnTheRightPage()
-    await homePage.footerNavigation.clickCookies()
-    await cookiesPage.expect.rejectCookiesRadioButtonIsChecked()
-    await cookiesPage.expect.acceptCookiesRadioButtonIsNotChecked()
-  })
+  test.describe('banner', () => {
+    test.beforeEach(async () => {
+      await homePage.goTo()
+    })
 
-  test('user should be able to accept cookies at cookies banner', async ({ browserName }) => {
-    test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
-    await homePage.cookieBannerNavigation.expect.isVisible()
-    await homePage.cookieBannerNavigation.clickAcceptCookies()
-    await homePage.cookieBannerNavigation.expect.isNotVisible()
-    await homePage.cookieBannerNavigation.expect.isAccepted()
-    await homePage.footerNavigation.clickCookies()
-    await cookiesPage.expect.acceptCookiesRadioButtonIsChecked()
-  })
+    test('should be visible on all page types before setting a cookies preference', async ({ browserName }) => {
+      test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
 
-  test('user should be able to reject cookies at cookies banner', async ({ browserName }) => {
-    test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
-    await homePage.cookieBannerNavigation.expect.isVisible()
-    await homePage.cookieBannerNavigation.clickRejectCookies()
-    await homePage.cookieBannerNavigation.expect.isNotVisible()
-    await homePage.cookieBannerNavigation.expect.isRejected()
-    await homePage.footerNavigation.clickCookies()
-    await cookiesPage.expect.rejectCookiesRadioButtonIsChecked()
-  })
+      await homePage.cookieBanner.expect.toAskForCookiePreferences()
 
-  test('user should be able to accept cookies at cookies banner then change their preferences on the cookies page', async ({ browserName }) => {
-    test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
-    await homePage.cookieBannerNavigation.expect.isVisible()
-    await homePage.cookieBannerNavigation.clickAcceptCookies()
-    await homePage.cookieBannerNavigation.expect.isNotVisible()
-    await homePage.cookieBannerNavigation.expect.isAccepted()
-    await homePage.footerNavigation.clickCookies()
-    await cookiesPage.expect.acceptCookiesRadioButtonIsChecked()
-    await cookiesPage.rejectCookies()
-    await cookiesPage.expect.returnToLinkPageToBeVisible()
-    await homePage.cookieBannerNavigation.expect.isRejected()
-    await cookiesPage.clickBackToHomePage()
-    await homePage.expect.toBeOnTheRightPage()
-    await homePage.footerNavigation.clickCookies()
-    await cookiesPage.expect.rejectCookiesRadioButtonIsChecked()
-    await cookiesPage.expect.acceptCookiesRadioButtonIsNotChecked()
-  })
+      await privacyPage.goTo()
+      await privacyPage.cookieBanner.expect.toAskForCookiePreferences()
 
-  test('user should be able to reject cookies at cookies banner then change their preferences on the cookies page', async ({ browserName }) => {
-    test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
-    await homePage.cookieBannerNavigation.expect.isVisible()
-    await homePage.cookieBannerNavigation.clickRejectCookies()
-    await homePage.cookieBannerNavigation.expect.isNotVisible()
-    await homePage.cookieBannerNavigation.expect.isRejected()
-    await homePage.footerNavigation.clickCookies()
-    await cookiesPage.expect.rejectCookiesRadioButtonIsChecked()
-    await cookiesPage.acceptCookies()
-    await cookiesPage.expect.returnToLinkPageToBeVisible()
-    await homePage.cookieBannerNavigation.expect.isAccepted()
-    await cookiesPage.clickBackToHomePage()
-    await homePage.expect.toBeOnTheRightPage()
-    await homePage.footerNavigation.clickCookies()
-    await cookiesPage.expect.acceptCookiesRadioButtonIsChecked()
-    await cookiesPage.expect.rejectCookiesRadioButtonIsNotChecked()
+      await searchPage.goToSearchWithResults()
+      await searchPage.cookieBanner.expect.toAskForCookiePreferences()
+
+      await detailsPage.goToMultiAcademyTrust()
+      await detailsPage.cookieBanner.expect.toAskForCookiePreferences()
+    })
+
+    test('should be able to navigate to cookies page from banner', async ({ browserName }) => {
+      await homePage.cookieBanner.expect.toAskForCookiePreferences()
+
+      await homePage.cookieBanner.goToCookiesPage()
+
+      await cookiesPage.expect.toBeOnTheRightPage()
+    })
+
+    test('user should be able to accept cookies at cookies banner', async ({ browserName }) => {
+      test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
+      await homePage.cookieBanner.expect.toAskForCookiePreferences()
+
+      await homePage.cookieBanner.acceptCookies()
+
+      await homePage.cookieBanner.expect.notToAskForCookiePreferences()
+      await homePage.cookieBanner.expect.toShowCookiesAcceptedMessage()
+
+      await homePage.footerNavigation.goToCookies()
+      await cookiesPage.expect.acceptCookiesRadioButtonToBeChecked()
+    })
+
+    test('user should be able to reject cookies at cookies banner', async ({ browserName }) => {
+      test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
+      await homePage.cookieBanner.expect.toAskForCookiePreferences()
+
+      await homePage.cookieBanner.rejectCookies()
+
+      await homePage.cookieBanner.expect.notToAskForCookiePreferences()
+      await homePage.cookieBanner.expect.toShowCookiesRejectedMessage()
+
+      await homePage.footerNavigation.goToCookies()
+      await cookiesPage.expect.rejectCookiesRadioButtonToBeChecked()
+    })
+
+    test('user should be able to set preferences at cookies banner then change their preferences on the cookies page', async ({ browserName }) => {
+      test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
+      await homePage.cookieBanner.expect.toAskForCookiePreferences()
+      await homePage.cookieBanner.rejectCookies()
+
+      await homePage.footerNavigation.goToCookies()
+      await cookiesPage.expect.rejectCookiesRadioButtonToBeChecked()
+
+      await cookiesPage.acceptCookies()
+
+      await cookiesPage.expect.acceptCookiesRadioButtonToBeChecked()
+    })
   })
 })

@@ -5,6 +5,7 @@ export class FooterNavigationComponent {
   readonly locator: Locator
   readonly privacyPolicyLinkLocator: Locator
   readonly cookiesPageLinkLocator: Locator
+
   constructor (readonly page: Page) {
     this.expect = new FooterNavigationComponentAssertions(this)
     this.locator = page.locator('footer')
@@ -12,11 +13,11 @@ export class FooterNavigationComponent {
     this.cookiesPageLinkLocator = this.locator.getByRole('link', { name: 'Cookies' })
   }
 
-  async clickPrivacyPolicy (): Promise<void> {
+  async goToPrivacyPolicy (): Promise<void> {
     await this.privacyPolicyLinkLocator.click()
   }
 
-  async clickCookies (): Promise<void> {
+  async goToCookies (): Promise<void> {
     await this.cookiesPageLinkLocator.click()
   }
 }
@@ -24,7 +25,7 @@ class FooterNavigationComponentAssertions {
   constructor (readonly footerNavigation: FooterNavigationComponent) {
   }
 
-  async isVisible (): Promise<void> {
+  async toBeVisible (): Promise<void> {
     await expect(this.footerNavigation.locator).toContainText('All content is available under the Open Government Licence v3.0, except where otherwise stated')
   }
 }

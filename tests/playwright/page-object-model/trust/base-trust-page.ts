@@ -1,11 +1,11 @@
-import { Locator, Page } from '@playwright/test'
+import { Page } from '@playwright/test'
 import { FakeTestData, FakeTrust } from '../../fake-data/fake-test-data'
 import { TrustHeaderComponent } from '../shared/trust-header-component'
 import { NavigationComponent } from '../shared/navigation-component'
+import { BasePage, BasePageAssertions } from '../base-page'
 
-export class BaseTrustPage {
+export class BaseTrustPage extends BasePage {
   readonly expect: BaseTrustPageAssertions
-  readonly pageHeadingLocator: Locator
   readonly trustHeading: TrustHeaderComponent
   readonly trustNavigation: NavigationComponent
 
@@ -13,11 +13,12 @@ export class BaseTrustPage {
   currentTrust: FakeTrust
   pageUrl: string
 
-  constructor (readonly page: Page, fakeTestData: FakeTestData, pageUrl: string) {
+  constructor (page: Page, fakeTestData: FakeTestData, pageUrl: string) {
+    super(page, pageUrl, '', '')
+
     this.expect = new BaseTrustPageAssertions(this)
     this.pageUrl = pageUrl
     this.fakeTestData = fakeTestData
-    this.pageHeadingLocator = page.locator('h1')
     this.trustHeading = new TrustHeaderComponent(page)
     this.trustNavigation = new NavigationComponent(page, 'Sections')
   }
@@ -50,8 +51,10 @@ export class BaseTrustPage {
   }
 }
 
-export class BaseTrustPageAssertions {
-  constructor (readonly trustPage: BaseTrustPage) {}
+export class BaseTrustPageAssertions extends BasePageAssertions {
+  constructor (readonly trustPage: BaseTrustPage) {
+    super(trustPage)
+  }
 
   async toSeeCorrectTrustNameAndTypeInHeader (): Promise<void> {
     const { name, type } = this.trustPage.currentTrust

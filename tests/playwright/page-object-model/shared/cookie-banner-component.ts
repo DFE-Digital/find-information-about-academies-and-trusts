@@ -1,7 +1,7 @@
 import { Locator, Page, expect } from '@playwright/test'
 
 export class CookieBannerComponent {
-  readonly expect: CookieBannerNavigationComponentAssertions
+  readonly expect: CookieBannerComponentAssertions
   readonly banner: Locator
   readonly acceptCookiesLocator: Locator
   readonly rejectCookiesLocator: Locator
@@ -10,7 +10,7 @@ export class CookieBannerComponent {
   readonly cookieRejectedBanner: Locator
 
   constructor (readonly page: Page) {
-    this.expect = new CookieBannerNavigationComponentAssertions(this)
+    this.expect = new CookieBannerComponentAssertions(this)
     this.banner = page.getByLabel('Cookies on Find information about academies and trusts')
     this.acceptCookiesLocator = this.banner.getByRole('button', { name: 'Accept analytics cookies' })
     this.rejectCookiesLocator = this.banner.getByRole('button', { name: 'Reject analytics cookies' })
@@ -19,36 +19,36 @@ export class CookieBannerComponent {
     this.cookieRejectedBanner = this.banner.getByText('You\u2019ve rejected additional cookies')
   }
 
-  async clickAcceptCookies (): Promise<void> {
+  async acceptCookies (): Promise<void> {
     await this.acceptCookiesLocator.click()
   }
 
-  async clickRejectCookies (): Promise<void> {
+  async rejectCookies (): Promise<void> {
     await this.rejectCookiesLocator.click()
   }
 
-  async clickCookiesPage (): Promise<void> {
+  async goToCookiesPage (): Promise<void> {
     await this.cookiePageLinkLocator.click()
   }
 }
 
-class CookieBannerNavigationComponentAssertions {
-  constructor (readonly cookieBannerNavigation: CookieBannerComponent) {
+class CookieBannerComponentAssertions {
+  constructor (readonly cookieBanner: CookieBannerComponent) {
   }
 
-  async isVisible (): Promise<void> {
-    await expect(this.cookieBannerNavigation.acceptCookiesLocator).toBeVisible()
+  async toAskForCookiePreferences (): Promise<void> {
+    await expect(this.cookieBanner.acceptCookiesLocator).toBeVisible()
   }
 
-  async isNotVisible (): Promise<void> {
-    await expect(this.cookieBannerNavigation.acceptCookiesLocator).not.toBeVisible()
+  async notToAskForCookiePreferences (): Promise<void> {
+    await expect(this.cookieBanner.acceptCookiesLocator).not.toBeVisible()
   }
 
-  async isAccepted (): Promise<void> {
-    await expect(this.cookieBannerNavigation.cookieAcceptedBanner).toBeVisible()
+  async toShowCookiesAcceptedMessage (): Promise<void> {
+    await expect(this.cookieBanner.cookieAcceptedBanner).toBeVisible()
   }
 
-  async isRejected (): Promise<void> {
-    await expect(this.cookieBannerNavigation.cookieRejectedBanner).toBeVisible()
+  async toShowCookiesRejectedMessage (): Promise<void> {
+    await expect(this.cookieBanner.cookieRejectedBanner).toBeVisible()
   }
 }

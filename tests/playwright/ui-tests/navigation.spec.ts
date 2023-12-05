@@ -80,11 +80,11 @@ test.describe('Navigation', () => {
   test('user should be able to navigate to the different links within the footer', async () => {
     // Footer Via HomePage => Privacy
     await homePage.goTo()
-    await homePage.footerNavigation.clickPrivacyPolicy()
+    await homePage.footerNavigation.goToPrivacyPolicy()
     await privacyPage.expect.toBeOnTheRightPage()
     // Cookie banner Via HomePage => Cookie
     await homePage.goTo()
-    await homePage.footerNavigation.clickCookies()
+    await homePage.footerNavigation.goToCookies()
     await cookiesPage.expect.toBeOnTheRightPage()
   })
 })

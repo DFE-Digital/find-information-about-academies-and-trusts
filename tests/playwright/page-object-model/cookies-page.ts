@@ -1,23 +1,21 @@
 import { Locator, Page, expect } from '@playwright/test'
-export class CookiesPage {
+import { BasePage, BasePageAssertions } from './base-page'
+
+export class CookiesPage extends BasePage {
   readonly expect: CookiesPageAssertions
-  readonly body: Locator
   readonly acceptRadioButtonLocator: Locator
   readonly rejectRadioButtonLocator: Locator
   readonly saveChangesButtonLocator: Locator
   readonly returnToPageLocator: Locator
 
-  constructor (readonly page: Page) {
+  constructor (page: Page) {
+    super(page, '/cookies', 'Cookies - Find information about academies and trusts', 'Cookie preferences')
     this.expect = new CookiesPageAssertions(this)
-    this.body = page.locator('body')
+
     this.acceptRadioButtonLocator = page.getByLabel('Yes')
     this.rejectRadioButtonLocator = page.getByLabel('No')
     this.saveChangesButtonLocator = page.getByRole('button', { name: 'Save changes' })
     this.returnToPageLocator = page.getByRole('link', { name: 'Go back to the page you were looking at' })
-  }
-
-  async goTo (): Promise<void> {
-    await this.page.goto('/cookies')
   }
 
   async acceptCookies (): Promise<void> {
@@ -30,14 +28,13 @@ export class CookiesPage {
     await this.saveChangesButtonLocator.click()
   }
 
-  async clickBackToHomePage (): Promise<void> {
+  async returnToPreviousPageViaLink (): Promise<void> {
     await this.returnToPageLocator.click()
   }
 }
-class CookiesPageAssertions {
-  constructor (readonly cookiesPage: CookiesPage) { }
-  async toBeOnTheRightPage (): Promise<void> {
-    await expect(this.cookiesPage.body).toContainText('Essential cookies')
+class CookiesPageAssertions extends BasePageAssertions {
+  constructor (readonly cookiesPage: CookiesPage) {
+    super(cookiesPage)
   }
 
   async returnToLinkPageToBeVisible (): Promise<void> {
@@ -48,19 +45,19 @@ class CookiesPageAssertions {
     await expect(this.cookiesPage.returnToPageLocator).toHaveCount(0)
   }
 
-  async acceptCookiesRadioButtonIsChecked (): Promise<void> {
+  async acceptCookiesRadioButtonToBeChecked (): Promise<void> {
     await expect(this.cookiesPage.acceptRadioButtonLocator).toBeChecked()
   }
 
-  async rejectCookiesRadioButtonIsChecked (): Promise<void> {
+  async rejectCookiesRadioButtonToBeChecked (): Promise<void> {
     await expect(this.cookiesPage.rejectRadioButtonLocator).toBeChecked()
   }
 
-  async acceptCookiesRadioButtonIsNotChecked (): Promise<void> {
+  async acceptCookiesRadioButtonNotToBeChecked (): Promise<void> {
     await expect(this.cookiesPage.acceptRadioButtonLocator).not.toBeChecked()
   }
 
-  async rejectCookiesRadioButtonIsNotChecked (): Promise<void> {
+  async rejectCookiesRadioButtonNotToBeChecked (): Promise<void> {
     await expect(this.cookiesPage.rejectRadioButtonLocator).not.toBeChecked()
   }
 
