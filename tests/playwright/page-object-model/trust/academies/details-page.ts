@@ -1,6 +1,14 @@
 import { Page, expect } from '@playwright/test'
-import { FakeTestData } from '../../../fake-data/fake-test-data'
+import { FakeAcademy, FakeTestData } from '../../../fake-data/fake-test-data'
 import { BaseAcademiesPage, BaseAcademiesPageAssertions } from './base-academies-page'
+import { RowComponent } from '../../shared/table-component'
+
+enum ColumnHeading {
+  LocalAuthority,
+  Type,
+  RuralOrUrban,
+  GetInformationAboutSchools
+}
 
 export class AcademiesDetailsPage extends BaseAcademiesPage {
   readonly expect: AcademiesDetailsPageAssertions
@@ -22,10 +30,20 @@ export class AcademiesDetailsPageAssertions extends BaseAcademiesPageAssertions 
   }
 
   async toDisplayCorrectInformationAboutAcademiesInThatTrust (): Promise<void> {
-    await expect(this.detailsPage.academiesTable.locator).toContainText('Barr and Community R.C. SchoolURN: 109174')
-    await expect(this.detailsPage.academiesTable.locator).toContainText('URN: 109174')
-    await expect(this.detailsPage.academiesTable.locator).toContainText('Kingston upon Hull, City of')
-    await expect(this.detailsPage.academiesTable.locator).toContainText('Academy converter')
-    await expect(this.detailsPage.academiesTable.locator).toContainText('Urban minor conurbation')
+    const rowCount = await this.detailsPage.academiesTable.getRowCount()
+    let rowComponent: RowComponent
+    let expectedFakeAcademy: FakeAcademy
+    // start at 1 (rather than 0) because the first row will be the header
+    for (let i = 1; i < rowCount; i++) {
+      rowComponent = this.detailsPage.academiesTable.getRowComponentAt(i)
+      expectedFakeAcademy = await this.detailsPage.getExpectedAcademyMatching(rowComponent.rowHeaderLocator)
+
+      await expect(rowComponent.rowHeaderLocator).toContainText(expectedFakeAcademy.establishmentName)
+      await expect(rowComponent.rowHeaderLocator).toContainText(`URN: ${expectedFakeAcademy.urn}`)
+      await expect(rowComponent.cellLocator(ColumnHeading.LocalAuthority)).toContainText(expectedFakeAcademy.localAuthority)
+      await expect(rowComponent.cellLocator(ColumnHeading.Type)).toContainText(expectedFakeAcademy.typeOfEstablishment)
+      await expect(rowComponent.cellLocator(ColumnHeading.RuralOrUrban)).toContainText(expectedFakeAcademy.urbanRural)
+      await expect(rowComponent.cellLocator(ColumnHeading.GetInformationAboutSchools)).toContainText('More information')
+    }
   }
 }

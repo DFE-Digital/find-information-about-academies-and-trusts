@@ -26,6 +26,12 @@ class AcademiesOfstedRatingsPageAssertions extends BaseAcademiesPageAssertions {
     await expect(this.ofstedRatingsPage.page).toHaveTitle(/Ofsted ratings/)
   }
 
+  // Once the page is updated with real data this override can be deleted
+  // so that the method on the page object model is called with the real academy count.
+  async toDisplayInformationForAllAcademiesInThatTrust (): Promise<void> {
+    await expect(this.academiesPage.academiesRowLocator).toHaveCount(3)
+  }
+
   async toDisplayCorrectInformationAboutAcademiesInThatTrust (): Promise<void> {
     // start at 1 (rather than 0) because the first row will be the header
     const firstRowComponent = this.ofstedRatingsPage.academiesTable.getRowComponentAt(1)

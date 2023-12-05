@@ -12,6 +12,10 @@ export class TableComponent {
   getRowComponentAt (rowNumber: number): RowComponent {
     return new RowComponent(this.rowsLocator.nth(rowNumber))
   }
+
+  async getRowCount (): Promise<number> {
+    return await this.rowsLocator.count()
+  }
 }
 
 export class RowComponent {

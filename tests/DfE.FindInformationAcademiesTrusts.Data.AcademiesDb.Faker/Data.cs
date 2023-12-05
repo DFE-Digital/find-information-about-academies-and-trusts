@@ -61,33 +61,37 @@ public static class Data
         new("EMPOWER ACADEMY TRUST"),
         new("ILLUMINATE LEARNING TRUST"),
         new("CHALLENGER MULTI-ACADEMY TRUST"),
-        new("ST MARY'S ACADEMY TRUST", "Single-academy trust", "St. Mary's Academy"),
-        new("ST MARY'S ANGLICAN ACADEMY", "Single-academy trust", "St. Mary's Anglican Academy"),
+        new("ST MARY'S ACADEMY TRUST", "Single-academy trust", schools: "St. Mary's Academy"),
+        new("ST MARY'S ANGLICAN ACADEMY", "Single-academy trust", schools: "St. Mary's Anglican Academy"),
         new("ST MARY'S CATHOLIC HIGH SCHOOL ACADEMY TRUST", "Single-academy trust",
-            "St. Mary's Catholic High School Academy"),
-        new("ST MARY'S CATHOLIC PRIMARY SCHOOL", "Single-academy trust", "St. Mary's Catholic Primary School"),
+            schools: "St. Mary's Catholic High School Academy"),
+        new("ST MARY'S CATHOLIC PRIMARY SCHOOL", "Single-academy trust", schools: "St. Mary's Catholic Primary School"),
         new("ST MARY'S CATHOLIC PRIMARY SCHOOL (ACADEMY TRUST), SWINDON",
-            "Single-academy trust", "St. Mary's Catholic Primary School"),
+            "Single-academy trust", schools: "St. Mary's Catholic Primary School"),
         new("ST MARY'S CATHOLIC PRIMARY SCHOOL (HERRINGTHORPE), A CATHOLIC VOLUNTARY ACADEMY",
-            "Single-academy trust", "St. Mary's Catholic Primary School"),
-        new("ST MARY'S CATHOLIC PRIMARY SCHOOL (MALTBY)", "Single-academy trust", "St. Mary's Catholic Primary School"),
+            "Single-academy trust", schools: "St. Mary's Catholic Primary School"),
+        new("ST MARY'S CATHOLIC PRIMARY SCHOOL (MALTBY)", "Single-academy trust",
+            schools: "St. Mary's Catholic Primary School"),
         new("ST MARY'S CATHOLIC PRIMARY SCHOOL, CHURCHDOWN", "Single-academy trust",
-            "St. Mary's Catholic Primary School"),
-        new("ST MARY'S CATHOLIC PRIMARY SCHOOLS TRUST", "Multi-academy trust",
+            schools: "St. Mary's Catholic Primary School"),
+        new("ST MARY'S CATHOLIC PRIMARY SCHOOLS TRUST", "Multi-academy trust", false, "Open",
             "St Mary's Catholic Primary School", "St. Mary's Catholic Primary School",
             "St. Marys Catholic Primary School", "St. Mary's Catholic Primary School",
             "St Marys Catholic Primary School", "St. Mary's Catholic Primary School", "St. Mary's RC Primary School",
             "St. Mary's Primary School", "St. Mary's Primary School"),
-        new("ST MARY'S CE ACADEMY, CHESHUNT", "Single-academy trust", "St Mary's CE Academy"),
-        new("ST MARY'S CHURCH OF ENGLAND ACADEMY TRUST", "Single-academy trust", "St Mary's Church of England Academy"),
-        new("ST MARY'S CHURCH OF ENGLAND ACADEMY, STOTFOLD", "Single-academy trust", "St Mary's Cofe Academy"),
-        new("ST MARY'S CHURCH OF ENGLAND JUNIOR SCHOOL", "Single-academy trust", "St Mary's C.E. Academy"),
-        new("ST MARY'S CHURCH OF ENGLAND PRIMARY ACADEMY, DILWYN", "Single-academy trust", "St Mary's C/E Academy"),
-        new("ST MARY'S CHURCH OF ENGLAND SCHOOL, NORWOOD GREEN", "Single-academy trust", "St Mary's C of E Academy"),
+        new("ST MARY'S CE ACADEMY, CHESHUNT", "Single-academy trust", schools: "St Mary's CE Academy"),
+        new("ST MARY'S CHURCH OF ENGLAND ACADEMY TRUST", "Single-academy trust",
+            schools: "St Mary's Church of England Academy"),
+        new("ST MARY'S CHURCH OF ENGLAND ACADEMY, STOTFOLD", "Single-academy trust", schools: "St Mary's Cofe Academy"),
+        new("ST MARY'S CHURCH OF ENGLAND JUNIOR SCHOOL", "Single-academy trust", schools: "St Mary's C.E. Academy"),
+        new("ST MARY'S CHURCH OF ENGLAND PRIMARY ACADEMY, DILWYN", "Single-academy trust",
+            schools: "St Mary's C/E Academy"),
+        new("ST MARY'S CHURCH OF ENGLAND SCHOOL, NORWOOD GREEN", "Single-academy trust",
+            schools: "St Mary's C of E Academy"),
         new("ST MARY'S CHURCH OF ENGLAND VA PRIMARY ACADEMY", "Single-academy trust",
-            "St Mary's Church of England VA Primary Academy"),
+            schools: "St Mary's Church of England VA Primary Academy"),
         new("ST MARY'S PRIMARY SCHOOL, A CATHOLIC VOLUNTARY ACADEMY",
-            "Single-academy trust", "St Mary's Primary School, A Catholic Voluntary Academy"),
+            "Single-academy trust", schools: "St Mary's Primary School, A Catholic Voluntary Academy"),
         new("THE DIOCESE OF CANTERBURY ACADEMIES TRUST"),
         new("THE DIOCESE OF CHELMSFORD VINE SCHOOLS TRUST"),
         new("THE DIOCESE OF COVENTRY MULTI-ACADEMY TRUST"),
@@ -97,10 +101,10 @@ public static class Data
         new("THE DIOCESE OF NORWICH ST BENET'S MULTI-ACADEMY TRUST"),
         new("THE DIOCESE OF SHEFFIELD ACADEMIES TRUST"),
         new("THE DIOCESE OF WESTMINSTER ACADEMY TRUST"),
-        new("THE DIOCESE OF WORCESTER MULTI ACADEMY TRUST"),
-        new("SHEFFIELD SOUTH EAST TRUST"),
-        new("CANTERBURY CROSS EDUCATION TRUST"),
-        new("WESTMINSTER ACADEMY TRUST")
+        new("THE DIOCESE OF WORCESTER MULTI ACADEMY TRUST", hasNoAcademies: true, status: "Closed"),
+        new("SHEFFIELD SOUTH EAST TRUST", hasNoAcademies: true),
+        new("CANTERBURY CROSS EDUCATION TRUST", "Single-academy trust", true, "Closed"),
+        new("WESTMINSTER ACADEMY TRUST", "Single-academy trust", true)
     };
 
     public static string?[] Regions { get; } =
@@ -134,6 +138,87 @@ public static class Data
         "Sheffield",
         "Wakefield",
         "York"
+    };
+
+    public static Dictionary<string, string[]> GovernorAppointingBodies { get; } = new()
+    {
+        {
+            "Accounting Officer", new[]
+            {
+                "N/A"
+            }
+        },
+        {
+            "Chair of Trustees", new[]
+            {
+                "Any additional members appointed by the members of the academy trust",
+                "Appointed by academy members",
+                "Appointed by foundation/Trust",
+                "Appointed by GB/board",
+                "Appointed by Regional Schools Commissioner (RSC)",
+                "Appointed by trustees",
+                "Elected by parents",
+                "Ex-officio by virtue of office as headteacher/principal",
+                "Ex-officio foundation governor (appointed by foundation by virtue of the office they hold)",
+                "Foundation/sponsor members",
+                "Interim Executive Board",
+                "N/A",
+                "Nominated by other body and appointed by GB",
+                "Original (signatory) members",
+                "Persons who are appointed by the foundation body or sponsor (if applicable)"
+            }
+        },
+        {
+            "Chief Financial Officer", new[]
+            {
+                "N/A"
+            }
+        },
+        {
+            "Member", new[]
+            {
+                "Any additional members appointed by the members of the academy trust",
+                "Appointed by academy members",
+                "Appointed by foundation/Trust",
+                "Appointed by GB/board",
+                "Appointed by Regional Schools Commissioner (RSC)",
+                "Elected by parents",
+                "Elected by school staff",
+                "Ex-officio by virtue of office as headteacher/principal",
+                "Ex-officio foundation governor (appointed by foundation by virtue of the office they hold)",
+                "Foundation/sponsor members",
+                "Interim Executive Board",
+                "N/A",
+                "Nominated by other body and appointed by GB",
+                "Original (signatory) members",
+                "Parent appointed by GB/board due to no election candidates",
+                "Persons who are appointed by the foundation body or sponsor (if applicable)"
+            }
+        },
+        {
+            "Trustee", new[]
+            {
+                "Any additional members appointed by the members of the academy trust",
+                "Appointed by academy members",
+                "Appointed by foundation/Trust",
+                "Appointed by GB/board",
+                "Appointed by LA",
+                "Appointed by Regional Schools Commissioner (RSC)",
+                "Appointed by trustees",
+                "Elected by parents",
+                "Elected by school staff",
+                "Ex-officio by virtue of office as headteacher/principal",
+                "Ex-officio foundation governor (appointed by foundation by virtue of the office they hold)",
+                "Foundation/sponsor members",
+                "Interim Executive Board",
+                "N/A",
+                "Nominated by LA and appointed by GB",
+                "Nominated by other body and appointed by GB",
+                "Original (signatory) members",
+                "Parent appointed by GB/board due to no election candidates",
+                "Persons who are appointed by the foundation body or sponsor (if applicable)"
+            }
+        }
     };
 
     public static string[] Schools { get; } =

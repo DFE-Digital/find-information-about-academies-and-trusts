@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
@@ -6,11 +7,12 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 public class AcademiesDetailsModelTests
 {
     private readonly AcademiesDetailsModel _sut;
+    private readonly Mock<IOtherServicesLinkBuilder> _mockLinkBuilder = new();
 
     public AcademiesDetailsModelTests()
     {
         var mockTrustProvider = new Mock<ITrustProvider>();
-        _sut = new AcademiesDetailsModel(mockTrustProvider.Object);
+        _sut = new AcademiesDetailsModel(mockTrustProvider.Object, _mockLinkBuilder.Object);
     }
 
     [Fact]
@@ -23,5 +25,17 @@ public class AcademiesDetailsModelTests
     public void TabName_should_be_Details()
     {
         _sut.TabName.Should().Be("Details");
+    }
+
+    [Fact]
+    public void PageName_should_be_AcademiesInThisTrust()
+    {
+        _sut.PageName.Should().Be("Academies in this trust");
+    }
+
+    [Fact]
+    public void OtherServicesLinkBuilder_should_be_injected()
+    {
+        _sut.LinkBuilder.Should().Be(_mockLinkBuilder.Object);
     }
 }

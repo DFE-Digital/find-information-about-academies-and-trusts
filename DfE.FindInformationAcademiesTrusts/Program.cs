@@ -4,6 +4,7 @@ using DfE.FindInformationAcademiesTrusts.Authorization;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Options;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -169,6 +170,7 @@ internal static class Program
         builder.Services.AddScoped<IGovernorFactory, GovernorFactory>();
         builder.Services.AddScoped<IPersonFactory, PersonFactory>();
         builder.Services.AddScoped<IAuthorizationHandler, HeaderRequirementHandler>();
+        builder.Services.AddScoped<IOtherServicesLinkBuilder, OtherServicesLinkBuilder>();
         builder.Services.AddHttpContextAccessor();
     }
 

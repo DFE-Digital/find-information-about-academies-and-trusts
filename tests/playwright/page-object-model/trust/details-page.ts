@@ -7,12 +7,20 @@ export class DetailsPage extends BaseTrustPage {
   readonly expect: DetailsPageAssertions
   readonly trustDetailsCardLocator: Locator
   readonly referenceNumbersCardLocator: Locator
+  readonly giasLinkLocator: Locator
+  readonly companiesHouseLinkLocator: Locator
+  readonly schoolPerformanceLinkLocator: Locator
+  readonly financialBenchmarkingLinkLocator: Locator
 
   constructor (readonly page: Page, fakeTestData: FakeTestData) {
     super(page, fakeTestData, '/trusts/details')
     this.expect = new DetailsPageAssertions(this)
     this.trustDetailsCardLocator = this.page.getByText('Trust details Address')
     this.referenceNumbersCardLocator = this.page.getByText('Reference numbers UID')
+    this.giasLinkLocator = this.page.getByRole('link', { name: 'Get information about schools' })
+    this.companiesHouseLinkLocator = this.page.getByRole('link', { name: 'Companies House' })
+    this.schoolPerformanceLinkLocator = this.page.getByRole('link', { name: 'Find school college and performance data in England' })
+    this.financialBenchmarkingLinkLocator = this.page.getByRole('link', { name: 'Schools financial benchmarking' })
   }
 }
 
@@ -46,5 +54,21 @@ class DetailsPageAssertions extends BaseTrustPageAssertions {
     await expect(this.detailsPage.referenceNumbersCardLocator).toContainText(`Group ID (identifier) and TRN (trust reference number) ${this.detailsPage.currentTrust.groupId}`)
     await expect(this.detailsPage.referenceNumbersCardLocator).toContainText(`UKPRN (UK provider reference number) ${this.detailsPage.currentTrust.ukprn}`)
     await expect(this.detailsPage.referenceNumbersCardLocator).toContainText(`Companies House number ${this.detailsPage.currentTrust.companiesHouseNumber}`)
+  }
+
+  async toSeeCorrectLinksForOpenTrust (): Promise<void> {
+    await expect(this.detailsPage.companiesHouseLinkLocator).toBeVisible()
+    await expect(this.detailsPage.giasLinkLocator).toBeVisible()
+    await expect(this.detailsPage.financialBenchmarkingLinkLocator).toBeVisible()
+    await expect(this.detailsPage.schoolPerformanceLinkLocator).toBeVisible()
+  }
+
+  async toSeeCorrectLinksForSingleAcademyTrustWithNoAcademies (): Promise<void> {
+    await expect(this.detailsPage.companiesHouseLinkLocator).toBeVisible()
+    await expect(this.detailsPage.giasLinkLocator).toBeVisible()
+  }
+
+  async toSeeCorrectLinksForClosedTrust (): Promise<void> {
+    await expect(this.detailsPage.companiesHouseLinkLocator).toBeVisible()
   }
 }

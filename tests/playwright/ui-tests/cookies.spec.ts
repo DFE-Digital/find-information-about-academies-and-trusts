@@ -99,7 +99,7 @@ test.describe('Cookies', () => {
       await searchPage.goToSearchWithResults()
       await searchPage.cookieBanner.expect.toAskForCookiePreferences()
 
-      await detailsPage.goToMultiAcademyTrust()
+      await detailsPage.goToOpenMultiAcademyTrust()
       await detailsPage.cookieBanner.expect.toAskForCookiePreferences()
     })
 

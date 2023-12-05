@@ -85,12 +85,10 @@ jobs:
         with:
           azcliversion: 2.53.0
           inlineScript: |
-            GIT_REF=${{ github.base_ref }}
-            GIT_BRANCH=${GIT_REF//\//-}
             az storage blob upload \
               --container-name ${{ secrets.CI_REPORTS_STORAGE_CONTAINER_NAME }} \
               --account-name ${{ secrets.CI_REPORTS_STORAGE_ACCOUNT_NAME }} \
               --file "./tests/playwright/${{ inputs.environment }}-${{ env.LAST_COMMIT_SHA }}.zip" \
-              --name "Dfe.FindInformationAcademiesTrusts/$GIT_BRANCH/test-deployment-${{ env.LAST_COMMIT_SHA }}.zip" \
+              --name "Dfe.FindInformationAcademiesTrusts/${{ inputs.branch-name }}/test-deployment-${{ env.LAST_COMMIT_SHA }}.zip" \
               --auth-mode login \
               --overwrite

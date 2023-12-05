@@ -27,24 +27,41 @@ public static class SqlScriptGenerator
     private static void GenerateSqlInsertScript(AcademiesDbContext context, string outputFilePath,
         AcademiesDbData fakeData)
     {
-        var insertScript = string.Join("; ",
-            GenerateSqlInsertScriptSegmentFor(fakeData.GiasGroups, context),
-            GenerateSqlInsertScriptSegmentFor(fakeData.MstrTrusts, context),
-            GenerateSqlInsertScriptSegmentFor(fakeData.GiasGroupLinks, context),
-            GenerateSqlInsertScriptSegmentFor(fakeData.GiasEstablishments, context)
-        );
-        File.WriteAllText(outputFilePath, insertScript);
+        var insertScripts = new List<string>();
+        insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.GiasGroups, context));
+        insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.MstrTrusts, context));
+        insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.MstrTrustGovernances, context));
+        insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.GiasGovernances, context));
+        insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.GiasGroupLinks, context));
+        insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.GiasEstablishments, context));
+        insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.CdmAccounts, context));
+        insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.CdmSystemusers, context));
+
+        File.WriteAllLines(outputFilePath, insertScripts);
     }
 
-    private static string GenerateSqlInsertScriptSegmentFor<T>(List<T> fakeObjects, AcademiesDbContext context)
+    private static List<string> GenerateSqlInsertScriptSegmentsFor<T>(List<T> rowObjects, AcademiesDbContext context)
     {
-        var objProperties = typeof(T).GetProperties();
         var entityType = context.Model.FindEntityTypes(typeof(T)).FirstOrDefault()!;
+        var entityProperties = typeof(T).GetProperties();
+        var entityColumnNames = GetEntityColumnNames(entityProperties, entityType);
         var tableName = $"[{entityType.GetSchema()}].[{entityType.GetTableName()}]";
-        var valuesStrings = fakeObjects.Select(obj => $"({GetEntityValues(obj, objProperties)})");
-        var insertString =
-            $"INSERT INTO {tableName} ({GetEntityProperties(objProperties, entityType)}) VALUES {string.Join(',', valuesStrings)}";
-        return insertString;
+
+        var insertScriptSegments = new List<string>();
+
+        // SQL Server Insert statements will only work for 1000 rows at a time. Batch the objects into a value less than that
+        const int insertRowBatch = 500;
+        for (var i = 0; i < rowObjects.Count; i += insertRowBatch)
+        {
+            var rowObjectBatch = rowObjects.Skip(i);
+            if (i + insertRowBatch < rowObjects.Count)
+                rowObjectBatch = rowObjectBatch.Take(insertRowBatch);
+
+            var rows = rowObjectBatch.Select(obj => $"({GetEntityValues(obj, entityProperties)})");
+            insertScriptSegments.Add($"INSERT INTO {tableName} ({entityColumnNames}) VALUES {string.Join(',', rows)};");
+        }
+
+        return insertScriptSegments;
     }
 
     private static string GetEntityValues<T>(T obj, PropertyInfo[] entityProperties)
@@ -55,7 +72,7 @@ public static class SqlScriptGenerator
         return string.Join(", ", list);
     }
 
-    private static string GetEntityProperties(PropertyInfo[] propertyInfos, IEntityType entityType)
+    private static string GetEntityColumnNames(PropertyInfo[] propertyInfos, IEntityType entityType)
     {
         var entityProperties = entityType.GetProperties();
         var columnNames =
@@ -71,17 +88,23 @@ public static class SqlScriptGenerator
     {
         if (value is null)
             return "NULL";
+
         if (propertyType == typeof(string))
         {
             return TransformIntoSqlSafeString(value.ToString());
         }
 
-        if (propertyType == typeof(int))
+        if (propertyType == typeof(int) || propertyType == typeof(long))
         {
             return value.ToString()!;
         }
 
-        throw new Exception("unknown type");
+        if (propertyType == typeof(Guid) || propertyType == typeof(Guid?))
+        {
+            return $"'{value}'";
+        }
+
+        throw new ApplicationException($"Can't get value as string for unknown type '{propertyType}'");
     }
 
     private static string TransformIntoSqlSafeString(string? unsantisedString)
