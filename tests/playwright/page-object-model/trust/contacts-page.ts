@@ -25,18 +25,16 @@ class ContactsPageAssertions extends BaseTrustPageAssertions {
   }
 
   async toSeeCorrectDfeContacts (): Promise<void> {
-    await expect(this.contactsPage.dfeContactsCard).toContainText(this.contactsPage.currentTrust.trustRelationshipManager.fullName)
-    await expect(this.contactsPage.dfeContactsCard).toContainText(this.contactsPage.currentTrust.trustRelationshipManager.email)
-    await expect(this.contactsPage.dfeContactsCard).toContainText(this.contactsPage.currentTrust.sfsoLead.fullName)
-    await expect(this.contactsPage.dfeContactsCard).toContainText(this.contactsPage.currentTrust.sfsoLead.email)
+    await expect(this.contactsPage.dfeContactsCard).toContainText(`Trust relationship manager ${this.contactsPage.currentTrust.trustRelationshipManager.fullName} ${this.contactsPage.currentTrust.trustRelationshipManager.email}`)
+    await expect(this.contactsPage.dfeContactsCard).toContainText(`SFSO (Schools financial support and oversight) lead ${this.contactsPage.currentTrust.sfsoLead.fullName} ${this.contactsPage.currentTrust.sfsoLead.email}`)
   }
 
   async toSeeCorrectTrustContacts (): Promise<void> {
-    await expect(this.contactsPage.trustContactsCard).toContainText('Tyler Welch')
-    await expect(this.contactsPage.trustContactsCard).toContainText('Tyler.Welch@abbeylaneacademiestrust.co.uk')
-    await expect(this.contactsPage.trustContactsCard).toContainText('Courtney Pacocha')
-    await expect(this.contactsPage.trustContactsCard).toContainText('Courtney.Pacocha@abbeylaneacademiestrust.co.uk')
-    await expect(this.contactsPage.trustContactsCard).toContainText('Lowell Hoppe')
-    await expect(this.contactsPage.trustContactsCard).toContainText('Lowell.Hoppe@abbeylaneacademiestrust.co.uk')
+    const requiredTrustContacts = ['Accounting Officer', 'Chair of Trustees', 'Chief Financial Officer']
+
+    const trustContacts = this.contactsPage.currentTrust.governors.filter(x => requiredTrustContacts.some(n => n === x.role))
+    await expect(this.contactsPage.trustContactsCard).toContainText(`Chair of trustees ${trustContacts[0].fullName} ${trustContacts[0].email}`)
+    await expect(this.contactsPage.trustContactsCard).toContainText(`Chief financial officer ${trustContacts[1].fullName} ${trustContacts[1].email}`)
+    await expect(this.contactsPage.trustContactsCard).toContainText(`Accounting officer ${trustContacts[2].fullName} No contact email available`)
   }
 }

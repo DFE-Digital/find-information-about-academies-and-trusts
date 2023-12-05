@@ -11,6 +11,12 @@ public class ContactsModelTests
     private readonly Mock<ITrustProvider> _mockTrustProvider;
     private readonly Trust _dummyTrustWithGovernors;
     private readonly Trust _dummyTrustWithNoGovernors;
+    private const string PresentChairOfTrustees = "PresentChairOfTrustees";
+    private const string PresentAccountingOfficer = "PresentAccountingOfficer";
+    private const string PresentChiefFinancialOfficer = "PresentChiefFinancialOfficer";
+    private const string ChairOfTrustees = "Chair Of Trustees";
+    private const string AccountingOfficer = "Accounting Officer";
+    private const string ChiefFinancialOfficer = "Chief Financial Officer";
 
     public ContactsModelTests()
     {
@@ -21,7 +27,7 @@ public class ContactsModelTests
         _sut = new ContactsModel(_mockTrustProvider.Object) { Uid = "1234" };
     }
 
-    private void SetupTrustWithNoGoverners()
+    private void SetupTrustWithNoGovernors()
     {
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(_dummyTrustWithNoGovernors);
     }
@@ -36,21 +42,21 @@ public class ContactsModelTests
     public async Task OnGetAsync_sets_chair_of_trustees_to_be_current_chair()
     {
         await _sut.OnGetAsync();
-        _sut.ChairOfTrustees?.FullName.Should().Be("Present Chair");
+        _sut.ChairOfTrustees?.FullName.Should().Be(PresentChairOfTrustees);
     }
 
     [Fact]
     public async Task OnGetAsync_sets_accounting_officer_to_be_current_officer()
     {
         await _sut.OnGetAsync();
-        _sut.AccountingOfficer?.FullName.Should<string>().Be("Present Accountingofficer");
+        _sut.AccountingOfficer?.FullName.Should<string>().Be(PresentAccountingOfficer);
     }
 
     [Fact]
     public async Task OnGetAsync_sets_chief_financial_officer_to_be_current_officer()
     {
         await _sut.OnGetAsync();
-        _sut.ChiefFinancialOfficer?.FullName.Should<string>().Be("Present Chieffinancialofficer");
+        _sut.ChiefFinancialOfficer?.FullName.Should<string>().Be(PresentChiefFinancialOfficer);
     }
 
     [Fact]
@@ -70,7 +76,7 @@ public class ContactsModelTests
     [Fact]
     public async Task OnGetAsync_sets_chair_of_trustees_to_null_when_trust_has_no_chair()
     {
-        SetupTrustWithNoGoverners();
+        SetupTrustWithNoGovernors();
         await _sut.OnGetAsync();
         _sut.ChairOfTrustees?.Should().Be(null);
     }
@@ -78,7 +84,7 @@ public class ContactsModelTests
     [Fact]
     public async Task OnGetAsync_sets_accounting_officer_to_null_be_when_trust_has_no_officer()
     {
-        SetupTrustWithNoGoverners();
+        SetupTrustWithNoGovernors();
         await _sut.OnGetAsync();
         _sut.AccountingOfficer?.FullName.Should().Be(null);
     }
@@ -86,7 +92,7 @@ public class ContactsModelTests
     [Fact]
     public async Task OnGetAsync_sets_chief_financial_officer_to_null_be_when_trust_has_no_officer()
     {
-        SetupTrustWithNoGoverners();
+        SetupTrustWithNoGovernors();
         await _sut.OnGetAsync();
         _sut.ChiefFinancialOfficer?.FullName.Should().Be(null);
     }
@@ -103,19 +109,12 @@ public class ContactsModelTests
     {
         Governor[] listOfGovernors =
         {
-            new("1", "1", "Past Chair", Email: "pastchair@test.com", Role: "Chair Of Trustees",
-                AppointingBody: "testBody", DateOfAppointment: null, DateOfTermEnd: DateTime.Today.AddDays(-1)),
-            new("2", "2", "Present Chair", Email: "presentchair@test.com", Role: "Chair Of Trustees",
-                AppointingBody: "testBody", DateOfAppointment: null, DateOfTermEnd: DateTime.Today),
-            new("3", "3", "Past Accountingofficer", Email: "pastao@test.com", Role: "Accounting Officer",
-                AppointingBody: "testBody", DateOfAppointment: null, DateOfTermEnd: DateTime.Today.AddDays(-1)),
-            new("4", "4", "Present Accountingofficer", Email: "presentao@test.com", Role: "Accounting Officer",
-                AppointingBody: "testBody", DateOfAppointment: null, DateOfTermEnd: DateTime.Today),
-            new("5", "5", "Past Chieffinancialofficer", Email: "pastcfo@test.com", Role: "Chief Financial Officer",
-                AppointingBody: "testBody", DateOfAppointment: null, DateOfTermEnd: DateTime.Today.AddDays(-1)),
-            new("6", "6", "Present Chieffinancialofficer", Email: "presentcfo@test.com",
-                Role: "Chief Financial Officer", AppointingBody: "testBody", DateOfAppointment: null,
-                DateOfTermEnd: null)
+            DummyGovernorFactory.GetDummyGovernor("PastChair", ChairOfTrustees, false),
+            DummyGovernorFactory.GetDummyGovernor(PresentChairOfTrustees, ChairOfTrustees, true),
+            DummyGovernorFactory.GetDummyGovernor("PastAccountingOfficer", AccountingOfficer, false),
+            DummyGovernorFactory.GetDummyGovernor(PresentAccountingOfficer, AccountingOfficer, true),
+            DummyGovernorFactory.GetDummyGovernor("PastChiefFinancialOfficer", ChiefFinancialOfficer, false),
+            DummyGovernorFactory.GetDummyGovernor(PresentChiefFinancialOfficer, ChiefFinancialOfficer, null)
         };
 
         return listOfGovernors;

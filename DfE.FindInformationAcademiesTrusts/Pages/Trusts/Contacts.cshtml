@@ -83,17 +83,12 @@
       }
 
       <p class="govuk-body">
-        @if (contactToDisplay is null)
-        {
-          <a class="govuk-body">@ContactsModel.ContactInformationNotAvailableMessage</a>
-        }
-
-        else if (contactToDisplay?.Email is not null)
+        @if (contactToDisplay?.Email is not null)
         {
           <a class="govuk-link" href="mailto:@contactToDisplay.Email" rel="noopener" target="_blank">@contactToDisplay.Email</a>
         }
 
-        else
+        else if (contactToDisplay is not null && contactToDisplay?.Email is null)
         {
           <a class="govuk-body">@ContactsModel.ContactEmailNotAvailableMessage</a>
         }

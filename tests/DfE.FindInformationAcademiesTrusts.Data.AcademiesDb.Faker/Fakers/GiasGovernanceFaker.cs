@@ -10,12 +10,13 @@ public class GiasGovernanceFaker
     private const string DateFormat = "dd/MM/yyyy";
     private readonly Faker<GiasGovernance> _governanceFaker = new();
     private readonly Bogus.Faker _generalFaker = new();
+    private long _gidCounter;
 
     public GiasGovernanceFaker(DateTime refDate, Dictionary<string, string[]> governorAppointingBodies)
     {
         _governorAppointingBodies = governorAppointingBodies;
         _governanceFaker
-            .RuleFor(g => g.Gid, f => f.Random.Int(1000000, 1500000).ToString())
+            .RuleFor(g => g.Gid, () => (_gidCounter++).ToString())
             .RuleFor(g => g.Forename1, f => f.Person.FirstName)
             .RuleFor(g => g.Forename2, "")
             .RuleFor(g => g.Surname, f => f.Person.LastName)

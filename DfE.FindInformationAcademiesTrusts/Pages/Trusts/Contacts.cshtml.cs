@@ -28,7 +28,7 @@ public class ContactsModel : TrustsAreaModel
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
         ChairOfTrustees = Trust.Governors.FirstOrDefault(x =>
-            x is { Role: "Chair Of Trustees", IsCurrentGovernor: true });
+            x is { Role: "Chair of Trustees", IsCurrentGovernor: true });
         AccountingOfficer = Trust.Governors.FirstOrDefault(x =>
             x is { Role: "Accounting Officer", IsCurrentGovernor: true });
         ChiefFinancialOfficer = Trust.Governors.FirstOrDefault(x =>

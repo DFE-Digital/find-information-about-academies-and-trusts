@@ -13,6 +13,7 @@ export interface FakeTrust {
   status: string
   sfsoLead: FakePerson
   trustRelationshipManager: FakePerson
+  governors: FakeGovernor[]
   academies: FakeAcademy[]
 }
 
@@ -35,6 +36,12 @@ export interface FakeAcademy {
 export interface FakePerson {
   fullName: string
   email: string
+}
+
+export interface FakeGovernor {
+  fullName: string
+  email: string
+  role: string
 }
 export class FakeTestData {
   _fakeTrusts: FakeTrust[]
