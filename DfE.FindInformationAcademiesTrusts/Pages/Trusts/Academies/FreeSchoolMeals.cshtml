@@ -1,0 +1,8 @@
+@page "/trusts/academies/free-school-meals"
+@model FreeSchoolMealsModel
+
+
+@{
+  Layout = "Academies/_AcademiesLayout";
+}
+<div>@Model.GetLaAverageFreeSchoolMeals()?.ToString("N0")</div>
