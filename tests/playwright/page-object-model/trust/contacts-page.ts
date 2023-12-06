@@ -13,6 +13,21 @@ export class ContactsPage extends BaseTrustPage {
     this.dfeContactsCard = page.getByText('DfE contacts Trust relationship manager')
     this.trustContactsCard = page.getByText('Trust Contacts Accounting officer')
   }
+
+  async goToTrustWithAllContactDetailsPopulated (): Promise<void> {
+    this.currentTrust = this.fakeTestData.getTrustWithAllTrustContactDetailsPopulated()
+    await this.goToWith(this.currentTrust.uid)
+  }
+
+  async goToTrustWithDfeContactDetailsMissing (): Promise<void> {
+    this.currentTrust = this.fakeTestData.getTrustWithDfeContactDetailsMissing()
+    await this.goToWith(this.currentTrust.uid)
+  }
+
+  async goToTrustWithTrustContactEmailMissing (): Promise<void> {
+    this.currentTrust = this.fakeTestData.getTrustWithTrustChiefFinancialOfficerContactEmailMissing()
+    await this.goToWith(this.currentTrust.uid)
+  }
 }
 
 class ContactsPageAssertions extends BaseTrustPageAssertions {
@@ -31,10 +46,19 @@ class ContactsPageAssertions extends BaseTrustPageAssertions {
 
   async toSeeCorrectTrustContacts (): Promise<void> {
     const requiredTrustContacts = ['Accounting Officer', 'Chair of Trustees', 'Chief Financial Officer']
-
     const trustContacts = this.contactsPage.currentTrust.governors.filter(x => requiredTrustContacts.some(n => n === x.role))
     await expect(this.contactsPage.trustContactsCard).toContainText(`Chair of trustees ${trustContacts[0].fullName} ${trustContacts[0].email}`)
     await expect(this.contactsPage.trustContactsCard).toContainText(`Chief financial officer ${trustContacts[1].fullName} ${trustContacts[1].email}`)
-    await expect(this.contactsPage.trustContactsCard).toContainText(`Accounting officer ${trustContacts[2].fullName} No contact email available`)
+    await expect(this.contactsPage.trustContactsCard).toContainText(`Accounting officer ${trustContacts[2].fullName} ${trustContacts[2].email}`)
+  }
+
+  async toSeeCorrectDfeContactsMissingInformationMessage (): Promise<void> {
+    await expect(this.contactsPage.dfeContactsCard).toContainText('SFSO (Schools financial support and oversight) lead No contact information available')
+  }
+
+  async toSeeCorrectTrustContactMissingEmailMessage (): Promise<void> {
+    const requiredTrustContacts = ['Chief Financial Officer']
+    const trustContacts = this.contactsPage.currentTrust.governors.filter(x => requiredTrustContacts.some(n => n === x.role))
+    await expect(this.contactsPage.trustContactsCard).toContainText(`Chief financial officer ${trustContacts[0].fullName} No contact email available`)
   }
 }

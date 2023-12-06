@@ -71,28 +71,28 @@
       {
         <p class="govuk-body">@ContactsModel.ContactInformationNotAvailableMessage</p>
       }
-
-      else if (contactToDisplay?.FullName is not null)
-      {
-        <p class="govuk-body">@contactToDisplay.FullName</p>
-      }
-
       else
       {
-        <p class="govuk-body">@ContactsModel.ContactNameNotAvailableMessage</p>
+        @if (!string.IsNullOrWhiteSpace(contactToDisplay.FullName))
+        {
+          <p class="govuk-body">@contactToDisplay.FullName</p>
+        }
+        else
+        {
+          <p class="govuk-body">@ContactsModel.ContactNameNotAvailableMessage</p>
+        }
+
+        <p class="govuk-body">
+          @if (contactToDisplay.Email is not null)
+          {
+            <a class="govuk-link" href="mailto:@contactToDisplay.Email" rel="noopener" target="_blank">@contactToDisplay.Email</a>
+          }
+          else
+          {
+            <a class="govuk-body">@ContactsModel.ContactEmailNotAvailableMessage</a>
+          }
+        </p>
       }
-
-      <p class="govuk-body">
-        @if (contactToDisplay?.Email is not null)
-        {
-          <a class="govuk-link" href="mailto:@contactToDisplay.Email" rel="noopener" target="_blank">@contactToDisplay.Email</a>
-        }
-
-        else if (contactToDisplay is not null && contactToDisplay?.Email is null)
-        {
-          <a class="govuk-body">@ContactsModel.ContactEmailNotAvailableMessage</a>
-        }
-      </p>
     </dd>
   }
 

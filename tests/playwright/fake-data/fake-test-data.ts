@@ -45,6 +45,7 @@ export interface FakeGovernor {
 }
 export class FakeTestData {
   _fakeTrusts: FakeTrust[]
+
   constructor () {
     this._fakeTrusts = JSON.parse(JSON.stringify(testDataJson)).default
   }
@@ -119,5 +120,33 @@ export class FakeTestData {
       throw new Error(`Expected to find academy in the test data containing URN: ${urn}, but it was not found`)
     }
     return academy
+  }
+
+  getTrustWithAllTrustContactDetailsPopulated (): FakeTrust {
+    const requiredTrustContacts = ['Accounting Officer', 'Chair of Trustees', 'Chief Financial Officer']
+    const trust = this._fakeTrusts.find(trust => trust.sfsoLead != null && trust.trustRelationshipManager != null &&
+        trust.governors.filter(x => requiredTrustContacts.some(n => n === x.role)).every(x => x.email != null))
+
+    if (trust === undefined) {
+      throw new Error('No trusts with all contact details populated were found in test data')
+    }
+    return trust
+  }
+
+  getTrustWithDfeContactDetailsMissing (): FakeTrust {
+    const trust = this._fakeTrusts.find(trust => trust.sfsoLead == null)
+    if (trust === undefined) {
+      throw new Error('No trusts with the specified contact details missing were found in test data')
+    }
+    return trust
+  }
+
+  getTrustWithTrustChiefFinancialOfficerContactEmailMissing (): FakeTrust {
+    const requiredTrustContacts = ['Chief Financial Officer']
+    const trust = this._fakeTrusts.find(trust => trust.governors.filter(x => requiredTrustContacts.some(n => n === x.role)).every(x => x.email == null))
+    if (trust === undefined) {
+      throw new Error('No trusts with the chief financial officers contact email details missing were found in test data')
+    }
+    return trust
   }
 }
