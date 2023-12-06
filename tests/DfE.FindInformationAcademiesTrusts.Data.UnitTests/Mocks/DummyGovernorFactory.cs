@@ -22,15 +22,8 @@ public class DummyGovernorFactory
             "test");
     }
 
-    public static Governor GetDummyGovernor(string name, string role, bool? isPresentGovernor)
+    public static Governor GetDummyGovernor(string name, string role, DateTime? dateOfTermEnd)
     {
-        DateTime? dateOfTermEnd = isPresentGovernor switch
-        {
-            true => DateTime.Today,
-            false => DateTime.Today.AddDays(-1),
-            null => null
-        };
-
         return new Governor("1",
             "2",
             name,
@@ -38,6 +31,6 @@ public class DummyGovernorFactory
             "test",
             null,
             dateOfTermEnd,
-            $"{name}@email.com");
+            "email@email.com");
     }
 }

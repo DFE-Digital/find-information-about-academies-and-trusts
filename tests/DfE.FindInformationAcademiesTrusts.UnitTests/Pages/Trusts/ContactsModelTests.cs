@@ -11,15 +11,20 @@ public class ContactsModelTests
     private readonly Mock<ITrustProvider> _mockTrustProvider;
     private readonly Trust _dummyTrustWithGovernors;
     private readonly Trust _dummyTrustWithNoGovernors;
-    private const string PresentChairOfTrustees = "PresentChairOfTrustees";
-    private const string PresentAccountingOfficer = "PresentAccountingOfficer";
-    private const string PresentChiefFinancialOfficer = "PresentChiefFinancialOfficer";
+    private const string PresentChairOfTrustees = "Present ChairOfTrustees";
+    private const string PresentAccountingOfficer = "Present AccountingOfficer";
+    private const string PresentChiefFinancialOfficer = "Present ChiefFinancialOfficer";
     private const string ChairOfTrustees = "Chair Of Trustees";
     private const string AccountingOfficer = "Accounting Officer";
     private const string ChiefFinancialOfficer = "Chief Financial Officer";
+    private static DateTime _currentGovernorDate;
+    private static DateTime _pastGovernorDate;
+    
 
     public ContactsModelTests()
     {
+        _pastGovernorDate = DateTime.Today.AddDays(-1);
+        _currentGovernorDate = DateTime.Today;
         _dummyTrustWithGovernors = DummyTrustFactory.GetDummyTrust("1234", governors: ListOfGovernors());
         _dummyTrustWithNoGovernors = DummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider = new Mock<ITrustProvider>();
@@ -109,11 +114,11 @@ public class ContactsModelTests
     {
         Governor[] listOfGovernors =
         {
-            DummyGovernorFactory.GetDummyGovernor("PastChair", ChairOfTrustees, false),
-            DummyGovernorFactory.GetDummyGovernor(PresentChairOfTrustees, ChairOfTrustees, true),
-            DummyGovernorFactory.GetDummyGovernor("PastAccountingOfficer", AccountingOfficer, false),
-            DummyGovernorFactory.GetDummyGovernor(PresentAccountingOfficer, AccountingOfficer, true),
-            DummyGovernorFactory.GetDummyGovernor("PastChiefFinancialOfficer", ChiefFinancialOfficer, false),
+            DummyGovernorFactory.GetDummyGovernor("Past Chair", ChairOfTrustees,_pastGovernorDate ),
+            DummyGovernorFactory.GetDummyGovernor(PresentChairOfTrustees, ChairOfTrustees, _currentGovernorDate),
+            DummyGovernorFactory.GetDummyGovernor("Past AccountingOfficer", AccountingOfficer, _pastGovernorDate),
+            DummyGovernorFactory.GetDummyGovernor(PresentAccountingOfficer, AccountingOfficer, _currentGovernorDate),
+            DummyGovernorFactory.GetDummyGovernor("Past ChiefFinancialOfficer", ChiefFinancialOfficer, _pastGovernorDate),
             DummyGovernorFactory.GetDummyGovernor(PresentChiefFinancialOfficer, ChiefFinancialOfficer, null)
         };
 
