@@ -8,7 +8,7 @@ test.describe('cookies', () => {
   let cookiesPage: CookiesPage
   let currentSearch: CurrentSearch
 
-  test.beforeEach(async ({ page, context }) => {
+  test.beforeEach(async ({ page }) => {
     currentSearch = new CurrentSearch()
     homePage = new HomePage(page, currentSearch)
     cookiesPage = new CookiesPage(page)
@@ -16,8 +16,7 @@ test.describe('cookies', () => {
     await homePage.expect.toBeOnTheRightPage()
   })
 
-  test('app insights cookies are removed when user rejects cookies', async ({ browserName }) => {
-    test.skip(browserName === 'webkit', 'Failing due to issues with setting cookies for POST request https://github.com/microsoft/playwright/issues/5236')
+  test('app insights cookies are removed when user rejects cookies', async () => {
     await cookiesPage.expect.appInsightCookiesDoNotExist()
     await homePage.cookieBanner.acceptCookies()
     await homePage.goTo()
