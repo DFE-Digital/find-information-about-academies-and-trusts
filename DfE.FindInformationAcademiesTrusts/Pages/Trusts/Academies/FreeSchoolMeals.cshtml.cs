@@ -16,8 +16,13 @@ public class FreeSchoolMealsModel : TrustsAreaModel, IAcademiesAreaModel
 
     public string TabName => "Free school meals";
 
-    public double? GetLaAverageFreeSchoolMeals()
+    public double GetLaAverageFreeSchoolMeals(Academy academy)
     {
-        return _freeSchoolMealsProvider.GetAverageByLaCodeAndPhaseType("334", "StateFundedApSchool");
+        return _freeSchoolMealsProvider.GetLaAverage(academy);
+    }
+
+    public double GetNationalAverageFreeSchoolMeals(Academy academy)
+    {
+        return _freeSchoolMealsProvider.GetNationalAverage(academy);
     }
 }
