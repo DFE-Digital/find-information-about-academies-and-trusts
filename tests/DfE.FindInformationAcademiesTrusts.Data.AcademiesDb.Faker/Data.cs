@@ -256,4 +256,15 @@ public static class Data
         "Queen Elizabeth's",
         "Queensbridge"
     };
+
+    public static string[] GiasPhaseNames { get; } =
+    {
+        "Primary",
+        "Middle Deemed Primary",
+        "Secondary",
+        "Middle Deemed Secondary",
+        "16 Plus",
+        "Not applicable",
+        "All-through",
+    };
 }

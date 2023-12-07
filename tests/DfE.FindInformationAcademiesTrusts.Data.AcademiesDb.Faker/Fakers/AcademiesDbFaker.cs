@@ -21,7 +21,7 @@ public class AcademiesDbFaker
     private AcademiesDbData _academiesDbData;
 
     public AcademiesDbFaker(string?[] regions, string?[] localAuthorities, string[] fakeSchoolNames,
-        Dictionary<string, string[]> governorAppointingBodies)
+        Dictionary<string, string[]> governorAppointingBodies, string[] giasPhaseNames)
     {
         // Need a ref date for any use of `faker.Date` so the data generated doesn't change every day
         var refDate = new DateTime(2023, 11, 9);
@@ -29,7 +29,8 @@ public class AcademiesDbFaker
         _localAuthorities = localAuthorities;
         _giasGroupFaker = new GiasGroupFaker(refDate);
         _giasGovernanceFaker = new GiasGovernanceFaker(refDate, governorAppointingBodies);
-        _giasEstablishmentFaker = new GiasEstablishmentFaker(fakeSchoolNames);
+        _giasEstablishmentFaker =
+            new GiasEstablishmentFaker(fakeSchoolNames, giasPhaseNames, new EstablishmentTypePicker());
         _giasGroupLinkFaker = new GiasGroupLinkFaker(refDate);
         _mstrTrustFaker = new MstrTrustFaker(regions);
         _mstrTrustGovernanceFaker = new MstrTrustGovernanceFaker();
