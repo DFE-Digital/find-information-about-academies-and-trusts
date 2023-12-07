@@ -47,9 +47,10 @@ class ContactsPageAssertions extends BaseTrustPageAssertions {
   async toSeeCorrectTrustContacts (): Promise<void> {
     const requiredTrustContacts = ['Accounting Officer', 'Chair of Trustees', 'Chief Financial Officer']
     const trustContacts = this.contactsPage.currentTrust.governors.filter(x => requiredTrustContacts.some(n => n === x.role))
-    await expect(this.contactsPage.trustContactsCard).toContainText(`Chair of trustees ${trustContacts[0].fullName} ${trustContacts[0].email}`)
-    await expect(this.contactsPage.trustContactsCard).toContainText(`Chief financial officer ${trustContacts[1].fullName} ${trustContacts[1].email}`)
-    await expect(this.contactsPage.trustContactsCard).toContainText(`Accounting officer ${trustContacts[2].fullName} ${trustContacts[2].email}`)
+    trustContacts.sort((a, b) => a.role.localeCompare(b.role))
+    await expect(this.contactsPage.trustContactsCard).toContainText(`Accounting officer ${trustContacts[0].fullName} ${trustContacts[0].email}`)
+    await expect(this.contactsPage.trustContactsCard).toContainText(`Chair of trustees ${trustContacts[1].fullName} ${trustContacts[1].email}`)
+    await expect(this.contactsPage.trustContactsCard).toContainText(`Chief financial officer ${trustContacts[2].fullName} ${trustContacts[2].email}`)
   }
 
   async toSeeCorrectDfeContactsMissingInformationMessage (): Promise<void> {

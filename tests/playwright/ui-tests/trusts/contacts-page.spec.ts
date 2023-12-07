@@ -38,7 +38,6 @@ test.describe('Contacts page', () => {
     })
 
     test('then they should see a not found message', async () => {
-      await contactsPage.goTo()
       await contactsPage.goToPageWithoutUid()
       await notFoundPage.expect.toBeShownNotFoundMessage()
 
