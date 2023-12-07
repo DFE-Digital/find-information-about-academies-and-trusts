@@ -6,6 +6,8 @@ public interface ITrustsAreaModel
 {
     Trust Trust { get; set; }
 
+    IEnumerable<DataSourceListEntry> DataSources { get; set; }
+
     /// <summary>
     /// The name of the page as displayed in the page h1
     /// </summary>
