@@ -25,7 +25,8 @@ public class OverviewModel : TrustsAreaModel
             ? (int)Math.Round(TotalPupilNumbersInTrust / (double)TotalPupilCapacityInTrust * 100)
             : null;
 
-    public OverviewModel(ITrustProvider trustProvider) : base(trustProvider, "Overview")
+    public OverviewModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider) : base(trustProvider,
+        dataSourceProvider, "Overview")
     {
     }
 

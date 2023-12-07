@@ -6,8 +6,9 @@ public class AcademiesDetailsModel : TrustsAreaModel, IAcademiesAreaModel
 {
     public IOtherServicesLinkBuilder LinkBuilder { get; }
 
-    public AcademiesDetailsModel(ITrustProvider trustProvider, IOtherServicesLinkBuilder linkBuilder) :
-        base(trustProvider, "Academies in this trust")
+    public AcademiesDetailsModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider,
+        IOtherServicesLinkBuilder linkBuilder) :
+        base(trustProvider, dataSourceProvider, "Academies in this trust")
     {
         PageTitle = "Academies details";
         LinkBuilder = linkBuilder;

@@ -4,7 +4,8 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
 public class OfstedRatingsModel : TrustsAreaModel, IAcademiesAreaModel
 {
-    public OfstedRatingsModel(ITrustProvider trustProvider) : base(trustProvider, "Academies in this trust")
+    public OfstedRatingsModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider) : base(
+        trustProvider, dataSourceProvider, "Academies in this trust")
     {
         PageTitle = "Academies Ofsted ratings";
     }
