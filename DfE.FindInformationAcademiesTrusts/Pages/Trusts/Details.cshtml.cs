@@ -11,8 +11,9 @@ public class DetailsModel : TrustsAreaModel
     public string? SchoolsFinancialBenchmarkingLink { get; set; }
     public string? FindSchoolPerformanceLink { get; set; }
 
-    public DetailsModel(ITrustProvider trustProvider, IOtherServicesLinkBuilder otherServicesLinkBuilder) : base(
-        trustProvider,
+    public DetailsModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider,
+        IOtherServicesLinkBuilder otherServicesLinkBuilder) : base(
+        trustProvider, dataSourceProvider,
         "Details")
     {
         _otherServicesLinkBuilder = otherServicesLinkBuilder;
@@ -29,7 +30,8 @@ public class DetailsModel : TrustsAreaModel
         SchoolsFinancialBenchmarkingLink =
             _otherServicesLinkBuilder.SchoolFinancialBenchmarkingServiceListingLink(Trust);
         FindSchoolPerformanceLink = _otherServicesLinkBuilder.FindSchoolPerformanceDataListingLink(Trust);
-
+        var giasSource = await GetGiasDataUpdated();
+        DataSources = new[] { new DataSourceListEntry(giasSource!, "Trust details, Reference numbers") };
         return pageResult;
     }
 }
