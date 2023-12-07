@@ -1,0 +1,17 @@
+﻿.fiat-data-source-list .fiat-data-source-list__item {
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: max-content max-content;
+  gap: 0.625rem;
+  align-items: stretch;
+  margin-bottom: 0.625rem;
+}
+
+.fiat-data-source-list .fiat-data-source-list__title {
+  font-weight: bold;
+}
+
+dl, dd, li {
+  margin: 0;
+  padding: 0;
+}

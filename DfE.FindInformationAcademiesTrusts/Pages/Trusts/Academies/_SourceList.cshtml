@@ -1,0 +1,25 @@
+﻿@model ITrustsAreaModel
+<details class="govuk-details" data-module="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      <span>Source and updates</span>
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    <dl class="fiat-data-source-list">
+      @foreach (var source in Model.DataSources)
+      {
+        <div class="fiat-data-source-list__item">
+          <dt class="fiat-data-source-list__title">@source.Fields: </dt>
+          <dd>@source.DataSource.Name</dd>
+        </div>
+        <div class="fiat-data-source-list__item">
+          <dd>Last updated: @source.DataSource.LastUpdated.ToLocalTime()</dd>
+        </div>
+        <div class="fiat-data-source-list__item">
+          <dd>Next scheduled update: @(source.DataSource.NextUpdated is not null ? source.DataSource.NextUpdated.Value.ToShortDateString() : source.DataSource.NextUpdatedWorded)</dd>
+        </div>
+      }
+    </dl>
+  </div>
+</details>
