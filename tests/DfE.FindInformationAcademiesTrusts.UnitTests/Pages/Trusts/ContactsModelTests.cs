@@ -29,7 +29,8 @@ public class ContactsModelTests
         _dummyTrustWithNoGovernors = DummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider = new Mock<ITrustProvider>();
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(_dummyTrustWithGovernors);
-        _sut = new ContactsModel(_mockTrustProvider.Object) { Uid = "1234" };
+        Mock<IDataSourceProvider> mockDataUpdatedProvider = new();
+        _sut = new ContactsModel(_mockTrustProvider.Object, mockDataUpdatedProvider.Object) { Uid = "1234" };
     }
 
     private void SetupTrustWithNoGovernors()

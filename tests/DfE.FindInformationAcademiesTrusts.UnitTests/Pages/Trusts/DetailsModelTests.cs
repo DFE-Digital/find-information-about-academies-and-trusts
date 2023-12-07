@@ -17,8 +17,10 @@ public class DetailsModelTests
     {
         _dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider = new Mock<ITrustProvider>();
+        Mock<IDataSourceProvider> mockDataUpdatedProvider = new();
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(_dummyTrust);
-        _sut = new DetailsModel(_mockTrustProvider.Object, _mockLinksToOtherServices.Object) { Uid = "1234" };
+        _sut = new DetailsModel(_mockTrustProvider.Object, mockDataUpdatedProvider.Object,
+            _mockLinksToOtherServices.Object) { Uid = "1234" };
     }
 
     [Fact]

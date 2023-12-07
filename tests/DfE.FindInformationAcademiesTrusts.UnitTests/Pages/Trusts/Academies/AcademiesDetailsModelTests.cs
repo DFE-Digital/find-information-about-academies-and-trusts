@@ -12,7 +12,9 @@ public class AcademiesDetailsModelTests
     public AcademiesDetailsModelTests()
     {
         var mockTrustProvider = new Mock<ITrustProvider>();
-        _sut = new AcademiesDetailsModel(mockTrustProvider.Object, _mockLinkBuilder.Object);
+        Mock<IDataSourceProvider> mockDataUpdatedProvider = new();
+        _sut = new AcademiesDetailsModel(mockTrustProvider.Object, mockDataUpdatedProvider.Object,
+            _mockLinkBuilder.Object);
     }
 
     [Fact]

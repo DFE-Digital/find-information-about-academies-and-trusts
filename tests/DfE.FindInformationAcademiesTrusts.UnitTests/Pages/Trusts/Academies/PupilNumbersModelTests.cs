@@ -11,7 +11,8 @@ public class PupilNumbersModelTests
     public PupilNumbersModelTests()
     {
         var mockTrustProvider = new Mock<ITrustProvider>();
-        _sut = new PupilNumbersModel(mockTrustProvider.Object);
+        Mock<IDataSourceProvider> mockDataUpdatedProvider = new();
+        _sut = new PupilNumbersModel(mockTrustProvider.Object, mockDataUpdatedProvider.Object);
     }
 
     [Fact]

@@ -10,7 +10,8 @@ public class OfstedRatingsModelTests
     public OfstedRatingsModelTests()
     {
         var mockTrustProvider = new Mock<ITrustProvider>();
-        _sut = new OfstedRatingsModel(mockTrustProvider.Object);
+        Mock<IDataSourceProvider> mockDataUpdatedProvider = new();
+        _sut = new OfstedRatingsModel(mockTrustProvider.Object, mockDataUpdatedProvider.Object);
     }
 
     [Fact]

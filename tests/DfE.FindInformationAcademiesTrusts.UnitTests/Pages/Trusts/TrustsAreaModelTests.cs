@@ -8,12 +8,14 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 public class TrustsAreaModelTests
 {
     private readonly Mock<ITrustProvider> _mockTrustProvider;
+    private readonly Mock<IDataSourceProvider> _mockDataUpdatedProvider;
     private readonly TrustsAreaModel _sut;
 
     public TrustsAreaModelTests()
     {
         _mockTrustProvider = new Mock<ITrustProvider>();
-        _sut = new TrustsAreaModel(_mockTrustProvider.Object, "Details");
+        _mockDataUpdatedProvider = new Mock<IDataSourceProvider>();
+        _sut = new TrustsAreaModel(_mockTrustProvider.Object, _mockDataUpdatedProvider.Object, "Details");
     }
 
     [Fact]
@@ -38,7 +40,7 @@ public class TrustsAreaModelTests
     [Fact]
     public void PageName_should_be_set_at_initialisation()
     {
-        var sut = new TrustsAreaModel(_mockTrustProvider.Object, "Contacts");
+        var sut = new TrustsAreaModel(_mockTrustProvider.Object, _mockDataUpdatedProvider.Object, "Contacts");
         sut.PageName.Should().Be("Contacts");
     }
 

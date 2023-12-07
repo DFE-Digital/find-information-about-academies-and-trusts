@@ -13,8 +13,8 @@ public class OverviewModelTests
     public OverviewModelTests()
     {
         _mockTrustProvider = new Mock<ITrustProvider>();
-
-        _sut = new OverviewModel(_mockTrustProvider.Object) { Uid = TrustUid };
+        Mock<IDataSourceProvider> _mockDataUpdatedProvider = new();
+        _sut = new OverviewModel(_mockTrustProvider.Object, _mockDataUpdatedProvider.Object);
     }
 
     [Fact]
