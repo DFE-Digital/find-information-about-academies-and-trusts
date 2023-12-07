@@ -3,6 +3,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
@@ -19,6 +20,8 @@ public interface IAcademiesDbContext
     DbSet<MisFurtherEducationEstablishment> MisFurtherEducationEstablishments { get; }
     DbSet<CdmSystemuser> CdmSystemusers { get; }
     DbSet<MstrTrustGovernance> MstrTrustGovernances { get; }
+    DbSet<ApplicationEvents> ApplicationEvents { get; }
+    DbSet<ApplicationSettings> ApplicationSettings { get; }
 }
 
 [ExcludeFromCodeCoverage]
@@ -43,6 +46,8 @@ public class AcademiesDbContext : DbContext, IAcademiesDbContext
     public DbSet<MisFurtherEducationEstablishment> MisFurtherEducationEstablishments { get; set; }
     public DbSet<CdmSystemuser> CdmSystemusers { get; set; }
     public DbSet<MstrTrustGovernance> MstrTrustGovernances { get; set; }
+    public DbSet<ApplicationEvents> ApplicationEvents { get; set; }
+    public DbSet<ApplicationSettings> ApplicationSettings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -1559,6 +1564,51 @@ public class AcademiesDbContext : DbContext, IAcademiesDbContext
             entity.Property(e => e.ModifiedBy).HasColumnName("Modified By");
             entity.Property(e => e.Surname).IsUnicode(false);
             entity.Property(e => e.Title).IsUnicode(false);
+        });
+        
+        modelBuilder.Entity<ApplicationSettings>(entity =>
+        {
+            entity.ToTable("ApplicationSettings", "ops");
+            
+            entity.HasKey(e => e.Key);
+            entity.Property(e => e.Value)
+                .IsUnicode(false);
+            entity.Property(e => e.Created);
+            entity.Property(e => e.CreatedBy)
+                .IsUnicode(false)
+                .HasColumnName("Created By")
+                .HasMaxLength(100);
+            entity.Property(e => e.Modified);
+            entity.Property(e => e.ModifiedBy)
+                .IsUnicode(false)
+                .HasColumnName("Modified By")
+                .HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<ApplicationEvents>(entity =>
+        {
+            entity.ToTable("ApplicationEvent", "ops");
+            entity.HasKey(e => e.ID);
+            entity.Property(e => e.DateTime);
+            entity.Property(e => e.Source)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.UserName)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.EventType)
+                .HasMaxLength(1)
+                .IsUnicode(false);
+            entity.Property(e => e.Level);
+            entity.Property(e => e.Code);
+            entity.Property(e => e.Severity)
+                .HasMaxLength(1)
+                .IsUnicode(false);
+            entity.Property(e => e.Description);
+            entity.Property(e => e.Message);
+            entity.Property(e => e.Trace);
+            entity.Property(e => e.ProcessID);
+            entity.Property(e => e.LineNumber);
         });
     }
 }
