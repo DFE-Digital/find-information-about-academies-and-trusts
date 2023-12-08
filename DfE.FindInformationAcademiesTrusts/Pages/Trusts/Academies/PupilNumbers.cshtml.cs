@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
@@ -8,6 +9,17 @@ public class PupilNumbersModel : TrustsAreaModel, IAcademiesAreaModel
         trustProvider, dataSourceProvider, "Academies in this trust")
     {
         PageTitle = "Academies pupil numbers";
+    }
+
+    public override async Task<IActionResult> OnGetAsync()
+    {
+        var pageResult = await base.OnGetAsync();
+
+        if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
+
+        var giasSource = await GetGiasDataUpdated();
+        DataSources = new[] { new DataSourceListEntry(giasSource!, "Pupil numbers") };
+        return pageResult;
     }
 
     public string TabName => "Pupil numbers";
