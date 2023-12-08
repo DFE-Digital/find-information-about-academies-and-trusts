@@ -4,26 +4,29 @@ import { CookiesPage } from '../page-object-model/cookies-page'
 import { CurrentSearch } from '../page-object-model/shared/search-form-component'
 
 test.describe('cookies', () => {
-  let homePage: HomePage
-  let cookiesPage: CookiesPage
-  let currentSearch: CurrentSearch
+  // reset cookies to default
+  test.use({ storageState: { cookies: [], origins: [] } })
 
-  test.beforeEach(async ({ page }) => {
-    currentSearch = new CurrentSearch()
-    homePage = new HomePage(page, currentSearch)
-    cookiesPage = new CookiesPage(page)
+  test('app insights cookies are not present by default, are added when user accepts cookies and are removed when user rejects cookies', async ({ page }) => {
+    const homePage = new HomePage(page, new CurrentSearch())
+    const cookiesPage = new CookiesPage(page)
+
     await homePage.goTo()
     await homePage.expect.toBeOnTheRightPage()
-  })
+    await homePage.expect.notToHaveAppInsightsCookies()
 
-  test('app insights cookies are removed when user rejects cookies', async () => {
-    await cookiesPage.expect.appInsightCookiesDoNotExist()
     await homePage.cookieBanner.acceptCookies()
-    await homePage.goTo()
-    await cookiesPage.expect.appInsightCookiesExist()
-    await homePage.footerNavigation.goToCookies()
+    await homePage.goTo() // Cookie settings may not apply until refresh of page due to server side order of setting/using cookie preferences cookie
+    await homePage.expect.toHaveAppInsightCookies()
+
+    await cookiesPage.goTo()
+    await cookiesPage.expect.toHaveAppInsightCookies() // ensure that cookie settings persist
+
     await cookiesPage.rejectCookies()
-    await cookiesPage.returnToPreviousPageViaLink()
-    await cookiesPage.expect.appInsightCookiesDoNotExist()
+    await cookiesPage.goTo() // Cookie settings may not apply until refresh of page due to server side order of setting/using cookie preferences cookie
+    await cookiesPage.expect.notToHaveAppInsightsCookies()
+
+    await homePage.goTo()
+    await homePage.expect.notToHaveAppInsightsCookies() // ensure that cookie settings persist
   })
 })

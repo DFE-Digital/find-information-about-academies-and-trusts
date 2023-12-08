@@ -60,16 +60,4 @@ class CookiesPageAssertions extends BasePageAssertions {
   async rejectCookiesRadioButtonNotToBeChecked (): Promise<void> {
     await expect(this.cookiesPage.rejectRadioButtonLocator).not.toBeChecked()
   }
-
-  async appInsightCookiesExist (): Promise<void> {
-    await expect(async () => expect((await this.cookiesPage.page.context().cookies()).filter(cookie => cookie.name === 'ai_user' || cookie.name === 'ai_session')).toHaveLength(2)).toPass({
-      timeout: 10_000
-    })
-  }
-
-  async appInsightCookiesDoNotExist (): Promise<void> {
-    await expect(async () => expect((await this.cookiesPage.page.context().cookies()).filter(cookie => cookie.name === 'ai_user' || cookie.name === 'ai_session')).toHaveLength(0)).toPass({
-      timeout: 10_000
-    })
-  }
 }
