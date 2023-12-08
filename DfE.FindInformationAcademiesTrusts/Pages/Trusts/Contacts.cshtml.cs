@@ -35,6 +35,13 @@ public class ContactsModel : TrustsAreaModel
         ChiefFinancialOfficer = Array.Find(Trust.Governors, x =>
             x is { Role: "Chief Financial Officer", IsCurrentGovernor: true });
 
+        var giasSource = await GetGiasDataUpdated();
+        var cdmSource = await GetCdmDateUpdated();
+        var mstrSource = await GetMstrDataUpdated();
+        DataSources = new[] { new DataSourceListEntry(giasSource!, "Accounting Officer Name, Chief Financial Officer Name, Chair of trustees Name"), 
+            new DataSourceListEntry(cdmSource!, "DfE Contacts"), 
+            new DataSourceListEntry(mstrSource!, "Accounting Officer Email, Chief Financial Officer Email, Chair of trustees Email")
+        };
         return pageResult;
     }
 }
