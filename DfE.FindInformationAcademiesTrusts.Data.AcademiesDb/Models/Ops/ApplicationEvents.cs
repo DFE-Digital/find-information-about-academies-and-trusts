@@ -2,7 +2,7 @@
 
 public class ApplicationEvents
 {
-    public int ID { get; set; }
+    public int Id { get; set; }
     public DateTime? DateTime { get; set; }
     public string? Source { get; set; }
     public string? UserName { get; set; }

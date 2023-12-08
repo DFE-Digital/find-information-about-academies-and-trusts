@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
+﻿namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 
 public class ApplicationSettings
 {
-    public string Key { get; set; }
+    public required string Key { get; set; }
     public string? Value { get; set; }
     public DateTime? Created { get; set; }
     public string? CreatedBy { get; set; }

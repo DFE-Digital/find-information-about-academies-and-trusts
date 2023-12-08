@@ -1588,7 +1588,8 @@ public class AcademiesDbContext : DbContext, IAcademiesDbContext
         modelBuilder.Entity<ApplicationEvents>(entity =>
         {
             entity.ToTable("ApplicationEvent", "ops");
-            entity.HasKey(e => e.ID);
+            entity.HasKey(e => e.Id)
+                .HasName("ID");
             entity.Property(e => e.DateTime);
             entity.Property(e => e.Source)
                 .HasMaxLength(100)
