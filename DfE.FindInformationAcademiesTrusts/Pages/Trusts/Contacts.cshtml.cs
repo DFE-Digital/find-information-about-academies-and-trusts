@@ -27,11 +27,11 @@ public class ContactsModel : TrustsAreaModel
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        ChairOfTrustees = Trust.Governors.FirstOrDefault(x =>
+        ChairOfTrustees = Array.Find(Trust.Governors, x =>
             x is { Role: "Chair of Trustees", IsCurrentGovernor: true });
-        AccountingOfficer = Trust.Governors.FirstOrDefault(x =>
+        AccountingOfficer = Array.Find(Trust.Governors, x =>
             x is { Role: "Accounting Officer", IsCurrentGovernor: true });
-        ChiefFinancialOfficer = Trust.Governors.FirstOrDefault(x =>
+        ChiefFinancialOfficer = Array.Find(Trust.Governors, x =>
             x is { Role: "Chief Financial Officer", IsCurrentGovernor: true });
 
         return pageResult;
