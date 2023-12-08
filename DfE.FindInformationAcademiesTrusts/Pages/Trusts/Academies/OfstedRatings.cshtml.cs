@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
@@ -8,6 +9,20 @@ public class OfstedRatingsModel : TrustsAreaModel, IAcademiesAreaModel
         trustProvider, dataSourceProvider, "Academies in this trust")
     {
         PageTitle = "Academies Ofsted ratings";
+    }
+
+    public override async Task<IActionResult> OnGetAsync()
+    {
+        var pageResult = await base.OnGetAsync();
+
+        if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
+
+        var giasSource = await GetGiasDataUpdated();
+        var misSource = await GetMisEstablishmentsDataUpdated();
+        DataSources = new[] { new DataSourceListEntry(giasSource!, "Date joined trust, Current Ofsted rating, Date of last inspection"),
+            new DataSourceListEntry(misSource!, "Previous Ofsted rating, Date of previous inspection")
+        };
+        return pageResult;
     }
 
     public string TabName => "Ofsted ratings";
