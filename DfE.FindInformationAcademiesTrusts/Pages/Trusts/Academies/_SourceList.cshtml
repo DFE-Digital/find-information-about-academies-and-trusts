@@ -17,7 +17,7 @@
           <dd>Last updated: @source.DataSource.LastUpdated.ToLocalTime()</dd>
         </div>
         <div class="fiat-data-source-list__item">
-          <dd>Next scheduled update: @(source.DataSource.NextUpdated is not null ? source.DataSource.NextUpdated.Value.ToShortDateString() : source.DataSource.NextUpdatedWorded)</dd>
+          <dd>Next scheduled update: @source.DataSource.NextUpdated</dd>
         </div>
       }
     </dl>
