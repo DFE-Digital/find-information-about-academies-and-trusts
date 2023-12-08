@@ -25,8 +25,32 @@ public class TrustsAreaModel : PageModel, ITrustsAreaModel
 
     internal async Task<DataSource?> GetGiasDataUpdated()
     {
-        return await _dataSourceProvider.GetGIASUpdated();
+        return await _dataSourceProvider.GetGiasUpdated();
     }
+
+    internal async Task<DataSource?> GetMstrDataUpdated()
+    {
+        return await _dataSourceProvider.GetMstrUpdated();
+    }
+
+
+    internal async Task<DataSource?> GetCdmDateUpdated()
+    {
+        return await _dataSourceProvider.GetCdmUpdated();
+    }
+
+
+    internal async Task<DataSource?> GetMisEstablishmentsDataUpdated()
+    {
+        return await _dataSourceProvider.GetMisEstablishmentsUpdated();
+    }
+
+
+    internal async Task<DataSource?> GetMisFurtherEducationEstablishmentsDataUpdated()
+    {
+        return await _dataSourceProvider.GetMisFurtherEducationEstablishmentsUpdated();
+    }
+
 
     public virtual async Task<IActionResult> OnGetAsync()
     {

@@ -2,9 +2,9 @@
 
 public interface IDataSourceProvider
 {
-    Task<DataSource?> GetGIASUpdated();
-    Task<DataSource?> GetMSTRUpdated();
-    Task<DataSource?> GetCDMUpdated();
-    Task<DataSource?> GetMISEstablishmentsUpdated();
-    Task<DataSource?> GetMISFurtherEducationEstablishmentsUpdated();
+    Task<DataSource?> GetGiasUpdated();
+    Task<DataSource?> GetMstrUpdated();
+    Task<DataSource?> GetCdmUpdated();
+    Task<DataSource?> GetMisEstablishmentsUpdated();
+    Task<DataSource?> GetMisFurtherEducationEstablishmentsUpdated();
 }

@@ -18,7 +18,7 @@ public class DataSourceProvider : IDataSourceProvider
         _academiesDbContext = academiesDbContext;
     }
 
-    public async Task<DataSource?> GetGIASUpdated()
+    public async Task<DataSource?> GetGiasUpdated()
     {
         var lastEntry = await _academiesDbContext.ApplicationEvents
             .Where(e => e.Source != null
@@ -30,7 +30,7 @@ public class DataSourceProvider : IDataSourceProvider
         return new DataSource("Get Information about Schools", lastEntry.Value, lastEntry.Value.AddDays(1), "Daily");
     }
 
-    public async Task<DataSource?> GetMSTRUpdated()
+    public async Task<DataSource?> GetMstrUpdated()
     {
         var lastEntry = await _academiesDbContext.ApplicationEvents
             .Where(e => e.Source != null
@@ -42,7 +42,7 @@ public class DataSourceProvider : IDataSourceProvider
         return new DataSource("MSTR", lastEntry.Value, lastEntry.Value.AddDays(1), "Daily");
     }
 
-    public async Task<DataSource?> GetCDMUpdated()
+    public async Task<DataSource?> GetCdmUpdated()
     {
         var lastEntry = await _academiesDbContext.ApplicationEvents
             .Where(e => e.Source != null
@@ -54,7 +54,7 @@ public class DataSourceProvider : IDataSourceProvider
         return new DataSource("CDM", lastEntry.Value, lastEntry.Value.AddDays(1), "Daily");
     }
 
-    public async Task<DataSource?> GetMISEstablishmentsUpdated()
+    public async Task<DataSource?> GetMisEstablishmentsUpdated()
     {
         var lastEntry = await _academiesDbContext.ApplicationSettings
             .FirstOrDefaultAsync(e => e.Key == "ManagementInformationSchoolTableData CSV Filename");
@@ -63,7 +63,7 @@ public class DataSourceProvider : IDataSourceProvider
             lastEntry.Modified.Value.AddMonths(1), "Monthly");
     }
 
-    public async Task<DataSource?> GetMISFurtherEducationEstablishmentsUpdated()
+    public async Task<DataSource?> GetMisFurtherEducationEstablishmentsUpdated()
     {
         var lastEntry = await _academiesDbContext.ApplicationSettings
             .FirstOrDefaultAsync(e => e.Key == "ManagementInformationFurtherEducationSchoolTableData CSV Filename");
