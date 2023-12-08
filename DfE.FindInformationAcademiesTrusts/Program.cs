@@ -5,6 +5,7 @@ using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using DfE.FindInformationAcademiesTrusts.Pages;
+using DfE.FindInformationAcademiesTrusts.Options;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -116,10 +117,15 @@ internal static class Program
                     .Self()
                     .UnsafeInline()
                     .WithNonce()
-                    .From("https://js.monitor.azure.com/scripts/b/ai.2.min.js");
+                    .From(new[]
+                    {
+                        "https://js.monitor.azure.com/scripts/b/ai.2.min.js",
+                        "https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js"
+                    });
                 cspBuilder.AddConnectSrc()
                     .Self()
-                    .From("https://*.in.applicationinsights.azure.com//v2/track");
+                    .From("https://*.in.applicationinsights.azure.com//v2/track")
+                    .From("https://*.in.applicationinsights.azure.com/v2/track");
                 cspBuilder.AddObjectSrc().None();
                 cspBuilder.AddBlockAllMixedContent();
                 cspBuilder.AddImgSrc().Self();
@@ -174,6 +180,8 @@ internal static class Program
             builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly());
         builder.Services.AddOptions<TestOverrideOptions>()
             .Bind(builder.Configuration.GetSection(TestOverrideOptions.ConfigurationSection));
+        builder.Services.AddOptions<ApplicationInsightsOptions>()
+            .Bind(builder.Configuration.GetSection(ApplicationInsightsOptions.ConfigurationSection));
     }
 
     private static void AddAuthenticationServices(WebApplicationBuilder builder)

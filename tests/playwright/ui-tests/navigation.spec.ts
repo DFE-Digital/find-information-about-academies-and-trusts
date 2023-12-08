@@ -7,6 +7,7 @@ import { FakeTestData } from '../fake-data/fake-test-data'
 import { OverviewPage } from '../page-object-model/trust/overview-page'
 import { PrivacyPage } from '../page-object-model/privacy-page'
 import { AccessibilityPage } from '../page-object-model/accessibility-page'
+import { CookiesPage } from '../page-object-model/cookies-page'
 import { AcademiesDetailsPage } from '../page-object-model/trust/academies/details-page'
 import { AcademiesOfstedRatingsPage } from '../page-object-model/trust/academies/ofsted-ratings-page'
 import { AcademiesPupilNumbersPage } from '../page-object-model/trust/academies/pupil-numbers-page '
@@ -19,6 +20,7 @@ test.describe('Navigation', () => {
   let overviewPage: OverviewPage
   let privacyPage: PrivacyPage
   let accessibilityPage: AccessibilityPage
+  let cookiesPage: CookiesPage
   let academiesDetailsPage: AcademiesDetailsPage
   let academiesOfstedRatingsPage: AcademiesOfstedRatingsPage
   let academiesPupilNumbersPage: AcademiesPupilNumbersPage
@@ -35,6 +37,7 @@ test.describe('Navigation', () => {
     academiesPupilNumbersPage = new AcademiesPupilNumbersPage(page, fakeTestData)
     privacyPage = new PrivacyPage(page)
     accessibilityPage = new AccessibilityPage(page)
+    cookiesPage = new CookiesPage(page)
   })
 
   test('user should be able to navigate between different sections about a trust', async () => {
@@ -91,11 +94,15 @@ test.describe('Navigation', () => {
   test('user should be able to navigate to the different links within the footer', async () => {
     // Footer Via HomePage => Privacy
     await homePage.goTo()
-    await homePage.footerNavigation.clickPrivacyPolicy()
+    await homePage.footerNavigation.goToPrivacyPolicy()
     await privacyPage.expect.toBeOnTheRightPage()
     // Footer Via HomePage => Accessibility statement
     await homePage.goTo()
     await homePage.footerNavigation.clickAccessibilityStatement()
     await accessibilityPage.expect.toBeOnTheRightPage()
+    // Cookie banner Via HomePage => Cookie
+    await homePage.goTo()
+    await homePage.footerNavigation.goToCookies()
+    await cookiesPage.expect.toBeOnTheRightPage()
   })
 })

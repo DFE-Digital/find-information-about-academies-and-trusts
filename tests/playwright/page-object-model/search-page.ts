@@ -3,12 +3,12 @@ import { CurrentSearch, SearchFormComponent } from './shared/search-form-compone
 import { FakeTestData, FakeTrust } from '../fake-data/fake-test-data'
 import { SearchTerms } from '../fake-data/search-terms'
 import { PaginationComponent } from './shared/pagination-component'
+import { BasePage, BasePageAssertions } from './base-page'
 
-export class SearchPage {
+export class SearchPage extends BasePage {
   readonly expect: SearchPageAssertions
   readonly searchForm: SearchFormComponent
   readonly pagination: PaginationComponent
-  readonly _headerLocator: Locator
   readonly _searchResultsListHeaderLocator: Locator
   readonly _searchResultsSectionLocator: Locator
   readonly _searchResultsListItemLocator: Locator
@@ -17,6 +17,8 @@ export class SearchPage {
   numberOfResultsOnOnePage = 20
 
   constructor (readonly page: Page, currentSearch: CurrentSearch, fakeTestData?: FakeTestData) {
+    super(page, '/search', '', 'Search')
+
     if (fakeTestData !== undefined) {
       this.testData = fakeTestData
     }
@@ -28,7 +30,6 @@ export class SearchPage {
     )
     this.currentSearch = currentSearch
     this.pagination = new PaginationComponent(page)
-    this._headerLocator = this.page.locator('h1')
     const resultsHeadingRegex = /result(s)? for/i
     this._searchResultsListHeaderLocator = this.page.getByRole('heading', {
       name: resultsHeadingRegex
@@ -38,10 +39,6 @@ export class SearchPage {
   }
 
   readonly _searchResultsHeadingName = 'results for'
-
-  async goTo (): Promise<void> {
-    await this.page.goto('/search')
-  }
 
   async goToSearchFor (searchTerm: string): Promise<void> {
     this.currentSearch.term = searchTerm
@@ -82,15 +79,17 @@ export class SearchPage {
   }
 }
 
-class SearchPageAssertions {
-  constructor (readonly searchPage: SearchPage) {}
+class SearchPageAssertions extends BasePageAssertions {
+  constructor (readonly searchPage: SearchPage) {
+    super(searchPage)
+  }
 
   async toBeOnPageWithMatchingResults (): Promise<void> {
     await expect(this.searchPage._searchResultsListHeaderLocator).toContainText(this.searchPage.currentSearch.term)
   }
 
   async toBeOnTheRightPage (): Promise<void> {
-    await expect(this.searchPage._headerLocator).toHaveText('Search')
+    await expect(this.searchPage.pageHeadingLocator).toHaveText('Search')
   }
 
   async toShowResults (): Promise<void> {
