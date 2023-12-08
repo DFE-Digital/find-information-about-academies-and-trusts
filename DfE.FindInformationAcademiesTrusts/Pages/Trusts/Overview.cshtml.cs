@@ -1,4 +1,5 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
@@ -35,5 +36,16 @@ public class OverviewModel : TrustsAreaModel
         return OfstedRatings.Any(x => x.Rating == score)
             ? OfstedRatings.Single(x => x.Rating == score).Total
             : 0;
+    }
+    
+    public override async Task<IActionResult> OnGetAsync()
+    {
+        var pageResult = await base.OnGetAsync();
+
+        if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
+
+        var giasSource = await GetGiasDataUpdated();
+        DataSources = new[] { new DataSourceListEntry(giasSource!, "Trust summary, Ofsted ratings") };
+        return pageResult;
     }
 }
