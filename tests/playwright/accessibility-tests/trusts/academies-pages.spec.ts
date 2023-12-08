@@ -1,6 +1,7 @@
 import { FakeTestData } from '../../fake-data/fake-test-data'
 import { AcademiesDetailsPage } from '../../page-object-model/trust/academies/details-page'
 import { AcademiesOfstedRatingsPage } from '../../page-object-model/trust/academies/ofsted-ratings-page'
+import { AcademiesPupilNumbersPage } from '../../page-object-model/trust/academies/pupil-numbers-page '
 import { test } from '../a11y-test'
 
 test.describe('Academies pages', () => {
@@ -8,12 +9,18 @@ test.describe('Academies pages', () => {
     const fakeTestData = new FakeTestData()
     const academiesDetailsPage = new AcademiesDetailsPage(page, fakeTestData)
     const academiesOfstedRatingsPage = new AcademiesOfstedRatingsPage(page, fakeTestData)
+    const academiesPupilNumbersPage = new AcademiesPupilNumbersPage(page, fakeTestData)
+
     await academiesDetailsPage.goTo()
     await academiesDetailsPage.expect.toBeOnTheRightPage()
     await expectNoAccessibilityViolations()
 
     await academiesDetailsPage.subNavigation.clickOn('Ofsted ratings')
     await academiesOfstedRatingsPage.expect.toBeOnTheRightPage()
+    await expectNoAccessibilityViolations()
+
+    await academiesOfstedRatingsPage.subNavigation.clickOn('Pupil numbers')
+    await academiesPupilNumbersPage.expect.toBeOnTheRightPage()
     await expectNoAccessibilityViolations()
   })
 })

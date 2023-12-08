@@ -10,6 +10,7 @@ import { AccessibilityPage } from '../page-object-model/accessibility-page'
 import { CookiesPage } from '../page-object-model/cookies-page'
 import { AcademiesDetailsPage } from '../page-object-model/trust/academies/details-page'
 import { AcademiesOfstedRatingsPage } from '../page-object-model/trust/academies/ofsted-ratings-page'
+import { AcademiesPupilNumbersPage } from '../page-object-model/trust/academies/pupil-numbers-page '
 
 test.describe('Navigation', () => {
   let homePage: HomePage
@@ -22,6 +23,7 @@ test.describe('Navigation', () => {
   let cookiesPage: CookiesPage
   let academiesDetailsPage: AcademiesDetailsPage
   let academiesOfstedRatingsPage: AcademiesOfstedRatingsPage
+  let academiesPupilNumbersPage: AcademiesPupilNumbersPage
 
   test.beforeEach(async ({ page }) => {
     const fakeTestData = new FakeTestData()
@@ -32,6 +34,7 @@ test.describe('Navigation', () => {
     overviewPage = new OverviewPage(page, fakeTestData)
     academiesDetailsPage = new AcademiesDetailsPage(page, fakeTestData)
     academiesOfstedRatingsPage = new AcademiesOfstedRatingsPage(page, fakeTestData)
+    academiesPupilNumbersPage = new AcademiesPupilNumbersPage(page, fakeTestData)
     privacyPage = new PrivacyPage(page)
     accessibilityPage = new AccessibilityPage(page)
     cookiesPage = new CookiesPage(page)
@@ -77,6 +80,14 @@ test.describe('Navigation', () => {
     await academiesDetailsPage.subNavigation.clickOn('Ofsted ratings')
     await academiesOfstedRatingsPage.expect.toBeOnTheRightPage()
     await academiesOfstedRatingsPage.subNavigation.clickOn('Details')
+    await academiesDetailsPage.expect.toBeOnTheRightPage()
+    await academiesDetailsPage.subNavigation.clickOn('Pupil numbers')
+    await academiesPupilNumbersPage.expect.toBeOnTheRightPage()
+    await academiesPupilNumbersPage.subNavigation.clickOn('Ofsted ratings')
+    await academiesOfstedRatingsPage.expect.toBeOnTheRightPage()
+    await academiesOfstedRatingsPage.subNavigation.clickOn('Pupil numbers')
+    await academiesPupilNumbersPage.expect.toBeOnTheRightPage()
+    await academiesPupilNumbersPage.subNavigation.clickOn('Details')
     await academiesDetailsPage.expect.toBeOnTheRightPage()
   })
 

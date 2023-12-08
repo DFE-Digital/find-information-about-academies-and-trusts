@@ -21,8 +21,8 @@ public class AcademyFactory : IAcademyFactory
             giasEstablishment.LaName,
             giasEstablishment.UrbanRuralName,
             giasEstablishment.PhaseOfEducationName,
-            giasEstablishment.NumberOfPupils,
-            giasEstablishment.SchoolCapacity,
+            giasEstablishment.NumberOfPupils.ParseAsNullableInt(),
+            giasEstablishment.SchoolCapacity.ParseAsNullableInt(),
             giasEstablishment.PercentageFsm,
             new AgeRange(giasEstablishment.StatutoryLowAge!, giasEstablishment.StatutoryHighAge!),
             giasEstablishment.OfstedRatingName != null

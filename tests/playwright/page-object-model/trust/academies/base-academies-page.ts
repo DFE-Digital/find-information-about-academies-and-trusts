@@ -18,6 +18,11 @@ export class BaseAcademiesPage extends BaseTrustPage {
     this.subNavigation = new NavigationComponent(page, 'Academies tabs')
   }
 
+  async goTo (): Promise<void> {
+    this.currentTrust = this.fakeTestData.getTrustWithAcademies()
+    await this.goToWith(this.currentTrust.uid)
+  }
+
   async getExpectedAcademyMatching (element: Locator): Promise<FakeAcademy> {
     const urn = (await element.textContent())?.split('URN:')[1]?.trim() ?? ''
     expect(urn, 'Expected result to contain a urn value, but it did not').toBeTruthy()

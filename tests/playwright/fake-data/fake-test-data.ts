@@ -20,6 +20,14 @@ export interface FakeAcademy {
   typeOfEstablishment: string
   localAuthority: string
   urbanRural: string
+  phaseOfEducation: string
+  numberOfPupils: number
+  schoolCapacity: number
+  ageRange: {
+    minimum: number
+    maximum: number
+  }
+  percentageFull: number
 }
 
 export class FakeTestData {
@@ -64,6 +72,14 @@ export class FakeTestData {
     const trust = this._fakeTrusts.find(trust => trust.type === 'Single-academy trust' && trust.status === 'Open' && trust.academies.length > 0)
     if (trust === undefined) {
       throw new Error('No trusts with type Single-academy trust which has academies exists in test data')
+    }
+    return trust
+  }
+
+  getTrustWithAcademies (): FakeTrust {
+    const trust = this._fakeTrusts.find(trust => trust.academies.length > 0)
+    if (trust === undefined) {
+      throw new Error('No trusts with academies found in test data')
     }
     return trust
   }

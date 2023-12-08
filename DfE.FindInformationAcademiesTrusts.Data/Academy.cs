@@ -8,10 +8,24 @@ public record Academy(
     string? LocalAuthority,
     string? UrbanRural,
     string? PhaseOfEducation,
-    string? NumberOfPupils,
-    string? SchoolCapacity,
+    int? NumberOfPupils,
+    int? SchoolCapacity,
     string? PercentageFreeSchoolMeals,
-    AgeRange? AgeRange,
+    AgeRange AgeRange,
     OfstedRating? CurrentOfstedRating,
-    OfstedRating? PreviousOfstedRating
-);
+    OfstedRating? PreviousOfstedRating)
+{
+    public float? PercentageFull
+    {
+        get
+        {
+            if (this is { NumberOfPupils: not null, SchoolCapacity: not null } &&
+                SchoolCapacity != 0)
+            {
+                return (float)Math.Round((int)NumberOfPupils / (float)SchoolCapacity * 100);
+            }
+
+            return null;
+        }
+    }
+}
