@@ -105,47 +105,61 @@ public class DataSourceProviderTests
         result.Should().BeNull();
     }
 
-    // [Fact]
-    // public async Task GetMisEstablishmentsUpdated_WhenNoEntryExists_ShouldReturnNull()
-    // {
-    //     var result = await _sut.GetMisEstablishmentsUpdated();
-    //
-    //     result.Should().BeNull();
-    // }
-    //
-    // [Fact]
-    // public async Task GetMisEstablishmentsUpdated_WhenEntryExists_ShouldReturnDataSource()
-    // {
-    //     var result = await _sut.GetMisEstablishmentsUpdated();
-    //
-    //     result.Should().NotBeNull();
-    //     result.Should()
-    //         .BeEquivalentTo(new DataSource("State-funded school inspections and outcomes: management information",
-    //             _testStartTime.AddDays(-1), "Monthly"));
-    // }
-    //
-    // [Fact]
-    // public async Task GetMisFurtherEducationEstablishmentsUpdated_WhenNoEntryExists_ShouldReturnNull()
-    // {
-    //     var result = await _sut.GetMisFurtherEducationEstablishmentsUpdated();
-    //
-    //     result.Should().BeNull();
-    // }
-    //
-    // [Fact]
-    // public async Task GetMisFurtherEducationEstablishmentsUpdated_WhenEntryExists_ShouldReturnDataSource()
-    // {
-    //     var lastModified = DateTime.UtcNow.AddHours(-1);
-    //     var validApplicationSettings = new List<ApplicationSetting>
-    //     {
-    //         new() { Key = "ManagementInformationFurtherEducationSchoolTableData CSV Filename", Modified = lastModified }
-    //     };
-    //
-    //     var result = await _sut.GetMisFurtherEducationEstablishmentsUpdated();
-    //
-    //     result.Should().NotBeNull();
-    //     result.Should()
-    //         .BeEquivalentTo(new DataSource("State-funded school inspections and outcomes: management information",
-    //             lastModified, "Monthly"));
-    // }
+    [Fact]
+    public async Task GetMisEstablishmentsUpdated_WhenNoEntryExists_ShouldReturnNull()
+    {
+        _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationSettings();
+        var result = await _sut.GetMisEstablishmentsUpdated();
+
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetMisEstablishmentsUpdated_WhenEntryExists_ShouldReturnDataSource()
+    {
+        var result = await _sut.GetMisEstablishmentsUpdated();
+
+        result.Should().NotBeNull();
+        result.Should()
+            .BeEquivalentTo(new DataSource("State-funded school inspections and outcomes: management information",
+                _testStartTime.AddDays(-1), "Monthly"));
+    }
+
+    [Fact]
+    public async Task GetMisEstablishmentsUpdated_WhenInvalidEntryExists_ShouldReturnNull()
+    {
+        _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationSettings(_testStartTime);
+        var result = await _sut.GetMisEstablishmentsUpdated();
+
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetMisEstablishmentsFurtherEducationUpdated_WhenNoEntryExists_ShouldReturnNull()
+    {
+        _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationSettings();
+        var result = await _sut.GetMisFurtherEducationEstablishmentsUpdated();
+
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetMisEstablishmentsFurtherEducationUpdated_WhenEntryExists_ShouldReturnDataSource()
+    {
+        var result = await _sut.GetMisFurtherEducationEstablishmentsUpdated();
+
+        result.Should().NotBeNull();
+        result.Should()
+            .BeEquivalentTo(new DataSource("State-funded school inspections and outcomes: management information",
+                _testStartTime.AddDays(-2), "Monthly"));
+    }
+
+    [Fact]
+    public async Task GetMisEstablishmentsFurtherEducationUpdated_WhenInvalidEntryExists_ShouldReturnNull()
+    {
+        _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationSettings(_testStartTime);
+        var result = await _sut.GetMisFurtherEducationEstablishmentsUpdated();
+
+        result.Should().BeNull();
+    }
 }
