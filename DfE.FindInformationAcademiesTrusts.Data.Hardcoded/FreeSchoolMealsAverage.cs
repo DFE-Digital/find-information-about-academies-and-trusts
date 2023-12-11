@@ -1,19 +1,4 @@
-using System.ComponentModel;
-
 namespace DfE.FindInformationAcademiesTrusts.Data.Hardcoded;
-
-public enum PhaseTypeGroup
-{
-    [Description("State-funded AP school")]
-    StateFundedApSchool,
-    [Description("State-funded primary")] StateFundedPrimary,
-
-    [Description("State-funded secondary")]
-    StateFundedSecondary,
-
-    [Description("State-funded special school")]
-    StateFundedSpecialSchool
-}
 
 public class FreeSchoolMealsAverage
 {
@@ -21,7 +6,7 @@ public class FreeSchoolMealsAverage
     private string LaName { get; }
     private string NewLaCode { get; }
 
-    public Dictionary<PhaseTypeGroup, double> PercentOfPupilsByPhase { get; } = new();
+    public Dictionary<ExploreEducationStatisticsPhaseType, double> PercentOfPupilsByPhase { get; } = new();
 
     public FreeSchoolMealsAverage(int oldLaCode, string laName, string newLaCode)
     {
@@ -32,7 +17,7 @@ public class FreeSchoolMealsAverage
 
     public void Add(string phaseTypeGroupKey, double percentOfPupils)
     {
-        var key = Enum.Parse<PhaseTypeGroup>(phaseTypeGroupKey);
+        var key = Enum.Parse<ExploreEducationStatisticsPhaseType>(phaseTypeGroupKey);
         PercentOfPupilsByPhase.Add(key, percentOfPupils);
     }
 }

@@ -25,7 +25,7 @@ public class FreeSchoolMealsAverageProvider : IFreeSchoolMealsAverageProvider
 
     public double GetLaAverage(Academy academy)
     {
-        var key = PhaseTypeGroup.StateFundedApSchool;
+        var key = ExploreEducationStatisticsPhaseType.StateFundedApSchool;
         return _fsmAverages2022To23[334].PercentOfPupilsByPhase[key];
     }
 
@@ -35,7 +35,7 @@ public class FreeSchoolMealsAverageProvider : IFreeSchoolMealsAverageProvider
         return _fsmAverages2022To23[NationalKey].PercentOfPupilsByPhase[key];
     }
 
-    public static PhaseTypeGroup GetPhaseTypeKey(Academy academy)
+    public static ExploreEducationStatisticsPhaseType GetPhaseTypeKey(Academy academy)
     {
         var key = (academy.PhaseOfEducation, academy.TypeOfEstablishment) switch
         {
@@ -43,7 +43,8 @@ public class FreeSchoolMealsAverageProvider : IFreeSchoolMealsAverageProvider
                 or
                 "Voluntary Controlled School" or "Academy Sponsor Led" or "Academy Converter"
                 or "City Technology College" or
-                "Free Schools" or "University technical college" or "Studio schools") => PhaseTypeGroup
+                "Free Schools" or "University technical college"
+                or "Studio schools") => ExploreEducationStatisticsPhaseType
                     .StateFundedPrimary,
             ("Secondary" or "Middle Deemed Secondary" or "16 Plus" or "Not applicable" or "All Through" or "All-Through"
                 or
@@ -52,11 +53,13 @@ public class FreeSchoolMealsAverageProvider : IFreeSchoolMealsAverageProvider
                 or "Academy Converter" or
                 "City Technology College" or
                 "Free Schools" or "Free schools 16 to 19" or "University technical college" or "Studio schools" or
-                "Academy 16 to 19 sponsor led") => PhaseTypeGroup.StateFundedSecondary,
+                "Academy 16 to 19 sponsor led") => ExploreEducationStatisticsPhaseType.StateFundedSecondary,
             (_, "Foundation Special School" or "Community Special School" or "Academy Special Converter"
-                or "Academy Special Sponsor Led" or "Free Schools Special") => PhaseTypeGroup.StateFundedSpecialSchool,
+                or "Academy Special Sponsor Led" or "Free Schools Special") => ExploreEducationStatisticsPhaseType
+                    .StateFundedSpecialSchool,
             (_, "Pupil Referral Unit" or "Academy Alternative Provision Sponsor Led" or
-                "Free schools alternative provision" or "Academy Alternative Provision Converter") => PhaseTypeGroup
+                "Free schools alternative provision"
+                or "Academy Alternative Provision Converter") => ExploreEducationStatisticsPhaseType
                     .StateFundedApSchool,
             _ => throw new ArgumentOutOfRangeException(nameof(academy))
         };
