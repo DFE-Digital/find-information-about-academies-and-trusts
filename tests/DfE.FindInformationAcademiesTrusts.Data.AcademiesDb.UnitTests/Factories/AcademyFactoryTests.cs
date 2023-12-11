@@ -43,7 +43,7 @@ public class AcademyFactoryTests
             StatutoryHighAge = "11"
         };
 
-        var result = _sut.CreateAcademyFrom(_giasGroupLink, giasEstablishment, null, null);
+        var result = _sut.CreateFrom(_giasGroupLink, giasEstablishment, null, null);
 
         result.Urn.Should().Be(1234);
         result.DateAcademyJoinedTrust.Should().Be(new DateTime(2023, 11, 16));
@@ -62,7 +62,7 @@ public class AcademyFactoryTests
     public void CreateAcademyFrom_should_set_DateAcademyJoinedTrust_from_giasGroupLink()
     {
         var groupLink = new GiasGroupLink { JoinedDate = "12/01/2022" };
-        var result = _sut.CreateAcademyFrom(groupLink, _giasEstablishment, null, null);
+        var result = _sut.CreateFrom(groupLink, _giasEstablishment, null, null);
 
         result.DateAcademyJoinedTrust.Should().Be(new DateTime(2022, 1, 12));
     }
@@ -71,7 +71,7 @@ public class AcademyFactoryTests
     public void
         CreateAcademyFrom_should_set_current_ofsted_to_none_if_no_misEstablishment_and_no_misFurtherEducationEstablishment()
     {
-        var result = _sut.CreateAcademyFrom(_giasGroupLink, _giasEstablishment, null, null);
+        var result = _sut.CreateFrom(_giasGroupLink, _giasEstablishment, null, null);
 
         result.CurrentOfstedRating.OfstedRatingScore.Should().Be(OfstedRatingScore.None);
         result.CurrentOfstedRating.InspectionEndDate.Should().BeNull();
@@ -93,7 +93,7 @@ public class AcademyFactoryTests
             OverallEffectiveness = score
         };
 
-        var result = _sut.CreateAcademyFrom(_giasGroupLink, _giasEstablishment, misEstablishment, null);
+        var result = _sut.CreateFrom(_giasGroupLink, _giasEstablishment, misEstablishment, null);
 
         result.CurrentOfstedRating.Should().NotBeNull();
         result.CurrentOfstedRating.OfstedRatingScore.Should().Be(expectedScore);
@@ -115,7 +115,7 @@ public class AcademyFactoryTests
             OverallEffectiveness = 1
         };
 
-        var result = _sut.CreateAcademyFrom(_giasGroupLink, _giasEstablishment, misEstablishment, null);
+        var result = _sut.CreateFrom(_giasGroupLink, _giasEstablishment, misEstablishment, null);
 
         result.CurrentOfstedRating.Should().NotBeNull();
         result.CurrentOfstedRating.InspectionEndDate.Should().Be(new DateTime(year, month, day));
@@ -138,7 +138,7 @@ public class AcademyFactoryTests
             OverallEffectiveness = score
         };
 
-        var result = _sut.CreateAcademyFrom(_giasGroupLink, _giasEstablishment, null, misFurtherEducationEstablishment);
+        var result = _sut.CreateFrom(_giasGroupLink, _giasEstablishment, null, misFurtherEducationEstablishment);
 
         result.CurrentOfstedRating.Should().NotBeNull();
         result.CurrentOfstedRating.OfstedRatingScore.Should().Be(expectedScore);
@@ -161,7 +161,7 @@ public class AcademyFactoryTests
             OverallEffectiveness = 1
         };
 
-        var result = _sut.CreateAcademyFrom(_giasGroupLink, _giasEstablishment, null, misFurtherEducationEstablishment);
+        var result = _sut.CreateFrom(_giasGroupLink, _giasEstablishment, null, misFurtherEducationEstablishment);
 
         result.CurrentOfstedRating.Should().NotBeNull();
         result.CurrentOfstedRating.InspectionEndDate.Should().Be(new DateTime(year, month, day));

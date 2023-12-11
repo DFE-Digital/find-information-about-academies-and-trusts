@@ -7,13 +7,13 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 
 public interface IAcademyFactory
 {
-    Academy CreateAcademyFrom(GiasGroupLink gl, GiasEstablishment giasEstablishment,
+    Academy CreateFrom(GiasGroupLink gl, GiasEstablishment giasEstablishment,
         MisEstablishment? misEstablishment, MisFurtherEducationEstablishment? misFurtherEducationEstablishment);
 }
 
 public class AcademyFactory : IAcademyFactory
 {
-    public Academy CreateAcademyFrom(GiasGroupLink gl, GiasEstablishment giasEstablishment,
+    public Academy CreateFrom(GiasGroupLink gl, GiasEstablishment giasEstablishment,
         MisEstablishment? misEstablishment, MisFurtherEducationEstablishment? misFurtherEducationEstablishment)
     {
         return new Academy(
