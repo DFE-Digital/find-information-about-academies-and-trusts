@@ -20,8 +20,8 @@ public interface IAcademiesDbContext
     DbSet<MisFurtherEducationEstablishment> MisFurtherEducationEstablishments { get; }
     DbSet<CdmSystemuser> CdmSystemusers { get; }
     DbSet<MstrTrustGovernance> MstrTrustGovernances { get; }
-    DbSet<ApplicationEvents> ApplicationEvents { get; }
-    DbSet<ApplicationSettings> ApplicationSettings { get; }
+    DbSet<ApplicationEvent> ApplicationEvents { get; }
+    DbSet<ApplicationSetting> ApplicationSettings { get; }
 }
 
 [ExcludeFromCodeCoverage]
@@ -46,8 +46,8 @@ public class AcademiesDbContext : DbContext, IAcademiesDbContext
     public DbSet<MisFurtherEducationEstablishment> MisFurtherEducationEstablishments { get; set; }
     public DbSet<CdmSystemuser> CdmSystemusers { get; set; }
     public DbSet<MstrTrustGovernance> MstrTrustGovernances { get; set; }
-    public DbSet<ApplicationEvents> ApplicationEvents { get; set; }
-    public DbSet<ApplicationSettings> ApplicationSettings { get; set; }
+    public DbSet<ApplicationEvent> ApplicationEvents { get; set; }
+    public DbSet<ApplicationSetting> ApplicationSettings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -1566,7 +1566,7 @@ public class AcademiesDbContext : DbContext, IAcademiesDbContext
             entity.Property(e => e.Title).IsUnicode(false);
         });
         
-        modelBuilder.Entity<ApplicationSettings>(entity =>
+        modelBuilder.Entity<ApplicationSetting>(entity =>
         {
             entity.ToTable("ApplicationSettings", "ops");
             
@@ -1585,7 +1585,7 @@ public class AcademiesDbContext : DbContext, IAcademiesDbContext
                 .HasMaxLength(100);
         });
 
-        modelBuilder.Entity<ApplicationEvents>(entity =>
+        modelBuilder.Entity<ApplicationEvent>(entity =>
         {
             entity.ToTable("ApplicationEvent", "ops");
             entity.HasKey(e => e.Id)

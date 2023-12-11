@@ -20,8 +20,8 @@ public class AcademiesDbData
     public List<MisFurtherEducationEstablishment> MisFurtherEducationEstablishments { get; } = new();
     public List<MstrTrust> MstrTrusts { get; } = new();
     public List<MstrTrustGovernance> MstrTrustGovernances { get; } = new();
-    public List<ApplicationEvents> ApplicationEvents { get; } = new();
-    public List<ApplicationSettings> ApplicationSettings { get; } = new();
+    public List<ApplicationEvent> ApplicationEvents { get; } = new();
+    public List<ApplicationSetting> ApplicationSettings { get; } = new();
 
     public IAcademiesDbContext AsAcademiesDbContext()
     {
@@ -42,8 +42,8 @@ public class AcademiesDbData
         public DbSet<MisFurtherEducationEstablishment> MisFurtherEducationEstablishments { get; }
         public DbSet<CdmSystemuser> CdmSystemusers { get; }
         public DbSet<MstrTrustGovernance> MstrTrustGovernances { get; }
-        public DbSet<ApplicationEvents> ApplicationEvents { get; }
-        public DbSet<ApplicationSettings> ApplicationSettings { get; }
+        public DbSet<ApplicationEvent> ApplicationEvents { get; }
+        public DbSet<ApplicationSetting> ApplicationSettings { get; }
 
         public AcademiesDbDataContext(
             IEnumerable<GiasEstablishment> giasEstablishments,
@@ -55,11 +55,11 @@ public class AcademiesDbData
             IEnumerable<MisEstablishment> misEstablishments,
             IEnumerable<MisFurtherEducationEstablishment> misFurtherEducationEstablishment,
             IEnumerable<CdmSystemuser> cdmSystemusers,
-            IEnumerable<MstrTrustGovernance> mstrTrustGovernances, IEnumerable<ApplicationEvents> applicationEvents,
-            IEnumerable<ApplicationSettings> applicationSettings)
+            IEnumerable<MstrTrustGovernance> mstrTrustGovernances, IEnumerable<ApplicationEvent> applicationEvents,
+            IEnumerable<ApplicationSetting> applicationSettings)
         {
-            ApplicationEvents = new MockDbSet<ApplicationEvents>(applicationEvents).Object;
-            ApplicationSettings = new MockDbSet<ApplicationSettings>(applicationSettings).Object;
+            ApplicationEvents = new MockDbSet<ApplicationEvent>(applicationEvents).Object;
+            ApplicationSettings = new MockDbSet<ApplicationSetting>(applicationSettings).Object;
             GiasEstablishments = new MockDbSet<GiasEstablishment>(giasEstablishments).Object;
             GiasGovernances = new MockDbSet<GiasGovernance>(giasGovernances).Object;
             GiasGroupLinks = new MockDbSet<GiasGroupLink>(giasGroupLinks).Object;

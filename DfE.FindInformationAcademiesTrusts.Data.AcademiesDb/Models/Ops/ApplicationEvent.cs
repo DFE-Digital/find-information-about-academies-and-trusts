@@ -1,6 +1,6 @@
 ﻿namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 
-public class ApplicationEvents
+public class ApplicationEvent
 {
     public int Id { get; set; }
     public DateTime? DateTime { get; set; }

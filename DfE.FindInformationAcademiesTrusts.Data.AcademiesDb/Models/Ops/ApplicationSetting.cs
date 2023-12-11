@@ -1,6 +1,6 @@
 ﻿namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 
-public class ApplicationSettings
+public class ApplicationSetting
 {
     public required string Key { get; set; }
     public string? Value { get; set; }
