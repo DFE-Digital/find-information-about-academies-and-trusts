@@ -80,7 +80,7 @@ public class TrustProvider : ITrustProvider
             .Join(_academiesDbContext.GiasEstablishments,
                 gl => gl.Urn!,
                 e => e.Urn.ToString(),
-                (gl, e) => _academyFactory.CreateAcademyFrom(gl, e, null))
+                (gl, e) => _academyFactory.CreateAcademyFrom(gl, e, null, null))
             .ToArrayAsync();
     }
 }

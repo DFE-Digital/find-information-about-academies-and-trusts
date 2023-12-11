@@ -43,7 +43,7 @@ public class AcademyFactoryTests
             StatutoryHighAge = "11"
         };
 
-        var result = _sut.CreateAcademyFrom(_giasGroupLink, giasEstablishment);
+        var result = _sut.CreateAcademyFrom(_giasGroupLink, giasEstablishment, null, null);
 
         result.Urn.Should().Be(1234);
         result.DateAcademyJoinedTrust.Should().Be(new DateTime(2023, 11, 16));
@@ -62,15 +62,16 @@ public class AcademyFactoryTests
     public void CreateAcademyFrom_should_set_DateAcademyJoinedTrust_from_giasGroupLink()
     {
         var groupLink = new GiasGroupLink { JoinedDate = "12/01/2022" };
-        var result = _sut.CreateAcademyFrom(groupLink, _giasEstablishment);
+        var result = _sut.CreateAcademyFrom(groupLink, _giasEstablishment, null, null);
 
         result.DateAcademyJoinedTrust.Should().Be(new DateTime(2022, 1, 12));
     }
 
     [Fact]
-    public void CreateAcademyFrom_should_set_current_ofsted_to_none_if_no_misEstablishment()
+    public void
+        CreateAcademyFrom_should_set_current_ofsted_to_none_if_no_misEstablishment_and_no_misFurtherEducationEstablishment()
     {
-        var result = _sut.CreateAcademyFrom(_giasGroupLink, _giasEstablishment);
+        var result = _sut.CreateAcademyFrom(_giasGroupLink, _giasEstablishment, null, null);
 
         result.CurrentOfstedRating.OfstedRatingScore.Should().Be(OfstedRatingScore.None);
         result.CurrentOfstedRating.InspectionEndDate.Should().BeNull();
@@ -81,7 +82,8 @@ public class AcademyFactoryTests
     [InlineData(2, OfstedRatingScore.Good)]
     [InlineData(3, OfstedRatingScore.RequiresImprovement)]
     [InlineData(4, OfstedRatingScore.Inadequate)]
-    public void CreateAcademyFrom_should_create_current_ofsted_rating_score_from_misEstablishment(int score,
+    public void CreateAcademyFrom_should_create_current_ofsted_rating_score_from_misEstablishment_when_provided(
+        int score,
         OfstedRatingScore expectedScore)
     {
         var misEstablishment = new MisEstablishment
@@ -91,7 +93,7 @@ public class AcademyFactoryTests
             OverallEffectiveness = score
         };
 
-        var result = _sut.CreateAcademyFrom(_giasGroupLink, _giasEstablishment, misEstablishment);
+        var result = _sut.CreateAcademyFrom(_giasGroupLink, _giasEstablishment, misEstablishment, null);
 
         result.CurrentOfstedRating.Should().NotBeNull();
         result.CurrentOfstedRating.OfstedRatingScore.Should().Be(expectedScore);
@@ -102,7 +104,8 @@ public class AcademyFactoryTests
     [InlineData(2022, 1, 12)]
     [InlineData(2023, 6, 6)]
     [InlineData(2020, 2, 29)]
-    public void CreateAcademyFrom_should_create_current_ofsted_rating_date_from_misEstablishment(int year, int month,
+    public void CreateAcademyFrom_should_create_current_ofsted_rating_date_from_misEstablishment_when_provided(int year,
+        int month,
         int day)
     {
         var misEstablishment = new MisEstablishment
@@ -112,7 +115,53 @@ public class AcademyFactoryTests
             OverallEffectiveness = 1
         };
 
-        var result = _sut.CreateAcademyFrom(_giasGroupLink, _giasEstablishment, misEstablishment);
+        var result = _sut.CreateAcademyFrom(_giasGroupLink, _giasEstablishment, misEstablishment, null);
+
+        result.CurrentOfstedRating.Should().NotBeNull();
+        result.CurrentOfstedRating.InspectionEndDate.Should().Be(new DateTime(year, month, day));
+    }
+
+    [Theory]
+    [InlineData(1, OfstedRatingScore.Outstanding)]
+    [InlineData(2, OfstedRatingScore.Good)]
+    [InlineData(3, OfstedRatingScore.RequiresImprovement)]
+    [InlineData(4, OfstedRatingScore.Inadequate)]
+    public void
+        CreateAcademyFrom_should_create_current_ofsted_rating_score_from_MisFurtherEducationEstablishment_when_provided(
+            int score,
+            OfstedRatingScore expectedScore)
+    {
+        var misFurtherEducationEstablishment = new MisFurtherEducationEstablishment
+        {
+            ProviderUrn = _giasEstablishment.Urn,
+            LastDayOfInspection = "11/05/2022",
+            OverallEffectiveness = score
+        };
+
+        var result = _sut.CreateAcademyFrom(_giasGroupLink, _giasEstablishment, null, misFurtherEducationEstablishment);
+
+        result.CurrentOfstedRating.Should().NotBeNull();
+        result.CurrentOfstedRating.OfstedRatingScore.Should().Be(expectedScore);
+    }
+
+    [Theory]
+    [InlineData(2022, 12, 1)]
+    [InlineData(2022, 1, 12)]
+    [InlineData(2023, 6, 6)]
+    [InlineData(2020, 2, 29)]
+    public void
+        CreateAcademyFrom_should_create_current_ofsted_rating_date_from_MisFurtherEducationEstablishment_when_provided(
+            int year, int month,
+            int day)
+    {
+        var misFurtherEducationEstablishment = new MisFurtherEducationEstablishment
+        {
+            ProviderUrn = _giasEstablishment.Urn,
+            LastDayOfInspection = $"{day:00}/{month:00}/{year}",
+            OverallEffectiveness = 1
+        };
+
+        var result = _sut.CreateAcademyFrom(_giasGroupLink, _giasEstablishment, null, misFurtherEducationEstablishment);
 
         result.CurrentOfstedRating.Should().NotBeNull();
         result.CurrentOfstedRating.InspectionEndDate.Should().Be(new DateTime(year, month, day));
