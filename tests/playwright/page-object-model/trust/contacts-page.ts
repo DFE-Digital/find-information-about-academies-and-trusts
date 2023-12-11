@@ -58,8 +58,11 @@ class ContactsPageAssertions extends BaseTrustPageAssertions {
   }
 
   async toSeeCorrectTrustContactMissingEmailMessage (): Promise<void> {
-    const requiredTrustContacts = ['Chief Financial Officer']
-    const trustContacts = this.contactsPage.currentTrust.governors.filter(x => requiredTrustContacts.some(n => n === x.role))
-    await expect(this.contactsPage.trustContactsCard).toContainText(`Chief financial officer ${trustContacts[0].fullName} No contact email available`)
+    const trustContact = this.contactsPage.currentTrust.governors.find(x => x.role === 'Chief Financial Officer')
+    if (trustContact == null) {
+      throw Error('test failed due to search not returning correct fake trust contact')
+    } else {
+      await expect(this.contactsPage.trustContactsCard).toContainText(`Chief financial officer ${trustContact.fullName} No contact email available`)
+    }
   }
 }
