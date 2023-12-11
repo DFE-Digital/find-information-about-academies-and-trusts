@@ -3,6 +3,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
@@ -64,6 +65,38 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         return cdmAccount;
     }
 
+    private static int _appEventId;
+
+    private ApplicationEvent CreateApplicationEvent(DateTime? dateTime, string description, string message = "Finished",
+        string source = "adf-t1ts-sips-dataflow", char eventType = 'I')
+    {
+        return new ApplicationEvent
+        {
+            Id = _appEventId++,
+            DateTime = dateTime,
+            Source = source,
+            UserName = "Test User",
+            EventType = eventType,
+            Level = 1,
+            Code = 1,
+            Severity = 'S',
+            Description = description,
+            Message = message,
+            Trace = "test trace",
+            ProcessID = 1,
+            LineNumber = 2
+        };
+    }
+
+    private ApplicationSetting createApplicationSetting(DateTime? modified, string key)
+    {
+        return new ApplicationSetting
+        {
+            Key = key,
+            Modified = modified
+        };
+    }
+
     public List<GiasGroup> SetupMockDbContextGiasGroups(int numMatches)
     {
         _addedGiasGroups = SetupMockDbContext(numMatches,
@@ -119,6 +152,89 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
                 Forename1 = $"Governor {i}"
             },
             academiesDbContext => academiesDbContext.MstrTrustGovernances);
+    }
+
+    public List<ApplicationEvent> SetupMockDbContextOpsApplicationEvents(DateTime time)
+    {
+        var items = new List<ApplicationEvent>
+        {
+            CreateApplicationEvent(time.AddDays(-1), "GIAS_Daily"),
+            CreateApplicationEvent(time.AddDays(-2), "GIAS_Daily"),
+            CreateApplicationEvent(time.AddDays(-1), "MSTR_Daily"),
+            CreateApplicationEvent(time.AddDays(-2), "MSTR_Daily"),
+            CreateApplicationEvent(time.AddDays(-1), "CDM_Daily"),
+            CreateApplicationEvent(time.AddDays(-2), "CDM_Daily")
+        };
+
+        Setup(academiesTable => academiesTable.ApplicationEvents)
+            .Returns(new MockDbSet<ApplicationEvent>(items).Object);
+        return items;
+    }
+
+    public List<ApplicationEvent> SetupEmptyMockDbContextOpsApplicationEvents()
+    {
+        var items = new List<ApplicationEvent>();
+
+        Setup(academiesTable => academiesTable.ApplicationEvents)
+            .Returns(new MockDbSet<ApplicationEvent>(items).Object);
+        return items;
+    }
+
+    public List<ApplicationEvent> SetupInvalidMockDbContextOpsApplicationEvents(DateTime time)
+    {
+        var items = new List<ApplicationEvent>
+        {
+            CreateApplicationEvent(time.AddDays(-1), "Wrong Description"),
+            CreateApplicationEvent(time.AddDays(-1), "GIAS_Daily", "Started"),
+            CreateApplicationEvent(time.AddDays(-2), "GIAS_Daily", source: "test-Source"),
+            CreateApplicationEvent(time.AddDays(-3), "GIAS_Daily", eventType: 'E'),
+            CreateApplicationEvent(time.AddDays(-1), "MSTR_Daily", "Started"),
+            CreateApplicationEvent(time.AddDays(-2), "MSTR_Daily", source: "test-Source"),
+            CreateApplicationEvent(time.AddDays(-3), "MSTR_Daily", eventType: 'E'),
+            CreateApplicationEvent(time.AddDays(-1), "CDM_Daily", "Started"),
+            CreateApplicationEvent(time.AddDays(-2), "CDM_Daily", source: "test-Source"),
+            CreateApplicationEvent(time.AddDays(-3), "CDM_Daily", eventType: 'E')
+        };
+
+        Setup(academiesTable => academiesTable.ApplicationEvents)
+            .Returns(new MockDbSet<ApplicationEvent>(items).Object);
+        return items;
+    }
+
+    public List<ApplicationSetting> SetupMockDbContextOpsApplicationSettings(DateTime time)
+    {
+        var items = new List<ApplicationSetting>
+        {
+            createApplicationSetting(time.AddDays(-1), "ManagementInformationSchoolTableData CSV Filename"),
+            createApplicationSetting(time.AddDays(-2),
+                "ManagementInformationFurtherEducationSchoolTableData CSV Filename")
+        };
+
+        Setup(academiesTable => academiesTable.ApplicationSettings)
+            .Returns(new MockDbSet<ApplicationSetting>(items).Object);
+        return items;
+    }
+
+    public List<ApplicationSetting> SetupEmptyMockDbContextOpsApplicationSettings()
+    {
+        var items = new List<ApplicationSetting>();
+
+        Setup(academiesTable => academiesTable.ApplicationSettings)
+            .Returns(new MockDbSet<ApplicationSetting>(items).Object);
+        return items;
+    }
+
+    public List<ApplicationSetting> SetupInvalidMockDbContextOpsApplicationSettings(DateTime time)
+    {
+        var items = new List<ApplicationSetting>
+        {
+            createApplicationSetting(time.AddDays(-1), "Other Filename"),
+            createApplicationSetting(time.AddDays(-2), "test")
+        };
+
+        Setup(academiesTable => academiesTable.ApplicationSettings)
+            .Returns(new MockDbSet<ApplicationSetting>(items).Object);
+        return items;
     }
 
     private List<T> SetupMockDbContext<T>(int numMatches, Func<int, T> itemCreator,

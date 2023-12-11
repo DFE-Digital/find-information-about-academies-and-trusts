@@ -22,7 +22,7 @@ public class DataSourceProvider : IDataSourceProvider
     {
         var lastEntry = await _academiesDbContext.ApplicationEvents
             .Where(e => e.Source != null
-                        && EF.Functions.Like(e.Source, "adf-t1__-sips-dataflow")
+                        && e.Source.Contains("adf-t1") && e.Source.Contains("-sips-dataflow")
                         && e.Message == "Finished"
                         && e.EventType != 'E'
                         && e.Description == "GIAS_Daily").MaxAsync(e => e.DateTime);
@@ -34,7 +34,7 @@ public class DataSourceProvider : IDataSourceProvider
     {
         var lastEntry = await _academiesDbContext.ApplicationEvents
             .Where(e => e.Source != null
-                        && EF.Functions.Like(e.Source, "adf-t1__-sips-dataflow")
+                        && e.Source.Contains("adf-t1") && e.Source.Contains("-sips-dataflow")
                         && e.Message == "Finished"
                         && e.EventType != 'E'
                         && e.Description == "MSTR_Daily").MaxAsync(e => e.DateTime);
@@ -46,7 +46,7 @@ public class DataSourceProvider : IDataSourceProvider
     {
         var lastEntry = await _academiesDbContext.ApplicationEvents
             .Where(e => e.Source != null
-                        && EF.Functions.Like(e.Source, "adf-t1__-sips-dataflow")
+                        && e.Source.Contains("adf-t1") && e.Source.Contains("-sips-dataflow")
                         && e.Message == "Finished"
                         && e.EventType != 'E'
                         && e.Description == "CDM_Daily").MaxAsync(e => e.DateTime);
@@ -59,7 +59,8 @@ public class DataSourceProvider : IDataSourceProvider
         var lastEntry = await _academiesDbContext.ApplicationSettings
             .FirstOrDefaultAsync(e => e.Key == "ManagementInformationSchoolTableData CSV Filename");
         if (lastEntry is null || lastEntry.Modified is null) return null;
-        return new DataSource("State-funded school inspections and outcomes: management information", lastEntry.Modified.Value, "Monthly");
+        return new DataSource("State-funded school inspections and outcomes: management information",
+            lastEntry.Modified.Value, "Monthly");
     }
 
     public async Task<DataSource?> GetMisFurtherEducationEstablishmentsUpdated()
@@ -67,6 +68,7 @@ public class DataSourceProvider : IDataSourceProvider
         var lastEntry = await _academiesDbContext.ApplicationSettings
             .FirstOrDefaultAsync(e => e.Key == "ManagementInformationFurtherEducationSchoolTableData CSV Filename");
         if (lastEntry is null || lastEntry.Modified is null) return null;
-        return new DataSource("State-funded school inspections and outcomes: management information", lastEntry.Modified.Value, "Monthly");
+        return new DataSource("State-funded school inspections and outcomes: management information",
+            lastEntry.Modified.Value, "Monthly");
     }
 }
