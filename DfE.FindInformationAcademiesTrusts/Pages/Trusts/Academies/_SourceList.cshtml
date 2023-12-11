@@ -6,20 +6,20 @@
     </span>
   </summary>
   <div class="govuk-details__text">
-    <dl class="fiat-data-source-list">
-      @foreach (var source in Model.DataSources)
-      {
+    @foreach (var source in Model.DataSources)
+    {
+      <dl class="fiat-data-source-list">
         <div class="fiat-data-source-list__item">
-          <dt class="fiat-data-source-list__title">@source.Fields: </dt>
-          <dd>@source.DataSource.Name</dd>
+          <dt class="fiat-data-source-list__title fiat-data-source-list__cell">@source.Fields: </dt>
+          <dd class="fiat-data-source-list__cell">@source.DataSource.Name</dd>
         </div>
         <div class="fiat-data-source-list__item">
-          <dd>Last updated: @source.DataSource.LastUpdated.ToLocalTime()</dd>
+          <dd class="fiat-data-source-list__cell">Last updated: @source.DataSource.LastUpdated.ToLocalTime()</dd>
         </div>
         <div class="fiat-data-source-list__item">
-          <dd>Next scheduled update: @source.DataSource.NextUpdated</dd>
+          <dd class="fiat-data-source-list__cell">Next scheduled update: @source.DataSource.NextUpdated</dd>
         </div>
-      }
-    </dl>
+      </dl>
+    }
   </div>
 </details>

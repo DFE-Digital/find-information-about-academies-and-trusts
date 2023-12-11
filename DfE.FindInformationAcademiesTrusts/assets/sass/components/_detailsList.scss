@@ -1,7 +1,7 @@
 ﻿.fiat-data-source-list .fiat-data-source-list__item {
   display: grid;
   grid-auto-flow: row;
-  grid-template-columns: max-content max-content;
+  grid-template-columns: fit-content(50%) fit-content(50%);
   gap: 0.625rem;
   align-items: stretch;
   margin-bottom: 0.625rem;
@@ -11,7 +11,8 @@
   font-weight: bold;
 }
 
-dl, dd, li {
+.fiat-data-source-list__cell {
   margin: 0;
   padding: 0;
+  overflow-wrap: break-word;
 }
