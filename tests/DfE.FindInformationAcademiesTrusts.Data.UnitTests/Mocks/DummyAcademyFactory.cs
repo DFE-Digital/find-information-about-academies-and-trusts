@@ -29,7 +29,7 @@ public class DummyAcademyFactory
         string phaseOfEducation = "test",
         int? numberOfPupils = 300,
         int? schoolCapacity = 400,
-        string? percentageFreeSchoolMeals = "test",
+        double? percentageFreeSchoolMeals = default,
         AgeRange? ageRange = null,
         int laCode = 334)
     {

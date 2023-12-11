@@ -10,7 +10,7 @@ public record Academy(
     string? PhaseOfEducation,
     int? NumberOfPupils,
     int? SchoolCapacity,
-    string? PercentageFreeSchoolMeals,
+    double? PercentageFreeSchoolMeals,
     AgeRange AgeRange,
     OfstedRating CurrentOfstedRating,
     OfstedRating PreviousOfstedRating,

@@ -56,7 +56,7 @@ public class AcademyFactoryTests
         result.PhaseOfEducation.Should().Be("Primary");
         result.NumberOfPupils.Should().Be(999);
         result.SchoolCapacity.Should().Be(1000);
-        result.PercentageFreeSchoolMeals.Should().Be("30.40");
+        result.PercentageFreeSchoolMeals.Should().BeApproximately(30.40, 0.01);
         result.AgeRange.Should().Be(new AgeRange(5, 11));
         result.OldLaCode.Should().Be(334);
     }

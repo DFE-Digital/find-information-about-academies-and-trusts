@@ -20,7 +20,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 988,
         "schoolCapacity": 2406,
-        "percentageFreeSchoolMeals": "30",
+        "percentageFreeSchoolMeals": 30,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -46,7 +46,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 247,
         "schoolCapacity": 485,
-        "percentageFreeSchoolMeals": "4",
+        "percentageFreeSchoolMeals": 4,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -72,7 +72,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 983,
         "schoolCapacity": 1350,
-        "percentageFreeSchoolMeals": "25",
+        "percentageFreeSchoolMeals": 25,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -98,7 +98,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1201,
         "schoolCapacity": 1773,
-        "percentageFreeSchoolMeals": "19",
+        "percentageFreeSchoolMeals": 19,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -124,7 +124,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 772,
         "schoolCapacity": 1810,
-        "percentageFreeSchoolMeals": "20",
+        "percentageFreeSchoolMeals": 20,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -328,7 +328,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 398,
         "schoolCapacity": 380,
-        "percentageFreeSchoolMeals": "7",
+        "percentageFreeSchoolMeals": 7,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -354,7 +354,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 98,
         "schoolCapacity": 241,
-        "percentageFreeSchoolMeals": "10",
+        "percentageFreeSchoolMeals": 10,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -380,7 +380,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1998,
         "schoolCapacity": 2975,
-        "percentageFreeSchoolMeals": "28",
+        "percentageFreeSchoolMeals": 28,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -406,7 +406,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 2431,
         "schoolCapacity": 2901,
-        "percentageFreeSchoolMeals": "27",
+        "percentageFreeSchoolMeals": 27,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -432,7 +432,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 197,
         "schoolCapacity": 243,
-        "percentageFreeSchoolMeals": "29",
+        "percentageFreeSchoolMeals": 29,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -458,7 +458,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2796,
         "schoolCapacity": 2184,
-        "percentageFreeSchoolMeals": "6",
+        "percentageFreeSchoolMeals": 6,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -484,7 +484,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1377,
         "schoolCapacity": 1418,
-        "percentageFreeSchoolMeals": "14",
+        "percentageFreeSchoolMeals": 14,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -510,7 +510,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 910,
         "schoolCapacity": 2056,
-        "percentageFreeSchoolMeals": "10",
+        "percentageFreeSchoolMeals": 10,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -536,7 +536,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 386,
         "schoolCapacity": 807,
-        "percentageFreeSchoolMeals": "11",
+        "percentageFreeSchoolMeals": 11,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -562,7 +562,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 675,
         "schoolCapacity": 644,
-        "percentageFreeSchoolMeals": "25",
+        "percentageFreeSchoolMeals": 25,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -588,7 +588,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 374,
         "schoolCapacity": 438,
-        "percentageFreeSchoolMeals": "13",
+        "percentageFreeSchoolMeals": 13,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -1013,7 +1013,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1525,
         "schoolCapacity": 2047,
-        "percentageFreeSchoolMeals": "8",
+        "percentageFreeSchoolMeals": 8,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -1039,7 +1039,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 947,
         "schoolCapacity": 1570,
-        "percentageFreeSchoolMeals": "12",
+        "percentageFreeSchoolMeals": 12,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -1065,7 +1065,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 3160,
         "schoolCapacity": 2859,
-        "percentageFreeSchoolMeals": "2",
+        "percentageFreeSchoolMeals": 2,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -1091,7 +1091,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 199,
         "schoolCapacity": 319,
-        "percentageFreeSchoolMeals": "13",
+        "percentageFreeSchoolMeals": 13,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -1117,7 +1117,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 144,
         "schoolCapacity": 329,
-        "percentageFreeSchoolMeals": "10",
+        "percentageFreeSchoolMeals": 10,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -1143,7 +1143,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 966,
         "schoolCapacity": 1936,
-        "percentageFreeSchoolMeals": "28",
+        "percentageFreeSchoolMeals": 28,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -1169,7 +1169,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1255,
         "schoolCapacity": 1360,
-        "percentageFreeSchoolMeals": "24",
+        "percentageFreeSchoolMeals": 24,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -1195,7 +1195,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 685,
         "schoolCapacity": 1362,
-        "percentageFreeSchoolMeals": "26",
+        "percentageFreeSchoolMeals": 26,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -1221,7 +1221,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1488,
         "schoolCapacity": 1602,
-        "percentageFreeSchoolMeals": "10",
+        "percentageFreeSchoolMeals": 10,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -1436,7 +1436,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1890,
         "schoolCapacity": 2929,
-        "percentageFreeSchoolMeals": "25",
+        "percentageFreeSchoolMeals": 25,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -1462,7 +1462,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 114,
         "schoolCapacity": 281,
-        "percentageFreeSchoolMeals": "16",
+        "percentageFreeSchoolMeals": 16,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -1600,7 +1600,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 2090,
         "schoolCapacity": 2797,
-        "percentageFreeSchoolMeals": "28",
+        "percentageFreeSchoolMeals": 28,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -2066,7 +2066,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 3124,
         "schoolCapacity": 2673,
-        "percentageFreeSchoolMeals": "19",
+        "percentageFreeSchoolMeals": 19,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -2092,7 +2092,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 717,
         "schoolCapacity": 1156,
-        "percentageFreeSchoolMeals": "14",
+        "percentageFreeSchoolMeals": 14,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -2118,7 +2118,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 814,
         "schoolCapacity": 703,
-        "percentageFreeSchoolMeals": "13",
+        "percentageFreeSchoolMeals": 13,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -2388,7 +2388,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2062,
         "schoolCapacity": 1903,
-        "percentageFreeSchoolMeals": "6",
+        "percentageFreeSchoolMeals": 6,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -2493,7 +2493,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 2165,
         "schoolCapacity": 2546,
-        "percentageFreeSchoolMeals": "24",
+        "percentageFreeSchoolMeals": 24,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -2519,7 +2519,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1892,
         "schoolCapacity": 2458,
-        "percentageFreeSchoolMeals": "28",
+        "percentageFreeSchoolMeals": 28,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -2545,7 +2545,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1124,
         "schoolCapacity": 1398,
-        "percentageFreeSchoolMeals": "14",
+        "percentageFreeSchoolMeals": 14,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -2782,7 +2782,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1791,
         "schoolCapacity": 1526,
-        "percentageFreeSchoolMeals": "26",
+        "percentageFreeSchoolMeals": 26,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -2808,7 +2808,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 931,
         "schoolCapacity": 758,
-        "percentageFreeSchoolMeals": "12",
+        "percentageFreeSchoolMeals": 12,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -2834,7 +2834,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 656,
         "schoolCapacity": 851,
-        "percentageFreeSchoolMeals": "22",
+        "percentageFreeSchoolMeals": 22,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -2860,7 +2860,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1791,
         "schoolCapacity": 2036,
-        "percentageFreeSchoolMeals": "12",
+        "percentageFreeSchoolMeals": 12,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -2886,7 +2886,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1469,
         "schoolCapacity": 1409,
-        "percentageFreeSchoolMeals": "3",
+        "percentageFreeSchoolMeals": 3,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -2912,7 +2912,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1831,
         "schoolCapacity": 1904,
-        "percentageFreeSchoolMeals": "11",
+        "percentageFreeSchoolMeals": 11,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -2938,7 +2938,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 3078,
         "schoolCapacity": 2759,
-        "percentageFreeSchoolMeals": "25",
+        "percentageFreeSchoolMeals": 25,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -3054,7 +3054,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 914,
         "schoolCapacity": 2263,
-        "percentageFreeSchoolMeals": "27",
+        "percentageFreeSchoolMeals": 27,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -3080,7 +3080,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 514,
         "schoolCapacity": 547,
-        "percentageFreeSchoolMeals": "30",
+        "percentageFreeSchoolMeals": 30,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -3106,7 +3106,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 705,
         "schoolCapacity": 1026,
-        "percentageFreeSchoolMeals": "25",
+        "percentageFreeSchoolMeals": 25,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -3132,7 +3132,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 347,
         "schoolCapacity": 577,
-        "percentageFreeSchoolMeals": "5",
+        "percentageFreeSchoolMeals": 5,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -3158,7 +3158,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 832,
         "schoolCapacity": 698,
-        "percentageFreeSchoolMeals": "7",
+        "percentageFreeSchoolMeals": 7,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -3184,7 +3184,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 614,
         "schoolCapacity": 1002,
-        "percentageFreeSchoolMeals": "11",
+        "percentageFreeSchoolMeals": 11,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -3210,7 +3210,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 2778,
         "schoolCapacity": 2431,
-        "percentageFreeSchoolMeals": "4",
+        "percentageFreeSchoolMeals": 4,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -3236,7 +3236,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 602,
         "schoolCapacity": 1039,
-        "percentageFreeSchoolMeals": "18",
+        "percentageFreeSchoolMeals": 18,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -3262,7 +3262,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 114,
         "schoolCapacity": 119,
-        "percentageFreeSchoolMeals": "30",
+        "percentageFreeSchoolMeals": 30,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -3543,7 +3543,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 798,
         "schoolCapacity": 1338,
-        "percentageFreeSchoolMeals": "26",
+        "percentageFreeSchoolMeals": 26,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -3569,7 +3569,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1217,
         "schoolCapacity": 2909,
-        "percentageFreeSchoolMeals": "14",
+        "percentageFreeSchoolMeals": 14,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -3595,7 +3595,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1634,
         "schoolCapacity": 1837,
-        "percentageFreeSchoolMeals": "27",
+        "percentageFreeSchoolMeals": 27,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -3621,7 +3621,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 2065,
         "schoolCapacity": 1612,
-        "percentageFreeSchoolMeals": "29",
+        "percentageFreeSchoolMeals": 29,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -3647,7 +3647,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 2028,
         "schoolCapacity": 2982,
-        "percentageFreeSchoolMeals": "2",
+        "percentageFreeSchoolMeals": 2,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -3673,7 +3673,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 333,
         "schoolCapacity": 511,
-        "percentageFreeSchoolMeals": "9",
+        "percentageFreeSchoolMeals": 9,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -3699,7 +3699,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2022,
         "schoolCapacity": 2052,
-        "percentageFreeSchoolMeals": "9",
+        "percentageFreeSchoolMeals": 9,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -3725,7 +3725,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 314,
         "schoolCapacity": 370,
-        "percentageFreeSchoolMeals": "16",
+        "percentageFreeSchoolMeals": 16,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -3751,7 +3751,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 2067,
         "schoolCapacity": 2956,
-        "percentageFreeSchoolMeals": "24",
+        "percentageFreeSchoolMeals": 24,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -3777,7 +3777,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1018,
         "schoolCapacity": 979,
-        "percentageFreeSchoolMeals": "22",
+        "percentageFreeSchoolMeals": 22,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -3803,7 +3803,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 681,
         "schoolCapacity": 1426,
-        "percentageFreeSchoolMeals": "23",
+        "percentageFreeSchoolMeals": 23,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -3996,7 +3996,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1819,
         "schoolCapacity": 1601,
-        "percentageFreeSchoolMeals": "24",
+        "percentageFreeSchoolMeals": 24,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -4145,7 +4145,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1513,
         "schoolCapacity": 2379,
-        "percentageFreeSchoolMeals": "30",
+        "percentageFreeSchoolMeals": 30,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -4171,7 +4171,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 600,
         "schoolCapacity": 966,
-        "percentageFreeSchoolMeals": "14",
+        "percentageFreeSchoolMeals": 14,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -4197,7 +4197,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1737,
         "schoolCapacity": 1900,
-        "percentageFreeSchoolMeals": "4",
+        "percentageFreeSchoolMeals": 4,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -4223,7 +4223,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1951,
         "schoolCapacity": 2054,
-        "percentageFreeSchoolMeals": "8",
+        "percentageFreeSchoolMeals": 8,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -4249,7 +4249,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 916,
         "schoolCapacity": 1953,
-        "percentageFreeSchoolMeals": "24",
+        "percentageFreeSchoolMeals": 24,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -4894,7 +4894,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1031,
         "schoolCapacity": 1035,
-        "percentageFreeSchoolMeals": "20",
+        "percentageFreeSchoolMeals": 20,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -4920,7 +4920,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 2577,
         "schoolCapacity": 2853,
-        "percentageFreeSchoolMeals": "4",
+        "percentageFreeSchoolMeals": 4,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -4946,7 +4946,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 2240,
         "schoolCapacity": 1858,
-        "percentageFreeSchoolMeals": "13",
+        "percentageFreeSchoolMeals": 13,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -4972,7 +4972,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 731,
         "schoolCapacity": 1045,
-        "percentageFreeSchoolMeals": "13",
+        "percentageFreeSchoolMeals": 13,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -4998,7 +4998,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 201,
         "schoolCapacity": 349,
-        "percentageFreeSchoolMeals": "30",
+        "percentageFreeSchoolMeals": 30,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -5024,7 +5024,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 177,
         "schoolCapacity": 192,
-        "percentageFreeSchoolMeals": "27",
+        "percentageFreeSchoolMeals": 27,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -5050,7 +5050,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1531,
         "schoolCapacity": 1814,
-        "percentageFreeSchoolMeals": "30",
+        "percentageFreeSchoolMeals": 30,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -5199,7 +5199,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1312,
         "schoolCapacity": 1862,
-        "percentageFreeSchoolMeals": "12",
+        "percentageFreeSchoolMeals": 12,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -5225,7 +5225,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 977,
         "schoolCapacity": 1458,
-        "percentageFreeSchoolMeals": "6",
+        "percentageFreeSchoolMeals": 6,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -5251,7 +5251,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1025,
         "schoolCapacity": 804,
-        "percentageFreeSchoolMeals": "23",
+        "percentageFreeSchoolMeals": 23,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -5277,7 +5277,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1274,
         "schoolCapacity": 1525,
-        "percentageFreeSchoolMeals": "16",
+        "percentageFreeSchoolMeals": 16,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -5303,7 +5303,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 2659,
         "schoolCapacity": 2302,
-        "percentageFreeSchoolMeals": "25",
+        "percentageFreeSchoolMeals": 25,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -5329,7 +5329,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 298,
         "schoolCapacity": 356,
-        "percentageFreeSchoolMeals": "2",
+        "percentageFreeSchoolMeals": 2,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -5355,7 +5355,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 925,
         "schoolCapacity": 727,
-        "percentageFreeSchoolMeals": "10",
+        "percentageFreeSchoolMeals": 10,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -5381,7 +5381,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1034,
         "schoolCapacity": 1515,
-        "percentageFreeSchoolMeals": "18",
+        "percentageFreeSchoolMeals": 18,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -5407,7 +5407,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 338,
         "schoolCapacity": 348,
-        "percentageFreeSchoolMeals": "10",
+        "percentageFreeSchoolMeals": 10,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -5633,7 +5633,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 248,
         "schoolCapacity": 273,
-        "percentageFreeSchoolMeals": "10",
+        "percentageFreeSchoolMeals": 10,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -5659,7 +5659,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 951,
         "schoolCapacity": 1109,
-        "percentageFreeSchoolMeals": "24",
+        "percentageFreeSchoolMeals": 24,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -5685,7 +5685,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 252,
         "schoolCapacity": 459,
-        "percentageFreeSchoolMeals": "27",
+        "percentageFreeSchoolMeals": 27,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -5711,7 +5711,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 310,
         "schoolCapacity": 754,
-        "percentageFreeSchoolMeals": "19",
+        "percentageFreeSchoolMeals": 19,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -5737,7 +5737,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 282,
         "schoolCapacity": 592,
-        "percentageFreeSchoolMeals": "26",
+        "percentageFreeSchoolMeals": 26,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -5763,7 +5763,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1885,
         "schoolCapacity": 2282,
-        "percentageFreeSchoolMeals": "1",
+        "percentageFreeSchoolMeals": 1,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -6044,7 +6044,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 306,
         "schoolCapacity": 555,
-        "percentageFreeSchoolMeals": "21",
+        "percentageFreeSchoolMeals": 21,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -6070,7 +6070,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 134,
         "schoolCapacity": 127,
-        "percentageFreeSchoolMeals": "18",
+        "percentageFreeSchoolMeals": 18,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -6096,7 +6096,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 380,
         "schoolCapacity": 301,
-        "percentageFreeSchoolMeals": "27",
+        "percentageFreeSchoolMeals": 27,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -6122,7 +6122,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1273,
         "schoolCapacity": 1960,
-        "percentageFreeSchoolMeals": "13",
+        "percentageFreeSchoolMeals": 13,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -6148,7 +6148,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1694,
         "schoolCapacity": 1606,
-        "percentageFreeSchoolMeals": "11",
+        "percentageFreeSchoolMeals": 11,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -6617,7 +6617,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 943,
         "schoolCapacity": 730,
-        "percentageFreeSchoolMeals": "17",
+        "percentageFreeSchoolMeals": 17,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -6643,7 +6643,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1550,
         "schoolCapacity": 1434,
-        "percentageFreeSchoolMeals": "26",
+        "percentageFreeSchoolMeals": 26,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -6669,7 +6669,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1160,
         "schoolCapacity": 2127,
-        "percentageFreeSchoolMeals": "16",
+        "percentageFreeSchoolMeals": 16,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -6695,7 +6695,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 879,
         "schoolCapacity": 1291,
-        "percentageFreeSchoolMeals": "22",
+        "percentageFreeSchoolMeals": 22,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -6721,7 +6721,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1386,
         "schoolCapacity": 1572,
-        "percentageFreeSchoolMeals": "9",
+        "percentageFreeSchoolMeals": 9,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -7131,7 +7131,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 511,
         "schoolCapacity": 649,
-        "percentageFreeSchoolMeals": "8",
+        "percentageFreeSchoolMeals": 8,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -7157,7 +7157,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1607,
         "schoolCapacity": 1352,
-        "percentageFreeSchoolMeals": "14",
+        "percentageFreeSchoolMeals": 14,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -7183,7 +7183,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 806,
         "schoolCapacity": 934,
-        "percentageFreeSchoolMeals": "15",
+        "percentageFreeSchoolMeals": 15,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -7464,7 +7464,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 3221,
         "schoolCapacity": 2918,
-        "percentageFreeSchoolMeals": "4",
+        "percentageFreeSchoolMeals": 4,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -7490,7 +7490,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1435,
         "schoolCapacity": 1218,
-        "percentageFreeSchoolMeals": "3",
+        "percentageFreeSchoolMeals": 3,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -7516,7 +7516,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 3612,
         "schoolCapacity": 2804,
-        "percentageFreeSchoolMeals": "28",
+        "percentageFreeSchoolMeals": 28,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -7542,7 +7542,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1005,
         "schoolCapacity": 2286,
-        "percentageFreeSchoolMeals": "14",
+        "percentageFreeSchoolMeals": 14,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -7568,7 +7568,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 976,
         "schoolCapacity": 988,
-        "percentageFreeSchoolMeals": "24",
+        "percentageFreeSchoolMeals": 24,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -7594,7 +7594,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1448,
         "schoolCapacity": 1976,
-        "percentageFreeSchoolMeals": "6",
+        "percentageFreeSchoolMeals": 6,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -7620,7 +7620,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 470,
         "schoolCapacity": 765,
-        "percentageFreeSchoolMeals": "22",
+        "percentageFreeSchoolMeals": 22,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -7646,7 +7646,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1593,
         "schoolCapacity": 1842,
-        "percentageFreeSchoolMeals": "14",
+        "percentageFreeSchoolMeals": 14,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -7672,7 +7672,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1493,
         "schoolCapacity": 2861,
-        "percentageFreeSchoolMeals": "18",
+        "percentageFreeSchoolMeals": 18,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -7887,7 +7887,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1111,
         "schoolCapacity": 1283,
-        "percentageFreeSchoolMeals": "26",
+        "percentageFreeSchoolMeals": 26,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -8323,7 +8323,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1759,
         "schoolCapacity": 1903,
-        "percentageFreeSchoolMeals": "29",
+        "percentageFreeSchoolMeals": 29,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -8349,7 +8349,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1376,
         "schoolCapacity": 1067,
-        "percentageFreeSchoolMeals": "6",
+        "percentageFreeSchoolMeals": 6,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -8375,7 +8375,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 900,
         "schoolCapacity": 1526,
-        "percentageFreeSchoolMeals": "14",
+        "percentageFreeSchoolMeals": 14,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -8401,7 +8401,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1429,
         "schoolCapacity": 2897,
-        "percentageFreeSchoolMeals": "30",
+        "percentageFreeSchoolMeals": 30,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -8427,7 +8427,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 465,
         "schoolCapacity": 608,
-        "percentageFreeSchoolMeals": "14",
+        "percentageFreeSchoolMeals": 14,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -8453,7 +8453,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 2896,
         "schoolCapacity": 2696,
-        "percentageFreeSchoolMeals": "3",
+        "percentageFreeSchoolMeals": 3,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -8479,7 +8479,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1050,
         "schoolCapacity": 1184,
-        "percentageFreeSchoolMeals": "29",
+        "percentageFreeSchoolMeals": 29,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -8760,7 +8760,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1827,
         "schoolCapacity": 1717,
-        "percentageFreeSchoolMeals": "12",
+        "percentageFreeSchoolMeals": 12,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -8786,7 +8786,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 486,
         "schoolCapacity": 579,
-        "percentageFreeSchoolMeals": "24",
+        "percentageFreeSchoolMeals": 24,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -8812,7 +8812,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1215,
         "schoolCapacity": 1428,
-        "percentageFreeSchoolMeals": "3",
+        "percentageFreeSchoolMeals": 3,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -8838,7 +8838,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 590,
         "schoolCapacity": 785,
-        "percentageFreeSchoolMeals": "7",
+        "percentageFreeSchoolMeals": 7,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -9039,7 +9039,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1451,
         "schoolCapacity": 1315,
-        "percentageFreeSchoolMeals": "5",
+        "percentageFreeSchoolMeals": 5,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -9065,7 +9065,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1059,
         "schoolCapacity": 2141,
-        "percentageFreeSchoolMeals": "23",
+        "percentageFreeSchoolMeals": 23,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -9091,7 +9091,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1333,
         "schoolCapacity": 2355,
-        "percentageFreeSchoolMeals": "14",
+        "percentageFreeSchoolMeals": 14,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -9117,7 +9117,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1840,
         "schoolCapacity": 1611,
-        "percentageFreeSchoolMeals": "22",
+        "percentageFreeSchoolMeals": 22,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -9143,7 +9143,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 844,
         "schoolCapacity": 695,
-        "percentageFreeSchoolMeals": "11",
+        "percentageFreeSchoolMeals": 11,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -9169,7 +9169,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1113,
         "schoolCapacity": 1522,
-        "percentageFreeSchoolMeals": "27",
+        "percentageFreeSchoolMeals": 27,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -9195,7 +9195,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1157,
         "schoolCapacity": 1429,
-        "percentageFreeSchoolMeals": "7",
+        "percentageFreeSchoolMeals": 7,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -9221,7 +9221,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 508,
         "schoolCapacity": 610,
-        "percentageFreeSchoolMeals": "21",
+        "percentageFreeSchoolMeals": 21,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -9247,7 +9247,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 499,
         "schoolCapacity": 490,
-        "percentageFreeSchoolMeals": "25",
+        "percentageFreeSchoolMeals": 25,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -9580,7 +9580,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 652,
         "schoolCapacity": 672,
-        "percentageFreeSchoolMeals": "5",
+        "percentageFreeSchoolMeals": 5,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -9935,7 +9935,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 2573,
         "schoolCapacity": 2023,
-        "percentageFreeSchoolMeals": "3",
+        "percentageFreeSchoolMeals": 3,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -9961,7 +9961,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 867,
         "schoolCapacity": 1008,
-        "percentageFreeSchoolMeals": "19",
+        "percentageFreeSchoolMeals": 19,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -9987,7 +9987,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1998,
         "schoolCapacity": 2033,
-        "percentageFreeSchoolMeals": "5",
+        "percentageFreeSchoolMeals": 5,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -10013,7 +10013,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 996,
         "schoolCapacity": 1200,
-        "percentageFreeSchoolMeals": "2",
+        "percentageFreeSchoolMeals": 2,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -10039,7 +10039,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 284,
         "schoolCapacity": 271,
-        "percentageFreeSchoolMeals": "30",
+        "percentageFreeSchoolMeals": 30,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -10065,7 +10065,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 793,
         "schoolCapacity": 1400,
-        "percentageFreeSchoolMeals": "21",
+        "percentageFreeSchoolMeals": 21,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -10413,7 +10413,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1630,
         "schoolCapacity": 1841,
-        "percentageFreeSchoolMeals": "24",
+        "percentageFreeSchoolMeals": 24,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -10439,7 +10439,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 3205,
         "schoolCapacity": 2699,
-        "percentageFreeSchoolMeals": "4",
+        "percentageFreeSchoolMeals": 4,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -10465,7 +10465,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 2403,
         "schoolCapacity": 2395,
-        "percentageFreeSchoolMeals": "20",
+        "percentageFreeSchoolMeals": 20,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -10491,7 +10491,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1317,
         "schoolCapacity": 1441,
-        "percentageFreeSchoolMeals": "21",
+        "percentageFreeSchoolMeals": 21,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -10517,7 +10517,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 3033,
         "schoolCapacity": 2990,
-        "percentageFreeSchoolMeals": "17",
+        "percentageFreeSchoolMeals": 17,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -10721,7 +10721,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 883,
         "schoolCapacity": 736,
-        "percentageFreeSchoolMeals": "28",
+        "percentageFreeSchoolMeals": 28,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -10747,7 +10747,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1636,
         "schoolCapacity": 2167,
-        "percentageFreeSchoolMeals": "30",
+        "percentageFreeSchoolMeals": 30,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -10773,7 +10773,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1378,
         "schoolCapacity": 2153,
-        "percentageFreeSchoolMeals": "18",
+        "percentageFreeSchoolMeals": 18,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -10799,7 +10799,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 910,
         "schoolCapacity": 826,
-        "percentageFreeSchoolMeals": "8",
+        "percentageFreeSchoolMeals": 8,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -10825,7 +10825,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 877,
         "schoolCapacity": 735,
-        "percentageFreeSchoolMeals": "7",
+        "percentageFreeSchoolMeals": 7,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -10851,7 +10851,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 529,
         "schoolCapacity": 677,
-        "percentageFreeSchoolMeals": "27",
+        "percentageFreeSchoolMeals": 27,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -10877,7 +10877,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 955,
         "schoolCapacity": 1569,
-        "percentageFreeSchoolMeals": "16",
+        "percentageFreeSchoolMeals": 16,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -11222,7 +11222,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 959,
         "schoolCapacity": 1171,
-        "percentageFreeSchoolMeals": "23",
+        "percentageFreeSchoolMeals": 23,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -11382,7 +11382,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 3514,
         "schoolCapacity": 2914,
-        "percentageFreeSchoolMeals": "11",
+        "percentageFreeSchoolMeals": 11,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -11649,7 +11649,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1043,
         "schoolCapacity": 1230,
-        "percentageFreeSchoolMeals": "13",
+        "percentageFreeSchoolMeals": 13,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -11675,7 +11675,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1945,
         "schoolCapacity": 1906,
-        "percentageFreeSchoolMeals": "23",
+        "percentageFreeSchoolMeals": 23,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -11923,7 +11923,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 741,
         "schoolCapacity": 653,
-        "percentageFreeSchoolMeals": "25",
+        "percentageFreeSchoolMeals": 25,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -11949,7 +11949,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 82,
         "schoolCapacity": 173,
-        "percentageFreeSchoolMeals": "27",
+        "percentageFreeSchoolMeals": 27,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -11975,7 +11975,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1287,
         "schoolCapacity": 1530,
-        "percentageFreeSchoolMeals": "2",
+        "percentageFreeSchoolMeals": 2,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -12001,7 +12001,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 345,
         "schoolCapacity": 270,
-        "percentageFreeSchoolMeals": "13",
+        "percentageFreeSchoolMeals": 13,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -12027,7 +12027,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 823,
         "schoolCapacity": 1145,
-        "percentageFreeSchoolMeals": "23",
+        "percentageFreeSchoolMeals": 23,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -12360,7 +12360,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 811,
         "schoolCapacity": 1486,
-        "percentageFreeSchoolMeals": "24",
+        "percentageFreeSchoolMeals": 24,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -12386,7 +12386,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 2890,
         "schoolCapacity": 2552,
-        "percentageFreeSchoolMeals": "27",
+        "percentageFreeSchoolMeals": 27,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -12412,7 +12412,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 912,
         "schoolCapacity": 1284,
-        "percentageFreeSchoolMeals": "6",
+        "percentageFreeSchoolMeals": 6,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -12438,7 +12438,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 961,
         "schoolCapacity": 1254,
-        "percentageFreeSchoolMeals": "9",
+        "percentageFreeSchoolMeals": 9,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -12464,7 +12464,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1540,
         "schoolCapacity": 1837,
-        "percentageFreeSchoolMeals": "14",
+        "percentageFreeSchoolMeals": 14,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -12490,7 +12490,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1026,
         "schoolCapacity": 909,
-        "percentageFreeSchoolMeals": "8",
+        "percentageFreeSchoolMeals": 8,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -12516,7 +12516,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1647,
         "schoolCapacity": 2912,
-        "percentageFreeSchoolMeals": "24",
+        "percentageFreeSchoolMeals": 24,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -12542,7 +12542,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2121,
         "schoolCapacity": 2013,
-        "percentageFreeSchoolMeals": "19",
+        "percentageFreeSchoolMeals": 19,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -12568,7 +12568,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 2824,
         "schoolCapacity": 2682,
-        "percentageFreeSchoolMeals": "14",
+        "percentageFreeSchoolMeals": 14,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -12594,7 +12594,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2856,
         "schoolCapacity": 2825,
-        "percentageFreeSchoolMeals": "29",
+        "percentageFreeSchoolMeals": 29,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -12710,7 +12710,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 539,
         "schoolCapacity": 924,
-        "percentageFreeSchoolMeals": "15",
+        "percentageFreeSchoolMeals": 15,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -12999,7 +12999,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 2324,
         "schoolCapacity": 2578,
-        "percentageFreeSchoolMeals": "29",
+        "percentageFreeSchoolMeals": 29,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -13025,7 +13025,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1307,
         "schoolCapacity": 1948,
-        "percentageFreeSchoolMeals": "2",
+        "percentageFreeSchoolMeals": 2,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -13051,7 +13051,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1080,
         "schoolCapacity": 1325,
-        "percentageFreeSchoolMeals": "19",
+        "percentageFreeSchoolMeals": 19,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -13077,7 +13077,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 385,
         "schoolCapacity": 937,
-        "percentageFreeSchoolMeals": "16",
+        "percentageFreeSchoolMeals": 16,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -13103,7 +13103,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1424,
         "schoolCapacity": 1389,
-        "percentageFreeSchoolMeals": "11",
+        "percentageFreeSchoolMeals": 11,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -13129,7 +13129,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 2501,
         "schoolCapacity": 2335,
-        "percentageFreeSchoolMeals": "28",
+        "percentageFreeSchoolMeals": 28,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -13155,7 +13155,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 511,
         "schoolCapacity": 674,
-        "percentageFreeSchoolMeals": "16",
+        "percentageFreeSchoolMeals": 16,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -13181,7 +13181,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1896,
         "schoolCapacity": 1864,
-        "percentageFreeSchoolMeals": "10",
+        "percentageFreeSchoolMeals": 10,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -13207,7 +13207,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1245,
         "schoolCapacity": 1499,
-        "percentageFreeSchoolMeals": "22",
+        "percentageFreeSchoolMeals": 22,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -13477,7 +13477,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 684,
         "schoolCapacity": 693,
-        "percentageFreeSchoolMeals": "10",
+        "percentageFreeSchoolMeals": 10,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -13503,7 +13503,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 907,
         "schoolCapacity": 1026,
-        "percentageFreeSchoolMeals": "23",
+        "percentageFreeSchoolMeals": 23,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -13529,7 +13529,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 2841,
         "schoolCapacity": 2543,
-        "percentageFreeSchoolMeals": "30",
+        "percentageFreeSchoolMeals": 30,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -13555,7 +13555,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 333,
         "schoolCapacity": 788,
-        "percentageFreeSchoolMeals": "19",
+        "percentageFreeSchoolMeals": 19,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -13581,7 +13581,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1178,
         "schoolCapacity": 2364,
-        "percentageFreeSchoolMeals": "5",
+        "percentageFreeSchoolMeals": 5,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -13607,7 +13607,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 745,
         "schoolCapacity": 1690,
-        "percentageFreeSchoolMeals": "29",
+        "percentageFreeSchoolMeals": 29,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -13633,7 +13633,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 203,
         "schoolCapacity": 343,
-        "percentageFreeSchoolMeals": "6",
+        "percentageFreeSchoolMeals": 6,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -13659,7 +13659,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 2074,
         "schoolCapacity": 1704,
-        "percentageFreeSchoolMeals": "5",
+        "percentageFreeSchoolMeals": 5,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -13685,7 +13685,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1102,
         "schoolCapacity": 1206,
-        "percentageFreeSchoolMeals": "7",
+        "percentageFreeSchoolMeals": 7,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -13711,7 +13711,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1156,
         "schoolCapacity": 1827,
-        "percentageFreeSchoolMeals": "12",
+        "percentageFreeSchoolMeals": 12,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -13737,7 +13737,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 921,
         "schoolCapacity": 877,
-        "percentageFreeSchoolMeals": "19",
+        "percentageFreeSchoolMeals": 19,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -14007,7 +14007,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1915,
         "schoolCapacity": 2702,
-        "percentageFreeSchoolMeals": "18",
+        "percentageFreeSchoolMeals": 18,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -14033,7 +14033,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1474,
         "schoolCapacity": 2254,
-        "percentageFreeSchoolMeals": "16",
+        "percentageFreeSchoolMeals": 16,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -14059,7 +14059,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 65,
         "schoolCapacity": 126,
-        "percentageFreeSchoolMeals": "27",
+        "percentageFreeSchoolMeals": 27,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -14085,7 +14085,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1399,
         "schoolCapacity": 1107,
-        "percentageFreeSchoolMeals": "27",
+        "percentageFreeSchoolMeals": 27,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -14111,7 +14111,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2534,
         "schoolCapacity": 2265,
-        "percentageFreeSchoolMeals": "22",
+        "percentageFreeSchoolMeals": 22,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -14137,7 +14137,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 2656,
         "schoolCapacity": 2938,
-        "percentageFreeSchoolMeals": "9",
+        "percentageFreeSchoolMeals": 9,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -14163,7 +14163,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1083,
         "schoolCapacity": 1457,
-        "percentageFreeSchoolMeals": "12",
+        "percentageFreeSchoolMeals": 12,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -14189,7 +14189,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 787,
         "schoolCapacity": 1634,
-        "percentageFreeSchoolMeals": "1",
+        "percentageFreeSchoolMeals": 1,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -14812,7 +14812,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 3052,
         "schoolCapacity": 2511,
-        "percentageFreeSchoolMeals": "20",
+        "percentageFreeSchoolMeals": 20,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -14972,7 +14972,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2490,
         "schoolCapacity": 2572,
-        "percentageFreeSchoolMeals": "15",
+        "percentageFreeSchoolMeals": 15,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -15165,7 +15165,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1202,
         "schoolCapacity": 1700,
-        "percentageFreeSchoolMeals": "16",
+        "percentageFreeSchoolMeals": 16,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -15303,7 +15303,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1943,
         "schoolCapacity": 1722,
-        "percentageFreeSchoolMeals": "5",
+        "percentageFreeSchoolMeals": 5,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -15430,7 +15430,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 460,
         "schoolCapacity": 491,
-        "percentageFreeSchoolMeals": "1",
+        "percentageFreeSchoolMeals": 1,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -15744,7 +15744,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 899,
         "schoolCapacity": 1168,
-        "percentageFreeSchoolMeals": "14",
+        "percentageFreeSchoolMeals": 14,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -15970,7 +15970,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 3050,
         "schoolCapacity": 2380,
-        "percentageFreeSchoolMeals": "21",
+        "percentageFreeSchoolMeals": 21,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -16284,7 +16284,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1349,
         "schoolCapacity": 1285,
-        "percentageFreeSchoolMeals": "9",
+        "percentageFreeSchoolMeals": 9,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -16573,7 +16573,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 615,
         "schoolCapacity": 1484,
-        "percentageFreeSchoolMeals": "5",
+        "percentageFreeSchoolMeals": 5,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -16599,7 +16599,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 621,
         "schoolCapacity": 698,
-        "percentageFreeSchoolMeals": "23",
+        "percentageFreeSchoolMeals": 23,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -16625,7 +16625,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1312,
         "schoolCapacity": 1017,
-        "percentageFreeSchoolMeals": "23",
+        "percentageFreeSchoolMeals": 23,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -16651,7 +16651,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1279,
         "schoolCapacity": 1489,
-        "percentageFreeSchoolMeals": "2",
+        "percentageFreeSchoolMeals": 2,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -16677,7 +16677,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 131,
         "schoolCapacity": 178,
-        "percentageFreeSchoolMeals": "19",
+        "percentageFreeSchoolMeals": 19,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -16703,7 +16703,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1522,
         "schoolCapacity": 1274,
-        "percentageFreeSchoolMeals": "18",
+        "percentageFreeSchoolMeals": 18,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -16729,7 +16729,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 188,
         "schoolCapacity": 356,
-        "percentageFreeSchoolMeals": "23",
+        "percentageFreeSchoolMeals": 23,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -16755,7 +16755,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1581,
         "schoolCapacity": 1427,
-        "percentageFreeSchoolMeals": "28",
+        "percentageFreeSchoolMeals": 28,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -16781,7 +16781,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1667,
         "schoolCapacity": 2347,
-        "percentageFreeSchoolMeals": "23",
+        "percentageFreeSchoolMeals": 23,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -17095,7 +17095,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 740,
         "schoolCapacity": 721,
-        "percentageFreeSchoolMeals": "16",
+        "percentageFreeSchoolMeals": 16,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -17310,7 +17310,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 753,
         "schoolCapacity": 1006,
-        "percentageFreeSchoolMeals": "8",
+        "percentageFreeSchoolMeals": 8,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -17635,7 +17635,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 206,
         "schoolCapacity": 397,
-        "percentageFreeSchoolMeals": "19",
+        "percentageFreeSchoolMeals": 19,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -17806,7 +17806,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 2866,
         "schoolCapacity": 2559,
-        "percentageFreeSchoolMeals": "19",
+        "percentageFreeSchoolMeals": 19,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -18153,7 +18153,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1855,
         "schoolCapacity": 1885,
-        "percentageFreeSchoolMeals": "22",
+        "percentageFreeSchoolMeals": 22,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -18346,7 +18346,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 3010,
         "schoolCapacity": 2321,
-        "percentageFreeSchoolMeals": "17",
+        "percentageFreeSchoolMeals": 17,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -18583,7 +18583,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 2133,
         "schoolCapacity": 2240,
-        "percentageFreeSchoolMeals": "7",
+        "percentageFreeSchoolMeals": 7,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -18853,7 +18853,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 80,
         "schoolCapacity": 127,
-        "percentageFreeSchoolMeals": "6",
+        "percentageFreeSchoolMeals": 6,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -19134,7 +19134,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 328,
         "schoolCapacity": 433,
-        "percentageFreeSchoolMeals": "2",
+        "percentageFreeSchoolMeals": 2,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -19160,7 +19160,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1680,
         "schoolCapacity": 1425,
-        "percentageFreeSchoolMeals": "2",
+        "percentageFreeSchoolMeals": 2,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -19186,7 +19186,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 151,
         "schoolCapacity": 168,
-        "percentageFreeSchoolMeals": "28",
+        "percentageFreeSchoolMeals": 28,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -19212,7 +19212,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1403,
         "schoolCapacity": 1491,
-        "percentageFreeSchoolMeals": "2",
+        "percentageFreeSchoolMeals": 2,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -19238,7 +19238,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1116,
         "schoolCapacity": 896,
-        "percentageFreeSchoolMeals": "10",
+        "percentageFreeSchoolMeals": 10,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -19264,7 +19264,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 295,
         "schoolCapacity": 399,
-        "percentageFreeSchoolMeals": "27",
+        "percentageFreeSchoolMeals": 27,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -19290,7 +19290,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 347,
         "schoolCapacity": 720,
-        "percentageFreeSchoolMeals": "5",
+        "percentageFreeSchoolMeals": 5,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -19316,7 +19316,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 207,
         "schoolCapacity": 300,
-        "percentageFreeSchoolMeals": "26",
+        "percentageFreeSchoolMeals": 26,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -19342,7 +19342,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 3286,
         "schoolCapacity": 2641,
-        "percentageFreeSchoolMeals": "7",
+        "percentageFreeSchoolMeals": 7,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -19368,7 +19368,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 900,
         "schoolCapacity": 1286,
-        "percentageFreeSchoolMeals": "7",
+        "percentageFreeSchoolMeals": 7,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -19394,7 +19394,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 2328,
         "schoolCapacity": 2137,
-        "percentageFreeSchoolMeals": "26",
+        "percentageFreeSchoolMeals": 26,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -19686,7 +19686,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1910,
         "schoolCapacity": 2682,
-        "percentageFreeSchoolMeals": "28",
+        "percentageFreeSchoolMeals": 28,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -19712,7 +19712,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 2724,
         "schoolCapacity": 2417,
-        "percentageFreeSchoolMeals": "8",
+        "percentageFreeSchoolMeals": 8,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -19982,7 +19982,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 473,
         "schoolCapacity": 397,
-        "percentageFreeSchoolMeals": "9",
+        "percentageFreeSchoolMeals": 9,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -20008,7 +20008,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1471,
         "schoolCapacity": 2971,
-        "percentageFreeSchoolMeals": "10",
+        "percentageFreeSchoolMeals": 10,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -20034,7 +20034,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1651,
         "schoolCapacity": 1692,
-        "percentageFreeSchoolMeals": "22",
+        "percentageFreeSchoolMeals": 22,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -20060,7 +20060,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 822,
         "schoolCapacity": 1976,
-        "percentageFreeSchoolMeals": "15",
+        "percentageFreeSchoolMeals": 15,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -20086,7 +20086,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 714,
         "schoolCapacity": 666,
-        "percentageFreeSchoolMeals": "26",
+        "percentageFreeSchoolMeals": 26,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -20112,7 +20112,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1623,
         "schoolCapacity": 2600,
-        "percentageFreeSchoolMeals": "3",
+        "percentageFreeSchoolMeals": 3,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -20138,7 +20138,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 658,
         "schoolCapacity": 666,
-        "percentageFreeSchoolMeals": "30",
+        "percentageFreeSchoolMeals": 30,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -20331,7 +20331,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1087,
         "schoolCapacity": 1742,
-        "percentageFreeSchoolMeals": "5",
+        "percentageFreeSchoolMeals": 5,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -20357,7 +20357,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1163,
         "schoolCapacity": 2242,
-        "percentageFreeSchoolMeals": "30",
+        "percentageFreeSchoolMeals": 30,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -20383,7 +20383,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1908,
         "schoolCapacity": 1718,
-        "percentageFreeSchoolMeals": "3",
+        "percentageFreeSchoolMeals": 3,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -20409,7 +20409,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1104,
         "schoolCapacity": 1855,
-        "percentageFreeSchoolMeals": "6",
+        "percentageFreeSchoolMeals": 6,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -20435,7 +20435,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 2514,
         "schoolCapacity": 2594,
-        "percentageFreeSchoolMeals": "13",
+        "percentageFreeSchoolMeals": 13,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -20461,7 +20461,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1955,
         "schoolCapacity": 2261,
-        "percentageFreeSchoolMeals": "23",
+        "percentageFreeSchoolMeals": 23,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -20487,7 +20487,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1012,
         "schoolCapacity": 1288,
-        "percentageFreeSchoolMeals": "10",
+        "percentageFreeSchoolMeals": 10,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -20513,7 +20513,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 831,
         "schoolCapacity": 1373,
-        "percentageFreeSchoolMeals": "18",
+        "percentageFreeSchoolMeals": 18,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -20640,7 +20640,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 998,
         "schoolCapacity": 1248,
-        "percentageFreeSchoolMeals": "13",
+        "percentageFreeSchoolMeals": 13,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -20899,7 +20899,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1075,
         "schoolCapacity": 1221,
-        "percentageFreeSchoolMeals": "18",
+        "percentageFreeSchoolMeals": 18,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -20925,7 +20925,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 3537,
         "schoolCapacity": 2795,
-        "percentageFreeSchoolMeals": "24",
+        "percentageFreeSchoolMeals": 24,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -20951,7 +20951,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 899,
         "schoolCapacity": 1350,
-        "percentageFreeSchoolMeals": "13",
+        "percentageFreeSchoolMeals": 13,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -20977,7 +20977,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 604,
         "schoolCapacity": 1445,
-        "percentageFreeSchoolMeals": "5",
+        "percentageFreeSchoolMeals": 5,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -21003,7 +21003,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 838,
         "schoolCapacity": 654,
-        "percentageFreeSchoolMeals": "13",
+        "percentageFreeSchoolMeals": 13,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -21029,7 +21029,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1590,
         "schoolCapacity": 2783,
-        "percentageFreeSchoolMeals": "28",
+        "percentageFreeSchoolMeals": 28,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -21055,7 +21055,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 2102,
         "schoolCapacity": 1809,
-        "percentageFreeSchoolMeals": "11",
+        "percentageFreeSchoolMeals": 11,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -21081,7 +21081,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 696,
         "schoolCapacity": 622,
-        "percentageFreeSchoolMeals": "24",
+        "percentageFreeSchoolMeals": 24,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -21107,7 +21107,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 2173,
         "schoolCapacity": 2086,
-        "percentageFreeSchoolMeals": "27",
+        "percentageFreeSchoolMeals": 27,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -21133,7 +21133,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 2732,
         "schoolCapacity": 2533,
-        "percentageFreeSchoolMeals": "14",
+        "percentageFreeSchoolMeals": 14,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -21159,7 +21159,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 308,
         "schoolCapacity": 262,
-        "percentageFreeSchoolMeals": "6",
+        "percentageFreeSchoolMeals": 6,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -21316,7 +21316,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 2288,
         "schoolCapacity": 1995,
-        "percentageFreeSchoolMeals": "15",
+        "percentageFreeSchoolMeals": 15,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -21342,7 +21342,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1323,
         "schoolCapacity": 2261,
-        "percentageFreeSchoolMeals": "11",
+        "percentageFreeSchoolMeals": 11,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -21368,7 +21368,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1697,
         "schoolCapacity": 2319,
-        "percentageFreeSchoolMeals": "19",
+        "percentageFreeSchoolMeals": 19,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -21394,7 +21394,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1047,
         "schoolCapacity": 2383,
-        "percentageFreeSchoolMeals": "23",
+        "percentageFreeSchoolMeals": 23,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -21420,7 +21420,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 882,
         "schoolCapacity": 700,
-        "percentageFreeSchoolMeals": "15",
+        "percentageFreeSchoolMeals": 15,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -21446,7 +21446,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 908,
         "schoolCapacity": 1372,
-        "percentageFreeSchoolMeals": "30",
+        "percentageFreeSchoolMeals": 30,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -21472,7 +21472,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 581,
         "schoolCapacity": 1285,
-        "percentageFreeSchoolMeals": "2",
+        "percentageFreeSchoolMeals": 2,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -21498,7 +21498,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 482,
         "schoolCapacity": 1084,
-        "percentageFreeSchoolMeals": "6",
+        "percentageFreeSchoolMeals": 6,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -21524,7 +21524,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2678,
         "schoolCapacity": 2978,
-        "percentageFreeSchoolMeals": "15",
+        "percentageFreeSchoolMeals": 15,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -21550,7 +21550,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1530,
         "schoolCapacity": 1534,
-        "percentageFreeSchoolMeals": "15",
+        "percentageFreeSchoolMeals": 15,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -21576,7 +21576,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 826,
         "schoolCapacity": 1626,
-        "percentageFreeSchoolMeals": "24",
+        "percentageFreeSchoolMeals": 24,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -21780,7 +21780,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 494,
         "schoolCapacity": 488,
-        "percentageFreeSchoolMeals": "5",
+        "percentageFreeSchoolMeals": 5,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -21806,7 +21806,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 370,
         "schoolCapacity": 430,
-        "percentageFreeSchoolMeals": "1",
+        "percentageFreeSchoolMeals": 1,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -21832,7 +21832,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 165,
         "schoolCapacity": 213,
-        "percentageFreeSchoolMeals": "8",
+        "percentageFreeSchoolMeals": 8,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -21858,7 +21858,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1769,
         "schoolCapacity": 2425,
-        "percentageFreeSchoolMeals": "13",
+        "percentageFreeSchoolMeals": 13,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -21884,7 +21884,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1129,
         "schoolCapacity": 1779,
-        "percentageFreeSchoolMeals": "3",
+        "percentageFreeSchoolMeals": 3,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -21910,7 +21910,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1255,
         "schoolCapacity": 1377,
-        "percentageFreeSchoolMeals": "30",
+        "percentageFreeSchoolMeals": 30,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -22235,7 +22235,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1053,
         "schoolCapacity": 2328,
-        "percentageFreeSchoolMeals": "8",
+        "percentageFreeSchoolMeals": 8,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -22261,7 +22261,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1643,
         "schoolCapacity": 1435,
-        "percentageFreeSchoolMeals": "9",
+        "percentageFreeSchoolMeals": 9,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -22287,7 +22287,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1290,
         "schoolCapacity": 1950,
-        "percentageFreeSchoolMeals": "15",
+        "percentageFreeSchoolMeals": 15,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -22313,7 +22313,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 354,
         "schoolCapacity": 533,
-        "percentageFreeSchoolMeals": "29",
+        "percentageFreeSchoolMeals": 29,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -22671,7 +22671,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1662,
         "schoolCapacity": 2132,
-        "percentageFreeSchoolMeals": "28",
+        "percentageFreeSchoolMeals": 28,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -22697,7 +22697,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 955,
         "schoolCapacity": 2013,
-        "percentageFreeSchoolMeals": "4",
+        "percentageFreeSchoolMeals": 4,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -22723,7 +22723,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1006,
         "schoolCapacity": 1244,
-        "percentageFreeSchoolMeals": "6",
+        "percentageFreeSchoolMeals": 6,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -22749,7 +22749,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1368,
         "schoolCapacity": 1160,
-        "percentageFreeSchoolMeals": "18",
+        "percentageFreeSchoolMeals": 18,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -23130,7 +23130,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1171,
         "schoolCapacity": 942,
-        "percentageFreeSchoolMeals": "22",
+        "percentageFreeSchoolMeals": 22,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -23156,7 +23156,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1312,
         "schoolCapacity": 1251,
-        "percentageFreeSchoolMeals": "6",
+        "percentageFreeSchoolMeals": 6,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -23182,7 +23182,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1600,
         "schoolCapacity": 1723,
-        "percentageFreeSchoolMeals": "23",
+        "percentageFreeSchoolMeals": 23,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -23208,7 +23208,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1592,
         "schoolCapacity": 2485,
-        "percentageFreeSchoolMeals": "27",
+        "percentageFreeSchoolMeals": 27,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -23234,7 +23234,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1085,
         "schoolCapacity": 1157,
-        "percentageFreeSchoolMeals": "19",
+        "percentageFreeSchoolMeals": 19,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -23260,7 +23260,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2410,
         "schoolCapacity": 2385,
-        "percentageFreeSchoolMeals": "22",
+        "percentageFreeSchoolMeals": 22,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -23286,7 +23286,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 557,
         "schoolCapacity": 1164,
-        "percentageFreeSchoolMeals": "27",
+        "percentageFreeSchoolMeals": 27,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -23435,7 +23435,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 279,
         "schoolCapacity": 391,
-        "percentageFreeSchoolMeals": "20",
+        "percentageFreeSchoolMeals": 20,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -23461,7 +23461,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 2271,
         "schoolCapacity": 2251,
-        "percentageFreeSchoolMeals": "22",
+        "percentageFreeSchoolMeals": 22,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -23487,7 +23487,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 256,
         "schoolCapacity": 334,
-        "percentageFreeSchoolMeals": "29",
+        "percentageFreeSchoolMeals": 29,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -23812,7 +23812,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 456,
         "schoolCapacity": 622,
-        "percentageFreeSchoolMeals": "15",
+        "percentageFreeSchoolMeals": 15,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -23838,7 +23838,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 2890,
         "schoolCapacity": 2980,
-        "percentageFreeSchoolMeals": "12",
+        "percentageFreeSchoolMeals": 12,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -23864,7 +23864,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 87,
         "schoolCapacity": 136,
-        "percentageFreeSchoolMeals": "17",
+        "percentageFreeSchoolMeals": 17,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -23890,7 +23890,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 857,
         "schoolCapacity": 1066,
-        "percentageFreeSchoolMeals": "17",
+        "percentageFreeSchoolMeals": 17,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -23916,7 +23916,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 2885,
         "schoolCapacity": 2314,
-        "percentageFreeSchoolMeals": "13",
+        "percentageFreeSchoolMeals": 13,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -23942,7 +23942,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2870,
         "schoolCapacity": 2297,
-        "percentageFreeSchoolMeals": "21",
+        "percentageFreeSchoolMeals": 21,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -23968,7 +23968,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1320,
         "schoolCapacity": 2274,
-        "percentageFreeSchoolMeals": "20",
+        "percentageFreeSchoolMeals": 20,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -24304,7 +24304,7 @@
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1098,
         "schoolCapacity": 866,
-        "percentageFreeSchoolMeals": "6",
+        "percentageFreeSchoolMeals": 6,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -24330,7 +24330,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 796,
         "schoolCapacity": 1750,
-        "percentageFreeSchoolMeals": "22",
+        "percentageFreeSchoolMeals": 22,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -24356,7 +24356,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1045,
         "schoolCapacity": 1557,
-        "percentageFreeSchoolMeals": "8",
+        "percentageFreeSchoolMeals": 8,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -24382,7 +24382,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 2121,
         "schoolCapacity": 1902,
-        "percentageFreeSchoolMeals": "3",
+        "percentageFreeSchoolMeals": 3,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -24408,7 +24408,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 827,
         "schoolCapacity": 655,
-        "percentageFreeSchoolMeals": "2",
+        "percentageFreeSchoolMeals": 2,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -24434,7 +24434,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1053,
         "schoolCapacity": 1530,
-        "percentageFreeSchoolMeals": "24",
+        "percentageFreeSchoolMeals": 24,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -24460,7 +24460,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 350,
         "schoolCapacity": 298,
-        "percentageFreeSchoolMeals": "16",
+        "percentageFreeSchoolMeals": 16,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -24653,7 +24653,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1347,
         "schoolCapacity": 1468,
-        "percentageFreeSchoolMeals": "1",
+        "percentageFreeSchoolMeals": 1,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -24679,7 +24679,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 155,
         "schoolCapacity": 173,
-        "percentageFreeSchoolMeals": "6",
+        "percentageFreeSchoolMeals": 6,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -24705,7 +24705,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 985,
         "schoolCapacity": 1991,
-        "percentageFreeSchoolMeals": "5",
+        "percentageFreeSchoolMeals": 5,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -24731,7 +24731,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 3399,
         "schoolCapacity": 2667,
-        "percentageFreeSchoolMeals": "8",
+        "percentageFreeSchoolMeals": 8,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -24757,7 +24757,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 370,
         "schoolCapacity": 315,
-        "percentageFreeSchoolMeals": "17",
+        "percentageFreeSchoolMeals": 17,
         "ageRange": {
           "minimum": 5,
           "maximum": 11
@@ -24783,7 +24783,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 434,
         "schoolCapacity": 945,
-        "percentageFreeSchoolMeals": "27",
+        "percentageFreeSchoolMeals": 27,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -24809,7 +24809,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 264,
         "schoolCapacity": 653,
-        "percentageFreeSchoolMeals": "24",
+        "percentageFreeSchoolMeals": 24,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -24835,7 +24835,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1268,
         "schoolCapacity": 2712,
-        "percentageFreeSchoolMeals": "2",
+        "percentageFreeSchoolMeals": 2,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -24861,7 +24861,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 2083,
         "schoolCapacity": 2996,
-        "percentageFreeSchoolMeals": "12",
+        "percentageFreeSchoolMeals": 12,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -25054,7 +25054,7 @@
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 546,
         "schoolCapacity": 508,
-        "percentageFreeSchoolMeals": "13",
+        "percentageFreeSchoolMeals": 13,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -25080,7 +25080,7 @@
         "phaseOfEducation": "Primary",
         "numberOfPupils": 2042,
         "schoolCapacity": 1768,
-        "percentageFreeSchoolMeals": "4",
+        "percentageFreeSchoolMeals": 4,
         "ageRange": {
           "minimum": 4,
           "maximum": 11
@@ -25106,7 +25106,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 625,
         "schoolCapacity": 644,
-        "percentageFreeSchoolMeals": "11",
+        "percentageFreeSchoolMeals": 11,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -25132,7 +25132,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1878,
         "schoolCapacity": 1792,
-        "percentageFreeSchoolMeals": "5",
+        "percentageFreeSchoolMeals": 5,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -25158,7 +25158,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 585,
         "schoolCapacity": 1454,
-        "percentageFreeSchoolMeals": "2",
+        "percentageFreeSchoolMeals": 2,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -25184,7 +25184,7 @@
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 388,
         "schoolCapacity": 606,
-        "percentageFreeSchoolMeals": "2",
+        "percentageFreeSchoolMeals": 2,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -25210,7 +25210,7 @@
         "phaseOfEducation": "All-through",
         "numberOfPupils": 528,
         "schoolCapacity": 1066,
-        "percentageFreeSchoolMeals": "8",
+        "percentageFreeSchoolMeals": 8,
         "ageRange": {
           "minimum": 11,
           "maximum": 18
@@ -25236,7 +25236,7 @@
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 167,
         "schoolCapacity": 256,
-        "percentageFreeSchoolMeals": "24",
+        "percentageFreeSchoolMeals": 24,
         "ageRange": {
           "minimum": 11,
           "maximum": 16
@@ -25262,7 +25262,7 @@
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 3148,
         "schoolCapacity": 2703,
-        "percentageFreeSchoolMeals": "17",
+        "percentageFreeSchoolMeals": 17,
         "ageRange": {
           "minimum": 11,
           "maximum": 16

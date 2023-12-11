@@ -89,4 +89,19 @@ public class StringExtensionsTests
         var result = input.ParseAsNullableInt();
         result.Should().Be(expected);
     }
+
+    [Theory]
+    [InlineData("0", 0D)]
+    [InlineData("1", 1D)]
+    [InlineData("1.5", 1.5)]
+    [InlineData("1000", 1000D)]
+    [InlineData("99.99", 99.99)]
+    [InlineData("0.01", 0.01)]
+    [InlineData("", null)]
+    [InlineData("test", null)]
+    public void ParseAsNullableDouble_should_return_correctly_parsed_double(string? input, double? expected)
+    {
+        var result = input.ParseAsNullableDouble();
+        result.Should().BeApproximately(expected, 0.01);
+    }
 }

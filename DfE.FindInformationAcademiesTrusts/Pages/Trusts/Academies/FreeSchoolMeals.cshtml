@@ -26,7 +26,7 @@
           <td class="govuk-body govuk-table__cell" data-sort-value="@academy.PercentageFreeSchoolMeals">
             @if (academy.PercentageFreeSchoolMeals is not null)
             {
-              @academy.PercentageFreeSchoolMeals<span>%</span>
+              @academy.PercentageFreeSchoolMeals?.ToString("N1")<span>%</span>
             }
           </td>
           @{ var academyTypeLaAverage = Model.GetLaAverageFreeSchoolMeals(academy); }
