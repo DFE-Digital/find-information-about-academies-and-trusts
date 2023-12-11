@@ -2,37 +2,19 @@ namespace DfE.FindInformationAcademiesTrusts.Data.Hardcoded;
 
 public class FreeSchoolMealsAverageProvider : IFreeSchoolMealsAverageProvider
 {
-    private readonly Dictionary<int, FreeSchoolMealsAverage> _fsmAverages2022To23 =
-        new();
-
     private const int NationalKey = -1;
 
-    public FreeSchoolMealsAverageProvider()
-    {
-        PopulateLocalAuthorities();
-        AddPercentagesByPhaseType();
-    }
-
-    private void PopulateLocalAuthorities()
-    {
-        _fsmAverages2022To23.Add(334, new FreeSchoolMealsAverage(334, "Solihull", "E08000029"));
-    }
-
-    private void AddPercentagesByPhaseType()
-    {
-        _fsmAverages2022To23[334].Add("StateFundedApSchool", 63.52941176);
-    }
 
     public double GetLaAverage(Academy academy)
     {
-        var key = ExploreEducationStatisticsPhaseType.StateFundedApSchool;
-        return _fsmAverages2022To23[334].PercentOfPupilsByPhase[key];
+        var key = GetPhaseTypeKey(academy);
+        return FreeSchoolMealsData.Averages2022To23[academy.OldLaCode].PercentOfPupilsByPhase[key];
     }
 
     public double GetNationalAverage(Academy academy)
     {
         var key = GetPhaseTypeKey(academy);
-        return _fsmAverages2022To23[NationalKey].PercentOfPupilsByPhase[key];
+        return FreeSchoolMealsData.Averages2022To23[NationalKey].PercentOfPupilsByPhase[key];
     }
 
     public static ExploreEducationStatisticsPhaseType GetPhaseTypeKey(Academy academy)
