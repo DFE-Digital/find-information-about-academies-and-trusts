@@ -121,23 +121,22 @@ public static class Data
         "South West"
     };
 
-    public static string[] LocalAuthorities { get; } =
+    public static Dictionary<int, string> LocalAuthorities { get; } = new()
     {
-        "Barnsley",
-        "Bradford",
-        "Calderdale",
-        "Doncaster",
-        "East Riding of Yorkshire",
-        "Kingston upon Hull, City of",
-        "Kirklees",
-        "Leeds",
-        "North East Lincolnshire",
-        "North Lincolnshire",
-        "North Yorkshire",
-        "Rotherham",
-        "Sheffield",
-        "Wakefield",
-        "York"
+        { 370, "Barnsley" },
+        { 371, "Doncaster" },
+        { 372, "Rotherham" },
+        { 373, "Sheffield" },
+        { 380, "Bradford" },
+        { 381, "Calderdale" },
+        { 382, "Kirklees" },
+        { 383, "Leeds" },
+        { 384, "Wakefield" },
+        { 390, "Gateshead" },
+        { 391, "Newcastle upon Tyne" },
+        { 392, "North Tyneside" },
+        { 393, "South Tyneside" },
+        { 394, "Sunderland" }
     };
 
     public static Dictionary<string, string[]> GovernorAppointingBodies { get; } = new()

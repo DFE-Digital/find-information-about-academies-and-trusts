@@ -13,7 +13,8 @@ public record Academy(
     string? PercentageFreeSchoolMeals,
     AgeRange AgeRange,
     OfstedRating CurrentOfstedRating,
-    OfstedRating PreviousOfstedRating)
+    OfstedRating PreviousOfstedRating,
+    int OldLaCode)
 {
     public float? PercentageFull
     {

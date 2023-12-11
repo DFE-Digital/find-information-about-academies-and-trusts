@@ -6,21 +6,22 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Fakers;
 
 public class GiasEstablishmentFaker
 {
-    private IEnumerable<string?> _localAuthorities = Array.Empty<string>();
+    private IEnumerable<int> _laCodes = Array.Empty<int>();
     private readonly Faker<GiasEstablishment> _establishmentFaker;
     private readonly string[] _fakeSchoolNames;
     private string _uid = "";
     private readonly IEstablishmentTypePicker _giasEstablishmentTypePicker;
 
     public GiasEstablishmentFaker(string[] fakeSchoolNames, string[] giasPhaseNames,
-        IEstablishmentTypePicker giasEstablishmentTypePicker)
+        IEstablishmentTypePicker giasEstablishmentTypePicker, Dictionary<int, string> localAuthorities)
     {
         _giasEstablishmentTypePicker = giasEstablishmentTypePicker;
         _fakeSchoolNames = fakeSchoolNames;
         _establishmentFaker = new Faker<GiasEstablishment>("en_GB")
                 // will this Urn sometimes be a duplicate?
                 .RuleFor(a => a.Urn, f => int.Parse($"{_uid}{f.Random.Int(1000, 9999)}"))
-                .RuleFor(e => e.LaName, f => f.PickRandom(_localAuthorities))
+                .RuleFor(e => e.LaCode, f => f.PickRandom(_laCodes).ToString())
+                .RuleFor(e => e.LaName, (f, e) => localAuthorities[int.Parse(e.LaCode!)])
                 .RuleFor(e => e.UrbanRuralName, f => f.PickRandom(
                     "Urban city and town",
                     "Rural town and fringe",
@@ -95,9 +96,9 @@ public class GiasEstablishmentFaker
         return phaseOfEducationName == "Primary" ? "11" : faker.PickRandom("16", "18");
     }
 
-    public GiasEstablishmentFaker SetLocalAuthoritiesSelection(IEnumerable<string?> localAuthorities)
+    public GiasEstablishmentFaker SetLocalAuthoritiesSelection(IEnumerable<int> laCodes)
     {
-        _localAuthorities = localAuthorities;
+        _laCodes = laCodes;
         return this;
     }
 

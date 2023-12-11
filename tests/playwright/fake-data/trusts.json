@@ -15,7 +15,7 @@
         "dateAcademyJoinedTrust": "2019-04-06T00:00:00",
         "establishmentName": "Queen Elizabeth\u0027s CE Middle Deemed Secondary School",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 988,
@@ -33,6 +33,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2021-03-16T00:00:00"
         },
+        "oldLaCode": 384,
         "percentageFull": 41
       },
       {
@@ -40,7 +41,7 @@
         "dateAcademyJoinedTrust": "2018-08-11T00:00:00",
         "establishmentName": "St. Mary\u0027s C of E School",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "Bradford",
+        "localAuthority": "Doncaster",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 247,
@@ -58,6 +59,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2016-07-06T00:00:00"
         },
+        "oldLaCode": 371,
         "percentageFull": 51
       },
       {
@@ -65,7 +67,7 @@
         "dateAcademyJoinedTrust": "2021-11-10T00:00:00",
         "establishmentName": "Horizon CE Middle Deemed Primary School",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Sheffield",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 983,
@@ -83,6 +85,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 392,
         "percentageFull": 73
       },
       {
@@ -90,7 +93,7 @@
         "dateAcademyJoinedTrust": "2021-10-07T00:00:00",
         "establishmentName": "Holly Lodge Girls\u0027 CE Academy",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1201,
@@ -108,6 +111,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2015-06-28T00:00:00"
         },
+        "oldLaCode": 391,
         "percentageFull": 68
       },
       {
@@ -115,7 +119,7 @@
         "dateAcademyJoinedTrust": "2022-05-17T00:00:00",
         "establishmentName": "St. James\u0027 Catholic All-through School",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 772,
@@ -133,6 +137,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2019-04-16T00:00:00"
         },
+        "oldLaCode": 384,
         "percentageFull": 43
       }
     ],
@@ -318,7 +323,7 @@
         "dateAcademyJoinedTrust": "2023-04-20T00:00:00",
         "establishmentName": "St. Paul\u0027s Catholic All-through Academy",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 398,
@@ -336,6 +341,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2017-12-31T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 105
       },
       {
@@ -343,7 +349,7 @@
         "dateAcademyJoinedTrust": "2020-10-28T00:00:00",
         "establishmentName": "St. John\u0027s Catholic Academy",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 98,
@@ -361,6 +367,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2015-10-06T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 41
       },
       {
@@ -368,7 +375,7 @@
         "dateAcademyJoinedTrust": "2022-07-16T00:00:00",
         "establishmentName": "Holly Lodge Girls\u0027 Academy",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1998,
@@ -386,6 +393,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2013-05-24T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 67
       },
       {
@@ -393,7 +401,7 @@
         "dateAcademyJoinedTrust": "2021-10-22T00:00:00",
         "establishmentName": "St. Marys R.C. Academy",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 2431,
@@ -411,6 +419,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 381,
         "percentageFull": 84
       },
       {
@@ -418,7 +427,7 @@
         "dateAcademyJoinedTrust": "2022-08-16T00:00:00",
         "establishmentName": "Horizon Cofe All-through Academy",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 197,
@@ -436,6 +445,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2020-11-03T00:00:00"
         },
+        "oldLaCode": 394,
         "percentageFull": 81
       },
       {
@@ -443,7 +453,7 @@
         "dateAcademyJoinedTrust": "2023-05-29T00:00:00",
         "establishmentName": "Mulberry Academy",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2796,
@@ -461,6 +471,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2018-03-10T00:00:00"
         },
+        "oldLaCode": 394,
         "percentageFull": 128
       },
       {
@@ -468,7 +479,7 @@
         "dateAcademyJoinedTrust": "2021-02-11T00:00:00",
         "establishmentName": "Harris Cofe Secondary Academy",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "North Lincolnshire",
+        "localAuthority": "Gateshead",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1377,
@@ -486,6 +497,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 390,
         "percentageFull": 97
       },
       {
@@ -493,7 +505,7 @@
         "dateAcademyJoinedTrust": "2023-04-02T00:00:00",
         "establishmentName": "Longhill School",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 910,
@@ -511,6 +523,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2019-02-04T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 44
       },
       {
@@ -518,7 +531,7 @@
         "dateAcademyJoinedTrust": "2021-04-30T00:00:00",
         "establishmentName": "Meridian School",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "Bradford",
+        "localAuthority": "Doncaster",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 386,
@@ -536,6 +549,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2017-03-24T00:00:00"
         },
+        "oldLaCode": 371,
         "percentageFull": 48
       },
       {
@@ -543,7 +557,7 @@
         "dateAcademyJoinedTrust": "2023-09-10T00:00:00",
         "establishmentName": "Momentum Community School",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "Bradford",
+        "localAuthority": "Doncaster",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 675,
@@ -561,6 +575,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2018-01-01T00:00:00"
         },
+        "oldLaCode": 371,
         "percentageFull": 105
       },
       {
@@ -568,7 +583,7 @@
         "dateAcademyJoinedTrust": "2023-09-17T00:00:00",
         "establishmentName": "Harris Church of England Academy",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Bradford",
+        "localAuthority": "Doncaster",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 374,
@@ -586,6 +601,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2016-02-29T00:00:00"
         },
+        "oldLaCode": 371,
         "percentageFull": 85
       }
     ],
@@ -992,7 +1008,7 @@
         "dateAcademyJoinedTrust": "2023-09-14T00:00:00",
         "establishmentName": "Mulberry CE 16 Plus Academy",
         "typeOfEstablishment": "Academy 16 to 19 sponsor led",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1525,
@@ -1010,6 +1026,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2016-03-25T00:00:00"
         },
+        "oldLaCode": 394,
         "percentageFull": 74
       },
       {
@@ -1017,7 +1034,7 @@
         "dateAcademyJoinedTrust": "2021-07-30T00:00:00",
         "establishmentName": "Northwood Church of England Academy",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "Sheffield",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 947,
@@ -1035,6 +1052,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2021-06-29T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 60
       },
       {
@@ -1042,7 +1060,7 @@
         "dateAcademyJoinedTrust": "2018-06-30T00:00:00",
         "establishmentName": "St. James\u0027s R.C. Academy",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "North Yorkshire",
+        "localAuthority": "Gateshead",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 3160,
@@ -1060,6 +1078,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2021-10-18T00:00:00"
         },
+        "oldLaCode": 390,
         "percentageFull": 111
       },
       {
@@ -1067,7 +1086,7 @@
         "dateAcademyJoinedTrust": "2023-02-09T00:00:00",
         "establishmentName": "St. Peter\u0027s Church of England School",
         "typeOfEstablishment": "Academy 16 to 19 sponsor led",
-        "localAuthority": "North Yorkshire",
+        "localAuthority": "Gateshead",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 199,
@@ -1085,6 +1104,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2019-07-04T00:00:00"
         },
+        "oldLaCode": 390,
         "percentageFull": 62
       },
       {
@@ -1092,7 +1112,7 @@
         "dateAcademyJoinedTrust": "2022-12-20T00:00:00",
         "establishmentName": "St. Catherine\u0027s Catholic Secondary School",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "North Yorkshire",
+        "localAuthority": "Gateshead",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 144,
@@ -1110,6 +1130,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 390,
         "percentageFull": 44
       },
       {
@@ -1117,7 +1138,7 @@
         "dateAcademyJoinedTrust": "2021-01-11T00:00:00",
         "establishmentName": "Beacon Catholic Academy",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 966,
@@ -1135,6 +1156,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 394,
         "percentageFull": 50
       },
       {
@@ -1142,7 +1164,7 @@
         "dateAcademyJoinedTrust": "2020-08-04T00:00:00",
         "establishmentName": "George Abbey CE All-through School",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "North Yorkshire",
+        "localAuthority": "Gateshead",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1255,
@@ -1160,6 +1182,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2011-02-24T00:00:00"
         },
+        "oldLaCode": 390,
         "percentageFull": 92
       },
       {
@@ -1185,6 +1208,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2015-01-30T00:00:00"
         },
+        "oldLaCode": 383,
         "percentageFull": 50
       },
       {
@@ -1192,7 +1216,7 @@
         "dateAcademyJoinedTrust": "2022-01-08T00:00:00",
         "establishmentName": "Greensward Academy",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "Sheffield",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1488,
@@ -1210,6 +1234,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 392,
         "percentageFull": 93
       }
     ],
@@ -1406,7 +1431,7 @@
         "dateAcademyJoinedTrust": "2020-06-21T00:00:00",
         "establishmentName": "St. Marys Catholic School",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1890,
@@ -1424,6 +1449,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2014-11-07T00:00:00"
         },
+        "oldLaCode": 394,
         "percentageFull": 65
       },
       {
@@ -1431,7 +1457,7 @@
         "dateAcademyJoinedTrust": "2022-05-23T00:00:00",
         "establishmentName": "Greensward C of E Academy",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Bradford",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 114,
@@ -1449,6 +1475,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2017-01-20T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 41
       }
     ],
@@ -1568,7 +1595,7 @@
         "dateAcademyJoinedTrust": "2022-07-21T00:00:00",
         "establishmentName": "St. Catherine\u0027s R.C. Academy",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "Doncaster",
+        "localAuthority": "Sheffield",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 2090,
@@ -1586,6 +1613,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2018-08-08T00:00:00"
         },
+        "oldLaCode": 373,
         "percentageFull": 75
       }
     ],
@@ -2033,7 +2061,7 @@
         "dateAcademyJoinedTrust": "2023-03-13T00:00:00",
         "establishmentName": "Beacon Church of England All-through School",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Bradford",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 3124,
@@ -2051,6 +2079,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2017-07-19T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 117
       },
       {
@@ -2058,7 +2087,7 @@
         "dateAcademyJoinedTrust": "2022-03-25T00:00:00",
         "establishmentName": "St. Peter\u0027s C of E Middle Deemed Secondary School",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 717,
@@ -2076,6 +2105,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2018-02-01T00:00:00"
         },
+        "oldLaCode": 391,
         "percentageFull": 62
       },
       {
@@ -2083,7 +2113,7 @@
         "dateAcademyJoinedTrust": "2021-08-20T00:00:00",
         "establishmentName": "St. Joseph\u0027s Catholic All-through Academy",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "Bradford",
+        "localAuthority": "Barnsley",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 814,
@@ -2101,6 +2131,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 370,
         "percentageFull": 116
       }
     ],
@@ -2352,7 +2383,7 @@
         "dateAcademyJoinedTrust": "2016-03-14T00:00:00",
         "establishmentName": "Greensward Secondary Academy",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "Bradford",
+        "localAuthority": "Doncaster",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2062,
@@ -2370,6 +2401,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 371,
         "percentageFull": 108
       }
     ],
@@ -2456,7 +2488,7 @@
         "dateAcademyJoinedTrust": "2019-10-21T00:00:00",
         "establishmentName": "Peacehaven Community Cofe School",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Sheffield",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 2165,
@@ -2474,6 +2506,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2021-03-06T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 85
       },
       {
@@ -2481,7 +2514,7 @@
         "dateAcademyJoinedTrust": "2019-09-01T00:00:00",
         "establishmentName": "Co-op C of E Academy",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Barnsley",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1892,
@@ -2499,6 +2532,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2018-12-29T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 77
       },
       {
@@ -2524,6 +2558,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2020-09-13T00:00:00"
         },
+        "oldLaCode": 383,
         "percentageFull": 80
       }
     ],
@@ -2740,9 +2775,9 @@
       {
         "urn": 12645485,
         "dateAcademyJoinedTrust": "2020-10-05T00:00:00",
-        "establishmentName": "Rotherham R.C. All-through Academy",
+        "establishmentName": "Newcastle upon Tyne R.C. All-through Academy",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1791,
@@ -2760,6 +2795,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 391,
         "percentageFull": 117
       },
       {
@@ -2767,7 +2803,7 @@
         "dateAcademyJoinedTrust": "2022-09-23T00:00:00",
         "establishmentName": "St. John\u0027s CE School",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 931,
@@ -2785,6 +2821,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2018-07-10T00:00:00"
         },
+        "oldLaCode": 391,
         "percentageFull": 123
       },
       {
@@ -2792,7 +2829,7 @@
         "dateAcademyJoinedTrust": "2017-09-01T00:00:00",
         "establishmentName": "St. Mary\u0027s R.C. Secondary School",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 656,
@@ -2810,6 +2847,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2011-05-19T00:00:00"
         },
+        "oldLaCode": 391,
         "percentageFull": 77
       },
       {
@@ -2817,7 +2855,7 @@
         "dateAcademyJoinedTrust": "2018-10-10T00:00:00",
         "establishmentName": "Halewood C of E Academy",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1791,
@@ -2835,6 +2873,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2017-06-24T00:00:00"
         },
+        "oldLaCode": 391,
         "percentageFull": 88
       },
       {
@@ -2842,7 +2881,7 @@
         "dateAcademyJoinedTrust": "2020-11-23T00:00:00",
         "establishmentName": "Beacon Academy",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1469,
@@ -2860,6 +2899,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 391,
         "percentageFull": 104
       },
       {
@@ -2867,7 +2907,7 @@
         "dateAcademyJoinedTrust": "2021-04-03T00:00:00",
         "establishmentName": "St. Anne\u0027s C of E Secondary School",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1831,
@@ -2885,6 +2925,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2013-12-29T00:00:00"
         },
+        "oldLaCode": 391,
         "percentageFull": 96
       },
       {
@@ -2892,7 +2933,7 @@
         "dateAcademyJoinedTrust": "2020-02-29T00:00:00",
         "establishmentName": "St. Paul\u0027s Catholic Secondary Academy",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 3078,
@@ -2910,6 +2951,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2016-01-28T00:00:00"
         },
+        "oldLaCode": 391,
         "percentageFull": 112
       }
     ],
@@ -3007,7 +3049,7 @@
         "dateAcademyJoinedTrust": "2022-06-09T00:00:00",
         "establishmentName": "St. Marys R.C. All-through Academy",
         "typeOfEstablishment": "Academy 16 to 19 sponsor led",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 914,
@@ -3025,6 +3067,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2016-12-24T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 40
       },
       {
@@ -3032,7 +3075,7 @@
         "dateAcademyJoinedTrust": "2022-10-02T00:00:00",
         "establishmentName": "St. Peter\u0027s Church of England Middle Deemed Primary Academy",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 514,
@@ -3050,6 +3093,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2019-06-15T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 94
       },
       {
@@ -3057,7 +3101,7 @@
         "dateAcademyJoinedTrust": "2023-08-20T00:00:00",
         "establishmentName": "St. Joseph\u0027s Cofe School",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 705,
@@ -3075,6 +3119,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 380,
         "percentageFull": 69
       },
       {
@@ -3082,7 +3127,7 @@
         "dateAcademyJoinedTrust": "2022-08-20T00:00:00",
         "establishmentName": "St. Paul\u0027s Cofe Academy",
         "typeOfEstablishment": "Community School",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 347,
@@ -3100,6 +3145,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2019-02-27T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 60
       },
       {
@@ -3107,7 +3153,7 @@
         "dateAcademyJoinedTrust": "2021-05-05T00:00:00",
         "establishmentName": "Barr and Community All-through Academy",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 832,
@@ -3125,6 +3171,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2019-05-11T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 119
       },
       {
@@ -3132,7 +3179,7 @@
         "dateAcademyJoinedTrust": "2022-08-06T00:00:00",
         "establishmentName": "St. Peter\u0027s Catholic Academy",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 614,
@@ -3150,6 +3197,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2021-05-24T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 61
       },
       {
@@ -3157,7 +3205,7 @@
         "dateAcademyJoinedTrust": "2021-03-02T00:00:00",
         "establishmentName": "St. Peter\u0027s Catholic School",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 2778,
@@ -3175,6 +3223,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2018-12-04T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 114
       },
       {
@@ -3182,7 +3231,7 @@
         "dateAcademyJoinedTrust": "2023-10-31T00:00:00",
         "establishmentName": "Glyn Academy",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 602,
@@ -3200,6 +3249,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2018-12-11T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 58
       },
       {
@@ -3207,7 +3257,7 @@
         "dateAcademyJoinedTrust": "2022-05-05T00:00:00",
         "establishmentName": "Co-op R.C. Middle Deemed Secondary Academy",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 114,
@@ -3225,6 +3275,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 380,
         "percentageFull": 96
       }
     ],
@@ -3505,6 +3556,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 382,
         "percentageFull": 60
       },
       {
@@ -3512,7 +3564,7 @@
         "dateAcademyJoinedTrust": "2022-01-02T00:00:00",
         "establishmentName": "Pollich Ferry CE Academy",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "North Yorkshire",
+        "localAuthority": "Gateshead",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1217,
@@ -3530,6 +3582,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 390,
         "percentageFull": 42
       },
       {
@@ -3537,7 +3590,7 @@
         "dateAcademyJoinedTrust": "2017-05-26T00:00:00",
         "establishmentName": "Greensward Academy",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "North Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1634,
@@ -3555,6 +3608,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 384,
         "percentageFull": 89
       },
       {
@@ -3562,7 +3616,7 @@
         "dateAcademyJoinedTrust": "2021-03-03T00:00:00",
         "establishmentName": "Queensbridge Catholic Academy",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "North Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 2065,
@@ -3580,6 +3634,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2018-06-06T00:00:00"
         },
+        "oldLaCode": 384,
         "percentageFull": 128
       },
       {
@@ -3605,6 +3660,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2019-11-20T00:00:00"
         },
+        "oldLaCode": 382,
         "percentageFull": 68
       },
       {
@@ -3630,6 +3686,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2016-12-09T00:00:00"
         },
+        "oldLaCode": 382,
         "percentageFull": 65
       },
       {
@@ -3637,7 +3694,7 @@
         "dateAcademyJoinedTrust": "2022-01-31T00:00:00",
         "establishmentName": "Beacon School",
         "typeOfEstablishment": "Academy 16 to 19 sponsor led",
-        "localAuthority": "North Yorkshire",
+        "localAuthority": "Gateshead",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2022,
@@ -3655,6 +3712,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 390,
         "percentageFull": 99
       },
       {
@@ -3680,6 +3738,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2012-12-25T00:00:00"
         },
+        "oldLaCode": 382,
         "percentageFull": 85
       },
       {
@@ -3705,6 +3764,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2013-08-07T00:00:00"
         },
+        "oldLaCode": 382,
         "percentageFull": 70
       },
       {
@@ -3712,7 +3772,7 @@
         "dateAcademyJoinedTrust": "2016-02-13T00:00:00",
         "establishmentName": "Limehurst C of E 16 Plus School",
         "typeOfEstablishment": "Community School",
-        "localAuthority": "North Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1018,
@@ -3730,6 +3790,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2019-12-29T00:00:00"
         },
+        "oldLaCode": 384,
         "percentageFull": 104
       },
       {
@@ -3755,6 +3816,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 382,
         "percentageFull": 48
       }
     ],
@@ -3947,6 +4009,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2022-12-19T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 114
       }
     ],
@@ -4095,6 +4158,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2017-04-14T00:00:00"
         },
+        "oldLaCode": 382,
         "percentageFull": 64
       },
       {
@@ -4102,7 +4166,7 @@
         "dateAcademyJoinedTrust": "2023-01-20T00:00:00",
         "establishmentName": "Longhill Cofe 16 Plus Academy",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Sheffield",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 600,
@@ -4120,6 +4184,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 392,
         "percentageFull": 62
       },
       {
@@ -4145,6 +4210,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 382,
         "percentageFull": 91
       },
       {
@@ -4170,6 +4236,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 382,
         "percentageFull": 95
       },
       {
@@ -4177,7 +4244,7 @@
         "dateAcademyJoinedTrust": "2022-03-30T00:00:00",
         "establishmentName": "George Abbey Primary School",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "North Yorkshire",
+        "localAuthority": "Gateshead",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 916,
@@ -4195,6 +4262,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 390,
         "percentageFull": 47
       }
     ],
@@ -4821,7 +4889,7 @@
         "dateAcademyJoinedTrust": "2022-07-01T00:00:00",
         "establishmentName": "St. Peter\u0027s CE Academy",
         "typeOfEstablishment": "Academy 16 to 19 sponsor led",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1031,
@@ -4839,6 +4907,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 381,
         "percentageFull": 100
       },
       {
@@ -4846,7 +4915,7 @@
         "dateAcademyJoinedTrust": "2019-10-31T00:00:00",
         "establishmentName": "Barr and Community School",
         "typeOfEstablishment": "Community School",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 2577,
@@ -4864,6 +4933,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 381,
         "percentageFull": 90
       },
       {
@@ -4871,7 +4941,7 @@
         "dateAcademyJoinedTrust": "2022-01-11T00:00:00",
         "establishmentName": "Lampton School",
         "typeOfEstablishment": "Academy 16-19 Converter",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 2240,
@@ -4889,6 +4959,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 381,
         "percentageFull": 121
       },
       {
@@ -4896,7 +4967,7 @@
         "dateAcademyJoinedTrust": "2021-10-04T00:00:00",
         "establishmentName": "Halewood School",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 731,
@@ -4914,6 +4985,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2019-07-23T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 70
       },
       {
@@ -4921,7 +4993,7 @@
         "dateAcademyJoinedTrust": "2020-07-08T00:00:00",
         "establishmentName": "Co-op School",
         "typeOfEstablishment": "Academy 16 to 19 sponsor led",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 201,
@@ -4939,6 +5011,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2014-09-24T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 58
       },
       {
@@ -4946,7 +5019,7 @@
         "dateAcademyJoinedTrust": "2019-12-30T00:00:00",
         "establishmentName": "Queensbridge Primary Academy",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 177,
@@ -4964,6 +5037,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2018-10-08T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 92
       },
       {
@@ -4971,7 +5045,7 @@
         "dateAcademyJoinedTrust": "2023-04-26T00:00:00",
         "establishmentName": "Queen Elizabeth\u0027s Academy",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1531,
@@ -4989,6 +5063,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 381,
         "percentageFull": 84
       }
     ],
@@ -5119,7 +5194,7 @@
         "dateAcademyJoinedTrust": "2021-12-11T00:00:00",
         "establishmentName": "St. Mary\u0027s R.C. Secondary School",
         "typeOfEstablishment": "Academy 16-19 Converter",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1312,
@@ -5137,6 +5212,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2015-03-31T00:00:00"
         },
+        "oldLaCode": 394,
         "percentageFull": 70
       },
       {
@@ -5144,7 +5220,7 @@
         "dateAcademyJoinedTrust": "2023-06-08T00:00:00",
         "establishmentName": "Queen Elizabeth\u0027s R.C. Academy",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 977,
@@ -5162,6 +5238,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2012-10-29T00:00:00"
         },
+        "oldLaCode": 394,
         "percentageFull": 67
       },
       {
@@ -5169,7 +5246,7 @@
         "dateAcademyJoinedTrust": "2022-05-30T00:00:00",
         "establishmentName": "Holly Lodge Girls\u0027 C of E School",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1025,
@@ -5187,6 +5264,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 394,
         "percentageFull": 127
       },
       {
@@ -5194,7 +5272,7 @@
         "dateAcademyJoinedTrust": "2020-07-12T00:00:00",
         "establishmentName": "Greensward Catholic Primary School",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1274,
@@ -5212,6 +5290,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2015-03-04T00:00:00"
         },
+        "oldLaCode": 394,
         "percentageFull": 84
       },
       {
@@ -5219,7 +5298,7 @@
         "dateAcademyJoinedTrust": "2019-08-09T00:00:00",
         "establishmentName": "St. Marys R.C. School",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 2659,
@@ -5237,6 +5316,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 394,
         "percentageFull": 116
       },
       {
@@ -5244,7 +5324,7 @@
         "dateAcademyJoinedTrust": "2017-10-24T00:00:00",
         "establishmentName": "Longhill R.C. Academy",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 298,
@@ -5262,6 +5342,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2013-03-28T00:00:00"
         },
+        "oldLaCode": 394,
         "percentageFull": 84
       },
       {
@@ -5269,7 +5350,7 @@
         "dateAcademyJoinedTrust": "2019-10-16T00:00:00",
         "establishmentName": "Beacon Secondary Academy",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 925,
@@ -5287,6 +5368,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 394,
         "percentageFull": 127
       },
       {
@@ -5294,7 +5376,7 @@
         "dateAcademyJoinedTrust": "2021-06-05T00:00:00",
         "establishmentName": "Peacehaven Community Church of England Academy",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1034,
@@ -5312,6 +5394,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 394,
         "percentageFull": 68
       },
       {
@@ -5319,7 +5402,7 @@
         "dateAcademyJoinedTrust": "2021-08-12T00:00:00",
         "establishmentName": "St. Joseph\u0027s R.C. Academy",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 338,
@@ -5337,6 +5420,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 394,
         "percentageFull": 97
       }
     ],
@@ -5544,7 +5628,7 @@
         "dateAcademyJoinedTrust": "2019-10-08T00:00:00",
         "establishmentName": "Greensward School",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "Rotherham",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 248,
@@ -5562,6 +5646,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 392,
         "percentageFull": 91
       },
       {
@@ -5569,7 +5654,7 @@
         "dateAcademyJoinedTrust": "2022-09-09T00:00:00",
         "establishmentName": "Lampton Church of England 16 Plus Academy",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Rotherham",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 951,
@@ -5587,6 +5672,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2014-07-19T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 86
       },
       {
@@ -5594,7 +5680,7 @@
         "dateAcademyJoinedTrust": "2020-06-04T00:00:00",
         "establishmentName": "Peacehaven Community Cofe Academy",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Rotherham",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 252,
@@ -5612,6 +5698,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2015-04-19T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 55
       },
       {
@@ -5619,7 +5706,7 @@
         "dateAcademyJoinedTrust": "2020-12-18T00:00:00",
         "establishmentName": "Queen Elizabeth\u0027s 16 Plus Academy",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Rotherham",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 310,
@@ -5637,6 +5724,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2020-08-09T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 41
       },
       {
@@ -5644,7 +5732,7 @@
         "dateAcademyJoinedTrust": "2020-10-11T00:00:00",
         "establishmentName": "Horizon Secondary Academy",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "North Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 282,
@@ -5662,6 +5750,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2022-09-09T00:00:00"
         },
+        "oldLaCode": 384,
         "percentageFull": 48
       },
       {
@@ -5669,7 +5758,7 @@
         "dateAcademyJoinedTrust": "2022-08-03T00:00:00",
         "establishmentName": "Glyn Secondary Academy",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "Rotherham",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1885,
@@ -5687,6 +5776,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 392,
         "percentageFull": 83
       }
     ],
@@ -5947,9 +6037,9 @@
       {
         "urn": 12717311,
         "dateAcademyJoinedTrust": "2023-06-25T00:00:00",
-        "establishmentName": "North East Lincolnshire R.C. All-through School",
+        "establishmentName": "Wakefield R.C. All-through School",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 306,
@@ -5967,6 +6057,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 384,
         "percentageFull": 55
       },
       {
@@ -5992,6 +6083,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2019-03-22T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 106
       },
       {
@@ -6017,6 +6109,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2015-04-11T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 126
       },
       {
@@ -6024,7 +6117,7 @@
         "dateAcademyJoinedTrust": "2023-08-06T00:00:00",
         "establishmentName": "Co-op Academy",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1273,
@@ -6042,6 +6135,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2018-02-28T00:00:00"
         },
+        "oldLaCode": 384,
         "percentageFull": 65
       },
       {
@@ -6049,7 +6143,7 @@
         "dateAcademyJoinedTrust": "2023-10-22T00:00:00",
         "establishmentName": "Evalyn Oval Middle Deemed Primary School",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "Bradford",
+        "localAuthority": "Doncaster",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1694,
@@ -6067,6 +6161,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 371,
         "percentageFull": 105
       }
     ],
@@ -6535,6 +6630,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2017-05-15T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 129
       },
       {
@@ -6542,7 +6638,7 @@
         "dateAcademyJoinedTrust": "2018-06-29T00:00:00",
         "establishmentName": "Queen Elizabeth\u0027s 16 Plus Academy",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "North Yorkshire",
+        "localAuthority": "Gateshead",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1550,
@@ -6560,6 +6656,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 390,
         "percentageFull": 108
       },
       {
@@ -6567,7 +6664,7 @@
         "dateAcademyJoinedTrust": "2021-05-01T00:00:00",
         "establishmentName": "Malbank School",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1160,
@@ -6585,6 +6682,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2013-02-23T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 55
       },
       {
@@ -6592,7 +6690,7 @@
         "dateAcademyJoinedTrust": "2015-08-25T00:00:00",
         "establishmentName": "Glyn Academy",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Leeds",
+        "localAuthority": "Kirklees",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 879,
@@ -6610,6 +6708,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2015-10-15T00:00:00"
         },
+        "oldLaCode": 382,
         "percentageFull": 68
       },
       {
@@ -6617,7 +6716,7 @@
         "dateAcademyJoinedTrust": "2015-06-22T00:00:00",
         "establishmentName": "St. Joseph\u0027s Cofe School",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "Leeds",
+        "localAuthority": "Kirklees",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1386,
@@ -6635,6 +6734,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2017-09-20T00:00:00"
         },
+        "oldLaCode": 382,
         "percentageFull": 88
       }
     ],
@@ -7026,7 +7126,7 @@
         "dateAcademyJoinedTrust": "2023-04-10T00:00:00",
         "establishmentName": "Harris Catholic Middle Deemed Primary Academy",
         "typeOfEstablishment": "Community School",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 511,
@@ -7044,6 +7144,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2015-04-13T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 79
       },
       {
@@ -7051,7 +7152,7 @@
         "dateAcademyJoinedTrust": "2023-05-07T00:00:00",
         "establishmentName": "St. Peter\u0027s CE All-through Academy",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1607,
@@ -7069,6 +7170,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2012-05-18T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 119
       },
       {
@@ -7076,7 +7178,7 @@
         "dateAcademyJoinedTrust": "2023-03-18T00:00:00",
         "establishmentName": "Harris School",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 806,
@@ -7094,6 +7196,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 381,
         "percentageFull": 86
       }
     ],
@@ -7356,7 +7459,7 @@
         "dateAcademyJoinedTrust": "2022-06-20T00:00:00",
         "establishmentName": "Queen Elizabeth\u0027s Catholic Academy",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "Sheffield",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 3221,
@@ -7374,6 +7477,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2013-11-30T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 110
       },
       {
@@ -7381,7 +7485,7 @@
         "dateAcademyJoinedTrust": "2023-05-03T00:00:00",
         "establishmentName": "Mulberry School",
         "typeOfEstablishment": "Academy 16 to 19 sponsor led",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Leeds",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1435,
@@ -7399,6 +7503,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 383,
         "percentageFull": 118
       },
       {
@@ -7406,7 +7511,7 @@
         "dateAcademyJoinedTrust": "2022-04-01T00:00:00",
         "establishmentName": "Meridian Academy",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 3612,
@@ -7424,6 +7529,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 380,
         "percentageFull": 129
       },
       {
@@ -7431,7 +7537,7 @@
         "dateAcademyJoinedTrust": "2020-10-23T00:00:00",
         "establishmentName": "Meridian CE School",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1005,
@@ -7449,6 +7555,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 380,
         "percentageFull": 44
       },
       {
@@ -7456,7 +7563,7 @@
         "dateAcademyJoinedTrust": "2023-02-04T00:00:00",
         "establishmentName": "Longhill Academy",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Sheffield",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 976,
@@ -7474,6 +7581,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2018-03-31T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 99
       },
       {
@@ -7481,7 +7589,7 @@
         "dateAcademyJoinedTrust": "2021-02-15T00:00:00",
         "establishmentName": "Longhill Middle Deemed Secondary Academy",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1448,
@@ -7499,6 +7607,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 380,
         "percentageFull": 73
       },
       {
@@ -7506,7 +7615,7 @@
         "dateAcademyJoinedTrust": "2021-04-04T00:00:00",
         "establishmentName": "Beacon School",
         "typeOfEstablishment": "Community School",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 470,
@@ -7524,6 +7633,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 380,
         "percentageFull": 61
       },
       {
@@ -7531,7 +7641,7 @@
         "dateAcademyJoinedTrust": "2023-05-25T00:00:00",
         "establishmentName": "Horizon Middle Deemed Secondary School",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Leeds",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1593,
@@ -7549,6 +7659,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2020-02-24T00:00:00"
         },
+        "oldLaCode": 383,
         "percentageFull": 86
       },
       {
@@ -7556,7 +7667,7 @@
         "dateAcademyJoinedTrust": "2023-07-06T00:00:00",
         "establishmentName": "Momentum Community Secondary Academy",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1493,
@@ -7574,6 +7685,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2017-02-15T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 52
       }
     ],
@@ -7770,7 +7882,7 @@
         "dateAcademyJoinedTrust": "2022-11-30T00:00:00",
         "establishmentName": "Co-op Catholic Primary Academy",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1111,
@@ -7788,6 +7900,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2015-09-04T00:00:00"
         },
+        "oldLaCode": 391,
         "percentageFull": 87
       }
     ],
@@ -8205,7 +8318,7 @@
         "dateAcademyJoinedTrust": "2020-10-11T00:00:00",
         "establishmentName": "St. Anne\u0027s Cofe Academy",
         "typeOfEstablishment": "Academy 16 to 19 sponsor led",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1759,
@@ -8223,6 +8336,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2019-10-08T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 92
       },
       {
@@ -8230,7 +8344,7 @@
         "dateAcademyJoinedTrust": "2016-12-22T00:00:00",
         "establishmentName": "Harris Primary Academy",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1376,
@@ -8248,6 +8362,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2019-05-28T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 129
       },
       {
@@ -8255,7 +8370,7 @@
         "dateAcademyJoinedTrust": "2020-06-12T00:00:00",
         "establishmentName": "Oasis Academy",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 900,
@@ -8273,6 +8388,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2017-12-14T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 59
       },
       {
@@ -8280,7 +8396,7 @@
         "dateAcademyJoinedTrust": "2017-04-12T00:00:00",
         "establishmentName": "Limehurst 16 Plus School",
         "typeOfEstablishment": "Academy 16-19 Converter",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1429,
@@ -8298,6 +8414,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2020-06-24T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 49
       },
       {
@@ -8305,7 +8422,7 @@
         "dateAcademyJoinedTrust": "2022-03-27T00:00:00",
         "establishmentName": "Halewood Cofe All-through Academy",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 465,
@@ -8323,6 +8440,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2016-07-09T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 76
       },
       {
@@ -8330,7 +8448,7 @@
         "dateAcademyJoinedTrust": "2020-04-04T00:00:00",
         "establishmentName": "Barr and Community School",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 2896,
@@ -8348,6 +8466,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2016-03-17T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 107
       },
       {
@@ -8355,7 +8474,7 @@
         "dateAcademyJoinedTrust": "2019-01-25T00:00:00",
         "establishmentName": "St. Marys Church of England Middle Deemed Secondary School",
         "typeOfEstablishment": "Community School",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1050,
@@ -8373,6 +8492,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 380,
         "percentageFull": 89
       }
     ],
@@ -8635,7 +8755,7 @@
         "dateAcademyJoinedTrust": "2023-08-28T00:00:00",
         "establishmentName": "Horizon Church of England School",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "Calderdale",
+        "localAuthority": "Rotherham",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1827,
@@ -8653,6 +8773,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2018-03-30T00:00:00"
         },
+        "oldLaCode": 372,
         "percentageFull": 106
       },
       {
@@ -8660,7 +8781,7 @@
         "dateAcademyJoinedTrust": "2023-07-28T00:00:00",
         "establishmentName": "St. Peter\u0027s Catholic Middle Deemed Secondary School",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 486,
@@ -8678,6 +8799,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 380,
         "percentageFull": 84
       },
       {
@@ -8685,7 +8807,7 @@
         "dateAcademyJoinedTrust": "2023-05-07T00:00:00",
         "establishmentName": "St. Catherine\u0027s R.C. Primary Academy",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Calderdale",
+        "localAuthority": "Rotherham",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1215,
@@ -8703,6 +8825,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2017-07-16T00:00:00"
         },
+        "oldLaCode": 372,
         "percentageFull": 85
       },
       {
@@ -8710,7 +8833,7 @@
         "dateAcademyJoinedTrust": "2023-07-24T00:00:00",
         "establishmentName": "St. Joseph\u0027s C of E School",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Calderdale",
+        "localAuthority": "Rotherham",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 590,
@@ -8728,6 +8851,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2012-08-08T00:00:00"
         },
+        "oldLaCode": 372,
         "percentageFull": 75
       }
     ],
@@ -8910,7 +9034,7 @@
         "dateAcademyJoinedTrust": "2018-07-20T00:00:00",
         "establishmentName": "George Abbey Academy",
         "typeOfEstablishment": "Academy 16-19 Converter",
-        "localAuthority": "Kirklees",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1451,
@@ -8928,6 +9052,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2015-05-16T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 110
       },
       {
@@ -8935,7 +9060,7 @@
         "dateAcademyJoinedTrust": "2018-09-18T00:00:00",
         "establishmentName": "Longhill School",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "Kirklees",
+        "localAuthority": "Calderdale",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1059,
@@ -8953,6 +9078,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2018-03-01T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 49
       },
       {
@@ -8960,7 +9086,7 @@
         "dateAcademyJoinedTrust": "2020-03-13T00:00:00",
         "establishmentName": "Ray Wall Secondary Academy",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "Kirklees",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1333,
@@ -8978,6 +9104,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2021-11-23T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 57
       },
       {
@@ -8985,7 +9112,7 @@
         "dateAcademyJoinedTrust": "2018-08-01T00:00:00",
         "establishmentName": "Mulberry Church of England School",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Kirklees",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1840,
@@ -9003,6 +9130,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 381,
         "percentageFull": 114
       },
       {
@@ -9010,7 +9138,7 @@
         "dateAcademyJoinedTrust": "2023-11-03T00:00:00",
         "establishmentName": "Northwood R.C. School",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "Kirklees",
+        "localAuthority": "Calderdale",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 844,
@@ -9028,6 +9156,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2015-01-28T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 121
       },
       {
@@ -9035,7 +9164,7 @@
         "dateAcademyJoinedTrust": "2019-10-10T00:00:00",
         "establishmentName": "Lampton Church of England 16 Plus Academy",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "Kirklees",
+        "localAuthority": "Calderdale",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1113,
@@ -9053,6 +9182,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 381,
         "percentageFull": 73
       },
       {
@@ -9060,7 +9190,7 @@
         "dateAcademyJoinedTrust": "2021-09-23T00:00:00",
         "establishmentName": "Greensward Academy",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "Kirklees",
+        "localAuthority": "Calderdale",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1157,
@@ -9078,14 +9208,15 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2021-10-28T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 81
       },
       {
         "urn": 12612628,
         "dateAcademyJoinedTrust": "2020-11-17T00:00:00",
-        "establishmentName": "Kirklees Catholic All-through Academy",
+        "establishmentName": "Calderdale Catholic All-through Academy",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "Kirklees",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 508,
@@ -9103,6 +9234,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2015-12-13T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 83
       },
       {
@@ -9110,7 +9242,7 @@
         "dateAcademyJoinedTrust": "2021-07-22T00:00:00",
         "establishmentName": "St. Anne\u0027s R.C. Academy",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Kirklees",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 499,
@@ -9128,6 +9260,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2021-10-08T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 102
       }
     ],
@@ -9442,7 +9575,7 @@
         "dateAcademyJoinedTrust": "2022-09-14T00:00:00",
         "establishmentName": "St. James\u0027 R.C. Middle Deemed Primary Academy",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 652,
@@ -9460,6 +9593,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2015-11-16T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 97
       }
     ],
@@ -9796,7 +9930,7 @@
         "dateAcademyJoinedTrust": "2022-12-03T00:00:00",
         "establishmentName": "St. John\u0027s Church of England All-through School",
         "typeOfEstablishment": "Community School",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 2573,
@@ -9814,6 +9948,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2013-03-21T00:00:00"
         },
+        "oldLaCode": 391,
         "percentageFull": 127
       },
       {
@@ -9821,7 +9956,7 @@
         "dateAcademyJoinedTrust": "2022-05-16T00:00:00",
         "establishmentName": "St. Paul\u0027s Cofe All-through School",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "Sheffield",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 867,
@@ -9839,6 +9974,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 392,
         "percentageFull": 86
       },
       {
@@ -9846,7 +9982,7 @@
         "dateAcademyJoinedTrust": "2017-04-19T00:00:00",
         "establishmentName": "Horizon CE School",
         "typeOfEstablishment": "Academy 16 to 19 sponsor led",
-        "localAuthority": "Sheffield",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1998,
@@ -9864,6 +10000,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 392,
         "percentageFull": 98
       },
       {
@@ -9871,7 +10008,7 @@
         "dateAcademyJoinedTrust": "2018-01-06T00:00:00",
         "establishmentName": "St. Mary\u0027s C of E School",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 996,
@@ -9889,6 +10026,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2015-12-15T00:00:00"
         },
+        "oldLaCode": 391,
         "percentageFull": 83
       },
       {
@@ -9896,7 +10034,7 @@
         "dateAcademyJoinedTrust": "2018-07-12T00:00:00",
         "establishmentName": "Queensbridge Cofe School",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "Sheffield",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 284,
@@ -9914,6 +10052,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2019-11-30T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 105
       },
       {
@@ -9921,7 +10060,7 @@
         "dateAcademyJoinedTrust": "2019-02-14T00:00:00",
         "establishmentName": "Co-op Academy",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Sheffield",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 793,
@@ -9939,6 +10078,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2014-01-01T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 57
       }
     ],
@@ -10268,7 +10408,7 @@
         "dateAcademyJoinedTrust": "2021-03-14T00:00:00",
         "establishmentName": "Harris Primary Academy",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1630,
@@ -10286,6 +10426,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2016-03-02T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 89
       },
       {
@@ -10293,7 +10434,7 @@
         "dateAcademyJoinedTrust": "2022-06-11T00:00:00",
         "establishmentName": "Northwood CE Middle Deemed Primary School",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 3205,
@@ -10311,6 +10452,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 381,
         "percentageFull": 119
       },
       {
@@ -10318,7 +10460,7 @@
         "dateAcademyJoinedTrust": "2022-05-19T00:00:00",
         "establishmentName": "Horizon Catholic Academy",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 2403,
@@ -10336,6 +10478,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2013-10-16T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 100
       },
       {
@@ -10343,7 +10486,7 @@
         "dateAcademyJoinedTrust": "2022-12-29T00:00:00",
         "establishmentName": "Momentum Community Middle Deemed Primary Academy",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1317,
@@ -10361,6 +10504,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 381,
         "percentageFull": 91
       },
       {
@@ -10368,7 +10512,7 @@
         "dateAcademyJoinedTrust": "2023-06-10T00:00:00",
         "establishmentName": "Queensbridge Church of England School",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 3033,
@@ -10386,6 +10530,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2016-08-02T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 101
       }
     ],
@@ -10571,7 +10716,7 @@
         "dateAcademyJoinedTrust": "2023-10-09T00:00:00",
         "establishmentName": "St. Anne\u0027s C of E School",
         "typeOfEstablishment": "Community School",
-        "localAuthority": "Wakefield",
+        "localAuthority": "South Tyneside",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 883,
@@ -10589,6 +10734,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2015-06-20T00:00:00"
         },
+        "oldLaCode": 393,
         "percentageFull": 120
       },
       {
@@ -10614,6 +10760,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2021-06-24T00:00:00"
         },
+        "oldLaCode": 383,
         "percentageFull": 75
       },
       {
@@ -10639,6 +10786,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2018-12-16T00:00:00"
         },
+        "oldLaCode": 383,
         "percentageFull": 64
       },
       {
@@ -10664,6 +10812,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2019-08-13T00:00:00"
         },
+        "oldLaCode": 383,
         "percentageFull": 110
       },
       {
@@ -10689,6 +10838,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2018-12-17T00:00:00"
         },
+        "oldLaCode": 383,
         "percentageFull": 119
       },
       {
@@ -10714,6 +10864,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2013-05-12T00:00:00"
         },
+        "oldLaCode": 383,
         "percentageFull": 78
       },
       {
@@ -10721,7 +10872,7 @@
         "dateAcademyJoinedTrust": "2022-06-17T00:00:00",
         "establishmentName": "Holly Lodge Girls\u0027 Catholic Academy",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "Wakefield",
+        "localAuthority": "South Tyneside",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 955,
@@ -10739,6 +10890,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2020-06-03T00:00:00"
         },
+        "oldLaCode": 393,
         "percentageFull": 61
       }
     ],
@@ -11083,6 +11235,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2013-08-31T00:00:00"
         },
+        "oldLaCode": 383,
         "percentageFull": 82
       }
     ],
@@ -11222,9 +11375,9 @@
       {
         "urn": 12739115,
         "dateAcademyJoinedTrust": "2021-09-01T00:00:00",
-        "establishmentName": "Bradford Catholic School",
+        "establishmentName": "Doncaster Catholic School",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "Bradford",
+        "localAuthority": "Doncaster",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 3514,
@@ -11242,6 +11395,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2018-11-13T00:00:00"
         },
+        "oldLaCode": 371,
         "percentageFull": 121
       }
     ],
@@ -11490,7 +11644,7 @@
         "dateAcademyJoinedTrust": "2023-01-28T00:00:00",
         "establishmentName": "Northwood R.C. Academy",
         "typeOfEstablishment": "Academy 16-19 Converter",
-        "localAuthority": "Leeds",
+        "localAuthority": "Barnsley",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1043,
@@ -11508,6 +11662,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2020-08-06T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 85
       },
       {
@@ -11515,7 +11670,7 @@
         "dateAcademyJoinedTrust": "2016-10-14T00:00:00",
         "establishmentName": "Holly Lodge Girls\u0027 School",
         "typeOfEstablishment": "Community School",
-        "localAuthority": "Leeds",
+        "localAuthority": "Barnsley",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1945,
@@ -11533,6 +11688,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2021-03-14T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 102
       }
     ],
@@ -11762,7 +11918,7 @@
         "dateAcademyJoinedTrust": "2022-04-05T00:00:00",
         "establishmentName": "Meridian CE 16 Plus Academy",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Bradford",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 741,
@@ -11780,6 +11936,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2023-04-03T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 113
       },
       {
@@ -11787,7 +11944,7 @@
         "dateAcademyJoinedTrust": "2022-04-02T00:00:00",
         "establishmentName": "St. James\u0027 CE Academy",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Bradford",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 82,
@@ -11805,6 +11962,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 380,
         "percentageFull": 47
       },
       {
@@ -11812,7 +11970,7 @@
         "dateAcademyJoinedTrust": "2020-02-16T00:00:00",
         "establishmentName": "St. Catherine\u0027s Church of England Academy",
         "typeOfEstablishment": "Academy 16-19 Converter",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1287,
@@ -11830,6 +11988,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 380,
         "percentageFull": 84
       },
       {
@@ -11837,7 +11996,7 @@
         "dateAcademyJoinedTrust": "2019-10-18T00:00:00",
         "establishmentName": "Longhill CE Academy",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 345,
@@ -11855,6 +12014,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2015-04-14T00:00:00"
         },
+        "oldLaCode": 384,
         "percentageFull": 128
       },
       {
@@ -11862,7 +12022,7 @@
         "dateAcademyJoinedTrust": "2022-03-09T00:00:00",
         "establishmentName": "Northwood Academy",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 823,
@@ -11880,6 +12040,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2017-03-24T00:00:00"
         },
+        "oldLaCode": 384,
         "percentageFull": 72
       }
     ],
@@ -12194,7 +12355,7 @@
         "dateAcademyJoinedTrust": "2020-09-07T00:00:00",
         "establishmentName": "Horizon Academy",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "Calderdale",
+        "localAuthority": "Rotherham",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 811,
@@ -12212,6 +12373,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2017-06-21T00:00:00"
         },
+        "oldLaCode": 372,
         "percentageFull": 55
       },
       {
@@ -12219,7 +12381,7 @@
         "dateAcademyJoinedTrust": "2021-02-01T00:00:00",
         "establishmentName": "Glyn All-through Academy",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "Calderdale",
+        "localAuthority": "Rotherham",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 2890,
@@ -12237,6 +12399,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2016-10-04T00:00:00"
         },
+        "oldLaCode": 372,
         "percentageFull": 113
       },
       {
@@ -12244,7 +12407,7 @@
         "dateAcademyJoinedTrust": "2015-12-13T00:00:00",
         "establishmentName": "Barr and Community Academy",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 912,
@@ -12262,6 +12425,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2016-01-17T00:00:00"
         },
+        "oldLaCode": 394,
         "percentageFull": 71
       },
       {
@@ -12269,7 +12433,7 @@
         "dateAcademyJoinedTrust": "2015-11-26T00:00:00",
         "establishmentName": "Mulberry School",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Calderdale",
+        "localAuthority": "Rotherham",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 961,
@@ -12287,6 +12451,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2014-10-27T00:00:00"
         },
+        "oldLaCode": 372,
         "percentageFull": 77
       },
       {
@@ -12294,7 +12459,7 @@
         "dateAcademyJoinedTrust": "2021-11-16T00:00:00",
         "establishmentName": "Co-op School",
         "typeOfEstablishment": "Academy 16 to 19 sponsor led",
-        "localAuthority": "Doncaster",
+        "localAuthority": "Sheffield",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1540,
@@ -12312,6 +12477,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2016-03-09T00:00:00"
         },
+        "oldLaCode": 373,
         "percentageFull": 84
       },
       {
@@ -12319,7 +12485,7 @@
         "dateAcademyJoinedTrust": "2022-03-16T00:00:00",
         "establishmentName": "Momentum Community CE Academy",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "Calderdale",
+        "localAuthority": "Rotherham",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1026,
@@ -12337,6 +12503,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2018-10-06T00:00:00"
         },
+        "oldLaCode": 372,
         "percentageFull": 113
       },
       {
@@ -12344,7 +12511,7 @@
         "dateAcademyJoinedTrust": "2017-01-31T00:00:00",
         "establishmentName": "Longhill Academy",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "Doncaster",
+        "localAuthority": "Sheffield",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1647,
@@ -12362,6 +12529,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2017-08-04T00:00:00"
         },
+        "oldLaCode": 373,
         "percentageFull": 57
       },
       {
@@ -12369,7 +12537,7 @@
         "dateAcademyJoinedTrust": "2015-04-28T00:00:00",
         "establishmentName": "Harris R.C. Secondary Academy",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2121,
@@ -12387,6 +12555,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 394,
         "percentageFull": 105
       },
       {
@@ -12394,7 +12563,7 @@
         "dateAcademyJoinedTrust": "2019-12-25T00:00:00",
         "establishmentName": "Horizon CE Academy",
         "typeOfEstablishment": "Academy 16 to 19 sponsor led",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 2824,
@@ -12412,6 +12581,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 394,
         "percentageFull": 105
       },
       {
@@ -12419,7 +12589,7 @@
         "dateAcademyJoinedTrust": "2020-10-27T00:00:00",
         "establishmentName": "Greensward Academy",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2856,
@@ -12437,6 +12607,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 394,
         "percentageFull": 101
       }
     ],
@@ -12534,7 +12705,7 @@
         "dateAcademyJoinedTrust": "2022-11-30T00:00:00",
         "establishmentName": "St. James\u0027 R.C. Primary School",
         "typeOfEstablishment": "Community School",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 539,
@@ -12552,6 +12723,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 381,
         "percentageFull": 58
       }
     ],
@@ -12822,7 +12994,7 @@
         "dateAcademyJoinedTrust": "2019-07-24T00:00:00",
         "establishmentName": "Lampton School",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 2324,
@@ -12840,6 +13012,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2021-12-14T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 90
       },
       {
@@ -12847,7 +13020,7 @@
         "dateAcademyJoinedTrust": "2021-05-17T00:00:00",
         "establishmentName": "St. Catherine\u0027s Catholic School",
         "typeOfEstablishment": "Academy 16-19 Converter",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1307,
@@ -12865,6 +13038,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2021-08-12T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 67
       },
       {
@@ -12872,7 +13046,7 @@
         "dateAcademyJoinedTrust": "2019-10-07T00:00:00",
         "establishmentName": "Co-op R.C. Middle Deemed Primary Academy",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1080,
@@ -12890,6 +13064,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2013-09-14T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 82
       },
       {
@@ -12897,7 +13072,7 @@
         "dateAcademyJoinedTrust": "2021-08-24T00:00:00",
         "establishmentName": "St. Mary\u0027s Catholic School",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "Wakefield",
+        "localAuthority": "South Tyneside",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 385,
@@ -12915,6 +13090,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2018-10-08T00:00:00"
         },
+        "oldLaCode": 393,
         "percentageFull": 41
       },
       {
@@ -12922,7 +13098,7 @@
         "dateAcademyJoinedTrust": "2022-07-08T00:00:00",
         "establishmentName": "Holly Lodge Girls\u0027 Church of England Academy",
         "typeOfEstablishment": "Academy 16-19 Converter",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1424,
@@ -12940,6 +13116,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2014-11-15T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 103
       },
       {
@@ -12947,7 +13124,7 @@
         "dateAcademyJoinedTrust": "2023-01-31T00:00:00",
         "establishmentName": "Beacon Academy",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "Wakefield",
+        "localAuthority": "South Tyneside",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 2501,
@@ -12965,6 +13142,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2013-04-01T00:00:00"
         },
+        "oldLaCode": 393,
         "percentageFull": 107
       },
       {
@@ -12972,7 +13150,7 @@
         "dateAcademyJoinedTrust": "2018-08-18T00:00:00",
         "establishmentName": "Mulberry CE All-through School",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "Wakefield",
+        "localAuthority": "South Tyneside",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 511,
@@ -12990,6 +13168,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 393,
         "percentageFull": 76
       },
       {
@@ -12997,7 +13176,7 @@
         "dateAcademyJoinedTrust": "2020-03-17T00:00:00",
         "establishmentName": "Barr and Community School",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1896,
@@ -13015,6 +13194,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2017-06-09T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 102
       },
       {
@@ -13022,7 +13202,7 @@
         "dateAcademyJoinedTrust": "2019-12-18T00:00:00",
         "establishmentName": "Obie Square CE 16 Plus School",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1245,
@@ -13040,6 +13220,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2018-05-27T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 83
       }
     ],
@@ -13291,7 +13472,7 @@
         "dateAcademyJoinedTrust": "2022-04-11T00:00:00",
         "establishmentName": "Queen Elizabeth\u0027s CE Academy",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "Wakefield",
+        "localAuthority": "South Tyneside",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 684,
@@ -13309,6 +13490,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2013-06-07T00:00:00"
         },
+        "oldLaCode": 393,
         "percentageFull": 99
       },
       {
@@ -13334,6 +13516,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 370,
         "percentageFull": 88
       },
       {
@@ -13359,6 +13542,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2017-11-28T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 112
       },
       {
@@ -13366,7 +13550,7 @@
         "dateAcademyJoinedTrust": "2022-12-16T00:00:00",
         "establishmentName": "Lampton Primary School",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Calderdale",
+        "localAuthority": "Rotherham",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 333,
@@ -13384,6 +13568,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2019-11-06T00:00:00"
         },
+        "oldLaCode": 372,
         "percentageFull": 42
       },
       {
@@ -13391,7 +13576,7 @@
         "dateAcademyJoinedTrust": "2020-12-22T00:00:00",
         "establishmentName": "St. Joseph\u0027s Church of England All-through Academy",
         "typeOfEstablishment": "Community School",
-        "localAuthority": "Wakefield",
+        "localAuthority": "South Tyneside",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1178,
@@ -13409,6 +13594,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 393,
         "percentageFull": 50
       },
       {
@@ -13416,7 +13602,7 @@
         "dateAcademyJoinedTrust": "2022-01-14T00:00:00",
         "establishmentName": "Queensbridge Middle Deemed Primary Academy",
         "typeOfEstablishment": "Community School",
-        "localAuthority": "Calderdale",
+        "localAuthority": "Rotherham",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 745,
@@ -13434,6 +13620,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 372,
         "percentageFull": 44
       },
       {
@@ -13441,7 +13628,7 @@
         "dateAcademyJoinedTrust": "2023-09-18T00:00:00",
         "establishmentName": "Halewood R.C. School",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "Wakefield",
+        "localAuthority": "South Tyneside",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 203,
@@ -13459,6 +13646,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 393,
         "percentageFull": 59
       },
       {
@@ -13484,6 +13672,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2022-05-08T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 122
       },
       {
@@ -13491,7 +13680,7 @@
         "dateAcademyJoinedTrust": "2023-05-24T00:00:00",
         "establishmentName": "St. Catherine\u0027s C of E Academy",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Calderdale",
+        "localAuthority": "Rotherham",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1102,
@@ -13509,6 +13698,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2016-02-09T00:00:00"
         },
+        "oldLaCode": 372,
         "percentageFull": 91
       },
       {
@@ -13534,6 +13724,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2017-12-11T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 63
       },
       {
@@ -13541,7 +13732,7 @@
         "dateAcademyJoinedTrust": "2022-04-09T00:00:00",
         "establishmentName": "St. James\u0027 R.C. Academy",
         "typeOfEstablishment": "Academy 16-19 Converter",
-        "localAuthority": "Calderdale",
+        "localAuthority": "Rotherham",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 921,
@@ -13559,6 +13750,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2011-04-26T00:00:00"
         },
+        "oldLaCode": 372,
         "percentageFull": 105
       }
     ],
@@ -13810,7 +14002,7 @@
         "dateAcademyJoinedTrust": "2022-12-22T00:00:00",
         "establishmentName": "Glyn Catholic Academy",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "Bradford",
+        "localAuthority": "Doncaster",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1915,
@@ -13828,6 +14020,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2019-12-10T00:00:00"
         },
+        "oldLaCode": 371,
         "percentageFull": 71
       },
       {
@@ -13835,7 +14028,7 @@
         "dateAcademyJoinedTrust": "2021-02-12T00:00:00",
         "establishmentName": "Horizon Academy",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Doncaster",
+        "localAuthority": "Sheffield",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1474,
@@ -13853,6 +14046,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2022-03-03T00:00:00"
         },
+        "oldLaCode": 373,
         "percentageFull": 65
       },
       {
@@ -13860,7 +14054,7 @@
         "dateAcademyJoinedTrust": "2022-10-02T00:00:00",
         "establishmentName": "Queen Elizabeth\u0027s Catholic Primary School",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "Bradford",
+        "localAuthority": "Doncaster",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 65,
@@ -13878,6 +14072,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2016-02-14T00:00:00"
         },
+        "oldLaCode": 371,
         "percentageFull": 52
       },
       {
@@ -13885,7 +14080,7 @@
         "dateAcademyJoinedTrust": "2020-06-11T00:00:00",
         "establishmentName": "Longhill Catholic School",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1399,
@@ -13903,6 +14098,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 380,
         "percentageFull": 126
       },
       {
@@ -13910,7 +14106,7 @@
         "dateAcademyJoinedTrust": "2023-11-03T00:00:00",
         "establishmentName": "Vicente Harbors School",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "Doncaster",
+        "localAuthority": "Sheffield",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2534,
@@ -13928,6 +14124,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2015-10-19T00:00:00"
         },
+        "oldLaCode": 373,
         "percentageFull": 112
       },
       {
@@ -13935,7 +14132,7 @@
         "dateAcademyJoinedTrust": "2021-11-18T00:00:00",
         "establishmentName": "Lampton Cofe Academy",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Doncaster",
+        "localAuthority": "Sheffield",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 2656,
@@ -13953,6 +14150,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2018-12-17T00:00:00"
         },
+        "oldLaCode": 373,
         "percentageFull": 90
       },
       {
@@ -13960,7 +14158,7 @@
         "dateAcademyJoinedTrust": "2022-11-10T00:00:00",
         "establishmentName": "St. James\u0027 C of E Academy",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1083,
@@ -13978,6 +14176,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 380,
         "percentageFull": 74
       },
       {
@@ -13985,7 +14184,7 @@
         "dateAcademyJoinedTrust": "2021-04-17T00:00:00",
         "establishmentName": "Halewood Academy",
         "typeOfEstablishment": "Academy 16-19 Converter",
-        "localAuthority": "Doncaster",
+        "localAuthority": "Sheffield",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 787,
@@ -14003,6 +14202,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2021-03-02T00:00:00"
         },
+        "oldLaCode": 373,
         "percentageFull": 48
       }
     ],
@@ -14625,6 +14825,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2018-06-09T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 122
       }
     ],
@@ -14766,7 +14967,7 @@
         "dateAcademyJoinedTrust": "2021-09-23T00:00:00",
         "establishmentName": "St. Mary\u0027s Anglican Academy",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2490,
@@ -14784,6 +14985,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 391,
         "percentageFull": 97
       }
     ],
@@ -14958,7 +15160,7 @@
         "dateAcademyJoinedTrust": "2021-05-25T00:00:00",
         "establishmentName": "St. Mary\u0027s Catholic High School Academy",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "Doncaster",
+        "localAuthority": "Sheffield",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1202,
@@ -14976,6 +15178,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 373,
         "percentageFull": 71
       }
     ],
@@ -15113,6 +15316,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2014-05-04T00:00:00"
         },
+        "oldLaCode": 382,
         "percentageFull": 113
       }
     ],
@@ -15221,7 +15425,7 @@
         "dateAcademyJoinedTrust": "2015-03-25T00:00:00",
         "establishmentName": "St. Mary\u0027s Catholic Primary School",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "Kingston upon Hull, City of",
+        "localAuthority": "Calderdale",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 460,
@@ -15239,6 +15443,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2023-03-07T00:00:00"
         },
+        "oldLaCode": 381,
         "percentageFull": 94
       }
     ],
@@ -15534,7 +15739,7 @@
         "dateAcademyJoinedTrust": "2023-05-08T00:00:00",
         "establishmentName": "St. Mary\u0027s Catholic Primary School",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "North Lincolnshire",
+        "localAuthority": "Gateshead",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 899,
@@ -15552,6 +15757,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 390,
         "percentageFull": 77
       }
     ],
@@ -15777,6 +15983,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2020-10-05T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 128
       }
     ],
@@ -16072,7 +16279,7 @@
         "dateAcademyJoinedTrust": "2019-04-25T00:00:00",
         "establishmentName": "St. Mary\u0027s Catholic Primary School",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "Bradford",
+        "localAuthority": "Doncaster",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1349,
@@ -16090,6 +16297,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 371,
         "percentageFull": 105
       }
     ],
@@ -16360,7 +16568,7 @@
         "dateAcademyJoinedTrust": "2019-12-03T00:00:00",
         "establishmentName": "St Mary\u0027s Catholic Primary School",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "Bradford",
+        "localAuthority": "Doncaster",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 615,
@@ -16378,6 +16586,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2020-02-02T00:00:00"
         },
+        "oldLaCode": 371,
         "percentageFull": 41
       },
       {
@@ -16385,7 +16594,7 @@
         "dateAcademyJoinedTrust": "2019-11-17T00:00:00",
         "establishmentName": "St. Mary\u0027s Catholic Primary School",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Bradford",
+        "localAuthority": "Doncaster",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 621,
@@ -16403,6 +16612,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 371,
         "percentageFull": 89
       },
       {
@@ -16410,7 +16620,7 @@
         "dateAcademyJoinedTrust": "2023-04-12T00:00:00",
         "establishmentName": "St. Marys Catholic Primary School",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Bradford",
+        "localAuthority": "Doncaster",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1312,
@@ -16428,6 +16638,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2013-12-07T00:00:00"
         },
+        "oldLaCode": 371,
         "percentageFull": 129
       },
       {
@@ -16435,7 +16646,7 @@
         "dateAcademyJoinedTrust": "2022-12-21T00:00:00",
         "establishmentName": "St. Mary\u0027s Catholic Primary School",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "Bradford",
+        "localAuthority": "Doncaster",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1279,
@@ -16453,6 +16664,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2012-11-01T00:00:00"
         },
+        "oldLaCode": 371,
         "percentageFull": 86
       },
       {
@@ -16460,7 +16672,7 @@
         "dateAcademyJoinedTrust": "2021-12-29T00:00:00",
         "establishmentName": "St Marys Catholic Primary School",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "Sheffield",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 131,
@@ -16478,6 +16690,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2015-05-08T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 74
       },
       {
@@ -16485,7 +16698,7 @@
         "dateAcademyJoinedTrust": "2019-09-05T00:00:00",
         "establishmentName": "St. Mary\u0027s Catholic Primary School",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "North Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1522,
@@ -16503,6 +16716,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 384,
         "percentageFull": 119
       },
       {
@@ -16510,7 +16724,7 @@
         "dateAcademyJoinedTrust": "2023-10-15T00:00:00",
         "establishmentName": "St. Mary\u0027s RC Primary School",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "North Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 188,
@@ -16528,6 +16742,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 384,
         "percentageFull": 53
       },
       {
@@ -16535,7 +16750,7 @@
         "dateAcademyJoinedTrust": "2023-04-05T00:00:00",
         "establishmentName": "St. Mary\u0027s Primary School",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "Sheffield",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1581,
@@ -16553,6 +16768,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 392,
         "percentageFull": 111
       },
       {
@@ -16560,7 +16776,7 @@
         "dateAcademyJoinedTrust": "2021-05-13T00:00:00",
         "establishmentName": "St. Mary\u0027s Primary School",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "North Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1667,
@@ -16578,6 +16794,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 384,
         "percentageFull": 71
       }
     ],
@@ -16873,7 +17090,7 @@
         "dateAcademyJoinedTrust": "2022-09-16T00:00:00",
         "establishmentName": "St Mary\u0027s CE Academy",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "North Lincolnshire",
+        "localAuthority": "Gateshead",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 740,
@@ -16891,6 +17108,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2012-05-18T00:00:00"
         },
+        "oldLaCode": 390,
         "percentageFull": 103
       }
     ],
@@ -17087,7 +17305,7 @@
         "dateAcademyJoinedTrust": "2022-10-12T00:00:00",
         "establishmentName": "St Mary\u0027s Church of England Academy",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "North Lincolnshire",
+        "localAuthority": "Gateshead",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 753,
@@ -17105,6 +17323,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2015-02-04T00:00:00"
         },
+        "oldLaCode": 390,
         "percentageFull": 75
       }
     ],
@@ -17411,7 +17630,7 @@
         "dateAcademyJoinedTrust": "2021-11-23T00:00:00",
         "establishmentName": "St Mary\u0027s Cofe Academy",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "Sheffield",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 206,
@@ -17429,6 +17648,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2017-09-19T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 52
       }
     ],
@@ -17581,7 +17801,7 @@
         "dateAcademyJoinedTrust": "2022-04-22T00:00:00",
         "establishmentName": "St Mary\u0027s C.E. Academy",
         "typeOfEstablishment": "Academy 16 to 19 sponsor led",
-        "localAuthority": "Wakefield",
+        "localAuthority": "South Tyneside",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 2866,
@@ -17599,6 +17819,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 393,
         "percentageFull": 112
       }
     ],
@@ -17927,7 +18148,7 @@
         "dateAcademyJoinedTrust": "2018-08-05T00:00:00",
         "establishmentName": "St Mary\u0027s C/E Academy",
         "typeOfEstablishment": "Academy 16-19 Converter",
-        "localAuthority": "Wakefield",
+        "localAuthority": "South Tyneside",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1855,
@@ -17945,6 +18166,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 393,
         "percentageFull": 98
       }
     ],
@@ -18119,7 +18341,7 @@
         "dateAcademyJoinedTrust": "2022-05-24T00:00:00",
         "establishmentName": "St Mary\u0027s C of E Academy",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "North Yorkshire",
+        "localAuthority": "Gateshead",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 3010,
@@ -18137,6 +18359,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2019-05-30T00:00:00"
         },
+        "oldLaCode": 390,
         "percentageFull": 130
       }
     ],
@@ -18355,7 +18578,7 @@
         "dateAcademyJoinedTrust": "2017-05-14T00:00:00",
         "establishmentName": "St Mary\u0027s Church of England VA Primary Academy",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 2133,
@@ -18373,6 +18596,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2016-04-01T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 95
       }
     ],
@@ -18624,7 +18848,7 @@
         "dateAcademyJoinedTrust": "2022-09-14T00:00:00",
         "establishmentName": "St Mary\u0027s Primary School, A Catholic Voluntary Academy",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "North Lincolnshire",
+        "localAuthority": "Gateshead",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 80,
@@ -18642,6 +18866,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2016-12-01T00:00:00"
         },
+        "oldLaCode": 390,
         "percentageFull": 63
       }
     ],
@@ -18922,6 +19147,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 370,
         "percentageFull": 76
       },
       {
@@ -18947,6 +19173,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 370,
         "percentageFull": 118
       },
       {
@@ -18972,6 +19199,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2020-07-12T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 90
       },
       {
@@ -18997,6 +19225,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 370,
         "percentageFull": 94
       },
       {
@@ -19022,6 +19251,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2012-06-21T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 125
       },
       {
@@ -19047,6 +19277,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2015-12-24T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 74
       },
       {
@@ -19072,6 +19303,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2015-02-12T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 48
       },
       {
@@ -19097,6 +19329,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2011-10-14T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 69
       },
       {
@@ -19122,6 +19355,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2016-08-08T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 124
       },
       {
@@ -19147,6 +19381,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 370,
         "percentageFull": 70
       },
       {
@@ -19172,6 +19407,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 370,
         "percentageFull": 109
       }
     ],
@@ -19445,7 +19681,7 @@
         "dateAcademyJoinedTrust": "2013-12-30T00:00:00",
         "establishmentName": "Meridian Cofe 16 Plus School",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1910,
@@ -19463,6 +19699,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 380,
         "percentageFull": 71
       },
       {
@@ -19470,7 +19707,7 @@
         "dateAcademyJoinedTrust": "2020-03-10T00:00:00",
         "establishmentName": "St. James\u0027 R.C. 16 Plus School",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Wakefield",
+        "localAuthority": "South Tyneside",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 2724,
@@ -19488,6 +19725,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2021-03-26T00:00:00"
         },
+        "oldLaCode": 393,
         "percentageFull": 113
       }
     ],
@@ -19757,6 +19995,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2014-10-06T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 119
       },
       {
@@ -19782,6 +20021,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 370,
         "percentageFull": 50
       },
       {
@@ -19807,6 +20047,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2019-08-06T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 98
       },
       {
@@ -19832,6 +20073,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 370,
         "percentageFull": 42
       },
       {
@@ -19857,6 +20099,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2020-10-04T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 107
       },
       {
@@ -19882,6 +20125,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2019-08-16T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 62
       },
       {
@@ -19907,6 +20151,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 370,
         "percentageFull": 99
       }
     ],
@@ -20099,6 +20344,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 370,
         "percentageFull": 62
       },
       {
@@ -20124,6 +20370,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2021-07-17T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 52
       },
       {
@@ -20149,6 +20396,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 370,
         "percentageFull": 111
       },
       {
@@ -20174,6 +20422,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 370,
         "percentageFull": 60
       },
       {
@@ -20181,7 +20430,7 @@
         "dateAcademyJoinedTrust": "2018-07-03T00:00:00",
         "establishmentName": "Limehurst Catholic Middle Deemed Primary School",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Wakefield",
+        "localAuthority": "South Tyneside",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 2514,
@@ -20199,6 +20448,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2012-11-29T00:00:00"
         },
+        "oldLaCode": 393,
         "percentageFull": 97
       },
       {
@@ -20206,7 +20456,7 @@
         "dateAcademyJoinedTrust": "2018-08-19T00:00:00",
         "establishmentName": "Meridian Cofe 16 Plus Academy",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "Wakefield",
+        "localAuthority": "South Tyneside",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1955,
@@ -20224,14 +20474,15 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 393,
         "percentageFull": 86
       },
       {
         "urn": 13025908,
         "dateAcademyJoinedTrust": "2021-02-04T00:00:00",
-        "establishmentName": "Wakefield Cofe School",
+        "establishmentName": "South Tyneside Cofe School",
         "typeOfEstablishment": "Academy 16 to 19 sponsor led",
-        "localAuthority": "Wakefield",
+        "localAuthority": "South Tyneside",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 1012,
@@ -20249,6 +20500,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 393,
         "percentageFull": 79
       },
       {
@@ -20256,7 +20508,7 @@
         "dateAcademyJoinedTrust": "2020-11-20T00:00:00",
         "establishmentName": "Limehurst Middle Deemed Secondary Academy",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Wakefield",
+        "localAuthority": "South Tyneside",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 831,
@@ -20274,6 +20526,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2018-12-29T00:00:00"
         },
+        "oldLaCode": 393,
         "percentageFull": 61
       }
     ],
@@ -20400,6 +20653,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2016-01-24T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 80
       }
     ],
@@ -20640,7 +20894,7 @@
         "dateAcademyJoinedTrust": "2015-02-09T00:00:00",
         "establishmentName": "Meridian School",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "Rotherham",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1075,
@@ -20658,6 +20912,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2018-04-29T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 88
       },
       {
@@ -20665,7 +20920,7 @@
         "dateAcademyJoinedTrust": "2015-12-08T00:00:00",
         "establishmentName": "Malbank Church of England School",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "Rotherham",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 3537,
@@ -20683,6 +20938,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2022-10-12T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 127
       },
       {
@@ -20690,7 +20946,7 @@
         "dateAcademyJoinedTrust": "2020-07-12T00:00:00",
         "establishmentName": "Longhill R.C. Academy",
         "typeOfEstablishment": "Academy 16 to 19 sponsor led",
-        "localAuthority": "Rotherham",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 899,
@@ -20708,6 +20964,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 392,
         "percentageFull": 67
       },
       {
@@ -20715,7 +20972,7 @@
         "dateAcademyJoinedTrust": "2015-07-08T00:00:00",
         "establishmentName": "St. Joseph\u0027s Church of England Academy",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "Rotherham",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 604,
@@ -20733,6 +20990,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2014-10-18T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 42
       },
       {
@@ -20740,7 +20998,7 @@
         "dateAcademyJoinedTrust": "2022-05-13T00:00:00",
         "establishmentName": "St. Peter\u0027s R.C. School",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "Rotherham",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 838,
@@ -20758,6 +21016,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2020-05-30T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 128
       },
       {
@@ -20783,6 +21042,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 382,
         "percentageFull": 57
       },
       {
@@ -20790,7 +21050,7 @@
         "dateAcademyJoinedTrust": "2021-01-28T00:00:00",
         "establishmentName": "St. Marys Cofe 16 Plus Academy",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "Rotherham",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 2102,
@@ -20808,6 +21068,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 392,
         "percentageFull": 116
       },
       {
@@ -20815,7 +21076,7 @@
         "dateAcademyJoinedTrust": "2015-03-01T00:00:00",
         "establishmentName": "Margie Mountains Middle Deemed Primary Academy",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "Rotherham",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 696,
@@ -20833,6 +21094,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2011-01-20T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 112
       },
       {
@@ -20858,6 +21120,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2012-05-14T00:00:00"
         },
+        "oldLaCode": 382,
         "percentageFull": 104
       },
       {
@@ -20883,6 +21146,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2018-10-07T00:00:00"
         },
+        "oldLaCode": 382,
         "percentageFull": 108
       },
       {
@@ -20890,7 +21154,7 @@
         "dateAcademyJoinedTrust": "2018-01-18T00:00:00",
         "establishmentName": "George Abbey Academy",
         "typeOfEstablishment": "Academy 16 to 19 sponsor led",
-        "localAuthority": "Rotherham",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 308,
@@ -20908,6 +21172,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2017-06-26T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 118
       }
     ],
@@ -21046,7 +21311,7 @@
         "dateAcademyJoinedTrust": "2019-07-20T00:00:00",
         "establishmentName": "St. James\u0027s R.C. Academy",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 2288,
@@ -21064,6 +21329,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 384,
         "percentageFull": 115
       },
       {
@@ -21089,6 +21355,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2020-05-28T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 59
       },
       {
@@ -21096,7 +21363,7 @@
         "dateAcademyJoinedTrust": "2016-09-03T00:00:00",
         "establishmentName": "Greensward Catholic Primary School",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "Sheffield",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1697,
@@ -21114,6 +21381,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2017-08-06T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 73
       },
       {
@@ -21121,7 +21389,7 @@
         "dateAcademyJoinedTrust": "2017-03-26T00:00:00",
         "establishmentName": "Mulberry Academy",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1047,
@@ -21139,6 +21407,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2016-02-21T00:00:00"
         },
+        "oldLaCode": 384,
         "percentageFull": 44
       },
       {
@@ -21164,6 +21433,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2017-03-30T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 126
       },
       {
@@ -21171,7 +21441,7 @@
         "dateAcademyJoinedTrust": "2015-01-21T00:00:00",
         "establishmentName": "Glyn School",
         "typeOfEstablishment": "Community School",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 908,
@@ -21189,6 +21459,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2015-07-26T00:00:00"
         },
+        "oldLaCode": 384,
         "percentageFull": 66
       },
       {
@@ -21196,7 +21467,7 @@
         "dateAcademyJoinedTrust": "2015-12-19T00:00:00",
         "establishmentName": "St. Mary\u0027s Cofe School",
         "typeOfEstablishment": "Community School",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 581,
@@ -21214,6 +21485,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2016-01-06T00:00:00"
         },
+        "oldLaCode": 384,
         "percentageFull": 45
       },
       {
@@ -21221,7 +21493,7 @@
         "dateAcademyJoinedTrust": "2017-11-13T00:00:00",
         "establishmentName": "Malbank School",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Sheffield",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 482,
@@ -21239,6 +21511,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 392,
         "percentageFull": 44
       },
       {
@@ -21264,6 +21537,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2016-11-29T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 90
       },
       {
@@ -21289,6 +21563,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2021-10-20T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 100
       },
       {
@@ -21296,7 +21571,7 @@
         "dateAcademyJoinedTrust": "2020-02-15T00:00:00",
         "establishmentName": "Glyn R.C. School",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Sheffield",
+        "localAuthority": "North Tyneside",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 826,
@@ -21314,6 +21589,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2022-06-18T00:00:00"
         },
+        "oldLaCode": 392,
         "percentageFull": 51
       }
     ],
@@ -21499,7 +21775,7 @@
         "dateAcademyJoinedTrust": "2020-10-08T00:00:00",
         "establishmentName": "Momentum Community R.C. School",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Leeds",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 494,
@@ -21517,6 +21793,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2022-01-20T00:00:00"
         },
+        "oldLaCode": 383,
         "percentageFull": 101
       },
       {
@@ -21524,7 +21801,7 @@
         "dateAcademyJoinedTrust": "2017-02-23T00:00:00",
         "establishmentName": "St. James\u0027 C of E School",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Kirklees",
+        "localAuthority": "Barnsley",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 370,
@@ -21542,6 +21819,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2017-09-23T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 86
       },
       {
@@ -21549,7 +21827,7 @@
         "dateAcademyJoinedTrust": "2023-01-10T00:00:00",
         "establishmentName": "St. James\u0027 CE Academy",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "Leeds",
+        "localAuthority": "Kirklees",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 165,
@@ -21567,6 +21845,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 382,
         "percentageFull": 77
       },
       {
@@ -21574,7 +21853,7 @@
         "dateAcademyJoinedTrust": "2017-02-26T00:00:00",
         "establishmentName": "Peacehaven Community Church of England School",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "Leeds",
+        "localAuthority": "Kirklees",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1769,
@@ -21592,6 +21871,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2011-11-27T00:00:00"
         },
+        "oldLaCode": 382,
         "percentageFull": 73
       },
       {
@@ -21599,7 +21879,7 @@
         "dateAcademyJoinedTrust": "2021-03-19T00:00:00",
         "establishmentName": "St. Catherine\u0027s Catholic Academy",
         "typeOfEstablishment": "Academy 16-19 Converter",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Leeds",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1129,
@@ -21617,6 +21897,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2014-04-04T00:00:00"
         },
+        "oldLaCode": 383,
         "percentageFull": 63
       },
       {
@@ -21624,7 +21905,7 @@
         "dateAcademyJoinedTrust": "2021-05-12T00:00:00",
         "establishmentName": "St. John\u0027s Catholic Middle Deemed Secondary Academy",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "Kirklees",
+        "localAuthority": "Barnsley",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1255,
@@ -21642,6 +21923,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2015-01-30T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 91
       }
     ],
@@ -21966,6 +22248,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2020-05-24T00:00:00"
         },
+        "oldLaCode": 382,
         "percentageFull": 45
       },
       {
@@ -21973,7 +22256,7 @@
         "dateAcademyJoinedTrust": "2021-10-13T00:00:00",
         "establishmentName": "St. Catherine\u0027s Cofe School",
         "typeOfEstablishment": "Community School",
-        "localAuthority": "East Riding of Yorkshire",
+        "localAuthority": "Bradford",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1643,
@@ -21991,6 +22274,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2015-05-10T00:00:00"
         },
+        "oldLaCode": 380,
         "percentageFull": 114
       },
       {
@@ -22016,6 +22300,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2015-05-06T00:00:00"
         },
+        "oldLaCode": 382,
         "percentageFull": 66
       },
       {
@@ -22041,6 +22326,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2017-04-21T00:00:00"
         },
+        "oldLaCode": 382,
         "percentageFull": 66
       }
     ],
@@ -22380,7 +22666,7 @@
         "dateAcademyJoinedTrust": "2015-01-10T00:00:00",
         "establishmentName": "St. James\u0027 R.C. Academy",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "Doncaster",
+        "localAuthority": "Sheffield",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 1662,
@@ -22398,6 +22684,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2019-03-12T00:00:00"
         },
+        "oldLaCode": 373,
         "percentageFull": 78
       },
       {
@@ -22405,7 +22692,7 @@
         "dateAcademyJoinedTrust": "2014-10-19T00:00:00",
         "establishmentName": "Holly Lodge Girls\u0027 School",
         "typeOfEstablishment": "Free schools 16 to 19",
-        "localAuthority": "Doncaster",
+        "localAuthority": "Sheffield",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 955,
@@ -22423,6 +22710,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 373,
         "percentageFull": 47
       },
       {
@@ -22430,7 +22718,7 @@
         "dateAcademyJoinedTrust": "2021-03-08T00:00:00",
         "establishmentName": "St. Joseph\u0027s Cofe Middle Deemed Primary School",
         "typeOfEstablishment": "Community School",
-        "localAuthority": "Doncaster",
+        "localAuthority": "Sheffield",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1006,
@@ -22448,6 +22736,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 373,
         "percentageFull": 81
       },
       {
@@ -22455,7 +22744,7 @@
         "dateAcademyJoinedTrust": "2021-05-03T00:00:00",
         "establishmentName": "St. James\u0027 Church of England School",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "Doncaster",
+        "localAuthority": "Sheffield",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1368,
@@ -22473,6 +22762,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2014-12-14T00:00:00"
         },
+        "oldLaCode": 373,
         "percentageFull": 118
       }
     ],
@@ -22835,7 +23125,7 @@
         "dateAcademyJoinedTrust": "2021-11-20T00:00:00",
         "establishmentName": "St. John\u0027s R.C. School",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "Doncaster",
+        "localAuthority": "Rotherham",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 1171,
@@ -22853,6 +23143,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 372,
         "percentageFull": 124
       },
       {
@@ -22860,7 +23151,7 @@
         "dateAcademyJoinedTrust": "2015-03-15T00:00:00",
         "establishmentName": "Greensward C of E Academy",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "North Yorkshire",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1312,
@@ -22878,6 +23169,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2015-08-12T00:00:00"
         },
+        "oldLaCode": 391,
         "percentageFull": 105
       },
       {
@@ -22885,7 +23177,7 @@
         "dateAcademyJoinedTrust": "2016-08-31T00:00:00",
         "establishmentName": "Beacon School",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Doncaster",
+        "localAuthority": "Rotherham",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1600,
@@ -22903,6 +23195,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 372,
         "percentageFull": 93
       },
       {
@@ -22910,7 +23203,7 @@
         "dateAcademyJoinedTrust": "2021-08-13T00:00:00",
         "establishmentName": "St. Marys Catholic Academy",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "North Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1592,
@@ -22928,6 +23221,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 384,
         "percentageFull": 64
       },
       {
@@ -22935,7 +23229,7 @@
         "dateAcademyJoinedTrust": "2015-03-09T00:00:00",
         "establishmentName": "Longhill Academy",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "Doncaster",
+        "localAuthority": "Rotherham",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1085,
@@ -22953,6 +23247,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 372,
         "percentageFull": 94
       },
       {
@@ -22960,7 +23255,7 @@
         "dateAcademyJoinedTrust": "2020-01-03T00:00:00",
         "establishmentName": "Limehurst C of E School",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "North Lincolnshire",
+        "localAuthority": "Wakefield",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2410,
@@ -22978,6 +23273,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 384,
         "percentageFull": 101
       },
       {
@@ -23003,6 +23299,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2016-10-22T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 48
       }
     ],
@@ -23133,7 +23430,7 @@
         "dateAcademyJoinedTrust": "2021-05-06T00:00:00",
         "establishmentName": "Harris R.C. Academy",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Bradford",
+        "localAuthority": "Barnsley",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 279,
@@ -23151,6 +23448,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2016-01-04T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 71
       },
       {
@@ -23158,7 +23456,7 @@
         "dateAcademyJoinedTrust": "2017-01-20T00:00:00",
         "establishmentName": "St. Marys CE School",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "Bradford",
+        "localAuthority": "Barnsley",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 2271,
@@ -23176,6 +23474,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2013-12-06T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 101
       },
       {
@@ -23183,7 +23482,7 @@
         "dateAcademyJoinedTrust": "2017-07-15T00:00:00",
         "establishmentName": "Co-op Secondary School",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "Bradford",
+        "localAuthority": "Barnsley",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 256,
@@ -23201,6 +23500,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2012-09-07T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 77
       }
     ],
@@ -23507,7 +23807,7 @@
         "dateAcademyJoinedTrust": "2022-10-28T00:00:00",
         "establishmentName": "St. James\u0027s Church of England School",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Leeds",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 456,
@@ -23525,6 +23825,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2012-08-22T00:00:00"
         },
+        "oldLaCode": 383,
         "percentageFull": 73
       },
       {
@@ -23532,7 +23833,7 @@
         "dateAcademyJoinedTrust": "2022-12-21T00:00:00",
         "establishmentName": "St. Mary\u0027s R.C. Middle Deemed Secondary School",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Leeds",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 2890,
@@ -23550,6 +23851,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 383,
         "percentageFull": 97
       },
       {
@@ -23557,7 +23859,7 @@
         "dateAcademyJoinedTrust": "2023-05-27T00:00:00",
         "establishmentName": "Lucile Ferry Academy",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Leeds",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 87,
@@ -23575,6 +23877,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2017-11-24T00:00:00"
         },
+        "oldLaCode": 383,
         "percentageFull": 64
       },
       {
@@ -23582,7 +23885,7 @@
         "dateAcademyJoinedTrust": "2023-05-23T00:00:00",
         "establishmentName": "Glyn School",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Leeds",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 857,
@@ -23600,6 +23903,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 383,
         "percentageFull": 80
       },
       {
@@ -23607,7 +23911,7 @@
         "dateAcademyJoinedTrust": "2023-05-11T00:00:00",
         "establishmentName": "Wiza Springs Catholic Middle Deemed Secondary School",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Leeds",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 2885,
@@ -23625,6 +23929,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2019-07-20T00:00:00"
         },
+        "oldLaCode": 383,
         "percentageFull": 125
       },
       {
@@ -23632,7 +23937,7 @@
         "dateAcademyJoinedTrust": "2023-04-30T00:00:00",
         "establishmentName": "Holly Lodge Girls\u0027 R.C. School",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Leeds",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 2870,
@@ -23650,6 +23955,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 383,
         "percentageFull": 125
       },
       {
@@ -23657,7 +23963,7 @@
         "dateAcademyJoinedTrust": "2022-08-05T00:00:00",
         "establishmentName": "Krajcik Spur Cofe All-through School",
         "typeOfEstablishment": "Academy Sponsor Led",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Leeds",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1320,
@@ -23675,6 +23981,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 383,
         "percentageFull": 58
       }
     ],
@@ -23992,7 +24299,7 @@
         "dateAcademyJoinedTrust": "2021-03-02T00:00:00",
         "establishmentName": "Halewood C of E Academy",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "Calderdale",
+        "localAuthority": "Barnsley",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Middle Deemed Secondary",
         "numberOfPupils": 1098,
@@ -24010,6 +24317,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2013-12-20T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 127
       },
       {
@@ -24017,7 +24325,7 @@
         "dateAcademyJoinedTrust": "2023-07-03T00:00:00",
         "establishmentName": "Zula Skyway Secondary School",
         "typeOfEstablishment": "City Technology College",
-        "localAuthority": "Calderdale",
+        "localAuthority": "Barnsley",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 796,
@@ -24035,6 +24343,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2020-02-27T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 45
       },
       {
@@ -24042,7 +24351,7 @@
         "dateAcademyJoinedTrust": "2020-09-15T00:00:00",
         "establishmentName": "St. Marys Church of England Middle Deemed Primary Academy",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "Leeds",
+        "localAuthority": "Kirklees",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Middle Deemed Primary",
         "numberOfPupils": 1045,
@@ -24060,6 +24369,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2014-03-11T00:00:00"
         },
+        "oldLaCode": 382,
         "percentageFull": 67
       },
       {
@@ -24067,7 +24377,7 @@
         "dateAcademyJoinedTrust": "2022-01-17T00:00:00",
         "establishmentName": "St. James\u0027 C of E Academy",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "Leeds",
+        "localAuthority": "Kirklees",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 2121,
@@ -24085,14 +24395,15 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2019-10-03T00:00:00"
         },
+        "oldLaCode": 382,
         "percentageFull": 112
       },
       {
         "urn": 12377014,
         "dateAcademyJoinedTrust": "2022-12-20T00:00:00",
-        "establishmentName": "Calderdale Academy",
+        "establishmentName": "Barnsley Academy",
         "typeOfEstablishment": "University technical college",
-        "localAuthority": "Calderdale",
+        "localAuthority": "Barnsley",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 827,
@@ -24110,6 +24421,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 370,
         "percentageFull": 126
       },
       {
@@ -24117,7 +24429,7 @@
         "dateAcademyJoinedTrust": "2021-11-13T00:00:00",
         "establishmentName": "Lampton School",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Leeds",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1053,
@@ -24135,6 +24447,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 383,
         "percentageFull": 69
       },
       {
@@ -24142,7 +24455,7 @@
         "dateAcademyJoinedTrust": "2021-09-15T00:00:00",
         "establishmentName": "St. Marys R.C. Academy",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "North East Lincolnshire",
+        "localAuthority": "Leeds",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 350,
@@ -24160,6 +24473,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 383,
         "percentageFull": 117
       }
     ],
@@ -24334,7 +24648,7 @@
         "dateAcademyJoinedTrust": "2022-10-07T00:00:00",
         "establishmentName": "Glyn Academy",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Wakefield",
+        "localAuthority": "South Tyneside",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "All-through",
         "numberOfPupils": 1347,
@@ -24352,6 +24666,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2014-10-03T00:00:00"
         },
+        "oldLaCode": 393,
         "percentageFull": 92
       },
       {
@@ -24359,7 +24674,7 @@
         "dateAcademyJoinedTrust": "2023-05-12T00:00:00",
         "establishmentName": "Longhill School",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 155,
@@ -24377,6 +24692,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2018-05-20T00:00:00"
         },
+        "oldLaCode": 394,
         "percentageFull": 90
       },
       {
@@ -24384,7 +24700,7 @@
         "dateAcademyJoinedTrust": "2022-06-30T00:00:00",
         "establishmentName": "Beacon R.C. Academy",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Rural town and fringe",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 985,
@@ -24402,6 +24718,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2017-07-13T00:00:00"
         },
+        "oldLaCode": 394,
         "percentageFull": 49
       },
       {
@@ -24409,7 +24726,7 @@
         "dateAcademyJoinedTrust": "2023-08-19T00:00:00",
         "establishmentName": "Northwood C of E School",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Urban city and town",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 3399,
@@ -24427,6 +24744,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 394,
         "percentageFull": 127
       },
       {
@@ -24434,7 +24752,7 @@
         "dateAcademyJoinedTrust": "2023-07-18T00:00:00",
         "establishmentName": "Beacon Primary School",
         "typeOfEstablishment": "Studio schools",
-        "localAuthority": "Wakefield",
+        "localAuthority": "South Tyneside",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 370,
@@ -24452,6 +24770,7 @@
           "ofstedRatingScore": 2,
           "inspectionEndDate": "2019-05-07T00:00:00"
         },
+        "oldLaCode": 393,
         "percentageFull": 117
       },
       {
@@ -24459,7 +24778,7 @@
         "dateAcademyJoinedTrust": "2022-10-09T00:00:00",
         "establishmentName": "Glyn Cofe School",
         "typeOfEstablishment": "Foundation School",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 434,
@@ -24477,14 +24796,15 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 394,
         "percentageFull": 46
       },
       {
         "urn": 12411249,
         "dateAcademyJoinedTrust": "2022-10-15T00:00:00",
-        "establishmentName": "Rotherham Academy",
+        "establishmentName": "Newcastle upon Tyne Academy",
         "typeOfEstablishment": "Community School",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Secondary",
         "numberOfPupils": 264,
@@ -24502,6 +24822,7 @@
           "ofstedRatingScore": 3,
           "inspectionEndDate": "2012-05-24T00:00:00"
         },
+        "oldLaCode": 391,
         "percentageFull": 40
       },
       {
@@ -24509,7 +24830,7 @@
         "dateAcademyJoinedTrust": "2022-11-07T00:00:00",
         "establishmentName": "Greensward School",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "York",
+        "localAuthority": "Sunderland",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 1268,
@@ -24527,6 +24848,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2015-09-20T00:00:00"
         },
+        "oldLaCode": 394,
         "percentageFull": 47
       },
       {
@@ -24534,7 +24856,7 @@
         "dateAcademyJoinedTrust": "2022-05-31T00:00:00",
         "establishmentName": "Beacon Cofe 16 Plus Academy",
         "typeOfEstablishment": "Voluntary Aided School",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Urban minor conurbation",
         "phaseOfEducation": "16 Plus",
         "numberOfPupils": 2083,
@@ -24552,6 +24874,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2016-11-25T00:00:00"
         },
+        "oldLaCode": 391,
         "percentageFull": 70
       }
     ],
@@ -24744,6 +25067,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 383,
         "percentageFull": 107
       },
       {
@@ -24751,7 +25075,7 @@
         "dateAcademyJoinedTrust": "2023-07-29T00:00:00",
         "establishmentName": "St. Anne\u0027s Catholic Primary Academy",
         "typeOfEstablishment": "Voluntary Controlled School",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Primary",
         "numberOfPupils": 2042,
@@ -24769,6 +25093,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2016-02-22T00:00:00"
         },
+        "oldLaCode": 391,
         "percentageFull": 115
       },
       {
@@ -24776,7 +25101,7 @@
         "dateAcademyJoinedTrust": "2023-07-08T00:00:00",
         "establishmentName": "St. Mary\u0027s Cofe Academy",
         "typeOfEstablishment": "Free Schools",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Urban major conurbation",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 625,
@@ -24794,6 +25119,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2021-03-26T00:00:00"
         },
+        "oldLaCode": 391,
         "percentageFull": 97
       },
       {
@@ -24819,6 +25145,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 383,
         "percentageFull": 105
       },
       {
@@ -24844,6 +25171,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 370,
         "percentageFull": 40
       },
       {
@@ -24869,6 +25197,7 @@
           "ofstedRatingScore": 4,
           "inspectionEndDate": "2018-06-04T00:00:00"
         },
+        "oldLaCode": 383,
         "percentageFull": 64
       },
       {
@@ -24894,6 +25223,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 370,
         "percentageFull": 50
       },
       {
@@ -24901,7 +25231,7 @@
         "dateAcademyJoinedTrust": "2023-07-26T00:00:00",
         "establishmentName": "St. Joseph\u0027s CE Academy",
         "typeOfEstablishment": "Academy Converter",
-        "localAuthority": "Rotherham",
+        "localAuthority": "Newcastle upon Tyne",
         "urbanRural": "Rural village in a sparse setting",
         "phaseOfEducation": "Not applicable",
         "numberOfPupils": 167,
@@ -24919,6 +25249,7 @@
           "ofstedRatingScore": -1,
           "inspectionEndDate": null
         },
+        "oldLaCode": 391,
         "percentageFull": 65
       },
       {
@@ -24944,6 +25275,7 @@
           "ofstedRatingScore": 1,
           "inspectionEndDate": "2015-01-23T00:00:00"
         },
+        "oldLaCode": 370,
         "percentageFull": 116
       }
     ],

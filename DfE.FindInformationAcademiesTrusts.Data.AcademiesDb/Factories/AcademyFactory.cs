@@ -31,7 +31,8 @@ public class AcademyFactory : IAcademyFactory
             giasEstablishment.PercentageFsm,
             new AgeRange(giasEstablishment.StatutoryLowAge!, giasEstablishment.StatutoryHighAge!),
             GetCurrentOfstedRating(misEstablishmentCurrentOfsted, misFurtherEducationEstablishment),
-            GetPreviousOfstedRating(misEstablishmentPreviousOfsted, misFurtherEducationEstablishment)
+            GetPreviousOfstedRating(misEstablishmentPreviousOfsted, misFurtherEducationEstablishment),
+            int.Parse(giasEstablishment.LaCode!)
         );
     }
 

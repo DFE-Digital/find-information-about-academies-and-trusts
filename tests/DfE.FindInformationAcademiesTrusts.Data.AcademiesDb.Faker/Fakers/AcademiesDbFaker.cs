@@ -8,7 +8,6 @@ public class AcademiesDbFaker
     private int _counter = 1233;
     private readonly Bogus.Faker _generalFaker = new();
 
-    private readonly string?[] _localAuthorities;
     private readonly GiasGroupLinkFaker _giasGroupLinkFaker;
     private readonly GiasEstablishmentFaker _giasEstablishmentFaker;
     private readonly GiasGroupFaker _giasGroupFaker;
@@ -19,18 +18,20 @@ public class AcademiesDbFaker
     private readonly CdmSystemuserFaker _cdmSystemuserFaker = new();
     private readonly MisEstablishmentFaker _misEstablishmentFaker;
     private AcademiesDbData _academiesDbData;
+    private readonly IEnumerable<int> _laCodes;
 
-    public AcademiesDbFaker(string?[] regions, string?[] localAuthorities, string[] fakeSchoolNames,
+    public AcademiesDbFaker(string?[] regions, Dictionary<int, string> localAuthorities, string[] fakeSchoolNames,
         Dictionary<string, string[]> governorAppointingBodies, string[] giasPhaseNames)
     {
         // Need a ref date for any use of `faker.Date` so the data generated doesn't change every day
         var refDate = new DateTime(2023, 11, 9);
 
-        _localAuthorities = localAuthorities;
+        _laCodes = localAuthorities.Select(la => la.Key);
         _giasGroupFaker = new GiasGroupFaker(refDate);
         _giasGovernanceFaker = new GiasGovernanceFaker(refDate, governorAppointingBodies);
         _giasEstablishmentFaker =
-            new GiasEstablishmentFaker(fakeSchoolNames, giasPhaseNames, new EstablishmentTypePicker());
+            new GiasEstablishmentFaker(fakeSchoolNames, giasPhaseNames, new EstablishmentTypePicker(),
+                localAuthorities);
         _giasGroupLinkFaker = new GiasGroupLinkFaker(refDate);
         _mstrTrustFaker = new MstrTrustFaker(regions);
         _mstrTrustGovernanceFaker = new MstrTrustGovernanceFaker();
@@ -92,7 +93,7 @@ public class AcademiesDbFaker
     private IEnumerable<GiasEstablishment> GenerateGiasEstablishments(TrustToGenerate trustToGenerate, string uid)
     {
         _giasEstablishmentFaker.SetUid(uid).SetLocalAuthoritiesSelection(
-            _generalFaker.PickRandom(_localAuthorities, _generalFaker.Random.Int(1, 4)).ToArray());
+            _generalFaker.PickRandom(_laCodes, _generalFaker.Random.Int(1, 4)).ToArray());
 
         if (trustToGenerate.HasNoAcademies)
         {
