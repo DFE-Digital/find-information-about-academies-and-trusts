@@ -1,16 +1,16 @@
 ﻿@model ITrustsAreaModel
-<details class="govuk-details" data-module="govuk-details">
+<details class="govuk-details" data-module="govuk-details" aria-labelledby="source-panel-label">
   <summary class="govuk-details__summary">
     <span class="govuk-details__summary-text">
-      <span>Source and updates</span>
+      <span id="source-panel-label">Source and updates</span>
     </span>
   </summary>
   <div class="govuk-details__text">
     @foreach (var source in Model.DataSources)
     {
-      <dl class="fiat-data-source-list">
+      <dl class="fiat-data-source-list" aria-labelledby="source-item-label">
         <div class="fiat-data-source-list__item">
-          <dt class="fiat-data-source-list__title fiat-data-source-list__cell">@source.Fields: </dt>
+          <dt class="fiat-data-source-list__title fiat-data-source-list__cell" id="source-item-label">@source.Fields: </dt>
           <dd class="fiat-data-source-list__cell">@source.DataSource.Name</dd>
         </div>
         <div class="fiat-data-source-list__item">
