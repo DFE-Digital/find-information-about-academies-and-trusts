@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +10,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 {
     private readonly List<GiasGroupLink> _giasGroupLinks = new();
+    private readonly List<MisEstablishment> _misEstablishments = new();
     private readonly List<CdmSystemuser> _cdmSystemusers = new();
     private readonly List<CdmAccount> _cdmAccounts = new();
     private List<GiasGroup>? _addedGiasGroups;
@@ -18,6 +20,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     {
         Setup(academiesDbContext => academiesDbContext.GiasGroupLinks)
             .Returns(new MockDbSet<GiasGroupLink>(_giasGroupLinks).Object);
+        Setup(academiesDbContext => academiesDbContext.MisEstablishments)
+            .Returns(new MockDbSet<MisEstablishment>(_misEstablishments).Object);
         Setup(academiesDbContext => academiesDbContext.CdmSystemusers)
             .Returns(new MockDbSet<CdmSystemuser>(_cdmSystemusers).Object);
         Setup(academiesDbContext => academiesDbContext.CdmAccounts)
@@ -146,5 +150,22 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         }
 
         return establishmentGroupLinks;
+    }
+
+    public List<MisEstablishment> CreateMisEstablishments(
+        IEnumerable<GiasEstablishment> giasEstablishmentsLinkedToTrust)
+    {
+        var misEstablishments = new List<MisEstablishment>();
+        foreach (var giasEstablishment in giasEstablishmentsLinkedToTrust)
+        {
+            var misEstablishment = new MisEstablishment
+            {
+                Urn = giasEstablishment.Urn
+            };
+            _misEstablishments.Add(misEstablishment);
+            misEstablishments.Add(misEstablishment);
+        }
+
+        return misEstablishments;
     }
 }

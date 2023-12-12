@@ -77,10 +77,14 @@ public class TrustProvider : ITrustProvider
     {
         return await _academiesDbContext
             .GiasGroupLinks.Where(gl => gl.GroupUid == uid && gl.Urn != null)
-            .Join(_academiesDbContext.GiasEstablishments,
-                gl => gl.Urn!,
-                e => e.Urn.ToString(),
-                (gl, e) => _academyFactory.CreateFrom(gl, e, null, null))
+            .Select(
+                gl =>
+                    _academyFactory.CreateFrom(
+                        gl,
+                        _academiesDbContext.GiasEstablishments.First(e => e.Urn.ToString() == gl.Urn),
+                        _academiesDbContext.MisEstablishments.FirstOrDefault(me => me.Urn.ToString() == gl.Urn),
+                        null)
+            )
             .ToArrayAsync();
     }
 }
