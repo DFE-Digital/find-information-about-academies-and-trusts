@@ -4,11 +4,13 @@ import { TrustHeaderComponent } from '../shared/trust-header-component'
 import { NavigationComponent } from '../shared/navigation-component'
 import { BasePage, BasePageAssertions } from '../base-page'
 import { FakeTrust } from '../../fake-data/types'
+import { SourcePanelComponent } from './sources-and-updates'
 
 export class BaseTrustPage extends BasePage {
   readonly expect: BaseTrustPageAssertions
   readonly trustHeading: TrustHeaderComponent
   readonly trustNavigation: NavigationComponent
+  readonly sourcePanel: SourcePanelComponent
 
   fakeTestData: FakeTestData
   currentTrust: FakeTrust
@@ -22,6 +24,7 @@ export class BaseTrustPage extends BasePage {
     this.fakeTestData = fakeTestData
     this.trustHeading = new TrustHeaderComponent(page)
     this.trustNavigation = new NavigationComponent(page, 'Sections')
+    this.sourcePanel = new SourcePanelComponent(page)
   }
 
   async goTo (): Promise<void> {
