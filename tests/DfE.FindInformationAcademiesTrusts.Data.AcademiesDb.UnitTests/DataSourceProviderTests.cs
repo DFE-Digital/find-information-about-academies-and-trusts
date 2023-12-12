@@ -8,13 +8,13 @@ public class DataSourceProviderTests
     private readonly DataSourceProvider _sut;
     private readonly List<ApplicationEvent> _applicationEvents;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
-    private readonly DateTime _testStartTime = DateTime.Now;
+    private static readonly DateTime TestStartTime = new DateTime(2023, 12, 12, 06, 54, 12);
     private readonly List<ApplicationSetting> _applicationSettings;
 
     public DataSourceProviderTests()
     {
-        _applicationEvents = _mockAcademiesDbContext.SetupMockDbContextOpsApplicationEvents(_testStartTime);
-        _applicationSettings = _mockAcademiesDbContext.SetupMockDbContextOpsApplicationSettings(_testStartTime);
+        _applicationEvents = _mockAcademiesDbContext.SetupMockDbContextOpsApplicationEvents(TestStartTime);
+        _applicationSettings = _mockAcademiesDbContext.SetupMockDbContextOpsApplicationSettings(TestStartTime);
         _sut = new DataSourceProvider(_mockAcademiesDbContext.Object);
     }
 
@@ -34,14 +34,14 @@ public class DataSourceProviderTests
 
         result.Should().NotBeNull();
         result.Should()
-            .BeEquivalentTo(new DataSource("Get information about schools", _testStartTime.AddDays(-1),
+            .BeEquivalentTo(new DataSource("Get information about schools", TestStartTime.AddDays(-1),
                 "Daily"));
     }
 
     [Fact]
     public async Task GetGiasUpdated_WhenInvalidEntryExists_ShouldReturnNull()
     {
-        _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(_testStartTime);
+        _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(TestStartTime);
         var result = await _sut.GetGiasUpdated();
 
         result.Should().BeNull();
@@ -63,14 +63,14 @@ public class DataSourceProviderTests
 
         result.Should().NotBeNull();
         result.Should()
-            .BeEquivalentTo(new DataSource("Get information about schools", _testStartTime.AddDays(-1),
+            .BeEquivalentTo(new DataSource("Get information about schools", TestStartTime.AddDays(-1),
                 "Daily"));
     }
 
     [Fact]
     public async Task GetMstrUpdated_WhenInvalidEntryExists_ShouldReturnNull()
     {
-        _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(_testStartTime);
+        _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(TestStartTime);
         var result = await _sut.GetMstrUpdated();
 
         result.Should().BeNull();
@@ -92,14 +92,14 @@ public class DataSourceProviderTests
 
         result.Should().NotBeNull();
         result.Should()
-            .BeEquivalentTo(new DataSource("RSD service support team", _testStartTime.AddDays(-1),
+            .BeEquivalentTo(new DataSource("RSD service support team", TestStartTime.AddDays(-1),
                 "Daily"));
     }
 
     [Fact]
     public async Task GetCdmUpdated_WhenInvalidEntryExists_ShouldReturnNull()
     {
-        _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(_testStartTime);
+        _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(TestStartTime);
         var result = await _sut.GetCdmUpdated();
 
         result.Should().BeNull();
@@ -122,13 +122,13 @@ public class DataSourceProviderTests
         result.Should().NotBeNull();
         result.Should()
             .BeEquivalentTo(new DataSource("State-funded school inspections and outcomes: management information",
-                _testStartTime.AddDays(-1), "Monthly"));
+                TestStartTime.AddDays(-1), "Monthly"));
     }
 
     [Fact]
     public async Task GetMisEstablishmentsUpdated_WhenInvalidEntryExists_ShouldReturnNull()
     {
-        _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationSettings(_testStartTime);
+        _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationSettings(TestStartTime);
         var result = await _sut.GetMisEstablishmentsUpdated();
 
         result.Should().BeNull();
@@ -151,13 +151,13 @@ public class DataSourceProviderTests
         result.Should().NotBeNull();
         result.Should()
             .BeEquivalentTo(new DataSource("State-funded school inspections and outcomes: management information",
-                _testStartTime.AddDays(-2), "Monthly"));
+                TestStartTime.AddDays(-2), "Monthly"));
     }
 
     [Fact]
     public async Task GetMisEstablishmentsFurtherEducationUpdated_WhenInvalidEntryExists_ShouldReturnNull()
     {
-        _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationSettings(_testStartTime);
+        _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationSettings(TestStartTime);
         var result = await _sut.GetMisFurtherEducationEstablishmentsUpdated();
 
         result.Should().BeNull();
