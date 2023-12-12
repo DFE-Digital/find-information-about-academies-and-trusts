@@ -1,6 +1,9 @@
+using System.Runtime.CompilerServices;
 using DfE.FindInformationAcademiesTrusts.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+
+[assembly: InternalsVisibleTo("DfE.FindInformationAcademiesTrusts.UnitTests")]
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
@@ -32,7 +35,6 @@ public class TrustsAreaModel : PageModel, ITrustsAreaModel
     {
         return await _dataSourceProvider.GetMstrUpdated();
     }
-
 
     internal async Task<DataSource?> GetCdmDateUpdated()
     {
