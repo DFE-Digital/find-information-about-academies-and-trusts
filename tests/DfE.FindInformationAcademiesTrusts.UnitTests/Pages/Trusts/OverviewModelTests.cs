@@ -1,6 +1,7 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 
@@ -9,12 +10,16 @@ public class OverviewModelTests
     private readonly Mock<ITrustProvider> _mockTrustProvider;
     private readonly OverviewModel _sut;
     private const string TrustUid = "1234";
+    private readonly Mock<IDataSourceProvider> _mockDataSourceProvider;
+
 
     public OverviewModelTests()
     {
+        var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider = new Mock<ITrustProvider>();
-        Mock<IDataSourceProvider> _mockDataUpdatedProvider = new();
-        _sut = new OverviewModel(_mockTrustProvider.Object, _mockDataUpdatedProvider.Object);
+        _mockDataSourceProvider = new Mock<IDataSourceProvider>();
+        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrust);
+        _sut = new OverviewModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object) { Uid = "1234" };
     }
 
     [Fact]
@@ -214,5 +219,22 @@ public class OverviewModelTests
     {
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync(TrustUid))
             .ReturnsAsync(DummyTrustFactory.GetDummyTrust(TrustUid, academies: null));
+    }
+
+    [Fact]
+    public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_null()
+    {
+        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync((Trust?)null);
+        var result = await _sut.OnGetAsync();
+        result.Should().BeOfType<NotFoundResult>();
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_correct_data_source_list()
+    {
+        var result = await _sut.OnGetAsync();
+        _mockDataSourceProvider.Verify(e => e.GetGiasUpdated(), Times.Once);
+        _sut.DataSources.Should().ContainSingle(i =>
+            i.Fields == "Trust summary, Ofsted ratings");
     }
 }

@@ -20,6 +20,23 @@ public class ContactsModelTests
     private static DateTime _currentGovernorDate;
     private static DateTime _pastGovernorDate;
     
+    private readonly Mock<ITrustProvider> _mockTrustProvider;
+    private readonly Mock<IDataSourceProvider> _mockDataSourceProvider;
+
+    private static Governor[] ListOfGovernors()
+    {
+        Governor[] listOfGovernors =
+        {
+            DummyGovernorFactory.GetDummyGovernor("Past Chair", ChairOfTrustees,_pastGovernorDate ),
+            DummyGovernorFactory.GetDummyGovernor(PresentChairOfTrustees, ChairOfTrustees, _currentGovernorDate),
+            DummyGovernorFactory.GetDummyGovernor("Past AccountingOfficer", AccountingOfficer, _pastGovernorDate),
+            DummyGovernorFactory.GetDummyGovernor(PresentAccountingOfficer, AccountingOfficer, _currentGovernorDate),
+            DummyGovernorFactory.GetDummyGovernor("Past ChiefFinancialOfficer", ChiefFinancialOfficer, _pastGovernorDate),
+            DummyGovernorFactory.GetDummyGovernor(PresentChiefFinancialOfficer, ChiefFinancialOfficer, null)
+        };
+
+        return listOfGovernors;
+    }
 
     public ContactsModelTests()
     {
@@ -111,18 +128,18 @@ public class ContactsModelTests
         result.Should().BeOfType<NotFoundResult>();
     }
 
-    private static Governor[] ListOfGovernors()
+    [Fact]
+    public async Task OnGetAsync_sets_correct_data_source_list()
     {
-        Governor[] listOfGovernors =
-        {
-            DummyGovernorFactory.GetDummyGovernor("Past Chair", ChairOfTrustees,_pastGovernorDate ),
-            DummyGovernorFactory.GetDummyGovernor(PresentChairOfTrustees, ChairOfTrustees, _currentGovernorDate),
-            DummyGovernorFactory.GetDummyGovernor("Past AccountingOfficer", AccountingOfficer, _pastGovernorDate),
-            DummyGovernorFactory.GetDummyGovernor(PresentAccountingOfficer, AccountingOfficer, _currentGovernorDate),
-            DummyGovernorFactory.GetDummyGovernor("Past ChiefFinancialOfficer", ChiefFinancialOfficer, _pastGovernorDate),
-            DummyGovernorFactory.GetDummyGovernor(PresentChiefFinancialOfficer, ChiefFinancialOfficer, null)
-        };
-
-        return listOfGovernors;
+        var result = await _sut.OnGetAsync();
+        _mockDataSourceProvider.Verify(e => e.GetCdmUpdated(), Times.Once);
+        _mockDataSourceProvider.Verify(e => e.GetGiasUpdated(), Times.Once);
+        _mockDataSourceProvider.Verify(e => e.GetMstrUpdated(), Times.Once);
+        _sut.DataSources.Count().Should().Be(3);
+        _sut.DataSources.Should().Contain(i =>
+            i.Fields == "Accounting Officer Name, Chief Financial Officer Name, Chair of trustees Name");
+        _sut.DataSources.Should().Contain(i => i.Fields == "DfE Contacts");
+        _sut.DataSources.Should().Contain(i =>
+            i.Fields == "Accounting Officer Email, Chief Financial Officer Email, Chair of trustees Email");
     }
 }

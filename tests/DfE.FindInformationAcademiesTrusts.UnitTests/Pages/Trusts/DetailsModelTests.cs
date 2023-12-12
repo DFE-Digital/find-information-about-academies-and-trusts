@@ -12,14 +12,15 @@ public class DetailsModelTests
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinksToOtherServices = new();
     private readonly Mock<ITrustProvider> _mockTrustProvider;
     private readonly Trust _dummyTrust;
+    private readonly Mock<IDataSourceProvider> _mockDataSourceProvider;
 
     public DetailsModelTests()
     {
         _dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider = new Mock<ITrustProvider>();
-        Mock<IDataSourceProvider> mockDataUpdatedProvider = new();
+        _mockDataSourceProvider = new Mock<IDataSourceProvider>();
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(_dummyTrust);
-        _sut = new DetailsModel(_mockTrustProvider.Object, mockDataUpdatedProvider.Object,
+        _sut = new DetailsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
             _mockLinksToOtherServices.Object) { Uid = "1234" };
     }
 
@@ -104,5 +105,13 @@ public class DetailsModelTests
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync((Trust?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_correct_data_source_list()
+    {
+        await _sut.OnGetAsync();
+        _mockDataSourceProvider.Verify(e => e.GetGiasUpdated(), Times.Once);
+        _sut.DataSources.Should().ContainSingle(i => i.Fields == "Trust details, Reference numbers");
     }
 }

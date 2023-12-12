@@ -1,6 +1,8 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 
@@ -8,13 +10,17 @@ public class AcademiesDetailsModelTests
 {
     private readonly AcademiesDetailsModel _sut;
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinkBuilder = new();
+    private readonly Mock<ITrustProvider> _mockTrustProvider;
+    private readonly Mock<IDataSourceProvider> _mockDataSourceProvider;
 
     public AcademiesDetailsModelTests()
     {
-        var mockTrustProvider = new Mock<ITrustProvider>();
-        Mock<IDataSourceProvider> mockDataUpdatedProvider = new();
-        _sut = new AcademiesDetailsModel(mockTrustProvider.Object, mockDataUpdatedProvider.Object,
-            _mockLinkBuilder.Object);
+        var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
+        _mockTrustProvider = new Mock<ITrustProvider>();
+        _mockDataSourceProvider = new Mock<IDataSourceProvider>();
+        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrust);
+        _sut = new AcademiesDetailsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
+            _mockLinkBuilder.Object) { Uid = "1234" };
     }
 
     [Fact]
@@ -39,5 +45,22 @@ public class AcademiesDetailsModelTests
     public void OtherServicesLinkBuilder_should_be_injected()
     {
         _sut.LinkBuilder.Should().Be(_mockLinkBuilder.Object);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_null()
+    {
+        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync((Trust?)null);
+        var result = await _sut.OnGetAsync();
+        result.Should().BeOfType<NotFoundResult>();
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_correct_data_source_list()
+    {
+        var result = await _sut.OnGetAsync();
+        _mockDataSourceProvider.Verify(e => e.GetGiasUpdated(), Times.Once);
+        _sut.DataSources.Count().Should().Be(1);
+        _sut.DataSources.Should().ContainSingle(i => i.Fields == "Details");
     }
 }
