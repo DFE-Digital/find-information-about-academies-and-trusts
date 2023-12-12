@@ -11,6 +11,7 @@ import { CookiesPage } from '../page-object-model/cookies-page'
 import { AcademiesDetailsPage } from '../page-object-model/trust/academies/details-page'
 import { AcademiesOfstedRatingsPage } from '../page-object-model/trust/academies/ofsted-ratings-page'
 import { AcademiesPupilNumbersPage } from '../page-object-model/trust/academies/pupil-numbers-page '
+import { AcademiesFreeSchoolMealsPage } from '../page-object-model/trust/academies/free-school-meals-page'
 
 test.describe('Navigation', () => {
   let homePage: HomePage
@@ -24,6 +25,7 @@ test.describe('Navigation', () => {
   let academiesDetailsPage: AcademiesDetailsPage
   let academiesOfstedRatingsPage: AcademiesOfstedRatingsPage
   let academiesPupilNumbersPage: AcademiesPupilNumbersPage
+  let academiesFreeSchoolMealsPage: AcademiesFreeSchoolMealsPage
 
   test.beforeEach(async ({ page }) => {
     const fakeTestData = new FakeTestData()
@@ -35,6 +37,7 @@ test.describe('Navigation', () => {
     academiesDetailsPage = new AcademiesDetailsPage(page, fakeTestData)
     academiesOfstedRatingsPage = new AcademiesOfstedRatingsPage(page, fakeTestData)
     academiesPupilNumbersPage = new AcademiesPupilNumbersPage(page, fakeTestData)
+    academiesFreeSchoolMealsPage = new AcademiesFreeSchoolMealsPage(page, fakeTestData)
     privacyPage = new PrivacyPage(page)
     accessibilityPage = new AccessibilityPage(page)
     cookiesPage = new CookiesPage(page)
@@ -88,6 +91,18 @@ test.describe('Navigation', () => {
     await academiesOfstedRatingsPage.subNavigation.clickOn('Pupil numbers')
     await academiesPupilNumbersPage.expect.toBeOnTheRightPage()
     await academiesPupilNumbersPage.subNavigation.clickOn('Details')
+    await academiesDetailsPage.expect.toBeOnTheRightPage()
+    await academiesDetailsPage.subNavigation.clickOn('Free school meals')
+    await academiesFreeSchoolMealsPage.expect.toBeOnTheRightPage()
+    await academiesFreeSchoolMealsPage.subNavigation.clickOn('Ofsted ratings')
+    await academiesOfstedRatingsPage.expect.toBeOnTheRightPage()
+    await academiesOfstedRatingsPage.subNavigation.clickOn('Free school meals')
+    await academiesFreeSchoolMealsPage.expect.toBeOnTheRightPage()
+    await academiesFreeSchoolMealsPage.subNavigation.clickOn('Pupil numbers')
+    await academiesPupilNumbersPage.expect.toBeOnTheRightPage()
+    await academiesPupilNumbersPage.subNavigation.clickOn('Free school meals')
+    await academiesFreeSchoolMealsPage.expect.toBeOnTheRightPage()
+    await academiesFreeSchoolMealsPage.subNavigation.clickOn('Details')
     await academiesDetailsPage.expect.toBeOnTheRightPage()
   })
 
