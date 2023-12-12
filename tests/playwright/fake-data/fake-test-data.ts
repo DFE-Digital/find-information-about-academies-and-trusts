@@ -31,6 +31,7 @@ export interface FakeAcademy {
     maximum: number
   }
   percentageFull: number
+  percentageFreeSchoolMeals: number
 }
 
 export interface FakePerson {
