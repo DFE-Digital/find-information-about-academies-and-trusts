@@ -67,8 +67,9 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 
     private static int _appEventId;
 
-    private ApplicationEvent CreateApplicationEvent(DateTime? dateTime, string description, string message = "Finished",
-        string source = "adf-t1ts-sips-dataflow", char eventType = 'I')
+    private ApplicationEvent CreateApplicationEvent(DateTime? dateTime, string description,
+        string? message = "Finished",
+        string? source = "adf-t1ts-sips-dataflow", char? eventType = 'I')
     {
         return new ApplicationEvent
         {
@@ -184,16 +185,25 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     {
         var items = new List<ApplicationEvent>
         {
-            CreateApplicationEvent(time.AddDays(-1), "Wrong Description"),
+            CreateApplicationEvent(time.AddDays(-10), "Wrong Description"),
             CreateApplicationEvent(time.AddDays(-1), "GIAS_Daily", "Started"),
             CreateApplicationEvent(time.AddDays(-2), "GIAS_Daily", source: "test-Source"),
-            CreateApplicationEvent(time.AddDays(-3), "GIAS_Daily", eventType: 'E'),
+            CreateApplicationEvent(time.AddDays(-3), "GIAS_Daily", source: null),
+            CreateApplicationEvent(time.AddDays(-4), "GIAS_Daily", source: "adf-t1"),
+            CreateApplicationEvent(time.AddDays(-5), "GIAS_Daily", source: "-sips-dataflow"),
+            CreateApplicationEvent(time.AddDays(-6), "GIAS_Daily", eventType: 'E'),
             CreateApplicationEvent(time.AddDays(-1), "MSTR_Daily", "Started"),
             CreateApplicationEvent(time.AddDays(-2), "MSTR_Daily", source: "test-Source"),
-            CreateApplicationEvent(time.AddDays(-3), "MSTR_Daily", eventType: 'E'),
+            CreateApplicationEvent(time.AddDays(-3), "MSTR_Daily", source: null),
+            CreateApplicationEvent(time.AddDays(-4), "MSTR_Daily", source: "adf-t1"),
+            CreateApplicationEvent(time.AddDays(-5), "MSTR_Daily", source: "-sips-dataflow"),
+            CreateApplicationEvent(time.AddDays(-6), "MSTR_Daily", eventType: 'E'),
             CreateApplicationEvent(time.AddDays(-1), "CDM_Daily", "Started"),
             CreateApplicationEvent(time.AddDays(-2), "CDM_Daily", source: "test-Source"),
-            CreateApplicationEvent(time.AddDays(-3), "CDM_Daily", eventType: 'E')
+            CreateApplicationEvent(time.AddDays(-3), "CDM_Daily", source: null),
+            CreateApplicationEvent(time.AddDays(-4), "CDM_Daily", source: "adf-t1"),
+            CreateApplicationEvent(time.AddDays(-5), "CDM_Daily", source: "-sips-dataflow"),
+            CreateApplicationEvent(time.AddDays(-6), "CDM_Daily", eventType: 'E')
         };
 
         Setup(academiesTable => academiesTable.ApplicationEvents)
