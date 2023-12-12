@@ -38,9 +38,13 @@ public class ContactsModel : TrustsAreaModel
         var giasSource = await GetGiasDataUpdated();
         var cdmSource = await GetCdmDateUpdated();
         var mstrSource = await GetMstrDataUpdated();
-        DataSources = new[] { new DataSourceListEntry(giasSource!, "Accounting Officer Name, Chief Financial Officer Name, Chair of trustees Name"), 
-            new DataSourceListEntry(cdmSource!, "DfE Contacts"), 
-            new DataSourceListEntry(mstrSource!, "Accounting Officer Email, Chief Financial Officer Email, Chair of trustees Email")
+        DataSources = new[]
+        {
+            new DataSourceListEntry(cdmSource!, "DfE Contacts"),
+            new DataSourceListEntry(giasSource!,
+                "Accounting Officer Name, Chief Financial Officer Name, Chair of trustees Name"),
+            new DataSourceListEntry(mstrSource!,
+                "Accounting Officer Email, Chief Financial Officer Email, Chair of trustees Email")
         };
         return pageResult;
     }
