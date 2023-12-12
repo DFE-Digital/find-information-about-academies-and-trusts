@@ -55,7 +55,8 @@ public class AcademiesDbData
             IEnumerable<MisEstablishment> misEstablishments,
             IEnumerable<MisFurtherEducationEstablishment> misFurtherEducationEstablishment,
             IEnumerable<CdmSystemuser> cdmSystemusers,
-            IEnumerable<MstrTrustGovernance> mstrTrustGovernances, IEnumerable<ApplicationEvent> applicationEvents,
+            IEnumerable<MstrTrustGovernance> mstrTrustGovernances,
+            IEnumerable<ApplicationEvent> applicationEvents,
             IEnumerable<ApplicationSetting> applicationSettings)
         {
             ApplicationEvents = new MockDbSet<ApplicationEvent>(applicationEvents).Object;

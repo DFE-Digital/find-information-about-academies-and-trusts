@@ -19,6 +19,8 @@ public class AcademiesDbFaker
     private readonly MisEstablishmentFaker _misEstablishmentFaker;
     private AcademiesDbData _academiesDbData;
     private readonly IEnumerable<int> _laCodes;
+    private readonly ApplicationEventFaker _applicationEventFaker;
+    private readonly ApplicationSettingsFaker _applicationSettingsFaker;
 
     public AcademiesDbFaker(string?[] regions, Dictionary<int, string> localAuthorities, string[] fakeSchoolNames,
         Dictionary<string, string[]> governorAppointingBodies, string[] giasPhaseNames)
@@ -36,6 +38,8 @@ public class AcademiesDbFaker
         _mstrTrustFaker = new MstrTrustFaker(regions);
         _mstrTrustGovernanceFaker = new MstrTrustGovernanceFaker();
         _misEstablishmentFaker = new MisEstablishmentFaker(refDate);
+        _applicationEventFaker = new ApplicationEventFaker(refDate);
+        _applicationSettingsFaker = new ApplicationSettingsFaker(refDate);
     }
 
     public AcademiesDbData Generate(TrustToGenerate[] trustsToGenerate)
@@ -58,6 +62,12 @@ public class AcademiesDbFaker
             _academiesDbData.GiasGovernances.AddRange(giasGovernances);
             _academiesDbData.MstrTrustGovernances.AddRange(_mstrTrustGovernanceFaker.Generate(giasGovernances));
         }
+
+        _academiesDbData.ApplicationEvents.AddRange(_applicationEventFaker.Generate());
+        _academiesDbData.ApplicationSettings.AddRange(_applicationSettingsFaker.Generate());
+
+        _academiesDbData.ApplicationEvents.AddRange(_applicationEventFaker.Generate());
+        _academiesDbData.ApplicationSettings.AddRange(_applicationSettingsFaker.Generate());
 
         return _academiesDbData;
     }
