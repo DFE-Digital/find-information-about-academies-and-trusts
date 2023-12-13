@@ -82,8 +82,12 @@ public class TrustProvider : ITrustProvider
                     _academyFactory.CreateFrom(
                         gl,
                         _academiesDbContext.GiasEstablishments.First(e => e.Urn.ToString() == gl.Urn),
-                        _academiesDbContext.MisEstablishments.FirstOrDefault(me => me.Urn.ToString() == gl.Urn),
-                        null)
+                        _academiesDbContext.MisEstablishments.FirstOrDefault(me =>
+                            me.UrnAtTimeOfLatestFullInspection.ToString() == gl.Urn),
+                        _academiesDbContext.MisEstablishments.FirstOrDefault(me =>
+                            me.UrnAtTimeOfPreviousFullInspection.ToString() == gl.Urn),
+                        _academiesDbContext.MisFurtherEducationEstablishments.FirstOrDefault(mfe =>
+                            mfe.ProviderUrn.ToString() == gl.Urn))
             )
             .ToArrayAsync();
     }

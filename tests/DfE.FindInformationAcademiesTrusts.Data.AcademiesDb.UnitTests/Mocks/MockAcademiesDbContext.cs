@@ -11,6 +11,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 {
     private readonly List<GiasGroupLink> _giasGroupLinks = new();
     private readonly List<MisEstablishment> _misEstablishments = new();
+    private readonly List<MisFurtherEducationEstablishment> _misFurtherEducationEstablishments = new();
     private readonly List<CdmSystemuser> _cdmSystemusers = new();
     private readonly List<CdmAccount> _cdmAccounts = new();
     private List<GiasGroup>? _addedGiasGroups;
@@ -22,6 +23,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             .Returns(new MockDbSet<GiasGroupLink>(_giasGroupLinks).Object);
         Setup(academiesDbContext => academiesDbContext.MisEstablishments)
             .Returns(new MockDbSet<MisEstablishment>(_misEstablishments).Object);
+        Setup(academiesDbContext => academiesDbContext.MisFurtherEducationEstablishments)
+            .Returns(new MockDbSet<MisFurtherEducationEstablishment>(_misFurtherEducationEstablishments).Object);
         Setup(academiesDbContext => academiesDbContext.CdmSystemusers)
             .Returns(new MockDbSet<CdmSystemuser>(_cdmSystemusers).Object);
         Setup(academiesDbContext => academiesDbContext.CdmAccounts)
@@ -152,7 +155,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         return establishmentGroupLinks;
     }
 
-    public List<MisEstablishment> CreateMisEstablishments(
+    public List<MisEstablishment> CreateCurrentMisEstablishments(
         IEnumerable<GiasEstablishment> giasEstablishmentsLinkedToTrust)
     {
         var misEstablishments = new List<MisEstablishment>();
@@ -160,12 +163,46 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         {
             var misEstablishment = new MisEstablishment
             {
-                Urn = giasEstablishment.Urn
+                UrnAtTimeOfLatestFullInspection = giasEstablishment.Urn
             };
             _misEstablishments.Add(misEstablishment);
             misEstablishments.Add(misEstablishment);
         }
 
         return misEstablishments;
+    }
+
+    public List<MisEstablishment> CreatePreviousMisEstablishments(
+        IEnumerable<GiasEstablishment> giasEstablishmentsLinkedToTrust)
+    {
+        var misEstablishments = new List<MisEstablishment>();
+        foreach (var giasEstablishment in giasEstablishmentsLinkedToTrust)
+        {
+            var misEstablishment = new MisEstablishment
+            {
+                UrnAtTimeOfPreviousFullInspection = giasEstablishment.Urn
+            };
+            _misEstablishments.Add(misEstablishment);
+            misEstablishments.Add(misEstablishment);
+        }
+
+        return misEstablishments;
+    }
+
+    public List<MisFurtherEducationEstablishment> CreateMisFurtherEducationEstablishments(
+        GiasEstablishment[] giasEstablishmentsLinkedToTrust)
+    {
+        var misFurtherEducationEstablishments = new List<MisFurtherEducationEstablishment>();
+        foreach (var giasEstablishment in giasEstablishmentsLinkedToTrust)
+        {
+            var misFurtherEducationEstablishment = new MisFurtherEducationEstablishment
+            {
+                ProviderUrn = giasEstablishment.Urn
+            };
+            _misFurtherEducationEstablishments.Add(misFurtherEducationEstablishment);
+            misFurtherEducationEstablishments.Add(misFurtherEducationEstablishment);
+        }
+
+        return misFurtherEducationEstablishments;
     }
 }
