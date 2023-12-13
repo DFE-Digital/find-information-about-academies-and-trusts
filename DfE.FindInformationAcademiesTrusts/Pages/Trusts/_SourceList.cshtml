@@ -9,18 +9,11 @@
     @foreach (var source in Model.DataSources)
     {
       <div>
-        <div class="govuk-grid-row govuk-body">
-          <span class="govuk-!-font-weight-bold margin-right-class govuk-grid-column-one-half">@string.Join(", ", source.Fields):</span>
-          <span class="govuk-grid-column-one-half">@Model.MapDataSourceToName(source.DataSource)</span>
-        </div>
-        <div class="govuk-grid-row govuk-body">
-          <span class="margin-right-class govuk-grid-column-one-half">Last updated: </span>
-          <span class="govuk-grid-column-one-half"> @source.DataSource.LastUpdated.ToLocalTime()</span>
-        </div>
-        <div class="govuk-grid-row govuk-body">
-          <span class="margin-right-class govuk-grid-column-one-half">Next scheduled update: </span>
-          <span class="govuk-grid-column-one-half">@source.DataSource.NextUpdated</span>
-        </div>
+        <p class="govuk-body">
+          <span class="govuk-!-font-weight-bold margin-right-class">@string.Join(", ", source.Fields): </span> @Model.MapDataSourceToName(source.DataSource)
+        </p>
+        <p class="govuk-body">Last updated: @source.DataSource.LastUpdated.ToString(ViewConstants.ViewDateFormat)</p>
+        <p class="govuk-body">Next scheduled update: @source.DataSource.NextUpdated</p>
       </div>
     }
   </div>
