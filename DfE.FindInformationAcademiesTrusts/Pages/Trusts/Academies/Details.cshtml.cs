@@ -14,6 +14,7 @@ public class AcademiesDetailsModel : TrustsAreaModel, IAcademiesAreaModel
         PageTitle = "Academies details";
         LinkBuilder = linkBuilder;
     }
+
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();
@@ -21,9 +22,14 @@ public class AcademiesDetailsModel : TrustsAreaModel, IAcademiesAreaModel
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
         var giasSource = await GetGiasDataUpdated();
-        DataSources = new[] { new DataSourceListEntry(giasSource!, "Details")
-        };
+        if (giasSource is not null)
+        {
+            DataSources.Add(new DataSourceListEntry(giasSource,
+                new List<string> { "Details" }));
+        }
+
         return pageResult;
     }
+
     public string TabName => "Details";
 }

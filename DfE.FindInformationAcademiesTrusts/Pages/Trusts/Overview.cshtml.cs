@@ -45,7 +45,12 @@ public class OverviewModel : TrustsAreaModel
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
         var giasSource = await GetGiasDataUpdated();
-        DataSources = new[] { new DataSourceListEntry(giasSource!, "Trust summary, Ofsted ratings") };
+        if (giasSource is not null)
+        {
+            DataSources.Add(new DataSourceListEntry(giasSource,
+                new List<string> { "Trust summary", "Ofsted ratings" }));
+        }
+
         return pageResult;
     }
 }

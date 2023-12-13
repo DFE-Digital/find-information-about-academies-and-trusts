@@ -18,7 +18,12 @@ public class PupilNumbersModel : TrustsAreaModel, IAcademiesAreaModel
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
         var giasSource = await GetGiasDataUpdated();
-        DataSources = new[] { new DataSourceListEntry(giasSource!, "Pupil numbers") };
+        if (giasSource is not null)
+        {
+            DataSources.Add(new DataSourceListEntry(giasSource,
+                new List<string> { "Pupil numbers" }));
+        }
+
         return pageResult;
     }
 

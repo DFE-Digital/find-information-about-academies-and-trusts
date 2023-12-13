@@ -30,8 +30,14 @@ public class DetailsModel : TrustsAreaModel
         SchoolsFinancialBenchmarkingLink =
             _otherServicesLinkBuilder.SchoolFinancialBenchmarkingServiceListingLink(Trust);
         FindSchoolPerformanceLink = _otherServicesLinkBuilder.FindSchoolPerformanceDataListingLink(Trust);
+
         var giasSource = await GetGiasDataUpdated();
-        DataSources = new[] { new DataSourceListEntry(giasSource!, "Trust details, Reference numbers") };
+        if (giasSource is not null)
+        {
+            DataSources.Add(new DataSourceListEntry(giasSource,
+                new List<string> { "Trust details", "Reference numbers" }));
+        }
+
         return pageResult;
     }
 }
