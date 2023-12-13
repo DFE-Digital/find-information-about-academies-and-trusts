@@ -1,4 +1,4 @@
-# 4. Do not run automated UI tests on Webkit
+# 5. Do not run automated UI tests on Webkit
 
 Date: 2023-12-06
 
