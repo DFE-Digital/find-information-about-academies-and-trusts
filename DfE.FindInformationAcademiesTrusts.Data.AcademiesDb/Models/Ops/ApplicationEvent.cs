@@ -1,5 +1,8 @@
-﻿namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
+
+[ExcludeFromCodeCoverage] // Database model POCO
 public class ApplicationEvent
 {
     public int Id { get; set; }

@@ -1,5 +1,8 @@
-﻿namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
+
+[ExcludeFromCodeCoverage] // Database model POCO
 public class ApplicationSetting
 {
     public required string Key { get; set; }
