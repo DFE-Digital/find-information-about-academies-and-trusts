@@ -10,8 +10,8 @@
     {
       <div>
         <div class="govuk-grid-row govuk-body">
-          <span class="govuk-!-font-weight-bold margin-right-class govuk-grid-column-one-half">@source.Fields: </span>
-          <span class="govuk-grid-column-one-half">@source.DataSource.Source</span>
+          <span class="govuk-!-font-weight-bold margin-right-class govuk-grid-column-one-half">@string.Join(", ", source.Fields):</span>
+          <span class="govuk-grid-column-one-half">@Model.MapDataSourceToName(source.DataSource)</span>
         </div>
         <div class="govuk-grid-row govuk-body">
           <span class="margin-right-class govuk-grid-column-one-half">Last updated: </span>
@@ -24,5 +24,4 @@
       </div>
     }
   </div>
-
 </details>
