@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
@@ -9,13 +10,13 @@ public class PupilNumbersModelTests
 {
     private readonly PupilNumbersModel _sut;
     private readonly Mock<ITrustProvider> _mockTrustProvider;
-    private readonly Mock<IDataSourceProvider> _mockDataSourceProvider;
+    private readonly MockDataSourceProvider _mockDataSourceProvider;
 
     public PupilNumbersModelTests()
     {
         var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider = new Mock<ITrustProvider>();
-        _mockDataSourceProvider = new Mock<IDataSourceProvider>();
+        _mockDataSourceProvider = new MockDataSourceProvider();
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrust);
         _sut = new PupilNumbersModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object) { Uid = "1234" };
     }
@@ -68,7 +69,7 @@ public class PupilNumbersModelTests
     {
         await _sut.OnGetAsync();
         _mockDataSourceProvider.Verify(e => e.GetGiasUpdated(), Times.Once);
-        _sut.DataSources.Count().Should().Be(1);
-        _sut.DataSources.Should().ContainSingle(i => i.Fields == "Pupil numbers");
+        _sut.DataSources.Should().ContainSingle();
+        _sut.DataSources[0].Fields.Should().Contain(new List<string> { "Pupil numbers" });
     }
 }

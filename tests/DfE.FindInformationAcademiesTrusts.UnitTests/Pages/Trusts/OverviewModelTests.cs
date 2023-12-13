@@ -1,6 +1,7 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
@@ -10,16 +11,16 @@ public class OverviewModelTests
     private readonly Mock<ITrustProvider> _mockTrustProvider;
     private readonly OverviewModel _sut;
     private const string TrustUid = "1234";
-    private readonly Mock<IDataSourceProvider> _mockDataSourceProvider;
+    private readonly MockDataSourceProvider _mockDataSourceProvider;
 
 
     public OverviewModelTests()
     {
-        var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
+        var dummyTrust = DummyTrustFactory.GetDummyTrust(TrustUid);
         _mockTrustProvider = new Mock<ITrustProvider>();
-        _mockDataSourceProvider = new Mock<IDataSourceProvider>();
-        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrust);
-        _sut = new OverviewModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object) { Uid = "1234" };
+        _mockDataSourceProvider = new MockDataSourceProvider();
+        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync(TrustUid)).ReturnsAsync(dummyTrust);
+        _sut = new OverviewModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object) { Uid = TrustUid };
     }
 
     [Fact]
@@ -224,7 +225,7 @@ public class OverviewModelTests
     [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_null()
     {
-        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync((Trust?)null);
+        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync(TrustUid)).ReturnsAsync((Trust?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
@@ -234,7 +235,7 @@ public class OverviewModelTests
     {
         var result = await _sut.OnGetAsync();
         _mockDataSourceProvider.Verify(e => e.GetGiasUpdated(), Times.Once);
-        _sut.DataSources.Should().ContainSingle(i =>
-            i.Fields == "Trust summary, Ofsted ratings");
+        _sut.DataSources.Should().ContainSingle();
+        _sut.DataSources[0].Fields.Should().Contain(new List<string> { "Trust summary", "Ofsted ratings" });
     }
 }

@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
@@ -21,7 +22,8 @@ public class ContactsModelTests
     private static DateTime _pastGovernorDate;
     
     private readonly Mock<ITrustProvider> _mockTrustProvider;
-    private readonly Mock<IDataSourceProvider> _mockDataSourceProvider;
+
+    private readonly MockDataSourceProvider _mockDataSourceProvider;
 
     private static Governor[] ListOfGovernors()
     {
@@ -46,8 +48,8 @@ public class ContactsModelTests
         _dummyTrustWithNoGovernors = DummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider = new Mock<ITrustProvider>();
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(_dummyTrustWithGovernors);
-        Mock<IDataSourceProvider> mockDataUpdatedProvider = new();
-        _sut = new ContactsModel(_mockTrustProvider.Object, mockDataUpdatedProvider.Object) { Uid = "1234" };
+        _mockDataSourceProvider = new MockDataSourceProvider();
+        _sut = new ContactsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object) { Uid = "1234" };
     }
 
     private void SetupTrustWithNoGovernors()
@@ -131,15 +133,16 @@ public class ContactsModelTests
     [Fact]
     public async Task OnGetAsync_sets_correct_data_source_list()
     {
-        var result = await _sut.OnGetAsync();
+        await _sut.OnGetAsync();
         _mockDataSourceProvider.Verify(e => e.GetCdmUpdated(), Times.Once);
         _mockDataSourceProvider.Verify(e => e.GetGiasUpdated(), Times.Once);
         _mockDataSourceProvider.Verify(e => e.GetMstrUpdated(), Times.Once);
-        _sut.DataSources.Count().Should().Be(3);
-        _sut.DataSources.Should().Contain(i =>
-            i.Fields == "Accounting Officer Name, Chief Financial Officer Name, Chair of trustees Name");
-        _sut.DataSources.Should().Contain(i => i.Fields == "DfE Contacts");
-        _sut.DataSources.Should().Contain(i =>
-            i.Fields == "Accounting Officer Email, Chief Financial Officer Email, Chair of trustees Email");
+        _sut.DataSources.Count.Should().Be(3);
+        _sut.DataSources[0].Fields.Should().Contain(new List<string>
+            { "DfE Contacts" });
+        _sut.DataSources[1].Fields.Should().Contain(new List<string>
+            { "Accounting Officer name", "Chief Financial Officer name", "Chair of trustees name" });
+        _sut.DataSources[2].Fields.Should().Contain(new List<string>
+            { "Accounting Officer email", "Chief Financial Officer email", "Chair of trustees email" });
     }
 }
