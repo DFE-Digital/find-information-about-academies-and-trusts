@@ -24,6 +24,6 @@ We will make it clear to the user that it is data that will not change, using th
 
 ## Consequences
 
-This approach gives us quick access to a small additional data source we need for MVP. However, adding data in this way will require manual updating. The hardcoded data should eventually be replaced with a database table, or direct access to the statistics data via API if one is developed in the future.
+This approach gives us quick access to a small additional data source we need for MVP. However, adding data in this way will [require updating](../hardcoded-data.md).
 
 This data is currently available publicly, so there is no risk in exposing senstive information by hardcoding it into our application.
