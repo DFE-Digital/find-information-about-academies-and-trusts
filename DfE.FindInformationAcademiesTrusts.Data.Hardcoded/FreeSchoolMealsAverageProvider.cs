@@ -19,31 +19,29 @@ public class FreeSchoolMealsAverageProvider : IFreeSchoolMealsAverageProvider
 
     public static ExploreEducationStatisticsPhaseType GetPhaseTypeKey(Academy academy)
     {
-        var key = (academy.PhaseOfEducation, academy.TypeOfEstablishment) switch
+        var key = (academy.PhaseOfEducation?.ToLower(), academy.TypeOfEstablishment?.ToLower()) switch
         {
-            ("Primary" or "Middle Deemed Primary", "Community School" or "Voluntary Aided School" or "Foundation School"
-                or
-                "Voluntary Controlled School" or "Academy Sponsor Led" or "Academy Converter"
-                or "City Technology College" or
-                "Free Schools" or "University technical college"
-                or "Studio schools") => ExploreEducationStatisticsPhaseType
-                    .StateFundedPrimary,
-            ("Secondary" or "Middle Deemed Secondary" or "16 Plus" or "Not applicable" or "All Through" or "All-Through"
-                or
-                "All-through" or "all-through", "Community School" or "Voluntary Aided School" or "Foundation School" or
-                "Voluntary Controlled School" or "Academy 16-19 Converter" or "Academy Sponsor Led"
-                or "Academy Converter" or
-                "City Technology College" or
-                "Free Schools" or "Free schools 16 to 19" or "University technical college" or "Studio schools" or
-                "Academy 16 to 19 sponsor led") => ExploreEducationStatisticsPhaseType.StateFundedSecondary,
-            (_, "Foundation Special School" or "Community Special School" or "Academy Special Converter"
-                or "Academy Special Sponsor Led" or "Free Schools Special") => ExploreEducationStatisticsPhaseType
-                    .StateFundedSpecialSchool,
-            (_, "Pupil Referral Unit" or "Academy Alternative Provision Sponsor Led" or
-                "Free schools alternative provision"
-                or "Academy Alternative Provision Converter") => ExploreEducationStatisticsPhaseType
-                    .StateFundedApSchool,
-            _ => throw new ArgumentOutOfRangeException(nameof(academy))
+            ("primary" or "middle deemed primary",
+                "community school" or "voluntary aided school" or "foundation school" or "voluntary controlled school"
+                or "academy sponsor led" or "academy converter" or "city technology college" or "free schools"
+                or "university technical college" or "studio schools")
+                => ExploreEducationStatisticsPhaseType.StateFundedPrimary,
+            ("secondary" or "middle deemed secondary" or "16 plus" or "not applicable" or "all-through",
+                "community school" or "voluntary aided school" or "foundation school" or "voluntary controlled school"
+                or "academy 16-19 converter" or "academy sponsor led" or "academy converter"
+                or "city technology college" or "free schools" or "free schools 16 to 19"
+                or "university technical college" or "studio schools" or "academy 16 to 19 sponsor led")
+                => ExploreEducationStatisticsPhaseType.StateFundedSecondary,
+            (_,
+                "foundation special school" or "community special school" or "academy special converter"
+                or "academy special sponsor led" or "free schools special")
+                => ExploreEducationStatisticsPhaseType.StateFundedSpecialSchool,
+            (_,
+                "pupil referral unit" or "academy alternative provision sponsor led" or
+                "free schools alternative provision" or "academy alternative provision converter")
+                => ExploreEducationStatisticsPhaseType.StateFundedApSchool,
+            _ => throw new ArgumentOutOfRangeException(nameof(academy),
+                $"Can't get ExploreEducationStatisticsPhaseType for [{nameof(academy.PhaseOfEducation)}:{academy.PhaseOfEducation}, {nameof(academy.TypeOfEstablishment)}:{academy.TypeOfEstablishment}]")
         };
         return key;
     }

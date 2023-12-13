@@ -68,11 +68,13 @@ public class FreeSchoolMealsAverageProviderTests
     }
 
     [Fact]
-    public void GetKey_should_through_exception_if_values_are_not_in_data()
+    public void GetKey_should_throw_exception_if_values_are_not_in_data()
     {
-        var dummyAcademy = GetDummyAcademy(111);
+        var dummyAcademy = GetDummyAcademy(111, phaseOfEducation: "Not a phase",
+            typeOfEstablishment: "not an establishment type");
         var act = () => FreeSchoolMealsAverageProvider.GetPhaseTypeKey(dummyAcademy);
 
-        act.Should().Throw<ArgumentOutOfRangeException>();
+        act.Should().Throw<ArgumentOutOfRangeException>().WithMessage(
+            "Can't get ExploreEducationStatisticsPhaseType for [PhaseOfEducation:Not a phase, TypeOfEstablishment:not an establishment type] (Parameter 'academy')");
     }
 }
