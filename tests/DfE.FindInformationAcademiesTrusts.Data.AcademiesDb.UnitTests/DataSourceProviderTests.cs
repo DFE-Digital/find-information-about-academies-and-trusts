@@ -8,7 +8,7 @@ public class DataSourceProviderTests
     private readonly DataSourceProvider _sut;
     private readonly List<ApplicationEvent> _applicationEvents;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
-    private static readonly DateTime TestStartTime = new DateTime(2023, 12, 12, 06, 54, 12);
+    private static readonly DateTime TestStartTime = new(2023, 12, 12, 06, 54, 12);
     private readonly List<ApplicationSetting> _applicationSettings;
 
     public DataSourceProviderTests()
@@ -34,8 +34,8 @@ public class DataSourceProviderTests
 
         result.Should().NotBeNull();
         result.Should()
-            .BeEquivalentTo(new DataSource("Get information about schools", TestStartTime.AddDays(-1),
-                "Daily"));
+            .BeEquivalentTo(new DataSource(Source.Gias, TestStartTime.AddDays(-1),
+                UpdateFrequency.Daily));
     }
 
     [Fact]
@@ -63,8 +63,8 @@ public class DataSourceProviderTests
 
         result.Should().NotBeNull();
         result.Should()
-            .BeEquivalentTo(new DataSource("Get information about schools", TestStartTime.AddDays(-1),
-                "Daily"));
+            .BeEquivalentTo(new DataSource(Source.Mstr, TestStartTime.AddDays(-1),
+                UpdateFrequency.Daily));
     }
 
     [Fact]
@@ -92,8 +92,8 @@ public class DataSourceProviderTests
 
         result.Should().NotBeNull();
         result.Should()
-            .BeEquivalentTo(new DataSource("RSD service support team", TestStartTime.AddDays(-1),
-                "Daily"));
+            .BeEquivalentTo(new DataSource(Source.Cdm, TestStartTime.AddDays(-1),
+                UpdateFrequency.Daily));
     }
 
     [Fact]
@@ -121,8 +121,8 @@ public class DataSourceProviderTests
 
         result.Should().NotBeNull();
         result.Should()
-            .BeEquivalentTo(new DataSource("State-funded school inspections and outcomes: management information",
-                TestStartTime.AddDays(-1), "Monthly"));
+            .BeEquivalentTo(new DataSource(Source.Mis,
+                TestStartTime.AddDays(-1), UpdateFrequency.Monthly));
     }
 
     [Fact]
@@ -150,8 +150,8 @@ public class DataSourceProviderTests
 
         result.Should().NotBeNull();
         result.Should()
-            .BeEquivalentTo(new DataSource("State-funded school inspections and outcomes: management information",
-                TestStartTime.AddDays(-2), "Monthly"));
+            .BeEquivalentTo(new DataSource(Source.Mis,
+                TestStartTime.AddDays(-2), UpdateFrequency.Monthly));
     }
 
     [Fact]

@@ -27,7 +27,7 @@ public class DataSourceProvider : IDataSourceProvider
                         && e.EventType != 'E'
                         && e.Description == "GIAS_Daily").MaxAsync(e => e.DateTime);
         if (lastEntry is null) return null;
-        return new DataSource("Get information about schools", lastEntry.Value, "Daily");
+        return new DataSource(Source.Gias, lastEntry.Value, UpdateFrequency.Daily);
     }
 
     public async Task<DataSource?> GetMstrUpdated()
@@ -39,7 +39,7 @@ public class DataSourceProvider : IDataSourceProvider
                         && e.EventType != 'E'
                         && e.Description == "MSTR_Daily").MaxAsync(e => e.DateTime);
         if (lastEntry is null) return null;
-        return new DataSource("Get information about schools", lastEntry.Value, "Daily");
+        return new DataSource(Source.Mstr, lastEntry.Value, UpdateFrequency.Daily);
     }
 
     public async Task<DataSource?> GetCdmUpdated()
@@ -51,7 +51,7 @@ public class DataSourceProvider : IDataSourceProvider
                         && e.EventType != 'E'
                         && e.Description == "CDM_Daily").MaxAsync(e => e.DateTime);
         if (lastEntry is null) return null;
-        return new DataSource("RSD service support team", lastEntry.Value, "Daily");
+        return new DataSource(Source.Cdm, lastEntry.Value, UpdateFrequency.Daily);
     }
 
     public async Task<DataSource?> GetMisEstablishmentsUpdated()
@@ -59,8 +59,8 @@ public class DataSourceProvider : IDataSourceProvider
         var lastEntry = await _academiesDbContext.ApplicationSettings
             .FirstOrDefaultAsync(e => e.Key == "ManagementInformationSchoolTableData CSV Filename");
         if (lastEntry is null || lastEntry.Modified is null) return null;
-        return new DataSource("State-funded school inspections and outcomes: management information",
-            lastEntry.Modified.Value, "Monthly");
+        return new DataSource(Source.Mis,
+            lastEntry.Modified.Value, UpdateFrequency.Monthly);
     }
 
     public async Task<DataSource?> GetMisFurtherEducationEstablishmentsUpdated()
@@ -68,7 +68,7 @@ public class DataSourceProvider : IDataSourceProvider
         var lastEntry = await _academiesDbContext.ApplicationSettings
             .FirstOrDefaultAsync(e => e.Key == "ManagementInformationFurtherEducationSchoolTableData CSV Filename");
         if (lastEntry is null || lastEntry.Modified is null) return null;
-        return new DataSource("State-funded school inspections and outcomes: management information",
-            lastEntry.Modified.Value, "Monthly");
+        return new DataSource(Source.Mis,
+            lastEntry.Modified.Value, UpdateFrequency.Monthly);
     }
 }
