@@ -16,13 +16,14 @@ public class AcademiesDbData
     public List<GiasGroupLink> GiasGroupLinks { get; } = new();
     public List<GiasGroup> GiasGroups { get; } = new();
     public List<MisEstablishment> MisEstablishments { get; } = new();
+    public List<MisFurtherEducationEstablishment> MisFurtherEducationEstablishments { get; } = new();
     public List<MstrTrust> MstrTrusts { get; } = new();
     public List<MstrTrustGovernance> MstrTrustGovernances { get; } = new();
 
     public IAcademiesDbContext AsAcademiesDbContext()
     {
         return new AcademiesDbDataContext(GiasEstablishments, GiasGovernances, GiasGroupLinks, GiasGroups, MstrTrusts,
-            CdmAccounts, MisEstablishments, CdmSystemusers, MstrTrustGovernances);
+            CdmAccounts, MisEstablishments, MisFurtherEducationEstablishments, CdmSystemusers, MstrTrustGovernances);
     }
 
     private class AcademiesDbDataContext : IAcademiesDbContext
@@ -34,6 +35,7 @@ public class AcademiesDbData
         public DbSet<MstrTrust> MstrTrusts { get; }
         public DbSet<CdmAccount> CdmAccounts { get; }
         public DbSet<MisEstablishment> MisEstablishments { get; }
+        public DbSet<MisFurtherEducationEstablishment> MisFurtherEducationEstablishments { get; }
         public DbSet<CdmSystemuser> CdmSystemusers { get; }
         public DbSet<MstrTrustGovernance> MstrTrustGovernances { get; }
 
@@ -45,6 +47,7 @@ public class AcademiesDbData
             IEnumerable<MstrTrust> mstrTrusts,
             IEnumerable<CdmAccount> cdmAccounts,
             IEnumerable<MisEstablishment> misEstablishments,
+            IEnumerable<MisFurtherEducationEstablishment> misFurtherEducationEstablishment,
             IEnumerable<CdmSystemuser> cdmSystemusers,
             IEnumerable<MstrTrustGovernance> mstrTrustGovernances)
         {
@@ -55,6 +58,8 @@ public class AcademiesDbData
             MstrTrusts = new MockDbSet<MstrTrust>(mstrTrusts).Object;
             CdmAccounts = new MockDbSet<CdmAccount>(cdmAccounts).Object;
             MisEstablishments = new MockDbSet<MisEstablishment>(misEstablishments).Object;
+            MisFurtherEducationEstablishments =
+                new MockDbSet<MisFurtherEducationEstablishment>(misFurtherEducationEstablishment).Object;
             CdmSystemusers = new MockDbSet<CdmSystemuser>(cdmSystemusers).Object;
             MstrTrustGovernances = new MockDbSet<MstrTrustGovernance>(mstrTrustGovernances).Object;
         }

@@ -30,9 +30,7 @@ public class DummyAcademyFactory
         int? numberOfPupils = 300,
         int? schoolCapacity = 400,
         string? percentageFreeSchoolMeals = "test",
-        AgeRange? ageRange = null,
-        OfstedRating? currentOfstedRating = null,
-        OfstedRating? previousOfstedRating = null)
+        AgeRange? ageRange = null)
     {
         return new Academy(urn,
             new DateTime(2023, 11, 16),
@@ -45,7 +43,7 @@ public class DummyAcademyFactory
             schoolCapacity,
             percentageFreeSchoolMeals,
             ageRange ?? new AgeRange(1, 11),
-            currentOfstedRating,
-            previousOfstedRating);
+            OfstedRating.None,
+            OfstedRating.None);
     }
 }
