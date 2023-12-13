@@ -1,0 +1,28 @@
+﻿@model ITrustsAreaModel
+<details class="govuk-details" data-module="govuk-details" aria-labelledby="source-panel-label">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      <span id="source-panel-label">Source and updates</span>
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    @foreach (var source in Model.DataSources)
+    {
+      <div>
+        <div class="govuk-grid-row govuk-body">
+          <span class="govuk-!-font-weight-bold margin-right-class govuk-grid-column-one-half">@source.Fields: </span>
+          <span class="govuk-grid-column-one-half">@source.DataSource.Source</span>
+        </div>
+        <div class="govuk-grid-row govuk-body">
+          <span class="margin-right-class govuk-grid-column-one-half">Last updated: </span>
+          <span class="govuk-grid-column-one-half"> @source.DataSource.LastUpdated.ToLocalTime()</span>
+        </div>
+        <div class="govuk-grid-row govuk-body">
+          <span class="margin-right-class govuk-grid-column-one-half">Next scheduled update: </span>
+          <span class="govuk-grid-column-one-half">@source.DataSource.NextUpdated</span>
+        </div>
+      </div>
+    }
+  </div>
+
+</details>
