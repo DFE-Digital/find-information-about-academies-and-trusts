@@ -36,21 +36,21 @@ We recommend setting Rider to clean code on save.
 
 - Open settings
 - Configure JavaScript linting
-- Go to Languages & Frameworks -> JavaScript -> Code Quality Tools -> ESLint
-- Select `Manual ESLint configuration`
-- In the dropdown for ESLint package, press the down arrow and select `.../DfE.FindInformationAcademiesTrusts/node_modules/standard`. If nothing is here then ensure you have done an `npm install` in the project directory
-- Tick `Run ESLint --fix on save`
-- Go to Editor > Code style > JavaScript
-- In the top right click `Set from...` and select `JavaScript Standard Style`
+  - Go to Languages & Frameworks -> JavaScript -> Code Quality Tools -> ESLint
+  - Select `Manual ESLint configuration`
+  - In the dropdown for ESLint package, press the down arrow and select `.../DfE.FindInformationAcademiesTrusts/node_modules/standard`. If nothing is here then ensure you have done an `npm install` in the project directory
+  - Tick `Run ESLint --fix on save`
+  - Go to Editor > Code style > JavaScript
+  - In the top right click `Set from...` and select `JavaScript Standard Style`
 - Configure CSS linting
-- Go to Languages & Frameworks -> Style Sheets -> Stylelint
-- Select `Enable`
-- In the dropdown for Stylelint package, press the down arrow and select `.../DfE.FindInformationAcademiesTrusts/node_modules/styleint`. If nothing is here then ensure you have done an `npm install` in the project directory
-- In `Run for files` enter: "{\*_/_,\*}.{css,scss}"
+  - Go to Languages & Frameworks -> Style Sheets -> Stylelint
+  - Select `Enable`
+  - In the dropdown for Stylelint package, press the down arrow and select `.../DfE.FindInformationAcademiesTrusts/node_modules/styleint`. If nothing is here then ensure you have done an `npm install` in the project directory
+  - In `Run for files` enter: "{\*_/_,\*}.{css,scss}"
 - Configure C# linting
-- Go to Tools -> Actions on Save
-- Tick `Reformat and Cleanup Code`
-- Ensure that Profile is set to `DfE.FindInformationAcademiesTrusts`
+  - Go to Tools -> Actions on Save
+  - Tick `Reformat and Cleanup Code`
+  - Ensure that Profile is set to `DfE.FindInformationAcademiesTrusts`
 
 If using Rider or Resharper then the `DfE.FindInformationAcademiesTrusts.sln.DotSettings` should be automatically identified and used for manual C# code cleanup.
 
@@ -58,6 +58,40 @@ You can also run linting on JavaScript, CSS and SCSS files using the command lin
 
 ```bash
 cd DfE.FindInformationAcademiesTrusts
+npm run lint ## for a list of issues
+npm run lint:fix ## to scan and fix issues
+```
+
+### Linting markdown
+
+We use `markdownlint` to check for lint issues on Markdown files in the pipeline.
+You can install the [VS code extension](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint) to check your files locally.
+
+## Playwright tests
+
+We recommend using VS code to write playwright tests, so that you can take advantage of the extension [Playwright Test for VSCode](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright)
+
+### Linting playwright tests
+
+Tests are written in TypeScript and we are using `ts-standard` for linting.
+You can configure VS code to use standard as your default formatter:
+
+1. Install VS code extension [StandardJS - JavaScript Standard Style](https://marketplace.visualstudio.com/items?itemName=standard.vscode-standard)
+
+2. Edit your _Settings.json_ file (workspace or user):
+
+```json
+{
+  "[typescript]": {
+    "editor.defaultFormatter": "standard.vscode-standard"
+  }
+}
+```
+
+Alternatively you can use the CLI to check and fix lint issues:
+
+```bash
+cd tests/playwright
 npm run lint ## for a list of issues
 npm run lint:fix ## to scan and fix issues
 ```
