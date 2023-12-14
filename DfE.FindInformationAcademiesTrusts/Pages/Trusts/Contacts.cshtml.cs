@@ -17,8 +17,8 @@ public class ContactsModel : TrustsAreaModel
 
     public const string ContactInformationNotAvailableMessage = "No contact information available";
 
-    public ContactsModel(ITrustProvider trustProvider, IDataSourceProvider sourceProvider) : base(trustProvider,
-        sourceProvider, "Contacts")
+    public ContactsModel(ITrustProvider trustProvider, IDataSourceProvider sourceProvider,
+        ILogger<ContactsModel> logger) : base(trustProvider, sourceProvider, logger, "Contacts")
     {
     }
 

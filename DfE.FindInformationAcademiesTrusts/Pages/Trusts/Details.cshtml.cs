@@ -12,9 +12,8 @@ public class DetailsModel : TrustsAreaModel
     public string? FindSchoolPerformanceLink { get; set; }
 
     public DetailsModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider,
-        IOtherServicesLinkBuilder otherServicesLinkBuilder) : base(
-        trustProvider, dataSourceProvider,
-        "Details")
+        IOtherServicesLinkBuilder otherServicesLinkBuilder, ILogger<DetailsModel> logger) : base(
+        trustProvider, dataSourceProvider, logger, "Details")
     {
         _otherServicesLinkBuilder = otherServicesLinkBuilder;
     }

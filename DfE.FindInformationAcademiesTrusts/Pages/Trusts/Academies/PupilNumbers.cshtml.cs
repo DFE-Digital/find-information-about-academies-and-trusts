@@ -5,8 +5,8 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
 public class PupilNumbersModel : TrustsAreaModel, IAcademiesAreaModel
 {
-    public PupilNumbersModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider) : base(
-        trustProvider, dataSourceProvider, "Academies in this trust")
+    public PupilNumbersModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider,
+        ILogger<PupilNumbersModel> logger) : base(trustProvider, dataSourceProvider, logger, "Academies in this trust")
     {
         PageTitle = "Academies pupil numbers";
     }

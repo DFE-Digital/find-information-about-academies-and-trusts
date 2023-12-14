@@ -17,12 +17,13 @@ public class DetailsModelTests
 
     public DetailsModelTests()
     {
+        MockLogger<DetailsModel> logger = new();
         _dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider = new Mock<ITrustProvider>();
         _mockDataSourceProvider = new MockDataSourceProvider();
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(_dummyTrust);
         _sut = new DetailsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
-            _mockLinksToOtherServices.Object) { Uid = "1234" };
+            _mockLinksToOtherServices.Object, logger.Object) { Uid = "1234" };
     }
 
     [Fact]

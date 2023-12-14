@@ -16,12 +16,13 @@ public class AcademiesDetailsModelTests
 
     public AcademiesDetailsModelTests()
     {
+        MockLogger<AcademiesDetailsModel> logger = new();
         var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider = new Mock<ITrustProvider>();
         _mockDataSourceProvider = new MockDataSourceProvider();
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrust);
         _sut = new AcademiesDetailsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
-            _mockLinkBuilder.Object) { Uid = "1234" };
+            _mockLinkBuilder.Object, logger.Object) { Uid = "1234" };
     }
 
     [Fact]

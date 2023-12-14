@@ -8,8 +8,8 @@ public class AcademiesDetailsModel : TrustsAreaModel, IAcademiesAreaModel
     public IOtherServicesLinkBuilder LinkBuilder { get; }
 
     public AcademiesDetailsModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider,
-        IOtherServicesLinkBuilder linkBuilder) :
-        base(trustProvider, dataSourceProvider, "Academies in this trust")
+        IOtherServicesLinkBuilder linkBuilder, ILogger<AcademiesDetailsModel> logger) : base(trustProvider,
+        dataSourceProvider, logger, "Academies in this trust")
     {
         PageTitle = "Academies details";
         LinkBuilder = linkBuilder;

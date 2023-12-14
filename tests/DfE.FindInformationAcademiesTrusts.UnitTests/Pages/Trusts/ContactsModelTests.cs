@@ -21,8 +21,6 @@ public class ContactsModelTests
     private static DateTime _currentGovernorDate;
     private static DateTime _pastGovernorDate;
     
-    private readonly Mock<ITrustProvider> _mockTrustProvider;
-
     private readonly MockDataSourceProvider _mockDataSourceProvider;
 
     private static Governor[] ListOfGovernors()
@@ -46,10 +44,13 @@ public class ContactsModelTests
         _currentGovernorDate = DateTime.Today;
         _dummyTrustWithGovernors = DummyTrustFactory.GetDummyTrust("1234", governors: ListOfGovernors());
         _dummyTrustWithNoGovernors = DummyTrustFactory.GetDummyTrust("1234");
+        MockLogger<ContactsModel> logger = new();
+        var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider = new Mock<ITrustProvider>();
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(_dummyTrustWithGovernors);
         _mockDataSourceProvider = new MockDataSourceProvider();
-        _sut = new ContactsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object) { Uid = "1234" };
+        _sut = new ContactsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object, logger.Object)
+            { Uid = "1234" };
     }
 
     private void SetupTrustWithNoGovernors()

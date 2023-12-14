@@ -14,11 +14,13 @@ public class PupilNumbersModelTests
 
     public PupilNumbersModelTests()
     {
+        MockLogger<PupilNumbersModel> logger = new();
         var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider = new Mock<ITrustProvider>();
         _mockDataSourceProvider = new MockDataSourceProvider();
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrust);
-        _sut = new PupilNumbersModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object) { Uid = "1234" };
+        _sut = new PupilNumbersModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object, logger.Object)
+            { Uid = "1234" };
     }
 
     [Fact]

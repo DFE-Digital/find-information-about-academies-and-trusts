@@ -17,10 +17,11 @@ public class OverviewModelTests
     public OverviewModelTests()
     {
         var dummyTrust = DummyTrustFactory.GetDummyTrust(TrustUid);
+        MockLogger<OverviewModel> logger = new();
         _mockTrustProvider = new Mock<ITrustProvider>();
         _mockDataSourceProvider = new MockDataSourceProvider();
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync(TrustUid)).ReturnsAsync(dummyTrust);
-        _sut = new OverviewModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object) { Uid = TrustUid };
+        _sut = new OverviewModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object, logger.Object) { Uid = TrustUid };
     }
 
     [Fact]
