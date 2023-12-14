@@ -19,12 +19,14 @@ public class DataSourceProviderTests
     }
 
     [Fact]
-    public async Task GetGiasUpdated_WhenNoEntryExists_ShouldReturnNull()
+    public async Task GetGiasUpdated_WhenNoEntryExists_ShouldReturnDataSource_WithNullDate()
     {
         _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationEvents();
         var result = await _sut.GetGiasUpdated();
 
-        result.Should().BeNull();
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(new DataSource(Source.Gias,
+            null, UpdateFrequency.Daily));
     }
 
     [Fact]
@@ -39,21 +41,24 @@ public class DataSourceProviderTests
     }
 
     [Fact]
-    public async Task GetGiasUpdated_WhenInvalidEntryExists_ShouldReturnNull()
+    public async Task GetGiasUpdated_WhenInvalidEntryExists_ShouldReturnDataSource_WithNullDate()
     {
         _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(TestStartTime);
         var result = await _sut.GetGiasUpdated();
 
-        result.Should().BeNull();
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(new DataSource(Source.Gias,
+            null, UpdateFrequency.Daily));
     }
 
     [Fact]
-    public async Task GetMstrUpdated_WhenNoEntryExists_ShouldReturnNull()
+    public async Task GetMstrUpdated_WhenNoEntryExists_ShouldReturnDataSource_WithNullDate()
     {
         _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationEvents();
         var result = await _sut.GetMstrUpdated();
-
-        result.Should().BeNull();
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(new DataSource(Source.Mstr,
+            null, UpdateFrequency.Daily));
     }
 
     [Fact]
@@ -68,21 +73,25 @@ public class DataSourceProviderTests
     }
 
     [Fact]
-    public async Task GetMstrUpdated_WhenInvalidEntryExists_ShouldReturnNull()
+    public async Task GetMstrUpdated_WhenInvalidEntryExists_ShouldReturnDataSource_WithNullDate()
     {
         _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(TestStartTime);
         var result = await _sut.GetMstrUpdated();
 
-        result.Should().BeNull();
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(new DataSource(Source.Mstr,
+                null, UpdateFrequency.Daily));
     }
 
     [Fact]
-    public async Task GetCdmUpdated_WhenNoEntryExists_ShouldReturnNull()
+    public async Task GetCdmUpdated_WhenNoEntryExists_ShouldReturnDataSource_WithNullDate()
     {
         _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationEvents();
         var result = await _sut.GetCdmUpdated();
 
-        result.Should().BeNull();
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(new DataSource(Source.Cdm,
+            null, UpdateFrequency.Daily));
     }
 
     [Fact]
@@ -97,21 +106,26 @@ public class DataSourceProviderTests
     }
 
     [Fact]
-    public async Task GetCdmUpdated_WhenInvalidEntryExists_ShouldReturnNull()
+    public async Task GetCdmUpdated_WhenInvalidEntryExists_ShouldReturnDataSource_WithNullDate()
     {
         _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(TestStartTime);
         var result = await _sut.GetCdmUpdated();
 
-        result.Should().BeNull();
+        result.Should().NotBeNull();
+        result.Should()
+            .BeEquivalentTo(new DataSource(Source.Cdm,
+                null, UpdateFrequency.Daily));
     }
 
     [Fact]
-    public async Task GetMisEstablishmentsUpdated_WhenNoEntryExists_ShouldReturnNull()
+    public async Task GetMisEstablishmentsUpdated_WhenNoEntryExists_ShouldReturnDataSource_WithNullDate()
     {
         _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationSettings();
         var result = await _sut.GetMisEstablishmentsUpdated();
 
-        result.Should().BeNull();
+        result.Should().NotBeNull();
+        result.Should()
+            .BeEquivalentTo(new DataSource(Source.Mis, null, UpdateFrequency.Monthly));
     }
 
     [Fact]
@@ -126,21 +140,25 @@ public class DataSourceProviderTests
     }
 
     [Fact]
-    public async Task GetMisEstablishmentsUpdated_WhenInvalidEntryExists_ShouldReturnNull()
+    public async Task GetMisEstablishmentsUpdated_WhenInvalidEntryExists_ShouldReturnDataSource_WithNullDate()
     {
         _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationSettings(TestStartTime);
         var result = await _sut.GetMisEstablishmentsUpdated();
 
-        result.Should().BeNull();
+        result.Should().NotBeNull();
+        result.Should()
+            .BeEquivalentTo(new DataSource(Source.Mis, null, UpdateFrequency.Monthly));
     }
 
     [Fact]
-    public async Task GetMisEstablishmentsFurtherEducationUpdated_WhenNoEntryExists_ShouldReturnNull()
+    public async Task GetMisEstablishmentsFurtherEducationUpdated_WhenNoEntryExists_ShouldReturnDataSource_WithNullDate()
     {
         _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationSettings();
         var result = await _sut.GetMisFurtherEducationEstablishmentsUpdated();
 
-        result.Should().BeNull();
+        result.Should().NotBeNull();
+        result.Should()
+            .BeEquivalentTo(new DataSource(Source.Mis, null, UpdateFrequency.Monthly));
     }
 
     [Fact]
@@ -155,11 +173,14 @@ public class DataSourceProviderTests
     }
 
     [Fact]
-    public async Task GetMisEstablishmentsFurtherEducationUpdated_WhenInvalidEntryExists_ShouldReturnNull()
+    public async Task
+        GetMisEstablishmentsFurtherEducationUpdated_WhenInvalidEntryExists_ShouldReturnDataSource_WithNullDate()
     {
         _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationSettings(TestStartTime);
         var result = await _sut.GetMisFurtherEducationEstablishmentsUpdated();
 
-        result.Should().BeNull();
+        result.Should().NotBeNull();
+        result.Should()
+            .BeEquivalentTo(new DataSource(Source.Mis, null, UpdateFrequency.Monthly));
     }
 }

@@ -21,12 +21,8 @@ public class AcademiesDetailsModel : TrustsAreaModel, IAcademiesAreaModel
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        var giasSource = await GetGiasDataUpdated();
-        if (giasSource is not null)
-        {
-            DataSources.Add(new DataSourceListEntry(giasSource,
-                new List<string> { "Details" }));
-        }
+        DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
+            new List<string> { "Details" }));
 
         return pageResult;
     }

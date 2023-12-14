@@ -1,21 +1,18 @@
-using System.Runtime.CompilerServices;
 using DfE.FindInformationAcademiesTrusts.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
-[assembly: InternalsVisibleTo("DfE.FindInformationAcademiesTrusts.UnitTests")]
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public class TrustsAreaModel : PageModel, ITrustsAreaModel
 {
     private readonly ITrustProvider _trustProvider;
-    private readonly IDataSourceProvider _dataSourceProvider;
+    protected readonly IDataSourceProvider DataSourceProvider;
 
     public TrustsAreaModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider, string pageName)
     {
         _trustProvider = trustProvider;
-        _dataSourceProvider = dataSourceProvider;
+        DataSourceProvider = dataSourceProvider;
         PageName = pageName;
     }
 
@@ -41,34 +38,6 @@ public class TrustsAreaModel : PageModel, ITrustsAreaModel
                 return "";
         }
     }
-
-    internal async Task<DataSource?> GetGiasDataUpdated()
-    {
-        return await _dataSourceProvider.GetGiasUpdated();
-    }
-
-    internal async Task<DataSource?> GetMstrDataUpdated()
-    {
-        return await _dataSourceProvider.GetMstrUpdated();
-    }
-
-    internal async Task<DataSource?> GetCdmDateUpdated()
-    {
-        return await _dataSourceProvider.GetCdmUpdated();
-    }
-
-
-    internal async Task<DataSource?> GetMisEstablishmentsDataUpdated()
-    {
-        return await _dataSourceProvider.GetMisEstablishmentsUpdated();
-    }
-
-
-    internal async Task<DataSource?> GetMisFurtherEducationEstablishmentsDataUpdated()
-    {
-        return await _dataSourceProvider.GetMisFurtherEducationEstablishmentsUpdated();
-    }
-
 
     public virtual async Task<IActionResult> OnGetAsync()
     {

@@ -67,42 +67,4 @@ public class TrustsAreaModelTests
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
-
-    [Fact]
-    public async void GetGiasDataUpdated_calls_the_data_source_provider_once()
-    {
-        await _sut.GetGiasDataUpdated();
-        _mockDataUpdatedProvider.Verify(m => m.GetGiasUpdated(), Times.Once);
-    }
-
-    [Fact]
-    public async void GetMstrDataUpdated_calls_the_data_source_provider_once()
-    {
-        await _sut.GetMstrDataUpdated();
-        _mockDataUpdatedProvider.Verify(m => m.GetMstrUpdated(), Times.Once);
-    }
-
-
-    [Fact]
-    public async void GetCdmDateUpdated()
-    {
-        await _sut.GetCdmDateUpdated();
-        _mockDataUpdatedProvider.Verify(m => m.GetCdmUpdated(), Times.Once);
-    }
-
-
-    [Fact]
-    public async void GetMisEstablishmentsDataUpdated()
-    {
-        await _sut.GetMisEstablishmentsDataUpdated();
-        _mockDataUpdatedProvider.Verify(m => m.GetMisEstablishmentsUpdated(), Times.Once);
-    }
-
-
-    [Fact]
-    public async void GetMisFurtherEducationEstablishmentsDataUpdated()
-    {
-        await _sut.GetMisFurtherEducationEstablishmentsDataUpdated();
-        _mockDataUpdatedProvider.Verify(m => m.GetMisFurtherEducationEstablishmentsUpdated(), Times.Once);
-    }
 }

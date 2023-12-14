@@ -1,6 +1,6 @@
 ﻿namespace DfE.FindInformationAcademiesTrusts.Data;
 
-public record DataSource(Source Source, DateTime LastUpdated, UpdateFrequency NextUpdated);
+public record DataSource(Source Source, DateTime? LastUpdated, UpdateFrequency NextUpdated);
 
 public enum Source
 {

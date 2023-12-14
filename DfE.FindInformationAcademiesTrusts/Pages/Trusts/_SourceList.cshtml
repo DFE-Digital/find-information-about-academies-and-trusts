@@ -1,8 +1,8 @@
 ﻿@model ITrustsAreaModel
-<details class="govuk-details" data-module="govuk-details" aria-labelledby="source-panel-label">
+<details class="govuk-details" data-module="govuk-details">
   <summary class="govuk-details__summary">
     <span class="govuk-details__summary-text">
-      <span id="source-panel-label">Source and updates</span>
+      <span>Source and updates</span>
     </span>
   </summary>
   <div class="govuk-details__text">
@@ -12,7 +12,7 @@
         <p class="govuk-body">
           <span class="govuk-!-font-weight-bold margin-right-class">@string.Join(", ", source.Fields): </span> @Model.MapDataSourceToName(source.DataSource)
         </p>
-        <p class="govuk-body">Last updated: @source.DataSource.LastUpdated.ToString(ViewConstants.ViewDateFormat)</p>
+        <p class="govuk-body">Last updated: @(source.DataSource.LastUpdated is null ? "Unknown" : source.DataSource.LastUpdated.Value.ToString(ViewConstants.ViewDateFormat))</p>
         <p class="govuk-body">Next scheduled update: @source.DataSource.NextUpdated</p>
       </div>
     }
