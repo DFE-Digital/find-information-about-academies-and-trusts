@@ -26,7 +26,6 @@ public class DataSourceProviderTests
         _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationEvents();
         var result = await _sut.GetGiasUpdated();
 
-        result.Should().NotBeNull();
         result.Should().BeEquivalentTo(new DataSource(Source.Gias,
             null, UpdateFrequency.Daily));
     }
@@ -36,7 +35,6 @@ public class DataSourceProviderTests
     {
         var result = await _sut.GetGiasUpdated();
 
-        result.Should().NotBeNull();
         result.Should()
             .BeEquivalentTo(new DataSource(Source.Gias, TestStartTime.AddDays(-1),
                 UpdateFrequency.Daily));
@@ -48,7 +46,6 @@ public class DataSourceProviderTests
         _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(TestStartTime);
         var result = await _sut.GetGiasUpdated();
 
-        result.Should().NotBeNull();
         result.Should().BeEquivalentTo(new DataSource(Source.Gias,
             null, UpdateFrequency.Daily));
     }
@@ -58,7 +55,6 @@ public class DataSourceProviderTests
     {
         _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationEvents();
         var result = await _sut.GetMstrUpdated();
-        result.Should().NotBeNull();
         result.Should().BeEquivalentTo(new DataSource(Source.Mstr,
             null, UpdateFrequency.Daily));
     }
@@ -68,7 +64,6 @@ public class DataSourceProviderTests
     {
         var result = await _sut.GetMstrUpdated();
 
-        result.Should().NotBeNull();
         result.Should()
             .BeEquivalentTo(new DataSource(Source.Mstr, TestStartTime.AddDays(-1),
                 UpdateFrequency.Daily));
@@ -80,7 +75,6 @@ public class DataSourceProviderTests
         _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(TestStartTime);
         var result = await _sut.GetMstrUpdated();
 
-        result.Should().NotBeNull();
         result.Should().BeEquivalentTo(new DataSource(Source.Mstr,
             null, UpdateFrequency.Daily));
     }
@@ -91,7 +85,6 @@ public class DataSourceProviderTests
         _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationEvents();
         var result = await _sut.GetCdmUpdated();
 
-        result.Should().NotBeNull();
         result.Should().BeEquivalentTo(new DataSource(Source.Cdm,
             null, UpdateFrequency.Daily));
     }
@@ -101,7 +94,6 @@ public class DataSourceProviderTests
     {
         var result = await _sut.GetCdmUpdated();
 
-        result.Should().NotBeNull();
         result.Should()
             .BeEquivalentTo(new DataSource(Source.Cdm, TestStartTime.AddDays(-1),
                 UpdateFrequency.Daily));
@@ -113,7 +105,6 @@ public class DataSourceProviderTests
         _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(TestStartTime);
         var result = await _sut.GetCdmUpdated();
 
-        result.Should().NotBeNull();
         result.Should()
             .BeEquivalentTo(new DataSource(Source.Cdm,
                 null, UpdateFrequency.Daily));
@@ -125,7 +116,6 @@ public class DataSourceProviderTests
         _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationSettings();
         var result = await _sut.GetMisEstablishmentsUpdated();
 
-        result.Should().NotBeNull();
         result.Should()
             .BeEquivalentTo(new DataSource(Source.Mis, null, UpdateFrequency.Monthly));
     }
@@ -135,7 +125,6 @@ public class DataSourceProviderTests
     {
         var result = await _sut.GetMisEstablishmentsUpdated();
 
-        result.Should().NotBeNull();
         result.Should()
             .BeEquivalentTo(new DataSource(Source.Mis,
                 TestStartTime.AddDays(-1), UpdateFrequency.Monthly));
@@ -147,7 +136,6 @@ public class DataSourceProviderTests
         _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationSettings(TestStartTime);
         var result = await _sut.GetMisEstablishmentsUpdated();
 
-        result.Should().NotBeNull();
         result.Should()
             .BeEquivalentTo(new DataSource(Source.Mis, null, UpdateFrequency.Monthly));
     }
