@@ -1,25 +1,27 @@
-namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+using DfE.FindInformationAcademiesTrusts.Data;
 
-internal static class OfstedRatingConstants
-{
-    public const string NotYetInspected = "Not yet inspected";
-}
+namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
 public class OfstedRatingCellModel
 {
     public required DateTime? AcademyJoinedDate { get; init; }
-    public required string Rating { get; init; }
-    public required DateTime? RatingDate { get; init; }
 
-    public bool HasRating()
-    {
-        return Rating != OfstedRatingConstants.NotYetInspected;
-    }
+    public required OfstedRating OfstedRating { get; init; }
 
     public bool IsAfterJoining()
     {
-        return RatingDate >= AcademyJoinedDate;
+        return OfstedRating.InspectionEndDate >= AcademyJoinedDate;
     }
+
+    public string? OfstedRatingDescription => OfstedRating.OfstedRatingScore switch
+    {
+        OfstedRatingScore.None => "Not yet inspected",
+        OfstedRatingScore.Outstanding => "Outstanding",
+        OfstedRatingScore.Good => "Good",
+        OfstedRatingScore.RequiresImprovement => "Requires improvement",
+        OfstedRatingScore.Inadequate => "Inadequate",
+        _ => string.Empty
+    };
 
     public string GetTagClasses()
     {

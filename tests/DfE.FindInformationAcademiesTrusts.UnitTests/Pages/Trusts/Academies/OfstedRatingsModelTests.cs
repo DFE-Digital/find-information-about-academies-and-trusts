@@ -24,19 +24,4 @@ public class OfstedRatingsModelTests
     {
         _sut.TabName.Should().Be("Ofsted ratings");
     }
-
-    [Fact]
-    public void GetOfstedRatingCellModel_returns_an_OfstedRatingCellModel()
-    {
-        OfstedRatingCellModel expected = new()
-        {
-            AcademyJoinedDate = new DateTime(2018, 11, 1),
-            Rating = "Not yet inspected",
-            RatingDate = null
-        };
-
-        var result = _sut.GetOfstedRatingCellModel(
-            new DateTime(2018, 11, 1), "Not yet inspected", null);
-        result.Should().BeEquivalentTo(expected);
-    }
 }

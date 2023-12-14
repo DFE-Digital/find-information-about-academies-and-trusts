@@ -1,36 +1,15 @@
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 
 public class OfstedRatingCellModelTests
 {
-    private readonly OfstedRatingCellModel _sut;
-
-    public OfstedRatingCellModelTests()
+    private readonly OfstedRatingCellModel _sut = new()
     {
-        _sut = new OfstedRatingCellModel
-        {
-            AcademyJoinedDate = new DateTime(),
-            Rating = "Good",
-            RatingDate = new DateTime()
-        };
-    }
-
-    [Fact]
-    public void HasRating_returns_true_if_rating_is_not_NotYetInspected()
-    {
-        var result = _sut.HasRating();
-        result.Should().Be(true);
-    }
-
-    [Fact]
-    public void HasRating_returns_false_if_rating_is_NotYetInspected()
-    {
-        var sut = GetSutWithNotYetInspectedRating();
-
-        var result = sut.HasRating();
-        result.Should().Be(false);
-    }
+        AcademyJoinedDate = new DateTime(),
+        OfstedRating = new OfstedRating(OfstedRatingScore.Good, new DateTime())
+    };
 
     [Fact]
     public void IsAfterJoining_returns_true_if_RatingDate_is_after_AcademyJoinedDate()
@@ -102,13 +81,41 @@ public class OfstedRatingCellModelTests
         result.Should().Be("Before joining");
     }
 
+    [Theory]
+    [InlineData(OfstedRatingScore.Good, "Good")]
+    [InlineData(OfstedRatingScore.None, "Not yet inspected")]
+    [InlineData(OfstedRatingScore.Inadequate, "Inadequate")]
+    [InlineData(OfstedRatingScore.Outstanding, "Outstanding")]
+    [InlineData(OfstedRatingScore.RequiresImprovement, "Requires improvement")]
+    public void OfstedRatingDescription_returns_right_description(OfstedRatingScore score, string expected)
+    {
+        var sut = new OfstedRatingCellModel
+        {
+            OfstedRating = new OfstedRating(score, new DateTime()),
+            AcademyJoinedDate = new DateTime()
+        };
+
+        sut.OfstedRatingDescription.Should().Be(expected);
+    }
+
+    [Fact]
+    public void OfstedRatingDescription_returns_empty_if_score_not_in_range()
+    {
+        var sut = new OfstedRatingCellModel
+        {
+            OfstedRating = new OfstedRating(0, new DateTime()),
+            AcademyJoinedDate = new DateTime()
+        };
+
+        sut.OfstedRatingDescription.Should().BeEmpty();
+    }
+
     private static OfstedRatingCellModel GetSutWithOfstedRatingDateAfterJoining()
     {
         return new OfstedRatingCellModel
         {
             AcademyJoinedDate = new DateTime(2020, 11, 1),
-            Rating = "Good",
-            RatingDate = new DateTime(2022, 3, 2)
+            OfstedRating = new OfstedRating(OfstedRatingScore.Good, new DateTime(2022, 3, 2))
         };
     }
 
@@ -117,8 +124,7 @@ public class OfstedRatingCellModelTests
         return new OfstedRatingCellModel
         {
             AcademyJoinedDate = new DateTime(2022, 3, 2),
-            Rating = "Good",
-            RatingDate = new DateTime(2020, 11, 1)
+            OfstedRating = new OfstedRating(OfstedRatingScore.Good, new DateTime(2020, 11, 1))
         };
     }
 
@@ -127,8 +133,7 @@ public class OfstedRatingCellModelTests
         return new OfstedRatingCellModel
         {
             AcademyJoinedDate = new DateTime(2022, 3, 2),
-            Rating = "Not yet inspected",
-            RatingDate = null
+            OfstedRating = new OfstedRating(OfstedRatingScore.None, null)
         };
     }
 }

@@ -17,42 +17,24 @@
       </tr>
     </thead>
     <tbody class="govuk-table__body">
-      <tr class="govuk-table__row" data-testid="academy-row">
-        <th scope="row" class="govuk-body govuk-table__header" data-sort-value="Barr and Community R.C. School">
-          Barr and Community R.C. School<br/><span class="govuk-!-font-weight-regular">URN: 109174</span>
-        </th>
-        <td class="govuk-body govuk-table__cell">Nov 2018</td>
-        <td class="govuk-body govuk-table__cell">
-          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2018, 11, 1, 0, 0, 0, DateTimeKind.Utc), "Not yet inspected", null)"></partial>
-        </td>
-        <td class="govuk-body govuk-table__cell" data-sort-value="@((short)OfstedRatings.NotYetInspected)">
-          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2018, 11, 1, 0, 0, 0, DateTimeKind.Utc), "Not yet inspected", null)"></partial>
-        </td>
-      </tr>
-      <tr class="govuk-table__row" data-testid="academy-row">
-        <th scope="row" class="govuk-body govuk-table__header" data-sort-value="Fay Fort Catholic Primary Academy">
-          Fay Fort Catholic Primary Academy<br/><span class="govuk-!-font-weight-regular">URN: 109174</span>
-        </th>
-        <td class="govuk-body govuk-table__cell">Nov 2017</td>
-        <td class="govuk-body govuk-table__cell" data-sort-value="@((short)OfstedRatings.NotYetInspected)">
-          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2017, 11, 1, 0, 0, 0, DateTimeKind.Utc), "Not yet inspected", null)"></partial>
-        </td>
-        <td class="govuk-body govuk-table__cell" data-sort-value="@((short)OfstedRatings.Good)">
-          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2017, 11, 1, 0, 0, 0, DateTimeKind.Utc), "Good", new DateTime(2021, 05, 9, 0, 0, 0, DateTimeKind.Utc))"></partial>
-        </td>
-      </tr>
-      <tr class="govuk-table__row" data-testid="academy-row">
-        <th scope="row" class="govuk-body govuk-table__header" data-sort-value="Fay Fort Catholic Primary Academy">
-          George Abbey Secondary Academy<br/><span class="govuk-!-font-weight-regular">URN: 109174</span>
-        </th>
-        <td class="govuk-body govuk-table__cell">Nov 2017</td>
-        <td class="govuk-body govuk-table__cell" data-sort-value="@((short)OfstedRatings.RequiresImprovement)">
-          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2017, 10, 1, 0, 0, 0, DateTimeKind.Utc), "Requires improvement", new DateTime(2014, 11, 30, 0, 0, 0, DateTimeKind.Utc))"></partial>
-        </td>
-        <td class="govuk-body govuk-table__cell" data-sort-value="@((short)OfstedRatings.Outstanding)">
-          <partial name="_OfstedRatingCell" model="@Model.GetOfstedRatingCellModel(new DateTime(2017, 10, 1, 0, 0, 0, DateTimeKind.Utc), "Outstanding", new DateTime(2020, 11, 1, 0, 0, 0, DateTimeKind.Utc))"></partial>
-        </td>
-      </tr>
+      @foreach (var academy in Model.Trust.Academies)
+      {
+        <tr class="govuk-table__row" data-testid="academy-row">
+          <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@academy.EstablishmentName">
+            @academy.EstablishmentName<br/><span class="govuk-!-font-weight-regular">URN: @academy.Urn</span>
+          </th>
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.DateAcademyJoinedTrust.ToString(ViewConstants.SortDateFormat)">
+            @academy.DateAcademyJoinedTrust.ToString(ViewConstants.ViewDateFormat)
+          </td>
+          @await Html.PartialAsync(
+            "_OfstedRatingCell",
+            new OfstedRatingCellModel { OfstedRating = academy.PreviousOfstedRating, AcademyJoinedDate = academy.DateAcademyJoinedTrust })
+
+          @await Html.PartialAsync(
+            "_OfstedRatingCell",
+            new OfstedRatingCellModel { OfstedRating = academy.CurrentOfstedRating, AcademyJoinedDate = academy.DateAcademyJoinedTrust })
+        </tr>
+      }
     </tbody>
   </table>
 </section>

@@ -12,4 +12,5 @@ public static class ViewConstants
         "https://forms.office.com.mcas.ms/pages/responsepage.aspx?id=yXfS-grGoU2187O4s0qC-VCFjdIWb7BPh79bON_K__tUOTdJMlZZUzBMMFhHV1lHNERFM041U0dUUy4u";
 
     public const string ViewDateFormat = "d MMM yyyy";
+    public const string SortDateFormat = "yyyy/MM/dd";
 }
