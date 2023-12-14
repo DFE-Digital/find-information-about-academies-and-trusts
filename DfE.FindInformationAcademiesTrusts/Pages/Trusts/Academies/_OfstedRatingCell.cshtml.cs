@@ -8,10 +8,7 @@ public class OfstedRatingCellModel
 
     public required OfstedRating OfstedRating { get; init; }
 
-    public bool IsAfterJoining()
-    {
-        return OfstedRating.InspectionEndDate >= AcademyJoinedDate;
-    }
+    public bool IsAfterJoining => OfstedRating.InspectionEndDate >= AcademyJoinedDate;
 
     public string? OfstedRatingDescription => OfstedRating.OfstedRatingScore switch
     {
@@ -23,15 +20,15 @@ public class OfstedRatingCellModel
         _ => string.Empty
     };
 
-    public string GetTagClasses()
+    public string TagClasses
     {
-        var tag = "govuk-tag";
-        if (!IsAfterJoining()) tag += " govuk-tag--grey";
-        return tag;
+        get
+        {
+            var tag = "govuk-tag";
+            if (!IsAfterJoining) tag += " govuk-tag--grey";
+            return tag;
+        }
     }
 
-    public string GetTagText()
-    {
-        return IsAfterJoining() ? "After joining" : "Before joining";
-    }
+    public string TagText => IsAfterJoining ? "After joining" : "Before joining";
 }
