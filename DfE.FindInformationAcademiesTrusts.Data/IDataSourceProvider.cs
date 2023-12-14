@@ -6,5 +6,4 @@ public interface IDataSourceProvider
     Task<DataSource> GetMstrUpdated();
     Task<DataSource> GetCdmUpdated();
     Task<DataSource> GetMisEstablishmentsUpdated();
-    Task<DataSource> GetMisFurtherEducationEstablishmentsUpdated();
 }

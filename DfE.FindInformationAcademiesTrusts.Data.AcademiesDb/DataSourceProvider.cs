@@ -85,17 +85,4 @@ public class DataSourceProvider : IDataSourceProvider
         return new DataSource(Source.Mis,
             lastEntry.Modified.Value, UpdateFrequency.Monthly);
     }
-
-    public async Task<DataSource> GetMisFurtherEducationEstablishmentsUpdated()
-    {
-        var lastEntry = await _academiesDbContext.ApplicationSettings
-            .FirstOrDefaultAsync(e => e.Key == "ManagementInformationFurtherEducationSchoolTableData CSV Filename");
-        if (lastEntry is null || lastEntry.Modified is null)
-        {
-            return new DataSource(Source.Mis, null, UpdateFrequency.Monthly);
-        }
-
-        return new DataSource(Source.Mis,
-            lastEntry.Modified.Value, UpdateFrequency.Monthly);
-    }
 }

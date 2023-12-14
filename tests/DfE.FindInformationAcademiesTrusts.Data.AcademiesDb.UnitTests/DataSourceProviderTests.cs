@@ -151,39 +151,4 @@ public class DataSourceProviderTests
         result.Should()
             .BeEquivalentTo(new DataSource(Source.Mis, null, UpdateFrequency.Monthly));
     }
-
-    [Fact]
-    public async Task
-        GetMisEstablishmentsFurtherEducationUpdated_WhenNoEntryExists_ShouldReturnDataSource_WithNullDate()
-    {
-        _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationSettings();
-        var result = await _sut.GetMisFurtherEducationEstablishmentsUpdated();
-
-        result.Should().NotBeNull();
-        result.Should()
-            .BeEquivalentTo(new DataSource(Source.Mis, null, UpdateFrequency.Monthly));
-    }
-
-    [Fact]
-    public async Task GetMisEstablishmentsFurtherEducationUpdated_WhenEntryExists_ShouldReturnDataSource()
-    {
-        var result = await _sut.GetMisFurtherEducationEstablishmentsUpdated();
-
-        result.Should().NotBeNull();
-        result.Should()
-            .BeEquivalentTo(new DataSource(Source.Mis,
-                TestStartTime.AddDays(-2), UpdateFrequency.Monthly));
-    }
-
-    [Fact]
-    public async Task
-        GetMisEstablishmentsFurtherEducationUpdated_WhenInvalidEntryExists_ShouldReturnDataSource_WithNullDate()
-    {
-        _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationSettings(TestStartTime);
-        var result = await _sut.GetMisFurtherEducationEstablishmentsUpdated();
-
-        result.Should().NotBeNull();
-        result.Should()
-            .BeEquivalentTo(new DataSource(Source.Mis, null, UpdateFrequency.Monthly));
-    }
 }
