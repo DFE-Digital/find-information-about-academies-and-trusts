@@ -8,8 +8,8 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 public interface IAcademyFactory
 {
     Academy CreateFrom(GiasGroupLink gl, GiasEstablishment giasEstablishment,
-        MisEstablishment? misEstablishmentCurrentOfsted, MisEstablishment? misEstablishmentPreviousOfsted,
-        MisFurtherEducationEstablishment? misFurtherEducationEstablishment);
+        MisEstablishment? misEstablishmentCurrentOfsted = null, MisEstablishment? misEstablishmentPreviousOfsted = null,
+        MisFurtherEducationEstablishment? misFurtherEducationEstablishment = null);
 }
 
 public class AcademyFactory : IAcademyFactory
