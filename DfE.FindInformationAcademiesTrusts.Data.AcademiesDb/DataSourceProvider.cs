@@ -21,55 +21,37 @@ public class DataSourceProvider : IDataSourceProvider
         _logger = logger;
     }
 
-    public async Task<DataSource> GetGiasUpdated()
+    public Task<DataSource> GetGiasUpdated()
     {
-        var lastEntry = await _academiesDbContext.ApplicationEvents
-            .Where(e => e.Source != null
-                        && e.Source.Contains("adf-t1") && e.Source.Contains("-sips-dataflow")
-                        && e.Message == "Finished"
-                        && e.EventType != 'E'
-                        && e.Description == "GIAS_Daily").MaxAsync(e => e.DateTime);
-        if (lastEntry is null)
-        {
-            _logger.LogError("Unable to find when GIAS pipeline was last run");
-            return new DataSource(Source.Gias, null, UpdateFrequency.Daily);
-        }
-
-        return new DataSource(Source.Gias, lastEntry.Value, UpdateFrequency.Daily);
+        return GetDataSourceFromApplicationEvents("GIAS_Daily", Source.Gias, UpdateFrequency.Daily);
     }
 
-    public async Task<DataSource> GetMstrUpdated()
+    public Task<DataSource> GetMstrUpdated()
     {
-        var lastEntry = await _academiesDbContext.ApplicationEvents
-            .Where(e => e.Source != null
-                        && e.Source.Contains("adf-t1") && e.Source.Contains("-sips-dataflow")
-                        && e.Message == "Finished"
-                        && e.EventType != 'E'
-                        && e.Description == "MSTR_Daily").MaxAsync(e => e.DateTime);
-        if (lastEntry is null)
-        {
-            _logger.LogError("Unable to find when MSTR pipeline was last run");
-            return new DataSource(Source.Mstr, null, UpdateFrequency.Daily);
-        }
-
-        return new DataSource(Source.Mstr, lastEntry.Value, UpdateFrequency.Daily);
+        return GetDataSourceFromApplicationEvents("MSTR_Daily", Source.Mstr, UpdateFrequency.Daily);
     }
 
-    public async Task<DataSource> GetCdmUpdated()
+    public Task<DataSource> GetCdmUpdated()
+    {
+        return GetDataSourceFromApplicationEvents("CDM_Daily", Source.Cdm, UpdateFrequency.Daily);
+    }
+
+    private async Task<DataSource> GetDataSourceFromApplicationEvents(string pipelineName, Source source,
+        UpdateFrequency updateFrequency)
     {
         var lastEntry = await _academiesDbContext.ApplicationEvents
             .Where(e => e.Source != null
                         && e.Source.Contains("adf-t1") && e.Source.Contains("-sips-dataflow")
                         && e.Message == "Finished"
                         && e.EventType != 'E'
-                        && e.Description == "CDM_Daily").MaxAsync(e => e.DateTime);
+                        && e.Description == pipelineName).MaxAsync(e => e.DateTime);
         if (lastEntry is null)
         {
-            _logger.LogError("Unable to find when CDM pipeline was last run");
-            return new DataSource(Source.Cdm, null, UpdateFrequency.Daily);
+            _logger.LogError("Unable to find when {pipelineName} was last run", pipelineName);
+            return new DataSource(source, null, updateFrequency);
         }
 
-        return new DataSource(Source.Cdm, lastEntry.Value, UpdateFrequency.Daily);
+        return new DataSource(source, lastEntry.Value, updateFrequency);
     }
 
     public async Task<DataSource> GetMisEstablishmentsUpdated()
