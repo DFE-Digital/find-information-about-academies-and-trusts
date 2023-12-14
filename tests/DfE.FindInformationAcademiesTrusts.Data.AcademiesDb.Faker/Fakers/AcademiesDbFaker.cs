@@ -18,6 +18,7 @@ public class AcademiesDbFaker
     private readonly CdmAccountFaker _cdmAccountFaker = new();
     private readonly CdmSystemuserFaker _cdmSystemuserFaker = new();
     private readonly MisEstablishmentFaker _misEstablishmentFaker;
+    private AcademiesDbData _academiesDbData;
 
     public AcademiesDbFaker(string?[] regions, string?[] localAuthorities, string[] fakeSchoolNames,
         Dictionary<string, string[]> governorAppointingBodies)
@@ -37,55 +38,54 @@ public class AcademiesDbFaker
 
     public AcademiesDbData Generate(TrustToGenerate[] trustsToGenerate)
     {
-        var academiesDbData = new AcademiesDbData();
+        _academiesDbData = new AcademiesDbData();
 
-        ConfigureDfeContacts(academiesDbData);
+        ConfigureDfeContacts();
 
         foreach (var trustToGenerate in trustsToGenerate)
         {
             var group = _giasGroupFaker.Generate(trustToGenerate, _counter++);
-            academiesDbData.GiasGroups.Add(group);
+            _academiesDbData.GiasGroups.Add(group);
             var groupUid = group.GroupUid!;
-            academiesDbData.MstrTrusts.Add(_mstrTrustFaker.Generate(groupUid));
-            academiesDbData.CdmAccounts.Add(_cdmAccountFaker.Generate(groupUid));
+            _academiesDbData.MstrTrusts.Add(_mstrTrustFaker.Generate(groupUid));
+            _academiesDbData.CdmAccounts.Add(_cdmAccountFaker.Generate(groupUid));
 
-            GenerateAcademies(trustToGenerate, groupUid, academiesDbData, group);
+            GenerateAcademies(trustToGenerate, groupUid, group.IncorporatedOnOpenDate);
 
             var giasGovernances = _giasGovernanceFaker.Generate(groupUid);
-            academiesDbData.GiasGovernances.AddRange(giasGovernances);
-            academiesDbData.MstrTrustGovernances.AddRange(_mstrTrustGovernanceFaker.Generate(giasGovernances));
+            _academiesDbData.GiasGovernances.AddRange(giasGovernances);
+            _academiesDbData.MstrTrustGovernances.AddRange(_mstrTrustGovernanceFaker.Generate(giasGovernances));
         }
 
-        return academiesDbData;
+        return _academiesDbData;
     }
 
-    private void GenerateAcademies(TrustToGenerate trustToGenerate, string groupUid, AcademiesDbData academiesDbData,
-        GiasGroup group)
+    private void GenerateAcademies(TrustToGenerate trustToGenerate, string groupUid, string? groupOpenDate)
     {
         var giasEstablishments = GenerateGiasEstablishments(trustToGenerate, groupUid).ToArray();
-        academiesDbData.GiasEstablishments.AddRange(giasEstablishments);
+        _academiesDbData.GiasEstablishments.AddRange(giasEstablishments);
 
         foreach (var giasEstablishment in giasEstablishments)
         {
-            academiesDbData.GiasGroupLinks.Add(GenerateGroupLink(giasEstablishment, group));
-            academiesDbData.MisEstablishments.Add(_misEstablishmentFaker.Generate(giasEstablishment.Urn));
+            _academiesDbData.GiasGroupLinks.Add(GenerateGroupLink(giasEstablishment.Urn, groupUid, groupOpenDate));
+            _academiesDbData.MisEstablishments.Add(_misEstablishmentFaker.Generate(giasEstablishment.Urn));
         }
     }
 
-    private void ConfigureDfeContacts(AcademiesDbData academiesDbData)
+    private void ConfigureDfeContacts()
     {
         var dfeContacts = _cdmSystemuserFaker.Generate(50);
-        academiesDbData.CdmSystemusers.AddRange(dfeContacts);
+        _academiesDbData.CdmSystemusers.AddRange(dfeContacts);
         _cdmAccountFaker.SetSfsoLeads(dfeContacts.Take(25).Select(c => c.Systemuserid));
         _cdmAccountFaker.SetTrustRelationshipManagers(dfeContacts.Skip(25).Select(c => c.Systemuserid));
     }
 
-    private GiasGroupLink GenerateGroupLink(GiasEstablishment establishment, GiasGroup giasGroup)
+    private GiasGroupLink GenerateGroupLink(int establishmentUrn, string groupUid, string? openDate)
     {
         return _giasGroupLinkFaker
-            .SetGiasGroupOpenedDate(giasGroup.IncorporatedOnOpenDate)
-            .Generate(giasGroup.GroupUid!,
-                establishment.Urn.ToString());
+            .SetGiasGroupOpenedDate(openDate)
+            .Generate(groupUid,
+                establishmentUrn.ToString());
     }
 
     private IEnumerable<GiasEstablishment> GenerateGiasEstablishments(TrustToGenerate trustToGenerate, string uid)
