@@ -1,5 +1,6 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
+using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
 
@@ -15,7 +16,8 @@ public class DataSourceProviderTests
     {
         _applicationEvents = _mockAcademiesDbContext.SetupMockDbContextOpsApplicationEvents(TestStartTime);
         _applicationSettings = _mockAcademiesDbContext.SetupMockDbContextOpsApplicationSettings(TestStartTime);
-        _sut = new DataSourceProvider(_mockAcademiesDbContext.Object);
+        var logger = new MockLogger<DataSourceProvider>();
+        _sut = new DataSourceProvider(_mockAcademiesDbContext.Object, logger.Object);
     }
 
     [Fact]
@@ -80,7 +82,7 @@ public class DataSourceProviderTests
 
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(new DataSource(Source.Mstr,
-                null, UpdateFrequency.Daily));
+            null, UpdateFrequency.Daily));
     }
 
     [Fact]
@@ -151,7 +153,8 @@ public class DataSourceProviderTests
     }
 
     [Fact]
-    public async Task GetMisEstablishmentsFurtherEducationUpdated_WhenNoEntryExists_ShouldReturnDataSource_WithNullDate()
+    public async Task
+        GetMisEstablishmentsFurtherEducationUpdated_WhenNoEntryExists_ShouldReturnDataSource_WithNullDate()
     {
         _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationSettings();
         var result = await _sut.GetMisFurtherEducationEstablishmentsUpdated();
