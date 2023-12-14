@@ -15,7 +15,5 @@ public class MockDataSourceProvider : Mock<IDataSourceProvider>
             .ReturnsAsync(new DataSource(Source.Cdm, staticTime, UpdateFrequency.Daily));
         Setup(f => f.GetMisEstablishmentsUpdated())
             .ReturnsAsync(new DataSource(Source.Mis, staticTime, UpdateFrequency.Monthly));
-        Setup(f => f.GetMisFurtherEducationEstablishmentsUpdated())
-            .ReturnsAsync(new DataSource(Source.Mis, staticTime, UpdateFrequency.Monthly));
     }
 }
