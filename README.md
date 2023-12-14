@@ -13,4 +13,5 @@ We are a tool for everyone in DfE to find information which is collated from mul
 ## Approach and decisions
 - [Architecture Decision Records (ADRs)](docs/adrs)
 - [Archive branches](docs/archive-branches.md)
+- [Hardcoded data](docs/hardcoded-data.md)
 - [Test Approach](docs/test-approach.md)

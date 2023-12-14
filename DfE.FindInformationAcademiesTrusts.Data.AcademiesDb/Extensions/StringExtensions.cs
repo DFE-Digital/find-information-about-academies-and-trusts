@@ -29,4 +29,9 @@ public static class StringExtensions
     {
         return int.TryParse(numberString, out var number) ? number : null;
     }
+
+    public static double? ParseAsNullableDouble(this string? numberString)
+    {
+        return double.TryParse(numberString, out var number) ? number : null;
+    }
 }

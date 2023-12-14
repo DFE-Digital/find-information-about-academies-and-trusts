@@ -20,7 +20,8 @@ public class AcademyFactoryTests
         SchoolCapacity = "1000",
         PercentageFsm = "30.40",
         StatutoryLowAge = "5",
-        StatutoryHighAge = "11"
+        StatutoryHighAge = "11",
+        LaCode = "334"
     };
 
     private readonly GiasGroupLink _giasGroupLink = new() { JoinedDate = "16/11/2023" };
@@ -40,7 +41,8 @@ public class AcademyFactoryTests
             SchoolCapacity = "1000",
             PercentageFsm = "30.40",
             StatutoryLowAge = "5",
-            StatutoryHighAge = "11"
+            StatutoryHighAge = "11",
+            LaCode = "334"
         };
 
         var result = _sut.CreateFrom(_giasGroupLink, giasEstablishment);
@@ -54,8 +56,9 @@ public class AcademyFactoryTests
         result.PhaseOfEducation.Should().Be("Primary");
         result.NumberOfPupils.Should().Be(999);
         result.SchoolCapacity.Should().Be(1000);
-        result.PercentageFreeSchoolMeals.Should().Be("30.40");
+        result.PercentageFreeSchoolMeals.Should().BeApproximately(30.40, 0.01);
         result.AgeRange.Should().Be(new AgeRange(5, 11));
+        result.OldLaCode.Should().Be(334);
     }
 
     [Fact]

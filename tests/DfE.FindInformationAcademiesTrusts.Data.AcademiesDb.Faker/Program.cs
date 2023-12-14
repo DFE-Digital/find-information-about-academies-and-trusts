@@ -15,7 +15,7 @@ public static class Program
 
 
             var faker = new AcademiesDbFaker(Data.Regions, Data.LocalAuthorities, Data.Schools,
-                Data.GovernorAppointingBodies);
+                Data.GovernorAppointingBodies, Data.GiasPhaseNames);
             var academiesDbData = faker.Generate(Data.TrustsToGenerate);
 
             SqlScriptGenerator.GenerateAndSaveSqlScripts(academiesDbData, "data/createScript.sql",
