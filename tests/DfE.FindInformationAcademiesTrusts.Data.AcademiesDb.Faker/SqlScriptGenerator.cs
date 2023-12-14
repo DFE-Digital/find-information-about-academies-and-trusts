@@ -36,6 +36,7 @@ public static class SqlScriptGenerator
         insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.GiasEstablishments, context));
         insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.CdmAccounts, context));
         insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.CdmSystemusers, context));
+        insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.MisEstablishments, context));
 
         File.WriteAllLines(outputFilePath, insertScripts);
     }
@@ -94,7 +95,7 @@ public static class SqlScriptGenerator
             return TransformIntoSqlSafeString(value.ToString());
         }
 
-        if (propertyType == typeof(int) || propertyType == typeof(long))
+        if (propertyType == typeof(int) || propertyType == typeof(long) || propertyType == typeof(int?))
         {
             return value.ToString()!;
         }
