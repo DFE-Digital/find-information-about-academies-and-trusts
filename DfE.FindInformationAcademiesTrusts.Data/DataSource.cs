@@ -13,6 +13,5 @@ public enum Source
 public enum UpdateFrequency
 {
     Daily,
-    Weekly,
     Monthly
 }
