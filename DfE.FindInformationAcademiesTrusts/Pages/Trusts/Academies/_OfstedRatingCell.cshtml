@@ -1,5 +1,5 @@
 @model OfstedRatingCellModel
-<td class="govuk-body govuk-table__cell">
+<td class="govuk-body govuk-table__cell" data-sort-value="@Model.OfstedRatingSortValue">
   <span class="govuk-!-font-weight-bold">@Model.OfstedRatingDescription</span>
   <span>
     @if (Model.OfstedRating.InspectionEndDate is not null)

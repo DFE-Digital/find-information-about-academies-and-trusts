@@ -101,6 +101,23 @@ public class OfstedRatingCellModelTests
         sut.OfstedRatingDescription.Should().BeEmpty();
     }
 
+    [Theory]
+    [InlineData(OfstedRatingScore.Outstanding, 1)]
+    [InlineData(OfstedRatingScore.Good, 2)]
+    [InlineData(OfstedRatingScore.RequiresImprovement, 3)]
+    [InlineData(OfstedRatingScore.Inadequate, 4)]
+    [InlineData(OfstedRatingScore.None, 5)]
+    public void OfstedRatingSortValue_returns_right_value(OfstedRatingScore score, int expected)
+    {
+        var sut = new OfstedRatingCellModel
+        {
+            OfstedRating = new OfstedRating(score, new DateTime()),
+            AcademyJoinedDate = new DateTime()
+        };
+
+        sut.OfstedRatingSortValue.Should().Be(expected);
+    }
+
     private static OfstedRatingCellModel GetSutWithOfstedRatingDateAfterJoining()
     {
         return new OfstedRatingCellModel

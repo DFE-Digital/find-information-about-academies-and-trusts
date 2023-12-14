@@ -19,6 +19,14 @@ public class OfstedRatingCellModel
         OfstedRatingScore.Inadequate => "Inadequate",
         _ => string.Empty
     };
+    public int OfstedRatingSortValue
+    {
+        get
+        {
+            if (OfstedRating.OfstedRatingScore == OfstedRatingScore.None) return 5;
+            return (int)OfstedRating.OfstedRatingScore;
+        }
+    }
 
     public string TagClasses
     {
