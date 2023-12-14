@@ -38,7 +38,7 @@ public class TrustsAreaModel : PageModel, ITrustsAreaModel
             case Source.Mis:
                 return "State-funded school inspections and outcomes: management information";
             default:
-                _logger.LogError("Data source does not map to known type");
+                _logger.LogError("Data source {source} does not map to known type", source);
                 return "";
         }
     }
