@@ -18,10 +18,14 @@ public class OfstedRatingsModel : TrustsAreaModel, IAcademiesAreaModel
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
         DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
-            new List<string> { "Date joined trust", "Current Ofsted rating", "Date of last inspection" }));
+            new[] { "Date joined trust" }));
 
         DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetMisEstablishmentsUpdated(),
-            new List<string> { "Previous Ofsted rating", "Date of previous inspection" }));
+            new[]
+            {
+                "Current Ofsted rating", "Date of last inspection", "Previous Ofsted rating",
+                "Date of previous inspection"
+            }));
 
         return pageResult;
     }

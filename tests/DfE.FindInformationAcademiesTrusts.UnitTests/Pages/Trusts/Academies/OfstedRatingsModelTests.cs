@@ -57,8 +57,10 @@ public class OfstedRatingsModelTests
         _mockDataSourceProvider.Verify(e => e.GetMisEstablishmentsUpdated(), Times.Once);
         _sut.DataSources.Count.Should().Be(2);
         _sut.DataSources[0].Fields.Should().Contain(new List<string>
-            { "Date joined trust", "Current Ofsted rating", "Date of last inspection" });
+            { "Date joined trust" });
         _sut.DataSources[1].Fields.Should().Contain(new List<string>
-            { "Previous Ofsted rating", "Date of previous inspection" });
+        {
+            "Current Ofsted rating", "Date of last inspection", "Previous Ofsted rating", "Date of previous inspection"
+        });
     }
 }
