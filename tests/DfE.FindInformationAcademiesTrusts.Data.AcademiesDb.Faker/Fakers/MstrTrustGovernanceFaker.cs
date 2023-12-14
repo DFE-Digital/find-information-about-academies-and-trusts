@@ -6,11 +6,13 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.Fakers;
 public class MstrTrustGovernanceFaker
 {
     private readonly Bogus.Faker _generalFaker = new();
+    private long skCounter;
 
     public IEnumerable<MstrTrustGovernance> Generate(IEnumerable<GiasGovernance> giasGovernances)
     {
         return giasGovernances.Select(gg => new MstrTrustGovernance
         {
+            Sk = skCounter++,
             Gid = gg.Gid!,
             Email = gg.Role is "Member" or "Trustee"
                 ? null // Members and trustees don't have email addresses

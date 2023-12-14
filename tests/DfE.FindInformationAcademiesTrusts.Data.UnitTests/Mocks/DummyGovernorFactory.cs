@@ -21,4 +21,16 @@ public class DummyGovernorFactory
             null,
             "test");
     }
+
+    public static Governor GetDummyGovernor(string name, string role, DateTime? dateOfTermEnd)
+    {
+        return new Governor("1",
+            "2",
+            name,
+            role,
+            "test",
+            null,
+            dateOfTermEnd,
+            "email@email.com");
+    }
 }

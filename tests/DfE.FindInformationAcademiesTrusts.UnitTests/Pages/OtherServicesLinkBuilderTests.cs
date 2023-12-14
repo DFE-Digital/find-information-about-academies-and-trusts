@@ -58,7 +58,8 @@ public class OtherServicesLinkBuilderTests
     {
         var academies = _dummyAcademyFactory.GetDummyAcademies(numberOfAcademies);
         var dummyTrust =
-            DummyTrustFactory.GetDummyTrust("1234", type, "2345", academies.ToArray(), DummyTrustFactory.ClosedStatus);
+            DummyTrustFactory.GetDummyTrust("1234", type, "2345", academies.ToArray(), null,
+                DummyTrustFactory.ClosedStatus);
 
         var result = _sut.SchoolFinancialBenchmarkingServiceListingLink(dummyTrust);
         result.Should().BeNull();

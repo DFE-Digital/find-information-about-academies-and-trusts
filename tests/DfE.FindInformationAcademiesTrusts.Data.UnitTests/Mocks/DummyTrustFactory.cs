@@ -25,7 +25,7 @@ public class DummyTrustFactory
     }
 
     public static Trust GetDummyTrust(string uid, string type = "test", string companiesHouseNumber = "test",
-        Academy[]? academies = null, string status = OpenStatus)
+        Academy[]? academies = null, Governor[]? governors = null, string status = OpenStatus)
     {
         return new Trust(uid,
             $"Trust {uid}",
@@ -37,9 +37,9 @@ public class DummyTrustFactory
             companiesHouseNumber,
             "test",
             academies ?? Array.Empty<Academy>(),
-            Array.Empty<Governor>(),
-            null,
-            null,
+            governors ?? Array.Empty<Governor>(),
+            new Person("Present Trm", "trm@test.com"),
+            new Person("Present Sfsolead", "Sfsolead@test.com"),
             status
         );
     }

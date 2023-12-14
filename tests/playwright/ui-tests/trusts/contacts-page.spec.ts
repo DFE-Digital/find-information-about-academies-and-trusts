@@ -9,16 +9,27 @@ test.describe('Contacts page', () => {
 
   test.beforeEach(async ({ page }) => {
     contactsPage = new ContactsPage(page, new FakeTestData())
-    await contactsPage.goTo()
   })
 
   test('user should see trust name and type', async () => {
+    await contactsPage.goTo()
     await contactsPage.expect.toSeeCorrectTrustNameAndTypeInHeader()
   })
 
-  test('user should see the correct contact information', async () => {
+  test('user should see the correct contact information when contact details fully populated', async () => {
+    await contactsPage.goToTrustWithAllContactDetailsPopulated()
     await contactsPage.expect.toSeeCorrectDfeContacts()
     await contactsPage.expect.toSeeCorrectTrustContacts()
+  })
+
+  test('user should see missing information messages when dfe contact details not fully populated', async () => {
+    await contactsPage.goToTrustWithDfeContactDetailsMissing()
+    await contactsPage.expect.toSeeCorrectDfeContactsMissingInformationMessage()
+  })
+
+  test('user should see missing information messages when trust contact email not fully populated', async () => {
+    await contactsPage.goToTrustWithTrustContactEmailMissing()
+    await contactsPage.expect.toSeeCorrectTrustContactMissingEmailMessage()
   })
 
   test.describe('given a user tries to visit the url without an existing trust', () => {
