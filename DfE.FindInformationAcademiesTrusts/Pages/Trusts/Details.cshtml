@@ -26,7 +26,7 @@
           <dd class="govuk-summary-list__value">
             @if (Model.Trust.OpenedDate is not null)
             {
-              @Model.Trust.OpenedDate.Value.ToString("d MMM yyyy")
+              @Model.Trust.OpenedDate.Value.ToString(StringFormatConstants.ViewDate)
             }
           </dd>
         </div>

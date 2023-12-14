@@ -5,7 +5,7 @@
     @if (Model.OfstedRating.InspectionEndDate is not null)
     {
       <br/>
-      @Model.OfstedRating.InspectionEndDate.Value.ToString(ViewConstants.ViewDateFormat)
+      @Model.OfstedRating.InspectionEndDate.Value.ToString(StringFormatConstants.ViewDate)
       <br/>
       <strong class="@Model.TagClasses govuk-!-margin-top-2 govuk-!-margin-bottom-1">
         @Model.TagText
