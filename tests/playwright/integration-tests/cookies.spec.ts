@@ -11,22 +11,23 @@ test.describe('cookies', () => {
     const homePage = new HomePage(page, new CurrentSearch())
     const cookiesPage = new CookiesPage(page)
 
+    // Defaults to no cookies
     await homePage.goTo()
     await homePage.expect.toBeOnTheRightPage()
     await homePage.expect.notToHaveAppInsightsCookies()
 
-    await homePage.cookieBanner.acceptCookies()
-    await homePage.goTo() // Cookie settings may not apply until refresh of page due to server side order of setting/using cookie preferences cookie
-    await homePage.expect.toHaveAppInsightCookies()
-
+    // Can accept cookies
     await cookiesPage.goTo()
-    await cookiesPage.expect.toHaveAppInsightCookies() // ensure that cookie settings persist
-
-    await cookiesPage.rejectCookies()
-    await cookiesPage.goTo() // Cookie settings may not apply until refresh of page due to server side order of setting/using cookie preferences cookie
-    await cookiesPage.expect.notToHaveAppInsightsCookies()
-
+    await cookiesPage.acceptCookies()
+    await cookiesPage.expect.toHaveAppInsightCookies()
     await homePage.goTo()
-    await homePage.expect.notToHaveAppInsightsCookies() // ensure that cookie settings persist
+    await homePage.expect.toHaveAppInsightCookies() // ensure that cookie settings persist across pages
+
+    // Can reject cookies
+    await cookiesPage.goTo()
+    await cookiesPage.rejectCookies()
+    await cookiesPage.expect.notToHaveAppInsightsCookies()
+    await homePage.goTo()
+    await homePage.expect.notToHaveAppInsightsCookies() // ensure that cookie settings persist across pages
   })
 })
