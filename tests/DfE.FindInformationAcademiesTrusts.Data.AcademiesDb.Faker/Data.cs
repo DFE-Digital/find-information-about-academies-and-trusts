@@ -104,7 +104,7 @@ public static class Data
         new("THE DIOCESE OF WORCESTER MULTI ACADEMY TRUST", hasNoAcademies: true, status: "Closed"),
         new("SHEFFIELD SOUTH EAST TRUST", hasNoAcademies: true),
         new("CANTERBURY CROSS EDUCATION TRUST", "Single-academy trust", true, "Closed"),
-        new("WESTMINSTER ACADEMY TRUST", "Single-academy trust", true)
+        new("WESTMINSTER ACADEMY TRUST", "Single-academy trust", true, "Open")
     };
 
     public static string?[] Regions { get; } =
