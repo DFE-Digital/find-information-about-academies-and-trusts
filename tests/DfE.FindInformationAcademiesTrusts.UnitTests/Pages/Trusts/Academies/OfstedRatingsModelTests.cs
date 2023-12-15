@@ -20,13 +20,13 @@ public class OfstedRatingsModelTests
     }
 
     [Fact]
-    public void PageTitle_should_be_AcademiesDetails()
+    public void PageTitle_should_be_AcademiesOfstedRatingsPage()
     {
         _sut.PageTitle.Should().Be("Academies Ofsted ratings");
     }
 
     [Fact]
-    public void TabName_should_be_Details()
+    public void TabName_should_be_OfstedRatings()
     {
         _sut.TabName.Should().Be("Ofsted ratings");
     }
