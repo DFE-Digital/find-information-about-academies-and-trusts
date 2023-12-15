@@ -5,7 +5,7 @@ We are a tool for everyone in DfE to find information which is collated from mul
 ## Developer set up
 - [Get started](docs/getting-started.md)
 - [Run tests locally](docs/run-tests-locally.md)
-- [Supercharge your dev environment](docs/supercharge-your-dev-environment.md)
+- [Supercharge your dev environment](docs/supercharge-your-dev-environment.md) (Test coverage and linting)
 - [Update test data](docs/update-test-data.md)
 - [Enable Application Insights](docs/application-insights.md)
 
