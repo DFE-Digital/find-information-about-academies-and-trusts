@@ -4,7 +4,7 @@ import { TrustHeaderComponent } from '../shared/trust-header-component'
 import { NavigationComponent } from '../shared/navigation-component'
 import { BasePage, BasePageAssertions } from '../base-page'
 import { FakeTrust } from '../../fake-data/types'
-import { DataSourcePanelItem, SourcePanelComponent } from './sources-and-updates'
+import { DataSourcePanelItem, SourcePanelComponent } from './sources-and-updates-component'
 
 export class BaseTrustPage extends BasePage {
   readonly expect: BaseTrustPageAssertions

@@ -1,7 +1,7 @@
 import { test } from '@playwright/test'
 import { FakeTestData } from '../../../fake-data/fake-test-data'
 import { AcademiesOfstedRatingsPage } from '../../../page-object-model/trust/academies/ofsted-ratings-page'
-import { DataSourcePanelItem } from '../../../page-object-model/trust/sources-and-updates'
+import { DataSourcePanelItem } from '../../../page-object-model/trust/sources-and-updates-component'
 
 test.describe('Academies in trust ofsted ratings page', () => {
   test('user should see the right information about a trust', async ({ page }) => {

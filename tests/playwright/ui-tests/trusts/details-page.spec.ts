@@ -2,7 +2,7 @@ import { test } from '@playwright/test'
 import { DetailsPage } from '../../page-object-model/trust/details-page'
 import { NotFoundPage } from '../../page-object-model/not-found-page'
 import { FakeTestData } from '../../fake-data/fake-test-data'
-import { DataSourcePanelItem } from '../../page-object-model/trust/sources-and-updates'
+import { DataSourcePanelItem } from '../../page-object-model/trust/sources-and-updates-component'
 
 test.describe('Details page', () => {
   let detailsPage: DetailsPage

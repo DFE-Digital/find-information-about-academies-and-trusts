@@ -1,7 +1,7 @@
 import { test } from '@playwright/test'
 import { FakeTestData } from '../../../fake-data/fake-test-data'
 import { AcademiesPupilNumbersPage } from '../../../page-object-model/trust/academies/pupil-numbers-page '
-import { DataSourcePanelItem } from '../../../page-object-model/trust/sources-and-updates'
+import { DataSourcePanelItem } from '../../../page-object-model/trust/sources-and-updates-component'
 
 test.describe('Academies in trust pupil numbers page', () => {
   let pupilNumbersPage: AcademiesPupilNumbersPage

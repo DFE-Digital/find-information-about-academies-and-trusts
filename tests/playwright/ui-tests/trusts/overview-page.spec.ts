@@ -3,7 +3,7 @@ import { OverviewPage } from '../../page-object-model/trust/overview-page'
 import { NotFoundPage } from '../../page-object-model/not-found-page'
 import { FakeTestData } from '../../fake-data/fake-test-data'
 import { javaScriptContexts } from '../../helpers'
-import { DataSourcePanelItem } from '../../page-object-model/trust/sources-and-updates'
+import { DataSourcePanelItem } from '../../page-object-model/trust/sources-and-updates-component'
 
 test.describe('Overview page', () => {
   let overviewPage: OverviewPage
