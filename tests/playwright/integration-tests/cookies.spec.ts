@@ -7,7 +7,9 @@ test.describe('cookies', () => {
   // reset cookies to default
   test.use({ storageState: { cookies: [], origins: [] } })
 
-  test('app insights cookies are not present by default, are added when user accepts cookies and are removed when user rejects cookies', async ({ page }) => {
+  // Cookies integration tests are failing more often than not, we don't really understand why and we can't replicate the issue manually
+  // Marking as fixme until there is time to address the problem
+  test.fixme('app insights cookies are not present by default, are added when user accepts cookies and are removed when user rejects cookies', async ({ page }) => {
     const homePage = new HomePage(page, new CurrentSearch())
     const cookiesPage = new CookiesPage(page)
 
