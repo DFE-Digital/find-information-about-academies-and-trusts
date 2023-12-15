@@ -8,13 +8,13 @@
   <div class="govuk-details__text">
     @foreach (var source in Model.DataSources)
     {
-      <div>
-        <p class="govuk-body">
+      <dl role="list">
+        <dt class="govuk-body" role="listitem">
           <span class="govuk-!-font-weight-bold margin-right-class">@string.Join(", ", source.Fields): </span> @Model.MapDataSourceToName(source.DataSource)
-        </p>
-        <p class="govuk-body">Last updated: @(source.DataSource.LastUpdated is null ? "Unknown" : source.DataSource.LastUpdated.Value.ToString(ViewConstants.ViewDateFormat))</p>
-        <p class="govuk-body">Next scheduled update: @source.DataSource.NextUpdated</p>
-      </div>
+        </dt>
+        <dd class="govuk-body" role="definition">Last updated: @(source.DataSource.LastUpdated is null ? "Unknown" : source.DataSource.LastUpdated.Value.ToString(ViewConstants.ViewDateFormat))</dd>
+        <dd class="govuk-body" role="definition">Next scheduled update: @source.DataSource.NextUpdated</dd>
+      </dl>
     }
   </div>
 </details>
