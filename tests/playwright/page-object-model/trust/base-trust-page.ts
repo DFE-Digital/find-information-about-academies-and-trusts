@@ -4,7 +4,7 @@ import { TrustHeaderComponent } from '../shared/trust-header-component'
 import { NavigationComponent } from '../shared/navigation-component'
 import { BasePage, BasePageAssertions } from '../base-page'
 import { FakeTrust } from '../../fake-data/types'
-import { SourcePanelComponent } from './sources-and-updates'
+import { DataSourcePanelItem, SourcePanelComponent } from './sources-and-updates'
 
 export class BaseTrustPage extends BasePage {
   readonly expect: BaseTrustPageAssertions
@@ -78,5 +78,10 @@ export class BaseTrustPageAssertions extends BasePageAssertions {
   async toSeeCorrectTrustNameAndTypeInHeader (): Promise<void> {
     const { name, type } = this.trustPage.currentTrust
     await this.trustPage.trustHeading.expect.toSeeCorrectTrustNameAndType(name, type)
+  }
+
+  async toSeeCorrectSourceAndUpdates (source:DataSourcePanelItem): Promise<void> {
+    await this.trustPage.sourcePanel.expect.toHaveCorrectUpdates(source)
+    await this.trustPage.sourcePanel.expect.toUseCorrectDataSource(source)
   }
 }

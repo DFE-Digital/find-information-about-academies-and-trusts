@@ -2,6 +2,7 @@ import { test } from '@playwright/test'
 import { ContactsPage } from '../../page-object-model/trust/contacts-page'
 import { NotFoundPage } from '../../page-object-model/not-found-page'
 import { FakeTestData } from '../../fake-data/fake-test-data'
+import { DataSourcePanelItem } from '../../page-object-model/trust/sources-and-updates'
 
 test.describe('Contacts page', () => {
   let contactsPage: ContactsPage
@@ -20,6 +21,13 @@ test.describe('Contacts page', () => {
     await contactsPage.goToTrustWithAllContactDetailsPopulated()
     await contactsPage.expect.toSeeCorrectDfeContacts()
     await contactsPage.expect.toSeeCorrectTrustContacts()
+    
+    const sources:DataSourcePanelItem[] = [{fields: "DfE Contacts:", dataSource: "RSD service support team", update:"Daily"},
+    {fields: "Accounting Officer Name, Chief Financial Officer Name, Chair of trustees Name:", dataSource: "Get information about schools", update:"Daily"},
+    {fields: "Accounting Officer Email, Chief Financial Officer Email, Chair of trustees Email:", dataSource: "Get information about schools", update:"Daily"}]
+    await sources.map(async (source) => {
+      await contactsPage.expect.toSeeCorrectSourceAndUpdates(source)
+    })
   })
 
   test('user should see missing information messages when dfe contact details not fully populated', async () => {

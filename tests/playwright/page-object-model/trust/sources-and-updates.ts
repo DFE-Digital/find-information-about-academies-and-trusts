@@ -32,7 +32,9 @@ export class SourcePanelComponent{
     }
 
     async getSourceItemNextUpdate(label: string): Promise<Locator>{
-        return (await this.getSourceItem(label)).getByText("Next scheduled update:")
+        const sourceItem = await this.getSourceItem(label)
+        console.log(sourceItem)
+        return sourceItem.getByText("Next scheduled update:")
     }
 
     async isPanelOpen(): Promise<boolean> {
@@ -42,21 +44,22 @@ export class SourcePanelComponent{
     
 }
 
+export type DataSourcePanelItem = {
+    fields: string
+    dataSource: string
+    update: "Daily" | "Weekly" | "Monthly"
+}
+
 export class SourcePanelComponentAssertions{
     constructor (readonly sourcePanel: SourcePanelComponent) {}
 
-    async toHaveDailyUpdates (label: string): Promise<void> {
+    async toHaveCorrectUpdates ({fields, update}: DataSourcePanelItem): Promise<void> {
         await this.sourcePanel.openPanel()
-        expect(await this.sourcePanel.getSourceItemNextUpdate(label)).toContainText("Daily")
+        expect(await this.sourcePanel.getSourceItemNextUpdate(fields)).toContainText(update)
     }
 
-    async toHaveWeeklyUpdates (label: string): Promise<void> {
+    async toUseCorrectDataSource ({fields, dataSource}: DataSourcePanelItem) {
         await this.sourcePanel.openPanel()
-        expect(await this.sourcePanel.getSourceItemNextUpdate(label)).toContainText("Weekly")
-    }
-
-    async toHaveMonthlyUpdates (label: string): Promise<void> {
-        await this.sourcePanel.openPanel()
-        expect(await this.sourcePanel.getSourceItemNextUpdate(label)).toContainText("Monthly")
+        expect(await this.sourcePanel.getSourceItem(fields)).toContainText(dataSource)
     }
 }

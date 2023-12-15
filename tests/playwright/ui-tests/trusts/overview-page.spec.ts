@@ -3,6 +3,7 @@ import { OverviewPage } from '../../page-object-model/trust/overview-page'
 import { NotFoundPage } from '../../page-object-model/not-found-page'
 import { FakeTestData } from '../../fake-data/fake-test-data'
 import { javaScriptContexts } from '../../helpers'
+import { DataSourcePanelItem } from '../../page-object-model/trust/sources-and-updates'
 
 test.describe('Overview page', () => {
   let overviewPage: OverviewPage
@@ -26,6 +27,8 @@ test.describe('Overview page', () => {
         await overviewPage.goToMultiAcademyTrust()
         await overviewPage.expect.toSeeCorrectTrustSummary()
         await overviewPage.expect.toSeePopulatedOfstedRatings()
+        const source:DataSourcePanelItem = {fields: "Trust summary, Ofsted ratings:", dataSource: "Get information about schools", update:"Daily"}
+        await overviewPage.expect.toSeeCorrectSourceAndUpdates(source)
       })
 
       test('user should see the correct trust information on trust with no academies', async () => {
