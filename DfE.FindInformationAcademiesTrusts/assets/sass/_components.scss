@@ -2,7 +2,6 @@
 @import "components/search";
 @import "components/side-navigation";
 @import "components/table";
-@import "components/detailsList";
 
 .app-banner {
   @include govuk-responsive-padding(5, "top");
