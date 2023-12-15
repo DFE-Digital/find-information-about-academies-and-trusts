@@ -1,5 +1,4 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
+﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
@@ -7,17 +6,15 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
 public class DataSourceProviderTests
 {
     private readonly DataSourceProvider _sut;
-    private readonly List<ApplicationEvent> _applicationEvents;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
     private static readonly DateTime TestStartTime = new(2023, 12, 12, 06, 54, 12);
-    private readonly List<ApplicationSetting> _applicationSettings;
+    private readonly MockLogger<DataSourceProvider> _logger = new();
 
     public DataSourceProviderTests()
     {
-        _applicationEvents = _mockAcademiesDbContext.SetupMockDbContextOpsApplicationEvents(TestStartTime);
-        _applicationSettings = _mockAcademiesDbContext.SetupMockDbContextOpsApplicationSettings(TestStartTime);
-        var logger = new MockLogger<DataSourceProvider>();
-        _sut = new DataSourceProvider(_mockAcademiesDbContext.Object, logger.Object);
+        _mockAcademiesDbContext.SetupMockDbContextOpsApplicationEvents(TestStartTime);
+        _mockAcademiesDbContext.SetupMockDbContextOpsApplicationSettings(TestStartTime);
+        _sut = new DataSourceProvider(_mockAcademiesDbContext.Object, _logger.Object);
     }
 
     [Fact]
@@ -25,6 +22,8 @@ public class DataSourceProviderTests
     {
         _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationEvents();
         var result = await _sut.GetGiasUpdated();
+
+        _logger.VerifyLogError("Unable to find when GIAS_Daily was last run");
 
         result.Should().BeEquivalentTo(new DataSource(Source.Gias,
             null, UpdateFrequency.Daily));
@@ -45,7 +44,7 @@ public class DataSourceProviderTests
     {
         _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(TestStartTime);
         var result = await _sut.GetGiasUpdated();
-
+        _logger.VerifyLogError("Unable to find when GIAS_Daily was last run");
         result.Should().BeEquivalentTo(new DataSource(Source.Gias,
             null, UpdateFrequency.Daily));
     }
@@ -55,6 +54,7 @@ public class DataSourceProviderTests
     {
         _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationEvents();
         var result = await _sut.GetMstrUpdated();
+        _logger.VerifyLogError("Unable to find when MSTR_Daily was last run");
         result.Should().BeEquivalentTo(new DataSource(Source.Mstr,
             null, UpdateFrequency.Daily));
     }
@@ -74,7 +74,7 @@ public class DataSourceProviderTests
     {
         _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(TestStartTime);
         var result = await _sut.GetMstrUpdated();
-
+        _logger.VerifyLogError("Unable to find when MSTR_Daily was last run");
         result.Should().BeEquivalentTo(new DataSource(Source.Mstr,
             null, UpdateFrequency.Daily));
     }
@@ -84,6 +84,7 @@ public class DataSourceProviderTests
     {
         _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationEvents();
         var result = await _sut.GetCdmUpdated();
+        _logger.VerifyLogError("Unable to find when CDM_Daily was last run");
 
         result.Should().BeEquivalentTo(new DataSource(Source.Cdm,
             null, UpdateFrequency.Daily));
@@ -104,6 +105,7 @@ public class DataSourceProviderTests
     {
         _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(TestStartTime);
         var result = await _sut.GetCdmUpdated();
+        _logger.VerifyLogError("Unable to find when CDM_Daily was last run");
 
         result.Should()
             .BeEquivalentTo(new DataSource(Source.Cdm,
@@ -115,6 +117,7 @@ public class DataSourceProviderTests
     {
         _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationSettings();
         var result = await _sut.GetMisEstablishmentsUpdated();
+        _logger.VerifyLogError("Unable to find when ManagementInformationSchoolTableData was last modified");
 
         result.Should()
             .BeEquivalentTo(new DataSource(Source.Mis, null, UpdateFrequency.Monthly));
@@ -136,6 +139,7 @@ public class DataSourceProviderTests
         _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationSettings(TestStartTime);
         var result = await _sut.GetMisEstablishmentsUpdated();
 
+        _logger.VerifyLogError("Unable to find when ManagementInformationSchoolTableData was last modified");
         result.Should()
             .BeEquivalentTo(new DataSource(Source.Mis, null, UpdateFrequency.Monthly));
     }

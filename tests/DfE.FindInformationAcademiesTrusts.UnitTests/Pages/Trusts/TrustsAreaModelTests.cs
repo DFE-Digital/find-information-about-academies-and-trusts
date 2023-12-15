@@ -23,7 +23,7 @@ public class TrustsAreaModelTests
     }
 
     [Fact]
-    public async void OnGetAsync_should_fetch_a_trust_by_uid()
+    public async Task OnGetAsync_should_fetch_a_trust_by_uid()
     {
         var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider.Setup(s => s.GetTrustByUidAsync(dummyTrust.Uid))
@@ -35,7 +35,7 @@ public class TrustsAreaModelTests
     }
 
     [Fact]
-    public async void GroupUid_should_be_empty_string_by_default()
+    public async Task GroupUid_should_be_empty_string_by_default()
     {
         await _sut.OnGetAsync();
         _sut.Uid.Should().BeEquivalentTo(string.Empty);
@@ -56,7 +56,7 @@ public class TrustsAreaModelTests
     }
 
     [Fact]
-    public async void OnGetAsync_should_return_not_found_result_if_trust_is_not_found()
+    public async Task OnGetAsync_should_return_not_found_result_if_trust_is_not_found()
     {
         _mockTrustProvider.Setup(s => s.GetTrustByUidAsync("1111"))
             .ReturnsAsync((Trust?)null);
@@ -67,9 +67,29 @@ public class TrustsAreaModelTests
     }
 
     [Fact]
-    public async void OnGetAsync_should_return_not_found_result_if_Uid_is_not_provided()
+    public async Task OnGetAsync_should_return_not_found_result_if_Uid_is_not_provided()
     {
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
+    }
+
+    [Theory]
+    [InlineData(Source.Gias, "Get information about schools")]
+    [InlineData(Source.Mstr, "Get information about schools")]
+    [InlineData(Source.Cdm, "RSD Service Support team")]
+    [InlineData(Source.Mis, "State-funded school inspections and outcomes: management information")]
+    public void MapDataSourceToName_should_return_the_correct_string_for_each_source(Source source, string expected)
+    {
+        var result = _sut.MapDataSourceToName(new DataSource(source, null, UpdateFrequency.Daily));
+        result.Should().Be(expected);
+    }
+
+    [Fact]
+    public void MapDataSourceToName_should_return_emptyString_when_source_is_not_recognised()
+    {
+        var dataSource = new DataSource((Source)10, null, UpdateFrequency.Daily);
+        var result = _sut.MapDataSourceToName(dataSource);
+        _logger.VerifyLogError($"Data source {dataSource} does not map to known type");
+        result.Should().Be("");
     }
 }
