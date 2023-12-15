@@ -10,7 +10,7 @@ test.describe('Overview page', () => {
     await overviewPage.expect.toSeeCorrectTrustNameAndTypeInHeader()
     await overviewPage.trustNavigation.expect.toBeVisible()
     await overviewPage.expect.toSeeCorrectTrustSummary()
-    await overviewPage.expect.toSeeCorrectOfstedRatings()
+    await overviewPage.expect.toSeePopulatedOfstedRatings()
     await expectNoAccessibilityViolations()
   })
 })
