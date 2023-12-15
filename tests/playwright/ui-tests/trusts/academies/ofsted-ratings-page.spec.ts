@@ -10,10 +10,21 @@ test.describe('Academies in trust ofsted ratings page', () => {
     await ofstedRatingsPage.expect.toBeOnTheRightPage()
     await ofstedRatingsPage.expect.toDisplayInformationForAllAcademiesInThatTrust()
     await ofstedRatingsPage.expect.toDisplayCorrectInformationAboutAcademiesInThatTrust()
-    const sources:DataSourcePanelItem[] = [{fields: "Date joined trust, Current Ofsted rating, Date of last inspection:", dataSource: "Get information about schools", update:"Daily"},
-    {fields: "Previous Ofsted rating, Date of previous inspection:", dataSource: "State-funded school inspections and outcomes: management information", update:"Monthly"}]
-    await sources.map(async (source) => {
+    await ofstedRatingsPage.sourcePanel.openPanel()
+    const sources: DataSourcePanelItem[] = [
+      {
+        fields: 'Date joined trust',
+        dataSource: 'Get information about schools',
+        update: 'Daily'
+      },
+      {
+        fields: 'Current Ofsted rating, Date of last inspection, Previous Ofsted rating, Date of previous inspection:',
+        dataSource: 'State-funded school inspections and outcomes: management information',
+        update: 'Monthly'
+      }
+    ]
+    for (const source of sources) {
       await ofstedRatingsPage.expect.toSeeCorrectSourceAndUpdates(source)
-    })
+    }
   })
 })

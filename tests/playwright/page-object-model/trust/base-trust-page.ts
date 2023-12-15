@@ -80,7 +80,7 @@ export class BaseTrustPageAssertions extends BasePageAssertions {
     await this.trustPage.trustHeading.expect.toSeeCorrectTrustNameAndType(name, type)
   }
 
-  async toSeeCorrectSourceAndUpdates (source:DataSourcePanelItem): Promise<void> {
+  async toSeeCorrectSourceAndUpdates (source: DataSourcePanelItem): Promise<void> {
     await this.trustPage.sourcePanel.expect.toHaveCorrectUpdates(source)
     await this.trustPage.sourcePanel.expect.toUseCorrectDataSource(source)
   }

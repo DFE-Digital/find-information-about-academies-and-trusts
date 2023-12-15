@@ -27,7 +27,7 @@ test.describe('Overview page', () => {
         await overviewPage.goToMultiAcademyTrust()
         await overviewPage.expect.toSeeCorrectTrustSummary()
         await overviewPage.expect.toSeePopulatedOfstedRatings()
-        const source:DataSourcePanelItem = {fields: "Trust summary, Ofsted ratings:", dataSource: "Get information about schools", update:"Daily"}
+        const source: DataSourcePanelItem = { fields: 'Trust summary, Ofsted ratings:', dataSource: 'Get information about schools', update: 'Daily' }
         await overviewPage.expect.toSeeCorrectSourceAndUpdates(source)
       })
 

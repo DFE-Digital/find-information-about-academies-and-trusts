@@ -15,7 +15,7 @@ test.describe('Academies in trust details page', () => {
     await detailsPage.expect.toBeOnTheRightPage()
     await detailsPage.expect.toDisplayInformationForAllAcademiesInThatTrust()
     await detailsPage.expect.toDisplayCorrectInformationAboutAcademiesInThatTrust()
-    const source:DataSourcePanelItem = {fields: "Details:", dataSource: "Get information about schools", update:"Daily"}
+    const source: DataSourcePanelItem = { fields: 'Details:', dataSource: 'Get information about schools', update: 'Daily' }
     await detailsPage.expect.toSeeCorrectSourceAndUpdates(source)
   })
 })

@@ -21,7 +21,7 @@ test.describe('Details page', () => {
   test('user should see the correct trust information', async () => {
     await detailsPage.expect.toSeeCorrectTrustDetails()
     await detailsPage.expect.toSeeCorrectTrustReferenceNumbers()
-    const source:DataSourcePanelItem = {fields: "Trust details, Reference numbers:", dataSource: "Get information about schools", update:"Daily"}
+    const source: DataSourcePanelItem = { fields: 'Trust details, Reference numbers:', dataSource: 'Get information about schools', update: 'Daily' }
     await detailsPage.expect.toSeeCorrectSourceAndUpdates(source)
   })
 

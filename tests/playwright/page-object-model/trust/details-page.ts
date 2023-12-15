@@ -2,7 +2,6 @@ import { Locator, Page, expect } from '@playwright/test'
 import { FakeTestData } from '../../fake-data/fake-test-data'
 import { formatDateAsExpected } from '../../helpers'
 import { BaseTrustPage, BaseTrustPageAssertions } from './base-trust-page'
-import { DataSourcePanelItem } from './sources-and-updates'
 
 export class DetailsPage extends BaseTrustPage {
   readonly expect: DetailsPageAssertions
