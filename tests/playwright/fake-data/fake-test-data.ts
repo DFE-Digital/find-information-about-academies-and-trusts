@@ -32,6 +32,9 @@ export interface FakeAcademy {
   }
   percentageFull: number
   percentageFreeSchoolMeals: number
+  dateAcademyJoinedTrust: Date
+  currentOfstedRating: FakeOfstedRating
+  previousOfstedRating: FakeOfstedRating
 }
 
 export interface FakePerson {
@@ -44,6 +47,12 @@ export interface FakeGovernor {
   email: string
   role: string
 }
+
+export interface FakeOfstedRating {
+  ofstedRatingScore: number
+  inspectionEndDate: Date | null
+}
+
 export class FakeTestData {
   _fakeTrusts: FakeTrust[]
 

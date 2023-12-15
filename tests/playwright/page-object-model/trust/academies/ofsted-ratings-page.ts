@@ -1,6 +1,8 @@
-import { Page, expect } from '@playwright/test'
-import { FakeTestData } from '../../../fake-data/fake-test-data'
+import { Locator, Page, expect } from '@playwright/test'
+import { FakeAcademy, FakeOfstedRating, FakeTestData } from '../../../fake-data/fake-test-data'
 import { BaseAcademiesPage, BaseAcademiesPageAssertions } from './base-academies-page'
+import { RowComponent } from '../../shared/table-component'
+import { formatDateAsExpected } from '../../../helpers'
 
 enum ColumnHeading {
   DateJoined,
@@ -17,57 +19,63 @@ export class AcademiesOfstedRatingsPage extends BaseAcademiesPage {
 }
 
 class AcademiesOfstedRatingsPageAssertions extends BaseAcademiesPageAssertions {
-  constructor (readonly ofstedRatingsPage: AcademiesOfstedRatingsPage) {
-    super(ofstedRatingsPage)
+  constructor (readonly page: AcademiesOfstedRatingsPage) {
+    super(page)
   }
 
   async toBeOnTheRightPage (): Promise<void> {
     await this.toBeOnAcademiesInTrustPages()
-    await expect(this.ofstedRatingsPage.page).toHaveTitle(/Ofsted ratings/)
-  }
-
-  // Once the page is updated with real data this override can be deleted
-  // so that the method on the page object model is called with the real academy count.
-  async toDisplayInformationForAllAcademiesInThatTrust (): Promise<void> {
-    await expect(this.academiesPage.academiesRowLocator).toHaveCount(3)
+    await expect(this.page.page).toHaveTitle(/Ofsted ratings/)
   }
 
   async toDisplayCorrectInformationAboutAcademiesInThatTrust (): Promise<void> {
+    const rowCount = await this.page.academiesTable.getRowCount()
+    let rowComponent: RowComponent
+    let academy: FakeAcademy
+
     // start at 1 (rather than 0) because the first row will be the header
-    const firstRowComponent = this.ofstedRatingsPage.academiesTable.getRowComponentAt(1)
-    await expect(firstRowComponent.rowHeaderLocator).toContainText('Barr and Community R.C. School')
-    await expect(firstRowComponent.rowHeaderLocator).toContainText('URN: 109174')
-    await expect(firstRowComponent.cellLocator(ColumnHeading.DateJoined)).toContainText('Nov 2018')
-    await expect(firstRowComponent.cellLocator(ColumnHeading.PreviousOfstedRatings)).toContainText('Not yet inspected')
-    await expect(firstRowComponent.cellLocator(ColumnHeading.CurrentOfstedRatings)).toContainText('Not yet inspected')
+    for (let i = 1; i < rowCount; i++) {
+      rowComponent = this.page.academiesTable.getRowComponentAt(i)
+      academy = await this.page.getExpectedAcademyMatching(rowComponent.rowHeaderLocator)
 
-    const secondRowComponent = this.ofstedRatingsPage.academiesTable.getRowComponentAt(2)
-    await expect(secondRowComponent.rowHeaderLocator).toContainText('Fay Fort Catholic Primary Academy')
-    await expect(secondRowComponent.rowHeaderLocator).toContainText('URN: 109174')
-    await expect(secondRowComponent.cellLocator(ColumnHeading.DateJoined)).toContainText('Nov 2017')
-    await expect(secondRowComponent.cellLocator(ColumnHeading.PreviousOfstedRatings)).toContainText('Not yet inspected')
-    await expect(secondRowComponent.cellLocator(ColumnHeading.CurrentOfstedRatings)).toContainText('Good')
-    await expect(secondRowComponent.cellLocator(ColumnHeading.CurrentOfstedRatings)).toContainText('9 May 2021')
+      await expect(rowComponent.rowHeaderLocator).toContainText(academy.establishmentName)
+      await expect(rowComponent.rowHeaderLocator).toContainText(`URN: ${academy.urn}`)
+      await expect(rowComponent.cellLocator(ColumnHeading.DateJoined)).toContainText(formatDateAsExpected(academy.dateAcademyJoinedTrust))
 
-    const thirdRowComponent = this.ofstedRatingsPage.academiesTable.getRowComponentAt(2)
-    await expect(thirdRowComponent.rowHeaderLocator).toContainText('Fay Fort Catholic Primary Academy')
-    await expect(thirdRowComponent.rowHeaderLocator).toContainText('URN: 109174')
-    await expect(thirdRowComponent.cellLocator(ColumnHeading.DateJoined)).toContainText('Nov 2017')
-    await expect(thirdRowComponent.cellLocator(ColumnHeading.PreviousOfstedRatings)).toContainText('Not yet inspected')
-    await expect(thirdRowComponent.cellLocator(ColumnHeading.CurrentOfstedRatings)).toContainText('Good')
-    await expect(thirdRowComponent.cellLocator(ColumnHeading.CurrentOfstedRatings)).toContainText('9 May 2021')
+      await this.expectToDisplayTheCorrectOfstedRatingDetailsFor(
+        academy.previousOfstedRating,
+        academy.dateAcademyJoinedTrust,
+        rowComponent.cellLocator(ColumnHeading.PreviousOfstedRatings))
+
+      await this.expectToDisplayTheCorrectOfstedRatingDetailsFor(
+        academy.currentOfstedRating,
+        academy.dateAcademyJoinedTrust,
+        rowComponent.cellLocator(ColumnHeading.CurrentOfstedRatings))
+    }
   }
 
-  async toDisplayTheCorrectTagsForEachOfstedRating (): Promise<void> {
-    const secondRowComponent = this.ofstedRatingsPage.academiesTable.getRowComponentAt(2)
-    const currentOfstedRatingCell = secondRowComponent.cellLocator(ColumnHeading.CurrentOfstedRatings)
-    await expect(currentOfstedRatingCell).toContainText('After joining')
+  private async expectToDisplayTheCorrectOfstedRatingDetailsFor (ofstedRating: FakeOfstedRating, dateAcademyJoinedTrust: Date, cell: Locator): Promise<void> {
+    await expect(cell).toContainText(getExpectedOfstedRatingDescription(ofstedRating.ofstedRatingScore))
+    if (ofstedRating.inspectionEndDate !== null) {
+      await expect(cell).toContainText(formatDateAsExpected(ofstedRating.inspectionEndDate))
+      await expect(cell).toContainText(ofstedRating.inspectionEndDate >= dateAcademyJoinedTrust ? 'After joining' : 'Before joining')
+    }
+  }
+}
 
-    const thirdRowComponent = this.ofstedRatingsPage.academiesTable.getRowComponentAt(3)
-    const thirdRowPreviousOfstedRatingsCell = thirdRowComponent.cellLocator(ColumnHeading.PreviousOfstedRatings)
-    const thirdRowCurrentOfstedRatingsCell = thirdRowComponent.cellLocator(ColumnHeading.CurrentOfstedRatings)
-
-    await expect(thirdRowPreviousOfstedRatingsCell).toContainText('Before joining')
-    await expect(thirdRowCurrentOfstedRatingsCell).toContainText('After joining')
+const getExpectedOfstedRatingDescription = (key: number): string => {
+  switch (key) {
+    case -1:
+      return 'Not yet inspected'
+    case 1:
+      return 'Outstanding'
+    case 2:
+      return 'Good'
+    case 3:
+      return 'Requires improvement'
+    case 4:
+      return 'Inadequate'
+    default:
+      return ''
   }
 }

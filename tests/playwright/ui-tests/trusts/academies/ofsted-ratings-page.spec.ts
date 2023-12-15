@@ -9,6 +9,5 @@ test.describe('Academies in trust ofsted ratings page', () => {
     await ofstedRatingsPage.expect.toBeOnTheRightPage()
     await ofstedRatingsPage.expect.toDisplayInformationForAllAcademiesInThatTrust()
     await ofstedRatingsPage.expect.toDisplayCorrectInformationAboutAcademiesInThatTrust()
-    await ofstedRatingsPage.expect.toDisplayTheCorrectTagsForEachOfstedRating()
   })
 })
