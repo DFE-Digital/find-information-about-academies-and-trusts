@@ -19,6 +19,10 @@ export class BasePage {
   async goTo (): Promise<void> {
     await this.page.goto(this.pageUrl)
   }
+
+  async reload (): Promise<void> {
+    await this.page.reload()
+  }
 }
 
 export class BasePageAssertions {
@@ -34,14 +38,28 @@ export class BasePageAssertions {
   }
 
   async toHaveAppInsightCookies (): Promise<void> {
-    await expect(async () => expect((await this.basePage.page.context().cookies()).filter(cookie => cookie.name === 'ai_user' || cookie.name === 'ai_session')).toHaveLength(2)).toPass({
-      timeout: 10_000
-    })
+    await expect(
+      async () => {
+        await this.basePage.reload() // Cookie settings may not apply until refresh of page due to server side order of setting/using cookie preferences cookie. Also cookies assertions are flakey
+        const allCookies = await this.basePage.page.context().cookies()
+        const appInsightCookies = allCookies.filter(cookie => cookie.name === 'ai_user' || cookie.name === 'ai_session')
+        expect(appInsightCookies).toHaveLength(2)
+      })
+      .toPass({
+        timeout: 10_000
+      })
   }
 
   async notToHaveAppInsightsCookies (): Promise<void> {
-    await expect(async () => expect((await this.basePage.page.context().cookies()).filter(cookie => cookie.name === 'ai_user' || cookie.name === 'ai_session')).toHaveLength(0)).toPass({
-      timeout: 10_000
-    })
+    await expect(
+      async () => {
+        await this.basePage.reload() // Cookie settings may not apply until refresh of page due to server side order of setting/using cookie preferences cookie. Also cookies assertions are flakey
+        const allCookies = await this.basePage.page.context().cookies()
+        const appInsightCookies = allCookies.filter(cookie => cookie.name === 'ai_user' || cookie.name === 'ai_session')
+        expect(appInsightCookies).toHaveLength(0)
+      })
+      .toPass({
+        timeout: 10_000
+      })
   }
 }
