@@ -1,8 +1,9 @@
 import { Page } from '@playwright/test'
-import { FakeTestData, FakeTrust } from '../../fake-data/fake-test-data'
+import { FakeTestData } from '../../fake-data/fake-test-data'
 import { TrustHeaderComponent } from '../shared/trust-header-component'
 import { NavigationComponent } from '../shared/navigation-component'
 import { BasePage, BasePageAssertions } from '../base-page'
+import { FakeTrust } from '../../fake-data/types'
 
 export class BaseTrustPage extends BasePage {
   readonly expect: BaseTrustPageAssertions

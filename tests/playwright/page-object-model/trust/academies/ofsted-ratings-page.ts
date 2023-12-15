@@ -1,8 +1,9 @@
 import { Locator, Page, expect } from '@playwright/test'
-import { FakeAcademy, FakeOfstedRating, FakeTestData } from '../../../fake-data/fake-test-data'
+import { FakeTestData } from '../../../fake-data/fake-test-data'
 import { BaseAcademiesPage, BaseAcademiesPageAssertions } from './base-academies-page'
 import { RowComponent } from '../../shared/table-component'
 import { formatDateAsExpected } from '../../../helpers'
+import { FakeAcademy, FakeOfstedRating } from '../../../fake-data/types'
 
 enum ColumnHeading {
   DateJoined,

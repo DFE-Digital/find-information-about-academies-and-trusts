@@ -1,9 +1,10 @@
 import { Locator, Page, expect } from '@playwright/test'
 import { CurrentSearch, SearchFormComponent } from './shared/search-form-component'
-import { FakeTestData, FakeTrust } from '../fake-data/fake-test-data'
+import { FakeTestData } from '../fake-data/fake-test-data'
 import { SearchTerms } from '../fake-data/search-terms'
 import { PaginationComponent } from './shared/pagination-component'
 import { BasePage, BasePageAssertions } from './base-page'
+import { FakeTrust } from '../fake-data/types'
 
 export class SearchPage extends BasePage {
   readonly expect: SearchPageAssertions
