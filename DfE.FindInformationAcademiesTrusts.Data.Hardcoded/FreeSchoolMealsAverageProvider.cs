@@ -4,7 +4,6 @@ public class FreeSchoolMealsAverageProvider : IFreeSchoolMealsAverageProvider
 {
     private const int NationalKey = -1;
 
-
     public double GetLaAverage(Academy academy)
     {
         var key = GetPhaseTypeKey(academy);
@@ -15,6 +14,12 @@ public class FreeSchoolMealsAverageProvider : IFreeSchoolMealsAverageProvider
     {
         var key = GetPhaseTypeKey(academy);
         return FreeSchoolMealsData.Averages2022To23[NationalKey].PercentOfPupilsByPhase[key];
+    }
+
+    public DataSource GetFreeSchoolMealsUpdated()
+    {
+        return new DataSource(Source.ExploreEducationStatistics, FreeSchoolMealsData.LastUpdated,
+            UpdateFrequency.Annually);
     }
 
     public static ExploreEducationStatisticsPhaseType GetPhaseTypeKey(Academy academy)
