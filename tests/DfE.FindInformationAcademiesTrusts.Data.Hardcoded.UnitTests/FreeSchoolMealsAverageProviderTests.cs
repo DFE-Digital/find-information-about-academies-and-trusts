@@ -77,4 +77,12 @@ public class FreeSchoolMealsAverageProviderTests
         act.Should().Throw<ArgumentOutOfRangeException>().WithMessage(
             "Can't get ExploreEducationStatisticsPhaseType for [PhaseOfEducation:Not a phase, TypeOfEstablishment:not an establishment type] (Parameter 'academy')");
     }
+
+    [Fact]
+    public void GetFsmUpdated_should_return_data_source()
+    {
+        var result = _sut.GetFreeSchoolMealsUpdated();
+        result.Should().Be(new DataSource(Source.ExploreEducationStatistics, new DateTime(2023, 10, 2),
+            UpdateFrequency.Annually));
+    }
 }
