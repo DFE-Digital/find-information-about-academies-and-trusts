@@ -67,7 +67,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 
     private static int _appEventId;
 
-    private ApplicationEvent CreateApplicationEvent(DateTime? dateTime, string description,
+    private static ApplicationEvent CreateApplicationEvent(DateTime? dateTime, string description,
         string? message = "Finished",
         string? source = "adf-t1ts-sips-dataflow", char? eventType = 'I')
     {
@@ -89,7 +89,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         };
     }
 
-    private ApplicationSetting CreateApplicationSetting(DateTime? modified, string key)
+    private static ApplicationSetting CreateApplicationSetting(DateTime? modified, string key)
     {
         return new ApplicationSetting
         {

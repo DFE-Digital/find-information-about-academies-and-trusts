@@ -11,7 +11,7 @@ public class ApplicationSettingsFaker
         _refDate = refDate;
     }
 
-    private ApplicationSetting CreateApplicationSetting(DateTime? modified, string key)
+    private static ApplicationSetting CreateApplicationSetting(DateTime? modified, string key)
     {
         return new ApplicationSetting
         {
