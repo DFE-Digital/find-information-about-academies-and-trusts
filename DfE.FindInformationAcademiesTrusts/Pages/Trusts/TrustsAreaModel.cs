@@ -34,7 +34,7 @@ public class TrustsAreaModel : PageModel, ITrustsAreaModel
             case Source.Mstr:
                 return "Get information about schools";
             case Source.Cdm:
-                return "RSD Service Support team";
+                return "RSD service support team";
             case Source.Mis:
                 return "State-funded school inspections and outcomes: management information";
             default:

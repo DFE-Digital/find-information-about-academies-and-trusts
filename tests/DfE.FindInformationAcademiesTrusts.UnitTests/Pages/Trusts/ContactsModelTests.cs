@@ -20,18 +20,19 @@ public class ContactsModelTests
     private const string ChiefFinancialOfficer = "Chief Financial Officer";
     private static DateTime _currentGovernorDate;
     private static DateTime _pastGovernorDate;
-    
+
     private readonly MockDataSourceProvider _mockDataSourceProvider;
 
     private static Governor[] ListOfGovernors()
     {
         Governor[] listOfGovernors =
         {
-            DummyGovernorFactory.GetDummyGovernor("Past Chair", ChairOfTrustees,_pastGovernorDate ),
+            DummyGovernorFactory.GetDummyGovernor("Past Chair", ChairOfTrustees, _pastGovernorDate),
             DummyGovernorFactory.GetDummyGovernor(PresentChairOfTrustees, ChairOfTrustees, _currentGovernorDate),
             DummyGovernorFactory.GetDummyGovernor("Past AccountingOfficer", AccountingOfficer, _pastGovernorDate),
             DummyGovernorFactory.GetDummyGovernor(PresentAccountingOfficer, AccountingOfficer, _currentGovernorDate),
-            DummyGovernorFactory.GetDummyGovernor("Past ChiefFinancialOfficer", ChiefFinancialOfficer, _pastGovernorDate),
+            DummyGovernorFactory.GetDummyGovernor("Past ChiefFinancialOfficer", ChiefFinancialOfficer,
+                _pastGovernorDate),
             DummyGovernorFactory.GetDummyGovernor(PresentChiefFinancialOfficer, ChiefFinancialOfficer, null)
         };
 
@@ -140,10 +141,10 @@ public class ContactsModelTests
         _mockDataSourceProvider.Verify(e => e.GetMstrUpdated(), Times.Once);
         _sut.DataSources.Count.Should().Be(3);
         _sut.DataSources[0].Fields.Should().Contain(new List<string>
-            { "DfE Contacts" });
+            { "DfE contacts" });
         _sut.DataSources[1].Fields.Should().Contain(new List<string>
-            { "Accounting Officer name", "Chief Financial Officer name", "Chair of trustees name" });
+            { "Accounting officer name", "Chief financial officer name", "Chair of trustees name" });
         _sut.DataSources[2].Fields.Should().Contain(new List<string>
-            { "Accounting Officer email", "Chief Financial Officer email", "Chair of trustees email" });
+            { "Accounting officer email", "Chief financial officer email", "Chair of trustees email" });
     }
 }

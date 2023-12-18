@@ -36,15 +36,15 @@ public class ContactsModel : TrustsAreaModel
             x is { Role: "Chief Financial Officer", IsCurrentGovernor: true });
 
         DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetCdmUpdated(),
-            new List<string> { "DfE Contacts" }));
+            new List<string> { "DfE contacts" }));
 
         DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
             new List<string>
-                { "Accounting Officer name", "Chief Financial Officer name", "Chair of trustees name" }));
+                { "Accounting officer name", "Chief financial officer name", "Chair of trustees name" }));
 
         DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetMstrUpdated(),
             new List<string>
-                { "Accounting Officer email", "Chief Financial Officer email", "Chair of trustees email" }));
+                { "Accounting officer email", "Chief financial officer email", "Chair of trustees email" }));
 
         return pageResult;
     }
