@@ -5,10 +5,10 @@
       <span>Source and updates</span>
     </span>
   </summary>
-  <ul class="govuk-details__text">
+  <ul class="govuk-list govuk-details__text">
     @foreach (var source in Model.DataSources)
     {
-      <li>
+      <li class="govuk-!-margin-bottom-7">
         <p class="govuk-body">
           <span class="govuk-!-font-weight-bold margin-right-class">@string.Join(", ", source.Fields): </span> @Model.MapDataSourceToName(source.DataSource)
         </p>
