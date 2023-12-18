@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
@@ -13,6 +14,27 @@ public class FreeSchoolMealsModel : TrustsAreaModel, IAcademiesAreaModel
     {
         PageTitle = "Academies free school meals";
         _freeSchoolMealsProvider = freeSchoolMealsAverageProvider;
+    }
+
+    public override async Task<IActionResult> OnGetAsync()
+    {
+        var pageResult = await base.OnGetAsync();
+
+        if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
+
+        DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
+            new[]
+            {
+                "Pupils eligible for free school meals"
+            }));
+
+        DataSources.Add(new DataSourceListEntry(_freeSchoolMealsProvider.GetFreeSchoolMealsUpdated(),
+            new[]
+            {
+                "Local authority average 2022/23", "National average 2022/23"
+            }));
+
+        return pageResult;
     }
 
     public string TabName => "Free school meals";

@@ -78,6 +78,7 @@ public class TrustsAreaModelTests
     [InlineData(Source.Mstr, "Get information about schools - internal")]
     [InlineData(Source.Cdm, "RSD (Regional Services Division) service support team")]
     [InlineData(Source.Mis, "State-funded school inspections and outcomes: management information")]
+    [InlineData(Source.ExploreEducationStatistics, "Explore education statistics")]
     public void MapDataSourceToName_should_return_the_correct_string_for_each_source(Source source, string expected)
     {
         var result = _sut.MapDataSourceToName(new DataSource(source, null, UpdateFrequency.Daily));
@@ -85,11 +86,11 @@ public class TrustsAreaModelTests
     }
 
     [Fact]
-    public void MapDataSourceToName_should_return_emptyString_when_source_is_not_recognised()
+    public void MapDataSourceToName_should_return_Unknown_when_source_is_not_recognised()
     {
         var dataSource = new DataSource((Source)10, null, UpdateFrequency.Daily);
         var result = _sut.MapDataSourceToName(dataSource);
         _logger.VerifyLogError($"Data source {dataSource} does not map to known type");
-        result.Should().Be("");
+        result.Should().Be("Unknown");
     }
 }

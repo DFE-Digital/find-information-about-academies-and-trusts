@@ -2,6 +2,7 @@ using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 
@@ -9,13 +10,16 @@ public class FreeSchoolMealsModelTests
 {
     private readonly FreeSchoolMealsModel _sut;
     private readonly Mock<IFreeSchoolMealsAverageProvider> _mockFreeSchoolMealsAverageProvider;
+    private readonly Mock<ITrustProvider> _mockTrustProvider;
 
     public FreeSchoolMealsModelTests()
     {
-        var mockTrustProvider = new Mock<ITrustProvider>();
+        _mockTrustProvider = new Mock<ITrustProvider>();
         _mockFreeSchoolMealsAverageProvider = new Mock<IFreeSchoolMealsAverageProvider>();
-        _sut = new FreeSchoolMealsModel(mockTrustProvider.Object, _mockFreeSchoolMealsAverageProvider.Object,
-            new MockDataSourceProvider().Object, new MockLogger<FreeSchoolMealsModel>().Object);
+        var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
+        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrust);
+        _sut = new FreeSchoolMealsModel(_mockTrustProvider.Object, _mockFreeSchoolMealsAverageProvider.Object,
+            new MockDataSourceProvider().Object, new MockLogger<FreeSchoolMealsModel>().Object) { Uid = "1234" };
     }
 
     [Fact]
@@ -56,5 +60,29 @@ public class FreeSchoolMealsModelTests
 
         var result = _sut.GetNationalAverageFreeSchoolMeals(dummyAcademy);
         result.Should().Be(mockPercentage);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_null()
+    {
+        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync((Trust?)null);
+        var result = await _sut.OnGetAsync();
+        result.Should().BeOfType<NotFoundResult>();
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_correct_data_source_list()
+    {
+        await _sut.OnGetAsync();
+        _mockFreeSchoolMealsAverageProvider.Verify(e => e.GetFreeSchoolMealsUpdated(), Times.Once);
+        _sut.DataSources.Count.Should().Be(2);
+        _sut.DataSources[0].Fields.Should().Contain(new[]
+        {
+            "Pupils eligible for free school meals"
+        });
+        _sut.DataSources[1].Fields.Should().Contain(new[]
+        {
+            "Local authority average 2022/23", "National average 2022/23"
+        });
     }
 }

@@ -7,6 +7,8 @@ public static class FreeSchoolMealsData
 {
     public static Dictionary<int, FreeSchoolMealsAverage> Averages2022To23 { get; } = new();
 
+    public static readonly DateTime LastUpdated = new(2023, 10, 2, 0, 0, 0, DateTimeKind.Utc);
+
     /// <summary>
     /// Data store for School statistics data taken from https://explore-education-statistics.service.gov.uk/data-tables/permalink/25bc8d0b-c700-4000-1b8a-08dbb99e3fd8
     /// </summary>
