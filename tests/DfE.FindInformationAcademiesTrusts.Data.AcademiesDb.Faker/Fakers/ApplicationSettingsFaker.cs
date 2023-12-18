@@ -24,9 +24,7 @@ public class ApplicationSettingsFaker
     {
         return new List<ApplicationSetting>
         {
-            CreateApplicationSetting(_refDate.AddDays(-5), "ManagementInformationSchoolTableData CSV Filename"),
-            CreateApplicationSetting(_refDate.AddDays(-8),
-                "ManagementInformationFurtherEducationSchoolTableData CSV Filename")
+            CreateApplicationSetting(_refDate.AddDays(-5), "ManagementInformationSchoolTableData CSV Filename")
         };
     }
 }

@@ -66,9 +66,6 @@ public class AcademiesDbFaker
         _academiesDbData.ApplicationEvents.AddRange(_applicationEventFaker.Generate());
         _academiesDbData.ApplicationSettings.AddRange(_applicationSettingsFaker.Generate());
 
-        _academiesDbData.ApplicationEvents.AddRange(_applicationEventFaker.Generate());
-        _academiesDbData.ApplicationSettings.AddRange(_applicationSettingsFaker.Generate());
-
         return _academiesDbData;
     }
 
