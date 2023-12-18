@@ -10,7 +10,6 @@ test.describe('Overview page', () => {
 
   test.beforeEach(async ({ page }) => {
     overviewPage = new OverviewPage(page, new FakeTestData())
-    await overviewPage.goTo()
   })
 
   for (const javaScriptContext of javaScriptContexts) {
@@ -18,13 +17,21 @@ test.describe('Overview page', () => {
       test.use({ javaScriptEnabled: javaScriptContext.isEnabled })
 
       test('user should see trust name and type', async () => {
+        await overviewPage.goTo()
         await overviewPage.expect.toBeOnTheRightPage()
         await overviewPage.expect.toSeeCorrectTrustNameAndTypeInHeader()
       })
 
       test('user should see the correct trust information', async () => {
+        await overviewPage.goToMultiAcademyTrust()
         await overviewPage.expect.toSeeCorrectTrustSummary()
-        await overviewPage.expect.toSeeCorrectOfstedRatings()
+        await overviewPage.expect.toSeePopulatedOfstedRatings()
+      })
+
+      test('user should see the correct trust information on trust with no academies', async () => {
+        await overviewPage.goToTrustWithNoAcademies()
+        await overviewPage.expect.toSeeCorrectTrustSummaryWithNoAcademies()
+        await overviewPage.expect.toSeeCorrectOfstedRatingsWithNoAcademies()
       })
 
       test.describe('given a user tries to visit the url without an existing trust', () => {
