@@ -1,8 +1,9 @@
 import { Locator, Page, expect } from '@playwright/test'
-import { FakeAcademy, FakeTestData } from '../../../fake-data/fake-test-data'
+import { FakeTestData } from '../../../fake-data/fake-test-data'
 import { BaseTrustPage, BaseTrustPageAssertions } from '../base-trust-page'
 import { NavigationComponent } from '../../shared/navigation-component'
 import { TableComponent } from '../../shared/table-component'
+import { FakeAcademy } from '../../../fake-data/types'
 
 export class BaseAcademiesPage extends BaseTrustPage {
   readonly expect: BaseAcademiesPageAssertions

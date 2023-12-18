@@ -1,14 +1,15 @@
 @model OfstedRatingCellModel
-
-<span class="govuk-!-font-weight-bold">@Model.Rating</span>
-<span>
-  @if (Model.HasRating() && Model.RatingDate is not null)
-  {
-    <br/>
-    @Model.RatingDate.Value.ToString(ViewConstants.ViewDateFormat)
-    <br/>
-    <strong class="@Model.GetTagClasses() govuk-!-margin-top-2 govuk-!-margin-bottom-1">
-      @Model.GetTagText()
-    </strong>
-  }
-</span>
+<td class="govuk-body govuk-table__cell" data-sort-value="@Model.OfstedRatingSortValue">
+  <span class="govuk-!-font-weight-bold">@Model.OfstedRatingDescription</span>
+  <span>
+    @if (Model.OfstedRating.InspectionEndDate is not null)
+    {
+      <br/>
+      @Model.OfstedRating.InspectionEndDate.Value.ToString(StringFormatConstants.ViewDate)
+      <br/>
+      <strong class="@Model.TagClasses govuk-!-margin-top-2 govuk-!-margin-bottom-1">
+        @Model.TagText
+      </strong>
+    }
+  </span>
+</td>

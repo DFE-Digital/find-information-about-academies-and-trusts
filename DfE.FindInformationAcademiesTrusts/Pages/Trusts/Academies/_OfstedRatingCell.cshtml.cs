@@ -1,35 +1,42 @@
-namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+using DfE.FindInformationAcademiesTrusts.Data;
 
-internal static class OfstedRatingConstants
-{
-    public const string NotYetInspected = "Not yet inspected";
-}
+namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
 public class OfstedRatingCellModel
 {
     public required DateTime? AcademyJoinedDate { get; init; }
-    public required string Rating { get; init; }
-    public required DateTime? RatingDate { get; init; }
 
-    public bool HasRating()
+    public required OfstedRating OfstedRating { get; init; }
+
+    public bool IsAfterJoining => OfstedRating.InspectionEndDate >= AcademyJoinedDate;
+
+    public string? OfstedRatingDescription => OfstedRating.OfstedRatingScore switch
     {
-        return Rating != OfstedRatingConstants.NotYetInspected;
+        OfstedRatingScore.None => "Not yet inspected",
+        OfstedRatingScore.Outstanding => "Outstanding",
+        OfstedRatingScore.Good => "Good",
+        OfstedRatingScore.RequiresImprovement => "Requires improvement",
+        OfstedRatingScore.Inadequate => "Inadequate",
+        _ => string.Empty
+    };
+    public int OfstedRatingSortValue
+    {
+        get
+        {
+            if (OfstedRating.OfstedRatingScore == OfstedRatingScore.None) return 5;
+            return (int)OfstedRating.OfstedRatingScore;
+        }
     }
 
-    public bool IsAfterJoining()
+    public string TagClasses
     {
-        return RatingDate >= AcademyJoinedDate;
+        get
+        {
+            var tag = "govuk-tag";
+            if (!IsAfterJoining) tag += " govuk-tag--grey";
+            return tag;
+        }
     }
 
-    public string GetTagClasses()
-    {
-        var tag = "govuk-tag";
-        if (!IsAfterJoining()) tag += " govuk-tag--grey";
-        return tag;
-    }
-
-    public string GetTagText()
-    {
-        return IsAfterJoining() ? "After joining" : "Before joining";
-    }
+    public string TagText => IsAfterJoining ? "After joining" : "Before joining";
 }

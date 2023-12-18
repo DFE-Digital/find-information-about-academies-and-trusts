@@ -1,49 +1,6 @@
 import * as testDataJson from '../fake-data/trusts.json'
+import { FakeAcademy, FakeTrust } from './types'
 
-export interface FakeTrust {
-  name: string
-  address: string
-  uid: string
-  groupId: string
-  type: string
-  ukprn: string
-  openedDate: string
-  companiesHouseNumber: string
-  regionAndTerritory: string
-  status: string
-  sfsoLead: FakePerson
-  trustRelationshipManager: FakePerson
-  governors: FakeGovernor[]
-  academies: FakeAcademy[]
-}
-
-export interface FakeAcademy {
-  urn: number
-  establishmentName: string
-  typeOfEstablishment: string
-  localAuthority: string
-  urbanRural: string
-  phaseOfEducation: string
-  numberOfPupils: number
-  schoolCapacity: number
-  ageRange: {
-    minimum: number
-    maximum: number
-  }
-  percentageFull: number
-  percentageFreeSchoolMeals: number
-}
-
-export interface FakePerson {
-  fullName: string
-  email: string
-}
-
-export interface FakeGovernor {
-  fullName: string
-  email: string
-  role: string
-}
 export class FakeTestData {
   _fakeTrusts: FakeTrust[]
 

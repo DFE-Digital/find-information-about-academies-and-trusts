@@ -1,7 +1,8 @@
 import { Page, expect } from '@playwright/test'
-import { FakeAcademy, FakeTestData } from '../../../fake-data/fake-test-data'
+import { FakeTestData } from '../../../fake-data/fake-test-data'
 import { BaseAcademiesPage, BaseAcademiesPageAssertions } from './base-academies-page'
 import { RowComponent } from '../../shared/table-component'
+import { FakeAcademy } from '../../../fake-data/types'
 
 enum ColumnHeading {
   PupilsEligableForFreeSchoolMeals,
