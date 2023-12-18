@@ -38,9 +38,11 @@ public class TrustsAreaModel : PageModel, ITrustsAreaModel
                 return "RSD (Regional Services Division) service support team";
             case Source.Mis:
                 return "State-funded school inspections and outcomes: management information";
+            case Source.ExploreEducationStatistics:
+                return "Explore education statistics";
             default:
                 _logger.LogError("Data source {source} does not map to known type", source);
-                return "";
+                return "Unknown";
         }
     }
 

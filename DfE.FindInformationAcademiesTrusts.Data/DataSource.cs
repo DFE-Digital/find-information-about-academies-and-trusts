@@ -7,11 +7,13 @@ public enum Source
     Gias,
     Mstr,
     Cdm,
-    Mis
+    Mis,
+    ExploreEducationStatistics
 }
 
 public enum UpdateFrequency
 {
     Daily,
-    Monthly
+    Monthly,
+    Annually
 }
