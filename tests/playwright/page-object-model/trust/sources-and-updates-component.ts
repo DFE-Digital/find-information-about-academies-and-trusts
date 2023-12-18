@@ -49,7 +49,7 @@ export class SourcePanelComponent {
 export interface DataSourcePanelItem {
   fields: string
   dataSource: string
-  update: 'Daily' | 'Monthly'
+  update: 'Daily' | 'Monthly' | 'Annually'
 }
 
 export class SourcePanelComponentAssertions {
