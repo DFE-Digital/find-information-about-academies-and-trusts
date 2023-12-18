@@ -1,4 +1,5 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
@@ -25,7 +26,9 @@ public class OverviewModel : TrustsAreaModel
             ? (int)Math.Round(TotalPupilNumbersInTrust / (double)TotalPupilCapacityInTrust * 100)
             : null;
 
-    public OverviewModel(ITrustProvider trustProvider) : base(trustProvider, "Overview")
+    public OverviewModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider,
+        ILogger<OverviewModel> logger) : base(trustProvider,
+        dataSourceProvider, logger, "Overview")
     {
     }
 
@@ -34,5 +37,17 @@ public class OverviewModel : TrustsAreaModel
         return OfstedRatings.Any(x => x.Rating == score)
             ? OfstedRatings.Single(x => x.Rating == score).Total
             : 0;
+    }
+    
+    public override async Task<IActionResult> OnGetAsync()
+    {
+        var pageResult = await base.OnGetAsync();
+
+        if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
+
+        DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
+            new List<string> { "Trust summary", "Ofsted ratings" }));
+
+        return pageResult;
     }
 }

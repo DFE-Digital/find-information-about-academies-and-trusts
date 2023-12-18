@@ -1,9 +1,11 @@
 import { test } from '@playwright/test'
 import { FakeTestData } from '../../../fake-data/fake-test-data'
 import { AcademiesDetailsPage } from '../../../page-object-model/trust/academies/details-page'
+import { DataSourcePanelItem } from '../../../page-object-model/trust/sources-and-updates-component'
 
 test.describe('Academies in trust details page', () => {
   let detailsPage: AcademiesDetailsPage
+  const source: DataSourcePanelItem[] = [{ fields: 'Details:', dataSource: 'Get information about schools', update: 'Daily' }]
 
   test.beforeEach(async ({ page }) => {
     detailsPage = new AcademiesDetailsPage(page, new FakeTestData())
@@ -14,5 +16,6 @@ test.describe('Academies in trust details page', () => {
     await detailsPage.expect.toBeOnTheRightPage()
     await detailsPage.expect.toDisplayInformationForAllAcademiesInThatTrust()
     await detailsPage.expect.toDisplayCorrectInformationAboutAcademiesInThatTrust()
+    await detailsPage.expect.toSeeCorrectSourceAndUpdates(source)
   })
 })

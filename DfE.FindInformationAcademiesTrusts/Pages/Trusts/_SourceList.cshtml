@@ -1,0 +1,20 @@
+﻿@model ITrustsAreaModel
+<details class="govuk-details" data-module="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      <span>Source and updates</span>
+    </span>
+  </summary>
+  <ul class="govuk-list govuk-details__text">
+    @foreach (var source in Model.DataSources)
+    {
+      <li class="govuk-!-margin-bottom-7">
+        <p class="govuk-body">
+          <span class="govuk-!-font-weight-bold margin-right-class">@string.Join(", ", source.Fields): </span> @Model.MapDataSourceToName(source.DataSource)
+        </p>
+        <p class="govuk-body">Last updated: @(source.DataSource.LastUpdated is null ? "Unknown" : source.DataSource.LastUpdated.Value.ToString(StringFormatConstants.ViewDate))</p>
+        <p class="govuk-body">Next scheduled update: @source.DataSource.NextUpdated</p>
+      </li>
+    }
+  </ul>
+</details>

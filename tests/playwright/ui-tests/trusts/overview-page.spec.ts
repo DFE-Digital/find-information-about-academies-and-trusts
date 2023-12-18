@@ -3,10 +3,12 @@ import { OverviewPage } from '../../page-object-model/trust/overview-page'
 import { NotFoundPage } from '../../page-object-model/not-found-page'
 import { FakeTestData } from '../../fake-data/fake-test-data'
 import { javaScriptContexts } from '../../helpers'
+import { DataSourcePanelItem } from '../../page-object-model/trust/sources-and-updates-component'
 
 test.describe('Overview page', () => {
   let overviewPage: OverviewPage
   let notFoundPage: NotFoundPage
+  const sources: DataSourcePanelItem[] = [{ fields: 'Trust summary, Ofsted ratings:', dataSource: 'Get information about schools', update: 'Daily' }]
 
   test.beforeEach(async ({ page }) => {
     overviewPage = new OverviewPage(page, new FakeTestData())
@@ -26,6 +28,11 @@ test.describe('Overview page', () => {
         await overviewPage.goToMultiAcademyTrust()
         await overviewPage.expect.toSeeCorrectTrustSummary()
         await overviewPage.expect.toSeePopulatedOfstedRatings()
+      })
+
+      test('user sees the correct information in the source and updates panel', async () => {
+        await overviewPage.goTo()
+        await overviewPage.expect.toSeeCorrectSourceAndUpdates(sources)
       })
 
       test('user should see the correct trust information on trust with no academies', async () => {

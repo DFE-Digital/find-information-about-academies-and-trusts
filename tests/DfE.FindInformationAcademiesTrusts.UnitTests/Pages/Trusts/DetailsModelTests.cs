@@ -2,6 +2,7 @@ using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
@@ -12,13 +13,17 @@ public class DetailsModelTests
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinksToOtherServices = new();
     private readonly Mock<ITrustProvider> _mockTrustProvider;
     private readonly Trust _dummyTrust;
+    private readonly MockDataSourceProvider _mockDataSourceProvider;
 
     public DetailsModelTests()
     {
+        MockLogger<DetailsModel> logger = new();
         _dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider = new Mock<ITrustProvider>();
+        _mockDataSourceProvider = new MockDataSourceProvider();
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(_dummyTrust);
-        _sut = new DetailsModel(_mockTrustProvider.Object, _mockLinksToOtherServices.Object) { Uid = "1234" };
+        _sut = new DetailsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
+            _mockLinksToOtherServices.Object, logger.Object) { Uid = "1234" };
     }
 
     [Fact]
@@ -102,5 +107,14 @@ public class DetailsModelTests
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync((Trust?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_correct_data_source_list()
+    {
+        var result = await _sut.OnGetAsync();
+        _mockDataSourceProvider.Verify(e => e.GetGiasUpdated(), Times.Once);
+        _sut.DataSources.Should().ContainSingle();
+        _sut.DataSources[0].Fields.Should().Contain(new List<string> { "Trust details", "Reference numbers" });
     }
 }

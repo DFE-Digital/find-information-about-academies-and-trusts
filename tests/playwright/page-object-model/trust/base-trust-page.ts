@@ -4,11 +4,13 @@ import { TrustHeaderComponent } from '../shared/trust-header-component'
 import { NavigationComponent } from '../shared/navigation-component'
 import { BasePage, BasePageAssertions } from '../base-page'
 import { FakeTrust } from '../../fake-data/types'
+import { DataSourcePanelItem, SourcePanelComponent } from './sources-and-updates-component'
 
 export class BaseTrustPage extends BasePage {
   readonly expect: BaseTrustPageAssertions
   readonly trustHeading: TrustHeaderComponent
   readonly trustNavigation: NavigationComponent
+  readonly sourcePanel: SourcePanelComponent
 
   fakeTestData: FakeTestData
   currentTrust: FakeTrust
@@ -22,6 +24,7 @@ export class BaseTrustPage extends BasePage {
     this.fakeTestData = fakeTestData
     this.trustHeading = new TrustHeaderComponent(page)
     this.trustNavigation = new NavigationComponent(page, 'Sections')
+    this.sourcePanel = new SourcePanelComponent(page)
   }
 
   async goTo (): Promise<void> {
@@ -75,5 +78,14 @@ export class BaseTrustPageAssertions extends BasePageAssertions {
   async toSeeCorrectTrustNameAndTypeInHeader (): Promise<void> {
     const { name, type } = this.trustPage.currentTrust
     await this.trustPage.trustHeading.expect.toSeeCorrectTrustNameAndType(name, type)
+  }
+
+  async toSeeCorrectSourceAndUpdates (sources: DataSourcePanelItem[]): Promise<void> {
+    await this.trustPage.sourcePanel.openPanel()
+    for (const source of sources) {
+      await this.trustPage.sourcePanel.expect.toHaveCorrectUpdates(source)
+      await this.trustPage.sourcePanel.expect.toNotHaveUnknownDate(source)
+      await this.trustPage.sourcePanel.expect.toUseCorrectDataSource(source)
+    }
   }
 }

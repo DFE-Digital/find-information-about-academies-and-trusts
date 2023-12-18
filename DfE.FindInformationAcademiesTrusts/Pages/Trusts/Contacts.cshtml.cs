@@ -17,7 +17,8 @@ public class ContactsModel : TrustsAreaModel
 
     public const string ContactInformationNotAvailableMessage = "No contact information available";
 
-    public ContactsModel(ITrustProvider trustProvider) : base(trustProvider, "Contacts")
+    public ContactsModel(ITrustProvider trustProvider, IDataSourceProvider sourceProvider,
+        ILogger<ContactsModel> logger) : base(trustProvider, sourceProvider, logger, "Contacts")
     {
     }
 
@@ -33,6 +34,17 @@ public class ContactsModel : TrustsAreaModel
             x is { Role: "Accounting Officer", IsCurrentGovernor: true });
         ChiefFinancialOfficer = Array.Find(Trust.Governors, x =>
             x is { Role: "Chief Financial Officer", IsCurrentGovernor: true });
+
+        DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetCdmUpdated(),
+            new List<string> { "DfE contacts" }));
+
+        DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
+            new List<string>
+                { "Accounting officer name", "Chief financial officer name", "Chair of trustees name" }));
+
+        DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetMstrUpdated(),
+            new List<string>
+                { "Accounting officer email", "Chief financial officer email", "Chair of trustees email" }));
 
         return pageResult;
     }

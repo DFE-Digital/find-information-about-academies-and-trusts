@@ -2,6 +2,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,11 +20,14 @@ public class AcademiesDbData
     public List<MisFurtherEducationEstablishment> MisFurtherEducationEstablishments { get; } = new();
     public List<MstrTrust> MstrTrusts { get; } = new();
     public List<MstrTrustGovernance> MstrTrustGovernances { get; } = new();
+    public List<ApplicationEvent> ApplicationEvents { get; } = new();
+    public List<ApplicationSetting> ApplicationSettings { get; } = new();
 
     public IAcademiesDbContext AsAcademiesDbContext()
     {
         return new AcademiesDbDataContext(GiasEstablishments, GiasGovernances, GiasGroupLinks, GiasGroups, MstrTrusts,
-            CdmAccounts, MisEstablishments, MisFurtherEducationEstablishments, CdmSystemusers, MstrTrustGovernances);
+            CdmAccounts, MisEstablishments, MisFurtherEducationEstablishments, CdmSystemusers, MstrTrustGovernances, ApplicationEvents,
+            ApplicationSettings);
     }
 
     private class AcademiesDbDataContext : IAcademiesDbContext
@@ -38,6 +42,8 @@ public class AcademiesDbData
         public DbSet<MisFurtherEducationEstablishment> MisFurtherEducationEstablishments { get; }
         public DbSet<CdmSystemuser> CdmSystemusers { get; }
         public DbSet<MstrTrustGovernance> MstrTrustGovernances { get; }
+        public DbSet<ApplicationEvent> ApplicationEvents { get; }
+        public DbSet<ApplicationSetting> ApplicationSettings { get; }
 
         public AcademiesDbDataContext(
             IEnumerable<GiasEstablishment> giasEstablishments,
@@ -49,8 +55,12 @@ public class AcademiesDbData
             IEnumerable<MisEstablishment> misEstablishments,
             IEnumerable<MisFurtherEducationEstablishment> misFurtherEducationEstablishment,
             IEnumerable<CdmSystemuser> cdmSystemusers,
-            IEnumerable<MstrTrustGovernance> mstrTrustGovernances)
+            IEnumerable<MstrTrustGovernance> mstrTrustGovernances,
+            IEnumerable<ApplicationEvent> applicationEvents,
+            IEnumerable<ApplicationSetting> applicationSettings)
         {
+            ApplicationEvents = new MockDbSet<ApplicationEvent>(applicationEvents).Object;
+            ApplicationSettings = new MockDbSet<ApplicationSetting>(applicationSettings).Object;
             GiasEstablishments = new MockDbSet<GiasEstablishment>(giasEstablishments).Object;
             GiasGovernances = new MockDbSet<GiasGovernance>(giasGovernances).Object;
             GiasGroupLinks = new MockDbSet<GiasGroupLink>(giasGroupLinks).Object;

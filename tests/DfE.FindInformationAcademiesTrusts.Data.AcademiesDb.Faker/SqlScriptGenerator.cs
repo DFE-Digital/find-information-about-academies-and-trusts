@@ -37,6 +37,10 @@ public static class SqlScriptGenerator
         insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.CdmAccounts, context));
         insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.CdmSystemusers, context));
         insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.MisEstablishments, context));
+        insertScripts.Add("SET IDENTITY_INSERT [ops].[ApplicationEvent] ON");
+        insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.ApplicationEvents, context));
+        insertScripts.Add("SET IDENTITY_INSERT [ops].[ApplicationEvent] OFF");
+        insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.ApplicationSettings, context));
 
         File.WriteAllLines(outputFilePath, insertScripts);
     }
@@ -101,6 +105,16 @@ public static class SqlScriptGenerator
         }
 
         if (propertyType == typeof(Guid) || propertyType == typeof(Guid?))
+        {
+            return $"'{value}'";
+        }
+
+        if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?))
+        {
+            return $"'{((DateTime?)value).Value:yyyy-MM-dd HH:mm:ss}'";
+        }
+
+        if (propertyType == typeof(char) || propertyType == typeof(char?))
         {
             return $"'{value}'";
         }

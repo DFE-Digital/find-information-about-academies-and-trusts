@@ -11,9 +11,9 @@ public class DetailsModel : TrustsAreaModel
     public string? SchoolsFinancialBenchmarkingLink { get; set; }
     public string? FindSchoolPerformanceLink { get; set; }
 
-    public DetailsModel(ITrustProvider trustProvider, IOtherServicesLinkBuilder otherServicesLinkBuilder) : base(
-        trustProvider,
-        "Details")
+    public DetailsModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider,
+        IOtherServicesLinkBuilder otherServicesLinkBuilder, ILogger<DetailsModel> logger) : base(
+        trustProvider, dataSourceProvider, logger, "Details")
     {
         _otherServicesLinkBuilder = otherServicesLinkBuilder;
     }
@@ -29,6 +29,9 @@ public class DetailsModel : TrustsAreaModel
         SchoolsFinancialBenchmarkingLink =
             _otherServicesLinkBuilder.SchoolFinancialBenchmarkingServiceListingLink(Trust);
         FindSchoolPerformanceLink = _otherServicesLinkBuilder.FindSchoolPerformanceDataListingLink(Trust);
+
+        DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
+            new List<string> { "Trust details", "Reference numbers" }));
 
         return pageResult;
     }

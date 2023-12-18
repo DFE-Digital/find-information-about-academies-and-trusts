@@ -7,8 +7,9 @@ public class FreeSchoolMealsModel : TrustsAreaModel, IAcademiesAreaModel
     private readonly IFreeSchoolMealsAverageProvider _freeSchoolMealsProvider;
 
     public FreeSchoolMealsModel(ITrustProvider trustProvider,
-        IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider) :
-        base(trustProvider, "Academies in this trust")
+        IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider, IDataSourceProvider dataSourceProvider,
+        ILogger<FreeSchoolMealsModel> logger) :
+        base(trustProvider, dataSourceProvider, logger, "Academies in this trust")
     {
         PageTitle = "Academies free school meals";
         _freeSchoolMealsProvider = freeSchoolMealsAverageProvider;

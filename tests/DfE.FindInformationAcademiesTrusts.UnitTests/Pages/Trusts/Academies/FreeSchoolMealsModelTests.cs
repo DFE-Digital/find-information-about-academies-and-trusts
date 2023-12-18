@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 
@@ -13,7 +14,8 @@ public class FreeSchoolMealsModelTests
     {
         var mockTrustProvider = new Mock<ITrustProvider>();
         _mockFreeSchoolMealsAverageProvider = new Mock<IFreeSchoolMealsAverageProvider>();
-        _sut = new FreeSchoolMealsModel(mockTrustProvider.Object, _mockFreeSchoolMealsAverageProvider.Object);
+        _sut = new FreeSchoolMealsModel(mockTrustProvider.Object, _mockFreeSchoolMealsAverageProvider.Object,
+            new MockDataSourceProvider().Object, new MockLogger<FreeSchoolMealsModel>().Object);
     }
 
     [Fact]
