@@ -31,8 +31,9 @@ public class TrustsAreaModel : PageModel, ITrustsAreaModel
         switch (source.Source)
         {
             case Source.Gias:
-            case Source.Mstr:
                 return "Get information about schools";
+            case Source.Mstr:
+                return "Get information about schools - internal";
             case Source.Cdm:
                 return "RSD service support team";
             case Source.Mis:
