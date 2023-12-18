@@ -68,14 +68,13 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     private static int _appEventId;
 
     private static ApplicationEvent CreateApplicationEvent(DateTime? dateTime, string description,
-        string? message = "Finished",
-        string? source = "adf-t1ts-sips-dataflow", char? eventType = 'I')
+        string? message = "Finished", char? eventType = 'I')
     {
         return new ApplicationEvent
         {
             Id = _appEventId++,
             DateTime = dateTime,
-            Source = source,
+            Source = "source",
             UserName = "Test User",
             EventType = eventType,
             Level = 1,
@@ -109,7 +108,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         return _addedGiasGroups;
     }
 
-    public List<MstrTrust> SetupMockDbContextMstrTrust(int numMatches)
+    public void SetupMockDbContextMstrTrust(int numMatches)
     {
         _addedMstrTrusts = SetupMockDbContext(numMatches,
             i => new MstrTrust
@@ -118,7 +117,6 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
                 GORregion = "North East"
             },
             academiesDbContext => academiesDbContext.MstrTrusts);
-        return _addedMstrTrusts;
     }
 
     public List<GiasEstablishment> SetupMockDbContextGiasEstablishment(int numMatches)
@@ -155,7 +153,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             academiesDbContext => academiesDbContext.MstrTrustGovernances);
     }
 
-    public List<ApplicationEvent> SetupMockDbContextOpsApplicationEvents(DateTime time)
+    public void SetupMockDbContextOpsApplicationEvents(DateTime time)
     {
         var items = new List<ApplicationEvent>
         {
@@ -169,49 +167,32 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 
         Setup(academiesTable => academiesTable.ApplicationEvents)
             .Returns(new MockDbSet<ApplicationEvent>(items).Object);
-        return items;
     }
 
-    public List<ApplicationEvent> SetupEmptyMockDbContextOpsApplicationEvents()
+    public void SetupEmptyMockDbContextOpsApplicationEvents()
     {
-        var items = new List<ApplicationEvent>();
-
         Setup(academiesTable => academiesTable.ApplicationEvents)
-            .Returns(new MockDbSet<ApplicationEvent>(items).Object);
-        return items;
+            .Returns(new MockDbSet<ApplicationEvent>(new List<ApplicationEvent>()).Object);
     }
 
-    public List<ApplicationEvent> SetupInvalidMockDbContextOpsApplicationEvents(DateTime time)
+    public void SetupInvalidMockDbContextOpsApplicationEvents(DateTime time)
     {
         var items = new List<ApplicationEvent>
         {
             CreateApplicationEvent(time.AddDays(-10), "Wrong Description"),
             CreateApplicationEvent(time.AddDays(-11), "GIAS_Daily", "Started"),
-            CreateApplicationEvent(time.AddDays(-12), "GIAS_Daily", source: "test-Source"),
-            CreateApplicationEvent(time.AddDays(-13), "GIAS_Daily", source: null),
-            CreateApplicationEvent(time.AddDays(-14), "GIAS_Daily", source: "adf-t1"),
-            CreateApplicationEvent(time.AddDays(-15), "GIAS_Daily", source: "-sips-dataflow"),
             CreateApplicationEvent(time.AddDays(-16), "GIAS_Daily", eventType: 'E'),
             CreateApplicationEvent(time.AddDays(-11), "MSTR_Daily", "Started"),
-            CreateApplicationEvent(time.AddDays(-12), "MSTR_Daily", source: "test-Source"),
-            CreateApplicationEvent(time.AddDays(-13), "MSTR_Daily", source: null),
-            CreateApplicationEvent(time.AddDays(-14), "MSTR_Daily", source: "adf-t1"),
-            CreateApplicationEvent(time.AddDays(-15), "MSTR_Daily", source: "-sips-dataflow"),
             CreateApplicationEvent(time.AddDays(-16), "MSTR_Daily", eventType: 'E'),
             CreateApplicationEvent(time.AddDays(-11), "CDM_Daily", "Started"),
-            CreateApplicationEvent(time.AddDays(-12), "CDM_Daily", source: "test-Source"),
-            CreateApplicationEvent(time.AddDays(-13), "CDM_Daily", source: null),
-            CreateApplicationEvent(time.AddDays(-14), "CDM_Daily", source: "adf-t1"),
-            CreateApplicationEvent(time.AddDays(-15), "CDM_Daily", source: "-sips-dataflow"),
             CreateApplicationEvent(time.AddDays(-16), "CDM_Daily", eventType: 'E')
         };
 
         Setup(academiesTable => academiesTable.ApplicationEvents)
             .Returns(new MockDbSet<ApplicationEvent>(items).Object);
-        return items;
     }
 
-    public List<ApplicationSetting> SetupMockDbContextOpsApplicationSettings(DateTime time)
+    public void SetupMockDbContextOpsApplicationSettings(DateTime time)
     {
         var items = new List<ApplicationSetting>
         {
@@ -222,7 +203,6 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 
         Setup(academiesTable => academiesTable.ApplicationSettings)
             .Returns(new MockDbSet<ApplicationSetting>(items).Object);
-        return items;
     }
 
     public List<ApplicationSetting> SetupEmptyMockDbContextOpsApplicationSettings()

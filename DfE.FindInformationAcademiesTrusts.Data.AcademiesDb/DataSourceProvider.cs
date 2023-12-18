@@ -40,9 +40,7 @@ public class DataSourceProvider : IDataSourceProvider
         UpdateFrequency updateFrequency)
     {
         var lastEntry = await _academiesDbContext.ApplicationEvents
-            .Where(e => e.Source != null
-                        && e.Source.Contains("adf-t1") && e.Source.Contains("-sips-dataflow")
-                        && e.Message == "Finished"
+            .Where(e => e.Message == "Finished"
                         && e.EventType != 'E'
                         && e.Description == pipelineName).MaxAsync(e => e.DateTime);
         if (lastEntry is null)
