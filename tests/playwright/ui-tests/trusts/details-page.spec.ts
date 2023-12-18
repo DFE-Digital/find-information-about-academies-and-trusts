@@ -7,11 +7,11 @@ import { DataSourcePanelItem } from '../../page-object-model/trust/sources-and-u
 test.describe('Details page', () => {
   let detailsPage: DetailsPage
   let notFoundPage: NotFoundPage
+  const sources: DataSourcePanelItem[] = [{ fields: 'Trust details, Reference numbers:', dataSource: 'Get information about schools', update: 'Daily' }]
 
   test.beforeEach(async ({ page }) => {
     detailsPage = new DetailsPage(page, new FakeTestData())
     await detailsPage.goTo()
-    await detailsPage.sourcePanel.openPanel()
   })
 
   test('user should see trust name and type', async () => {
@@ -21,8 +21,10 @@ test.describe('Details page', () => {
   test('user should see the correct trust information', async () => {
     await detailsPage.expect.toSeeCorrectTrustDetails()
     await detailsPage.expect.toSeeCorrectTrustReferenceNumbers()
-    const source: DataSourcePanelItem = { fields: 'Trust details, Reference numbers:', dataSource: 'Get information about schools', update: 'Daily' }
-    await detailsPage.expect.toSeeCorrectSourceAndUpdates(source)
+  })
+
+  test('user sees the correct information in the source and updates panel', async () => {
+    await detailsPage.expect.toSeeCorrectSourceAndUpdates(sources)
   })
 
   test.describe('given a user tries to visit the url without an existing trust', () => {

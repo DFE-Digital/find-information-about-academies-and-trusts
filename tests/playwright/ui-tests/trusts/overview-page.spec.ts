@@ -8,6 +8,7 @@ import { DataSourcePanelItem } from '../../page-object-model/trust/sources-and-u
 test.describe('Overview page', () => {
   let overviewPage: OverviewPage
   let notFoundPage: NotFoundPage
+  const sources: DataSourcePanelItem[] = [{ fields: 'Trust summary, Ofsted ratings:', dataSource: 'Get information about schools', update: 'Daily' }]
 
   test.beforeEach(async ({ page }) => {
     overviewPage = new OverviewPage(page, new FakeTestData())
@@ -27,8 +28,11 @@ test.describe('Overview page', () => {
         await overviewPage.goToMultiAcademyTrust()
         await overviewPage.expect.toSeeCorrectTrustSummary()
         await overviewPage.expect.toSeePopulatedOfstedRatings()
-        const source: DataSourcePanelItem = { fields: 'Trust summary, Ofsted ratings:', dataSource: 'Get information about schools', update: 'Daily' }
-        await overviewPage.expect.toSeeCorrectSourceAndUpdates(source)
+      })
+
+      test('user sees the correct information in the source and updates panel', async () => {
+        await overviewPage.goTo()
+        await overviewPage.expect.toSeeCorrectSourceAndUpdates(sources)
       })
 
       test('user should see the correct trust information on trust with no academies', async () => {

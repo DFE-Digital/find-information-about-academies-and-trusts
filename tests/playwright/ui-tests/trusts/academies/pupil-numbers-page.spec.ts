@@ -5,17 +5,20 @@ import { DataSourcePanelItem } from '../../../page-object-model/trust/sources-an
 
 test.describe('Academies in trust pupil numbers page', () => {
   let pupilNumbersPage: AcademiesPupilNumbersPage
+  const sources: DataSourcePanelItem[] = [{ fields: 'Pupil numbers:', dataSource: 'Get information about schools', update: 'Daily' }]
 
   test.beforeEach(async ({ page }) => {
     pupilNumbersPage = new AcademiesPupilNumbersPage(page, new FakeTestData())
     await pupilNumbersPage.goTo()
+    await pupilNumbersPage.expect.toBeOnTheRightPage()
   })
 
   test('user should see the right information about a trust', async () => {
-    await pupilNumbersPage.expect.toBeOnTheRightPage()
     await pupilNumbersPage.expect.toDisplayInformationForAllAcademiesInThatTrust()
     await pupilNumbersPage.expect.toDisplayCorrectInformationAboutAcademiesInThatTrust()
-    const source: DataSourcePanelItem = { fields: 'Pupil numbers:', dataSource: 'Get information about schools', update: 'Daily' }
-    await pupilNumbersPage.expect.toSeeCorrectSourceAndUpdates(source)
+  })
+
+  test('user sees the correct information in the source and updates panel', async () => {
+    await pupilNumbersPage.expect.toSeeCorrectSourceAndUpdates(sources)
   })
 })

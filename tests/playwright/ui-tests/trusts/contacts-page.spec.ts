@@ -24,10 +24,11 @@ test.describe('Contacts page', () => {
     await contactsPage.goToTrustWithAllContactDetailsPopulated()
     await contactsPage.expect.toSeeCorrectDfeContacts()
     await contactsPage.expect.toSeeCorrectTrustContacts()
-    await contactsPage.sourcePanel.openPanel()
-    for (const source of sources) {
-      await contactsPage.expect.toSeeCorrectSourceAndUpdates(source)
-    }
+  })
+
+  test('user sees the correct information in the source and updates panel', async () => {
+    await contactsPage.goTo()
+    await contactsPage.expect.toSeeCorrectSourceAndUpdates(sources)
   })
 
   test('user should see missing information messages when dfe contact details not fully populated', async () => {
