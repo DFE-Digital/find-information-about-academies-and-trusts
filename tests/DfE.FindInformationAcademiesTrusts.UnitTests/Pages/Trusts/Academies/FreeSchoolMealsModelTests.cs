@@ -75,10 +75,14 @@ public class FreeSchoolMealsModelTests
     {
         await _sut.OnGetAsync();
         _mockFreeSchoolMealsAverageProvider.Verify(e => e.GetFreeSchoolMealsUpdated(), Times.Once);
-        _sut.DataSources.Should().ContainSingle();
+        _sut.DataSources.Count.Should().Be(2);
         _sut.DataSources[0].Fields.Should().Contain(new[]
         {
-            "Pupils eligible for free school meals", "Local authority average 2022/23", "National average 2022/23"
+            "Pupils eligible for free school meals"
+        });
+        _sut.DataSources[1].Fields.Should().Contain(new[]
+        {
+            "Local authority average 2022/23", "National average 2022/23"
         });
     }
 }

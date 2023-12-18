@@ -5,7 +5,12 @@ import { DataSourcePanelItem } from '../../../page-object-model/trust/sources-an
 
 const sources: DataSourcePanelItem[] = [
   {
-    fields: 'Pupils eligible for free school meals, Local authority average 2022/23, National average 2022/23',
+    fields: 'Pupils eligible for free school meals',
+    dataSource: 'Get information about schools',
+    update: 'Daily'
+  },
+  {
+    fields: 'Local authority average 2022/23, National average 2022/23',
     dataSource: 'Explore education statistics',
     update: 'Annually'
   }

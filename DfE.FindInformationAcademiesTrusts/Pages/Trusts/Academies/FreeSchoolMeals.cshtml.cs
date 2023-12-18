@@ -22,10 +22,16 @@ public class FreeSchoolMealsModel : TrustsAreaModel, IAcademiesAreaModel
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
+        DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
+            new[]
+            {
+                "Pupils eligible for free school meals"
+            }));
+
         DataSources.Add(new DataSourceListEntry(_freeSchoolMealsProvider.GetFreeSchoolMealsUpdated(),
             new[]
             {
-                "Pupils eligible for free school meals", "Local authority average 2022/23", "National average 2022/23"
+                "Local authority average 2022/23", "National average 2022/23"
             }));
 
         return pageResult;
