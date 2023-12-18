@@ -28,12 +28,7 @@ export class SourcePanelComponent {
   }
 
   async getSourceItem (item: DataSourcePanelItem): Promise<Locator> {
-    return this.panel.getByRole('list').filter({ hasText: item.fields })
-  }
-
-  async getSourceItemDataSource (item: DataSourcePanelItem): Promise<Locator> {
-    const sourceItem = await this.getSourceItem(item)
-    return sourceItem.getByRole('listitem').filter({ hasText: item.fields })
+    return this.panel.getByRole('listitem').filter({ hasText: item.fields })
   }
 
   async getSourceItemLastUpdate (item: DataSourcePanelItem): Promise<Locator> {
@@ -61,12 +56,14 @@ export class SourcePanelComponentAssertions {
   constructor (readonly sourcePanel: SourcePanelComponent) {}
 
   async toHaveCorrectUpdates (item: DataSourcePanelItem): Promise<void> {
-    await this.sourcePanel.openPanel()
     await expect(await this.sourcePanel.getSourceItemNextUpdate(item)).toContainText(item.update)
   }
 
+  async toNotHaveUnknownDate (item: DataSourcePanelItem): Promise<void> {
+    await expect(await this.sourcePanel.getSourceItemLastUpdate(item)).not.toContainText('Unknown')
+  }
+
   async toUseCorrectDataSource (item: DataSourcePanelItem): Promise<void> {
-    await this.sourcePanel.openPanel()
-    await expect(await this.sourcePanel.getSourceItemDataSource(item)).toContainText(item.dataSource, { ignoreCase: true })
+    await expect(await this.sourcePanel.getSourceItem(item)).toContainText(item.dataSource, { ignoreCase: true })
   }
 }
