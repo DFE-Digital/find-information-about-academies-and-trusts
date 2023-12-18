@@ -76,7 +76,7 @@ public class TrustsAreaModelTests
     [Theory]
     [InlineData(Source.Gias, "Get information about schools")]
     [InlineData(Source.Mstr, "Get information about schools - internal")]
-    [InlineData(Source.Cdm, "RSD service support team")]
+    [InlineData(Source.Cdm, "RSD (Regional Services Division) service support team")]
     [InlineData(Source.Mis, "State-funded school inspections and outcomes: management information")]
     public void MapDataSourceToName_should_return_the_correct_string_for_each_source(Source source, string expected)
     {
