@@ -44,12 +44,10 @@ test.describe('Search page', () => {
 
         test('the user can edit their search and search again', async () => {
           await searchPage.searchForm.expect.inputToContainSearchTerm()
-          await searchPage.searchForm.searchForATrust()
-          await searchPage.expect.toBeOnPageWithMatchingResults()
           await searchPage.searchForm.searchForADifferentTrust()
-          await searchPage.searchForm.expect.inputToContainSearchTerm()
           await searchPage.expect.toBeOnPageWithMatchingResults()
           await searchPage.expect.toSeeInformationForUpToMaximumNumberOfResultsPerPage()
+          await searchPage.searchForm.expect.inputToContainSearchTerm()
         })
 
         test('when the user clicks on different results they are taken to different trust details pages', async () => {
