@@ -119,7 +119,7 @@ If you need to update the mocked test data for UI and Accessibility tests see [u
 
 To run the owasp zap security scanner locally on the test or dev environments.
 
-1. Run the owasp zap api in docker, please note the post scan test report will be sent to wherever you run this command from. Always stop and restart the owasp zap api in docker before evey test run to ensure you get a clean test report.
+1. Run the owasp zap api in docker, please note the post scan test report will be sent to wherever you run this command from. Always stop and restart the owasp zap api in docker before every test run to ensure you get a clean test report.
 
     ```bash
     docker run --rm -v ${PWD}:/zap/wrk/:rw -u zap -p 8083:8083 -i owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 8083 -config api.disablekey=true -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true
