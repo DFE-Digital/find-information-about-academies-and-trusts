@@ -75,19 +75,22 @@ Then you can either run:
     docker compose -f docker-compose.yml up -d --build     # build and run the application alone
     ```
 
-1. The application and the fake database
+1. Run your local application against the fake database
 
-    The `docker-compose.ci.yml` file is used for running our Playwright tests in an isolated environment against a fake database — which you can also use for local development. Follow the steps above to run the docker compose file, and then update your dotnet user secrets to point to the database in the docker container:
+    The `docker-compose.ci.yml` file is used for running our Playwright tests in an isolated environment against a fake database — which you can also use for local development.
+
+    Note - you will not be able to load the docker instance of the application using this docker build, due to the auth bypass mechanism used for tests.
 
     ```bash
+    # update your application AcademiesDb connection string
+    cd DfE.FindInformationAcademiesTrusts
     dotnet user-secrets set "ConnectionStrings:AcademiesDb" "Server=localhost;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true"
+    
+    # build and run the application and a local db containing fake data -> most useful for tests
+    docker compose -f ~/docker/docker-compose.ci.yml up -d --build  
     ```
 
-    You can then run the application as normal.
-
-    ```bash
-    docker compose -f docker-compose.ci.yml up -d --build  # build and run the application and a local db containing fake data -> most useful for tests
-    ```
+    You can then run the application as normal (using your IDE or `dotnet run`)
 
 Once you are done, ensure that you stop the container(s)!
 
