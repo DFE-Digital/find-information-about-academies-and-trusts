@@ -9,7 +9,7 @@ test.describe('Contacts page', () => {
   let notFoundPage: NotFoundPage
   const sources: DataSourcePanelItem[] = [{ fields: 'DfE contacts:', dataSource: 'RSD (Regional Services Division) service support team', update: 'Daily' },
     { fields: 'Accounting officer name, Chief financial officer name, Chair of trustees name:', dataSource: 'Get information about schools', update: 'Daily' },
-    { fields: 'Accounting officer email, Chief financial officer email, Chair of trustees email:', dataSource: 'Get information about schools', update: 'Daily' }]
+    { fields: 'Accounting officer email, Chief financial officer email, Chair of trustees email:', dataSource: 'Get information about schools (internal use only, do not share outside of DfE)', update: 'Daily' }]
 
   test.beforeEach(async ({ page }) => {
     contactsPage = new ContactsPage(page, new FakeTestData())

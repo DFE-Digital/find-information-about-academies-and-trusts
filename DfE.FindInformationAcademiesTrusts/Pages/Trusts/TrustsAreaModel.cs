@@ -33,7 +33,7 @@ public class TrustsAreaModel : PageModel, ITrustsAreaModel
             case Source.Gias:
                 return "Get information about schools";
             case Source.Mstr:
-                return "Get information about schools - internal";
+                return "Get information about schools (internal use only, do not share outside of DfE)";
             case Source.Cdm:
                 return "RSD (Regional Services Division) service support team";
             case Source.Mis:
