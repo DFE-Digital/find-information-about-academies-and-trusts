@@ -17,7 +17,7 @@ public class AcademiesDbFaker
     private readonly CdmAccountFaker _cdmAccountFaker = new();
     private readonly CdmSystemuserFaker _cdmSystemuserFaker = new();
     private readonly MisEstablishmentFaker _misEstablishmentFaker;
-    private AcademiesDbData _academiesDbData;
+    private AcademiesDbData _academiesDbData = new();
     private readonly IEnumerable<int> _laCodes;
     private readonly ApplicationEventFaker _applicationEventFaker;
     private readonly ApplicationSettingsFaker _applicationSettingsFaker;
