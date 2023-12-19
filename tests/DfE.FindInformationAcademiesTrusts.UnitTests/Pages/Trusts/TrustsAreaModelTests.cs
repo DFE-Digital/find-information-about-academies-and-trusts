@@ -75,7 +75,7 @@ public class TrustsAreaModelTests
 
     [Theory]
     [InlineData(Source.Gias, "Get information about schools")]
-    [InlineData(Source.Mstr, "Get information about schools - internal")]
+    [InlineData(Source.Mstr, "Get information about schools (internal use only, do not share outside of DfE)")]
     [InlineData(Source.Cdm, "RSD (Regional Services Division) service support team")]
     [InlineData(Source.Mis, "State-funded school inspections and outcomes: management information")]
     [InlineData(Source.ExploreEducationStatistics, "Explore education statistics")]
