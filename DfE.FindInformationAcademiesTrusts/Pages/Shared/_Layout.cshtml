@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="~/dist/main.css"/>
   <partial name="_AppInsights"/>
 
-    @if (hasConsented)
+    @if (_env.IsProduction() && hasConsented)
     {
         <!-- Google Tag Manager -->
         <script nonce="@nonce">
