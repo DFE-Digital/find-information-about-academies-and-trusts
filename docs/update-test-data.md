@@ -22,6 +22,5 @@ Both compose files do the following:
 - You will then have a running SQL instance with a sip database that has the fake data loaded
 - From this point you can either run the fiat application or run the automated tests against it
 
-
 `docker-compose.ci.yml` will also run the fiat application in another container
 
