@@ -121,12 +121,14 @@ internal static class Program
                     .From(new[]
                     {
                         "https://js.monitor.azure.com/scripts/b/ai.2.min.js",
-                        "https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js"
+                        "https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js",
+                        "https://www.googletagmanager.com"
                     });
                 cspBuilder.AddConnectSrc()
                     .Self()
                     .From("https://*.in.applicationinsights.azure.com//v2/track")
-                    .From("https://*.in.applicationinsights.azure.com/v2/track");
+                    .From("https://*.in.applicationinsights.azure.com/v2/track")
+                    .From("https://*.google-analytics.com");
                 cspBuilder.AddObjectSrc().None();
                 cspBuilder.AddBlockAllMixedContent();
                 cspBuilder.AddImgSrc().Self();

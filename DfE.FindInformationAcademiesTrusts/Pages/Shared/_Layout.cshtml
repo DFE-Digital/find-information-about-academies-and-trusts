@@ -1,5 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@using NetEscapades.AspNetCore.SecurityHeaders
+@inject IWebHostEnvironment _env
+
+<!DOCTYPE html>
 <html lang="en" class="govuk-template ">
+
+@{
+    var nonce = Context.GetNonce();
+    bool.TryParse(Context.Request.Cookies[CookiesHelper.ConsentCookieName], out bool hasConsented);
+}
 
 <head>
   <meta charset="utf-8">
@@ -15,6 +23,23 @@
   <link rel="apple-touch-icon" href="~/dist/images/govuk-apple-touch-icon.png">
   <link rel="stylesheet" href="~/dist/main.css"/>
   <partial name="_AppInsights"/>
+
+    @if (hasConsented)
+    {
+        <!-- Google Tag Manager -->
+        <script nonce="@nonce">
+            (function (w, d, s, l, i) {
+                w[l] = w[l] || []; w[l].push({
+                    'gtm.start':
+                        new Date().getTime(), event: 'gtm.js'
+                }); let f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-NGC8DRV');
+        </script>
+        <!-- End Google Tag Manager -->
+    }
+
 </head>
 
 <body class="govuk-template__body ">
