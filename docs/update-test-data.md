@@ -23,4 +23,3 @@ Both compose files do the following:
 - From this point you can either run the fiat application or run the automated tests against it
 
 `docker-compose.ci.yml` will also run the fiat application in another container
-
