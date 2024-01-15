@@ -126,9 +126,12 @@ internal static class Program
                     });
                 cspBuilder.AddConnectSrc()
                     .Self()
-                    .From("https://*.in.applicationinsights.azure.com//v2/track")
-                    .From("https://*.in.applicationinsights.azure.com/v2/track")
-                    .From("https://*.google-analytics.com");
+                    .From(new[]
+                    {
+                        "https://*.in.applicationinsights.azure.com//v2/track",
+                        "https://*.in.applicationinsights.azure.com/v2/track",
+                        "https://*.google-analytics.com"
+                    });
                 cspBuilder.AddObjectSrc().None();
                 cspBuilder.AddBlockAllMixedContent();
                 cspBuilder.AddImgSrc().Self();
