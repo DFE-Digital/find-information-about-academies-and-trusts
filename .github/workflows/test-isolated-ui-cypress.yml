@@ -1,4 +1,4 @@
-name: Run UI tests on isolated environment
+name: Run Cypress UI tests on isolated environment
 
 on:
   pull_request:
