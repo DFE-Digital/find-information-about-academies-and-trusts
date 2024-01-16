@@ -43,7 +43,7 @@ jobs:
         run: docker compose -f docker-compose.ci.yml up -d
         
       - name: Run the cypress tests
-        run: run: npm run cy:run -- --env url=http://localhost,authKey=TestSuperSecret
+        run: npm run cy:run -- --env url=http://localhost,authKey=TestSuperSecret
         
       - name: Stop services
         if: always()
