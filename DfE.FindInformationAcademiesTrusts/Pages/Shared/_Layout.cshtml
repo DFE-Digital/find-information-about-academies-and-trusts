@@ -6,7 +6,7 @@
 
 @{
     var nonce = Context.GetNonce();
-    bool.TryParse(Context.Request.Cookies[CookiesHelper.ConsentCookieName], out bool hasConsented);
+    var hasConsented = CookiesHelper.OptionalCookiesAreAccepted(Context, TempData);
 }
 
 <head>

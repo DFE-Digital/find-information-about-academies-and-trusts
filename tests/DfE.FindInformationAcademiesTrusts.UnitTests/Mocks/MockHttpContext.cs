@@ -20,6 +20,7 @@ public class MockHttpContext : Mock<HttpContext>
         _mockRequestCookies.Setup(m => m[It.IsAny<string>()]).Returns("False");
         _mockRequestCookies.Setup(m => m.ContainsKey(".FindInformationAcademiesTrusts.Login")).Returns(true);
         _mockRequestCookies.Setup(m => m[".FindInformationAcademiesTrusts.Login"]).Returns("You are logged in");
+        _mockRequestCookies.Setup(m => m.Keys).Returns(new List<string>() { });
         _mockRequest.Setup(m => m.Query[It.IsAny<string>()]).Returns("");
     }
 
@@ -37,18 +38,22 @@ public class MockHttpContext : Mock<HttpContext>
 
     public void SetupAcceptedCookie()
     {
+        _mockRequestCookies.Setup(m => m.Keys).Returns(new List<string> { CookiesHelper.ConsentCookieName });
         _mockRequestCookies.Setup(m => m.ContainsKey(CookiesHelper.ConsentCookieName)).Returns(true);
         _mockRequestCookies.Setup(m => m[CookiesHelper.ConsentCookieName]).Returns("True");
     }
 
     public void SetupRejectedCookie()
     {
+        _mockRequestCookies.Setup(m => m.Keys).Returns(new List<string> { });
         _mockRequestCookies.Setup(m => m.ContainsKey(CookiesHelper.ConsentCookieName)).Returns(true);
         _mockRequestCookies.Setup(m => m[CookiesHelper.ConsentCookieName]).Returns("False");
     }
 
     public void SetupOptionalCookies()
     {
+        _mockRequestCookies.Setup(m => m.Keys).Returns(new List<string> { "ai_user", "ai_session", "_gid", "_ga" });
+
         _mockRequestCookies.Setup(m => m.ContainsKey("ai_user")).Returns(true);
         _mockRequestCookies.Setup(m => m["ai_user"]).Returns("True");
         _mockRequestCookies.Setup(m => m.ContainsKey("ai_session")).Returns(true);

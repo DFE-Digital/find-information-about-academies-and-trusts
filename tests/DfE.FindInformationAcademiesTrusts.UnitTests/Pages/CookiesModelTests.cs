@@ -200,6 +200,8 @@ public class CookiesModelTests
     [Theory]
     [InlineData("ai_session")]
     [InlineData("ai_user")]
+    [InlineData("_ga")]
+    [InlineData("_gid")]
     public void OnGet_removes_optional_cookie_when_consent_is_false(string cookieName)
     {
         _mockHttpContext.SetupOptionalCookies();
@@ -211,6 +213,8 @@ public class CookiesModelTests
     [Theory]
     [InlineData("ai_session")]
     [InlineData("ai_user")]
+    [InlineData("_ga")]
+    [InlineData("_gid")]
     public void OnPost_removes_optional_cookie_when_consent_is_false(string cookieName)
     {
         _mockHttpContext.SetupOptionalCookies();
