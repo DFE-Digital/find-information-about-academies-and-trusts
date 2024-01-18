@@ -24,7 +24,7 @@ declare global {
             containsByTestId(id: string): Chainable<Element>;
             getById(id: string): Chainable<Element>;
             login(params?: AuthenticationInterceptorParams): Chainable<Element>;
-			excuteAccessibilityTests(): Chainable<Element>;
+            excuteAccessibilityTests(): Chainable<Element>;
         }
     }
 }

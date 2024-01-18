@@ -8,6 +8,8 @@ public class OfstedRatingCellModel
 
     public required OfstedRating OfstedRating { get; init; }
 
+    public string? IdPrefix { get; set; }
+
     public bool IsAfterJoining => OfstedRating.InspectionEndDate >= AcademyJoinedDate;
 
     public string? OfstedRatingDescription => OfstedRating.OfstedRatingScore switch

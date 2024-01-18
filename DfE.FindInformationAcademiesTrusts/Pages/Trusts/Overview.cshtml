@@ -20,7 +20,7 @@
                 <dt class="govuk-summary-list__key govuk-!-width-one-half">
                   Total academies
                 </dt>
-                <dd class="govuk-summary-list__value">
+                <dd class="govuk-summary-list__value" data-testid="total-academies">
                   @Model.NumberOfAcademiesInTrust
                 </dd>
               </div>
@@ -28,7 +28,7 @@
                 <dt class="govuk-summary-list__key govuk-!-width-one-half">
                   Academies in each local authority
                 </dt>
-                <dd class="govuk-summary-list__value">
+                <dd class="govuk-summary-list__value" data-testid="academies-in-each-authority">
                   @foreach (var (authority, total) in Model.AcademiesInEachLocalAuthority)
                   {
                     <p class="govuk-body govuk-!-margin-bottom-1">@total in @authority</p>
@@ -39,7 +39,7 @@
                 <dt class="govuk-summary-list__key govuk-!-width-one-half">
                   Pupil numbers
                 </dt>
-                <dd class="govuk-summary-list__value">
+                <dd class="govuk-summary-list__value" data-testid="number-of-pupils">
                   @($"{Model.TotalPupilNumbersInTrust:n0}")
                 </dd>
               </div>
@@ -47,7 +47,7 @@
                 <dt class="govuk-summary-list__key govuk-!-width-one-half">
                   Pupil capacity <br>(% full)
                 </dt>
-                <dd class="govuk-summary-list__value">
+                <dd class="govuk-summary-list__value" data-testid="pupil-capacity">
                   @($"{Model.TotalPupilCapacityInTrust:n0}")
                   @if (Model.TotalPercentageCapacityInTrust is not null)
                   {
@@ -76,23 +76,23 @@
               <tbody class="govuk-table__body">
                 <tr class="govuk-table__row">
                   <td class="govuk-body govuk-table__cell" data-sort-value="1">Outstanding</td>
-                  <td class="govuk-body govuk-table__cell govuk-table__cell--numeric">@Model.GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore.Outstanding)</td>
+                  <td class="govuk-body govuk-table__cell govuk-table__cell--numeric" data-testid="ofsted-rating-outstanding">@Model.GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore.Outstanding)</td>
                 </tr>
                 <tr class="govuk-table__row">
                   <td class="govuk-body govuk-table__cell" data-sort-value="2">Good</td>
-                  <td class="govuk-body govuk-table__cell govuk-table__cell--numeric">@Model.GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore.Good)</td>
+                  <td class="govuk-body govuk-table__cell govuk-table__cell--numeric" data-testid="ofsted-rating-good">@Model.GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore.Good)</td>
                 </tr>
                 <tr class="govuk-table__row">
                   <td class="govuk-body govuk-table__cell" data-sort-value="3">Requires improvement</td>
-                  <td class="govuk-body govuk-table__cell govuk-table__cell--numeric">@Model.GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore.RequiresImprovement)</td>
+                  <td class="govuk-body govuk-table__cell govuk-table__cell--numeric" data-testid="ofsted-rating-requires-improvement">@Model.GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore.RequiresImprovement)</td>
                 </tr>
                 <tr class="govuk-table__row">
                   <td class="govuk-body govuk-table__cell" data-sort-value="4">Inadequate</td>
-                  <td class="govuk-body govuk-table__cell govuk-table__cell--numeric">@Model.GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore.Inadequate)</td>
+                  <td class="govuk-body govuk-table__cell govuk-table__cell--numeric" data-testid="ofsted-rating-inadequate">@Model.GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore.Inadequate)</td>
                 </tr>
                 <tr class="govuk-table__row">
                   <td class="govuk-body govuk-table__cell" data-sort-value="5">Not yet inspected</td>
-                  <td class="govuk-body govuk-table__cell govuk-table__cell--numeric">@Model.GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore.None)</td>
+                  <td class="govuk-body govuk-table__cell govuk-table__cell--numeric" data-testid="ofsted-rating-not-inspected-yet">@Model.GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore.None)</td>
                 </tr>
               </tbody>
             </table>

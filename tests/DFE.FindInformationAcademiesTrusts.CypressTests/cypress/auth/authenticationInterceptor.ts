@@ -8,8 +8,7 @@ export class AuthenticationInterceptor {
                 url: Cypress.env(EnvUrl) + "/**",
                 middleware: true,
             },
-            (req) =>
-            {
+            (req) => {
                 // Set an auth header on every request made by the browser
                 req.headers = {
                     ...req.headers,

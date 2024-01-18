@@ -21,12 +21,12 @@
       @foreach (var academy in Model.Trust.Academies)
       {
         <tr class="govuk-table__row" data-testid="academy-row">
-          <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@academy.EstablishmentName">
-            @academy.EstablishmentName<br/><span class="govuk-!-font-weight-regular">URN: @academy.Urn</span>
+          <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@academy.EstablishmentName" data-testid="school-name">
+            @academy.EstablishmentName<br/><span class="govuk-!-font-weight-regular" data-testid="urn">URN: @academy.Urn</span>
           </th>
-          <td class="govuk-body govuk-table__cell">@academy.LocalAuthority</td>
-          <td class="govuk-body govuk-table__cell">@academy.TypeOfEstablishment</td>
-          <td class="govuk-body govuk-table__cell">@academy.UrbanRural</td>
+          <td class="govuk-body govuk-table__cell" data-testid="local-authority">@academy.LocalAuthority</td>
+          <td class="govuk-body govuk-table__cell" data-testid="type-of-establishment">@academy.TypeOfEstablishment</td>
+          <td class="govuk-body govuk-table__cell" data-testid="urban-or-rural">@academy.UrbanRural</td>
           <td class="govuk-body govuk-table__cell">
             <a href="@Model.LinkBuilder.GetInformationAboutSchoolsListingLink(academy)" class="govuk-link" rel="noreferrer noopener" target="_blank" aria-label="@academy.EstablishmentName on Get information about schools (opens in new tab)">
               More information

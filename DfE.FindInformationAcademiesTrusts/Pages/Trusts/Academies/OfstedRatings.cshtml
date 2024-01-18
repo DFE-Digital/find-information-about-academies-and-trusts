@@ -20,19 +20,19 @@
       @foreach (var academy in Model.Trust.Academies)
       {
         <tr class="govuk-table__row" data-testid="academy-row">
-          <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@academy.EstablishmentName">
-            @academy.EstablishmentName<br/><span class="govuk-!-font-weight-regular">URN: @academy.Urn</span>
+            <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@academy.EstablishmentName" data-testid="school-name">
+            @academy.EstablishmentName<br/><span class="govuk-!-font-weight-regular" data-testid="urn">URN: @academy.Urn</span>
           </th>
-          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.SortDate)">
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.SortDate)" data-testid="date-joined">
             @academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.ViewDate)
           </td>
           @await Html.PartialAsync(
             "_OfstedRatingCell",
-            new OfstedRatingCellModel { OfstedRating = academy.PreviousOfstedRating, AcademyJoinedDate = academy.DateAcademyJoinedTrust })
+            new OfstedRatingCellModel { OfstedRating = academy.PreviousOfstedRating, AcademyJoinedDate = academy.DateAcademyJoinedTrust, IdPrefix = "previous" })
 
           @await Html.PartialAsync(
             "_OfstedRatingCell",
-            new OfstedRatingCellModel { OfstedRating = academy.CurrentOfstedRating, AcademyJoinedDate = academy.DateAcademyJoinedTrust })
+            new OfstedRatingCellModel { OfstedRating = academy.CurrentOfstedRating, AcademyJoinedDate = academy.DateAcademyJoinedTrust, IdPrefix = "current" })
         </tr>
       }
     </tbody>
