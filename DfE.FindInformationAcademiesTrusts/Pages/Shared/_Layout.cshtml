@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="~/dist/main.css"/>
   <partial name="_AppInsights"/>
 
-    @if (_env.IsProduction() && hasConsented)
+    @if (hasConsented)
     {
         <!-- Google Tag Manager -->
         <script nonce="@nonce">
@@ -35,7 +35,7 @@
                 }); let f = d.getElementsByTagName(s)[0],
                     j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
                         'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-            })(window, document, 'script', 'dataLayer', 'GTM-NGC8DRV');
+            })(window, document, 'script', 'dataLayer', 'G-0M93CCX684');
         </script>
         <!-- End Google Tag Manager -->
     }
