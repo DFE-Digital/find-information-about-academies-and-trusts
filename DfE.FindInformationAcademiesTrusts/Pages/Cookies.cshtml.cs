@@ -63,11 +63,11 @@ public class CookiesModel : PageModel
 
         if (Consent is false)
         {
-            var optionalCookieMatches = new[] { "ai_session", "ai_user", "_ga", "_gid" };
+            var optionalCookiePrefixes = new[] { "ai_session", "ai_user", "_ga", "_gid" };
             var currentCookies = _httpContextAccessor.HttpContext!.Request.Cookies.Keys;
 
             var cookiesToDelete = currentCookies
-                .Where(currentCookie => optionalCookieMatches.Any(prefix => currentCookie.StartsWith(prefix)))
+                .Where(currentCookie => optionalCookiePrefixes.Any(prefix => currentCookie.StartsWith(prefix)))
                 .ToList();
 
             cookiesToDelete.ForEach(cookie => _httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie));

@@ -5,7 +5,6 @@
 <html lang="en" class="govuk-template ">
 
 @{
-    var nonce = Context.GetNonce();
     var hasConsented = CookiesHelper.OptionalCookiesAreAccepted(Context, TempData);
 }
 
@@ -27,7 +26,7 @@
     @if (hasConsented)
     {
         <!-- Google Tag Manager -->
-        <script nonce="@nonce">
+        <script asp-add-nonce>
             (function (w, d, s, l, i) {
                 w[l] = w[l] || []; w[l].push({
                     'gtm.start':
