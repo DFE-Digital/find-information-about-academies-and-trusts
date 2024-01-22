@@ -20,7 +20,9 @@ public static class Program
 
             SqlScriptGenerator.GenerateAndSaveSqlScripts(academiesDbData, "data/createScript.sql",
                 "data/insertScript.sql");
-            JsonGenerator.GenerateAndSaveTrustsJson(academiesDbData, "data/trusts.json");
+
+            // Comment in if you regenerate the data
+            // JsonGenerator.GenerateAndSaveTrustsJson(academiesDbData, "data/trusts.json");
         }
         catch (Exception e)
         {

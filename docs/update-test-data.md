@@ -4,32 +4,22 @@ Accessibility and UI tests are written using Playwright, with external dependenc
 
 We use a console application to generate test data, which is added to a fake version of the Academies database before [running the tests](run-tests-locally.md#accessibility-and-ui-tests). Playwright tests are run against a saved version of this fake data.
 
-Random data is generated using a seed, so will not change unless changes are made to the code.
+We decided that having the data generated every time the container was run was too difficult to maintain.
 
-When developing you may need to update and replace this test data if:
+Instead we now commit the data to the `./data` directory, but the faker project can be used to regenerate it
 
-- A change is made to models used in the `DfE.FindInformationAcademiesTrusts.Data`, or to the `DfE.FindInformationAcademiesTrusts.Data.AcademiesDb` project.
-- A new data source is added, or we need to generate new test data using the Faker
+When developing you may need to update and replace this data as more features are implemented
 
-## When a change is made to production code
+## How this data is used to build a database
 
-If you have made a change to a data model, or to the `AcademiesDb` project, then the data will need updating in our playwright tests directory:
+The docker compose files `docker-compose.ci.yml` and `docker-compose-db.yml` both create a database using the fake data
 
-1. Run the Faker project in your IDE
-2. Navigate to the project's run location  (e.g. `bin/Debug/net7.0`) and copy all json files in the new `data/` folder into `~/tests/playwright/fake-data`
-3. Commit the new fake data in the playwright directory
-4. If you are already running your tests locally you will need to stop and start the docker container to recreate the test database: `npm run docker:restart`
-5. Check that the data matches by [re-running the UI tests](run-tests-locally.md#accessibility-and-ui-tests) : `npm run test:ui`
+Both compose files do the following:
 
-## Updating the Faker with new data
+- Create a container with SQL running
+- In another container copy the contents of the ./data directory and mount into a volume
+- Another container will run the create and insert scripts against the running SQL instance
+- You will then have a running SQL instance with a sip database that has the fake data loaded
+- From this point you can either run the fiat application or run the automated tests against it
 
-1. Open the Faker project: `tests/DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker`
-2. Add or update the relevant Faker (matching the model you have updated)
-3. Add any new Fakers to `AcademiesDbFaker` and the `AcademiesDbData` classes
-4. If adding a new Faker, add your new dataset to the `SqlGenerator.cs` > `GenerateSqlInsertScript` method
-5. We recommend testing the generated scripts locally before committing them:
-   - run the Faker project
-   - open the `data/` directory in the project's run location
-   - run the `insertScript.sql` and then `createScript.sql` on a sql server instance
-   - check the tables contain the generated data
-6. Update the data in the `tests/playwright/fake-data` directory using [the steps above](#when-a-change-is-made-to-production-code)
+`docker-compose.ci.yml` will also run the fiat application in another container
