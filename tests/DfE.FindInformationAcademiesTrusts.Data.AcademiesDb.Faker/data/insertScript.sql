@@ -15,3 +15,7 @@ SET IDENTITY_INSERT [ops].[ApplicationEvent] ON
 INSERT INTO [ops].[ApplicationEvent] ([Id],[DateTime],[Source],[UserName],[EventType],[Level],[Code],[Severity],[Description],[Message],[Trace],[ProcessID],[LineNumber]) VALUES (0, '2023-11-08 00:00:00', 'adf-t1ts-sips-dataflow', 'Test User', 'I', 1, 1, 'S', 'GIAS_Daily', 'Finished', 'test trace', 1, 2),(1, '2023-11-07 00:00:00', 'adf-t1ts-sips-dataflow', 'Test User', 'I', 1, 1, 'S', 'MSTR_Daily', 'Finished', 'test trace', 1, 2),(2, '2023-11-06 00:00:00', 'adf-t1ts-sips-dataflow', 'Test User', 'I', 1, 1, 'S', 'CDM_Daily', 'Finished', 'test trace', 1, 2);
 SET IDENTITY_INSERT [ops].[ApplicationEvent] OFF
 INSERT INTO [ops].[ApplicationSettings] ([Key],[Value],[Created],[Created By],[Modified],[Modified By]) VALUES ('ManagementInformationSchoolTableData CSV Filename', NULL, NULL, NULL, '2023-11-04 00:00:00', NULL);
+
+-- Manually created data
+-- Trust with minimal information
+INSERT INTO gias.[Group]([Group UID], [Group Id],[Group Name], [Group Type]) VALUES(1313, 'TR3943', 'The empty trust', 'Single-academy trust');
