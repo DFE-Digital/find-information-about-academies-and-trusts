@@ -6,7 +6,7 @@ services:
       ACCEPT_EULA: Y
       MSSQL_SA_PASSWORD: mySuperStrong_pa55word!!!
     ports:
-      - "1433:1433"
+      - "1435:1433"
     networks:
       - test-ci
     healthcheck:
@@ -25,7 +25,7 @@ services:
     image: mcr.microsoft.com/mssql-tools:latest
     command: |
       /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P "mySuperStrong_pa55word!!!" -d master -i /data/createScript.sql
-      /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P "mySuperStrong_pa55word!!!" -d master -i /data/insertScript.sql
+      /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P "mySuperStrong_pa55word!!!" -i /data/insertScript.sql
     depends_on:
       sqlserver:
         condition: service_healthy
@@ -35,24 +35,9 @@ services:
       - test-ci
     volumes:
       - testdb-volume:/data
-  webapp:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
-    command: /bin/bash -c "./docker-entrypoint.sh dotnet DfE.FindInformationAcademiesTrusts.dll"
-    depends_on:
-      - import-sql
-    ports:
-      - 80:80/tcp
-    networks:
-      - test-ci
-    environment:
-      - ASPNETCORE_ENVIRONMENT=CI
-      - TestOverride__PlaywrightTestSecret=TestSuperSecret
-      - ConnectionStrings__AcademiesDb=Server=sqlserver;Database=sip;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true;
 
 networks:
   test-ci:
-
+  
 volumes:
   testdb-volume:

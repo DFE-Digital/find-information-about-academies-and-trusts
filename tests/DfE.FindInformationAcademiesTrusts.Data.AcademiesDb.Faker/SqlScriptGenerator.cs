@@ -13,12 +13,17 @@ public static class SqlScriptGenerator
         using var context = new AcademiesDbContext(dbContextOptions.Options);
 
         GenerateSqlCreateScript(context, createScriptOutputFilePath);
-        GenerateSqlInsertScript(context, insertScriptOutputFilePath, fakeData);
+        
+        // Comment in if you want to re-generate it
+        // We use static data to keep it stable
+        // GenerateSqlInsertScript(context, insertScriptOutputFilePath, fakeData);
     }
 
     private static void GenerateSqlCreateScript(AcademiesDbContext context, string outputFilePath)
     {
-        var createScript = context.Database.GenerateCreateScript();
+        string createScript = "CREATE DATABASE [sip];\nGO\n\n";
+        createScript += "USE [sip];\nGO\n\n";
+        createScript += context.Database.GenerateCreateScript();
 
         Directory.CreateDirectory("data");
         File.WriteAllText(outputFilePath, createScript);

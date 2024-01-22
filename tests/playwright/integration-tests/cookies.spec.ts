@@ -31,5 +31,7 @@ test.describe('cookies', () => {
     await cookiesPage.expect.notToHaveAppInsightsCookies()
     await homePage.goTo()
     await homePage.expect.notToHaveAppInsightsCookies() // ensure that cookie settings persist across pages
+
+    // TODO: Add support for google analytics cookies
   })
 })
