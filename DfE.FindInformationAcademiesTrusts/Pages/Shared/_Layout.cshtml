@@ -31,17 +31,27 @@
                 w[l] = w[l] || []; w[l].push({
                     'gtm.start':
                         new Date().getTime(), event: 'gtm.js'
-                }); let f = d.getElementsByTagName(s)[0],
+                }); var f = d.getElementsByTagName(s)[0],
                     j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
                         'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-            })(window, document, 'script', 'dataLayer', 'G-0M93CCX684');
-        </script>
+            })(window, document, 'script', 'dataLayer', 'GTM-579KCM8T');</script>
         <!-- End Google Tag Manager -->
     }
 
 </head>
 
 <body class="govuk-template__body ">
+
+  @if (hasConsented)
+  {
+        <!-- Google Tag Manager (noscript) -->
+        <noscript>
+            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-579KCM8T"
+                    height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        </noscript>
+        <!-- End Google Tag Manager (noscript) -->
+  }
+
   <script asp-add-nonce>
     document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
   </script>
