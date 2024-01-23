@@ -39,20 +39,18 @@ public class AcademyFactory : IAcademyFactory
     private static OfstedRating GetCurrentOfstedRating(MisEstablishment? misEstablishmentCurrentOfsted,
         MisFurtherEducationEstablishment? misFurtherEducationEstablishment)
     {
-        if (misEstablishmentCurrentOfsted is not null)
+        if (misEstablishmentCurrentOfsted is not null && misEstablishmentCurrentOfsted.OverallEffectiveness is not null)
         {
             return new OfstedRating(
-                (OfstedRatingScore)misEstablishmentCurrentOfsted.OverallEffectiveness!.Value,
+                (OfstedRatingScore)misEstablishmentCurrentOfsted.OverallEffectiveness.Value,
                 DateTime.ParseExact(misEstablishmentCurrentOfsted.InspectionEndDate!, "dd/MM/yyyy",
                     CultureInfo.InvariantCulture)
             );
         }
 
-        if (misFurtherEducationEstablishment is not null)
+        if (misFurtherEducationEstablishment is not null && misFurtherEducationEstablishment.OverallEffectiveness is not null)
         {
-            return misFurtherEducationEstablishment.OverallEffectiveness is null
-                ? OfstedRating.None
-                : new OfstedRating(
+            return new OfstedRating(
                     (OfstedRatingScore)misFurtherEducationEstablishment.OverallEffectiveness.Value,
                     DateTime.ParseExact(misFurtherEducationEstablishment.LastDayOfInspection!, "dd/MM/yyyy",
                         CultureInfo.InvariantCulture)
@@ -65,7 +63,7 @@ public class AcademyFactory : IAcademyFactory
     private static OfstedRating GetPreviousOfstedRating(MisEstablishment? misEstablishmentPreviousOfsted,
         MisFurtherEducationEstablishment? misFurtherEducationEstablishment)
     {
-        if (misEstablishmentPreviousOfsted is not null)
+        if (misEstablishmentPreviousOfsted is not null && misEstablishmentPreviousOfsted.PreviousFullInspectionOverallEffectiveness is not null)
         {
             return new OfstedRating(
                 (OfstedRatingScore)int.Parse(misEstablishmentPreviousOfsted
@@ -75,11 +73,9 @@ public class AcademyFactory : IAcademyFactory
             );
         }
 
-        if (misFurtherEducationEstablishment is not null)
+        if (misFurtherEducationEstablishment is not null && misFurtherEducationEstablishment.PreviousOverallEffectiveness is not null)
         {
-            return misFurtherEducationEstablishment.PreviousOverallEffectiveness is null
-                ? OfstedRating.None
-                : new OfstedRating(
+            return new OfstedRating(
                     (OfstedRatingScore)misFurtherEducationEstablishment.PreviousOverallEffectiveness.Value,
                     DateTime.ParseExact(misFurtherEducationEstablishment.PreviousLastDayOfInspection!, "dd/MM/yyyy",
                         CultureInfo.InvariantCulture)
