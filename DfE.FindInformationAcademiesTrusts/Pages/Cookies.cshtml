@@ -16,7 +16,7 @@
         </div>
         <div class="govuk-notification-banner__content">
             <p class="govuk-notification-banner__heading">
-                You’ve set your cookie preferences. <a class="govuk-notification-banner__link" href="@Model.ReturnPath">Go back to the page you were looking at</a>.
+                You’ve set your cookie preferences. <a class="govuk-notification-banner__link" href="@Model.ReturnPath" data-testid="return-to-previous-page">Go back to the page you were looking at</a>.
             </p>
         </div>
     </div>
@@ -146,7 +146,7 @@
                     </div>
                 </fieldset>
             </div>
-            <button type="submit" class="govuk-button" data-module="govuk-button">Save changes</button>
+            <button type="submit" class="govuk-button" data-module="govuk-button" data-testid="save-cookie-preferences-button">Save changes</button>
         </form>
     </div>
 </div>
