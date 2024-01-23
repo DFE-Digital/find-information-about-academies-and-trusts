@@ -54,6 +54,7 @@ describe("Searching for a trust and checking information", () => {
             .hasTrustRelationshipManager("Cindy Bergstrom", "Cindy.Bergstrom@education.gov.uk")
             .hasSfsoLead("Vickie Gulgowski", "Vickie.Gulgowski@education.gov.uk")
             .hasAccountingOfficer("Grant Schroeder", "Grant.Schroeder@thetrust.com")
+            .hasChairOfTrustees("Kirk Adams", "Kirk.Adams@thetrust.com")
             .hasChiefFinancialOfficer("Brandi Bernier", "Brandi.Bernier@thetrust.com");
 
         cy.excuteAccessibilityTests();

@@ -1,5 +1,6 @@
 class TrustDetailsPage {
     public hasAddress(value): this {
+
         cy.getByTestId("address").should("contain.text", value);
         return this;
     }

@@ -22,6 +22,27 @@ class TrustContacts {
         return this;
     }
 
+    public hasChairOfTrustees(name: string, email: string): this {
+        this.assertContact("chair-of-trustees", name, email);
+
+        return this;
+    }
+
+    public hasEmptyContacts(): this {
+        this.assertEmptyContact("trust-relationship-manager");
+        this.assertEmptyContact("sfso-lead");
+        this.assertEmptyContact("accounting-officer");
+        this.assertEmptyContact("chief-financial-officer");
+        this.assertEmptyContact("chair-of-trustees");
+
+        return this;
+    }
+
+    private assertEmptyContact(id: string): void {
+        cy.getByTestId(id)
+            .find("p").should("contain.text", "No contact information available");
+    }
+
     private assertContact(id: string, name: string, email: string): void {
         cy.getByTestId(id)
             .find("[data-testid='contact-name']").should("contain.text", name);

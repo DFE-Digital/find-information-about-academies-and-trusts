@@ -10,6 +10,13 @@ class AcademiesFreeSchoolMealsTable {
                 return new AcademiesFreeSchoolMealsRow(el);
             });
     }
+
+    public hasNoRows(): this {
+        cy.getByTestId("academy-row")
+            .should("not.exist");
+
+        return this;
+    }
 }
 
 class AcademiesFreeSchoolMealsRow {

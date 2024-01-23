@@ -10,6 +10,13 @@ class AcademiesPupilNumbersTable {
                 return new AcademiesPupilNumbersRow(el);
             });
     }
+
+    public hasNoRows(): this {
+        cy.getByTestId("academy-row")
+            .should("not.exist");
+
+        return this;
+    }
 }
 
 class AcademiesPupilNumbersRow {
