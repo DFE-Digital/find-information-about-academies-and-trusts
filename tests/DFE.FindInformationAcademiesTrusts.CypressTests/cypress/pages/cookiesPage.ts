@@ -1,5 +1,3 @@
-import { Logger } from "../common/logger";
-
 export class CookiesPage {
     public withConsent(consent: string): this {
         cy.getById(`cookies-${consent.toLowerCase()}`).check();

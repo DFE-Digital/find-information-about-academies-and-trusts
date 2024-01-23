@@ -21,6 +21,8 @@ describe("Testing cookies on the site", () => {
 
         footerLinks.viewCookies();
 
+        cy.excuteAccessibilityTests();
+
         cookiesPage
             .hasConsent("accept")
 

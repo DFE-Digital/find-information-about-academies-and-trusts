@@ -19,7 +19,7 @@ describe("Searching for a trust and checking information", () => {
 
         searchTrustPage
             .enterSearchText("St Mary's")
-            .withOption("ST MARY'S ACADEMY TRUST")
+            .getOption("ST MARY'S ACADEMY TRUST")
             .then((option) => {
                 option
                     .hasName("ST MARY'S ACADEMY TRUST")
