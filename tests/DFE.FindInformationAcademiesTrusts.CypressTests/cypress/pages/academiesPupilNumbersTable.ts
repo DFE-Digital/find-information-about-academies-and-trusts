@@ -1,21 +1,13 @@
-class AcademiesPupilNumbersTable {
+import { AcademiesTableBase } from "./academiesTableBase";
+
+class AcademiesPupilNumbersTable extends AcademiesTableBase {
     public getRow(value: string): Cypress.Chainable<AcademiesPupilNumbersRow> {
-        cy.getByTestId("academy-row")
-            .contains("th", value)
-            .parent("tr")
-            .as("targetedRow");
+        this.getTableRowElement(value).as("targetedRow");
 
         return cy.get("@targetedRow")
             .then((el) => {
                 return new AcademiesPupilNumbersRow(el);
             });
-    }
-
-    public hasNoRows(): this {
-        cy.getByTestId("academy-row")
-            .should("not.exist");
-
-        return this;
     }
 }
 

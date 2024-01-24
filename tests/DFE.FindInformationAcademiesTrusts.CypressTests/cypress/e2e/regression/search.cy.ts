@@ -94,7 +94,7 @@ describe("Testing the search trust functionality", () => {
             .hasType("Single-academy trust");
     });
 
-    it.only("should pagination the results when there is a large number of matches", () => {
+    it("should pagination the results when there is a large number of matches", () => {
         searchTrustPage
             .enterSearchText("trust")
             .search();

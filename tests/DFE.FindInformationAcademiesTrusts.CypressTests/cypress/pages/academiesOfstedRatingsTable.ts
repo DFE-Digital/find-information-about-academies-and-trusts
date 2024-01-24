@@ -1,22 +1,13 @@
-class AcademiesOfstedRatingsTable {
+import { AcademiesTableBase } from "./academiesTableBase";
+
+class AcademiesOfstedRatingsTable extends AcademiesTableBase {
     public getRow(value: string): Cypress.Chainable<AcademiesOfsetRatingsRow> {
-        cy.getByTestId("academy-row")
-            .contains("th", value)
-            .parent("tr")
-            .as("targetedRow");
+        this.getTableRowElement(value).as("targetedRow");
 
         return cy.get("@targetedRow")
             .then((el) => {
                 return new AcademiesOfsetRatingsRow(el);
             });
-    }
-
-    public hasNoRows(): this {
-        cy.getByTestId("academy-row")
-            .should("not.exist");
-
-        return this;
-
     }
 }
 
@@ -46,20 +37,28 @@ class AcademiesOfsetRatingsRow {
 
     public hasPreviousOfstedRating(rating: string, date: string, beforeOrAfterJoining: string): this {
 
-        this.containsText("previous-ofsted-rating", rating);
-        this.containsText("previous-ofsted-rating", date);
-        this.containsText("previous-ofsted-rating", beforeOrAfterJoining);
+        this.hasOfstedRating("previous-ofsted-rating", rating, date, beforeOrAfterJoining);
 
         return this;
     }
 
-    public hasCurrentOfstedRating(value: string, date: string, beforeOrAfterJoining): this {
+    public hasCurrentOfstedRating(rating: string, date: string, beforeOrAfterJoining): this {
 
-        this.containsText("current-ofsted-rating", value);
-        this.containsText("current-ofsted-rating", date);
-        this.containsText("previous-ofsted-rating", beforeOrAfterJoining);
+        this.hasOfstedRating("current-ofsted-rating", rating, date, beforeOrAfterJoining);
 
         return this;
+    }
+
+    private hasOfstedRating(id: string, rating: string, date: string, beforeOrAfterJoining: string): void {
+        if (rating === "Not yet inspected") {
+            this.containsText(id, "Not yet inspected");
+
+            return;
+        }
+
+        this.containsText(id, rating);
+        this.containsText(id, date);
+        this.containsText(id, beforeOrAfterJoining);
     }
 
     private containsText(id: string, value: string) {
