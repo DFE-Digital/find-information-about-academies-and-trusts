@@ -16,8 +16,25 @@ class SearchTrustPage {
             });
     }
 
+    public selectFirstResult(): Cypress.Chainable<TrustSearchResult> {
+        cy.getByTestId("trust-result")
+            .first()
+            .as("targetedResult");
+
+        return cy.get("@targetedResult")
+            .then((el) => {
+                return new TrustSearchResult(el);
+            });
+    }
+
     public hasNumberOfResults(value: string): this {
         cy.getById("results-details").should("contain.text", value);
+
+        return this;
+    }
+
+    public hasResults(): this {
+        cy.getByTestId("trust-result").should("have.length.above", 0);
 
         return this;
     }
@@ -56,6 +73,10 @@ class SearchTrustPage {
 
 class TrustSearchResult {
     constructor(private element: JQuery<Element>) {
+    }
+
+    public getName(): string {
+        return this.element.find("[data-testid='trust-name']").text();
     }
 
     public hasName(text: string): this {

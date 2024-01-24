@@ -13,5 +13,4 @@ export class AcademiesTableBase {
         return this;
 
     }
-
 }
