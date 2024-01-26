@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.ObjectPool;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
@@ -63,17 +64,45 @@ public class CookiesModel : PageModel
 
         if (Consent is false)
         {
-            var optionalCookiePrefixes = new[] { "ai_session", "ai_user", "_ga", "_gid" };
-            var currentCookies = _httpContextAccessor.HttpContext!.Request.Cookies.Keys;
-
-            var cookiesToDelete = currentCookies
-                .Where(currentCookie => optionalCookiePrefixes.Any(prefix => currentCookie.StartsWith(prefix)))
-                .ToList();
-
-            cookiesToDelete.ForEach(cookie => _httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie));
+            DeleteAppInsightsCookies();
+            DeleteGoogleAnalyticsCookies();
 
             TempData[CookiesHelper.DeleteCookieTempDataName] = true;
         }
+    }
+
+    private void DeleteAppInsightsCookies()
+    {
+        var optionalCookiePrefixes = new[] { "ai_session", "ai_user" };
+        List<string> cookiesToDelete = GetMatchingCookies(optionalCookiePrefixes);
+
+        cookiesToDelete.ForEach(cookie => _httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie));
+    }
+
+    private void DeleteGoogleAnalyticsCookies()
+    {
+        var optionalCookiePrefixes = new[] { "_ga", "_gid" };
+        List<string> cookiesToDelete = GetMatchingCookies(optionalCookiePrefixes);
+
+        cookiesToDelete.ForEach(cookie =>
+        {
+            // Need to delete cookies that exists outside of our current host
+            // Can't delete cookies unless the domain is specified, by default it will be the current host
+            // Issue was it worked on localhost but not on dev, test or prod, because google analytics cookies are set on a different domain
+            _httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie);
+            _httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie, new CookieOptions() { Domain = ".education.gov.uk" });
+        });
+    }
+
+    private List<string> GetMatchingCookies(string[] optionalCookiePrefixes)
+    {
+        var currentCookies = _httpContextAccessor.HttpContext!.Request.Cookies.Keys;
+
+        var cookiesToDelete = currentCookies
+            .Where(currentCookie => optionalCookiePrefixes.Any(prefix => currentCookie.StartsWith(prefix)))
+            .ToList();
+
+        return cookiesToDelete;
     }
 
     private void ValidateReturnPath()
