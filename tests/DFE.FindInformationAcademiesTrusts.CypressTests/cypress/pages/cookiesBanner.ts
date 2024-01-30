@@ -1,5 +1,3 @@
-import { Logger } from "../common/logger";
-
 class CookiesBanner {
     public accept(): this {
         cy.getByTestId("banner-accept-analytics-cookies-button").click();
@@ -20,7 +18,7 @@ class CookiesBanner {
         return this;
     }
 
-    public notVisible(): this {
+    public isNotVisible(): this {
         cy.getByTestId("cookies-banner").should("not.exist");
 
         return this;

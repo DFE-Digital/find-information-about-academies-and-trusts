@@ -14,7 +14,7 @@ describe("Testing cookies on the site", () => {
 
         cookiesBanner
             .accept()
-            .notVisible();
+            .isNotVisible();
 
         Logger.log("Upon accepting the banner it should stay on the same page");
         cy.url().should("include", "/privacy");
@@ -48,7 +48,7 @@ describe("Testing cookies on the site", () => {
 
         cookiesBanner
             .reject()
-            .notVisible();
+            .isNotVisible();
 
         footerLinks.viewCookies();
 
