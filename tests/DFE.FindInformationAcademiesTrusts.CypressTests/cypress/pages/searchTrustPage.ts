@@ -1,6 +1,9 @@
 class SearchTrustPage {
     public enterSearchText(searchText: string): this {
-        cy.getById("home-search").clear().type(searchText);
+        const getSearchBox = () => cy.getById("home-search");
+
+        getSearchBox().clear().type(searchText);
+
         return this;
     }
 
@@ -55,6 +58,7 @@ class SearchTrustPage {
 
         const result: Array<string> = [];
 
+        // eslint-disable-next-line cypress/unsafe-to-chain-command
         return cy.getByTestId("trust-name")
             .each($el => {
                 var text = $el.text();

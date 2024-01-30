@@ -12,17 +12,16 @@ on:
         type: string
 env:
   NODE_VERSION: 18.13.0
-  PLAYWRIGHT_VERSION: default
   LAST_COMMIT_SHA: default
 
 jobs:
-  playwright:
+  cypress-tests:
     name: Smoke deployment tests
     runs-on: ubuntu-22.04
     environment: ${{ inputs.environment }}
     defaults:
       run:
-        working-directory: tests/playwright
+        working-directory: tests/DFE.FindInformationAcademiesTrusts.CypressTests
     steps:
       - uses: actions/checkout@v4
         with:
@@ -39,57 +38,30 @@ jobs:
           cache: npm
           cache-dependency-path: |
             DfE.FindInformationAcademiesTrusts/package-lock.json
-            tests/playwright/package-lock.json
+            tests/DFE.FindInformationAcademiesTrusts.CypressTests/package-lock.json
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Pin Playwright cache key
-        id: playwright-version
+-     - name: Run the cypress tests
+        run: npm run cy:deployment -- --env url=${{ secrets.BASE_URL }},authKey=${{ secrets.TEST_OVERRIDE_PLAYWRIGHT_TEST_SECRET}}
+        
+      - name: Upload screenshots
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: screenshots-${{ inputs.environment }}
+          path: tests/DFE.FindInformationAcademiesTrusts.CypressTests/cypress/screenshots
+
+      - name: Generate report
+        if: ${{ failure() }}
         run: |
-          PLAYWRIGHT_VERSION="$(node -e "console.log(require('./package-lock.json').packages['node_modules/@playwright/test'].version)")"
-          PIN_VERSION=${PLAYWRIGHT_VERSION}-`date +%Y-%m-%d`
-          echo "PLAYWRIGHT_VERSION=$PIN_VERSION" >> $GITHUB_ENV
+          mkdir mochareports
+          npm run generate:html:report
 
-      - name: Cache playwright binaries
-        uses: actions/cache@v3
-        id: playwright-cache
+      - name: Upload report
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
         with:
-          path: |
-            ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
-      - name: Run Playwright deployment tests
-        env:
-          PLAYWRIGHT_BASEURL: ${{ secrets.BASE_URL }}
-          AUTH_BYPASS_SECRET: ${{ secrets.TEST_OVERRIDE_PLAYWRIGHT_TEST_SECRET}}
-        run: npm run test:deployment
-
-      - name: Prepare report for upload
-        if: '!cancelled()'
-        run: |
-          zip -qq -r ${{ inputs.environment }}-${{ env.LAST_COMMIT_SHA }}.zip ./playwright-report/
-
-      - name: Azure login with SPN
-        if: '!cancelled()'
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.CI_REPORTS_AZ_CREDENTIALS }}
-
-      - name: Push report to blob storage
-        if: '!cancelled()'
-        uses: azure/CLI@v1
-        id: azure
-        with:
-          azcliversion: 2.53.0
-          inlineScript: |
-            az storage blob upload \
-              --container-name ${{ secrets.CI_REPORTS_STORAGE_CONTAINER_NAME }} \
-              --account-name ${{ secrets.CI_REPORTS_STORAGE_ACCOUNT_NAME }} \
-              --file "./tests/playwright/${{ inputs.environment }}-${{ env.LAST_COMMIT_SHA }}.zip" \
-              --name "Dfe.FindInformationAcademiesTrusts/${{ inputs.branch-name }}/test-deployment-${{ env.LAST_COMMIT_SHA }}.zip" \
-              --auth-mode login \
-              --overwrite
+          name: reports-${{ inputs.environment }}
+          path: tests/DFE.FindInformationAcademiesTrusts.CypressTests/mochareports
