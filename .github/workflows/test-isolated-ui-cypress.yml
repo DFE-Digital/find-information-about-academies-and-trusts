@@ -45,6 +45,26 @@ jobs:
       - name: Run the cypress tests
         run: npm run cy:run -- --env url=http://localhost,authKey=TestSuperSecret
         
+      - name: Upload screenshots
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: screenshots-${{ needs.set-env.outputs.environment }}
+          path: tests/DFE.FindInformationAcademiesTrusts.CypressTests/cypress/screenshots
+
+      - name: Generate report
+        if: always()
+        run: |
+          mkdir mochareports
+          npm run generate:html:report
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: reports-${{ needs.set-env.outputs.environment }}
+          path: tests/DFE.FindInformationAcademiesTrusts.CypressTests/mochareports
+        
       - name: Stop services
         if: always()
         working-directory: ./docker
