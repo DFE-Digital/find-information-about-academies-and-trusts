@@ -83,9 +83,9 @@ public class TrustProvider : ITrustProvider
                         gl,
                         _academiesDbContext.GiasEstablishments.First(e => e.Urn.ToString() == gl.Urn),
                         _academiesDbContext.MisEstablishments.FirstOrDefault(me =>
-                            me.UrnAtTimeOfLatestFullInspection.ToString() == gl.Urn),
+                            me.Urn.ToString() == gl.Urn || me.UrnAtTimeOfLatestFullInspection.ToString() == gl.Urn),
                         _academiesDbContext.MisEstablishments.FirstOrDefault(me =>
-                            me.UrnAtTimeOfPreviousFullInspection.ToString() == gl.Urn),
+                            me.Urn.ToString() == gl.Urn || me.UrnAtTimeOfPreviousFullInspection.ToString() == gl.Urn),
                         _academiesDbContext.MisFurtherEducationEstablishments.FirstOrDefault(mfe =>
                             mfe.ProviderUrn.ToString() == gl.Urn))
             )
