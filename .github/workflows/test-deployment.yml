@@ -45,14 +45,14 @@ jobs:
 
 -     - name: Run the cypress tests
         run: npm run cy:deployment -- --env url=${{ secrets.BASE_URL }},authKey=${{ secrets.TEST_OVERRIDE_PLAYWRIGHT_TEST_SECRET}}
-        
+
       - name: Upload screenshots
         if: ${{ failure() }}
         uses: actions/upload-artifact@v3
         with:
           name: screenshots-${{ inputs.environment }}
           path: tests/DFE.FindInformationAcademiesTrusts.CypressTests/cypress/screenshots
-
+          
       - name: Generate report
         if: ${{ failure() }}
         run: |
