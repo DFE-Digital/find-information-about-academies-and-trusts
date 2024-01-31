@@ -1,4 +1,4 @@
-name: Lint assets and playwright tests
+name: Lint project
 on:
   pull_request:
     branches: [ main, '**-feature' ]
@@ -21,12 +21,12 @@ jobs:
         cache: npm
         cache-dependency-path: |
           DfE.FindInformationAcademiesTrusts/package-lock.json
-          tests/playwright/package-lock.json
+          tests/DFE.FindInformationAcademiesTrusts.CypressTests/package-lock.json
 
     - name: Install dependencies
       run: |
         (cd DfE.FindInformationAcademiesTrusts && npm ci)
-        (cd tests/playwright && npm ci)
+        (cd tests/DFE.FindInformationAcademiesTrusts.CypressTests && npm ci)
 
     - name: Analyse front end assets
       run: |
@@ -34,4 +34,4 @@ jobs:
 
     - name: Analyse playwright tests
       run: |
-        cd tests/playwright && npm run lint
+        cd tests/\DFE.FindInformationAcademiesTrusts.CypressTests && npm run lint

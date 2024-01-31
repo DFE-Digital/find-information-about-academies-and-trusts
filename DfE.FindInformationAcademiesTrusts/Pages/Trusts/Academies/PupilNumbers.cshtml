@@ -21,17 +21,17 @@
       @foreach (var academy in Model.Trust.Academies)
       {
         <tr class="govuk-table__row" data-testid="academy-row">
-          <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@academy.EstablishmentName">
-            @academy.EstablishmentName<br/><span class="govuk-!-font-weight-regular">URN: @academy.Urn</span>
+            <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@academy.EstablishmentName" data-testid="school-name">
+            @academy.EstablishmentName<br/><span class="govuk-!-font-weight-regular" data-testid="urn">URN: @academy.Urn</span>
           </th>
-          <td class="govuk-body govuk-table__cell" data-sort-value="@Model.PhaseAndAgeRangeSortValue(academy)">
+          <td class="govuk-body govuk-table__cell" data-sort-value="@Model.PhaseAndAgeRangeSortValue(academy)" data-testid="phase-and-age-range">
             @academy.PhaseOfEducation<br/>
             @academy.AgeRange.Minimum - @academy.AgeRange.Maximum
           </td>
 
-          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.NumberOfPupils">@academy.NumberOfPupils?.ToString("N0")</td>
-          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.SchoolCapacity">@academy.SchoolCapacity?.ToString("N0")</td>
-          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.PercentageFull">
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.NumberOfPupils" data-testid="pupil-numbers">@academy.NumberOfPupils?.ToString("N0")</td>
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.SchoolCapacity" data-testid="pupil-capacity">@academy.SchoolCapacity?.ToString("N0")</td>
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.PercentageFull" data-testid="percentage-full">
             @if (academy.PercentageFull is not null)
             {
               @academy.PercentageFull?.ToString("N0")<span>%</span>

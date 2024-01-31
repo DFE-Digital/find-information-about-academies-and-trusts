@@ -20,22 +20,22 @@
       @foreach (var academy in Model.Trust.Academies)
       {
         <tr class="govuk-table__row" data-testid="academy-row">
-          <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@academy.EstablishmentName">
-            @academy.EstablishmentName<br/><span class="govuk-!-font-weight-regular">URN: @academy.Urn</span>
+          <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@academy.EstablishmentName" data-testid="school-name">
+            @academy.EstablishmentName<br/><span class="govuk-!-font-weight-regular" data-testid="urn">URN: @academy.Urn</span>
           </th>
-          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.PercentageFreeSchoolMeals">
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.PercentageFreeSchoolMeals" data-testid="pupils-eligible">
             @if (academy.PercentageFreeSchoolMeals is not null)
             {
               @academy.PercentageFreeSchoolMeals?.ToString("N1")<span>%</span>
             }
           </td>
           @{ var academyTypeLaAverage = Model.GetLaAverageFreeSchoolMeals(academy); }
-          <td class="govuk-body govuk-table__cell" data-sort-value="@academyTypeLaAverage">
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academyTypeLaAverage" data-testid="local-authority-average">
             @academyTypeLaAverage.ToString("N1")%
           </td>
 
           @{ var academyTypeNationalAverage = Model.GetNationalAverageFreeSchoolMeals(academy); }
-          <td class="govuk-body govuk-table__cell" data-sort-value="@academyTypeNationalAverage">
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academyTypeNationalAverage" data-testid="national-average">
             @academyTypeNationalAverage.ToString("N1")%
           </td>
         </tr>

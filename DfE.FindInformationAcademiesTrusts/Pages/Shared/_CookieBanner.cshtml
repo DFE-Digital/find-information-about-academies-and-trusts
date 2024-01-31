@@ -12,13 +12,13 @@
         </div>
       </div>
       <div class="govuk-button-group">
-        <a role="button" draggable="false" class="govuk-button govuk-!-margin-bottom-2" asp-page="/cookies" asp-route-consent="true" asp-route-returnPath="@CookiesHelper.ReturnPath(Context)">
+        <a role="button" draggable="false" class="govuk-button govuk-!-margin-bottom-2" asp-page="/cookies" asp-route-consent="true" asp-route-returnPath="@CookiesHelper.ReturnPath(Context)" data-testid="banner-accept-analytics-cookies-button">
           Accept analytics cookies
         </a>
-        <a role="button" draggable="false" class="govuk-button govuk-!-margin-bottom-2" asp-page="/cookies" asp-route-consent="false" asp-route-returnPath="@CookiesHelper.ReturnPath(Context)">
+        <a role="button" draggable="false" class="govuk-button govuk-!-margin-bottom-2" asp-page="/cookies" asp-route-consent="false" asp-route-returnPath="@CookiesHelper.ReturnPath(Context)" data-testid="banner-reject-analytics-cookies-button">
           Reject analytics cookies
         </a>
-        <a class="govuk-link" asp-page="/cookies" asp-route-returnPath="@CookiesHelper.ReturnPath(Context)">View cookies</a>
+        <a class="govuk-link" asp-page="/cookies" asp-route-returnPath="@CookiesHelper.ReturnPath(Context)" data-testid="banner-view-cookies">View cookies</a>
       </div>
     </div>
   </div>

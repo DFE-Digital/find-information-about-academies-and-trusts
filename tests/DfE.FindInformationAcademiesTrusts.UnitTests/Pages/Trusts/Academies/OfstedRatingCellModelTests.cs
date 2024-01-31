@@ -132,7 +132,8 @@ public class OfstedRatingCellModelTests
         return new OfstedRatingCellModel
         {
             AcademyJoinedDate = new DateTime(2022, 3, 2),
-            OfstedRating = new OfstedRating(OfstedRatingScore.Good, new DateTime(2020, 11, 1))
+            OfstedRating = new OfstedRating(OfstedRatingScore.Good, new DateTime(2020, 11, 1)),
+            IdPrefix = ""
         };
     }
 

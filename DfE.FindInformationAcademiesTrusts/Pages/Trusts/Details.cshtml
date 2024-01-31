@@ -15,7 +15,7 @@
           <dt class="govuk-summary-list__key">
             Address
           </dt>
-          <dd class="govuk-summary-list__value">
+          <dd class="govuk-summary-list__value" data-testid="address">
             @Model.Trust.Address
           </dd>
         </div>
@@ -23,7 +23,7 @@
           <dt class="govuk-summary-list__key">
             Opened on
           </dt>
-          <dd class="govuk-summary-list__value">
+          <dd class="govuk-summary-list__value" data-testid="opened-on">
             @if (Model.Trust.OpenedDate is not null)
             {
               @Model.Trust.OpenedDate.Value.ToString(StringFormatConstants.ViewDate)
@@ -34,7 +34,7 @@
           <dt class="govuk-summary-list__key">
             Region and territory
           </dt>
-          <dd class="govuk-summary-list__value">
+          <dd class="govuk-summary-list__value" data-testid="region-and-territory">
             @Model.Trust.RegionAndTerritory
           </dd>
         </div>
@@ -85,7 +85,7 @@
           <dt class="govuk-summary-list__key">
             UID (Unique group identifier)
           </dt>
-          <dd class="govuk-summary-list__value">
+          <dd class="govuk-summary-list__value" data-testid="trust-uid">
             @Model.Trust.Uid
           </dd>
         </div>
@@ -93,7 +93,7 @@
           <dt class="govuk-summary-list__key">
             Group ID (identifier) and TRN (trust reference number)
           </dt>
-          <dd class="govuk-summary-list__value">
+          <dd class="govuk-summary-list__value" data-testid="trust-reference-number">
             @Model.Trust.GroupId
           </dd>
         </div>
@@ -101,7 +101,7 @@
           <dt class="govuk-summary-list__key">
             UKPRN (UK provider reference number)
           </dt>
-          <dd class="govuk-summary-list__value">
+          <dd class="govuk-summary-list__value" data-testid="ukprn">
             @Model.Trust.Ukprn
           </dd>
         </div>
@@ -109,7 +109,7 @@
           <dt class="govuk-summary-list__key">
             Companies House number
           </dt>
-          <dd class="govuk-summary-list__value">
+                    <dd class="govuk-summary-list__value" data-testid="companies-house-number">
             @Model.Trust.CompaniesHouseNumber
           </dd>
         </div>

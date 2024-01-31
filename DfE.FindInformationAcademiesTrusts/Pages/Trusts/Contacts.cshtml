@@ -13,13 +13,13 @@
     </div>
     <div class="govuk-summary-card__content">
       <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__row" data-testid="trust-relationship-manager">
           <dt class="govuk-summary-list__key">
             Trust relationship manager
           </dt>
           @{ DisplayContact(Model.Trust.TrustRelationshipManager); }
         </div>
-        <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__row" data-testid="sfso-lead">
           <dt class="govuk-summary-list__key">
             SFSO (Schools financial support and oversight) lead
           </dt>
@@ -37,19 +37,19 @@
     </div>
     <div class="govuk-summary-card__content">
       <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__row" data-testid="accounting-officer">
           <dt class="govuk-summary-list__key">
             Accounting officer
           </dt>
           @{ DisplayContact(Model.AccountingOfficer); }
         </div>
-        <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__row" data-testid="chair-of-trustees">
           <dt class="govuk-summary-list__key">
             Chair of trustees
           </dt>
           @{ DisplayContact(Model.ChairOfTrustees); }
         </div>
-        <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__row" data-testid="chief-financial-officer">
           <dt class="govuk-summary-list__key">
             Chief financial officer
           </dt>
@@ -75,7 +75,7 @@
       {
         @if (!string.IsNullOrWhiteSpace(contactToDisplay.FullName))
         {
-          <p class="govuk-body">@contactToDisplay.FullName</p>
+          <p class="govuk-body" data-testid="contact-name">@contactToDisplay.FullName</p>
         }
         else
         {
@@ -85,7 +85,7 @@
         <p class="govuk-body">
           @if (contactToDisplay.Email is not null)
           {
-            <a class="govuk-link" href="mailto:@contactToDisplay.Email" rel="noopener" target="_blank">@contactToDisplay.Email</a>
+            <a class="govuk-link" href="mailto:@contactToDisplay.Email" rel="noopener" target="_blank" data-testid="contact-email">@contactToDisplay.Email</a>
           }
           else
           {

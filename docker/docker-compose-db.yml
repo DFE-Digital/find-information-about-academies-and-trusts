@@ -13,6 +13,7 @@ services:
       test: /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P "mySuperStrong_pa55word!!!"
       interval: "2s"
       retries: 10
+    restart: always
   generate-sql:
     build:
       context: ..

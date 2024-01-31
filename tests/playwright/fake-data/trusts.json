@@ -25775,5 +25775,12 @@
       "email": "Jennie.Greenholt@education.gov.uk"
     },
     "status": "Open"
+  },
+  {
+    "uid": "1313",
+    "name": "The empty trust",
+    "groupId": "TR3943",
+    "type": "Single-academy trust",
+    "academies": []
   }
 ]
