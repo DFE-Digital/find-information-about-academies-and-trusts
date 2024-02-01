@@ -59,8 +59,7 @@ flowchart TB
   subgraph test[Test environment]
     direction TB
     test1[Deployment smoke tests]
-    test1-->test2
-    test2-->manual
+    test1-->manual
     subgraph manual[Manual testing if significant UI change]
       manual1[Manual exploratory tests]
       manual2[Manual accessibility tests]
