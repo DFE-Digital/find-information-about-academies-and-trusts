@@ -78,8 +78,8 @@ Then you can either run:
 1. Run your local application against the fake database
 
     The `docker-compose.db.yml` file is used for running our Cypress tests in an isolated environment against a fake database — which you can also use for local development.
-    
-    ```
+
+    ```bash
     # build and run the application and a local db containing fake data -> most useful for tests
     docker compose -f ~/docker/docker-compose.db.yml up -d --build  
     ```

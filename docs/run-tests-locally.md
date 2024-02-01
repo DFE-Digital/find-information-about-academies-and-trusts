@@ -4,7 +4,7 @@ Use this documentation to run tests locally.
 
 - [Unit tests](#unit-tests)
 - [Accessibility and UI tests](#accessibility-and-ui-tests)
-- [Owasp Zap security tests](#integration-and-deployment-tests)
+- [Owasp Zap security tests](#owasp-zap-security-tests)
 
 ## Unit tests
 
@@ -23,10 +23,12 @@ Accessibility and UI tests are written using [Cypress](https://www.cypress.io/),
 1. Ensure the Docker engine is running.
 1. Create the file `tests/DFE.FindInformationAcademiesTrusts.CypressTests/cypress.env.json`
 
+        ```json
         {
             "url": "http://localhost/",
             "authKey": "TestSuperSecret"
         }
+        ```
 
 1. Open a terminal in your repository and run:
 
@@ -53,12 +55,12 @@ These can be run using the configured `docker-compose.yml`, which will spin up c
 Create a `.env` file for docker, this file needs to include
 
 - all of your required cypress configuration
-- HTTP_PROXY e.g. http://zap:8080
+- HTTP_PROXY e.g. `http://zap:8080`
 - ZAP_API_KEY, can be any random guid
 
 Example env:
 
-```
+```env
 URL=<Enter URL>
 USERNAME=<Enter username>
 API=<Enter API>
@@ -83,7 +85,7 @@ e.g. NO_PROXY=google.com,yahoo.co.uk
 
 Alternatively, you can run the Cypress tests against an existing ZAP proxy by setting the environment configuration
 
-```
+```env
 HTTP_PROXY="<zap-daemon-url>"
 NO_PROXY="<list-of-urls-to-ignore>"
 ```
