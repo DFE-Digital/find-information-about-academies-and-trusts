@@ -1,8 +1,8 @@
 # Update test data
 
-Accessibility and UI tests are written using Playwright, with external dependencies (e.g. APIs) mocked using a fake database.
+Accessibility and UI tests are written using Cypress, with external dependencies (e.g. APIs) mocked using a fake database.
 
-We use a console application to generate test data, which is added to a fake version of the Academies database before [running the tests](run-tests-locally.md#accessibility-and-ui-tests). Playwright tests are run against a saved version of this fake data.
+We use a console application to generate test data, which is added to a fake version of the Academies database before [running the tests](run-tests-locally.md#accessibility-and-ui-tests). Cypress tests are run against a saved version of this fake data.
 
 We decided that having the data generated every time the container was run was too difficult to maintain.
 
