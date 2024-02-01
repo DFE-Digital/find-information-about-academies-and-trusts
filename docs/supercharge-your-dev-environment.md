@@ -67,11 +67,7 @@ npm run lint:fix ## to scan and fix issues
 We use `markdownlint` to check for lint issues on Markdown files in the pipeline.
 You can install the [VS code extension](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint) to check your files locally.
 
-## Playwright tests
-
-We recommend using VS code to write playwright tests, so that you can take advantage of the extension [Playwright Test for VSCode](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright)
-
-### Linting playwright tests
+### Linting cypress tests
 
 Tests are written in TypeScript and we are using `ts-standard` for linting.
 You can configure VS code to use standard as your default formatter:
@@ -86,12 +82,4 @@ You can configure VS code to use standard as your default formatter:
     "editor.defaultFormatter": "standard.vscode-standard"
   }
 }
-```
-
-Alternatively you can use the CLI to check and fix lint issues:
-
-```bash
-cd tests/playwright
-npm run lint ## for a list of issues
-npm run lint:fix ## to scan and fix issues
 ```

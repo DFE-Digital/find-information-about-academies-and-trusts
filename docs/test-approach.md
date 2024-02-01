@@ -46,7 +46,6 @@ flowchart TB
 
   subgraph dev[Development environment]
     dev1[Deployment smoke tests]
-    dev2[Integration tests]
     dev3[Automated security tests - ZAP]
   end
 
@@ -60,9 +59,7 @@ flowchart TB
   subgraph test[Test environment]
     direction TB
     test1[Deployment smoke tests]
-    test1-->test2
-    test2[Integration tests]
-    test2-->manual
+    test1-->manual
     subgraph manual[Manual testing if significant UI change]
       manual1[Manual exploratory tests]
       manual2[Manual accessibility tests]
@@ -129,10 +126,6 @@ Component tests ensure that the units within the application work together as ex
 #### UI
 
 UI tests verify that the UI behaves as it should under both happy and unhappy path conditions. These tests are are run in an isolated environment with external dependencies (such as APIs and databases) mocked.
-
-#### Integration
-
-Integration tests ensure that the application integrates with other services such as APIs and databases correctly. They are run against Dev and Test environments.
 
 #### Deployment
 
