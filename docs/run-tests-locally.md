@@ -4,7 +4,7 @@ Use this documentation to run tests locally.
 
 - [Unit tests](#unit-tests)
 - [Accessibility and UI tests](#accessibility-and-ui-tests)
-- [Owasp Zap security tests](#owasp-zap-security-tests)
+- [Security testing with zap](#security-testing-with-zap)
 
 ## Unit tests
 
@@ -23,12 +23,12 @@ Accessibility and UI tests are written using [Cypress](https://www.cypress.io/),
 1. Ensure the Docker engine is running.
 1. Create the file `tests/DFE.FindInformationAcademiesTrusts.CypressTests/cypress.env.json`
 
-        ```json
-        {
-            "url": "http://localhost/",
-            "authKey": "TestSuperSecret"
-        }
-        ```
+```json
+{
+    "url": "http://localhost/",
+    "authKey": "TestSuperSecret"
+}
+```
 
 1. Open a terminal in your repository and run:
 
