@@ -54,7 +54,7 @@ jobs:
     needs: set-env
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
 
@@ -64,7 +64,7 @@ jobs:
           git push origin ${{ needs.set-env.outputs.release }}
 
       - name: Create release
-        uses: "actions/github-script@v6"
+        uses: "actions/github-script@v7"
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           script: |
