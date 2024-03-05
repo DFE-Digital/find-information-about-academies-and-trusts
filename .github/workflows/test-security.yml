@@ -109,7 +109,7 @@ jobs:
 
       - name: Azure login with SPN
         if: '!cancelled()'
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
           creds: ${{ secrets.CI_REPORTS_AZ_CREDENTIALS }}
 
@@ -130,7 +130,7 @@ jobs:
 
       - name: Azure login with SPN
         if: '!cancelled()'
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
           creds: ${{ secrets.OWASP_AZ_CREDENTIALS }}
 
