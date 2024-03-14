@@ -115,7 +115,7 @@ jobs:
 
       - name: Push report to blob storage
         if: '!cancelled()'
-        uses: azure/CLI@v1
+        uses: azure/CLI@v2
         id: azure
         with:
           azcliversion: 2.53.0
@@ -136,7 +136,7 @@ jobs:
 
       - name: Push report to blob storage
         if: '!cancelled()'
-        uses: azure/CLI@v1
+        uses: azure/CLI@v2
         with:
           azcliversion: 2.53.0
           inlineScript: |
