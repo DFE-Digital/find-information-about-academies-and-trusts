@@ -50,7 +50,6 @@ locals {
   existing_logic_app_workflow                  = var.existing_logic_app_workflow
   existing_network_watcher_name                = var.existing_network_watcher_name
   existing_network_watcher_resource_group_name = var.existing_network_watcher_resource_group_name
-  key_vault_access_users                       = var.key_vault_access_users
   key_vault_access_ipv4                        = var.key_vault_access_ipv4
   tfvars_filename                              = var.tfvars_filename
   statuscake_monitored_resource_addresses      = var.statuscake_monitored_resource_addresses
