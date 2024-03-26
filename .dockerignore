@@ -1,0 +1,37 @@
+### Dotfiles
+.dockerignore
+.env
+.git
+.gitignore
+.github
+.vs
+.vscode
+
+### Docker
+docker-compose.yml
+docker-compose.*.yml
+docker/
+!docker/web-docker-entrypoint.sh
+
+### Docs
+docs
+
+### Mac
+.DS_Store
+
+### .NET
+bin/
+obj/
+dist/
+lib/
+*.user
+
+### Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+zap-reports/
+.auth/
+
+### Terraform
+terraform/
