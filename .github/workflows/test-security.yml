@@ -16,12 +16,12 @@ env:
 
 jobs:
   run-tests-with-zap:
-    name: Run Playwright tests with OWASP ZAP
+    name: Run Cypress tests with OWASP ZAP
     environment: development
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: tests/playwright
+        working-directory: tests/DFE.FindInformationAcademiesTrusts.CypressTests
     steps:
       - uses: actions/checkout@v4
         with:
@@ -67,66 +67,22 @@ jobs:
           cache: npm
           cache-dependency-path: |
             DfE.FindInformationAcademiesTrusts/package-lock.json
-            tests/playwright/package-lock.json
+            tests/DFE.FindInformationAcademiesTrusts.CypressTests/package-lock.json
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Pin Playwright cache key
-        id: playwright-version
-        run: |
-          PLAYWRIGHT_VERSION="$(node -e "console.log(require('./package-lock.json').packages['node_modules/@playwright/test'].version)")"
-          PIN_VERSION=${PLAYWRIGHT_VERSION}-`date +%Y-%m-%d`
-          echo "PLAYWRIGHT_VERSION=$PIN_VERSION" >> $GITHUB_ENV
-
-      - name: Cache playwright binaries
-        uses: actions/cache@v4
-        id: playwright-cache
-        with:
-          path: |
-            ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
-      - name: Run Playwright security tests
+      - name: Run security tests
         env:
           CI: true
-          PLAYWRIGHT_BASEURL: ${{ secrets.BASE_URL }}
+          BASE_URL: ${{ secrets.BASE_URL }}
           HTTP_PROXY: "http://${{ env.ZAP_ADDRESS }}:${{ env.ZAP_PORT }}"
           NO_PROXY: ".gvt1.com"
           ZAP: true
           ZAP_API_KEY: ${{ env.ZAP_API_KEY }}
           ZAP_ADDRESS: ${{ env.ZAP_ADDRESS }}
           ZAP_PORT: ${{ env.ZAP_PORT }}
-        run: npx playwright test --project=zap-tests
-
-      - name: Prepare report for upload
-        if: '!cancelled()'
-        run: |
-          zip -qq -r ${{ inputs.environment }}-${{ env.LAST_COMMIT_SHA }}.zip ./playwright-report/
-
-      - name: Azure login with SPN
-        if: '!cancelled()'
-        uses: azure/login@v2
-        with:
-          creds: ${{ secrets.CI_REPORTS_AZ_CREDENTIALS }}
-
-      - name: Push report to blob storage
-        if: '!cancelled()'
-        uses: azure/CLI@v2
-        id: azure
-        with:
-          azcliversion: 2.53.0
-          inlineScript: |
-            az storage blob upload \
-              --container-name ${{ secrets.CI_REPORTS_STORAGE_CONTAINER_NAME }} \
-              --account-name ${{ secrets.CI_REPORTS_STORAGE_ACCOUNT_NAME }} \
-              --file "./tests/playwright/${{ inputs.environment }}-${{ env.LAST_COMMIT_SHA }}.zip" \
-              --name "Dfe.FindInformationAcademiesTrusts/${{ github.ref_name }}/test-security-${{ env.LAST_COMMIT_SHA }}.zip" \
-              --auth-mode login \
-              --overwrite
+        run: npm run cy:deployment -- --env url=${{ secrets.BASE_URL }},authKey=${{ secrets.TEST_OVERRIDE_CYPRESS_TEST_SECRET}}
 
       - name: Azure login with SPN
         if: '!cancelled()'

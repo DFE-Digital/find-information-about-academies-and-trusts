@@ -8,7 +8,6 @@ on:
       - 'DfE.FindInformationAcademiesTrusts.Data/**'
       - 'DfE.FindInformationAcademiesTrusts.Data.AcademiesDb/**'
       - 'tests/**'
-      - '!tests/playwright/**'
   pull_request:
     branches: [ main, '**-feature' ]
     types: [ opened, synchronize, reopened]
@@ -17,7 +16,6 @@ on:
       - 'DfE.FindInformationAcademiesTrusts.Data/**'
       - 'DfE.FindInformationAcademiesTrusts.Data.AcademiesDb/**'
       - 'tests/**'
-      - '!tests/playwright/**'
 
 env:
   JAVA_VERSION: '17'

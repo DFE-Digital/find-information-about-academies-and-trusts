@@ -26,10 +26,8 @@ lib/
 ### Node
 node_modules/
 
-### Playwright
+### Cypress
 test-results/
-playwright-report/
-playwright/.cache/
 zap-reports/
 .auth/
 

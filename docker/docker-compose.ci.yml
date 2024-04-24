@@ -48,7 +48,7 @@ services:
       - test-ci
     environment:
       - ASPNETCORE_ENVIRONMENT=CI
-      - TestOverride__PlaywrightTestSecret=TestSuperSecret
+      - TestOverride__CypressTestSecret=TestSuperSecret
       - ConnectionStrings__AcademiesDb=Server=sqlserver;Database=sip;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true;
 
 networks:

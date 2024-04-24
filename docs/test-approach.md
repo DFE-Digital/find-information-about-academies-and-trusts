@@ -96,7 +96,7 @@ flowchart TB
 
 ### Accessibility testing
 
-**Automated** - create/modify a Playwright-axe accessibilty test. Axe will only test the current state of the elements on the screen so make sure different visual states (e.g. expanded/collapsed, hover) are explicitly set and tested.
+**Automated** - create/modify a Cypress-axe accessibilty test. Axe will only test the current state of the elements on the screen so make sure different visual states (e.g. expanded/collapsed, hover) are explicitly set and tested.
 
 **Manual** - use the [Accessibility Insights for Web Chrome extension](https://accessibilityinsights.io/docs/web/overview/) and follow the [assessment guide](https://accessibilityinsights.io/docs/web/getstarted/assessment/).
 
@@ -104,7 +104,7 @@ flowchart TB
 
 Our application is designed to support Microsoft Edge and Google Chrome laptop/PC users.
 
-**Automated** - by default all Playwright tests are run across multiple browsers. Note that automated tests can only check the functionality of a page and will not spot visual differences between browsers.
+**Automated** - by default all Cypress tests are run against Google Chrome in CI. Note that automated tests can only check the functionality of a page and will not spot visual differences between browsers.
 
 **Manual** - exploratory testing on Google Chrome and Microsoft Edge to ensure there are no visual differences between browsers.
 

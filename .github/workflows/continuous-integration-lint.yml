@@ -32,6 +32,6 @@ jobs:
       run: |
         cd DfE.FindInformationAcademiesTrusts && npm run lint
 
-    - name: Analyse playwright tests
+    - name: Analyse Cypress tests
       run: |
         cd tests/\DFE.FindInformationAcademiesTrusts.CypressTests && npm run lint

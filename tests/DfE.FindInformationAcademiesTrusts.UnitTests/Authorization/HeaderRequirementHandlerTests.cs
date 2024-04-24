@@ -24,7 +24,7 @@ public class HeaderRequirementHandlerTests
 
         _mockHttpAccessor.Setup(m => m.HttpContext).Returns(_httpContext);
         _mockTestOverrideOptions.Setup(m => m.Value)
-            .Returns(new TestOverrideOptions { PlaywrightTestSecret = "123" });
+            .Returns(new TestOverrideOptions { CypressTestSecret = "123" });
         _mockWebHostEnvironment.SetupGet(m => m.EnvironmentName).Returns("Development");
 
         _sut = new HeaderRequirementHandler(_mockWebHostEnvironment.Object, _mockHttpAccessor.Object,
@@ -75,7 +75,7 @@ public class HeaderRequirementHandlerTests
     {
         _httpContext.Request.Headers.Add(HeaderNames.Authorization, $"Bearer {headerAuthKey}");
         _mockTestOverrideOptions.Setup(m => m.Value)
-            .Returns(new TestOverrideOptions { PlaywrightTestSecret = serverAuthKey });
+            .Returns(new TestOverrideOptions { CypressTestSecret = serverAuthKey });
 
         var result = _sut.IsClientSecretHeaderValid();
 
