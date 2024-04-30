@@ -132,9 +132,7 @@ If everything looks good, answer `yes` and wait for the new infrastructure to be
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.99.0 |
+No providers.
 
 ## Modules
 
@@ -146,13 +144,7 @@ If everything looks good, answer `yes` and wait for the new infrastructure to be
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [azurerm_monitor_diagnostic_setting.ci-test-reports](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
-| [azurerm_storage_account.ci-test-reports](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
-| [azurerm_storage_container.ci-test-reports](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
-| [azurerm_storage_management_policy.ci-test-reports](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_management_policy) | resource |
-| [azurerm_storage_account_blob_container_sas.ci-test-reports](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/storage_account_blob_container_sas) | data source |
+No resources.
 
 ## Inputs
 
@@ -184,7 +176,6 @@ If everything looks good, answer `yes` and wait for the new infrastructure to be
 | <a name="input_dns_zone_domain_name"></a> [dns\_zone\_domain\_name](#input\_dns\_zone\_domain\_name) | DNS zone domain name. If created, records will automatically be created to point to the CDN. | `string` | n/a | yes |
 | <a name="input_enable_cdn_frontdoor"></a> [enable\_cdn\_frontdoor](#input\_enable\_cdn\_frontdoor) | Enable Azure CDN FrontDoor. This will use the Container Apps endpoint as the origin. | `bool` | `false` | no |
 | <a name="input_enable_cdn_frontdoor_health_probe"></a> [enable\_cdn\_frontdoor\_health\_probe](#input\_enable\_cdn\_frontdoor\_health\_probe) | Enable CDN Front Door health probe | `bool` | n/a | yes |
-| <a name="input_enable_ci_report_storage_container"></a> [enable\_ci\_report\_storage\_container](#input\_enable\_ci\_report\_storage\_container) | Deploy a Blob Storage Container to store CI Reports in | `bool` | `false` | no |
 | <a name="input_enable_container_health_probe"></a> [enable\_container\_health\_probe](#input\_enable\_container\_health\_probe) | Enable liveness probes for the Container | `bool` | `true` | no |
 | <a name="input_enable_container_registry"></a> [enable\_container\_registry](#input\_enable\_container\_registry) | Set to true to create a container registry | `bool` | n/a | yes |
 | <a name="input_enable_dns_zone"></a> [enable\_dns\_zone](#input\_enable\_dns\_zone) | Conditionally create a DNS zone | `bool` | n/a | yes |
@@ -222,7 +213,5 @@ If everything looks good, answer `yes` and wait for the new infrastructure to be
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_ci-test-reports-storage-sas-url"></a> [ci-test-reports-storage-sas-url](#output\_ci-test-reports-storage-sas-url) | A SAS tokenised URL for accessing the CI Reports in the Blob Storage Container |
+No outputs.
 <!-- END_TF_DOCS -->
