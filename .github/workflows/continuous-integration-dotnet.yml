@@ -84,31 +84,3 @@ jobs:
         dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
         dotnet stryker -r "cleartext" -r "html" --threshold-high 90 --threshold-low 81 --break-at 80
         dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-
-    - name: Prepare report for upload
-      if: '!cancelled()'
-      run: |
-        zip -qq -r ${{ env.LAST_COMMIT_SHA }}.zip ./StrykerOutput/**/reports/mutation-report.html
-
-    - name: Azure login with SPN
-      if: '!cancelled()'
-      uses: azure/login@v2
-      with:
-        creds: ${{ secrets.CI_REPORTS_AZ_CREDENTIALS }}
-
-    - name: Push report to blob storage
-      if: '!cancelled()'
-      uses: azure/CLI@v2
-      id: azure
-      with:
-        azcliversion: 2.53.0
-        inlineScript: |
-          GIT_REF=${{ github.base_ref }}
-          GIT_BRANCH=${GIT_REF//\//-}
-          az storage blob upload \
-            --container-name ${{ secrets.CI_REPORTS_STORAGE_CONTAINER_NAME }} \
-            --account-name ${{ secrets.CI_REPORTS_STORAGE_ACCOUNT_NAME }} \
-            --file "./${{ env.LAST_COMMIT_SHA }}.zip" \
-            --name "Dfe.FindInformationAcademiesTrusts/$GIT_BRANCH/test-mutation-${{ env.LAST_COMMIT_SHA }}.zip" \
-            --auth-mode login \
-            --overwrite
