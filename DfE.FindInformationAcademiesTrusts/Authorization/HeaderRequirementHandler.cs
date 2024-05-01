@@ -11,20 +11,20 @@ public class HeaderRequirementHandler : AuthorizationHandler<DenyAnonymousAuthor
     IAuthorizationRequirement
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly string? _playwrightTestSecret;
+    private readonly string? _cypressTestSecret;
     private readonly bool _isLiveEnvironment;
 
     public HeaderRequirementHandler(IWebHostEnvironment environment,
         IHttpContextAccessor httpContextAccessor, IOptions<TestOverrideOptions> testOverrideOptions)
     {
         _httpContextAccessor = httpContextAccessor;
-        _playwrightTestSecret = testOverrideOptions.Value.PlaywrightTestSecret;
+        _cypressTestSecret = testOverrideOptions.Value.CypressTestSecret;
         _isLiveEnvironment = environment.IsLiveEnvironment();
     }
 
     public bool IsClientSecretHeaderValid()
     {
-        if (string.IsNullOrWhiteSpace(_playwrightTestSecret) || _isLiveEnvironment)
+        if (string.IsNullOrWhiteSpace(_cypressTestSecret) || _isLiveEnvironment)
             return false;
 
         var requestHeader = _httpContextAccessor.HttpContext?.Request.Headers[HeaderNames.Authorization];
@@ -33,7 +33,7 @@ public class HeaderRequirementHandler : AuthorizationHandler<DenyAnonymousAuthor
 
         var authHeader = requestHeader.Value.ToString().Replace("Bearer ", string.Empty);
 
-        return authHeader == _playwrightTestSecret;
+        return authHeader == _cypressTestSecret;
     }
 
     [ExcludeFromCodeCoverage] // This method is difficult to test, everything that can be tested has been extracted to IsClientSecretHeaderValid

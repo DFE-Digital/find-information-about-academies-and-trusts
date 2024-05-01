@@ -4,5 +4,5 @@ public class TestOverrideOptions
 {
     public const string ConfigurationSection = "TestOverride";
 
-    public string? PlaywrightTestSecret { get; init; }
+    public string? CypressTestSecret { get; init; }
 }

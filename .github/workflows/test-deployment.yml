@@ -44,7 +44,7 @@ jobs:
         run: npm ci
 
       - name: Run the cypress tests
-        run: npm run cy:deployment -- --env url=${{ secrets.BASE_URL }},authKey=${{ secrets.TEST_OVERRIDE_PLAYWRIGHT_TEST_SECRET}}
+        run: npm run cy:deployment -- --env url=${{ secrets.BASE_URL }},authKey=${{ secrets.TEST_OVERRIDE_CYPRESS_TEST_SECRET}}
 
       - name: Upload screenshots
         if: ${{ failure() }}
