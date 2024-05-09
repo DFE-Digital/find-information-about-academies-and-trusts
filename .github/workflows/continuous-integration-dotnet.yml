@@ -8,6 +8,8 @@ on:
       - 'DfE.FindInformationAcademiesTrusts.Data/**'
       - 'DfE.FindInformationAcademiesTrusts.Data.AcademiesDb/**'
       - 'tests/**'
+      - '!tests/DFE.FindInformationAcademiesTrusts.CypressTests'
+      - '*.csproj'
   pull_request:
     branches: [ main, '**-feature' ]
     types: [ opened, synchronize, reopened]
@@ -16,6 +18,8 @@ on:
       - 'DfE.FindInformationAcademiesTrusts.Data/**'
       - 'DfE.FindInformationAcademiesTrusts.Data.AcademiesDb/**'
       - 'tests/**'
+      - '!tests/DFE.FindInformationAcademiesTrusts.CypressTests'
+      - '*.csproj'
 
 env:
   JAVA_VERSION: '17'
