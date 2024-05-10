@@ -8,18 +8,18 @@ on:
       - 'DfE.FindInformationAcademiesTrusts.Data/**'
       - 'DfE.FindInformationAcademiesTrusts.Data.AcademiesDb/**'
       - 'tests/**'
-      - '!tests/DFE.FindInformationAcademiesTrusts.CypressTests'
-      - '*.csproj'
+      - '!tests/DFE.FindInformationAcademiesTrusts.CypressTests/**'
+      - '**/*.csproj'
   pull_request:
     branches: [ main, '**-feature' ]
     types: [ opened, synchronize, reopened]
     paths:
-      - 'DfE.FindInformationAcademiesTrusts/**'
-      - 'DfE.FindInformationAcademiesTrusts.Data/**'
-      - 'DfE.FindInformationAcademiesTrusts.Data.AcademiesDb/**'
-      - 'tests/**'
-      - '!tests/DFE.FindInformationAcademiesTrusts.CypressTests'
-      - '*.csproj'
+       - 'DfE.FindInformationAcademiesTrusts/**'
+       - 'DfE.FindInformationAcademiesTrusts.Data/**'
+       - 'DfE.FindInformationAcademiesTrusts.Data.AcademiesDb/**'
+       - 'tests/**'
+       - '!tests/DFE.FindInformationAcademiesTrusts.CypressTests/**'
+       - '**/*.csproj'
 
 env:
   JAVA_VERSION: '17'
