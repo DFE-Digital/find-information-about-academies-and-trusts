@@ -190,6 +190,8 @@ internal static class Program
             .Bind(builder.Configuration.GetSection(TestOverrideOptions.ConfigurationSection));
         builder.Services.AddOptions<ApplicationInsightsOptions>()
             .Bind(builder.Configuration.GetSection(ApplicationInsightsOptions.ConfigurationSection));
+        builder.Services.AddOptions<NotificationBannerOptions>()
+            .Bind(builder.Configuration.GetSection(NotificationBannerOptions.ConfigurationSection));
     }
 
     private static void AddAuthenticationServices(WebApplicationBuilder builder)
