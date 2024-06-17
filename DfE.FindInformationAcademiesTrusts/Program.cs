@@ -32,7 +32,7 @@ internal static class Program
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            //Reconfigure logging before proceeding so any bootstrap exceptions can be written to App Insights 
+            //Reconfigure logging before proceeding so any bootstrap exceptions can be written to App Insights
             ReconfigureLogging(builder);
 
             AddEnvironmentVariablesTo(builder);
@@ -122,6 +122,7 @@ internal static class Program
                     {
                         "https://js.monitor.azure.com/scripts/b/ai.2.min.js",
                         "https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js",
+                        "https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.8.18.min.js",
                         "https://www.googletagmanager.com"
                     });
                 cspBuilder.AddConnectSrc()
@@ -130,6 +131,7 @@ internal static class Program
                     {
                         "https://*.in.applicationinsights.azure.com//v2/track",
                         "https://*.in.applicationinsights.azure.com/v2/track",
+                        "https://js.monitor.azure.com/scripts/b/ai.config.1.cfg.json",
                         "https://*.google-analytics.com"
                     });
                 cspBuilder.AddObjectSrc().None();
