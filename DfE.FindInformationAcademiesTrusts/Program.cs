@@ -32,6 +32,15 @@ internal static class Program
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Enforce HTTPS in ASP.NET Core
+            // @link https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?
+            builder.Services.AddHsts(options =>
+            {
+                options.Preload = true;
+                options.IncludeSubDomains = true;
+                options.MaxAge = TimeSpan.FromDays(365);
+            });
+
             //Reconfigure logging before proceeding so any bootstrap exceptions can be written to App Insights
             ReconfigureLogging(builder);
 
@@ -66,13 +75,23 @@ internal static class Program
 
     private static void ConfigureHttpRequestPipeline(WebApplication app)
     {
+        // Ensure we do not lose X-Forwarded-* Headers when behind a Proxy
+        var forwardOptions = new ForwardedHeadersOptions {
+            ForwardedHeaders = ForwardedHeaders.All,
+            RequireHeaderSymmetry = false
+        };
+        forwardOptions.KnownNetworks.Clear();
+        forwardOptions.KnownProxies.Clear();
+        app.UseForwardedHeaders(forwardOptions);
+
+        // Set HTTP Security headers
+        app.UseSecurityHeaders(GetSecurityHeaderPolicies());
+
         if (!app.Environment.IsLocalDevelopment())
         {
             app.UseExceptionHandler("/Error");
             app.UseHsts();
         }
-
-        app.UseSecurityHeaders(GetSecurityHeaderPolicies());
 
         app.UseCookiePolicy(new CookiePolicyOptions
         {
@@ -82,12 +101,6 @@ internal static class Program
 
         app.UseHttpsRedirection();
         app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
-        //For Azure AD redirect uri to remain https
-        var forwardOptions = new ForwardedHeadersOptions
-            { ForwardedHeaders = ForwardedHeaders.All, RequireHeaderSymmetry = false };
-        forwardOptions.KnownNetworks.Clear();
-        forwardOptions.KnownProxies.Clear();
-        app.UseForwardedHeaders(forwardOptions);
 
         app.UseStaticFiles();
 
@@ -107,7 +120,7 @@ internal static class Program
     {
         return new HeaderPolicyCollection()
             .AddFrameOptionsDeny()
-            .AddXssProtectionBlock()
+            .AddXssProtectionDisabled()
             .AddContentTypeOptionsNoSniff()
             .AddReferrerPolicyStrictOriginWhenCrossOrigin()
             .RemoveServerHeader()
