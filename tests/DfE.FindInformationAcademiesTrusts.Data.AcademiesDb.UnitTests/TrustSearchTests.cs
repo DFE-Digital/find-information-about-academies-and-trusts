@@ -5,7 +5,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
 
 public class TrustSearchTests
 {
-    private readonly ITrustSearch _sut;
+    private readonly TrustSearch _sut;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext;
 
     public TrustSearchTests()
