@@ -1,4 +1,4 @@
-﻿ARG DOTNET_SDK=7.0
+﻿ARG DOTNET_SDK=8.0
 
 # Build and run console app to generate fake data
 FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_SDK}

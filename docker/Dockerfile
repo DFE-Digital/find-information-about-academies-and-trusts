@@ -1,6 +1,6 @@
-ARG ASPNET_IMAGE_TAG=7.0-bullseye-slim-amd64
+ARG ASPNET_IMAGE_TAG=8.0-bookworm-slim-amd64
 ARG NODEJS_IMAGE_TAG=18-bullseye-slim
-ARG DOTNET_SDK=7.0
+ARG DOTNET_SDK=8.0
 
 # Stage 1 - Build frontend assets
 FROM node:${NODEJS_IMAGE_TAG} as assets
