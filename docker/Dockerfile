@@ -4,14 +4,15 @@ ARG DOTNET_SDK=8.0
 
 # Stage 1 - Build frontend assets
 FROM node:${NODEJS_IMAGE_TAG} as assets
-COPY . .
-WORKDIR /DfE.FindInformationAcademiesTrusts
+COPY . /repo
+WORKDIR /repo/DfE.FindInformationAcademiesTrusts
 RUN npm install
 RUN npm run build
 
 # Stage 2 - Build and publish dotnet application
 FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_SDK} AS publish
-COPY --from=assets . .
+COPY --from=assets /repo /repo
+WORKDIR /repo
 RUN dotnet restore DfE.FindInformationAcademiesTrusts
 RUN dotnet build DfE.FindInformationAcademiesTrusts -c Release
 RUN dotnet publish DfE.FindInformationAcademiesTrusts -c Release -o /app --no-build
