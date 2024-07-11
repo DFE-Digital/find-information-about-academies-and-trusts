@@ -79,7 +79,7 @@ public class OverviewModelTests
     }
 
     [Fact]
-    public async void OnGetAsync_sets_pupil_percentage_on_multi_academy_trust()
+    public async Task OnGetAsync_sets_pupil_percentage_on_multi_academy_trust()
     {
         SetupTrustWithMultipleAcademies();
         await _sut.OnGetAsync();
@@ -87,7 +87,7 @@ public class OverviewModelTests
     }
 
     [Fact]
-    public async void OnGetAsync_sets_pupil_percentage_on_single_academy_trust()
+    public async Task OnGetAsync_sets_pupil_percentage_on_single_academy_trust()
     {
         SetupTrustWithSingleAcademy();
         await _sut.OnGetAsync();
@@ -96,7 +96,7 @@ public class OverviewModelTests
 
 
     [Fact]
-    public async void OnGetAsync_sets_pupil_percentage_on_trust_with_no_academies()
+    public async Task OnGetAsync_sets_pupil_percentage_on_trust_with_no_academies()
     {
         SetupTrustWithNoAcademies();
         await _sut.OnGetAsync();
@@ -104,7 +104,7 @@ public class OverviewModelTests
     }
 
     [Fact]
-    public async void OnGetAsync_sets_list_of_local_authorities()
+    public async Task OnGetAsync_sets_list_of_local_authorities()
     {
         SetupTrustWithMultipleAcademies();
         var expectedLocalAuthorityCount = new (string? Authority, int Total)[]
@@ -119,7 +119,7 @@ public class OverviewModelTests
     }
 
     [Fact]
-    public async void OnGetAsync_sets_ofsted_ratings_list_correctly()
+    public async Task OnGetAsync_sets_ofsted_ratings_list_correctly()
     {
         SetupTrustWithMultipleAcademies();
         var expectedOfstedRatingCount = new (OfstedRatingScore Rating, int Total)[]
@@ -137,7 +137,7 @@ public class OverviewModelTests
     }
 
     [Fact]
-    public async void OnGetAsync_ofsted_score_count_returns_correct_number_of_ratings()
+    public async Task OnGetAsync_ofsted_score_count_returns_correct_number_of_ratings()
     {
         SetupTrustWithMultipleAcademies();
         await _sut.OnGetAsync();
@@ -146,7 +146,7 @@ public class OverviewModelTests
     }
 
     [Fact]
-    public async void OnGetAsync_ofsted_score_count_returns_zero_ratings_when_non_exist()
+    public async Task OnGetAsync_ofsted_score_count_returns_zero_ratings_when_non_exist()
     {
         SetupTrustWithSingleAcademy();
         await _sut.OnGetAsync();
@@ -155,7 +155,7 @@ public class OverviewModelTests
     }
 
     [Fact]
-    public async void OnGetAsync_returns_correct_number_of_academies_for_single_academy_trust()
+    public async Task OnGetAsync_returns_correct_number_of_academies_for_single_academy_trust()
     {
         SetupTrustWithSingleAcademy();
         await _sut.OnGetAsync();
@@ -164,7 +164,7 @@ public class OverviewModelTests
     }
 
     [Fact]
-    public async void OnGetAsync_returns_correct_number_of_academies_for_multi_academy_trust()
+    public async Task OnGetAsync_returns_correct_number_of_academies_for_multi_academy_trust()
     {
         SetupTrustWithMultipleAcademies();
         await _sut.OnGetAsync();
@@ -173,7 +173,7 @@ public class OverviewModelTests
     }
 
     [Fact]
-    public async void OnGetAsync_returns_correct_number_of_academies_for_trust_with_no_academies()
+    public async Task OnGetAsync_returns_correct_number_of_academies_for_trust_with_no_academies()
     {
         SetupTrustWithNoAcademies();
         await _sut.OnGetAsync();

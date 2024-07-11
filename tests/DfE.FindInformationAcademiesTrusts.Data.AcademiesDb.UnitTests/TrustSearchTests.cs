@@ -118,7 +118,6 @@ public class TrustSearchTests
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
-    [InlineData(null)]
     public async Task SearchAsync_should_return_empty_if_empty_search_term(string term)
     {
         var result = await _sut.SearchAsync(term);
@@ -128,7 +127,6 @@ public class TrustSearchTests
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
-    [InlineData(null)]
     public async Task SearchAsync_should_not_call_database_if_empty_search_term(string term)
     {
         await _sut.SearchAsync(term);

@@ -71,7 +71,7 @@ public class HeaderRequirementHandlerTests
     [InlineData("", "")]
     [InlineData("Bearer ", "")]
     public void ClientSecretHeaderValid_should_return_false_if_serverAuthKey_not_set(string headerAuthKey,
-        string serverAuthKey)
+        string? serverAuthKey)
     {
         _httpContext.Request.Headers.Append(HeaderNames.Authorization, $"Bearer {headerAuthKey}");
         _mockTestOverrideOptions.Setup(m => m.Value)

@@ -10,14 +10,14 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.20">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Identity.Web" Version="2.19.1"/>
+        <PackageReference Include="Microsoft.Identity.Web" Version="2.20.0" />
         <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.22.0"/>
-        <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" Version="0.20.0"/>
-        <PackageReference Include="Serilog.AspNetCore" Version="7.0.0"/>
+        <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" Version="0.22.0" />
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
         <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0"/>
     </ItemGroup>
 
