@@ -43,7 +43,7 @@ services:
     depends_on:
       - import-sql
     ports:
-      - 80:80/tcp
+      - "80:8080/tcp"
     networks:
       - test-ci
     environment:

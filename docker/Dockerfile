@@ -25,4 +25,5 @@ LABEL org.opencontainers.image.source=https://github.com/DFE-Digital/find-inform
 COPY --from=publish /app /app
 WORKDIR /app
 RUN chmod +x ./docker-entrypoint.sh
-EXPOSE 80/tcp
+
+EXPOSE 8080/tcp
