@@ -1,4 +1,5 @@
 version: "3.8"
+name: fiat-fake-db-only
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
