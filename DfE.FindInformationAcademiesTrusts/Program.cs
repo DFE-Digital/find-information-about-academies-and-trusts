@@ -182,7 +182,8 @@ internal static class Program
     {
         builder.Services.AddDbContext<AcademiesDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("AcademiesDb") ??
-                                 throw new InvalidOperationException("Connection string 'AcademiesDb' not found.")));
+                                 throw new InvalidOperationException("Connection string 'AcademiesDb' not found."))
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
