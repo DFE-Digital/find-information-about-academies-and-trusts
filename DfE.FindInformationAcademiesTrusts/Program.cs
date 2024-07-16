@@ -180,13 +180,19 @@ internal static class Program
 
     private static void AddDependenciesTo(WebApplicationBuilder builder)
     {
+        //Set up dbcontext for efficient read only operations
+        //   QueryTrackingBehavior.NoTracking - Do not store state of objects retrieved from db (reduces EF overheads)
+        //   ServiceLifetime.Transient - Get a new context every time to allow parallel queries
         builder.Services.AddDbContext<AcademiesDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("AcademiesDb") ??
                                  throw new InvalidOperationException("Connection string 'AcademiesDb' not found."))
-                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking),
+            ServiceLifetime.Transient);
 
+        
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
+        builder.Services.AddScoped<IAcademiesProvider, AcademiesProvider>();
         builder.Services.AddScoped<IDataSourceProvider, DataSourceProvider>();
         builder.Services.AddScoped<ITrustFactory, TrustFactory>();
         builder.Services.AddScoped<IAcademyFactory, AcademyFactory>();
