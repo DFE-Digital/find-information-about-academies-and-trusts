@@ -14,7 +14,7 @@ Use this documentation to configure your local development environment.
 
 ### Prerequisites
 
-- .NET 7 SDK
+- .NET 8 SDK
 - node
 - npm
 

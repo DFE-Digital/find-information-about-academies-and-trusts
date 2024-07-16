@@ -1,4 +1,5 @@
 version: "3.8"
+name: fiat
 services:
   webapp:
     build:
@@ -6,6 +7,6 @@ services:
       dockerfile: docker/Dockerfile
     command: /bin/bash -c "./docker-entrypoint.sh dotnet DfE.FindInformationAcademiesTrusts.dll"
     ports:
-      - 80:80/tcp
+      - "80:8080/tcp"
     env_file:
       - .env

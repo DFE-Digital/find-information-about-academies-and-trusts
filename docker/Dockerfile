@@ -1,17 +1,18 @@
-ARG ASPNET_IMAGE_TAG=7.0-bullseye-slim-amd64
+ARG ASPNET_IMAGE_TAG=8.0-bookworm-slim-amd64
 ARG NODEJS_IMAGE_TAG=18-bullseye-slim
-ARG DOTNET_SDK=7.0
+ARG DOTNET_SDK=8.0
 
 # Stage 1 - Build frontend assets
 FROM node:${NODEJS_IMAGE_TAG} as assets
-COPY . .
-WORKDIR /DfE.FindInformationAcademiesTrusts
+COPY . /repo
+WORKDIR /repo/DfE.FindInformationAcademiesTrusts
 RUN npm install
 RUN npm run build
 
 # Stage 2 - Build and publish dotnet application
 FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_SDK} AS publish
-COPY --from=assets . .
+COPY --from=assets /repo /repo
+WORKDIR /repo
 RUN dotnet restore DfE.FindInformationAcademiesTrusts
 RUN dotnet build DfE.FindInformationAcademiesTrusts -c Release
 RUN dotnet publish DfE.FindInformationAcademiesTrusts -c Release -o /app --no-build
@@ -24,4 +25,5 @@ LABEL org.opencontainers.image.source=https://github.com/DFE-Digital/find-inform
 COPY --from=publish /app /app
 WORKDIR /app
 RUN chmod +x ./docker-entrypoint.sh
-EXPOSE 80/tcp
+
+EXPOSE 8080/tcp

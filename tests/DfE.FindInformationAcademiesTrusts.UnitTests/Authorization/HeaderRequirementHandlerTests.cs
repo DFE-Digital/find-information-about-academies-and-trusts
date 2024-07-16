@@ -41,7 +41,7 @@ public class HeaderRequirementHandlerTests
         bool expected)
     {
         _mockWebHostEnvironment.SetupGet(m => m.EnvironmentName).Returns(environment);
-        _httpContext.Request.Headers.Add(HeaderNames.Authorization, "Bearer 123");
+        _httpContext.Request.Headers.Append(HeaderNames.Authorization, "Bearer 123");
 
         //Create sut here because constructor decides whether or not an environment is live
         var sut = new HeaderRequirementHandler(_mockWebHostEnvironment.Object, _mockHttpAccessor.Object,
@@ -58,7 +58,7 @@ public class HeaderRequirementHandlerTests
     [InlineData("Bearer 456")]
     public void ClientSecretHeaderValid_should_return_false_if_contents_are_wrong(string headerAuthKey)
     {
-        _httpContext.Request.Headers.Add(HeaderNames.Authorization, $"Bearer {headerAuthKey}");
+        _httpContext.Request.Headers.Append(HeaderNames.Authorization, $"Bearer {headerAuthKey}");
 
         var result = _sut.IsClientSecretHeaderValid();
 
@@ -71,9 +71,9 @@ public class HeaderRequirementHandlerTests
     [InlineData("", "")]
     [InlineData("Bearer ", "")]
     public void ClientSecretHeaderValid_should_return_false_if_serverAuthKey_not_set(string headerAuthKey,
-        string serverAuthKey)
+        string? serverAuthKey)
     {
-        _httpContext.Request.Headers.Add(HeaderNames.Authorization, $"Bearer {headerAuthKey}");
+        _httpContext.Request.Headers.Append(HeaderNames.Authorization, $"Bearer {headerAuthKey}");
         _mockTestOverrideOptions.Setup(m => m.Value)
             .Returns(new TestOverrideOptions { CypressTestSecret = serverAuthKey });
 
