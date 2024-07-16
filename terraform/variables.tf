@@ -55,6 +55,12 @@ variable "registry_server" {
   default     = ""
 }
 
+variable "container_port" {
+  description = "Container port"
+  type        = number
+  default     = 80
+}
+
 variable "registry_admin_enabled" {
   description = "Do you want to enable access key based authentication for your Container Registry?"
   type        = bool
