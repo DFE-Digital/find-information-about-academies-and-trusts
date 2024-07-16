@@ -193,6 +193,7 @@ internal static class Program
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
         builder.Services.AddScoped<IAcademiesProvider, AcademiesProvider>();
+        builder.Services.AddScoped<IGovernorProvider, GovernorProvider>();
         builder.Services.AddScoped<IDataSourceProvider, DataSourceProvider>();
         builder.Services.AddScoped<ITrustFactory, TrustFactory>();
         builder.Services.AddScoped<IAcademyFactory, AcademyFactory>();

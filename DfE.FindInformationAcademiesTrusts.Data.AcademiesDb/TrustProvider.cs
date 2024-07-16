@@ -9,25 +9,25 @@ public class TrustProvider : ITrustProvider
 {
     private readonly IAcademiesDbContext _academiesDbContext;
     private readonly ITrustFactory _trustFactory;
-    private readonly IGovernorFactory _governorFactory;
     private readonly IPersonFactory _personFactory;
     private readonly IAcademiesProvider _academiesProvider;
+    private readonly IGovernorProvider _governorProvider;
 
     [ExcludeFromCodeCoverage]
     public TrustProvider(AcademiesDbContext academiesDbContext, ITrustFactory trustFactory,
-        IGovernorFactory governorFactory, IPersonFactory personFactory, IAcademiesProvider academiesProvider) : this(
-        (IAcademiesDbContext)academiesDbContext, trustFactory, governorFactory, personFactory, academiesProvider)
+        IGovernorProvider governorProvider, IPersonFactory personFactory, IAcademiesProvider academiesProvider) : this(
+        (IAcademiesDbContext)academiesDbContext, trustFactory, governorProvider, personFactory, academiesProvider)
     {
     }
 
     public TrustProvider(IAcademiesDbContext academiesDbContext, ITrustFactory trustFactory,
-        IGovernorFactory governorFactory, IPersonFactory personFactory, IAcademiesProvider academiesProvider)
+        IGovernorProvider governorProvider, IPersonFactory personFactory, IAcademiesProvider academiesProvider)
     {
-        _governorFactory = governorFactory;
         _personFactory = personFactory;
         _academiesProvider = academiesProvider;
         _academiesDbContext = academiesDbContext;
         _trustFactory = trustFactory;
+        _governorProvider = governorProvider;
     }
 
     public async Task<Trust?> GetTrustByUidAsync(string uid)
@@ -36,27 +36,30 @@ public class TrustProvider : ITrustProvider
         if (giasGroup is null) return null;
 
         Task<Academy[]> academiesTask;
-        Task<(MstrTrust? mstrTrust, Governor[] governors, Person? trustRelationshipManager, Person? sfsoLead)> thingsTask;
+        Task<(MstrTrust? mstrTrust, Person? trustRelationshipManager, Person? sfsoLead)> thingsTask;
+        Task<Governor[]> governorsTask;
 
         Task.WaitAll(
             academiesTask = _academiesProvider.GetAcademiesLinkedTo(uid),
-            thingsTask = GetThings(uid));
-        
-        Academy[] academies = academiesTask.Result;
+            governorsTask = _governorProvider.GetGovernorsLinkedTo(uid),
+            thingsTask = GetThings(uid)
+        );
 
-        var (mstrTrust, governors, trustRelationshipManager, sfsoLead) = thingsTask.Result;
+        var academies = academiesTask.Result;
+        var governors = governorsTask.Result;
+
+        var (mstrTrust, trustRelationshipManager, sfsoLead) = thingsTask.Result;
 
         return _trustFactory.CreateTrustFrom(giasGroup, mstrTrust, academies, governors, trustRelationshipManager,
             sfsoLead);
     }
 
-    private async Task<(MstrTrust? mstrTrust, Governor[] governors, Person? trustRelationshipManager, Person? sfsoLead)> GetThings(string uid)
+    private async Task<(MstrTrust? mstrTrust, Person? trustRelationshipManager, Person? sfsoLead)> GetThings(string uid)
     {
         var mstrTrust = await _academiesDbContext.MstrTrusts.SingleOrDefaultAsync(m => m.GroupUid == uid);
-        var governors = await GetGovernorsLinkedTo(uid);
         var trustRelationshipManager = await GetTrustRelationshipManagerLinkedTo(uid);
         var sfsoLead = await GetSfsoLeadLinkedTo(uid);
-        return (mstrTrust, governors, trustRelationshipManager, sfsoLead);
+        return (mstrTrust, trustRelationshipManager, sfsoLead);
     }
 
     private async Task<Person?> GetTrustRelationshipManagerLinkedTo(string uid)
@@ -75,16 +78,5 @@ public class TrustProvider : ITrustProvider
             .Join(_academiesDbContext.CdmSystemusers, account => account.SipAmsdlead,
                 systemuser => systemuser.Systemuserid, (_, systemuser) => _personFactory.CreateFrom(systemuser))
             .SingleOrDefaultAsync();
-    }
-
-    private async Task<Governor[]> GetGovernorsLinkedTo(string uid)
-    {
-        return await _academiesDbContext.GiasGovernances
-            .Where(g => g.Uid == uid)
-            .Join(_academiesDbContext.MstrTrustGovernances,
-                gg => gg.Gid!,
-                mtg => mtg.Gid,
-                (gg, mtg) => _governorFactory.CreateFrom(gg, mtg))
-            .ToArrayAsync();
     }
 }
