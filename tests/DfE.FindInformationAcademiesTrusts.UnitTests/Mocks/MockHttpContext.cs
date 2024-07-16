@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
@@ -7,6 +9,7 @@ public class MockHttpContext : Mock<HttpContext>
     private readonly Mock<IResponseCookies> _mockResponseCookies = new();
     private readonly Mock<IRequestCookieCollection> _mockRequestCookies = new();
     private readonly Mock<HttpRequest> _mockRequest = new();
+    private readonly Mock<IFeatureCollection> _mockFeatureCollection = new();
 
     public MockHttpContext()
     {
@@ -14,13 +17,14 @@ public class MockHttpContext : Mock<HttpContext>
 
         Setup(m => m.Request).Returns(_mockRequest.Object);
         Setup(m => m.Response).Returns(mockResponse.Object);
+        Setup(m => m.Features).Returns(_mockFeatureCollection.Object);
 
         mockResponse.Setup(m => m.Cookies).Returns(_mockResponseCookies.Object);
         _mockRequest.Setup(m => m.Cookies).Returns(_mockRequestCookies.Object);
         _mockRequestCookies.Setup(m => m[It.IsAny<string>()]).Returns("False");
         _mockRequestCookies.Setup(m => m.ContainsKey(".FindInformationAcademiesTrusts.Login")).Returns(true);
         _mockRequestCookies.Setup(m => m[".FindInformationAcademiesTrusts.Login"]).Returns("You are logged in");
-        _mockRequestCookies.Setup(m => m.Keys).Returns(new List<string>() { });
+        _mockRequestCookies.Setup(m => m.Keys).Returns(new List<string>());
         _mockRequest.Setup(m => m.Query[It.IsAny<string>()]).Returns("");
     }
 
@@ -45,7 +49,7 @@ public class MockHttpContext : Mock<HttpContext>
 
     public void SetupRejectedCookie()
     {
-        _mockRequestCookies.Setup(m => m.Keys).Returns(new List<string> { });
+        _mockRequestCookies.Setup(m => m.Keys).Returns(new List<string>());
         _mockRequestCookies.Setup(m => m.ContainsKey(CookiesHelper.ConsentCookieName)).Returns(true);
         _mockRequestCookies.Setup(m => m[CookiesHelper.ConsentCookieName]).Returns("False");
     }
@@ -83,6 +87,16 @@ public class MockHttpContext : Mock<HttpContext>
         }
 
         _mockRequest.Setup(m => m.QueryString).Returns(new QueryString(queryString));
+    }
+
+    public void SetNotFoundUrl(string host, string path, string query)
+    {
+        _mockFeatureCollection.Setup(m => m.Get<IStatusCodeReExecuteFeature>())
+            .Returns(Of<IStatusCodeReExecuteFeature>(m =>
+                m.OriginalPath == path
+                && m.OriginalQueryString == query));
+
+        _mockRequest.Setup(m => m.Host).Returns(new HostString(host));
     }
 
     public void VerifySecureCookieAdded(string key, string value)
