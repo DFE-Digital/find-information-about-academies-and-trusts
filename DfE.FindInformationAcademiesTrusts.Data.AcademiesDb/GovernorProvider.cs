@@ -13,10 +13,10 @@ public class GovernorProvider : IGovernorProvider
 {
     private readonly IAcademiesDbContext _academiesDbContext;
     private readonly IGovernorFactory _governorFactory;
-
-    [ExcludeFromCodeCoverage]
-    public GovernorProvider(AcademiesDbContext academiesDbContext, IGovernorFactory governorFactory): this((IAcademiesDbContext)academiesDbContext, governorFactory)
-    {}
+    //
+    // [ExcludeFromCodeCoverage]
+    // public GovernorProvider(AcademiesDbContext academiesDbContext, IGovernorFactory governorFactory): this((IAcademiesDbContext)academiesDbContext, governorFactory)
+    // {}
 
     public GovernorProvider(IAcademiesDbContext academiesDbContext, IGovernorFactory governorFactory)
     {

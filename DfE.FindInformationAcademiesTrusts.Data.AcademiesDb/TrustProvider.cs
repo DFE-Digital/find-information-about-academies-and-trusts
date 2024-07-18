@@ -13,14 +13,14 @@ public class TrustProvider : ITrustProvider
     private readonly IGovernorProvider _governorProvider;
     private readonly IPersonProvider _personProvider;
     private readonly IMemoryCache _memoryCache;
-
-    [ExcludeFromCodeCoverage]
-    public TrustProvider(AcademiesDbContext academiesDbContext, ITrustFactory trustFactory,
-        IGovernorProvider governorProvider, IAcademiesProvider academiesProvider,
-        IPersonProvider personProvider, IMemoryCache memoryCache) : this(
-        (IAcademiesDbContext)academiesDbContext, trustFactory, governorProvider, academiesProvider, personProvider, memoryCache)
-    {
-    }
+    //
+    // [ExcludeFromCodeCoverage]
+    // public TrustProvider(AcademiesDbContext academiesDbContext, ITrustFactory trustFactory,
+    //     IGovernorProvider governorProvider, IAcademiesProvider academiesProvider,
+    //     IPersonProvider personProvider, IMemoryCache memoryCache) : this(
+    //     (IAcademiesDbContext)academiesDbContext, trustFactory, governorProvider, academiesProvider, personProvider, memoryCache)
+    // {
+    // }
 
     public TrustProvider(IAcademiesDbContext academiesDbContext, ITrustFactory trustFactory,
         IGovernorProvider governorProvider, IAcademiesProvider academiesProvider, IPersonProvider personProvider, IMemoryCache memoryCache)

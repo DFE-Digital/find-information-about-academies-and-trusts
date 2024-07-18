@@ -1,3 +1,4 @@
+using System.Configuration.Provider;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using DfE.FindInformationAcademiesTrusts.Authorization;
@@ -188,6 +189,7 @@ internal static class Program
                                      throw new InvalidOperationException("Connection string 'AcademiesDb' not found."))
                     .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
+        builder.Services.AddScoped<IAcademiesDbContext>(provider => provider.GetService<AcademiesDbContext>()?? throw new ProviderException("AcademiesDbContext not registered"));
 
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
 

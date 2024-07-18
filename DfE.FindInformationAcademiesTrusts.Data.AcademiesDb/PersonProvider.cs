@@ -19,12 +19,12 @@ public class PersonProvider : IPersonProvider
     private readonly IMemoryCache _memoryCache;
     private readonly ILogger<PersonProvider> _logger;
 
-    [ExcludeFromCodeCoverage]
-    public PersonProvider(AcademiesDbContext academiesDbContext, IPersonFactory personFactory, IMemoryCache memoryCache,
-        ILogger<PersonProvider> logger) : this((IAcademiesDbContext)academiesDbContext, personFactory, memoryCache,
-        logger)
-    {
-    }
+    // [ExcludeFromCodeCoverage]
+    // public PersonProvider(AcademiesDbContext academiesDbContext, IPersonFactory personFactory, IMemoryCache memoryCache,
+    //     ILogger<PersonProvider> logger) : this((IAcademiesDbContext)academiesDbContext, personFactory, memoryCache,
+    //     logger)
+    // {
+    // }
 
     public PersonProvider(IAcademiesDbContext academiesDbContext, IPersonFactory personFactory,
         IMemoryCache memoryCache, ILogger<PersonProvider> logger)

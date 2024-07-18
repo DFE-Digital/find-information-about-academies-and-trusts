@@ -11,14 +11,14 @@ public class DataSourceProvider : IDataSourceProvider
     private readonly IMemoryCache _memoryCache;
     private readonly IAcademiesDbContext _academiesDbContext;
     private readonly ILogger<DataSourceProvider> _logger;
-
-    [ExcludeFromCodeCoverage]
-    public DataSourceProvider(AcademiesDbContext academiesDbContext, ILogger<DataSourceProvider> logger,
-        IMemoryCache memoryCache) : this(
-        (IAcademiesDbContext)academiesDbContext, logger, memoryCache)
-    {
-        _memoryCache = memoryCache;
-    }
+    //
+    // [ExcludeFromCodeCoverage]
+    // public DataSourceProvider(AcademiesDbContext academiesDbContext, ILogger<DataSourceProvider> logger,
+    //     IMemoryCache memoryCache) : this(
+    //     (IAcademiesDbContext)academiesDbContext, logger, memoryCache)
+    // {
+    //     _memoryCache = memoryCache;
+    // }
 
     public DataSourceProvider(IAcademiesDbContext academiesDbContext, ILogger<DataSourceProvider> logger,
         IMemoryCache memoryCache)

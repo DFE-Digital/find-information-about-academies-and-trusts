@@ -14,13 +14,13 @@ public class AcademiesProvider : IAcademiesProvider
     private readonly IAcademiesDbContext _academiesDbContext;
     private readonly IAcademyFactory _academyFactory;
 
-    [ExcludeFromCodeCoverage]
-    public AcademiesProvider(AcademiesDbContext academiesDbContext, IAcademyFactory academyFactory): this(
-        (IAcademiesDbContext)academiesDbContext, academyFactory)
-    {
-        
-    }
-    
+    // [ExcludeFromCodeCoverage]
+    // public AcademiesProvider(AcademiesDbContext academiesDbContext, IAcademyFactory academyFactory): this(
+    //     (IAcademiesDbContext)academiesDbContext, academyFactory)
+    // {
+    //     
+    // }
+    //
     public AcademiesProvider(IAcademiesDbContext academiesDbContext, IAcademyFactory academyFactory)
     {
         _academiesDbContext = academiesDbContext;

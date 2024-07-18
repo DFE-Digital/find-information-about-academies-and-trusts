@@ -9,11 +9,11 @@ public class TrustSearch : ITrustSearch
     private readonly IAcademiesDbContext _academiesDbContext;
     private const int PageSize = 20;
 
-    [ExcludeFromCodeCoverage] // This constructor is used by the DI container and is not unit testable
-    public TrustSearch(AcademiesDbContext academiesDbContext)
-        : this((IAcademiesDbContext)academiesDbContext)
-    {
-    }
+    // [ExcludeFromCodeCoverage] // This constructor is used by the DI container and is not unit testable
+    // public TrustSearch(AcademiesDbContext academiesDbContext)
+    //     : this((IAcademiesDbContext)academiesDbContext)
+    // {
+    // }
 
     public TrustSearch(IAcademiesDbContext academiesDbContext)
     {
