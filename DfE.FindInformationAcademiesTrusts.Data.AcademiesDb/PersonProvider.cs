@@ -74,7 +74,7 @@ public class PersonProvider : IPersonProvider
                 personId);
         }
 
-        _memoryCache.Set(personId, person);
+        _memoryCache.Set(personId, person, TimeSpan.FromHours(1));
 
         return person;
     }
