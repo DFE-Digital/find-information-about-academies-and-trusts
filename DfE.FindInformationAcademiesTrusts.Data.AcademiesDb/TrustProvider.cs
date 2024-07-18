@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
@@ -36,30 +35,19 @@ public class TrustProvider : ITrustProvider
         var giasGroup = await _academiesDbContext.Groups.SingleOrDefaultAsync(g => g.GroupUid == uid);
         if (giasGroup is null) return null;
 
-        Task<Academy[]> academiesTask;
-        Task<(MstrTrust? mstrTrust, Person? trustRelationshipManager, Person? sfsoLead)> thingsTask;
-        Task<Governor[]> governorsTask;
+        var academiesTask = _academiesProvider.GetAcademiesLinkedTo(uid);
+        var governorsTask = _governorProvider.GetGovernorsLinkedTo(uid);
+        var mstrTrustTask = _academiesDbContext.MstrTrusts.SingleOrDefaultAsync(m => m.GroupUid == uid);
 
-        Task.WaitAll(
-            academiesTask = _academiesProvider.GetAcademiesLinkedTo(uid),
-            governorsTask = _governorProvider.GetGovernorsLinkedTo(uid),
-            thingsTask = GetThings(uid)
-        );
+        Task.WaitAll(academiesTask,
+            governorsTask,
+            mstrTrustTask);
 
-        var academies = academiesTask.Result;
-        var governors = governorsTask.Result;
-
-        var (mstrTrust, trustRelationshipManager, sfsoLead) = thingsTask.Result;
-
-        return _trustFactory.CreateTrustFrom(giasGroup, mstrTrust, academies, governors, trustRelationshipManager,
-            sfsoLead);
-    }
-
-    private async Task<(MstrTrust? mstrTrust, Person? trustRelationshipManager, Person? sfsoLead)> GetThings(string uid)
-    {
-        var mstrTrust = await _academiesDbContext.MstrTrusts.SingleOrDefaultAsync(m => m.GroupUid == uid);
+        var sfsoLead =await _personProvider.GetSfsoLeadLinkedTo(uid);
         var trustRelationshipManager = await _personProvider.GetTrustRelationshipManagerLinkedTo(uid);
-        var sfsoLead = await _personProvider.GetSfsoLeadLinkedTo(uid);
-        return (mstrTrust, trustRelationshipManager, sfsoLead);
+        
+        return _trustFactory.CreateTrustFrom(giasGroup, mstrTrustTask.Result, academiesTask.Result,
+            governorsTask.Result, trustRelationshipManager,
+            sfsoLead);
     }
 }
