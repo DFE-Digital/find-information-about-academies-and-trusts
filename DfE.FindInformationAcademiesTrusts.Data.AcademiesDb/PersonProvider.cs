@@ -1,6 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 
@@ -14,20 +16,28 @@ public class PersonProvider : IPersonProvider
 {
     private readonly IAcademiesDbContext _academiesDbContext;
     private readonly IPersonFactory _personFactory;
+    private readonly IMemoryCache _memoryCache;
+    private readonly ILogger<PersonProvider> _logger;
 
     [ExcludeFromCodeCoverage]
-    public PersonProvider(AcademiesDbContext academiesDbContext, IPersonFactory personFactory):this((IAcademiesDbContext)academiesDbContext, personFactory)
-    { }
+    public PersonProvider(AcademiesDbContext academiesDbContext, IPersonFactory personFactory, IMemoryCache memoryCache,
+        ILogger<PersonProvider> logger) : this((IAcademiesDbContext)academiesDbContext, personFactory, memoryCache,
+        logger)
+    {
+    }
 
-    public PersonProvider(IAcademiesDbContext academiesDbContext, IPersonFactory personFactory)
+    public PersonProvider(IAcademiesDbContext academiesDbContext, IPersonFactory personFactory,
+        IMemoryCache memoryCache, ILogger<PersonProvider> logger)
     {
         _academiesDbContext = academiesDbContext;
         _personFactory = personFactory;
+        _memoryCache = memoryCache;
+        _logger = logger;
     }
 
     public async Task<Person?> GetTrustRelationshipManagerLinkedTo(string uid)
     {
-        var personId= await _academiesDbContext.CdmAccounts
+        var personId = await _academiesDbContext.CdmAccounts
             .Where(a => a.SipUid == uid)
             .Select(cdmAccount => cdmAccount.SipTrustrelationshipmanager)
             .SingleOrDefaultAsync();
@@ -37,7 +47,7 @@ public class PersonProvider : IPersonProvider
 
     public async Task<Person?> GetSfsoLeadLinkedTo(string uid)
     {
-        var personId= await _academiesDbContext.CdmAccounts
+        var personId = await _academiesDbContext.CdmAccounts
             .Where(a => a.SipUid == uid)
             .Select(cdmAccount => cdmAccount.SipAmsdlead)
             .SingleOrDefaultAsync();
@@ -47,9 +57,25 @@ public class PersonProvider : IPersonProvider
 
     private async Task<Person?> GetPerson(Guid personId)
     {
-        return await _academiesDbContext.CdmSystemusers
+        if (_memoryCache.TryGetValue(personId, out Person? person))
+        {
+            return person;
+        }
+
+        person = await _academiesDbContext.CdmSystemusers
             .Where(systemuser => systemuser.Systemuserid == personId)
             .Select(systemuser => _personFactory.CreateFrom(systemuser))
             .SingleOrDefaultAsync();
+
+        if (person is null)
+        {
+            _logger.LogError(
+                "Person not found with ID {personId}, is there a consistency error with the CDM tables in the database?",
+                personId);
+        }
+
+        _memoryCache.Set(personId, person);
+
+        return person;
     }
 }
