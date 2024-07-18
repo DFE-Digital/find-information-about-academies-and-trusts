@@ -183,12 +183,10 @@ internal static class Program
     {
         //Set up dbcontext for efficient read only operations
         //   QueryTrackingBehavior.NoTracking - Do not store state of objects retrieved from db (reduces EF overheads)
-        //   ServiceLifetime.Transient - Get a new context every time to allow parallel queries
         builder.Services.AddDbContext<AcademiesDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("AcademiesDb") ??
                                      throw new InvalidOperationException("Connection string 'AcademiesDb' not found."))
-                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking),
-            ServiceLifetime.Transient);
+                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
 
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();

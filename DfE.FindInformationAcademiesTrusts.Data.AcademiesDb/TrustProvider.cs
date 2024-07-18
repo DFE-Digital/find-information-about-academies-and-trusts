@@ -35,19 +35,14 @@ public class TrustProvider : ITrustProvider
         var giasGroup = await _academiesDbContext.Groups.SingleOrDefaultAsync(g => g.GroupUid == uid);
         if (giasGroup is null) return null;
 
-        var academiesTask = _academiesProvider.GetAcademiesLinkedTo(uid);
-        var governorsTask = _governorProvider.GetGovernorsLinkedTo(uid);
-        var mstrTrustTask = _academiesDbContext.MstrTrusts.SingleOrDefaultAsync(m => m.GroupUid == uid);
-
-        Task.WaitAll(academiesTask,
-            governorsTask,
-            mstrTrustTask);
-
-        var sfsoLead =await _personProvider.GetSfsoLeadLinkedTo(uid);
+        var academies = await _academiesProvider.GetAcademiesLinkedTo(uid);
+        var governors = await _governorProvider.GetGovernorsLinkedTo(uid);
+        var mstrTrust = await _academiesDbContext.MstrTrusts.SingleOrDefaultAsync(m => m.GroupUid == uid);
+        var sfsoLead = await _personProvider.GetSfsoLeadLinkedTo(uid);
         var trustRelationshipManager = await _personProvider.GetTrustRelationshipManagerLinkedTo(uid);
-        
-        return _trustFactory.CreateTrustFrom(giasGroup, mstrTrustTask.Result, academiesTask.Result,
-            governorsTask.Result, trustRelationshipManager,
+
+        return _trustFactory.CreateTrustFrom(giasGroup, mstrTrust, academies,
+            governors, trustRelationshipManager,
             sfsoLead);
     }
 }
