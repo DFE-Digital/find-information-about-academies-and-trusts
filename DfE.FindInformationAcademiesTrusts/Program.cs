@@ -5,8 +5,8 @@ using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using DfE.FindInformationAcademiesTrusts.Data.Hardcoded;
-using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Options;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -76,7 +76,8 @@ internal static class Program
     private static void ConfigureHttpRequestPipeline(WebApplication app)
     {
         // Ensure we do not lose X-Forwarded-* Headers when behind a Proxy
-        var forwardOptions = new ForwardedHeadersOptions {
+        var forwardOptions = new ForwardedHeadersOptions
+        {
             ForwardedHeaders = ForwardedHeaders.All,
             RequireHeaderSymmetry = false
         };
@@ -184,21 +185,25 @@ internal static class Program
         //   QueryTrackingBehavior.NoTracking - Do not store state of objects retrieved from db (reduces EF overheads)
         //   ServiceLifetime.Transient - Get a new context every time to allow parallel queries
         builder.Services.AddDbContext<AcademiesDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("AcademiesDb") ??
-                                 throw new InvalidOperationException("Connection string 'AcademiesDb' not found."))
-                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking),
+                options.UseSqlServer(builder.Configuration.GetConnectionString("AcademiesDb") ??
+                                     throw new InvalidOperationException("Connection string 'AcademiesDb' not found."))
+                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking),
             ServiceLifetime.Transient);
 
-        
+
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
+
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
         builder.Services.AddScoped<IAcademiesProvider, AcademiesProvider>();
         builder.Services.AddScoped<IGovernorProvider, GovernorProvider>();
         builder.Services.AddScoped<IDataSourceProvider, DataSourceProvider>();
+        builder.Services.AddScoped<IPersonProvider, PersonProvider>();
+
         builder.Services.AddScoped<ITrustFactory, TrustFactory>();
         builder.Services.AddScoped<IAcademyFactory, AcademyFactory>();
         builder.Services.AddScoped<IGovernorFactory, GovernorFactory>();
         builder.Services.AddScoped<IPersonFactory, PersonFactory>();
+
         builder.Services.AddScoped<IAuthorizationHandler, HeaderRequirementHandler>();
         builder.Services.AddScoped<IOtherServicesLinkBuilder, OtherServicesLinkBuilder>();
         builder.Services.AddScoped<IFreeSchoolMealsAverageProvider, FreeSchoolMealsAverageProvider>();
