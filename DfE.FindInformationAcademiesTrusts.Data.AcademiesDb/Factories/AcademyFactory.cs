@@ -10,6 +10,16 @@ public interface IAcademyFactory
     Academy CreateFrom(GiasGroupLink gl, GiasEstablishment giasEstablishment,
         MisEstablishment? misEstablishmentCurrentOfsted = null, MisEstablishment? misEstablishmentPreviousOfsted = null,
         MisFurtherEducationEstablishment? misFurtherEducationEstablishment = null);
+
+    Academy CreateFromExplicit(int giasEstablishmentUrn, string glJoinedDate,
+        string? giasEstablishmentEstablishmentName, string? giasEstablishmentTypeOfEstablishmentName,
+        string? giasEstablishmentLaName, string? giasEstablishmentUrbanRuralName,
+        string? giasEstablishmentPhaseOfEducationName, string? giasEstablishmentNumberOfPupils,
+        string? giasEstablishmentSchoolCapacity, string? giasEstablishmentPercentageFsm,
+        string giasEstablishmentStatutoryLowAge, string giasEstablishmentStatutoryHighAge,
+        string giasEstablishmentLaCode,
+        MisEstablishment? misEstablishmentCurrentOfsted = null, MisEstablishment? misEstablishmentPreviousOfsted = null,
+        MisFurtherEducationEstablishment? misFurtherEducationEstablishment = null);
 }
 
 public class AcademyFactory : IAcademyFactory
@@ -33,6 +43,34 @@ public class AcademyFactory : IAcademyFactory
             GetCurrentOfstedRating(misEstablishmentCurrentOfsted, misFurtherEducationEstablishment),
             GetPreviousOfstedRating(misEstablishmentPreviousOfsted, misFurtherEducationEstablishment),
             int.Parse(giasEstablishment.LaCode!)
+        );
+    }
+
+    public Academy CreateFromExplicit(int giasEstablishmentUrn, string glJoinedDate,
+        string? giasEstablishmentEstablishmentName, string? giasEstablishmentTypeOfEstablishmentName,
+        string? giasEstablishmentLaName, string? giasEstablishmentUrbanRuralName,
+        string? giasEstablishmentPhaseOfEducationName, string? giasEstablishmentNumberOfPupils,
+        string? giasEstablishmentSchoolCapacity, string? giasEstablishmentPercentageFsm,
+        string giasEstablishmentStatutoryLowAge, string giasEstablishmentStatutoryHighAge,
+        string giasEstablishmentLaCode,
+        MisEstablishment? misEstablishmentCurrentOfsted = null, MisEstablishment? misEstablishmentPreviousOfsted = null,
+        MisFurtherEducationEstablishment? misFurtherEducationEstablishment = null)
+    {
+        return new Academy(
+            giasEstablishmentUrn,
+            DateTime.ParseExact(glJoinedDate, "dd/MM/yyyy", CultureInfo.InvariantCulture),
+            giasEstablishmentEstablishmentName,
+            giasEstablishmentTypeOfEstablishmentName,
+            giasEstablishmentLaName,
+            giasEstablishmentUrbanRuralName,
+            giasEstablishmentPhaseOfEducationName,
+            giasEstablishmentNumberOfPupils.ParseAsNullableInt(),
+            giasEstablishmentSchoolCapacity.ParseAsNullableInt(),
+            giasEstablishmentPercentageFsm.ParseAsNullableDouble(),
+            new AgeRange(giasEstablishmentStatutoryLowAge, giasEstablishmentStatutoryHighAge),
+            GetCurrentOfstedRating(misEstablishmentCurrentOfsted, misFurtherEducationEstablishment),
+            GetPreviousOfstedRating(misEstablishmentPreviousOfsted, misFurtherEducationEstablishment),
+            int.Parse(giasEstablishmentLaCode)
         );
     }
 
