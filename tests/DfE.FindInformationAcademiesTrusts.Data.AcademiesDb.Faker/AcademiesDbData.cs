@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis;
@@ -26,7 +27,8 @@ public class AcademiesDbData
     public IAcademiesDbContext AsAcademiesDbContext()
     {
         return new AcademiesDbDataContext(GiasEstablishments, GiasGovernances, GiasGroupLinks, GiasGroups, MstrTrusts,
-            CdmAccounts, MisEstablishments, MisFurtherEducationEstablishments, CdmSystemusers, MstrTrustGovernances, ApplicationEvents,
+            CdmAccounts, MisEstablishments, MisFurtherEducationEstablishments, CdmSystemusers, MstrTrustGovernances,
+            ApplicationEvents,
             ApplicationSettings);
     }
 

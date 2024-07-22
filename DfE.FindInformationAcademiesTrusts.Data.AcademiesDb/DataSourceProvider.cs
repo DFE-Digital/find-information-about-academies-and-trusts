@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -10,8 +11,9 @@ public class DataSourceProvider : IDataSourceProvider
     private readonly ILogger<DataSourceProvider> _logger;
 
     [ExcludeFromCodeCoverage]
-    public DataSourceProvider(AcademiesDbContext academiesDbContext, ILogger<DataSourceProvider> logger) : this(
-        (IAcademiesDbContext)academiesDbContext, logger)
+    public DataSourceProvider(AcademiesDbContext academiesDbContext, ILogger<DataSourceProvider> logger) :
+        this(
+            (IAcademiesDbContext)academiesDbContext, logger)
     {
     }
 

@@ -5,8 +5,8 @@ using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using DfE.FindInformationAcademiesTrusts.Data.Hardcoded;
-using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Options;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Serilog;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 
 namespace DfE.FindInformationAcademiesTrusts;
 
@@ -76,7 +77,8 @@ internal static class Program
     private static void ConfigureHttpRequestPipeline(WebApplication app)
     {
         // Ensure we do not lose X-Forwarded-* Headers when behind a Proxy
-        var forwardOptions = new ForwardedHeadersOptions {
+        var forwardOptions = new ForwardedHeadersOptions
+        {
             ForwardedHeaders = ForwardedHeaders.All,
             RequireHeaderSymmetry = false
         };
