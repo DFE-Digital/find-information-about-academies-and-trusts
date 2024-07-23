@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+- Updated Feedback link to reflect new feedback form for the product
+
 ## [Release-1][release-1]
 
 ### Changed
