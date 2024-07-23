@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
-public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
+public class PageSearchModel : BasePageModel, IPageSearchFormModel, IPaginationModel
 {
     public record AutocompleteEntry(string Address, string Name, string? TrustId);
 
@@ -15,15 +15,14 @@ public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
     public string PageName { get; } = "Search";
     public IPageStatus PageStatus { get; set; }
     public Dictionary<string, string> PaginationRouteData { get; set; } = new();
-    public string InputId => "search";
-    [BindProperty(SupportsGet = true)] public string KeyWords { get; set; } = string.Empty;
+    public string PageSearchFormInputId => "search";
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = string.Empty;
     [BindProperty(SupportsGet = true)] public int PageNumber { get; set; } = 1;
 
     public IPaginatedList<TrustSearchEntry> Trusts { get; set; } =
         PaginatedList<TrustSearchEntry>.Empty();
 
-    public SearchModel(ITrustSearch trustSearch, ITrustService trustService)
+    public PageSearchModel(ITrustSearch trustSearch, ITrustService trustService)
     {
         _trustSearch = trustSearch;
         _trustService = trustService;
@@ -32,7 +31,12 @@ public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
 
     public IActionResult OnPost()
     {
-        return RedirectToPage("/Search", new { KeyWords, Uid });
+        return RedirectToPage("/Search",
+            new
+            {
+                KeyWords,
+                Uid
+            });
     }
 
     public async Task<IActionResult> OnGetAsync()
@@ -49,7 +53,13 @@ public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
         Trusts = await GetTrustsForKeywords();
 
         PageStatus = Trusts.PageStatus;
-        PaginationRouteData = new Dictionary<string, string> { { "Keywords", KeyWords } };
+        PaginationRouteData = new Dictionary<string, string>
+        {
+            {
+                "Keywords",
+                KeyWords
+            }
+        };
         return new PageResult();
     }
 
