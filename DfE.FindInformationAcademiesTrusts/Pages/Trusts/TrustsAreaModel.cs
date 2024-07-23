@@ -2,8 +2,8 @@ using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.ServiceModels;
 using DfE.FindInformationAcademiesTrusts.Services;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
@@ -13,7 +13,7 @@ public class TrustsAreaModel(
     ITrustService trustService,
     ILogger<TrustsAreaModel> logger,
     string pageName)
-    : PageModel, ITrustsAreaModel
+    : BasePageModel, ITrustsAreaModel
 {
     protected readonly IDataSourceService DataSourceService = dataSourceService;
     protected readonly ITrustProvider TrustProvider = trustProvider;

@@ -1,9 +1,9 @@
+using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
-public class ErrorModel(IHttpContextAccessor httpContextAccessor) : PageModel
+public class ErrorModel(IHttpContextAccessor httpContextAccessor) : BasePageModel
 {
     public bool Is404Result { get; set; }
     public string OriginalPathAndQuery { get; set; } = "Unknown";
