@@ -3,6 +3,7 @@ using System.Reflection;
 using DfE.FindInformationAcademiesTrusts.Authorization;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using DfE.FindInformationAcademiesTrusts.Data.Hardcoded;
 using DfE.FindInformationAcademiesTrusts.Options;
@@ -15,7 +16,6 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Serilog;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 
 namespace DfE.FindInformationAcademiesTrusts;
 
@@ -185,6 +185,9 @@ internal static class Program
         builder.Services.AddDbContext<AcademiesDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("AcademiesDb") ??
                                  throw new InvalidOperationException("Connection string 'AcademiesDb' not found.")));
+        builder.Services.AddScoped<IAcademiesDbContext>(provider =>
+            provider.GetService<AcademiesDbContext>() ??
+            throw new InvalidOperationException("AcademiesDbContext not registered"));
 
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();

@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using Microsoft.EntityFrameworkCore;
@@ -12,13 +11,6 @@ public class TrustProvider : ITrustProvider
     private readonly IAcademyFactory _academyFactory;
     private readonly IGovernorFactory _governorFactory;
     private readonly IPersonFactory _personFactory;
-
-    [ExcludeFromCodeCoverage]
-    public TrustProvider(AcademiesDbContext academiesDbContext, ITrustFactory trustFactory,
-        IAcademyFactory academyFactory, IGovernorFactory governorFactory, IPersonFactory personFactory) : this(
-        (IAcademiesDbContext)academiesDbContext, trustFactory, academyFactory, governorFactory, personFactory)
-    {
-    }
 
     public TrustProvider(IAcademiesDbContext academiesDbContext, ITrustFactory trustFactory,
         IAcademyFactory academyFactory, IGovernorFactory governorFactory, IPersonFactory personFactory)
