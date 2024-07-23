@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Added
+
+- Add search autocomplete to the header of the application
+
 ### Changed
 
 - Accessibility statement has been updated to reflect the recent accessibility audit.
