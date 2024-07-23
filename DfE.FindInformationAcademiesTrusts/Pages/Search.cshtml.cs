@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
-public class PageSearchModel : BasePageModel, IPageSearchFormModel, IPaginationModel
+public class SearchModel : BasePageModel, IPageSearchFormModel, IPaginationModel
 {
     public record AutocompleteEntry(string Address, string Name, string? TrustId);
 
@@ -22,7 +22,7 @@ public class PageSearchModel : BasePageModel, IPageSearchFormModel, IPaginationM
     public IPaginatedList<TrustSearchEntry> Trusts { get; set; } =
         PaginatedList<TrustSearchEntry>.Empty();
 
-    public PageSearchModel(ITrustSearch trustSearch, ITrustService trustService)
+    public SearchModel(ITrustService trustService, ITrustSearch trustSearch)
     {
         _trustSearch = trustSearch;
         _trustService = trustService;
@@ -31,12 +31,7 @@ public class PageSearchModel : BasePageModel, IPageSearchFormModel, IPaginationM
 
     public IActionResult OnPost()
     {
-        return RedirectToPage("/Search",
-            new
-            {
-                KeyWords,
-                Uid
-            });
+        return RedirectToPage("/Search", new { KeyWords, Uid });
     }
 
     public async Task<IActionResult> OnGetAsync()
@@ -53,13 +48,7 @@ public class PageSearchModel : BasePageModel, IPageSearchFormModel, IPaginationM
         Trusts = await GetTrustsForKeywords();
 
         PageStatus = Trusts.PageStatus;
-        PaginationRouteData = new Dictionary<string, string>
-        {
-            {
-                "Keywords",
-                KeyWords
-            }
-        };
+        PaginationRouteData = new Dictionary<string, string> { { "Keywords", KeyWords } };
         return new PageResult();
     }
 
