@@ -118,7 +118,7 @@ public class SearchModelTests
         var result = (RedirectToPageResult)_sut.OnPost();
 
         result.PageName.Should().BeEquivalentTo("/Search");
-        result.RouteValues?["HeaderSearchFormKeyWords"].Should().BeEquivalentTo(string.Empty);
+        result.RouteValues?["KeyWords"].Should().BeEquivalentTo(string.Empty);
         result.RouteValues?["Uid"].Should().BeEquivalentTo(string.Empty);
     }
 
