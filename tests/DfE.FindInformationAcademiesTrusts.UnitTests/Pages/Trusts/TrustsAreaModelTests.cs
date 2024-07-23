@@ -28,10 +28,26 @@ public class TrustsAreaModelTests
         var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider.Setup(s => s.GetTrustByUidAsync(dummyTrust.Uid))
             .ReturnsAsync(dummyTrust);
+        _mockTrustProvider.Setup(s => s.GetTrustSummaryAsync(dummyTrust.Uid))
+            .ReturnsAsync(new TrustSummaryDto(dummyTrust.Uid, dummyTrust.Name, dummyTrust.Type,
+                dummyTrust.Academies.Length));
+
         _sut.Uid = dummyTrust.Uid;
 
         await _sut.OnGetAsync();
         _sut.Trust.Should().Be(dummyTrust);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_fetch_a_trustsummary_by_uid()
+    {
+        var dummyTrustSummary = new TrustSummaryDto("1234", "My Trust", "Multi-academy trust", 3);
+        _mockTrustProvider.Setup(s => s.GetTrustSummaryAsync(dummyTrustSummary.Uid))
+            .ReturnsAsync(dummyTrustSummary);
+        _sut.Uid = dummyTrustSummary.Uid;
+
+        await _sut.OnGetAsync();
+        _sut.TrustSummaryDto.Should().Be(dummyTrustSummary);
     }
 
     [Fact]
@@ -58,8 +74,8 @@ public class TrustsAreaModelTests
     [Fact]
     public async Task OnGetAsync_should_return_not_found_result_if_trust_is_not_found()
     {
-        _mockTrustProvider.Setup(s => s.GetTrustByUidAsync("1111"))
-            .ReturnsAsync((Trust?)null);
+        _mockTrustProvider.Setup(s => s.GetTrustSummaryAsync("1111"))
+            .ReturnsAsync((TrustSummaryDto?)null);
 
         _sut.Uid = "1111";
         var result = await _sut.OnGetAsync();

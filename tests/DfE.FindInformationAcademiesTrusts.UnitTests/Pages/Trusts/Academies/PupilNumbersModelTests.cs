@@ -19,6 +19,9 @@ public class PupilNumbersModelTests
         _mockTrustProvider = new Mock<ITrustProvider>();
         _mockDataSourceProvider = new MockDataSourceProvider();
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrust);
+        _mockTrustProvider.Setup(tp => tp.GetTrustSummaryAsync(dummyTrust.Uid))
+            .ReturnsAsync(new TrustSummaryDto(dummyTrust.Uid, dummyTrust.Name, dummyTrust.Type,
+                dummyTrust.Academies.Length));
         _sut = new PupilNumbersModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object, logger.Object)
             { Uid = "1234" };
     }
@@ -59,9 +62,9 @@ public class PupilNumbersModelTests
     }
 
     [Fact]
-    public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_null()
+    public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync((Trust?)null);
+        _mockTrustProvider.Setup(tp => tp.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryDto?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }

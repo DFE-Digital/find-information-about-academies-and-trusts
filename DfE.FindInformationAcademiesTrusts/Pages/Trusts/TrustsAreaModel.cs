@@ -4,26 +4,20 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
-public class TrustsAreaModel : PageModel, ITrustsAreaModel
+public class TrustsAreaModel(
+    ITrustProvider trustProvider,
+    IDataSourceProvider dataSourceProvider,
+    ILogger<TrustsAreaModel> logger,
+    string pageName)
+    : PageModel, ITrustsAreaModel
 {
-    private readonly ITrustProvider _trustProvider;
-    protected readonly IDataSourceProvider DataSourceProvider;
-    private readonly ILogger<TrustsAreaModel> _logger;
-
-    public TrustsAreaModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider,
-        ILogger<TrustsAreaModel> logger, string pageName)
-    {
-        _trustProvider = trustProvider;
-        DataSourceProvider = dataSourceProvider;
-        _logger = logger;
-        PageName = pageName;
-    }
+    protected readonly IDataSourceProvider DataSourceProvider = dataSourceProvider;
 
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = "";
     public Trust Trust { get; set; } = default!;
     public TrustSummaryDto TrustSummaryDto { get; set; } = default!;
     public List<DataSourceListEntry> DataSources { get; set; } = new();
-    public string PageName { get; init; }
+    public string PageName { get; init; } = pageName;
     public string? PageTitle { get; init; }
     public string Section => ViewConstants.AboutTheTrustSectionName;
 
@@ -42,21 +36,22 @@ public class TrustsAreaModel : PageModel, ITrustsAreaModel
             case Source.ExploreEducationStatistics:
                 return "Explore education statistics";
             default:
-                _logger.LogError("Data source {source} does not map to known type", source);
+                logger.LogError("Data source {source} does not map to known type", source);
                 return "Unknown";
         }
     }
 
     public virtual async Task<IActionResult> OnGetAsync()
     {
-        var trust = await _trustProvider.GetTrustByUidAsync(Uid);
+        var trustSummaryDto = await trustProvider.GetTrustSummaryAsync(Uid);
 
-        if (trust == null)
+        if (trustSummaryDto == null)
         {
             return new NotFoundResult();
         }
 
-        Trust = trust;
+        TrustSummaryDto = trustSummaryDto;
+        Trust = (await trustProvider.GetTrustByUidAsync(Uid))!;
         return Page();
     }
 }

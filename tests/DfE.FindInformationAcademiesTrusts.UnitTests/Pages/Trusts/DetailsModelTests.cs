@@ -22,6 +22,10 @@ public class DetailsModelTests
         _mockTrustProvider = new Mock<ITrustProvider>();
         _mockDataSourceProvider = new MockDataSourceProvider();
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(_dummyTrust);
+        _mockTrustProvider.Setup(tp => tp.GetTrustSummaryAsync(_dummyTrust.Uid))
+            .ReturnsAsync(new TrustSummaryDto(_dummyTrust.Uid, _dummyTrust.Name, _dummyTrust.Type,
+                _dummyTrust.Academies.Length));
+
         _sut = new DetailsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
             _mockLinksToOtherServices.Object, logger.Object) { Uid = "1234" };
     }
@@ -104,7 +108,7 @@ public class DetailsModelTests
     [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_null()
     {
-        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync((Trust?)null);
+        _mockTrustProvider.Setup(tp => tp.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryDto?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }

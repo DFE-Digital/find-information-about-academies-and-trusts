@@ -10,8 +10,6 @@ public class ContactsModelTests
 {
     private readonly ContactsModel _sut;
     private readonly Mock<ITrustProvider> _mockTrustProvider;
-    private readonly Trust _dummyTrustWithGovernors;
-    private readonly Trust _dummyTrustWithNoGovernors;
     private const string PresentChairOfTrustees = "Present ChairOfTrustees";
     private const string PresentAccountingOfficer = "Present AccountingOfficer";
     private const string PresentChiefFinancialOfficer = "Present ChiefFinancialOfficer";
@@ -43,12 +41,18 @@ public class ContactsModelTests
     {
         _pastGovernorDate = DateTime.Today.AddDays(-1);
         _currentGovernorDate = DateTime.Today;
-        _dummyTrustWithGovernors = DummyTrustFactory.GetDummyTrust("1234", governors: ListOfGovernors());
-        _dummyTrustWithNoGovernors = DummyTrustFactory.GetDummyTrust("1234");
+        var dummyTrustWithGovernors = DummyTrustFactory.GetDummyTrust("1234", governors: ListOfGovernors());
         MockLogger<ContactsModel> logger = new();
-        var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
+
         _mockTrustProvider = new Mock<ITrustProvider>();
-        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(_dummyTrustWithGovernors);
+        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrustWithGovernors);
+        _mockTrustProvider.Setup(s => s.GetTrustSummaryAsync(new TrustSummaryDto(dummyTrustWithGovernors.Uid,
+                    dummyTrustWithGovernors.Name, dummyTrustWithGovernors.Type,
+                    dummyTrustWithGovernors.Academies.Length)
+                .Uid))
+            .ReturnsAsync(new TrustSummaryDto(dummyTrustWithGovernors.Uid, dummyTrustWithGovernors.Name,
+                dummyTrustWithGovernors.Type, dummyTrustWithGovernors.Academies.Length));
+
         _mockDataSourceProvider = new MockDataSourceProvider();
         _sut = new ContactsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object, logger.Object)
             { Uid = "1234" };
@@ -56,7 +60,15 @@ public class ContactsModelTests
 
     private void SetupTrustWithNoGovernors()
     {
-        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(_dummyTrustWithNoGovernors);
+        var dummyTrustWithNoGovernors = DummyTrustFactory.GetDummyTrust("1234");
+
+        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrustWithNoGovernors);
+        _mockTrustProvider.Setup(s => s.GetTrustSummaryAsync(new TrustSummaryDto(dummyTrustWithNoGovernors.Uid,
+                    dummyTrustWithNoGovernors.Name, dummyTrustWithNoGovernors.Type,
+                    dummyTrustWithNoGovernors.Academies.Length)
+                .Uid))
+            .ReturnsAsync(new TrustSummaryDto(dummyTrustWithNoGovernors.Uid, dummyTrustWithNoGovernors.Name,
+                dummyTrustWithNoGovernors.Type, dummyTrustWithNoGovernors.Academies.Length));
     }
 
     [Fact]
@@ -125,9 +137,9 @@ public class ContactsModelTests
     }
 
     [Fact]
-    public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_null()
+    public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync((Trust?)null);
+        _mockTrustProvider.Setup(tp => tp.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryDto?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
