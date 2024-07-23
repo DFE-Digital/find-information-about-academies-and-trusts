@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages;
 
-public class SearchModelTests
+public class PageSearchModelTests
 {
     private const string SearchTermThatMatchesAllFakeTrusts = "trust";
-    private readonly SearchModel _sut;
+    private readonly PageSearchModel _sut;
     private readonly Mock<ITrustSearch> _mockTrustSearch;
 
     private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
@@ -22,7 +22,7 @@ public class SearchModelTests
         new("trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ", "2044", "")
     };
 
-    public SearchModelTests()
+    public PageSearchModelTests()
     {
         Mock<ITrustService> mockTrustService = new();
         _mockTrustSearch = new Mock<ITrustSearch>();
@@ -32,7 +32,7 @@ public class SearchModelTests
         _mockTrustSearch.Setup(s => s.SearchAsync(SearchTermThatMatchesAllFakeTrusts, It.IsAny<int>()).Result)
             .Returns(new PaginatedList<TrustSearchEntry>(_fakeTrusts, _fakeTrusts.Length, 1, 1));
 
-        _sut = new SearchModel(_mockTrustSearch.Object, mockTrustService.Object);
+        _sut = new PageSearchModel(_mockTrustSearch.Object, mockTrustService.Object);
     }
 
     [Fact]
@@ -105,7 +105,7 @@ public class SearchModelTests
         result.Should().BeOfType<JsonResult>();
         var jsonResult = (JsonResult)result;
         jsonResult.Value.Should().BeEquivalentTo(_fakeTrusts.Select(trust =>
-            new SearchModel.AutocompleteEntry(
+            new PageSearchModel.AutocompleteEntry(
                 trust.Address,
                 trust.Name,
                 trust.Uid
@@ -118,7 +118,7 @@ public class SearchModelTests
         var result = (RedirectToPageResult)_sut.OnPost();
 
         result.PageName.Should().BeEquivalentTo("/Search");
-        result.RouteValues?["KeyWords"].Should().BeEquivalentTo(string.Empty);
+        result.RouteValues?["HeaderSearchFormKeyWords"].Should().BeEquivalentTo(string.Empty);
         result.RouteValues?["Uid"].Should().BeEquivalentTo(string.Empty);
     }
 
@@ -137,7 +137,7 @@ public class SearchModelTests
     [Fact]
     public void InputId_should_have_a_fixed_value()
     {
-        _sut.InputId.Should().Be("search");
+        _sut.PageSearchFormInputId.Should().Be("search");
     }
 
     [Fact]
