@@ -12,5 +12,5 @@ public static class ViewConstants
         "mailto:regionalservices.rg@education.gov.uk?subject=Page not found – Find information about academies and trusts (FIAT)";
 
     public const string FeedbackFormLink =
-        "https://forms.office.com.mcas.ms/pages/responsepage.aspx?id=yXfS-grGoU2187O4s0qC-VCFjdIWb7BPh79bON_K__tUOTdJMlZZUzBMMFhHV1lHNERFM041U0dUUy4u";
+        "https://forms.office.com/Pages/ResponsePage.aspx?id=yXfS-grGoU2187O4s0qC-Qcn8QVkzyhJptrVtNlsWHBURVU2RTREMVROVDFPMVFYT1BCVThGTUJGVy4u";
 }
