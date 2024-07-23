@@ -125,12 +125,9 @@
       color: $govuk-secondary-text-colour;
     }
 
-    .autocomplete__option--focused,
-    .autocomplete__option:hover {
-
-      .autocomplete__option-hint {
-        color: govuk-colour("white");
-      }
+    .autocomplete__option--focused .autocomplete__option-hint,
+    .autocomplete__option:hover .autocomplete__option-hint {
+      color: govuk-colour("white");
     }
 
     @media (width <= 40.0525em) {
