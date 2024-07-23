@@ -5,6 +5,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
 public class AcademiesDetailsModel : TrustsAreaModel, IAcademiesAreaModel
 {
+    public Trust Trust { get; set; } = default!;
     public IOtherServicesLinkBuilder LinkBuilder { get; }
 
     public AcademiesDetailsModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider,
@@ -20,6 +21,8 @@ public class AcademiesDetailsModel : TrustsAreaModel, IAcademiesAreaModel
         var pageResult = await base.OnGetAsync();
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
+
+        Trust = (await TrustProvider.GetTrustByUidAsync(Uid))!;
 
         DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
             new List<string> { "Details" }));

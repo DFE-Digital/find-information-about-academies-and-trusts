@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
@@ -20,22 +19,6 @@ public class TrustsAreaModelTests
         _mockDataUpdatedProvider = new Mock<IDataSourceProvider>();
         _sut = new TrustsAreaModel(_mockTrustProvider.Object, _mockDataUpdatedProvider.Object, _logger.Object,
             "Details");
-    }
-
-    [Fact]
-    public async Task OnGetAsync_should_fetch_a_trust_by_uid()
-    {
-        var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
-        _mockTrustProvider.Setup(s => s.GetTrustByUidAsync(dummyTrust.Uid))
-            .ReturnsAsync(dummyTrust);
-        _mockTrustProvider.Setup(s => s.GetTrustSummaryAsync(dummyTrust.Uid))
-            .ReturnsAsync(new TrustSummaryDto(dummyTrust.Uid, dummyTrust.Name, dummyTrust.Type,
-                dummyTrust.Academies.Length));
-
-        _sut.Uid = dummyTrust.Uid;
-
-        await _sut.OnGetAsync();
-        _sut.Trust.Should().Be(dummyTrust);
     }
 
     [Fact]

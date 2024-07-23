@@ -13,8 +13,9 @@ public class TrustsAreaModel(
 {
     protected readonly IDataSourceProvider DataSourceProvider = dataSourceProvider;
 
+    protected readonly ITrustProvider TrustProvider = trustProvider;
+
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = "";
-    public Trust Trust { get; set; } = default!;
     public TrustSummaryDto TrustSummaryDto { get; set; } = default!;
     public List<DataSourceListEntry> DataSources { get; set; } = new();
     public string PageName { get; init; } = pageName;
@@ -43,7 +44,7 @@ public class TrustsAreaModel(
 
     public virtual async Task<IActionResult> OnGetAsync()
     {
-        var trustSummaryDto = await trustProvider.GetTrustSummaryAsync(Uid);
+        var trustSummaryDto = await TrustProvider.GetTrustSummaryAsync(Uid);
 
         if (trustSummaryDto == null)
         {
@@ -51,7 +52,7 @@ public class TrustsAreaModel(
         }
 
         TrustSummaryDto = trustSummaryDto;
-        Trust = (await trustProvider.GetTrustByUidAsync(Uid))!;
+
         return Page();
     }
 }

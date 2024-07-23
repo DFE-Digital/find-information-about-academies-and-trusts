@@ -4,7 +4,6 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public interface ITrustsAreaModel
 {
-    Trust Trust { get; set; }
     TrustSummaryDto TrustSummaryDto { get; }
 
     List<DataSourceListEntry> DataSources { get; }

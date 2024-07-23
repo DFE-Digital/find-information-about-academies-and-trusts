@@ -6,6 +6,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 public class FreeSchoolMealsModel : TrustsAreaModel, IAcademiesAreaModel
 {
     private readonly IFreeSchoolMealsAverageProvider _freeSchoolMealsProvider;
+    public Trust Trust { get; set; } = default!;
 
     public FreeSchoolMealsModel(ITrustProvider trustProvider,
         IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider, IDataSourceProvider dataSourceProvider,
@@ -21,6 +22,8 @@ public class FreeSchoolMealsModel : TrustsAreaModel, IAcademiesAreaModel
         var pageResult = await base.OnGetAsync();
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
+
+        Trust = (await TrustProvider.GetTrustByUidAsync(Uid))!;
 
         DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
             new[]
