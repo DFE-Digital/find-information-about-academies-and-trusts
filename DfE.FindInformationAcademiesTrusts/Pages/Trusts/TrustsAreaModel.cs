@@ -21,6 +21,7 @@ public class TrustsAreaModel : PageModel, ITrustsAreaModel
 
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = "";
     public Trust Trust { get; set; } = default!;
+    public TrustSummaryDto TrustSummaryDto { get; set; } = default!;
     public List<DataSourceListEntry> DataSources { get; set; } = new();
     public string PageName { get; init; }
     public string? PageTitle { get; init; }

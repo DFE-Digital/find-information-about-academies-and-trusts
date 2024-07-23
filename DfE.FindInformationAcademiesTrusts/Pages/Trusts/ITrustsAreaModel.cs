@@ -5,8 +5,9 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 public interface ITrustsAreaModel
 {
     Trust Trust { get; set; }
+    TrustSummaryDto TrustSummaryDto { get; }
 
-    List<DataSourceListEntry> DataSources { get; set; }
+    List<DataSourceListEntry> DataSources { get; }
 
     /// <summary>
     /// The name of the page as displayed in the page h1
