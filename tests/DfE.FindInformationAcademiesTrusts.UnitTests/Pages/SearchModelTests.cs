@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages;
 
-public class PageSearchModelTests
+public class SearchModelTests
 {
     private const string SearchTermThatMatchesAllFakeTrusts = "trust";
-    private readonly PageSearchModel _sut;
+    private readonly SearchModel _sut;
     private readonly Mock<ITrustSearch> _mockTrustSearch;
 
     private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
@@ -22,7 +22,7 @@ public class PageSearchModelTests
         new("trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ", "2044", "")
     };
 
-    public PageSearchModelTests()
+    public SearchModelTests()
     {
         Mock<ITrustService> mockTrustService = new();
         _mockTrustSearch = new Mock<ITrustSearch>();
@@ -32,7 +32,7 @@ public class PageSearchModelTests
         _mockTrustSearch.Setup(s => s.SearchAsync(SearchTermThatMatchesAllFakeTrusts, It.IsAny<int>()).Result)
             .Returns(new PaginatedList<TrustSearchEntry>(_fakeTrusts, _fakeTrusts.Length, 1, 1));
 
-        _sut = new PageSearchModel(_mockTrustSearch.Object, mockTrustService.Object);
+        _sut = new SearchModel(mockTrustService.Object, _mockTrustSearch.Object);
     }
 
     [Fact]
@@ -105,7 +105,7 @@ public class PageSearchModelTests
         result.Should().BeOfType<JsonResult>();
         var jsonResult = (JsonResult)result;
         jsonResult.Value.Should().BeEquivalentTo(_fakeTrusts.Select(trust =>
-            new PageSearchModel.AutocompleteEntry(
+            new SearchModel.AutocompleteEntry(
                 trust.Address,
                 trust.Name,
                 trust.Uid
