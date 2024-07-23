@@ -43,10 +43,11 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         return mstrTrust;
     }
 
-    public GiasGroup CreateGiasGroup(string groupUid)
+    public GiasGroup CreateGiasGroup(string groupUid, string? groupName = "trust 1",
+        string? groupType = "Multi-academy trust")
     {
         var giasGroup = new GiasGroup
-            { GroupName = "trust 1", GroupUid = groupUid, GroupType = "Multi-academy trust", Ukprn = "my ukprn" };
+            { GroupName = groupName, GroupUid = groupUid, GroupType = groupType, Ukprn = "my ukprn" };
         _addedGiasGroups?.Add(giasGroup);
         return giasGroup;
     }

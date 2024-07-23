@@ -2,5 +2,6 @@ namespace DfE.FindInformationAcademiesTrusts.Data;
 
 public interface ITrustProvider
 {
-    public Task<Trust?> GetTrustByUidAsync(string uid);
+    Task<Trust?> GetTrustByUidAsync(string uid);
+    Task<TrustSummaryDto?> GetTrustSummaryAsync(string uid);
 }

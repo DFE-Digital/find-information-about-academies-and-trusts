@@ -49,6 +49,37 @@ public class TrustProviderTests
     }
 
     [Fact]
+    public async Task GetTrustSummaryAsync_should_return_null_if_no_giasGroup_found()
+    {
+        var result = await _sut.GetTrustSummaryAsync("this uid doesn't exist");
+        result.Should().BeNull();
+    }
+
+    [Theory]
+    [InlineData("2806", "My Trust", "Multi-academy trust", 3)]
+    [InlineData("9008", "Another Trust", "Single-academy trust", 1)]
+    [InlineData("9008", "Trust with no academies", "Multi-academy trust", 0)]
+    public async Task GetTrustSummaryAsync_should_return_trustSummary_if_found(string uid, string name, string type,
+        int numAcademies)
+    {
+        var giasGroup = _mockAcademiesDbContext.CreateGiasGroup(uid, name, type);
+        SetUpAcademiesLinkedToTrust(_giasEstablishments.Take(numAcademies), giasGroup);
+
+        var result = await _sut.GetTrustSummaryAsync(uid);
+        result.Should().BeEquivalentTo(new TrustSummaryDto(uid, name, type, numAcademies));
+    }
+
+    [Fact]
+    public async Task GetTrustSummaryAsync_should_return_empty_values_on_null_group_fields()
+    {
+        _ = _mockAcademiesDbContext.CreateGiasGroup("2806", null, null);
+
+        var result = await _sut.GetTrustSummaryAsync("2806");
+        result.Should().BeEquivalentTo(new TrustSummaryDto("2806", string.Empty, string.Empty, 0));
+    }
+
+
+    [Fact]
     public async Task GetTrustsByUidAsync_should_return_a_trust_if_giasGroup_and_mstrTrust_found()
     {
         var expectedTrust = DummyTrustFactory.GetDummyTrust(_groupUidToGet);
