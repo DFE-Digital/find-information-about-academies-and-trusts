@@ -1,13 +1,13 @@
-using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
+using DfE.FindInformationAcademiesTrusts.Data.Dto;
 
-namespace DfE.FindInformationAcademiesTrusts.Data.UnitTests;
+namespace DfE.FindInformationAcademiesTrusts.Data.UnitTests.Dto;
 
-public class TrustTests
+public class TrustDetailsDtoTests
 {
     [Fact]
     public void IsMultiAcademyTrust_should_return_true_if_trust_has_type_multiacademytrust()
     {
-        var sut = DummyTrustFactory.GetDummyMultiAcademyTrust("1234");
+        var sut = GetTrustDetailsDtoWithType("Multi-academy trust");
         var result = sut.IsMultiAcademyTrust();
         result.Should().BeTrue();
     }
@@ -18,7 +18,7 @@ public class TrustTests
     [InlineData("")]
     public void IsMultiAcademyTrust_should_return_false_if_trust_does_not_have_type_multiacademytrust(string type)
     {
-        var sut = DummyTrustFactory.GetDummyTrust("1234", type);
+        var sut = GetTrustDetailsDtoWithType(type);
         var result = sut.IsMultiAcademyTrust();
         result.Should().BeFalse();
     }
@@ -26,7 +26,7 @@ public class TrustTests
     [Fact]
     public void IsSingleAcademyTrust_should_return_true_if_trust_has_type_singleacademytrust()
     {
-        var sut = DummyTrustFactory.GetDummySingleAcademyTrust("1234");
+        var sut = GetTrustDetailsDtoWithType("Single-academy trust");
         var result = sut.IsSingleAcademyTrust();
         result.Should().BeTrue();
     }
@@ -37,8 +37,13 @@ public class TrustTests
     [InlineData("")]
     public void IsSingleAcademyTrust_should_return_false_if_trust_does_not_have_type_singleacademytrust(string type)
     {
-        var sut = DummyTrustFactory.GetDummyTrust("1234", type);
+        var sut = GetTrustDetailsDtoWithType(type);
         var result = sut.IsSingleAcademyTrust();
         result.Should().BeFalse();
+    }
+
+    private static TrustDetailsDto GetTrustDetailsDtoWithType(string trustType)
+    {
+        return new TrustDetailsDto("", "", "", "", trustType, "", "", null, null);
     }
 }

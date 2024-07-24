@@ -27,6 +27,11 @@ public class TrustProvider(
         return new TrustSummaryDto(uid, details.Name, details.Type, count);
     }
 
+    public Task<TrustDetailsDto> GetTrustDetailsAsync(string uid)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Trust?> GetTrustByUidAsync(string uid)
     {
         var giasGroup = await academiesDbContext.Groups.SingleOrDefaultAsync(g => g.GroupUid == uid);

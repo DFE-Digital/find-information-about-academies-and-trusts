@@ -1,6 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Dto;
-using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -13,22 +12,21 @@ public class DetailsModelTests
     private readonly DetailsModel _sut;
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinksToOtherServices = new();
     private readonly Mock<ITrustProvider> _mockTrustProvider;
-    private readonly Trust _dummyTrust;
+    private static readonly TrustDetailsDto DummyTrustDetailsDto = new("1234", "", "", "", "", "", "", null, null);
     private readonly MockDataSourceProvider _mockDataSourceProvider;
 
     public DetailsModelTests()
     {
         MockLogger<DetailsModel> logger = new();
-        _dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
         _mockTrustProvider = new Mock<ITrustProvider>();
         _mockDataSourceProvider = new MockDataSourceProvider();
-        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(_dummyTrust);
-        _mockTrustProvider.Setup(tp => tp.GetTrustSummaryAsync(_dummyTrust.Uid))
-            .ReturnsAsync(new TrustSummaryDto(_dummyTrust.Uid, _dummyTrust.Name, _dummyTrust.Type,
-                _dummyTrust.Academies.Length));
+        _mockTrustProvider.Setup(tp => tp.GetTrustDetailsAsync(DummyTrustDetailsDto.Uid))
+            .ReturnsAsync(DummyTrustDetailsDto);
+        _mockTrustProvider.Setup(tp => tp.GetTrustSummaryAsync(DummyTrustDetailsDto.Uid))
+            .ReturnsAsync(new TrustSummaryDto(DummyTrustDetailsDto.Uid, "My trust", "", 0));
 
         _sut = new DetailsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
-            _mockLinksToOtherServices.Object, logger.Object) { Uid = "1234" };
+            _mockLinksToOtherServices.Object, logger.Object) { Uid = DummyTrustDetailsDto.Uid };
     }
 
     [Fact]
@@ -40,7 +38,7 @@ public class DetailsModelTests
     [Fact]
     public async Task CompaniesHouseLink_is_null_if_link_builder_returns_null()
     {
-        _mockLinksToOtherServices.Setup(l => l.CompaniesHouseListingLink(_dummyTrust)).Returns((string?)null);
+        _mockLinksToOtherServices.Setup(l => l.CompaniesHouseListingLink(DummyTrustDetailsDto)).Returns((string?)null);
         await _sut.OnGetAsync();
         _sut.CompaniesHouseLink.Should().BeNull();
     }
@@ -48,7 +46,7 @@ public class DetailsModelTests
     [Fact]
     public async Task CompaniesHouseLink_is_string_if_link_builder_returns_string()
     {
-        _mockLinksToOtherServices.Setup(l => l.CompaniesHouseListingLink(_dummyTrust)).Returns("url");
+        _mockLinksToOtherServices.Setup(l => l.CompaniesHouseListingLink(DummyTrustDetailsDto)).Returns("url");
         await _sut.OnGetAsync();
         _sut.CompaniesHouseLink.Should().Be("url");
     }
@@ -56,7 +54,7 @@ public class DetailsModelTests
     [Fact]
     public async Task GetInformationAboutSchoolsLink_is_null_if_link_builder_returns_null()
     {
-        _mockLinksToOtherServices.Setup(l => l.GetInformationAboutSchoolsListingLink(_dummyTrust))
+        _mockLinksToOtherServices.Setup(l => l.GetInformationAboutSchoolsListingLink(DummyTrustDetailsDto))
             .Returns((string?)null);
         await _sut.OnGetAsync();
         _sut.GetInformationAboutSchoolsLink.Should().BeNull();
@@ -65,7 +63,8 @@ public class DetailsModelTests
     [Fact]
     public async Task GetInformationAboutSchoolsLink_is_string_if_link_builder_returns_string()
     {
-        _mockLinksToOtherServices.Setup(l => l.GetInformationAboutSchoolsListingLink(_dummyTrust)).Returns("url");
+        _mockLinksToOtherServices.Setup(l => l.GetInformationAboutSchoolsListingLink(DummyTrustDetailsDto))
+            .Returns("url");
         await _sut.OnGetAsync();
         _sut.GetInformationAboutSchoolsLink.Should().Be("url");
     }
@@ -73,7 +72,7 @@ public class DetailsModelTests
     [Fact]
     public async Task SchoolsFinancialBenchmarkingLink_is_null_if_link_builder_returns_null()
     {
-        _mockLinksToOtherServices.Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(_dummyTrust))
+        _mockLinksToOtherServices.Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsDto))
             .Returns((string?)null);
         await _sut.OnGetAsync();
         _sut.SchoolsFinancialBenchmarkingLink.Should().BeNull();
@@ -82,7 +81,7 @@ public class DetailsModelTests
     [Fact]
     public async Task SchoolsFinancialBenchmarkingLink_is_string_if_link_builder_returns_string()
     {
-        _mockLinksToOtherServices.Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(_dummyTrust))
+        _mockLinksToOtherServices.Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsDto))
             .Returns("url");
         await _sut.OnGetAsync();
         _sut.SchoolsFinancialBenchmarkingLink.Should().Be("url");
@@ -91,7 +90,7 @@ public class DetailsModelTests
     [Fact]
     public async Task FindSchoolPerformanceLink_is_null_if_link_builder_returns_null()
     {
-        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(_dummyTrust))
+        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(DummyTrustDetailsDto))
             .Returns((string?)null);
         await _sut.OnGetAsync();
         _sut.FindSchoolPerformanceLink.Should().BeNull();
@@ -100,7 +99,7 @@ public class DetailsModelTests
     [Fact]
     public async Task FindSchoolPerformanceLink_is_string_if_link_builder_returns_string()
     {
-        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(_dummyTrust))
+        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(DummyTrustDetailsDto))
             .Returns("url");
         await _sut.OnGetAsync();
         _sut.FindSchoolPerformanceLink.Should().Be("url");
@@ -117,7 +116,7 @@ public class DetailsModelTests
     [Fact]
     public async Task OnGetAsync_sets_correct_data_source_list()
     {
-        var result = await _sut.OnGetAsync();
+        await _sut.OnGetAsync();
         _mockDataSourceProvider.Verify(e => e.GetGiasUpdated(), Times.Once);
         _sut.DataSources.Should().ContainSingle();
         _sut.DataSources[0].Fields.Should().Contain(new List<string> { "Trust details", "Reference numbers" });
