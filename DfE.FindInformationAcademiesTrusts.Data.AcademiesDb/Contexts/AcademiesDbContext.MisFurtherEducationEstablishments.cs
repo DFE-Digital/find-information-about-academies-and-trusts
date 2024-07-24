@@ -9,7 +9,7 @@ public partial class AcademiesDbContext
     public DbSet<MisFurtherEducationEstablishment> MisFurtherEducationEstablishments { get; set; }
 
     [ExcludeFromCodeCoverage]
-    protected void OnModelCreatingMisFurtherEducationEstablishments(ModelBuilder modelBuilder)
+    protected static void OnModelCreatingMisFurtherEducationEstablishments(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<MisFurtherEducationEstablishment>(entity =>
         {

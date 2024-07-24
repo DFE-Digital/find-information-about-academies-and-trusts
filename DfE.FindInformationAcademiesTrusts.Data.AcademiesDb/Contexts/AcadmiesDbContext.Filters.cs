@@ -7,7 +7,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 public partial class AcademiesDbContext
 {
     [ExcludeFromCodeCoverage]
-    protected void OnModelCreatingAddFilters(ModelBuilder modelBuilder)
+    protected static void OnModelCreatingAddFilters(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<GiasGroup>(entity =>
         {

@@ -9,7 +9,7 @@ public partial class AcademiesDbContext
     public DbSet<GiasGroupLink> GiasGroupLinks { get; set; }
 
     [ExcludeFromCodeCoverage]
-    protected void OnModelCreatingGiasGroupLink(ModelBuilder modelBuilder)
+    protected static void OnModelCreatingGiasGroupLink(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<GiasGroupLink>(entity =>
         {

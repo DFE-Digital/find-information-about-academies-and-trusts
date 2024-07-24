@@ -9,7 +9,7 @@ public partial class AcademiesDbContext
     public DbSet<MstrTrust> MstrTrusts { get; set; }
 
     [ExcludeFromCodeCoverage]
-    protected void OnModelCreatingMstrTrusts(ModelBuilder modelBuilder)
+    protected static void OnModelCreatingMstrTrusts(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<MstrTrust>(entity =>
         {

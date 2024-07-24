@@ -9,7 +9,7 @@ public partial class AcademiesDbContext
     public DbSet<GiasGroup> Groups { get; set; }
 
     [ExcludeFromCodeCoverage]
-    protected void OnModelCreatingGiasGroup(ModelBuilder modelBuilder)
+    protected static void OnModelCreatingGiasGroup(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<GiasGroup>(entity =>
         {

@@ -9,7 +9,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - Filter so only the open Gias Groups (Trusts) are shown across the application
-
 - Updated Feedback link to reflect new feedback form for the product
 
 ## [Release-1][release-1]

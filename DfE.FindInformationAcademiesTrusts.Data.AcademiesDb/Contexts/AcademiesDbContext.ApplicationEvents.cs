@@ -1,16 +1,15 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
+﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 
 public partial class AcademiesDbContext
 {
     public DbSet<ApplicationEvent> ApplicationEvents { get; set; }
-    
+
     [ExcludeFromCodeCoverage]
-    protected void OnModelCreatingApplicationEvents(ModelBuilder modelBuilder)
+    protected static void OnModelCreatingApplicationEvents(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ApplicationEvent>(entity =>
         {

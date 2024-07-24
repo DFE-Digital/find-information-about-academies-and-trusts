@@ -1,6 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
+﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 
@@ -9,7 +9,7 @@ public partial class AcademiesDbContext
     public DbSet<CdmSystemuser> CdmSystemusers { get; set; }
 
     [ExcludeFromCodeCoverage]
-    protected void OnModelCreatingCdmSystemusers(ModelBuilder modelBuilder)
+    protected static void OnModelCreatingCdmSystemusers(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CdmSystemuser>(entity =>
         {

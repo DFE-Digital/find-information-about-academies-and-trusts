@@ -1,6 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
+﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 
@@ -9,7 +9,7 @@ public partial class AcademiesDbContext
     public DbSet<GiasEstablishment> GiasEstablishments { get; set; }
 
     [ExcludeFromCodeCoverage]
-    protected void OnModelCreatingGiasEstablishments(ModelBuilder modelBuilder)
+    protected static void OnModelCreatingGiasEstablishments(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<GiasEstablishment>(entity =>
         {
