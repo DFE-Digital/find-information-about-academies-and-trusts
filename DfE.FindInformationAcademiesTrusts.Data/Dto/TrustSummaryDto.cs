@@ -1,4 +1,4 @@
-namespace DfE.FindInformationAcademiesTrusts.Data;
+namespace DfE.FindInformationAcademiesTrusts.Data.Dto;
 
 public record TrustSummaryDto(
     string Uid,

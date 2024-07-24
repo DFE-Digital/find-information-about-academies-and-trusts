@@ -1,3 +1,5 @@
+using DfE.FindInformationAcademiesTrusts.Data.Dto;
+
 namespace DfE.FindInformationAcademiesTrusts.Data;
 
 public interface ITrustProvider

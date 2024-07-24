@@ -1,4 +1,5 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Dto;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
