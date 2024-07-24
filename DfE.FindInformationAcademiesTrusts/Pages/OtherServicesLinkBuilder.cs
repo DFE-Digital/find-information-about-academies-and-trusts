@@ -26,12 +26,7 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
 
     public string? GetInformationAboutSchoolsListingLink(Trust trust)
     {
-        if (trust.IsOpen())
-        {
-            return $"{GetInformationAboutSchoolsBaseUrl}/Groups/Group/Details/{trust.Uid}";
-        }
-
-        return null;
+        return $"{GetInformationAboutSchoolsBaseUrl}/Groups/Group/Details/{trust.Uid}";
     }
 
     public string GetInformationAboutSchoolsListingLink(Academy academy)
@@ -47,12 +42,12 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
 
     public string? SchoolFinancialBenchmarkingServiceListingLink(Trust trust)
     {
-        if (trust.IsOpen() && trust.IsMultiAcademyTrust())
+        if (trust.IsMultiAcademyTrust())
         {
             return $"{SchoolFinancialBenchmarkingServiceBaseUrl}/Trust?companyNo={trust.CompaniesHouseNumber}";
         }
 
-        if (trust.IsOpen() && trust.IsSingleAcademyTrust() && trust.Academies.Any())
+        if (trust.IsSingleAcademyTrust() && trust.Academies.Any())
         {
             return $"{SchoolFinancialBenchmarkingServiceBaseUrl}/school?urn={trust.Academies[0].Urn}";
         }
@@ -62,12 +57,12 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
 
     public string? FindSchoolPerformanceDataListingLink(Trust trust)
     {
-        if (trust.IsOpen() && trust.IsMultiAcademyTrust())
+        if (trust.IsMultiAcademyTrust())
         {
             return $"{FindSchoolPerformanceDataBaseUrl}/multi-academy-trust/{trust.Uid}";
         }
 
-        if (trust.IsOpen() && trust.IsSingleAcademyTrust() && trust.Academies.Any())
+        if (trust.IsSingleAcademyTrust() && trust.Academies.Any())
         {
             return $"{FindSchoolPerformanceDataBaseUrl}/school/{trust.Academies[0].Urn}";
         }

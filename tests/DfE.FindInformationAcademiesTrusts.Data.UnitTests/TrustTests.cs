@@ -41,24 +41,4 @@ public class TrustTests
         var result = sut.IsSingleAcademyTrust();
         result.Should().BeFalse();
     }
-
-    [Fact]
-    public void IsOpen_should_return_true_if_trust_has_status_open()
-    {
-        var sut = DummyTrustFactory.GetDummyTrust("1234", status: "Open");
-        var result = sut.IsOpen();
-
-        result.Should().BeTrue();
-    }
-
-    [Theory]
-    [InlineData("Closed")]
-    [InlineData("test")]
-    [InlineData("")]
-    public void IsOpen_should_return_false_if_trust_does_not_have_status_open(string status)
-    {
-        var sut = DummyTrustFactory.GetDummyTrust("1234", status: status);
-        var result = sut.IsOpen();
-        result.Should().BeFalse();
-    }
 }

@@ -26,9 +26,4 @@ public record Trust(
     {
         return Type == "Single-academy trust";
     }
-
-    public bool IsOpen()
-    {
-        return Status == "Open";
-    }
 }
