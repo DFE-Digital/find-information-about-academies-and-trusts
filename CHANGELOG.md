@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
-- Filter the Gias Groups (Trusts) at the context level so they will never show up in searches or when pages load
+- Filter so only the open Gias Groups (Trusts) are shown across the application
 
 - Updated Feedback link to reflect new feedback form for the product
 
