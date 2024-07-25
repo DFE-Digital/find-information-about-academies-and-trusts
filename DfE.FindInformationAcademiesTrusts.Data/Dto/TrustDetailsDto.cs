@@ -2,13 +2,13 @@ namespace DfE.FindInformationAcademiesTrusts.Data.Dto;
 
 public record TrustDetailsDto(
     string Uid,
-    string GroupId,
+    string? GroupId,
     string? Ukprn,
-    string CompaniesHouseNumber,
+    string? CompaniesHouseNumber,
     string Type,
     string Address,
     string RegionAndTerritory,
-    int? SingleAcademyUrn,
+    string? SingleAcademyUrn,
     DateTime? OpenedDate)
 {
     public bool IsMultiAcademyTrust()
