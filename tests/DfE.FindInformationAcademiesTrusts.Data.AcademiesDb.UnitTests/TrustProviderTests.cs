@@ -79,6 +79,130 @@ public class TrustProviderTests
         result.Should().BeEquivalentTo(new TrustSummaryDto("2806", string.Empty, string.Empty, 0));
     }
 
+    [Fact]
+    public async Task GetTrustDetailsAsync_should_get_regionAndTerritory_from_mstrTrusts()
+    {
+        _ = _mockAcademiesDbContext.CreateGiasGroup("2806");
+        _ = _mockAcademiesDbContext.CreateMstrTrust("2806", "My Region");
+
+        var result = await _sut.GetTrustDetailsAsync("2806");
+
+        result.RegionAndTerritory.Should().Be("My Region");
+    }
+
+    [Fact]
+    public async Task GetTrustDetailsAsync_should_set_regionAndTerritory_to_empty_string_when_mstrTrust_not_available()
+    {
+        _ = _mockAcademiesDbContext.CreateGiasGroup("2806");
+
+        var result = await _sut.GetTrustDetailsAsync("2806");
+
+        result.RegionAndTerritory.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task
+        GetTrustDetailsAsync_should_set_regionAndTerritory_to_empty_string_when_GORregion_in_mstrTrust_null()
+    {
+        _ = _mockAcademiesDbContext.CreateGiasGroup("2806");
+        _ = _mockAcademiesDbContext.CreateMstrTrust("2806", null);
+
+        var result = await _sut.GetTrustDetailsAsync("2806");
+
+        result.RegionAndTerritory.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task GetTrustDetailsAsync_should_set_singleAcademyUrn_to_null_when_multi_academy_trust()
+    {
+        var mat = _mockAcademiesDbContext.CreateGiasGroup("2806", groupType: "Multi-academy trust");
+        var academy = _mockAcademiesDbContext.CreateGiasEstablishment(1234);
+        _mockAcademiesDbContext.LinkGiasEstablishmentsToGiasGroup(new[] { academy }, mat);
+
+        var result = await _sut.GetTrustDetailsAsync("2806");
+
+        result.SingleAcademyUrn.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetTrustDetailsAsync_should_set_singleAcademyUrn_to_null_when_SAT_with_no_academies()
+    {
+        _ = _mockAcademiesDbContext.CreateGiasGroup("2806", groupType: "Single-academy trust");
+
+        var result = await _sut.GetTrustDetailsAsync("2806");
+
+        result.SingleAcademyUrn.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetTrustDetailsAsync_should_set_singleAcademyUrn_to_urn_of_SAT_academy()
+    {
+        var sat = _mockAcademiesDbContext.CreateGiasGroup("2806", groupType: "Single-academy trust");
+        var academy = _mockAcademiesDbContext.CreateGiasEstablishment(1234);
+        _mockAcademiesDbContext.LinkGiasEstablishmentsToGiasGroup(new[] { academy }, sat);
+
+        var result = await _sut.GetTrustDetailsAsync("2806");
+
+        result.SingleAcademyUrn.Should().Be("1234");
+    }
+
+    [Theory]
+    [InlineData("12 Abbey Road", "Dorthy Inlet", "East Park", "JY36 9VC",
+        "12 Abbey Road, Dorthy Inlet, East Park, JY36 9VC")]
+    [InlineData(null, "Dorthy Inlet", "East Park", "JY36 9VC", "Dorthy Inlet, East Park, JY36 9VC")]
+    [InlineData("12 Abbey Road", null, "East Park", "JY36 9VC", "12 Abbey Road, East Park, JY36 9VC")]
+    [InlineData("12 Abbey Road", "Dorthy Inlet", null, "JY36 9VC", "12 Abbey Road, Dorthy Inlet, JY36 9VC")]
+    [InlineData("12 Abbey Road", "Dorthy Inlet", "East Park", null, "12 Abbey Road, Dorthy Inlet, East Park")]
+    [InlineData(null, null, null, null, "")]
+    [InlineData("", "     ", "", null, "")]
+    [InlineData("12 Abbey Road", "  ", " ", "JY36 9VC", "12 Abbey Road, JY36 9VC")]
+    public async Task GetTrustDetailsAsync_should_build_address_from_giasGroup(string? groupContactStreet,
+        string? groupContactLocality, string? groupContactTown, string? groupContactPostcode,
+        string? expectedAddress)
+    {
+        var giasGroup = new GiasGroup
+        {
+            GroupUid = "2806",
+            GroupType = "Multi-academy trust",
+            GroupContactStreet = groupContactStreet,
+            GroupContactLocality = groupContactLocality,
+            GroupContactTown = groupContactTown,
+            GroupContactPostcode = groupContactPostcode
+        };
+        _mockAcademiesDbContext.AddGiasGroup(giasGroup);
+
+        var result = await _sut.GetTrustDetailsAsync("2806");
+
+        result.Address.Should().Be(expectedAddress);
+    }
+
+    [Fact]
+    public async Task GetTrustDetailsAsync_should_set_properties_from_giasGroup()
+    {
+        var giasGroup = new GiasGroup
+        {
+            GroupUid = "2806",
+            GroupId = "TR0012",
+            Ukprn = "10012345",
+            GroupType = "Multi-academy trust",
+            CompaniesHouseNumber = "123456",
+            IncorporatedOnOpenDate = "28/06/2007"
+        };
+        _mockAcademiesDbContext.AddGiasGroup(giasGroup);
+
+        var result = await _sut.GetTrustDetailsAsync("2806");
+
+        result.Should().BeEquivalentTo(new TrustDetailsDto("2806",
+            "TR0012",
+            "10012345",
+            "123456",
+            "Multi-academy trust",
+            "",
+            "",
+            null,
+            new DateTime(2007, 6, 28)
+        ));
+    }
 
     [Fact]
     public async Task GetTrustsByUidAsync_should_return_a_trust_if_giasGroup_and_mstrTrust_found()

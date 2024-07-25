@@ -18,6 +18,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     private readonly List<CdmAccount> _cdmAccounts = new();
     private List<GiasGroup>? _addedGiasGroups;
     private List<MstrTrust>? _addedMstrTrusts;
+    private List<GiasEstablishment>? _addedGiasEstablishments;
 
     public MockAcademiesDbContext()
     {
@@ -33,11 +34,11 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             .Returns(new MockDbSet<CdmAccount>(_cdmAccounts).Object);
     }
 
-    public MstrTrust CreateMstrTrust(string groupUid)
+    public MstrTrust CreateMstrTrust(string groupUid, string? region = "North East")
     {
         var mstrTrust = new MstrTrust
         {
-            GroupUid = groupUid, GORregion = "North East"
+            GroupUid = groupUid, GORregion = region
         };
         _addedMstrTrusts?.Add(mstrTrust);
         return mstrTrust;
@@ -50,6 +51,23 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             { GroupName = groupName, GroupUid = groupUid, GroupType = groupType, Ukprn = "my ukprn" };
         _addedGiasGroups?.Add(giasGroup);
         return giasGroup;
+    }
+
+    public void AddGiasGroup(GiasGroup giasGroup)
+    {
+        _addedGiasGroups?.Add(giasGroup);
+    }
+
+    public GiasEstablishment CreateGiasEstablishment(int urn, string? establishmentName = "my academy")
+    {
+        var giasEstablishment = new GiasEstablishment
+        {
+            Urn = urn,
+            EstablishmentName = establishmentName
+        };
+
+        _addedGiasEstablishments?.Add(giasEstablishment);
+        return giasEstablishment;
     }
 
     public CdmSystemuser CreateCdmSystemuser(string fullName, string email)
@@ -123,13 +141,14 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 
     public List<GiasEstablishment> SetupMockDbContextGiasEstablishment(int numMatches)
     {
-        return SetupMockDbContext(numMatches,
+        _addedGiasEstablishments = SetupMockDbContext(numMatches,
             i => new GiasEstablishment
             {
                 Urn = i,
                 EstablishmentName = $"Academy {i}"
             },
             academiesDbContext => academiesDbContext.GiasEstablishments);
+        return _addedGiasEstablishments;
     }
 
     public List<GiasGovernance> SetupMockDbContextGiasGovernance(int numMatches, string groupUid)
@@ -253,7 +272,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             var giasGroupLink = new GiasGroupLink
             {
                 GroupUid = giasGroup.GroupUid,
-                Urn = giasEstablishment.Urn.ToString()
+                Urn = giasEstablishment.Urn.ToString(),
+                GroupType = giasGroup.GroupType
             };
 
             establishmentGroupLinks.Add((giasEstablishment, giasGroupLink));
