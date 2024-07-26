@@ -33,7 +33,6 @@ public class GiasGroupFaker
         fakeGiasGroup.GroupName = trustToGenerate.Name;
         fakeGiasGroup.GroupType = trustToGenerate.TrustType;
         fakeGiasGroup.GroupUid = uid.ToString();
-        fakeGiasGroup.GroupStatusCode = "OPEN";
 
         if (trustToGenerate.Status is not null)
         {

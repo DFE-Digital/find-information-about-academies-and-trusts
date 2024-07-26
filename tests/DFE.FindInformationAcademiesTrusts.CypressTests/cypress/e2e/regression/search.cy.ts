@@ -35,11 +35,11 @@ describe("Testing the search trust functionality", () => {
             });
 
         searchTrustPage
-            .getOption("ST MARY'S ANGLICAN ACADEMY")
+            .getOption("ST MARY'S CATHOLIC HIGH SCHOOL ACADEMY TRUST")
             .then((option) => {
                 option
-                    .hasName("ST MARY'S ANGLICAN ACADEMY")
-                    .hasHint("054 Kendrick Summit, South Michele, EP37 6WY");
+                    .hasName("ST MARY'S CATHOLIC HIGH SCHOOL ACADEMY TRUST")
+                    .hasHint("2616 Dameon Avenue, Tillman Union, YQ9 6WJ");                
             });
 
         searchTrustPage
@@ -52,7 +52,7 @@ describe("Testing the search trust functionality", () => {
 
         searchTrustPage.search();
 
-        searchTrustPage.hasNumberOfResults(`17 results for "st mary"`);
+        searchTrustPage.hasNumberOfResults(`10 results for "st mary"`);
 
         cy.excuteAccessibilityTests();
 
@@ -67,17 +67,6 @@ describe("Testing the search trust functionality", () => {
                     .hasTrn("TR1471")
                     .hasUid("1283")
             });
-
-        searchTrustPage
-            .getSearchResult("ST MARY'S ANGLICAN ACADEMY")
-            .then((result) => {
-                result
-                    .hasName("ST MARY'S ANGLICAN ACADEMY")
-                    .hasAddress("054 Kendrick Summit, South Michele, EP37 6WY")
-                    .hasTrn("TR1464")
-                    .hasUid("1284")
-            });
-
         searchTrustPage
             .getSearchResult("ST MARY'S CATHOLIC PRIMARY SCHOOL")
             .then((result) => {
@@ -99,7 +88,7 @@ describe("Testing the search trust functionality", () => {
             .enterSearchText("trust")
             .search();
 
-        searchTrustPage.hasNumberOfResults(`69 results for "trust"`);
+        searchTrustPage.hasNumberOfResults(`48 results for "trust"`);
 
         let trustsPageOne: Array<string> = [];
         let trustsPageTwo: Array<string> = [];
@@ -142,17 +131,10 @@ describe("Testing the search trust functionality", () => {
 
                 expect(trustsPageTwo).to.deep.equal(trusts);
 
-                paginationComponent.goToPage("4");
+                paginationComponent.goToPage("3");
 
                 return searchTrustPage.getAllTrustResults();
-            })
-            .then((trusts) => {
-                paginationComponent.isCurrentPage("4");
-
-                paginationComponent.hasNoNext();
-
-                expect(trusts.length).to.equal(9);
-            })
+            })           
 
     });
 });

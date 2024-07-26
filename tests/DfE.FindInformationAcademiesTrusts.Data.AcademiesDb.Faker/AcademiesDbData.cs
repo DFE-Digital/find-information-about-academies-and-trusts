@@ -28,8 +28,7 @@ public class AcademiesDbData
     {
         return new AcademiesDbDataContext(GiasEstablishments, GiasGovernances, GiasGroupLinks, GiasGroups, MstrTrusts,
             CdmAccounts, MisEstablishments, MisFurtherEducationEstablishments, CdmSystemusers, MstrTrustGovernances,
-            ApplicationEvents,
-            ApplicationSettings);
+            ApplicationEvents, ApplicationSettings);
     }
 
     private class AcademiesDbDataContext : IAcademiesDbContext
