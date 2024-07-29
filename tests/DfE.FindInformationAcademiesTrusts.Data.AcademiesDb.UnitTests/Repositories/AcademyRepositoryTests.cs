@@ -41,8 +41,8 @@ public class AcademyRepositoryTests
     [Fact]
     public async Task GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyUrn_to_null_when_multi_academy_trust()
     {
-        var mat = _mockAcademiesDbContext.CreateGiasGroup("2806", groupType: "Multi-academy trust");
-        var academy = _mockAcademiesDbContext.CreateGiasEstablishment(1234);
+        var mat = _mockAcademiesDbContext.AddGiasGroup("2806", groupType: "Multi-academy trust");
+        var academy = _mockAcademiesDbContext.AddGiasEstablishment(1234);
         _mockAcademiesDbContext.LinkGiasEstablishmentsToGiasGroup(new[] { academy }, mat);
 
         var result = await _sut.GetUrnForSingleAcademyTrustAsync("2806");
@@ -53,7 +53,7 @@ public class AcademyRepositoryTests
     [Fact]
     public async Task GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyUrn_to_null_when_SAT_with_no_academies()
     {
-        _ = _mockAcademiesDbContext.CreateGiasGroup("2806", groupType: "Single-academy trust");
+        _ = _mockAcademiesDbContext.AddGiasGroup("2806", groupType: "Single-academy trust");
 
         var result = await _sut.GetUrnForSingleAcademyTrustAsync("2806");
 
@@ -63,8 +63,8 @@ public class AcademyRepositoryTests
     [Fact]
     public async Task GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyUrn_to_urn_of_SAT_academy()
     {
-        var sat = _mockAcademiesDbContext.CreateGiasGroup("2806", groupType: "Single-academy trust");
-        var academy = _mockAcademiesDbContext.CreateGiasEstablishment(1234);
+        var sat = _mockAcademiesDbContext.AddGiasGroup("2806", groupType: "Single-academy trust");
+        var academy = _mockAcademiesDbContext.AddGiasEstablishment(1234);
         _mockAcademiesDbContext.LinkGiasEstablishmentsToGiasGroup(new[] { academy }, sat);
 
         var result = await _sut.GetUrnForSingleAcademyTrustAsync("2806");

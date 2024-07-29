@@ -21,7 +21,7 @@ public class TrustRepositoryTests
     [InlineData("9008", "Trust with no academies", "Multi-academy trust")]
     public async Task GetTrustSummaryAsync_should_return_trustSummary_if_found(string uid, string name, string type)
     {
-        _ = _mockAcademiesDbContext.CreateGiasGroup(uid, name, type);
+        _ = _mockAcademiesDbContext.AddGiasGroup(uid, name, type);
 
         var result = await _sut.GetTrustSummaryAsync(uid);
         result.Should().BeEquivalentTo(new TrustSummary(name, type));
@@ -30,7 +30,7 @@ public class TrustRepositoryTests
     [Fact]
     public async Task GetTrustSummaryAsync_should_return_empty_values_on_null_group_fields()
     {
-        _ = _mockAcademiesDbContext.CreateGiasGroup("2806", null, null);
+        _ = _mockAcademiesDbContext.AddGiasGroup("2806", null, null);
 
         var result = await _sut.GetTrustSummaryAsync("2806");
         result.Should().BeEquivalentTo(new TrustSummary(string.Empty, string.Empty));
@@ -39,8 +39,8 @@ public class TrustRepositoryTests
     [Fact]
     public async Task GetTrustDetailsAsync_should_get_regionAndTerritory_from_mstrTrusts()
     {
-        _ = _mockAcademiesDbContext.CreateGiasGroup("2806");
-        _ = _mockAcademiesDbContext.CreateMstrTrust("2806", "My Region");
+        _ = _mockAcademiesDbContext.AddGiasGroup("2806");
+        _ = _mockAcademiesDbContext.AddMstrTrust("2806", "My Region");
 
         var result = await _sut.GetTrustDetailsAsync("2806");
 
@@ -50,7 +50,7 @@ public class TrustRepositoryTests
     [Fact]
     public async Task GetTrustDetailsAsync_should_set_regionAndTerritory_to_empty_string_when_mstrTrust_not_available()
     {
-        _ = _mockAcademiesDbContext.CreateGiasGroup("2806");
+        _ = _mockAcademiesDbContext.AddGiasGroup("2806");
 
         var result = await _sut.GetTrustDetailsAsync("2806");
 
@@ -61,8 +61,8 @@ public class TrustRepositoryTests
     public async Task
         GetTrustDetailsAsync_should_set_regionAndTerritory_to_empty_string_when_GORregion_in_mstrTrust_null()
     {
-        _ = _mockAcademiesDbContext.CreateGiasGroup("2806");
-        _ = _mockAcademiesDbContext.CreateMstrTrust("2806", null);
+        _ = _mockAcademiesDbContext.AddGiasGroup("2806");
+        _ = _mockAcademiesDbContext.AddMstrTrust("2806", null);
 
         var result = await _sut.GetTrustDetailsAsync("2806");
 
