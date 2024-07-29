@@ -1,6 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
-using DfE.FindInformationAcademiesTrusts.Data.Dto;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
@@ -13,7 +13,7 @@ public class DetailsModel(
     ITrustService trustService)
     : TrustsAreaModel(trustProvider, dataSourceProvider, trustService, logger, "Details")
 {
-    public TrustDetailsDto TrustDetailsDto { get; set; } = default!;
+    public TrustDetailsServiceModel TrustDetailsServiceModel { get; set; } = default!;
     public string? CompaniesHouseLink { get; set; }
     public string? GetInformationAboutSchoolsLink { get; set; }
     public string? SchoolsFinancialBenchmarkingLink { get; set; }
@@ -25,14 +25,15 @@ public class DetailsModel(
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        TrustDetailsDto = await TrustService.GetTrustDetailsAsync(Uid);
+        TrustDetailsServiceModel = await TrustService.GetTrustDetailsAsync(Uid);
 
-        CompaniesHouseLink = otherServicesLinkBuilder.CompaniesHouseListingLink(TrustDetailsDto);
+        CompaniesHouseLink = otherServicesLinkBuilder.CompaniesHouseListingLink(TrustDetailsServiceModel);
         GetInformationAboutSchoolsLink =
-            otherServicesLinkBuilder.GetInformationAboutSchoolsListingLink(TrustDetailsDto);
+            otherServicesLinkBuilder.GetInformationAboutSchoolsListingLink(TrustDetailsServiceModel);
         SchoolsFinancialBenchmarkingLink =
-            otherServicesLinkBuilder.SchoolFinancialBenchmarkingServiceListingLink(TrustDetailsDto);
-        FindSchoolPerformanceLink = otherServicesLinkBuilder.FindSchoolPerformanceDataListingLink(TrustDetailsDto);
+            otherServicesLinkBuilder.SchoolFinancialBenchmarkingServiceListingLink(TrustDetailsServiceModel);
+        FindSchoolPerformanceLink =
+            otherServicesLinkBuilder.FindSchoolPerformanceDataListingLink(TrustDetailsServiceModel);
 
         DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
             new List<string> { "Trust details", "Reference numbers" }));

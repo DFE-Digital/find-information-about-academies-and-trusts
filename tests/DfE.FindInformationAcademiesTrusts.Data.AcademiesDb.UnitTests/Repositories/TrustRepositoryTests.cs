@@ -1,7 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
-using DfE.FindInformationAcademiesTrusts.Data.RepositoryDto;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories;
 
@@ -24,7 +24,7 @@ public class TrustRepositoryTests
         _ = _mockAcademiesDbContext.CreateGiasGroup(uid, name, type);
 
         var result = await _sut.GetTrustSummaryAsync(uid);
-        result.Should().BeEquivalentTo(new TrustSummaryRepoDto(name, type));
+        result.Should().BeEquivalentTo(new TrustSummary(name, type));
     }
 
     [Fact]
@@ -33,7 +33,7 @@ public class TrustRepositoryTests
         _ = _mockAcademiesDbContext.CreateGiasGroup("2806", null, null);
 
         var result = await _sut.GetTrustSummaryAsync("2806");
-        result.Should().BeEquivalentTo(new TrustSummaryRepoDto(string.Empty, string.Empty));
+        result.Should().BeEquivalentTo(new TrustSummary(string.Empty, string.Empty));
     }
 
     [Fact]
@@ -113,7 +113,7 @@ public class TrustRepositoryTests
 
         var result = await _sut.GetTrustDetailsAsync("2806");
 
-        result.Should().BeEquivalentTo(new TrustDetailsRepoDto("2806",
+        result.Should().BeEquivalentTo(new TrustDetails("2806",
             "TR0012",
             "10012345",
             "123456",

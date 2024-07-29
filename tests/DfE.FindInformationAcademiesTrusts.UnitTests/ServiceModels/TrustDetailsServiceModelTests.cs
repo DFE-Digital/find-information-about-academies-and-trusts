@@ -1,8 +1,8 @@
-using DfE.FindInformationAcademiesTrusts.Data.Dto;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
 
-namespace DfE.FindInformationAcademiesTrusts.Data.UnitTests.Dto;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.ServiceModels;
 
-public class TrustDetailsDtoTests
+public class TrustDetailsServiceModelTests
 {
     [Fact]
     public void IsMultiAcademyTrust_should_return_true_if_trust_has_type_multiacademytrust()
@@ -42,8 +42,8 @@ public class TrustDetailsDtoTests
         result.Should().BeFalse();
     }
 
-    private static TrustDetailsDto GetTrustDetailsDtoWithType(string trustType)
+    private static TrustDetailsServiceModel GetTrustDetailsDtoWithType(string trustType)
     {
-        return new TrustDetailsDto("", "", "", "", trustType, "", "", null, null);
+        return new TrustDetailsServiceModel("", "", "", "", trustType, "", "", null, null);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
+using DfE.FindInformationAcademiesTrusts.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;

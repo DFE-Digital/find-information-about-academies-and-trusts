@@ -1,15 +1,15 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.Dto;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
 public interface IOtherServicesLinkBuilder
 {
-    string? GetInformationAboutSchoolsListingLink(TrustDetailsDto trust);
+    string? GetInformationAboutSchoolsListingLink(TrustDetailsServiceModel trust);
     string GetInformationAboutSchoolsListingLink(Academy academy);
-    string? CompaniesHouseListingLink(TrustDetailsDto trust);
-    string? SchoolFinancialBenchmarkingServiceListingLink(TrustDetailsDto trust);
-    string? FindSchoolPerformanceDataListingLink(TrustDetailsDto trust);
+    string? CompaniesHouseListingLink(TrustDetailsServiceModel trust);
+    string? SchoolFinancialBenchmarkingServiceListingLink(TrustDetailsServiceModel trust);
+    string? FindSchoolPerformanceDataListingLink(TrustDetailsServiceModel trust);
 }
 
 public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
@@ -25,7 +25,7 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
     private const string FindSchoolPerformanceDataBaseUrl =
         "https://www.find-school-performance-data.service.gov.uk";
 
-    public string GetInformationAboutSchoolsListingLink(TrustDetailsDto trust)
+    public string GetInformationAboutSchoolsListingLink(TrustDetailsServiceModel trust)
     {
         return $"{GetInformationAboutSchoolsBaseUrl}/Groups/Group/Details/{trust.Uid}";
     }
@@ -35,13 +35,13 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
         return $"{GetInformationAboutSchoolsBaseUrl}/Establishments/Establishment/Details/{academy.Urn}";
     }
 
-    public string? CompaniesHouseListingLink(TrustDetailsDto trust)
+    public string? CompaniesHouseListingLink(TrustDetailsServiceModel trust)
     {
         if (string.IsNullOrEmpty(trust.CompaniesHouseNumber)) return null;
         return $"{CompaniesHouseBaseUrl}/company/{trust.CompaniesHouseNumber}";
     }
 
-    public string? SchoolFinancialBenchmarkingServiceListingLink(TrustDetailsDto trust)
+    public string? SchoolFinancialBenchmarkingServiceListingLink(TrustDetailsServiceModel trust)
     {
         if (trust.IsMultiAcademyTrust())
         {
@@ -56,7 +56,7 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
         return null;
     }
 
-    public string? FindSchoolPerformanceDataListingLink(TrustDetailsDto trust)
+    public string? FindSchoolPerformanceDataListingLink(TrustDetailsServiceModel trust)
     {
         if (trust.IsMultiAcademyTrust())
         {

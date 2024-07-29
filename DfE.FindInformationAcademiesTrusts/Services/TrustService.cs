@@ -1,12 +1,12 @@
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
-using DfE.FindInformationAcademiesTrusts.Data.Dto;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
 
-namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
+namespace DfE.FindInformationAcademiesTrusts.Services;
 
 public interface ITrustService
 {
-    Task<TrustSummaryDto?> GetTrustSummaryAsync(string uid);
-    Task<TrustDetailsDto> GetTrustDetailsAsync(string uid);
+    Task<TrustSummaryServiceModel?> GetTrustSummaryAsync(string uid);
+    Task<TrustDetailsServiceModel> GetTrustDetailsAsync(string uid);
 }
 
 public class TrustService(
@@ -14,7 +14,7 @@ public class TrustService(
     ITrustRepository trustRepository)
     : ITrustService
 {
-    public async Task<TrustSummaryDto?> GetTrustSummaryAsync(string uid)
+    public async Task<TrustSummaryServiceModel?> GetTrustSummaryAsync(string uid)
     {
         var summary = await trustRepository.GetTrustSummaryAsync(uid);
 
@@ -25,16 +25,16 @@ public class TrustService(
 
         var count = await academyRepository.GetNumberOfAcademiesInTrustAsync(uid);
 
-        return new TrustSummaryDto(uid, summary.Name, summary.Type, count);
+        return new TrustSummaryServiceModel(uid, summary.Name, summary.Type, count);
     }
 
-    public async Task<TrustDetailsDto> GetTrustDetailsAsync(string uid)
+    public async Task<TrustDetailsServiceModel> GetTrustDetailsAsync(string uid)
     {
         var singleAcademyUrn = await academyRepository.GetUrnForSingleAcademyTrustAsync(uid);
 
         var trustDetails = await trustRepository.GetTrustDetailsAsync(uid);
 
-        var trustDetailsDto = new TrustDetailsDto(
+        var trustDetailsDto = new TrustDetailsServiceModel(
             trustDetails.Uid,
             trustDetails.GroupId,
             trustDetails.Ukprn,

@@ -1,6 +1,6 @@
-namespace DfE.FindInformationAcademiesTrusts.Data.Dto;
+namespace DfE.FindInformationAcademiesTrusts.ServiceModels;
 
-public record TrustDetailsDto(
+public record TrustDetailsServiceModel(
     string Uid,
     string? GroupId,
     string? Ukprn,

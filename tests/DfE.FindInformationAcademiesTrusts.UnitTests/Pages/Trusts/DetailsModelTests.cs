@@ -1,8 +1,8 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
-using DfE.FindInformationAcademiesTrusts.Data.Dto;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,20 +13,23 @@ public class DetailsModelTests
     private readonly DetailsModel _sut;
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinksToOtherServices = new();
     private readonly Mock<ITrustProvider> _mockTrustProvider = new();
-    private static readonly TrustDetailsDto DummyTrustDetailsDto = new("1234", "", "", "", "", "", "", null, null);
+
+    private static readonly TrustDetailsServiceModel DummyTrustDetailsServiceModel =
+        new("1234", "", "", "", "", "", "", null, null);
+
     private readonly MockDataSourceProvider _mockDataSourceProvider = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
 
     public DetailsModelTests()
     {
-        _mockTrustRepository.Setup(t => t.GetTrustDetailsAsync(DummyTrustDetailsDto.Uid))
-            .ReturnsAsync(DummyTrustDetailsDto);
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(DummyTrustDetailsDto.Uid))
-            .ReturnsAsync(new TrustSummaryDto(DummyTrustDetailsDto.Uid, "My trust", "", 0));
+        _mockTrustRepository.Setup(t => t.GetTrustDetailsAsync(DummyTrustDetailsServiceModel.Uid))
+            .ReturnsAsync(DummyTrustDetailsServiceModel);
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(DummyTrustDetailsServiceModel.Uid))
+            .ReturnsAsync(new TrustSummaryServiceModel(DummyTrustDetailsServiceModel.Uid, "My trust", "", 0));
 
         _sut = new DetailsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
                 _mockLinksToOtherServices.Object, new MockLogger<DetailsModel>().Object, _mockTrustRepository.Object)
-            { Uid = DummyTrustDetailsDto.Uid };
+            { Uid = DummyTrustDetailsServiceModel.Uid };
     }
 
     [Fact]
@@ -38,7 +41,8 @@ public class DetailsModelTests
     [Fact]
     public async Task CompaniesHouseLink_is_null_if_link_builder_returns_null()
     {
-        _mockLinksToOtherServices.Setup(l => l.CompaniesHouseListingLink(DummyTrustDetailsDto)).Returns((string?)null);
+        _mockLinksToOtherServices.Setup(l => l.CompaniesHouseListingLink(DummyTrustDetailsServiceModel))
+            .Returns((string?)null);
         await _sut.OnGetAsync();
         _sut.CompaniesHouseLink.Should().BeNull();
     }
@@ -46,7 +50,7 @@ public class DetailsModelTests
     [Fact]
     public async Task CompaniesHouseLink_is_string_if_link_builder_returns_string()
     {
-        _mockLinksToOtherServices.Setup(l => l.CompaniesHouseListingLink(DummyTrustDetailsDto)).Returns("url");
+        _mockLinksToOtherServices.Setup(l => l.CompaniesHouseListingLink(DummyTrustDetailsServiceModel)).Returns("url");
         await _sut.OnGetAsync();
         _sut.CompaniesHouseLink.Should().Be("url");
     }
@@ -54,7 +58,7 @@ public class DetailsModelTests
     [Fact]
     public async Task GetInformationAboutSchoolsLink_is_null_if_link_builder_returns_null()
     {
-        _mockLinksToOtherServices.Setup(l => l.GetInformationAboutSchoolsListingLink(DummyTrustDetailsDto))
+        _mockLinksToOtherServices.Setup(l => l.GetInformationAboutSchoolsListingLink(DummyTrustDetailsServiceModel))
             .Returns((string?)null);
         await _sut.OnGetAsync();
         _sut.GetInformationAboutSchoolsLink.Should().BeNull();
@@ -63,7 +67,7 @@ public class DetailsModelTests
     [Fact]
     public async Task GetInformationAboutSchoolsLink_is_string_if_link_builder_returns_string()
     {
-        _mockLinksToOtherServices.Setup(l => l.GetInformationAboutSchoolsListingLink(DummyTrustDetailsDto))
+        _mockLinksToOtherServices.Setup(l => l.GetInformationAboutSchoolsListingLink(DummyTrustDetailsServiceModel))
             .Returns("url");
         await _sut.OnGetAsync();
         _sut.GetInformationAboutSchoolsLink.Should().Be("url");
@@ -72,7 +76,8 @@ public class DetailsModelTests
     [Fact]
     public async Task SchoolsFinancialBenchmarkingLink_is_null_if_link_builder_returns_null()
     {
-        _mockLinksToOtherServices.Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsDto))
+        _mockLinksToOtherServices
+            .Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsServiceModel))
             .Returns((string?)null);
         await _sut.OnGetAsync();
         _sut.SchoolsFinancialBenchmarkingLink.Should().BeNull();
@@ -81,7 +86,8 @@ public class DetailsModelTests
     [Fact]
     public async Task SchoolsFinancialBenchmarkingLink_is_string_if_link_builder_returns_string()
     {
-        _mockLinksToOtherServices.Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsDto))
+        _mockLinksToOtherServices
+            .Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsServiceModel))
             .Returns("url");
         await _sut.OnGetAsync();
         _sut.SchoolsFinancialBenchmarkingLink.Should().Be("url");
@@ -90,7 +96,7 @@ public class DetailsModelTests
     [Fact]
     public async Task FindSchoolPerformanceLink_is_null_if_link_builder_returns_null()
     {
-        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(DummyTrustDetailsDto))
+        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(DummyTrustDetailsServiceModel))
             .Returns((string?)null);
         await _sut.OnGetAsync();
         _sut.FindSchoolPerformanceLink.Should().BeNull();
@@ -99,7 +105,7 @@ public class DetailsModelTests
     [Fact]
     public async Task FindSchoolPerformanceLink_is_string_if_link_builder_returns_string()
     {
-        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(DummyTrustDetailsDto))
+        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(DummyTrustDetailsServiceModel))
             .Returns("url");
         await _sut.OnGetAsync();
         _sut.FindSchoolPerformanceLink.Should().Be("url");
@@ -108,7 +114,7 @@ public class DetailsModelTests
     [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_null()
     {
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryDto?)null);
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }

@@ -14,24 +14,23 @@
 
 }
 
-
 <nav class="moj-sub-navigation" aria-label="Academies tabs">
 
   <ul class="moj-sub-navigation__list">
     <li class="moj-sub-navigation__item">
-      <a id="academies-details-link" class="moj-sub-navigation__link" aria-current="@GetAriaCurrentIf("Details")" asp-page="./Details" asp-route-uid="@Model.TrustSummaryDto.Uid"><span class="visually-hidden">Academies</span>Details</a>
+      <a id="academies-details-link" class="moj-sub-navigation__link" aria-current="@GetAriaCurrentIf("Details")" asp-page="./Details" asp-route-uid="@Model.TrustSummaryServiceModel.Uid"><span class="visually-hidden">Academies</span>Details</a>
     </li>
 
     <li class="moj-sub-navigation__item">
-      <a id="ofsted-ratings-link" class="moj-sub-navigation__link" aria-current="@GetAriaCurrentIf("Ofsted ratings")" asp-page="./OfstedRatings" asp-route-uid="@Model.TrustSummaryDto.Uid"><span class="visually-hidden">Academies</span>Ofsted ratings</a>
+      <a id="ofsted-ratings-link" class="moj-sub-navigation__link" aria-current="@GetAriaCurrentIf("Ofsted ratings")" asp-page="./OfstedRatings" asp-route-uid="@Model.TrustSummaryServiceModel.Uid"><span class="visually-hidden">Academies</span>Ofsted ratings</a>
     </li>
 
     <li class="moj-sub-navigation__item">
-      <a id="academies-pupil-numbers-link" class="moj-sub-navigation__link" aria-current="@GetAriaCurrentIf("Pupil numbers")" asp-page="./PupilNumbers" asp-route-uid="@Model.TrustSummaryDto.Uid"><span class="visually-hidden">Academies</span>Pupil numbers</a>
+      <a id="academies-pupil-numbers-link" class="moj-sub-navigation__link" aria-current="@GetAriaCurrentIf("Pupil numbers")" asp-page="./PupilNumbers" asp-route-uid="@Model.TrustSummaryServiceModel.Uid"><span class="visually-hidden">Academies</span>Pupil numbers</a>
     </li>
 
     <li class="moj-sub-navigation__item">
-      <a id="free-school-meals-link" class="moj-sub-navigation__link" aria-current="@GetAriaCurrentIf("Free school meals")" asp-page="./FreeSchoolMeals" asp-route-uid="@Model.TrustSummaryDto.Uid"><span class="visually-hidden">Academies</span>Free school meals</a>
+      <a id="free-school-meals-link" class="moj-sub-navigation__link" aria-current="@GetAriaCurrentIf("Free school meals")" asp-page="./FreeSchoolMeals" asp-route-uid="@Model.TrustSummaryServiceModel.Uid"><span class="visually-hidden">Academies</span>Free school meals</a>
     </li>
   </ul>
 

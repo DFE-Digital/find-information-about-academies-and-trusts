@@ -1,7 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
-using DfE.FindInformationAcademiesTrusts.Data.Dto;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,13 +24,13 @@ public class TrustsAreaModelTests
     [Fact]
     public async Task OnGetAsync_should_fetch_a_trustsummary_by_uid()
     {
-        var dummyTrustSummary = new TrustSummaryDto("1234", "My Trust", "Multi-academy trust", 3);
+        var dummyTrustSummary = new TrustSummaryServiceModel("1234", "My Trust", "Multi-academy trust", 3);
         _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrustSummary.Uid))
             .ReturnsAsync(dummyTrustSummary);
         _sut.Uid = dummyTrustSummary.Uid;
 
         await _sut.OnGetAsync();
-        _sut.TrustSummaryDto.Should().Be(dummyTrustSummary);
+        _sut.TrustSummaryServiceModel.Should().Be(dummyTrustSummary);
     }
 
     [Fact]
@@ -58,7 +58,7 @@ public class TrustsAreaModelTests
     public async Task OnGetAsync_should_return_not_found_result_if_trust_is_not_found()
     {
         _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("1111"))
-            .ReturnsAsync((TrustSummaryDto?)null);
+            .ReturnsAsync((TrustSummaryServiceModel?)null);
 
         _sut.Uid = "1111";
         var result = await _sut.OnGetAsync();

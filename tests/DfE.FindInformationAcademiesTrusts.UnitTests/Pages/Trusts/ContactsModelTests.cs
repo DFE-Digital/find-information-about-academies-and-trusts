@@ -1,8 +1,8 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
-using DfE.FindInformationAcademiesTrusts.Data.Dto;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,7 +46,7 @@ public class ContactsModelTests
 
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrustWithGovernors);
         _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrustWithGovernors.Uid))
-            .ReturnsAsync(new TrustSummaryDto(dummyTrustWithGovernors.Uid, dummyTrustWithGovernors.Name,
+            .ReturnsAsync(new TrustSummaryServiceModel(dummyTrustWithGovernors.Uid, dummyTrustWithGovernors.Name,
                 dummyTrustWithGovernors.Type, dummyTrustWithGovernors.Academies.Length));
 
         _sut = new ContactsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
@@ -60,7 +60,7 @@ public class ContactsModelTests
 
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrustWithNoGovernors);
         _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrustWithNoGovernors.Uid))
-            .ReturnsAsync(new TrustSummaryDto(dummyTrustWithNoGovernors.Uid, dummyTrustWithNoGovernors.Name,
+            .ReturnsAsync(new TrustSummaryServiceModel(dummyTrustWithNoGovernors.Uid, dummyTrustWithNoGovernors.Name,
                 dummyTrustWithNoGovernors.Type, dummyTrustWithNoGovernors.Academies.Length));
     }
 
@@ -132,7 +132,7 @@ public class ContactsModelTests
     [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustRepository.Setup(r => r.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryDto?)null);
+        _mockTrustRepository.Setup(r => r.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }

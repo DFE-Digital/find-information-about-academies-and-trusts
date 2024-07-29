@@ -1,8 +1,8 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
-using DfE.FindInformationAcademiesTrusts.Data.Dto;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,7 +23,7 @@ public class OverviewModelTests
 
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync(TrustUid)).ReturnsAsync(dummyTrust);
         _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrust.Uid))
-            .ReturnsAsync(new TrustSummaryDto(dummyTrust.Uid, dummyTrust.Name, dummyTrust.Type,
+            .ReturnsAsync(new TrustSummaryServiceModel(dummyTrust.Uid, dummyTrust.Name, dummyTrust.Type,
                 dummyTrust.Academies.Length));
         _sut = new OverviewModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object, logger.Object,
                 _mockTrustRepository.Object)
@@ -232,7 +232,7 @@ public class OverviewModelTests
     [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(TrustUid)).ReturnsAsync((TrustSummaryDto?)null);
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(TrustUid)).ReturnsAsync((TrustSummaryServiceModel?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
@@ -240,7 +240,7 @@ public class OverviewModelTests
     [Fact]
     public async Task OnGetAsync_sets_correct_data_source_list()
     {
-        var result = await _sut.OnGetAsync();
+        _ = await _sut.OnGetAsync();
         _mockDataSourceProvider.Verify(e => e.GetGiasUpdated(), Times.Once);
         _sut.DataSources.Should().ContainSingle();
         _sut.DataSources[0].Fields.Should().Contain(new List<string> { "Trust summary", "Ofsted ratings" });

@@ -1,6 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
-using DfE.FindInformationAcademiesTrusts.Data.Dto;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -19,7 +19,7 @@ public class TrustsAreaModel(
     protected readonly ITrustService TrustService = trustService;
 
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = "";
-    public TrustSummaryDto TrustSummaryDto { get; set; } = default!;
+    public TrustSummaryServiceModel TrustSummaryServiceModel { get; set; } = default!;
     public List<DataSourceListEntry> DataSources { get; set; } = new();
     public string PageName { get; init; } = pageName;
     public string? PageTitle { get; init; }
@@ -54,7 +54,7 @@ public class TrustsAreaModel(
             return new NotFoundResult();
         }
 
-        TrustSummaryDto = trustSummaryDto;
+        TrustSummaryServiceModel = trustSummaryDto;
 
         return Page();
     }

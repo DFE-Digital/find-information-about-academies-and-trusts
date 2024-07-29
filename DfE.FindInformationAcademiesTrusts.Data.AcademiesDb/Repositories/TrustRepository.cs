@@ -1,29 +1,24 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
-using DfE.FindInformationAcademiesTrusts.Data.RepositoryDto;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 
-public interface ITrustRepository
-{
-    Task<TrustSummaryRepoDto?> GetTrustSummaryAsync(string uid);
-    Task<TrustDetailsRepoDto> GetTrustDetailsAsync(string uid);
-}
-
 public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRepository
 {
-    public async Task<TrustSummaryRepoDto?> GetTrustSummaryAsync(string uid)
+    public async Task<TrustSummary?> GetTrustSummaryAsync(string uid)
     {
         var details = await academiesDbContext.Groups
             .Where(g => g.GroupUid == uid)
             .Select(g => new { Name = g.GroupName ?? string.Empty, Type = g.GroupType ?? string.Empty })
             .SingleOrDefaultAsync();
 
-        return details is null ? null : new TrustSummaryRepoDto(details.Name, details.Type);
+        return details is null ? null : new TrustSummary(details.Name, details.Type);
     }
 
-    public async Task<TrustDetailsRepoDto> GetTrustDetailsAsync(string uid)
+    public async Task<TrustDetails> GetTrustDetailsAsync(string uid)
     {
         var giasGroup = await academiesDbContext.Groups
             .Where(g => g.GroupUid == uid)
@@ -44,7 +39,7 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
 
         var regionAndTerritory = await GetRegionAndTerritoryAsync(uid);
 
-        var trustDetailsDto = new TrustDetailsRepoDto(
+        var trustDetailsDto = new TrustDetails(
             giasGroup.GroupUid!, //Searched by this field so it must be present
             giasGroup.GroupId,
             giasGroup.Ukprn,

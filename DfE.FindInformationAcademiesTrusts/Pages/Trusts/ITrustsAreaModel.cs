@@ -1,11 +1,11 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.Dto;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public interface ITrustsAreaModel
 {
-    TrustSummaryDto TrustSummaryDto { get; }
+    TrustSummaryServiceModel TrustSummaryServiceModel { get; }
 
     List<DataSourceListEntry> DataSources { get; }
 

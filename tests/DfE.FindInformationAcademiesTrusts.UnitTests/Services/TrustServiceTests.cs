@@ -1,8 +1,9 @@
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
-using DfE.FindInformationAcademiesTrusts.Data.Dto;
-using DfE.FindInformationAcademiesTrusts.Data.RepositoryDto;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Services;
 
-namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
 
 public class TrustServiceTests
 {
@@ -20,7 +21,7 @@ public class TrustServiceTests
     public async Task GetTrustSummaryAsync_should_return_null_if_no_giasGroup_found()
     {
         _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("this uid doesn't exist"))
-            .ReturnsAsync((TrustSummaryRepoDto?)null);
+            .ReturnsAsync((TrustSummary?)null);
 
         var result = await _sut.GetTrustSummaryAsync("this uid doesn't exist");
         result.Should().BeNull();
@@ -33,12 +34,12 @@ public class TrustServiceTests
     public async Task GetTrustSummaryAsync_should_return_trustSummary_if_found(string uid, string name, string type,
         int numAcademies)
     {
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(uid)).ReturnsAsync(new TrustSummaryRepoDto(name, type));
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(uid)).ReturnsAsync(new TrustSummary(name, type));
         _mockAcademyRepository.Setup(a => a.GetNumberOfAcademiesInTrustAsync(uid))
             .ReturnsAsync(numAcademies);
 
         var result = await _sut.GetTrustSummaryAsync(uid);
-        result.Should().BeEquivalentTo(new TrustSummaryDto(uid, name, type, numAcademies));
+        result.Should().BeEquivalentTo(new TrustSummaryServiceModel(uid, name, type, numAcademies));
     }
 
     [Theory]
@@ -50,7 +51,7 @@ public class TrustServiceTests
         _mockAcademyRepository.Setup(a => a.GetUrnForSingleAcademyTrustAsync("2806"))
             .ReturnsAsync(singleAcademyUrn);
         _mockTrustRepository.Setup(t => t.GetTrustDetailsAsync("2806"))
-            .ReturnsAsync(new TrustDetailsRepoDto("2806",
+            .ReturnsAsync(new TrustDetails("2806",
                 "TR0012",
                 "10012345",
                 "123456",
@@ -68,7 +69,7 @@ public class TrustServiceTests
     public async Task GetTrustDetailsAsync_should_set_properties_from_TrustRepo()
     {
         _mockTrustRepository.Setup(t => t.GetTrustDetailsAsync("2806"))
-            .ReturnsAsync(new TrustDetailsRepoDto("2806",
+            .ReturnsAsync(new TrustDetails("2806",
                 "TR0012",
                 "10012345",
                 "123456",
@@ -79,7 +80,7 @@ public class TrustServiceTests
 
         var result = await _sut.GetTrustDetailsAsync("2806");
 
-        result.Should().BeEquivalentTo(new TrustDetailsDto("2806",
+        result.Should().BeEquivalentTo(new TrustDetailsServiceModel("2806",
             "TR0012",
             "10012345",
             "123456",

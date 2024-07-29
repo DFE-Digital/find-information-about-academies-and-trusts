@@ -1,13 +1,8 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
-
-public interface IAcademyRepository
-{
-    Task<string?> GetUrnForSingleAcademyTrustAsync(string uid);
-    Task<int> GetNumberOfAcademiesInTrustAsync(string uid);
-}
 
 public class AcademyRepository(IAcademiesDbContext academiesDbContext) : IAcademyRepository
 {

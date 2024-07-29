@@ -1,32 +1,35 @@
-using DfE.FindInformationAcademiesTrusts.Data.Dto;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages;
 
 public class OtherServicesLinkBuilderTests
 {
     private readonly OtherServicesLinkBuilder _sut = new();
-    private static readonly TrustDetailsDto DummyTrustDetailsDto = new("", "", "", "", "", "", "", null, null);
+
+    private static readonly TrustDetailsServiceModel DummyTrustDetailsServiceModel =
+        new("", "", "", "", "", "", "", null, null);
 
     [Fact]
     public void CompaniesHouseListingLink_should_return_url_containing_CompaniesHouseNumber()
     {
-        var result = _sut.CompaniesHouseListingLink(DummyTrustDetailsDto with { CompaniesHouseNumber = "2345" });
+        var result =
+            _sut.CompaniesHouseListingLink(DummyTrustDetailsServiceModel with { CompaniesHouseNumber = "2345" });
         result.Should().Contain("/company/2345");
     }
 
     [Fact]
     public void CompaniesHouseListingLink_should_return_null_if_trust_has_no_CompaniesHouseNumber()
     {
-        var result = _sut.CompaniesHouseListingLink(DummyTrustDetailsDto with { CompaniesHouseNumber = "" });
+        var result = _sut.CompaniesHouseListingLink(DummyTrustDetailsServiceModel with { CompaniesHouseNumber = "" });
         result.Should().BeNull();
     }
 
     [Fact]
     public void GetInformationAboutSchoolsListingLink_should_return_url_containing_trust_uid_if_trust_is_open()
     {
-        var result = _sut.GetInformationAboutSchoolsListingLink(DummyTrustDetailsDto with { Uid = "1234" });
+        var result = _sut.GetInformationAboutSchoolsListingLink(DummyTrustDetailsServiceModel with { Uid = "1234" });
         result.Should().Contain("1234");
     }
 
@@ -43,7 +46,7 @@ public class OtherServicesLinkBuilderTests
         SchoolFinancialBenchmarkingListingLink_should_be_to_a_trust_page_if_multiacademy_trust()
     {
         var result =
-            _sut.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsDto with
+            _sut.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsServiceModel with
             {
                 Type = "Multi-academy trust",
                 CompaniesHouseNumber = "2345"
@@ -55,7 +58,7 @@ public class OtherServicesLinkBuilderTests
     public void
         SchoolFinancialBenchmarkingListingLink_should_be_to_a_school_page_if_single_academy_trust_with_academies()
     {
-        var result = _sut.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsDto with
+        var result = _sut.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsServiceModel with
         {
             Type = "Single-academy trust", SingleAcademyUrn = "1111"
         });
@@ -65,7 +68,7 @@ public class OtherServicesLinkBuilderTests
     [Fact]
     public void SchoolFinancialBenchmarkingListingLink_should_be_null_if_single_academy_type_with_no_academies()
     {
-        var result = _sut.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsDto with
+        var result = _sut.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsServiceModel with
         {
             Type = "Single-academy trust", SingleAcademyUrn = null
         });
@@ -80,7 +83,7 @@ public class OtherServicesLinkBuilderTests
         SchoolFinancialBenchmarkingListingLink_should_be_null_if_type_is_neither_multi_or_single_academy_trust(
             string type, string? singleAcademyUrn)
     {
-        var result = _sut.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsDto with
+        var result = _sut.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsServiceModel with
         {
             Type = type, SingleAcademyUrn = singleAcademyUrn
         });
@@ -92,7 +95,7 @@ public class OtherServicesLinkBuilderTests
         FindSchoolPerformanceDataListingLink_should_be_to_a_trust_page_if_multiacademy_trust()
     {
         var result =
-            _sut.FindSchoolPerformanceDataListingLink(DummyTrustDetailsDto with
+            _sut.FindSchoolPerformanceDataListingLink(DummyTrustDetailsServiceModel with
             {
                 Uid = "1234", Type = "Multi-academy trust"
             });
@@ -103,7 +106,7 @@ public class OtherServicesLinkBuilderTests
     public void
         FindSchoolPerformanceDataListingLink_should_be_to_a_school_page_if_single_academy_trust_with_academies()
     {
-        var result = _sut.FindSchoolPerformanceDataListingLink(DummyTrustDetailsDto with
+        var result = _sut.FindSchoolPerformanceDataListingLink(DummyTrustDetailsServiceModel with
         {
             Type = "Single-academy trust", SingleAcademyUrn = "1111"
         });
@@ -113,7 +116,7 @@ public class OtherServicesLinkBuilderTests
     [Fact]
     public void FindSchoolPerformanceDataListingLink_should_be_null_if_trust_is_single_academy_type_with_no_trusts()
     {
-        var result = _sut.FindSchoolPerformanceDataListingLink(DummyTrustDetailsDto with
+        var result = _sut.FindSchoolPerformanceDataListingLink(DummyTrustDetailsServiceModel with
         {
             Type = "Single-academy trust", SingleAcademyUrn = null
         });
@@ -128,7 +131,7 @@ public class OtherServicesLinkBuilderTests
         FindSchoolPerformanceDataListingLink_should_be_null_if_type_is_neither_multi_or_single_academy_trust(
             string type, string? singleAcademyUrn)
     {
-        var result = _sut.FindSchoolPerformanceDataListingLink(DummyTrustDetailsDto with
+        var result = _sut.FindSchoolPerformanceDataListingLink(DummyTrustDetailsServiceModel with
         {
             Type = type, SingleAcademyUrn = singleAcademyUrn
         });
