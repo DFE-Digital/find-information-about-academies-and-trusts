@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
+using DfE.FindInformationAcademiesTrusts.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -9,8 +10,8 @@ public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
 {
     public record AutocompleteEntry(string Address, string Name, string? TrustId);
 
-    private readonly ITrustProvider _trustProvider;
     private readonly ITrustSearch _trustSearch;
+    private readonly ITrustService _trustService;
     public string PageName { get; } = "Search";
     public IPageStatus PageStatus { get; set; }
     public Dictionary<string, string> PaginationRouteData { get; set; } = new();
@@ -22,10 +23,10 @@ public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
     public IPaginatedList<TrustSearchEntry> Trusts { get; set; } =
         PaginatedList<TrustSearchEntry>.Empty();
 
-    public SearchModel(ITrustProvider trustProvider, ITrustSearch trustSearch)
+    public SearchModel(ITrustSearch trustSearch, ITrustService trustService)
     {
-        _trustProvider = trustProvider;
         _trustSearch = trustSearch;
+        _trustService = trustService;
         PageStatus = Trusts.PageStatus;
     }
 
@@ -38,7 +39,7 @@ public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
     {
         if (!string.IsNullOrWhiteSpace(Uid))
         {
-            var trust = await _trustProvider.GetTrustByUidAsync(Uid);
+            var trust = await _trustService.GetTrustSummaryAsync(Uid);
             if (trust != null && string.Equals(trust.Name, KeyWords, StringComparison.CurrentCultureIgnoreCase))
             {
                 return RedirectToPage("/Trusts/Details", new { Uid });

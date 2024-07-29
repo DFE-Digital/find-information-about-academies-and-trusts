@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -12,6 +13,8 @@ public class SearchModelTests
     private readonly SearchModel _sut;
     private readonly Mock<ITrustSearch> _mockTrustSearch;
 
+    private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
+
     private readonly TrustSearchEntry[] _fakeTrusts =
     {
         new("trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC", "2044", ""),
@@ -19,21 +22,17 @@ public class SearchModelTests
         new("trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ", "2044", "")
     };
 
-    private readonly Trust _fakeTrust;
-
     public SearchModelTests()
     {
-        Mock<ITrustProvider> mockTrustProvider = new();
+        Mock<ITrustService> mockTrustService = new();
         _mockTrustSearch = new Mock<ITrustSearch>();
 
-        var dummyTrustFactory = new DummyTrustFactory();
-        _fakeTrust = dummyTrustFactory.GetDummyTrust();
-        mockTrustProvider.Setup(s => s.GetTrustByUidAsync(_fakeTrust.Uid).Result)
+        mockTrustService.Setup(s => s.GetTrustSummaryAsync(_fakeTrust.Uid).Result)
             .Returns(_fakeTrust);
         _mockTrustSearch.Setup(s => s.SearchAsync(SearchTermThatMatchesAllFakeTrusts, It.IsAny<int>()).Result)
             .Returns(new PaginatedList<TrustSearchEntry>(_fakeTrusts, _fakeTrusts.Length, 1, 1));
 
-        _sut = new SearchModel(mockTrustProvider.Object, _mockTrustSearch.Object);
+        _sut = new SearchModel(_mockTrustSearch.Object, mockTrustService.Object);
     }
 
     [Fact]
