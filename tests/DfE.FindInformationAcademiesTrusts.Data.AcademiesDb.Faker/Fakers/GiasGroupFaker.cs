@@ -21,7 +21,10 @@ public class GiasGroupFaker
                 f => f.Date.Past(10, refDate)
                     .ToString("dd/MM/yyyy"))
             .RuleFor(g => g.CompaniesHouseNumber, f => f.Random.Int(1100000, 09999999).ToString("D8"))
-            .RuleFor(g => g.GroupStatus, f => f.PickRandom("Open", "Open", "Closed"));
+            // Temporary measure to ensure tests continue to provide value
+            // Defaulting all to open as that is all our system handles now
+            .RuleFor(g => g.GroupStatus, f => "Open")
+            .RuleFor(g => g.GroupStatusCode, f => "OPEN");
     }
 
     public GiasGroup Generate(TrustToGenerate trustToGenerate, int uid)
