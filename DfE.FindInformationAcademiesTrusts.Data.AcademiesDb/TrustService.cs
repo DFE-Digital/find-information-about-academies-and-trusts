@@ -1,8 +1,5 @@
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Dto;
-using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 
@@ -13,7 +10,6 @@ public interface ITrustService
 }
 
 public class TrustService(
-    IAcademiesDbContext academiesDbContext,
     IAcademyRepository academyRepository,
     ITrustRepository trustRepository)
     : ITrustService
@@ -34,46 +30,20 @@ public class TrustService(
 
     public async Task<TrustDetailsDto> GetTrustDetailsAsync(string uid)
     {
-        var regionAndTerritory = await academiesDbContext.MstrTrusts
-            .Where(m => m.GroupUid == uid)
-            .Select(m => m.GORregion)
-            .SingleOrDefaultAsync() ?? string.Empty;
-
         var singleAcademyUrn = await academyRepository.GetUrnForSingleAcademyTrustAsync(uid);
 
-        var giasGroup = await academiesDbContext.Groups
-            .Where(g => g.GroupUid == uid)
-            .Select(giasGroup => new
-            {
-                giasGroup.GroupUid,
-                giasGroup.GroupId,
-                giasGroup.Ukprn,
-                giasGroup.CompaniesHouseNumber,
-                giasGroup.GroupType,
-                giasGroup.GroupContactStreet,
-                giasGroup.GroupContactLocality,
-                giasGroup.GroupContactTown,
-                giasGroup.GroupContactPostcode,
-                giasGroup.IncorporatedOnOpenDate
-            })
-            .SingleAsync();
+        var trustDetails = await trustRepository.GetTrustDetailsAsync(uid);
 
         var trustDetailsDto = new TrustDetailsDto(
-            giasGroup.GroupUid!, //Searched by this field so it must be present
-            giasGroup.GroupId,
-            giasGroup.Ukprn,
-            giasGroup.CompaniesHouseNumber,
-            giasGroup.GroupType!, //Enforced by EF filter
-            string.Join(", ", new[]
-            {
-                giasGroup.GroupContactStreet,
-                giasGroup.GroupContactLocality,
-                giasGroup.GroupContactTown,
-                giasGroup.GroupContactPostcode
-            }.Where(s => !string.IsNullOrWhiteSpace(s))),
-            regionAndTerritory,
+            trustDetails.Uid,
+            trustDetails.GroupId,
+            trustDetails.Ukprn,
+            trustDetails.CompaniesHouseNumber,
+            trustDetails.Type,
+            trustDetails.Address,
+            trustDetails.RegionAndTerritory,
             singleAcademyUrn,
-            giasGroup.IncorporatedOnOpenDate.ParseAsNullableDate()
+            trustDetails.OpenedDate
         );
 
         return trustDetailsDto;

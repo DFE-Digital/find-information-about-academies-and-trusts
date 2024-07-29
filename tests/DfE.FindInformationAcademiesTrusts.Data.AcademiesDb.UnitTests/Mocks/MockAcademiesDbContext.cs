@@ -32,6 +32,12 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             .Returns(new MockDbSet<CdmSystemuser>(_cdmSystemusers).Object);
         Setup(academiesDbContext => academiesDbContext.CdmAccounts)
             .Returns(new MockDbSet<CdmAccount>(_cdmAccounts).Object);
+
+
+        //Set up some unused data
+        SetupMockDbContextGiasGroups(5);
+        SetupMockDbContextGiasEstablishment(5);
+        SetupMockDbContextMstrTrust(5);
     }
 
     public MstrTrust CreateMstrTrust(string groupUid, string? region = "North East")
