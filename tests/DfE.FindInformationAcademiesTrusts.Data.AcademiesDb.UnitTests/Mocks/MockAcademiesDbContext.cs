@@ -58,6 +58,11 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         _addedGiasGroups?.Add(giasGroup);
     }
 
+    public void AddGiasGroupLink(GiasGroupLink giasGroupLink)
+    {
+        _giasGroupLinks.Add(giasGroupLink);
+    }
+
     public GiasEstablishment CreateGiasEstablishment(int urn, string? establishmentName = "my academy")
     {
         var giasEstablishment = new GiasEstablishment
