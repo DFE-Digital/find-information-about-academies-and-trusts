@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.Dto;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -8,25 +9,23 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 
 public class TrustsAreaModelTests
 {
-    private readonly Mock<ITrustProvider> _mockTrustProvider;
-    private readonly Mock<IDataSourceProvider> _mockDataUpdatedProvider;
+    private readonly Mock<ITrustProvider> _mockTrustProvider = new();
+    private readonly Mock<IDataSourceProvider> _mockDataSourceProvider = new();
     private readonly TrustsAreaModel _sut;
-    private readonly MockLogger<TrustsAreaModel> _logger;
+    private readonly MockLogger<TrustsAreaModel> _logger = new();
+    private readonly Mock<ITrustService> _mockTrustRepository = new();
 
     public TrustsAreaModelTests()
     {
-        _logger = new MockLogger<TrustsAreaModel>();
-        _mockTrustProvider = new Mock<ITrustProvider>();
-        _mockDataUpdatedProvider = new Mock<IDataSourceProvider>();
-        _sut = new TrustsAreaModel(_mockTrustProvider.Object, _mockDataUpdatedProvider.Object, _logger.Object,
-            "Details");
+        _sut = new TrustsAreaModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
+            _mockTrustRepository.Object, _logger.Object, "Details");
     }
 
     [Fact]
     public async Task OnGetAsync_should_fetch_a_trustsummary_by_uid()
     {
         var dummyTrustSummary = new TrustSummaryDto("1234", "My Trust", "Multi-academy trust", 3);
-        _mockTrustProvider.Setup(s => s.GetTrustSummaryAsync(dummyTrustSummary.Uid))
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrustSummary.Uid))
             .ReturnsAsync(dummyTrustSummary);
         _sut.Uid = dummyTrustSummary.Uid;
 
@@ -44,8 +43,8 @@ public class TrustsAreaModelTests
     [Fact]
     public void PageName_should_be_set_at_initialisation()
     {
-        var sut = new TrustsAreaModel(_mockTrustProvider.Object, _mockDataUpdatedProvider.Object, _logger.Object,
-            "Contacts");
+        var sut = new TrustsAreaModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
+            _mockTrustRepository.Object, _logger.Object, "Contacts");
         sut.PageName.Should().Be("Contacts");
     }
 
@@ -58,7 +57,7 @@ public class TrustsAreaModelTests
     [Fact]
     public async Task OnGetAsync_should_return_not_found_result_if_trust_is_not_found()
     {
-        _mockTrustProvider.Setup(s => s.GetTrustSummaryAsync("1111"))
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("1111"))
             .ReturnsAsync((TrustSummaryDto?)null);
 
         _sut.Uid = "1111";

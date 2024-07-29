@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.Dto;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
@@ -10,20 +11,22 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 public class OfstedRatingsModelTests
 {
     private readonly OfstedRatingsModel _sut;
-    private readonly Mock<ITrustProvider> _mockTrustProvider;
-    private readonly MockDataSourceProvider _mockDataSourceProvider;
+    private readonly Mock<ITrustProvider> _mockTrustProvider = new();
+    private readonly MockDataSourceProvider _mockDataSourceProvider = new();
+    private readonly Mock<ITrustService> _mockTrustRepository = new();
 
     public OfstedRatingsModelTests()
     {
         MockLogger<OfstedRatingsModel> logger = new();
         var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
-        _mockTrustProvider = new Mock<ITrustProvider>();
-        _mockDataSourceProvider = new MockDataSourceProvider();
+
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrust);
-        _mockTrustProvider.Setup(tp => tp.GetTrustSummaryAsync(dummyTrust.Uid))
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrust.Uid))
             .ReturnsAsync(new TrustSummaryDto(dummyTrust.Uid, dummyTrust.Name, dummyTrust.Type,
                 dummyTrust.Academies.Length));
-        _sut = new OfstedRatingsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object, logger.Object)
+
+        _sut = new OfstedRatingsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object, logger.Object,
+                _mockTrustRepository.Object)
             { Uid = "1234" };
     }
 
@@ -48,7 +51,7 @@ public class OfstedRatingsModelTests
     [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustProvider.Setup(tp => tp.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryDto?)null);
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryDto?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }

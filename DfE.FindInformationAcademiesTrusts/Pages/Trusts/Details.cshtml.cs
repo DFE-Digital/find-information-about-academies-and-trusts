@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.Dto;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,8 +9,9 @@ public class DetailsModel(
     ITrustProvider trustProvider,
     IDataSourceProvider dataSourceProvider,
     IOtherServicesLinkBuilder otherServicesLinkBuilder,
-    ILogger<DetailsModel> logger)
-    : TrustsAreaModel(trustProvider, dataSourceProvider, logger, "Details")
+    ILogger<DetailsModel> logger,
+    ITrustService trustService)
+    : TrustsAreaModel(trustProvider, dataSourceProvider, trustService, logger, "Details")
 {
     public TrustDetailsDto TrustDetailsDto { get; set; } = default!;
     public string? CompaniesHouseLink { get; set; }
@@ -23,7 +25,7 @@ public class DetailsModel(
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        TrustDetailsDto = await TrustProvider.GetTrustDetailsAsync(Uid);
+        TrustDetailsDto = await TrustService.GetTrustDetailsAsync(Uid);
 
         CompaniesHouseLink = otherServicesLinkBuilder.CompaniesHouseListingLink(TrustDetailsDto);
         GetInformationAboutSchoolsLink =

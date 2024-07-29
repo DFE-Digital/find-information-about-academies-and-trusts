@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
@@ -9,8 +10,9 @@ public class AcademiesDetailsModel : TrustsAreaModel, IAcademiesAreaModel
     public IOtherServicesLinkBuilder LinkBuilder { get; }
 
     public AcademiesDetailsModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider,
-        IOtherServicesLinkBuilder linkBuilder, ILogger<AcademiesDetailsModel> logger) : base(trustProvider,
-        dataSourceProvider, logger, "Academies in this trust")
+        IOtherServicesLinkBuilder linkBuilder, ILogger<AcademiesDetailsModel> logger,
+        ITrustService trustService) : base(trustProvider,
+        dataSourceProvider, trustService, logger, "Academies in this trust")
     {
         PageTitle = "Academies details";
         LinkBuilder = linkBuilder;

@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
@@ -10,8 +11,8 @@ public class FreeSchoolMealsModel : TrustsAreaModel, IAcademiesAreaModel
 
     public FreeSchoolMealsModel(ITrustProvider trustProvider,
         IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider, IDataSourceProvider dataSourceProvider,
-        ILogger<FreeSchoolMealsModel> logger) :
-        base(trustProvider, dataSourceProvider, logger, "Academies in this trust")
+        ILogger<FreeSchoolMealsModel> logger, ITrustService trustService) :
+        base(trustProvider, dataSourceProvider, trustService, logger, "Academies in this trust")
     {
         PageTitle = "Academies free school meals";
         _freeSchoolMealsProvider = freeSchoolMealsAverageProvider;

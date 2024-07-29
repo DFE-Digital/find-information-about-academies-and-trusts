@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
@@ -6,8 +7,9 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 public class ContactsModel(
     ITrustProvider trustProvider,
     IDataSourceProvider sourceProvider,
-    ILogger<ContactsModel> logger)
-    : TrustsAreaModel(trustProvider, sourceProvider, logger, "Contacts")
+    ILogger<ContactsModel> logger,
+    ITrustService trustService)
+    : TrustsAreaModel(trustProvider, sourceProvider, trustService, logger, "Contacts")
 {
     public Trust Trust { get; set; } = default!;
     public Governor? ChairOfTrustees { get; set; }

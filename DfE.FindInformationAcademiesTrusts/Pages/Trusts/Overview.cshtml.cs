@@ -1,4 +1,5 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
@@ -6,9 +7,10 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 public class OverviewModel(
     ITrustProvider trustProvider,
     IDataSourceProvider dataSourceProvider,
-    ILogger<OverviewModel> logger)
+    ILogger<OverviewModel> logger,
+    ITrustService trustService)
     : TrustsAreaModel(trustProvider,
-        dataSourceProvider, logger, "Overview")
+        dataSourceProvider, trustService, logger, "Overview")
 {
     public Trust Trust { get; set; } = default!;
 

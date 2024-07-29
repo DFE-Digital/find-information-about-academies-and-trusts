@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.Dto;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
@@ -11,22 +12,21 @@ public class DetailsModelTests
 {
     private readonly DetailsModel _sut;
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinksToOtherServices = new();
-    private readonly Mock<ITrustProvider> _mockTrustProvider;
+    private readonly Mock<ITrustProvider> _mockTrustProvider = new();
     private static readonly TrustDetailsDto DummyTrustDetailsDto = new("1234", "", "", "", "", "", "", null, null);
-    private readonly MockDataSourceProvider _mockDataSourceProvider;
+    private readonly MockDataSourceProvider _mockDataSourceProvider = new();
+    private readonly Mock<ITrustService> _mockTrustRepository = new();
 
     public DetailsModelTests()
     {
-        MockLogger<DetailsModel> logger = new();
-        _mockTrustProvider = new Mock<ITrustProvider>();
-        _mockDataSourceProvider = new MockDataSourceProvider();
-        _mockTrustProvider.Setup(tp => tp.GetTrustDetailsAsync(DummyTrustDetailsDto.Uid))
+        _mockTrustRepository.Setup(t => t.GetTrustDetailsAsync(DummyTrustDetailsDto.Uid))
             .ReturnsAsync(DummyTrustDetailsDto);
-        _mockTrustProvider.Setup(tp => tp.GetTrustSummaryAsync(DummyTrustDetailsDto.Uid))
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(DummyTrustDetailsDto.Uid))
             .ReturnsAsync(new TrustSummaryDto(DummyTrustDetailsDto.Uid, "My trust", "", 0));
 
         _sut = new DetailsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
-            _mockLinksToOtherServices.Object, logger.Object) { Uid = DummyTrustDetailsDto.Uid };
+                _mockLinksToOtherServices.Object, new MockLogger<DetailsModel>().Object, _mockTrustRepository.Object)
+            { Uid = DummyTrustDetailsDto.Uid };
     }
 
     [Fact]
@@ -108,7 +108,7 @@ public class DetailsModelTests
     [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_null()
     {
-        _mockTrustProvider.Setup(tp => tp.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryDto?)null);
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryDto?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }

@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,13 +9,14 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 public class TrustsAreaModel(
     ITrustProvider trustProvider,
     IDataSourceProvider dataSourceProvider,
+    ITrustService trustService,
     ILogger<TrustsAreaModel> logger,
     string pageName)
     : PageModel, ITrustsAreaModel
 {
     protected readonly IDataSourceProvider DataSourceProvider = dataSourceProvider;
-
     protected readonly ITrustProvider TrustProvider = trustProvider;
+    protected readonly ITrustService TrustService = trustService;
 
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = "";
     public TrustSummaryDto TrustSummaryDto { get; set; } = default!;
@@ -45,7 +47,7 @@ public class TrustsAreaModel(
 
     public virtual async Task<IActionResult> OnGetAsync()
     {
-        var trustSummaryDto = await TrustProvider.GetTrustSummaryAsync(Uid);
+        var trustSummaryDto = await TrustService.GetTrustSummaryAsync(Uid);
 
         if (trustSummaryDto == null)
         {
