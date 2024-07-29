@@ -12,21 +12,24 @@ public interface ITrustService
     Task<TrustDetailsDto> GetTrustDetailsAsync(string uid);
 }
 
-public class TrustService(IAcademiesDbContext academiesDbContext, IAcademyRepository academyRepository)
+public class TrustService(
+    IAcademiesDbContext academiesDbContext,
+    IAcademyRepository academyRepository,
+    ITrustRepository trustRepository)
     : ITrustService
 {
     public async Task<TrustSummaryDto?> GetTrustSummaryAsync(string uid)
     {
-        var details = await academiesDbContext.Groups
-            .Where(g => g.GroupUid == uid)
-            .Select(g => new { Name = g.GroupName ?? string.Empty, Type = g.GroupType ?? string.Empty })
-            .SingleOrDefaultAsync();
+        var summary = await trustRepository.GetTrustSummaryAsync(uid);
 
-        if (details is null) return null;
+        if (summary is null)
+        {
+            return null;
+        }
 
         var count = await academyRepository.GetNumberOfAcademiesInTrustAsync(uid);
 
-        return new TrustSummaryDto(uid, details.Name, details.Type, count);
+        return new TrustSummaryDto(uid, summary.Name, summary.Type, count);
     }
 
     public async Task<TrustDetailsDto> GetTrustDetailsAsync(string uid)

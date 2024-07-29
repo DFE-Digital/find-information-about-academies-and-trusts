@@ -2,6 +2,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Data.Dto;
+using DfE.FindInformationAcademiesTrusts.Data.RepositoryDto;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
 
@@ -10,18 +11,23 @@ public class TrustServiceTests
     private readonly TrustService _sut;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
     private readonly Mock<IAcademyRepository> _mockAcademyRepository = new();
+    private readonly Mock<ITrustRepository> _mockTrustRepository = new();
 
     public TrustServiceTests()
     {
         _mockAcademiesDbContext.SetupMockDbContextGiasGroups(5);
         _mockAcademiesDbContext.SetupMockDbContextMstrTrust(5);
 
-        _sut = new TrustService(_mockAcademiesDbContext.Object, _mockAcademyRepository.Object);
+        _sut = new TrustService(_mockAcademiesDbContext.Object, _mockAcademyRepository.Object,
+            _mockTrustRepository.Object);
     }
 
     [Fact]
     public async Task GetTrustSummaryAsync_should_return_null_if_no_giasGroup_found()
     {
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("this uid doesn't exist"))
+            .ReturnsAsync((TrustSummaryRepoDto?)null);
+
         var result = await _sut.GetTrustSummaryAsync("this uid doesn't exist");
         result.Should().BeNull();
     }
@@ -33,21 +39,12 @@ public class TrustServiceTests
     public async Task GetTrustSummaryAsync_should_return_trustSummary_if_found(string uid, string name, string type,
         int numAcademies)
     {
-        _mockAcademiesDbContext.CreateGiasGroup(uid, name, type);
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(uid)).ReturnsAsync(new TrustSummaryRepoDto(name, type));
         _mockAcademyRepository.Setup(a => a.GetNumberOfAcademiesInTrustAsync(uid))
             .ReturnsAsync(numAcademies);
 
         var result = await _sut.GetTrustSummaryAsync(uid);
         result.Should().BeEquivalentTo(new TrustSummaryDto(uid, name, type, numAcademies));
-    }
-
-    [Fact]
-    public async Task GetTrustSummaryAsync_should_return_empty_values_on_null_group_fields()
-    {
-        _ = _mockAcademiesDbContext.CreateGiasGroup("2806", null, null);
-
-        var result = await _sut.GetTrustSummaryAsync("2806");
-        result.Should().BeEquivalentTo(new TrustSummaryDto("2806", string.Empty, string.Empty, 0));
     }
 
     [Fact]

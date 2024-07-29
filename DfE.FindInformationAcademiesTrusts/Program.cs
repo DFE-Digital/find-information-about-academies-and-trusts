@@ -196,6 +196,7 @@ internal static class Program
         builder.Services.AddScoped<IDataSourceProvider, DataSourceProvider>();
 
         builder.Services.AddScoped<IAcademyRepository, AcademyRepository>();
+        builder.Services.AddScoped<ITrustRepository, TrustRepository>();
 
         builder.Services.AddScoped<ITrustService, TrustService>();
 
