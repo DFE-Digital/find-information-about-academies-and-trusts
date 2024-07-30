@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 using DfE.FindInformationAcademiesTrusts.ServiceModels;
@@ -14,6 +15,7 @@ public class FreeSchoolMealsModelTests
     private readonly Mock<IFreeSchoolMealsAverageProvider> _mockFreeSchoolMealsAverageProvider = new();
     private readonly Mock<ITrustProvider> _mockTrustProvider = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
+    private readonly MockDataSourceService _mockDataSourceService = new();
 
     public FreeSchoolMealsModelTests()
     {
@@ -25,7 +27,7 @@ public class FreeSchoolMealsModelTests
                 dummyTrust.Academies.Length));
 
         _sut = new FreeSchoolMealsModel(_mockTrustProvider.Object, _mockFreeSchoolMealsAverageProvider.Object,
-            new MockDataSourceProvider().Object, new MockLogger<FreeSchoolMealsModel>().Object,
+            _mockDataSourceService.Object, new MockLogger<FreeSchoolMealsModel>().Object,
             _mockTrustRepository.Object) { Uid = "1234" };
     }
 
@@ -81,7 +83,7 @@ public class FreeSchoolMealsModelTests
     public async Task OnGetAsync_sets_correct_data_source_list()
     {
         await _sut.OnGetAsync();
-        _mockFreeSchoolMealsAverageProvider.Verify(e => e.GetFreeSchoolMealsUpdated(), Times.Once);
+        _mockDataSourceService.Verify(d => d.GetAsync(Source.ExploreEducationStatistics), Times.Once);
         _sut.DataSources.Count.Should().Be(2);
         _sut.DataSources[0].Fields.Should().Contain(new[]
         {

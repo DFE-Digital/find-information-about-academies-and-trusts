@@ -195,11 +195,12 @@ internal static class Program
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
 
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
-        builder.Services.AddScoped<IDataSourceProvider, DataSourceProvider>();
 
         builder.Services.AddScoped<IAcademyRepository, AcademyRepository>();
         builder.Services.AddScoped<ITrustRepository, TrustRepository>();
+        builder.Services.AddScoped<IAcademiesDbDataSourceRepository, AcademiesDbDataSourceRepository>();
 
+        builder.Services.AddScoped<IDataSourceService, DataSourceService>();
         builder.Services.AddScoped<ITrustService, TrustService>();
 
         builder.Services.AddScoped<ITrustFactory, TrustFactory>();

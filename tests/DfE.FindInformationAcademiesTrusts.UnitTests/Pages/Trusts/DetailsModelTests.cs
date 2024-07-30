@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.ServiceModels;
@@ -17,7 +18,7 @@ public class DetailsModelTests
     private static readonly TrustDetailsServiceModel DummyTrustDetailsServiceModel =
         new("1234", "", "", "", "", "", "", null, null);
 
-    private readonly MockDataSourceProvider _mockDataSourceProvider = new();
+    private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
 
     public DetailsModelTests()
@@ -27,7 +28,7 @@ public class DetailsModelTests
         _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(DummyTrustDetailsServiceModel.Uid))
             .ReturnsAsync(new TrustSummaryServiceModel(DummyTrustDetailsServiceModel.Uid, "My trust", "", 0));
 
-        _sut = new DetailsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
+        _sut = new DetailsModel(_mockTrustProvider.Object, _mockDataSourceService.Object,
                 _mockLinksToOtherServices.Object, new MockLogger<DetailsModel>().Object, _mockTrustRepository.Object)
             { Uid = DummyTrustDetailsServiceModel.Uid };
     }
@@ -123,7 +124,7 @@ public class DetailsModelTests
     public async Task OnGetAsync_sets_correct_data_source_list()
     {
         await _sut.OnGetAsync();
-        _mockDataSourceProvider.Verify(e => e.GetGiasUpdated(), Times.Once);
+        _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
         _sut.DataSources.Should().ContainSingle();
         _sut.DataSources[0].Fields.Should().Contain(new List<string> { "Trust details", "Reference numbers" });
     }
