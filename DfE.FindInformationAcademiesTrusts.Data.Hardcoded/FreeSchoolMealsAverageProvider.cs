@@ -1,3 +1,6 @@
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
+
 namespace DfE.FindInformationAcademiesTrusts.Data.Hardcoded;
 
 public class FreeSchoolMealsAverageProvider : IFreeSchoolMealsAverageProvider

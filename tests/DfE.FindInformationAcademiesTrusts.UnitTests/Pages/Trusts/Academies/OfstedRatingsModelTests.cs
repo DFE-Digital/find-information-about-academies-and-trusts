@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 using DfE.FindInformationAcademiesTrusts.ServiceModels;
@@ -12,7 +13,7 @@ public class OfstedRatingsModelTests
 {
     private readonly OfstedRatingsModel _sut;
     private readonly Mock<ITrustProvider> _mockTrustProvider = new();
-    private readonly MockDataSourceProvider _mockDataSourceProvider = new();
+    private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
 
     public OfstedRatingsModelTests()
@@ -25,7 +26,7 @@ public class OfstedRatingsModelTests
             .ReturnsAsync(new TrustSummaryServiceModel(dummyTrust.Uid, dummyTrust.Name, dummyTrust.Type,
                 dummyTrust.Academies.Length));
 
-        _sut = new OfstedRatingsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object, logger.Object,
+        _sut = new OfstedRatingsModel(_mockTrustProvider.Object, _mockDataSourceService.Object, logger.Object,
                 _mockTrustRepository.Object)
             { Uid = "1234" };
     }
@@ -60,8 +61,8 @@ public class OfstedRatingsModelTests
     public async Task OnGetAsync_sets_correct_data_source_list()
     {
         await _sut.OnGetAsync();
-        _mockDataSourceProvider.Verify(e => e.GetGiasUpdated(), Times.Once);
-        _mockDataSourceProvider.Verify(e => e.GetMisEstablishmentsUpdated(), Times.Once);
+        _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
+        _mockDataSourceService.Verify(e => e.GetAsync(Source.Mis), Times.Once);
         _sut.DataSources.Count.Should().Be(2);
         _sut.DataSources[0].Fields.Should().Contain(new List<string>
             { "Date joined trust" });

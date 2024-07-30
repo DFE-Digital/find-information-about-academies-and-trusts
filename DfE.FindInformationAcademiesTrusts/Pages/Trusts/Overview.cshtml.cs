@@ -1,4 +1,5 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,11 +7,10 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public class OverviewModel(
     ITrustProvider trustProvider,
-    IDataSourceProvider dataSourceProvider,
+    IDataSourceService dataSourceService,
     ILogger<OverviewModel> logger,
     ITrustService trustService)
-    : TrustsAreaModel(trustProvider,
-        dataSourceProvider, trustService, logger, "Overview")
+    : TrustsAreaModel(trustProvider, dataSourceService, trustService, logger, "Overview")
 {
     public Trust Trust { get; set; } = default!;
 
@@ -50,7 +50,7 @@ public class OverviewModel(
 
         Trust = (await TrustProvider.GetTrustByUidAsync(Uid))!;
 
-        DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
+        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),
             new List<string> { "Trust summary", "Ofsted ratings" }));
 
         return pageResult;

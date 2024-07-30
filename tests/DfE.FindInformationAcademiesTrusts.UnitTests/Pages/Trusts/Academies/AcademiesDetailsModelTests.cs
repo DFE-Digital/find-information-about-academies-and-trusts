@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
@@ -15,7 +16,7 @@ public class AcademiesDetailsModelTests
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinkBuilder = new();
     private readonly Mock<ITrustProvider> _mockTrustProvider = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
-    private readonly MockDataSourceProvider _mockDataSourceProvider = new();
+    private readonly MockDataSourceService _mockDataSourceService = new();
 
     public AcademiesDetailsModelTests()
     {
@@ -27,7 +28,7 @@ public class AcademiesDetailsModelTests
             .ReturnsAsync(new TrustSummaryServiceModel(dummyTrust.Uid, dummyTrust.Name, dummyTrust.Type,
                 dummyTrust.Academies.Length));
 
-        _sut = new AcademiesDetailsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
+        _sut = new AcademiesDetailsModel(_mockTrustProvider.Object, _mockDataSourceService.Object,
             _mockLinkBuilder.Object, logger.Object, _mockTrustRepository.Object) { Uid = "1234" };
     }
 
@@ -67,7 +68,7 @@ public class AcademiesDetailsModelTests
     public async Task OnGetAsync_sets_correct_data_source_list()
     {
         _ = await _sut.OnGetAsync();
-        _mockDataSourceProvider.Verify(e => e.GetGiasUpdated(), Times.Once);
+        _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
         _sut.DataSources.Should().ContainSingle();
         _sut.DataSources[0].Fields.Should().Contain(new List<string> { "Details" });
     }
