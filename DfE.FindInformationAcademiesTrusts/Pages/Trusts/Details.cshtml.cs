@@ -13,7 +13,7 @@ public class DetailsModel(
     ITrustService trustService)
     : TrustsAreaModel(trustProvider, dataSourceProvider, trustService, logger, "Details")
 {
-    public TrustDetailsServiceModel TrustDetailsServiceModel { get; set; } = default!;
+    public TrustDetailsServiceModel TrustDetails { get; set; } = default!;
     public string? CompaniesHouseLink { get; set; }
     public string? GetInformationAboutSchoolsLink { get; set; }
     public string? SchoolsFinancialBenchmarkingLink { get; set; }
@@ -25,15 +25,15 @@ public class DetailsModel(
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        TrustDetailsServiceModel = await TrustService.GetTrustDetailsAsync(Uid);
+        TrustDetails = await TrustService.GetTrustDetailsAsync(Uid);
 
-        CompaniesHouseLink = otherServicesLinkBuilder.CompaniesHouseListingLink(TrustDetailsServiceModel);
+        CompaniesHouseLink = otherServicesLinkBuilder.CompaniesHouseListingLink(TrustDetails);
         GetInformationAboutSchoolsLink =
-            otherServicesLinkBuilder.GetInformationAboutSchoolsListingLink(TrustDetailsServiceModel);
+            otherServicesLinkBuilder.GetInformationAboutSchoolsListingLink(TrustDetails);
         SchoolsFinancialBenchmarkingLink =
-            otherServicesLinkBuilder.SchoolFinancialBenchmarkingServiceListingLink(TrustDetailsServiceModel);
+            otherServicesLinkBuilder.SchoolFinancialBenchmarkingServiceListingLink(TrustDetails);
         FindSchoolPerformanceLink =
-            otherServicesLinkBuilder.FindSchoolPerformanceDataListingLink(TrustDetailsServiceModel);
+            otherServicesLinkBuilder.FindSchoolPerformanceDataListingLink(TrustDetails);
 
         DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
             new List<string> { "Trust details", "Reference numbers" }));

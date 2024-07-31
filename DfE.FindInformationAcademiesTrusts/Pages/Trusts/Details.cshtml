@@ -16,7 +16,7 @@
             Address
           </dt>
           <dd class="govuk-summary-list__value" data-testid="address">
-            @Model.TrustDetailsServiceModel.Address
+            @Model.TrustDetails.Address
           </dd>
         </div>
         <div class="govuk-summary-list__row">
@@ -24,9 +24,9 @@
             Opened on
           </dt>
           <dd class="govuk-summary-list__value" data-testid="opened-on">
-            @if (Model.TrustDetailsServiceModel.OpenedDate is not null)
+            @if (Model.TrustDetails.OpenedDate is not null)
             {
-              @Model.TrustDetailsServiceModel.OpenedDate.Value.ToString(StringFormatConstants.ViewDate)
+              @Model.TrustDetails.OpenedDate.Value.ToString(StringFormatConstants.ViewDate)
             }
           </dd>
         </div>
@@ -35,7 +35,7 @@
             Region and territory
           </dt>
           <dd class="govuk-summary-list__value" data-testid="region-and-territory">
-            @Model.TrustDetailsServiceModel.RegionAndTerritory
+            @Model.TrustDetails.RegionAndTerritory
           </dd>
         </div>
         <div class="govuk-summary-list__row">
@@ -86,7 +86,7 @@
             UID (Unique group identifier)
           </dt>
           <dd class="govuk-summary-list__value" data-testid="trust-uid">
-            @Model.TrustDetailsServiceModel.Uid
+            @Model.TrustDetails.Uid
           </dd>
         </div>
         <div class="govuk-summary-list__row">
@@ -94,7 +94,7 @@
             Group ID (identifier) and TRN (trust reference number)
           </dt>
           <dd class="govuk-summary-list__value" data-testid="trust-reference-number">
-            @Model.TrustDetailsServiceModel.GroupId
+            @Model.TrustDetails.GroupId
           </dd>
         </div>
         <div class="govuk-summary-list__row">
@@ -102,7 +102,7 @@
             UKPRN (UK provider reference number)
           </dt>
           <dd class="govuk-summary-list__value" data-testid="ukprn">
-            @Model.TrustDetailsServiceModel.Ukprn
+            @Model.TrustDetails.Ukprn
           </dd>
         </div>
         <div class="govuk-summary-list__row">
@@ -110,7 +110,7 @@
             Companies House number
           </dt>
           <dd class="govuk-summary-list__value" data-testid="companies-house-number">
-            @Model.TrustDetailsServiceModel.CompaniesHouseNumber
+            @Model.TrustDetails.CompaniesHouseNumber
           </dd>
         </div>
       </dl>
