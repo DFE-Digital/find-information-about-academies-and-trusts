@@ -1,10 +1,17 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
-public class ContactsModel : TrustsAreaModel
+public class ContactsModel(
+    ITrustProvider trustProvider,
+    IDataSourceProvider sourceProvider,
+    ILogger<ContactsModel> logger,
+    ITrustService trustService)
+    : TrustsAreaModel(trustProvider, sourceProvider, trustService, logger, "Contacts")
 {
+    public Trust Trust { get; set; } = default!;
     public Governor? ChairOfTrustees { get; set; }
 
     public Governor? AccountingOfficer { get; set; }
@@ -17,16 +24,13 @@ public class ContactsModel : TrustsAreaModel
 
     public const string ContactInformationNotAvailableMessage = "No contact information available";
 
-    public ContactsModel(ITrustProvider trustProvider, IDataSourceProvider sourceProvider,
-        ILogger<ContactsModel> logger) : base(trustProvider, sourceProvider, logger, "Contacts")
-    {
-    }
-
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
+
+        Trust = (await TrustProvider.GetTrustByUidAsync(Uid))!;
 
         ChairOfTrustees = Array.Find(Trust.Governors, x =>
             x is { Role: "Chair of Trustees", IsCurrentGovernor: true });

@@ -1,6 +1,8 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,20 +10,24 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 
 public class OverviewModelTests
 {
-    private readonly Mock<ITrustProvider> _mockTrustProvider;
+    private readonly Mock<ITrustProvider> _mockTrustProvider = new();
     private readonly OverviewModel _sut;
     private const string TrustUid = "1234";
-    private readonly MockDataSourceProvider _mockDataSourceProvider;
-
+    private readonly MockDataSourceProvider _mockDataSourceProvider = new();
+    private readonly Mock<ITrustService> _mockTrustRepository = new();
 
     public OverviewModelTests()
     {
         var dummyTrust = DummyTrustFactory.GetDummyTrust(TrustUid);
         MockLogger<OverviewModel> logger = new();
-        _mockTrustProvider = new Mock<ITrustProvider>();
-        _mockDataSourceProvider = new MockDataSourceProvider();
+
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync(TrustUid)).ReturnsAsync(dummyTrust);
-        _sut = new OverviewModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object, logger.Object) { Uid = TrustUid };
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrust.Uid))
+            .ReturnsAsync(new TrustSummaryServiceModel(dummyTrust.Uid, dummyTrust.Name, dummyTrust.Type,
+                dummyTrust.Academies.Length));
+        _sut = new OverviewModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object, logger.Object,
+                _mockTrustRepository.Object)
+            { Uid = TrustUid };
     }
 
     [Fact]
@@ -224,9 +230,9 @@ public class OverviewModelTests
     }
 
     [Fact]
-    public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_null()
+    public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync(TrustUid)).ReturnsAsync((Trust?)null);
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(TrustUid)).ReturnsAsync((TrustSummaryServiceModel?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
@@ -234,7 +240,7 @@ public class OverviewModelTests
     [Fact]
     public async Task OnGetAsync_sets_correct_data_source_list()
     {
-        var result = await _sut.OnGetAsync();
+        _ = await _sut.OnGetAsync();
         _mockDataSourceProvider.Verify(e => e.GetGiasUpdated(), Times.Once);
         _sut.DataSources.Should().ContainSingle();
         _sut.DataSources[0].Fields.Should().Contain(new List<string> { "Trust summary", "Ofsted ratings" });

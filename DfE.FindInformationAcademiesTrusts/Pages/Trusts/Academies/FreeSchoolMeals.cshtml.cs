@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
@@ -6,11 +7,12 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 public class FreeSchoolMealsModel : TrustsAreaModel, IAcademiesAreaModel
 {
     private readonly IFreeSchoolMealsAverageProvider _freeSchoolMealsProvider;
+    public Trust Trust { get; set; } = default!;
 
     public FreeSchoolMealsModel(ITrustProvider trustProvider,
         IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider, IDataSourceProvider dataSourceProvider,
-        ILogger<FreeSchoolMealsModel> logger) :
-        base(trustProvider, dataSourceProvider, logger, "Academies in this trust")
+        ILogger<FreeSchoolMealsModel> logger, ITrustService trustService) :
+        base(trustProvider, dataSourceProvider, trustService, logger, "Academies in this trust")
     {
         PageTitle = "Academies free school meals";
         _freeSchoolMealsProvider = freeSchoolMealsAverageProvider;
@@ -21,6 +23,8 @@ public class FreeSchoolMealsModel : TrustsAreaModel, IAcademiesAreaModel
         var pageResult = await base.OnGetAsync();
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
+
+        Trust = (await TrustProvider.GetTrustByUidAsync(Uid))!;
 
         DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
             new[]

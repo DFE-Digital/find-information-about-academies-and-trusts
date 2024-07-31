@@ -3,8 +3,6 @@ namespace DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 public class DummyTrustFactory
 {
     private int _numberTrustsGenerated;
-    private const string OpenStatus = "Open";
-    public const string ClosedStatus = "Closed";
 
     public Trust GetDummyTrust()
     {
@@ -12,20 +10,19 @@ public class DummyTrustFactory
         return GetDummyTrust(_numberTrustsGenerated.ToString("0000"));
     }
 
-    public static Trust GetDummyMultiAcademyTrust(string uid, string companiesHouseNumber = "test",
-        string status = OpenStatus)
+    public static Trust GetDummyMultiAcademyTrust(string uid, string companiesHouseNumber = "test")
     {
-        return GetDummyTrust(uid, "Multi-academy trust", companiesHouseNumber, status: status);
+        return GetDummyTrust(uid, "Multi-academy trust", companiesHouseNumber);
     }
 
-    public static Trust GetDummySingleAcademyTrust(string uid, Academy? academy = null, string status = OpenStatus)
+    public static Trust GetDummySingleAcademyTrust(string uid, Academy? academy = null)
     {
-        var academies = academy is not null ? new[] { academy } : Array.Empty<Academy>();
+        var academies = academy is not null ? new[] { academy } : [];
         return GetDummyTrust(uid, "Single-academy trust", academies: academies);
     }
 
     public static Trust GetDummyTrust(string uid, string type = "test", string companiesHouseNumber = "test",
-        Academy[]? academies = null, Governor[]? governors = null, string status = OpenStatus)
+        Academy[]? academies = null, Governor[]? governors = null)
     {
         return new Trust(uid,
             $"Trust {uid}",
@@ -36,11 +33,11 @@ public class DummyTrustFactory
             new DateTime(),
             companiesHouseNumber,
             "test",
-            academies ?? Array.Empty<Academy>(),
-            governors ?? Array.Empty<Governor>(),
+            academies ?? [],
+            governors ?? [],
             new Person("Present Trm", "trm@test.com"),
             new Person("Present Sfsolead", "Sfsolead@test.com"),
-            status
+            "Open"
         );
     }
 }

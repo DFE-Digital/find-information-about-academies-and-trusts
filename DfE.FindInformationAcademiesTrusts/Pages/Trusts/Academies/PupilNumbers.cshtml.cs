@@ -1,12 +1,16 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
 public class PupilNumbersModel : TrustsAreaModel, IAcademiesAreaModel
 {
+    public Trust Trust { get; set; } = default!;
+
     public PupilNumbersModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider,
-        ILogger<PupilNumbersModel> logger) : base(trustProvider, dataSourceProvider, logger, "Academies in this trust")
+        ILogger<PupilNumbersModel> logger, ITrustService trustService) : base(trustProvider, dataSourceProvider,
+        trustService, logger, "Academies in this trust")
     {
         PageTitle = "Academies pupil numbers";
     }
@@ -16,6 +20,8 @@ public class PupilNumbersModel : TrustsAreaModel, IAcademiesAreaModel
         var pageResult = await base.OnGetAsync();
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
+
+        Trust = (await TrustProvider.GetTrustByUidAsync(Uid))!;
 
         DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
             new List<string> { "Pupil numbers" }));
