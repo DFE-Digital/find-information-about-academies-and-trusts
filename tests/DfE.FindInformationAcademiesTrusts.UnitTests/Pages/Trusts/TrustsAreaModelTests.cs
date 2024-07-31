@@ -30,7 +30,7 @@ public class TrustsAreaModelTests
         _sut.Uid = dummyTrustSummary.Uid;
 
         await _sut.OnGetAsync();
-        _sut.TrustSummaryServiceModel.Should().Be(dummyTrustSummary);
+        _sut.TrustSummary.Should().Be(dummyTrustSummary);
     }
 
     [Fact]

@@ -19,8 +19,8 @@ public class TrustsAreaModel(
     protected readonly ITrustService TrustService = trustService;
 
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = "";
-    public TrustSummaryServiceModel TrustSummaryServiceModel { get; set; } = default!;
-    public List<DataSourceListEntry> DataSources { get; set; } = new();
+    public TrustSummaryServiceModel TrustSummary { get; set; } = default!;
+    public List<DataSourceListEntry> DataSources { get; set; } = [];
     public string PageName { get; init; } = pageName;
     public string? PageTitle { get; init; }
     public string Section => ViewConstants.AboutTheTrustSectionName;
@@ -47,14 +47,14 @@ public class TrustsAreaModel(
 
     public virtual async Task<IActionResult> OnGetAsync()
     {
-        var trustSummaryDto = await TrustService.GetTrustSummaryAsync(Uid);
+        var trustSummary = await TrustService.GetTrustSummaryAsync(Uid);
 
-        if (trustSummaryDto == null)
+        if (trustSummary == null)
         {
             return new NotFoundResult();
         }
 
-        TrustSummaryServiceModel = trustSummaryDto;
+        TrustSummary = trustSummary;
 
         return Page();
     }
