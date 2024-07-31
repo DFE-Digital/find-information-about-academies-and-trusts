@@ -48,9 +48,9 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
             return $"{SchoolFinancialBenchmarkingServiceBaseUrl}/Trust?companyNo={trust.CompaniesHouseNumber}";
         }
 
-        if (trust.IsSingleAcademyTrust() && trust.SingleAcademyUrn is not null)
+        if (trust.IsSingleAcademyTrust() && trust.SingleAcademyTrustAcademyUrn is not null)
         {
-            return $"{SchoolFinancialBenchmarkingServiceBaseUrl}/school?urn={trust.SingleAcademyUrn}";
+            return $"{SchoolFinancialBenchmarkingServiceBaseUrl}/school?urn={trust.SingleAcademyTrustAcademyUrn}";
         }
 
         return null;
@@ -63,9 +63,9 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
             return $"{FindSchoolPerformanceDataBaseUrl}/multi-academy-trust/{trust.Uid}";
         }
 
-        if (trust.IsSingleAcademyTrust() && trust.SingleAcademyUrn is not null)
+        if (trust.IsSingleAcademyTrust() && trust.SingleAcademyTrustAcademyUrn is not null)
         {
-            return $"{FindSchoolPerformanceDataBaseUrl}/school/{trust.SingleAcademyUrn}";
+            return $"{FindSchoolPerformanceDataBaseUrl}/school/{trust.SingleAcademyTrustAcademyUrn}";
         }
 
         return null;

@@ -39,35 +39,37 @@ public class AcademyRepositoryTests
     }
 
     [Fact]
-    public async Task GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyUrn_to_null_when_multi_academy_trust()
+    public async Task
+        GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyTrustAcademyUrn_to_null_when_multi_academy_trust()
     {
         var mat = _mockAcademiesDbContext.AddGiasGroup("2806", groupType: "Multi-academy trust");
         var academy = _mockAcademiesDbContext.AddGiasEstablishment(1234);
         _mockAcademiesDbContext.LinkGiasEstablishmentsToGiasGroup(new[] { academy }, mat);
 
-        var result = await _sut.GetUrnForSingleAcademyTrustAsync("2806");
+        var result = await _sut.GetSingleAcademyTrustAcademyUrnAsync("2806");
 
         result.Should().BeNull();
     }
 
     [Fact]
-    public async Task GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyUrn_to_null_when_SAT_with_no_academies()
+    public async Task
+        GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyTrustAcademyUrn_to_null_when_SAT_with_no_academies()
     {
         _ = _mockAcademiesDbContext.AddGiasGroup("2806", groupType: "Single-academy trust");
 
-        var result = await _sut.GetUrnForSingleAcademyTrustAsync("2806");
+        var result = await _sut.GetSingleAcademyTrustAcademyUrnAsync("2806");
 
         result.Should().BeNull();
     }
 
     [Fact]
-    public async Task GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyUrn_to_urn_of_SAT_academy()
+    public async Task GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyTrustAcademyUrn_to_urn_of_SAT_academy()
     {
         var sat = _mockAcademiesDbContext.AddGiasGroup("2806", groupType: "Single-academy trust");
         var academy = _mockAcademiesDbContext.AddGiasEstablishment(1234);
         _mockAcademiesDbContext.LinkGiasEstablishmentsToGiasGroup(new[] { academy }, sat);
 
-        var result = await _sut.GetUrnForSingleAcademyTrustAsync("2806");
+        var result = await _sut.GetSingleAcademyTrustAcademyUrnAsync("2806");
 
         result.Should().Be("1234");
     }

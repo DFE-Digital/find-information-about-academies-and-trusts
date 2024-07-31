@@ -11,7 +11,7 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext) : IAcadem
         return await academiesDbContext.GiasGroupLinks.CountAsync(gl => gl.GroupUid == uid && gl.Urn != null);
     }
 
-    public async Task<string?> GetUrnForSingleAcademyTrustAsync(string uid)
+    public async Task<string?> GetSingleAcademyTrustAcademyUrnAsync(string uid)
     {
         return await academiesDbContext.GiasGroupLinks
             .Where(gl => gl.GroupUid == uid

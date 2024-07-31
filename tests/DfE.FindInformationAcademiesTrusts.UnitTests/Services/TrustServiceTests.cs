@@ -46,10 +46,11 @@ public class TrustServiceTests
     [InlineData(null)]
     [InlineData("123456")]
     [InlineData("567890")]
-    public async Task GetTrustDetailsAsync_should_get_singleAcademyUrn_from_academy_repository(string? singleAcademyUrn)
+    public async Task GetTrustDetailsAsync_should_get_singleAcademyTrustAcademyUrn_from_academy_repository(
+        string? singleAcademyTrustAcademyUrn)
     {
-        _mockAcademyRepository.Setup(a => a.GetUrnForSingleAcademyTrustAsync("2806"))
-            .ReturnsAsync(singleAcademyUrn);
+        _mockAcademyRepository.Setup(a => a.GetSingleAcademyTrustAcademyUrnAsync("2806"))
+            .ReturnsAsync(singleAcademyTrustAcademyUrn);
         _mockTrustRepository.Setup(t => t.GetTrustDetailsAsync("2806"))
             .ReturnsAsync(new TrustDetails("2806",
                 "TR0012",
@@ -62,7 +63,7 @@ public class TrustServiceTests
 
         var result = await _sut.GetTrustDetailsAsync("2806");
 
-        result.SingleAcademyUrn.Should().Be(singleAcademyUrn);
+        result.SingleAcademyTrustAcademyUrn.Should().Be(singleAcademyTrustAcademyUrn);
     }
 
     [Fact]

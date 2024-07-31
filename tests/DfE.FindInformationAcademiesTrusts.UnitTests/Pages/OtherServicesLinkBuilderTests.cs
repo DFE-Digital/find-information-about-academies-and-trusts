@@ -60,7 +60,7 @@ public class OtherServicesLinkBuilderTests
     {
         var result = _sut.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsServiceModel with
         {
-            Type = "Single-academy trust", SingleAcademyUrn = "1111"
+            Type = "Single-academy trust", SingleAcademyTrustAcademyUrn = "1111"
         });
         result.Should().Contain("/school?urn=1111");
     }
@@ -70,7 +70,7 @@ public class OtherServicesLinkBuilderTests
     {
         var result = _sut.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsServiceModel with
         {
-            Type = "Single-academy trust", SingleAcademyUrn = null
+            Type = "Single-academy trust", SingleAcademyTrustAcademyUrn = null
         });
         result.Should().BeNull();
     }
@@ -81,11 +81,11 @@ public class OtherServicesLinkBuilderTests
     [InlineData("", "1111")]
     public void
         SchoolFinancialBenchmarkingListingLink_should_be_null_if_type_is_neither_multi_or_single_academy_trust(
-            string type, string? singleAcademyUrn)
+            string type, string? singleAcademyTrustAcademyUrn)
     {
         var result = _sut.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsServiceModel with
         {
-            Type = type, SingleAcademyUrn = singleAcademyUrn
+            Type = type, SingleAcademyTrustAcademyUrn = singleAcademyTrustAcademyUrn
         });
         result.Should().BeNull();
     }
@@ -108,7 +108,7 @@ public class OtherServicesLinkBuilderTests
     {
         var result = _sut.FindSchoolPerformanceDataListingLink(DummyTrustDetailsServiceModel with
         {
-            Type = "Single-academy trust", SingleAcademyUrn = "1111"
+            Type = "Single-academy trust", SingleAcademyTrustAcademyUrn = "1111"
         });
         result.Should().Contain("/school/1111");
     }
@@ -118,7 +118,7 @@ public class OtherServicesLinkBuilderTests
     {
         var result = _sut.FindSchoolPerformanceDataListingLink(DummyTrustDetailsServiceModel with
         {
-            Type = "Single-academy trust", SingleAcademyUrn = null
+            Type = "Single-academy trust", SingleAcademyTrustAcademyUrn = null
         });
         result.Should().BeNull();
     }
@@ -129,11 +129,11 @@ public class OtherServicesLinkBuilderTests
     [InlineData("", "1")]
     public void
         FindSchoolPerformanceDataListingLink_should_be_null_if_type_is_neither_multi_or_single_academy_trust(
-            string type, string? singleAcademyUrn)
+            string type, string? singleAcademyTrustAcademyUrn)
     {
         var result = _sut.FindSchoolPerformanceDataListingLink(DummyTrustDetailsServiceModel with
         {
-            Type = type, SingleAcademyUrn = singleAcademyUrn
+            Type = type, SingleAcademyTrustAcademyUrn = singleAcademyTrustAcademyUrn
         });
         result.Should().BeNull();
     }

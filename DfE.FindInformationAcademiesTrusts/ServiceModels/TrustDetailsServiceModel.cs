@@ -8,7 +8,7 @@ public record TrustDetailsServiceModel(
     string Type,
     string Address,
     string RegionAndTerritory,
-    string? SingleAcademyUrn,
+    string? SingleAcademyTrustAcademyUrn,
     DateTime? OpenedDate)
 {
     public bool IsMultiAcademyTrust()

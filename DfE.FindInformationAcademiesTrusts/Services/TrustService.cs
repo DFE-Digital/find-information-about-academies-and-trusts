@@ -30,7 +30,7 @@ public class TrustService(
 
     public async Task<TrustDetailsServiceModel> GetTrustDetailsAsync(string uid)
     {
-        var singleAcademyUrn = await academyRepository.GetUrnForSingleAcademyTrustAsync(uid);
+        var singleAcademyTrustAcademyUrn = await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid);
 
         var trustDetails = await trustRepository.GetTrustDetailsAsync(uid);
 
@@ -42,7 +42,7 @@ public class TrustService(
             trustDetails.Type,
             trustDetails.Address,
             trustDetails.RegionAndTerritory,
-            singleAcademyUrn,
+            singleAcademyTrustAcademyUrn,
             trustDetails.OpenedDate
         );
 
