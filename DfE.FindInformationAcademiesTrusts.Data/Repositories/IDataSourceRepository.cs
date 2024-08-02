@@ -2,7 +2,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.Repositories;
 
-public interface IAcademiesDbDataSourceRepository
+public interface IDataSourceRepository
 {
     Task<DataSource> GetGiasUpdatedAsync();
     Task<DataSource> GetMstrUpdatedAsync();
