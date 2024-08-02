@@ -26,10 +26,7 @@ public class DataSourceService(
 
         var dataSource = source switch
         {
-            Source.Gias => await dataSourceRepository.GetGiasUpdatedAsync(),
-            Source.Mstr => await dataSourceRepository.GetMstrUpdatedAsync(),
-            Source.Cdm => await dataSourceRepository.GetCdmUpdatedAsync(),
-            Source.Mis => await dataSourceRepository.GetMisEstablishmentsUpdatedAsync(),
+            Source.Gias or Source.Mstr or Source.Cdm or Source.Mis => await dataSourceRepository.GetAsync(source),
             Source.ExploreEducationStatistics => freeSchoolMealsAverageProvider.GetFreeSchoolMealsUpdated(),
             _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
         };

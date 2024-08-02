@@ -21,129 +21,57 @@ public class DataSourceRepositoryTests
     }
 
     [Fact]
-    public async Task GetGiasUpdated_WhenNoEntryExists_ShouldReturnDataSource_WithNullDate()
+    public async Task GetAsync_Throws_WhenUnsupportedDataSource()
+    {
+        var action = () => _sut.GetAsync(Source.ExploreEducationStatistics);
+
+        await action.Should().ThrowAsync<ArgumentOutOfRangeException>();
+    }
+
+    [Theory]
+    [InlineData(Source.Cdm, UpdateFrequency.Daily)]
+    [InlineData(Source.Gias, UpdateFrequency.Daily)]
+    [InlineData(Source.Mis, UpdateFrequency.Monthly)]
+    [InlineData(Source.Mstr, UpdateFrequency.Daily)]
+    public async Task GetAsync_WhenEntryExists_ShouldReturnDataSource(Source source, UpdateFrequency updateFrequency)
+    {
+        var result = await _sut.GetAsync(source);
+
+        result.Should()
+            .BeEquivalentTo(new DataSource(source, TestStartTime.AddDays(-1), updateFrequency));
+    }
+
+    [Theory]
+    [InlineData(Source.Cdm, "Unable to find when CDM_Daily was last run", UpdateFrequency.Daily)]
+    [InlineData(Source.Gias, "Unable to find when GIAS_Daily was last run", UpdateFrequency.Daily)]
+    [InlineData(Source.Mis, "Unable to find when ManagementInformationSchoolTableData was last modified",
+        UpdateFrequency.Monthly)]
+    [InlineData(Source.Mstr, "Unable to find when MSTR_Daily was last run", UpdateFrequency.Daily)]
+    public async Task GetAsync_WhenNoEntryExists_ShouldReturnDataSource_WithNullDate(Source source,
+        string expectedErrorMessage, UpdateFrequency updateFrequency)
     {
         _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationEvents();
-        var result = await _sut.GetGiasUpdatedAsync();
-
-        _logger.VerifyLogError("Unable to find when GIAS_Daily was last run");
-
-        result.Should().BeEquivalentTo(new DataSource(Source.Gias,
-            null, UpdateFrequency.Daily));
-    }
-
-    [Fact]
-    public async Task GetGiasUpdated_WhenEntryExists_ShouldReturnDataSource()
-    {
-        var result = await _sut.GetGiasUpdatedAsync();
-
-        result.Should()
-            .BeEquivalentTo(new DataSource(Source.Gias, TestStartTime.AddDays(-1),
-                UpdateFrequency.Daily));
-    }
-
-    [Fact]
-    public async Task GetGiasUpdated_WhenInvalidEntryExists_ShouldReturnDataSource_WithNullDate()
-    {
-        _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(TestStartTime);
-        var result = await _sut.GetGiasUpdatedAsync();
-        _logger.VerifyLogError("Unable to find when GIAS_Daily was last run");
-        result.Should().BeEquivalentTo(new DataSource(Source.Gias,
-            null, UpdateFrequency.Daily));
-    }
-
-    [Fact]
-    public async Task GetMstrUpdated_WhenNoEntryExists_ShouldReturnDataSource_WithNullDate()
-    {
-        _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationEvents();
-        var result = await _sut.GetMstrUpdatedAsync();
-        _logger.VerifyLogError("Unable to find when MSTR_Daily was last run");
-        result.Should().BeEquivalentTo(new DataSource(Source.Mstr,
-            null, UpdateFrequency.Daily));
-    }
-
-    [Fact]
-    public async Task GetMstrUpdated_WhenEntryExists_ShouldReturnDataSource()
-    {
-        var result = await _sut.GetMstrUpdatedAsync();
-
-        result.Should()
-            .BeEquivalentTo(new DataSource(Source.Mstr, TestStartTime.AddDays(-1),
-                UpdateFrequency.Daily));
-    }
-
-    [Fact]
-    public async Task GetMstrUpdated_WhenInvalidEntryExists_ShouldReturnDataSource_WithNullDate()
-    {
-        _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(TestStartTime);
-        var result = await _sut.GetMstrUpdatedAsync();
-        _logger.VerifyLogError("Unable to find when MSTR_Daily was last run");
-        result.Should().BeEquivalentTo(new DataSource(Source.Mstr,
-            null, UpdateFrequency.Daily));
-    }
-
-    [Fact]
-    public async Task GetCdmUpdated_WhenNoEntryExists_ShouldReturnDataSource_WithNullDate()
-    {
-        _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationEvents();
-        var result = await _sut.GetCdmUpdatedAsync();
-        _logger.VerifyLogError("Unable to find when CDM_Daily was last run");
-
-        result.Should().BeEquivalentTo(new DataSource(Source.Cdm,
-            null, UpdateFrequency.Daily));
-    }
-
-    [Fact]
-    public async Task GetCdmUpdated_WhenEntryExists_ShouldReturnDataSource()
-    {
-        var result = await _sut.GetCdmUpdatedAsync();
-
-        result.Should()
-            .BeEquivalentTo(new DataSource(Source.Cdm, TestStartTime.AddDays(-1),
-                UpdateFrequency.Daily));
-    }
-
-    [Fact]
-    public async Task GetCdmUpdated_WhenInvalidEntryExists_ShouldReturnDataSource_WithNullDate()
-    {
-        _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(TestStartTime);
-        var result = await _sut.GetCdmUpdatedAsync();
-        _logger.VerifyLogError("Unable to find when CDM_Daily was last run");
-
-        result.Should()
-            .BeEquivalentTo(new DataSource(Source.Cdm,
-                null, UpdateFrequency.Daily));
-    }
-
-    [Fact]
-    public async Task GetMisEstablishmentsUpdated_WhenNoEntryExists_ShouldReturnDataSource_WithNullDate()
-    {
         _mockAcademiesDbContext.SetupEmptyMockDbContextOpsApplicationSettings();
-        var result = await _sut.GetMisEstablishmentsUpdatedAsync();
-        _logger.VerifyLogError("Unable to find when ManagementInformationSchoolTableData was last modified");
+        var result = await _sut.GetAsync(source);
 
-        result.Should()
-            .BeEquivalentTo(new DataSource(Source.Mis, null, UpdateFrequency.Monthly));
+        _logger.VerifyLogError(expectedErrorMessage);
+
+        result.Should().BeEquivalentTo(new DataSource(source, null, updateFrequency));
     }
 
-    [Fact]
-    public async Task GetMisEstablishmentsUpdated_WhenEntryExists_ShouldReturnDataSource()
+    [Theory]
+    [InlineData(Source.Cdm, "Unable to find when CDM_Daily was last run", UpdateFrequency.Daily)]
+    [InlineData(Source.Gias, "Unable to find when GIAS_Daily was last run", UpdateFrequency.Daily)]
+    [InlineData(Source.Mis, "Unable to find when ManagementInformationSchoolTableData was last modified",
+        UpdateFrequency.Monthly)]
+    [InlineData(Source.Mstr, "Unable to find when MSTR_Daily was last run", UpdateFrequency.Daily)]
+    public async Task GetAsync_WhenInvalidEntryExists_ShouldReturnDataSource_WithNullDate(Source source,
+        string expectedErrorMessage, UpdateFrequency updateFrequency)
     {
-        var result = await _sut.GetMisEstablishmentsUpdatedAsync();
-
-        result.Should()
-            .BeEquivalentTo(new DataSource(Source.Mis,
-                TestStartTime.AddDays(-1), UpdateFrequency.Monthly));
-    }
-
-    [Fact]
-    public async Task GetMisEstablishmentsUpdated_WhenInvalidEntryExists_ShouldReturnDataSource_WithNullDate()
-    {
+        _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationEvents(TestStartTime);
         _mockAcademiesDbContext.SetupInvalidMockDbContextOpsApplicationSettings(TestStartTime);
-        var result = await _sut.GetMisEstablishmentsUpdatedAsync();
-
-        _logger.VerifyLogError("Unable to find when ManagementInformationSchoolTableData was last modified");
-        result.Should()
-            .BeEquivalentTo(new DataSource(Source.Mis, null, UpdateFrequency.Monthly));
+        var result = await _sut.GetAsync(source);
+        _logger.VerifyLogError(expectedErrorMessage);
+        result.Should().BeEquivalentTo(new DataSource(source, null, updateFrequency));
     }
 }
