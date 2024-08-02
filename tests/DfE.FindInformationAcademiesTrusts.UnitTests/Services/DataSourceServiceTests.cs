@@ -29,14 +29,11 @@ public class DataSourceServiceTests
         _sut = new DataSourceService(_mockDataSourceRepository.Object,
             _mockFreeSchoolMealsAverageProvider.Object, _mockMemoryCache.Object);
 
-        _mockDataSourceRepository.Setup(d => d.GetGiasUpdatedAsync())
-            .ReturnsAsync(_dummyDataSources[Source.Gias]);
-        _mockDataSourceRepository.Setup(d => d.GetMstrUpdatedAsync())
-            .ReturnsAsync(_dummyDataSources[Source.Mstr]);
-        _mockDataSourceRepository.Setup(d => d.GetCdmUpdatedAsync())
-            .ReturnsAsync(_dummyDataSources[Source.Cdm]);
-        _mockDataSourceRepository.Setup(d => d.GetMisEstablishmentsUpdatedAsync())
-            .ReturnsAsync(_dummyDataSources[Source.Mis]);
+        _mockDataSourceRepository.Setup(d => d.GetAsync(It.IsIn(Source.Cdm, Source.Gias, Source.Mis, Source.Mstr)))
+            .ReturnsAsync((Source source) => _dummyDataSources[source]);
+        _mockDataSourceRepository.Setup(d => d.GetAsync(It.IsNotIn(Source.Cdm, Source.Gias, Source.Mis, Source.Mstr)))
+            .ThrowsAsync(new ArgumentOutOfRangeException());
+
         _mockFreeSchoolMealsAverageProvider.Setup(d => d.GetFreeSchoolMealsUpdated())
             .Returns(_dummyDataSources[Source.ExploreEducationStatistics]);
     }
@@ -44,42 +41,6 @@ public class DataSourceServiceTests
     private static DataSource GetDummyDataSource(Source source, UpdateFrequency updateFrequency)
     {
         return new DataSource(source, new DateTime(2024, 01, 01), updateFrequency);
-    }
-
-    [Fact]
-    public async Task GetAsync_uncached_Gias_should_call_dataSourceRepository()
-    {
-        var result = await _sut.GetAsync(Source.Gias);
-
-        result.Should().BeEquivalentTo(_dummyDataSources[Source.Gias]);
-        _mockDataSourceRepository.Verify(d => d.GetGiasUpdatedAsync(), Times.Once);
-    }
-
-    [Fact]
-    public async Task GetAsync_uncached_Mstr_should_call_dataSourceRepository()
-    {
-        var result = await _sut.GetAsync(Source.Mstr);
-
-        result.Should().BeEquivalentTo(_dummyDataSources[Source.Mstr]);
-        _mockDataSourceRepository.Verify(d => d.GetMstrUpdatedAsync(), Times.Once);
-    }
-
-    [Fact]
-    public async Task GetAsync_uncachedCdm_should_call_dataSourceRepository()
-    {
-        var result = await _sut.GetAsync(Source.Cdm);
-
-        result.Should().BeEquivalentTo(_dummyDataSources[Source.Cdm]);
-        _mockDataSourceRepository.Verify(d => d.GetCdmUpdatedAsync(), Times.Once);
-    }
-
-    [Fact]
-    public async Task GetAsync_uncached_Mis_should_call_dataSourceRepository()
-    {
-        var result = await _sut.GetAsync(Source.Mis);
-
-        result.Should().BeEquivalentTo(_dummyDataSources[Source.Mis]);
-        _mockDataSourceRepository.Verify(d => d.GetMisEstablishmentsUpdatedAsync(), Times.Once);
     }
 
     [Fact]
@@ -113,6 +74,40 @@ public class DataSourceServiceTests
     [InlineData(Source.Gias, UpdateFrequency.Daily)]
     [InlineData(Source.Mis, UpdateFrequency.Monthly)]
     [InlineData(Source.Mstr, UpdateFrequency.Daily)]
+    public async Task GetAsync_uncached_should_call_dataSourceRepository(Source source, UpdateFrequency updateFrequency)
+    {
+        var expectedCacheTimeSpan =
+            updateFrequency is UpdateFrequency.Daily ? TimeSpan.FromHours(1) : TimeSpan.FromDays(1);
+
+        await _sut.GetAsync(source);
+
+        _mockMemoryCache.Verify(m => m.CreateEntry(source), Times.Once);
+
+        var cachedEntry = _mockMemoryCache.MockCacheEntries[source];
+
+        cachedEntry.Value.Should().BeEquivalentTo(_dummyDataSources[source]);
+        cachedEntry.AbsoluteExpirationRelativeToNow.Should().Be(expectedCacheTimeSpan);
+    }
+
+    [Theory]
+    [InlineData(Source.Cdm)]
+    [InlineData(Source.Gias)]
+    [InlineData(Source.Mis)]
+    [InlineData(Source.Mstr)]
+    public async Task GetAsync_uncached_should_call_academiesDbDataSourceRepository(Source source)
+    {
+        var result = await _sut.GetAsync(source);
+
+        result.Should().BeEquivalentTo(_dummyDataSources[source]);
+        _mockDataSourceRepository.Verify(d => d.GetAsync(source), Times.Once);
+    }
+
+    [Theory]
+    [InlineData(Source.Cdm, UpdateFrequency.Daily)]
+    [InlineData(Source.ExploreEducationStatistics, UpdateFrequency.Annually)]
+    [InlineData(Source.Gias, UpdateFrequency.Daily)]
+    [InlineData(Source.Mis, UpdateFrequency.Monthly)]
+    [InlineData(Source.Mstr, UpdateFrequency.Daily)]
     public async Task GetAsync_uncached_should_cache_result(Source source, UpdateFrequency updateFrequency)
     {
         var expectedCacheTimeSpan =
@@ -131,7 +126,7 @@ public class DataSourceServiceTests
     [Fact]
     public async Task GetAsync_uncached_should_not_cache_source_with_null_lastUpdated()
     {
-        _mockDataSourceRepository.Setup(d => d.GetGiasUpdatedAsync())
+        _mockDataSourceRepository.Setup(d => d.GetAsync(Source.Gias))
             .ReturnsAsync(new DataSource(Source.Gias, null, UpdateFrequency.Daily));
 
         await _sut.GetAsync(Source.Gias);

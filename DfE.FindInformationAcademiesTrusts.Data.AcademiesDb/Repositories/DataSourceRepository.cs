@@ -12,19 +12,16 @@ public class DataSourceRepository(
     ILogger<DataSourceRepository> logger)
     : IDataSourceRepository
 {
-    public async Task<DataSource> GetGiasUpdatedAsync()
+    public async Task<DataSource> GetAsync(Source source)
     {
-        return await GetDataSourceFromApplicationEvents("GIAS_Daily", Source.Gias, UpdateFrequency.Daily);
-    }
-
-    public async Task<DataSource> GetMstrUpdatedAsync()
-    {
-        return await GetDataSourceFromApplicationEvents("MSTR_Daily", Source.Mstr, UpdateFrequency.Daily);
-    }
-
-    public async Task<DataSource> GetCdmUpdatedAsync()
-    {
-        return await GetDataSourceFromApplicationEvents("CDM_Daily", Source.Cdm, UpdateFrequency.Daily);
+        return source switch
+        {
+            Source.Gias => await GetDataSourceFromApplicationEvents("GIAS_Daily", Source.Gias, UpdateFrequency.Daily),
+            Source.Mstr => await GetDataSourceFromApplicationEvents("MSTR_Daily", Source.Mstr, UpdateFrequency.Daily),
+            Source.Cdm => await GetDataSourceFromApplicationEvents("CDM_Daily", Source.Cdm, UpdateFrequency.Daily),
+            Source.Mis => await GetMisEstablishmentsUpdatedAsync(),
+            _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
+        };
     }
 
     public async Task<DataSource> GetMisEstablishmentsUpdatedAsync()
@@ -37,8 +34,7 @@ public class DataSourceRepository(
             return new DataSource(Source.Mis, null, UpdateFrequency.Monthly);
         }
 
-        return new DataSource(Source.Mis,
-            lastEntry.Modified.Value, UpdateFrequency.Monthly);
+        return new DataSource(Source.Mis, lastEntry.Modified.Value, UpdateFrequency.Monthly);
     }
 
     private async Task<DataSource> GetDataSourceFromApplicationEvents(string pipelineName, Source source,
