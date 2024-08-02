@@ -30,6 +30,7 @@ node_modules/
 test-results/
 zap-reports/
 .auth/
+cypress.env.json
 
 ### Visual Studio and VSCode config
 .vs
