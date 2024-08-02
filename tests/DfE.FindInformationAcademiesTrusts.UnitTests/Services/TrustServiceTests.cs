@@ -2,6 +2,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
 using DfE.FindInformationAcademiesTrusts.ServiceModels;
 using DfE.FindInformationAcademiesTrusts.Services;
+using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
 
@@ -10,11 +11,26 @@ public class TrustServiceTests
     private readonly TrustService _sut;
     private readonly Mock<IAcademyRepository> _mockAcademyRepository = new();
     private readonly Mock<ITrustRepository> _mockTrustRepository = new();
+    private readonly MockMemoryCache _mockMemoryCache = new();
 
     public TrustServiceTests()
     {
-        _sut = new TrustService(_mockAcademyRepository.Object,
-            _mockTrustRepository.Object);
+        _sut = new TrustService(_mockAcademyRepository.Object, _mockTrustRepository.Object, _mockMemoryCache.Object);
+    }
+
+    [Fact]
+    public async Task GetTrustSummaryAsync_cached_should_return_cached_result()
+    {
+        var uid = "1234";
+        var key = $"{nameof(TrustService)}:{uid}";
+        var cachedResult = new TrustSummaryServiceModel(uid, "My Trust", "Multi-academy trust", 3);
+        _mockMemoryCache.AddMockCacheEntry(key, cachedResult);
+
+        var result = await _sut.GetTrustSummaryAsync(uid);
+        result.Should().Be(cachedResult);
+
+        _mockTrustRepository.Verify(t => t.GetTrustSummaryAsync(uid), Times.Never);
+        _mockAcademyRepository.Verify(a => a.GetNumberOfAcademiesInTrustAsync(uid), Times.Never);
     }
 
     [Fact]
@@ -40,6 +56,30 @@ public class TrustServiceTests
 
         var result = await _sut.GetTrustSummaryAsync(uid);
         result.Should().BeEquivalentTo(new TrustSummaryServiceModel(uid, name, type, numAcademies));
+    }
+
+    [Theory]
+    [InlineData("2806", "My Trust", "Multi-academy trust", 3)]
+    [InlineData("9008", "Another Trust", "Single-academy trust", 1)]
+    [InlineData("9008", "Trust with no academies", "Multi-academy trust", 0)]
+    public async Task GetTrustSummaryAsync_uncached_should_cache_result(string uid, string name, string type,
+        int numAcademies)
+    {
+        var key = $"{nameof(TrustService)}:{uid}";
+
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(uid))
+            .ReturnsAsync(new TrustSummary(name, type));
+        _mockAcademyRepository.Setup(a => a.GetNumberOfAcademiesInTrustAsync(uid))
+            .ReturnsAsync(numAcademies);
+
+        await _sut.GetTrustSummaryAsync(uid);
+
+        _mockMemoryCache.Verify(m => m.CreateEntry(key), Times.Once);
+
+        var cachedEntry = _mockMemoryCache.MockCacheEntries[key];
+
+        cachedEntry.Value.Should().BeEquivalentTo(new TrustSummaryServiceModel(uid, name, type, numAcademies));
+        cachedEntry.SlidingExpiration.Should().Be(TimeSpan.FromMinutes(10));
     }
 
     [Theory]

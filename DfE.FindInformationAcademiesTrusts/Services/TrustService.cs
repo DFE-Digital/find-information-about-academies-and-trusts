@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.Repositories;
 using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace DfE.FindInformationAcademiesTrusts.Services;
 
@@ -11,11 +12,19 @@ public interface ITrustService
 
 public class TrustService(
     IAcademyRepository academyRepository,
-    ITrustRepository trustRepository)
+    ITrustRepository trustRepository,
+    IMemoryCache memoryCache)
     : ITrustService
 {
     public async Task<TrustSummaryServiceModel?> GetTrustSummaryAsync(string uid)
     {
+        var cacheKey = $"{nameof(TrustService)}:{uid}";
+
+        if (memoryCache.TryGetValue(cacheKey, out TrustSummaryServiceModel? cachedTrustSummary))
+        {
+            return cachedTrustSummary!;
+        }
+
         var summary = await trustRepository.GetTrustSummaryAsync(uid);
 
         if (summary is null)
@@ -25,7 +34,12 @@ public class TrustService(
 
         var count = await academyRepository.GetNumberOfAcademiesInTrustAsync(uid);
 
-        return new TrustSummaryServiceModel(uid, summary.Name, summary.Type, count);
+        var trustSummaryServiceModel = new TrustSummaryServiceModel(uid, summary.Name, summary.Type, count);
+
+        memoryCache.Set(cacheKey, trustSummaryServiceModel,
+            new MemoryCacheEntryOptions { SlidingExpiration = TimeSpan.FromMinutes(10) });
+
+        return trustSummaryServiceModel;
     }
 
     public async Task<TrustDetailsServiceModel> GetTrustDetailsAsync(string uid)
