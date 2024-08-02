@@ -13,7 +13,7 @@ public interface IDataSourceService
 }
 
 public class DataSourceService(
-    IAcademiesDbDataSourceRepository academiesDbDataSourceRepository,
+    IDataSourceRepository dataSourceRepository,
     IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider,
     IMemoryCache memoryCache) : IDataSourceService
 {
@@ -26,10 +26,10 @@ public class DataSourceService(
 
         var dataSource = source switch
         {
-            Source.Gias => await academiesDbDataSourceRepository.GetGiasUpdatedAsync(),
-            Source.Mstr => await academiesDbDataSourceRepository.GetMstrUpdatedAsync(),
-            Source.Cdm => await academiesDbDataSourceRepository.GetCdmUpdatedAsync(),
-            Source.Mis => await academiesDbDataSourceRepository.GetMisEstablishmentsUpdatedAsync(),
+            Source.Gias => await dataSourceRepository.GetGiasUpdatedAsync(),
+            Source.Mstr => await dataSourceRepository.GetMstrUpdatedAsync(),
+            Source.Cdm => await dataSourceRepository.GetCdmUpdatedAsync(),
+            Source.Mis => await dataSourceRepository.GetMisEstablishmentsUpdatedAsync(),
             Source.ExploreEducationStatistics => freeSchoolMealsAverageProvider.GetFreeSchoolMealsUpdated(),
             _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
         };

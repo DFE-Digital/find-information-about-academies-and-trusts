@@ -7,10 +7,10 @@ using Microsoft.Extensions.Logging;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 
-public class AcademiesDbDataSourceRepository(
+public class DataSourceRepository(
     IAcademiesDbContext academiesDbContext,
-    ILogger<AcademiesDbDataSourceRepository> logger)
-    : IAcademiesDbDataSourceRepository
+    ILogger<DataSourceRepository> logger)
+    : IDataSourceRepository
 {
     public async Task<DataSource> GetGiasUpdatedAsync()
     {

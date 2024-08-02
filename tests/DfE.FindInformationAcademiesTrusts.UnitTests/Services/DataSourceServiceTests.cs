@@ -11,7 +11,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
 public class DataSourceServiceTests
 {
     private readonly DataSourceService _sut;
-    private readonly Mock<IAcademiesDbDataSourceRepository> _mockAcademiesDbDataSourceRepository = new();
+    private readonly Mock<IDataSourceRepository> _mockDataSourceRepository = new();
     private readonly Mock<IFreeSchoolMealsAverageProvider> _mockFreeSchoolMealsAverageProvider = new();
     private readonly MockMemoryCache _mockMemoryCache = new();
 
@@ -26,16 +26,16 @@ public class DataSourceServiceTests
 
     public DataSourceServiceTests()
     {
-        _sut = new DataSourceService(_mockAcademiesDbDataSourceRepository.Object,
+        _sut = new DataSourceService(_mockDataSourceRepository.Object,
             _mockFreeSchoolMealsAverageProvider.Object, _mockMemoryCache.Object);
 
-        _mockAcademiesDbDataSourceRepository.Setup(d => d.GetGiasUpdatedAsync())
+        _mockDataSourceRepository.Setup(d => d.GetGiasUpdatedAsync())
             .ReturnsAsync(_dummyDataSources[Source.Gias]);
-        _mockAcademiesDbDataSourceRepository.Setup(d => d.GetMstrUpdatedAsync())
+        _mockDataSourceRepository.Setup(d => d.GetMstrUpdatedAsync())
             .ReturnsAsync(_dummyDataSources[Source.Mstr]);
-        _mockAcademiesDbDataSourceRepository.Setup(d => d.GetCdmUpdatedAsync())
+        _mockDataSourceRepository.Setup(d => d.GetCdmUpdatedAsync())
             .ReturnsAsync(_dummyDataSources[Source.Cdm]);
-        _mockAcademiesDbDataSourceRepository.Setup(d => d.GetMisEstablishmentsUpdatedAsync())
+        _mockDataSourceRepository.Setup(d => d.GetMisEstablishmentsUpdatedAsync())
             .ReturnsAsync(_dummyDataSources[Source.Mis]);
         _mockFreeSchoolMealsAverageProvider.Setup(d => d.GetFreeSchoolMealsUpdated())
             .Returns(_dummyDataSources[Source.ExploreEducationStatistics]);
@@ -47,39 +47,39 @@ public class DataSourceServiceTests
     }
 
     [Fact]
-    public async Task GetAsync_uncached_Gias_should_call_academiesDbDataSourceRepository()
+    public async Task GetAsync_uncached_Gias_should_call_dataSourceRepository()
     {
         var result = await _sut.GetAsync(Source.Gias);
 
         result.Should().BeEquivalentTo(_dummyDataSources[Source.Gias]);
-        _mockAcademiesDbDataSourceRepository.Verify(d => d.GetGiasUpdatedAsync(), Times.Once);
+        _mockDataSourceRepository.Verify(d => d.GetGiasUpdatedAsync(), Times.Once);
     }
 
     [Fact]
-    public async Task GetAsync_uncached_Mstr_should_call_academiesDbDataSourceRepository()
+    public async Task GetAsync_uncached_Mstr_should_call_dataSourceRepository()
     {
         var result = await _sut.GetAsync(Source.Mstr);
 
         result.Should().BeEquivalentTo(_dummyDataSources[Source.Mstr]);
-        _mockAcademiesDbDataSourceRepository.Verify(d => d.GetMstrUpdatedAsync(), Times.Once);
+        _mockDataSourceRepository.Verify(d => d.GetMstrUpdatedAsync(), Times.Once);
     }
 
     [Fact]
-    public async Task GetAsync_uncachedCdm_should_call_academiesDbDataSourceRepository()
+    public async Task GetAsync_uncachedCdm_should_call_dataSourceRepository()
     {
         var result = await _sut.GetAsync(Source.Cdm);
 
         result.Should().BeEquivalentTo(_dummyDataSources[Source.Cdm]);
-        _mockAcademiesDbDataSourceRepository.Verify(d => d.GetCdmUpdatedAsync(), Times.Once);
+        _mockDataSourceRepository.Verify(d => d.GetCdmUpdatedAsync(), Times.Once);
     }
 
     [Fact]
-    public async Task GetAsync_uncached_Mis_should_call_academiesDbDataSourceRepository()
+    public async Task GetAsync_uncached_Mis_should_call_dataSourceRepository()
     {
         var result = await _sut.GetAsync(Source.Mis);
 
         result.Should().BeEquivalentTo(_dummyDataSources[Source.Mis]);
-        _mockAcademiesDbDataSourceRepository.Verify(d => d.GetMisEstablishmentsUpdatedAsync(), Times.Once);
+        _mockDataSourceRepository.Verify(d => d.GetMisEstablishmentsUpdatedAsync(), Times.Once);
     }
 
     [Fact]
@@ -131,7 +131,7 @@ public class DataSourceServiceTests
     [Fact]
     public async Task GetAsync_uncached_should_not_cache_source_with_null_lastUpdated()
     {
-        _mockAcademiesDbDataSourceRepository.Setup(d => d.GetGiasUpdatedAsync())
+        _mockDataSourceRepository.Setup(d => d.GetGiasUpdatedAsync())
             .ReturnsAsync(new DataSource(Source.Gias, null, UpdateFrequency.Daily));
 
         await _sut.GetAsync(Source.Gias);

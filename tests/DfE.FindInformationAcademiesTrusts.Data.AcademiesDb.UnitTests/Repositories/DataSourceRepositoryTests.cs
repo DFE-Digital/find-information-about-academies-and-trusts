@@ -6,18 +6,18 @@ using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories;
 
-public class AcademiesDbDataSourceRepositoryTests
+public class DataSourceRepositoryTests
 {
-    private readonly AcademiesDbDataSourceRepository _sut;
+    private readonly DataSourceRepository _sut;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
     private static readonly DateTime TestStartTime = new(2023, 12, 12, 06, 54, 12);
-    private readonly MockLogger<AcademiesDbDataSourceRepository> _logger = new();
+    private readonly MockLogger<DataSourceRepository> _logger = new();
 
-    public AcademiesDbDataSourceRepositoryTests()
+    public DataSourceRepositoryTests()
     {
         _mockAcademiesDbContext.SetupMockDbContextOpsApplicationEvents(TestStartTime);
         _mockAcademiesDbContext.SetupMockDbContextOpsApplicationSettings(TestStartTime);
-        _sut = new AcademiesDbDataSourceRepository(_mockAcademiesDbContext.Object, _logger.Object);
+        _sut = new DataSourceRepository(_mockAcademiesDbContext.Object, _logger.Object);
     }
 
     [Fact]
