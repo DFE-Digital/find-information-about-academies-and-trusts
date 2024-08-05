@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.ServiceModels;
 using DfE.FindInformationAcademiesTrusts.Services;
@@ -10,7 +11,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 public class TrustsAreaModelTests
 {
     private readonly Mock<ITrustProvider> _mockTrustProvider = new();
-    private readonly Mock<IDataSourceProvider> _mockDataSourceProvider = new();
+    private readonly Mock<IDataSourceService> _mockDataSourceProvider = new();
     private readonly TrustsAreaModel _sut;
     private readonly MockLogger<TrustsAreaModel> _logger = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
@@ -80,14 +81,14 @@ public class TrustsAreaModelTests
     [InlineData(Source.ExploreEducationStatistics, "Explore education statistics")]
     public void MapDataSourceToName_should_return_the_correct_string_for_each_source(Source source, string expected)
     {
-        var result = _sut.MapDataSourceToName(new DataSource(source, null, UpdateFrequency.Daily));
+        var result = _sut.MapDataSourceToName(new DataSourceServiceModel(source, null, UpdateFrequency.Daily));
         result.Should().Be(expected);
     }
 
     [Fact]
     public void MapDataSourceToName_should_return_Unknown_when_source_is_not_recognised()
     {
-        var dataSource = new DataSource((Source)10, null, UpdateFrequency.Daily);
+        var dataSource = new DataSourceServiceModel((Source)10, null, UpdateFrequency.Daily);
         var result = _sut.MapDataSourceToName(dataSource);
         _logger.VerifyLogError($"Data source {dataSource} does not map to known type");
         result.Should().Be("Unknown");

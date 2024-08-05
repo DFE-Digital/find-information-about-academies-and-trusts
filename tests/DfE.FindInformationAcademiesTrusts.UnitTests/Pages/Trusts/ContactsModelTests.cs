@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.ServiceModels;
@@ -21,7 +22,7 @@ public class ContactsModelTests
     private static readonly DateTime CurrentGovernorDate = DateTime.Today;
     private static readonly DateTime PastGovernorDate = DateTime.Today.AddDays(-1);
 
-    private readonly MockDataSourceProvider _mockDataSourceProvider = new();
+    private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
 
     private static Governor[] ListOfGovernors()
@@ -49,7 +50,7 @@ public class ContactsModelTests
             .ReturnsAsync(new TrustSummaryServiceModel(dummyTrustWithGovernors.Uid, dummyTrustWithGovernors.Name,
                 dummyTrustWithGovernors.Type, dummyTrustWithGovernors.Academies.Length));
 
-        _sut = new ContactsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
+        _sut = new ContactsModel(_mockTrustProvider.Object, _mockDataSourceService.Object,
                 new MockLogger<ContactsModel>().Object, _mockTrustRepository.Object)
             { Uid = "1234" };
     }
@@ -141,9 +142,9 @@ public class ContactsModelTests
     public async Task OnGetAsync_sets_correct_data_source_list()
     {
         await _sut.OnGetAsync();
-        _mockDataSourceProvider.Verify(e => e.GetCdmUpdated(), Times.Once);
-        _mockDataSourceProvider.Verify(e => e.GetGiasUpdated(), Times.Once);
-        _mockDataSourceProvider.Verify(e => e.GetMstrUpdated(), Times.Once);
+        _mockDataSourceService.Verify(e => e.GetAsync(Source.Cdm), Times.Once);
+        _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
+        _mockDataSourceService.Verify(e => e.GetAsync(Source.Mstr), Times.Once);
         _sut.DataSources.Count.Should().Be(3);
         _sut.DataSources[0].Fields.Should().Contain(new List<string>
             { "DfE contacts" });

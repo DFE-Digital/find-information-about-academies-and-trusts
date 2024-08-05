@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.ServiceModels;
 using DfE.FindInformationAcademiesTrusts.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -8,13 +9,13 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public class TrustsAreaModel(
     ITrustProvider trustProvider,
-    IDataSourceProvider dataSourceProvider,
+    IDataSourceService dataSourceService,
     ITrustService trustService,
     ILogger<TrustsAreaModel> logger,
     string pageName)
     : PageModel, ITrustsAreaModel
 {
-    protected readonly IDataSourceProvider DataSourceProvider = dataSourceProvider;
+    protected readonly IDataSourceService DataSourceService = dataSourceService;
     protected readonly ITrustProvider TrustProvider = trustProvider;
     protected readonly ITrustService TrustService = trustService;
 
@@ -25,9 +26,9 @@ public class TrustsAreaModel(
     public string? PageTitle { get; init; }
     public string Section => ViewConstants.AboutTheTrustSectionName;
 
-    public string MapDataSourceToName(DataSource source)
+    public string MapDataSourceToName(DataSourceServiceModel dataSource)
     {
-        switch (source.Source)
+        switch (dataSource.Source)
         {
             case Source.Gias:
                 return "Get information about schools";
@@ -40,7 +41,7 @@ public class TrustsAreaModel(
             case Source.ExploreEducationStatistics:
                 return "Explore education statistics";
             default:
-                logger.LogError("Data source {source} does not map to known type", source);
+                logger.LogError("Data source {source} does not map to known type", dataSource);
                 return "Unknown";
         }
     }

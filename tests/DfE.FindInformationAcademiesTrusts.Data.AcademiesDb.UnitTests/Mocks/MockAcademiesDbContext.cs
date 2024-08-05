@@ -21,6 +21,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     private readonly List<GiasEstablishment> _giasEstablishments = [];
     private readonly List<GiasGovernance> _giasGovernances = [];
     private readonly List<MstrTrustGovernance> _mstrTrustGovernances = [];
+    private readonly List<ApplicationEvent> _applicationEvents = [];
+    private readonly List<ApplicationSetting> _applicationSettings = [];
 
     public MockAcademiesDbContext()
     {
@@ -34,6 +36,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         SetupMockDbContext(_giasEstablishments, context => context.GiasEstablishments);
         SetupMockDbContext(_giasGovernances, context => context.GiasGovernances);
         SetupMockDbContext(_mstrTrustGovernances, context => context.MstrTrustGovernances);
+        SetupMockDbContext(_applicationEvents, context => context.ApplicationEvents);
+        SetupMockDbContext(_applicationSettings, context => context.ApplicationSettings);
 
         //Set up some unused data
         AddGiasGroups(15);
@@ -100,14 +104,15 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         return cdmAccount;
     }
 
-    private static int _appEventId;
-
-    private static ApplicationEvent CreateApplicationEvent(DateTime? dateTime, string description,
+    public void AddApplicationEvent(string description,
+        DateTime? dateTime,
         string? message = "Finished", char? eventType = 'I')
     {
-        return new ApplicationEvent
+        var applicationEventId = _applicationEvents.Count;
+
+        _applicationEvents.Add(new ApplicationEvent
         {
-            Id = _appEventId++,
+            Id = applicationEventId,
             DateTime = dateTime,
             Source = "source",
             UserName = "Test User",
@@ -120,16 +125,16 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             Trace = "test trace",
             ProcessID = 1,
             LineNumber = 2
-        };
+        });
     }
 
-    private static ApplicationSetting CreateApplicationSetting(DateTime? modified, string key)
+    public void AddApplicationSetting(string key, DateTime? modified)
     {
-        return new ApplicationSetting
+        _applicationSettings.Add(new ApplicationSetting
         {
             Key = key,
             Modified = modified
-        };
+        });
     }
 
     public List<GiasGroup> AddGiasGroups(int num)
@@ -221,80 +226,6 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         }
 
         return addedItems;
-    }
-
-    public void SetupMockDbContextOpsApplicationEvents(DateTime time)
-    {
-        var items = new List<ApplicationEvent>
-        {
-            CreateApplicationEvent(time.AddDays(-1), "GIAS_Daily"),
-            CreateApplicationEvent(time.AddDays(-2), "GIAS_Daily"),
-            CreateApplicationEvent(time.AddDays(-1), "MSTR_Daily"),
-            CreateApplicationEvent(time.AddDays(-2), "MSTR_Daily"),
-            CreateApplicationEvent(time.AddDays(-1), "CDM_Daily"),
-            CreateApplicationEvent(time.AddDays(-2), "CDM_Daily")
-        };
-
-        Setup(academiesTable => academiesTable.ApplicationEvents)
-            .Returns(new MockDbSet<ApplicationEvent>(items).Object);
-    }
-
-    public void SetupEmptyMockDbContextOpsApplicationEvents()
-    {
-        Setup(academiesTable => academiesTable.ApplicationEvents)
-            .Returns(new MockDbSet<ApplicationEvent>(new List<ApplicationEvent>()).Object);
-    }
-
-    public void SetupInvalidMockDbContextOpsApplicationEvents(DateTime time)
-    {
-        var items = new List<ApplicationEvent>
-        {
-            CreateApplicationEvent(time.AddDays(-10), "Wrong Description"),
-            CreateApplicationEvent(time.AddDays(-11), "GIAS_Daily", "Started"),
-            CreateApplicationEvent(time.AddDays(-16), "GIAS_Daily", eventType: 'E'),
-            CreateApplicationEvent(time.AddDays(-11), "MSTR_Daily", "Started"),
-            CreateApplicationEvent(time.AddDays(-16), "MSTR_Daily", eventType: 'E'),
-            CreateApplicationEvent(time.AddDays(-11), "CDM_Daily", "Started"),
-            CreateApplicationEvent(time.AddDays(-16), "CDM_Daily", eventType: 'E')
-        };
-
-        Setup(academiesTable => academiesTable.ApplicationEvents)
-            .Returns(new MockDbSet<ApplicationEvent>(items).Object);
-    }
-
-    public void SetupMockDbContextOpsApplicationSettings(DateTime time)
-    {
-        var items = new List<ApplicationSetting>
-        {
-            CreateApplicationSetting(time.AddDays(-1), "ManagementInformationSchoolTableData CSV Filename"),
-            CreateApplicationSetting(time.AddDays(-2),
-                "ManagementInformationFurtherEducationSchoolTableData CSV Filename")
-        };
-
-        Setup(academiesTable => academiesTable.ApplicationSettings)
-            .Returns(new MockDbSet<ApplicationSetting>(items).Object);
-    }
-
-    public List<ApplicationSetting> SetupEmptyMockDbContextOpsApplicationSettings()
-    {
-        var items = new List<ApplicationSetting>();
-
-        Setup(academiesTable => academiesTable.ApplicationSettings)
-            .Returns(new MockDbSet<ApplicationSetting>(items).Object);
-        return items;
-    }
-
-    public List<ApplicationSetting> SetupInvalidMockDbContextOpsApplicationSettings(DateTime time)
-    {
-        var items = new List<ApplicationSetting>
-        {
-            CreateApplicationSetting(time.AddDays(-11), "Other Filename"),
-            CreateApplicationSetting(time.AddDays(-12), "test")
-        };
-
-        Setup(academiesTable => academiesTable.ApplicationSettings)
-            .Returns(new MockDbSet<ApplicationSetting>(items).Object);
-        return items;
     }
 
     private void SetupMockDbContext<T>(List<T> items, Expression<Func<IAcademiesDbContext, DbSet<T>>> dbContextTable)

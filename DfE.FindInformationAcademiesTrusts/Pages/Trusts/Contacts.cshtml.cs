@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,10 +7,10 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public class ContactsModel(
     ITrustProvider trustProvider,
-    IDataSourceProvider sourceProvider,
+    IDataSourceService dataSourceService,
     ILogger<ContactsModel> logger,
     ITrustService trustService)
-    : TrustsAreaModel(trustProvider, sourceProvider, trustService, logger, "Contacts")
+    : TrustsAreaModel(trustProvider, dataSourceService, trustService, logger, "Contacts")
 {
     public Trust Trust { get; set; } = default!;
     public Governor? ChairOfTrustees { get; set; }
@@ -39,14 +40,13 @@ public class ContactsModel(
         ChiefFinancialOfficer = Array.Find(Trust.Governors, x =>
             x is { Role: "Chief Financial Officer", IsCurrentGovernor: true });
 
-        DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetCdmUpdated(),
+        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Cdm),
             new List<string> { "DfE contacts" }));
 
-        DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
-            new List<string>
-                { "Accounting officer name", "Chief financial officer name", "Chair of trustees name" }));
+        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias), new List<string>
+            { "Accounting officer name", "Chief financial officer name", "Chair of trustees name" }));
 
-        DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetMstrUpdated(),
+        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Mstr),
             new List<string>
                 { "Accounting officer email", "Chief financial officer email", "Chair of trustees email" }));
 
