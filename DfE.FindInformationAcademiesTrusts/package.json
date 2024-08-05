@@ -29,7 +29,7 @@
     "webpack-cli": "^5.1.1"
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "^1.8.0",
+    "@ministryofjustice/frontend": "^2.2.0",
     "@scottish-government/design-system": "^2.2.0",
     "accessible-autocomplete": "^2.0.4",
     "govuk-frontend": "^4.6.0",
