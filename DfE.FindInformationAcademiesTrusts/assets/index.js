@@ -1,6 +1,6 @@
 import GOVUKFrontend from 'govuk-frontend/govuk/all'
 import { Autocomplete } from './javascripts/autocomplete'
-import SideNavigation from '@scottish-government/pattern-library/src/components/side-navigation/side-navigation'
+import SideNavigation from '@scottish-government/design-system/src/components/side-navigation/side-navigation'
 import $ from 'jquery'
 import { SortableTable, nodeListForEach } from '@ministryofjustice/frontend'
 
