@@ -15,7 +15,6 @@
   "devDependencies": {
     "@babel/core": "^7.21.8",
     "@babel/preset-env": "^7.21.5",
-    "@scottish-government/pattern-library": "^0.0.381",
     "babel-loader": "^9.1.2",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
@@ -31,6 +30,7 @@
   },
   "dependencies": {
     "@ministryofjustice/frontend": "^1.8.0",
+    "@scottish-government/design-system": "^2.2.0",
     "accessible-autocomplete": "^2.0.4",
     "govuk-frontend": "^4.6.0",
     "jquery": "^3.7.1"
