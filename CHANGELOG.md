@@ -11,7 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Accessibility statement has been updated to reflect the recent accessibility audit.
 - Trust details page load time decreased.
 - Implemented service and repository design patterns for retrieving data from AcademiesDb.
-- Data source information cached to increase performance of all Trust pages
+- Data source information cached to increase performance of all Trust pages.
+- Trust summary information (UID, name, type and number of academies) cached to improve performance of all Trust pages.
 
 ## [Release-2][release-2] (production-2024-07-29.2601)
 
