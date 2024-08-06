@@ -1,4 +1,5 @@
-import generalAndNavPage from "../../pages/generalAndNav";
+import footerLinks from "../../pages/footerLinks";
+import paginationPage from "../../pages/paginationPage";
 import homePage from "../../pages/homePage";
 import searchPage from "../../pages/searchPage";
 
@@ -8,20 +9,48 @@ describe("Testing the components of the home page", () => {
         cy.login();
     });
 
-    it("Should check that the home pages search bar is present and functional", () => {
+    it("Should check that the home pages search bar and autocomplete is present and functional", () => {
+        homePage
+            .enterMainSearchText("West")
+            .autocompleteIsPresent()
+            .searchButtonPresent()
+            .autocompleteContainsTypedText("West")
+    });
+
+    it("Should check that search results are returned with a valid name entered when using the main search bar ", () => {
         homePage
             .enterMainSearchText("west")
-            .searchButtonPresent()
-    });
+            .clickMainSearchButton()
 
-    it.only("Should check that the home page footer bar privacy link is present and functional", () => {
-        generalAndNavPage
-            .homePagePrivacyLinkPresent()
+        searchPage
+            .checkSearchResultsReturned('west')
 
-    });
+        paginationPage
+            .returnToHome()
 
-    it("Should check that the home page footer bar cookies link is present and functional", () => {
         homePage
+            .searchButtonPresent()
+
+    });
+
+    it("Should check that the home page footer bar privacy link is present and functional", () => {
+        footerLinks
+            .privacyLinkPresent()
+            .clickPrivacyLink()
+
+        paginationPage
+            .checkImAtTheCorrectUrl('privacy')
+
+    });
+
+    it.only("Should check that the home page footer bar cookies link is present and functional", () => {
+        homePage
+        footerLinks
+            .cookiesLinkPresent()
+            .clickCookiesLink()
+
+        paginationPage
+            .checkImAtTheCorrectUrl('cookies')
 
     });
 
