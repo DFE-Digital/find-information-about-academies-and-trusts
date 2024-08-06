@@ -12,13 +12,19 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: '*.{png,svg}',
+          from: 'govuk-*.{png,svg}',
           to: path.join(__dirname, 'wwwroot/dist/images'),
           context: 'node_modules/govuk-frontend/dist/govuk/assets/images'
         },
         {
-          from: path.join(__dirname, 'assets/images'),
-          to: path.join(__dirname, 'wwwroot/dist/images')
+          from: '*.{png,svg}',
+          to: path.join(__dirname, 'wwwroot/dist/images'),
+          context: 'node_modules/dfe-frontend/packages/assets'
+        },
+        {
+          from: '*.{ico,png}',
+          to: path.join(__dirname, 'wwwroot/dist/images'),
+          context: path.join(__dirname, 'assets/images')
         }
       ]
     })
