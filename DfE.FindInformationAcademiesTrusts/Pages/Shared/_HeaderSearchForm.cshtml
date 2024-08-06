@@ -2,30 +2,39 @@
 @{
   var inputId = "header-search";
 }
-<form class="govuk-form-group app-search " asp-page="/Search" role="search" aria-label="sitewide" method="post">
-  <div data-testid="app-search-form" class="app-search--header">
-    @* This is used by the no javascript users *@
-    <div class="app-search__wrapper">
-      <div id="@inputId-no-js-search-container">
-        <input class="govuk-input app-search__input" id="@inputId" type="search" asp-for="KeyWords" name="keywords">
+
+<button class="dfe-header__search-toggle" id="toggle-search" aria-controls="search" aria-label="Open search">
+  <svg class="dfe-icon dfe-icon__search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
+    <path d="M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z"></path>
+  </svg>
+  <span class="govuk-visually-hidden">Search</span>
+</button>
+<div class="app-search">
+  <form class="dfe-header__search-form" id="search" asp-page="/Search" role="search" aria-label="sitewide" method="post">
+    <div class="dfe-header__search-wrap" id="wrap-search">
+      <div class="app-search__wrapper">
+        <label class="govuk-visually-hidden" for="@inputId">Search this website</label>
+        <input class="dfe-search__input" id="@inputId-no-js-search-container" type="search" asp-for="KeyWords" name="keywords" placeholder="Search">
+        <button class="dfe-search__submit" type="submit">
+          <svg class="dfe-icon dfe-icon__search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
+            <path d="M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z"></path>
+          </svg>
+          <span class="govuk-visually-hidden">Search</span>
+        </button>
+        <button class="dfe-search__close" id="close-search">
+          <svg class="dfe-icon dfe-icon__close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
+            <path d="M13.41 12l5.3-5.29a1 1 0 1 0-1.42-1.42L12 10.59l-5.29-5.3a1 1 0 0 0-1.42 1.42l5.3 5.29-5.3 5.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l5.29-5.3 5.29 5.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"></path>
+          </svg>
+          <span class="govuk-visually-hidden">Close search</span>
+        </button>
       </div>
-      <button class="dfe-search__submit" data-testid="search" type="submit">
-        <svg class="app-search__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z"></path>
-        </svg>
-        <span class="govuk-visually-hidden">Search</span>
-      </button>
     </div>
-  </div>
-  @* This template is used by a script to implement autocomplete *@
-  <template id="@inputId-js-autocomplete-template">
-    <div>
+    <template id="@inputId-js-autocomplete-template" class="header-autocomplete-container">
       <div id="@inputId-autocomplete-container"></div>
       <input type="hidden" id="@inputId-selected-trust" name="uid"/>
-    </div>
-  </template>
-</form>
-
+    </template>
+  </form>
+</div>
 
 <script asp-add-nonce type="application/javascript">
   const loadHeaderAutocomplete = async () => {
