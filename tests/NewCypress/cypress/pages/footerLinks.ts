@@ -32,6 +32,22 @@ class FooterLinks {
         return this;
     }
 
+    public acessibilityStatementLinkPresent(): this {
+        const acessibilityFooterButton = () => cy.contains('Accessibility')
+
+        acessibilityFooterButton().scrollIntoView().should('be.visible');
+
+        return this;
+    }
+
+    public clickAccessibilityStatementLink(): this {
+        const acessibilityFooterButton = () => cy.contains('Accessibility')
+
+        acessibilityFooterButton().scrollIntoView().click();
+
+        return this;
+    }
+
 }
 
 const footerLinks = new FooterLinks();
