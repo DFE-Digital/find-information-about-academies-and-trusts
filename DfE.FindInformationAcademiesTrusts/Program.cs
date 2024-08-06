@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.FeatureManagement;
 using Microsoft.Identity.Web;
 using Serilog;
 
@@ -224,6 +225,7 @@ internal static class Program
             .Bind(builder.Configuration.GetSection(ApplicationInsightsOptions.ConfigurationSection));
         builder.Services.AddOptions<NotificationBannerOptions>()
             .Bind(builder.Configuration.GetSection(NotificationBannerOptions.ConfigurationSection));
+        builder.Services.AddFeatureManagement();
     }
 
     private static void AddAuthenticationServices(WebApplicationBuilder builder)
