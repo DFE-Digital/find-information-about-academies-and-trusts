@@ -14,7 +14,7 @@ module.exports = {
         {
           from: '*.{png,svg}',
           to: path.join(__dirname, 'wwwroot/dist/images'),
-          context: 'node_modules/govuk-frontend/govuk/assets/images'
+          context: 'node_modules/govuk-frontend/dist/govuk/assets/images'
         },
         {
           from: path.join(__dirname, 'assets/images'),
