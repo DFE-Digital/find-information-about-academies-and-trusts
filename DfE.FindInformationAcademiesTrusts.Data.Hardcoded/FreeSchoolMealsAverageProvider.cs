@@ -7,13 +7,13 @@ public class FreeSchoolMealsAverageProvider : IFreeSchoolMealsAverageProvider
     public double GetLaAverage(Academy academy)
     {
         var key = GetPhaseTypeKey(academy);
-        return FreeSchoolMealsData.Averages2022To23[academy.OldLaCode].PercentOfPupilsByPhase[key];
+        return FreeSchoolMealsData.Averages2023To24[academy.OldLaCode].PercentOfPupilsByPhase[key];
     }
 
     public double GetNationalAverage(Academy academy)
     {
         var key = GetPhaseTypeKey(academy);
-        return FreeSchoolMealsData.Averages2022To23[NationalKey].PercentOfPupilsByPhase[key];
+        return FreeSchoolMealsData.Averages2023To24[NationalKey].PercentOfPupilsByPhase[key];
     }
 
     public DataSource GetFreeSchoolMealsUpdated()

@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Accessibility statement has been updated to reflect the recent accessibility audit.
 - Trust details page load time decreased.
 - Implemented service and repository design patterns for retrieving data from AcademiesDb.
+- Updated hardcoded free schools meals data to be updated to 23/24, resolving a bug relating to new Local Authorities within that data
 
 ## [Release-2][release-2] (production-2024-07-29.2601)
 
