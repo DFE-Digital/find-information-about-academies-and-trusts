@@ -82,7 +82,7 @@
     }
   }
   
-  .app-search--header {
+  .dfe-header__search-form {
     .autocomplete__input {
       -webkit-appearance: listbox;
       border-bottom-left-radius: 4px;
@@ -159,6 +159,25 @@
     @media (min-width >= 48.0625em) {
       .autocomplete__input {
         width: 335px;
+      }
+    }
+
+    .app-search__wrapper {
+      .autocomplete__input,
+      .app-search__input {
+        border-right: none;
+        height: 2.5rem;
+        border-color: transparent;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 0;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 0;
+      }
+
+      .autocomplete__input:focus,
+      .app-search__input:focus {
+        height: 2.5rem;
+        box-shadow: 0 0 0 4px govuk-colour("yellow");
       }
     }
   }
