@@ -2,5 +2,5 @@
 
 public static class FeatureFlags
 {
-    public static readonly string TestFlag = "TestFlag";
+    public const string TestFlag = "TestFlag";
 }
