@@ -36,7 +36,7 @@ public class FreeSchoolMealsModel : TrustsAreaModel, IAcademiesAreaModel
         DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.ExploreEducationStatistics),
             new[]
             {
-                "Local authority average 2022/23", "National average 2022/23"
+                "Local authority average 2023/24", "National average 2023/24"
             }));
 
         return pageResult;

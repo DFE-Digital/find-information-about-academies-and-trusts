@@ -28,7 +28,8 @@ public class FreeSchoolMealsModelTests
 
         _sut = new FreeSchoolMealsModel(_mockTrustProvider.Object, _mockFreeSchoolMealsAverageProvider.Object,
             _mockDataSourceService.Object, new MockLogger<FreeSchoolMealsModel>().Object,
-            _mockTrustRepository.Object) { Uid = "1234" };
+            _mockTrustRepository.Object)
+        { Uid = "1234" };
     }
 
     [Fact]
@@ -91,7 +92,7 @@ public class FreeSchoolMealsModelTests
         });
         _sut.DataSources[1].Fields.Should().Contain(new[]
         {
-            "Local authority average 2022/23", "National average 2022/23"
+            "Local authority average 2023/24", "National average 2023/24"
         });
     }
 }
