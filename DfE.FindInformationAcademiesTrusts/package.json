@@ -32,6 +32,7 @@
     "@ministryofjustice/frontend": "^2.2.0",
     "@scottish-government/design-system": "^2.2.0",
     "accessible-autocomplete": "^3.0.0",
+    "dfe-frontend": "^2.0.1",
     "govuk-frontend": "^5.4.1",
     "jquery": "^3.7.1"
   },
