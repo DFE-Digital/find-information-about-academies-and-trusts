@@ -6,6 +6,7 @@ $govuk-font-family: blinkmacsystemfont, "Segoe UI", roboto, oxygen-sans, ubuntu,
 $govuk-page-width: 1200px;
 
 @import "govuk-frontend";
+@import "dfe-frontend/packages/dfefrontend";
 @import "accessible-autocomplete";
 @import "./imports/digital-scotland";
 @import "./imports/ministry-of-justice";
