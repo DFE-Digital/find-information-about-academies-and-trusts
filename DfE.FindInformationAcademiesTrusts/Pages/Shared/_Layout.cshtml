@@ -40,7 +40,7 @@
 
 </head>
 
-<body class="govuk-template__body ">
+<body class="govuk-template__body">
 
   @if (hasConsented)
   {
@@ -53,7 +53,7 @@
   }
 
   <script asp-add-nonce>
-    document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+    document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '')
   </script>
   <partial name="_CookieBanner"/>
   <partial name="_NotificationBanner"/>
