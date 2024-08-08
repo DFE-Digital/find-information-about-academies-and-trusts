@@ -13,6 +13,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Implemented service and repository design patterns for retrieving data from AcademiesDb.
 - Data source information cached to increase performance of all Trust pages.
 - Trust summary information (UID, name, type and number of academies) cached to improve performance of all Trust pages.
+- Fix side nav not showing current for "Academies in trust" pages
+- Major updates to UI dependencies including:
+  - GOV.UK design system (v4.8 -> v5.4)
+  - DfE frontend (alpha -> v2)
+  - Scottish design system (sidenav in Trust pages)
+  - MoJ frontend (sortable tables)
+  - Accessible autocomplete (search autocomplete)
+  - Webpack bundlers/loaders
 
 ## [Release-2][release-2] (production-2024-07-29.2601)
 
