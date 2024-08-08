@@ -1,0 +1,35 @@
+name: k6 Performance benchmark tests
+
+on:
+  workflow_dispatch:
+    inputs:
+        environment:
+          type: environment
+          description: "Choose an environment to run against"
+          required: true
+
+jobs:
+  run-k6-tests:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.environment == 'development' || github.event.inputs.environment == 'test'
+    defaults:
+      run:
+        working-directory: tests/DFE.FindInformationAcademiesTrusts.PerformanceTests/tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run k6 test
+        uses: grafana/k6-action@v0.3.1
+        with:
+          filename: suite.js
+        env:
+          BASE_URL: ${{ secrets.TRAMS_API_BASE_URL }}
+          AUTHORIZATION_HEADER: ${{ secrets.TEST_OVERRIDE_CYPRESS_TEST_SECRET }}
+
+      - name: Upload report
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: summary
+          path: summary.html
