@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
 using DfE.FindInformationAcademiesTrusts.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +8,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
 public class AcademiesDetailsModel : TrustsAreaModel, IAcademiesAreaModel
 {
-    public Trust Trust { get; set; } = default!;
+    public AcademyDetailsServiceModel[] Academies { get; set; } = default!;
     public IOtherServicesLinkBuilder LinkBuilder { get; }
 
     public AcademiesDetailsModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
@@ -25,7 +26,7 @@ public class AcademiesDetailsModel : TrustsAreaModel, IAcademiesAreaModel
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        Trust = (await TrustProvider.GetTrustByUidAsync(Uid))!;
+        //  Trust = (await TrustProvider.GetTrustByUidAsync(Uid))!;
 
         DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),
             new List<string> { "Details" }));
