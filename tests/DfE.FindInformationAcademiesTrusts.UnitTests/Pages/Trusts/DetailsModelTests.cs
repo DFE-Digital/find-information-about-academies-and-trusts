@@ -57,18 +57,10 @@ public class DetailsModelTests
     }
 
     [Fact]
-    public async Task GetInformationAboutSchoolsLink_is_null_if_link_builder_returns_null()
+    public async Task GetInformationAboutSchoolsLink_is_returned_from_link_builder()
     {
-        _mockLinksToOtherServices.Setup(l => l.GetInformationAboutSchoolsListingLink(DummyTrustDetailsServiceModel))
-            .Returns((string?)null);
-        await _sut.OnGetAsync();
-        _sut.GetInformationAboutSchoolsLink.Should().BeNull();
-    }
-
-    [Fact]
-    public async Task GetInformationAboutSchoolsLink_is_string_if_link_builder_returns_string()
-    {
-        _mockLinksToOtherServices.Setup(l => l.GetInformationAboutSchoolsListingLink(DummyTrustDetailsServiceModel))
+        _mockLinksToOtherServices.Setup(l =>
+                l.GetInformationAboutSchoolsListingLinkForTrust(DummyTrustDetailsServiceModel.Uid))
             .Returns("url");
         await _sut.OnGetAsync();
         _sut.GetInformationAboutSchoolsLink.Should().Be("url");
