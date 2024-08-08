@@ -16,6 +16,6 @@ public class IndexModelTests
     {
         var sut = new IndexModel();
 
-        sut.InputId.Should().Be("home-search");
+        sut.PageSearchFormInputId.Should().Be("home-search");
     }
 }

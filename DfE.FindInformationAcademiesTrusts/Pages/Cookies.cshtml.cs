@@ -1,11 +1,10 @@
+using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.ObjectPool;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
-public class CookiesModel : PageModel
+public class CookiesModel : BasePageModel
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     public bool DisplayCookieChangedMessageOnCookiesPage { get; set; }
@@ -74,7 +73,7 @@ public class CookiesModel : PageModel
     private void DeleteAppInsightsCookies()
     {
         var optionalCookiePrefixes = new[] { "ai_session", "ai_user", "ai_authuser" };
-        List<string> cookiesToDelete = GetMatchingCookies(optionalCookiePrefixes);
+        var cookiesToDelete = GetMatchingCookies(optionalCookiePrefixes);
 
         cookiesToDelete.ForEach(cookie => _httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie));
     }
@@ -82,7 +81,7 @@ public class CookiesModel : PageModel
     private void DeleteGoogleAnalyticsCookies()
     {
         var optionalCookiePrefixes = new[] { "_ga", "_gid" };
-        List<string> cookiesToDelete = GetMatchingCookies(optionalCookiePrefixes);
+        var cookiesToDelete = GetMatchingCookies(optionalCookiePrefixes);
 
         cookiesToDelete.ForEach(cookie =>
         {
@@ -90,7 +89,8 @@ public class CookiesModel : PageModel
             // Can't delete cookies unless the domain is specified, by default it will be the current host
             // Issue was it worked on localhost but not on dev, test or prod, because google analytics cookies are set on a different domain
             _httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie);
-            _httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie, new CookieOptions() { Domain = ".education.gov.uk" });
+            _httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie,
+                new CookieOptions { Domain = ".education.gov.uk" });
         });
     }
 

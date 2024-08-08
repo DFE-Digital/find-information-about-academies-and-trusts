@@ -1,4 +1,4 @@
-@model ISearchFormModel
+@model IPageSearchFormModel
 <div data-testid="app-search-form">
   <div class="govuk-hint">
     Enter trust name. Include the right punctuation.
@@ -6,8 +6,8 @@
 
   @* This is used by the no javascript users *@
   <div class="app-search__wrapper">
-    <div id="@Model.InputId-no-js-search-container">
-      <input class="govuk-input app-search__input" id="@Model.InputId" type="search" asp-for="KeyWords" name="keywords">
+    <div id="@Model.PageSearchFormInputId-no-js-search-container">
+      <input class="govuk-input app-search__input" id="@Model.PageSearchFormInputId" type="search" asp-for="KeyWords" name="keywords">
     </div>
     <button class="govuk-button app-search__button app-search__button--blue" data-testid="search" type="submit">
       <svg class="app-search__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -18,15 +18,16 @@
   </div>
 </div>
 @* This template is used by a script to implement autocomplete *@
-<template id="@Model.InputId-js-autocomplete-template">
+<template id="@Model.PageSearchFormInputId-js-autocomplete-template">
   <div>
-    <div id="@Model.InputId-autocomplete-container"></div>
-    <input type="hidden" id="@Model.InputId-selected-trust" name="uid"/>
+    <div id="@Model.PageSearchFormInputId-autocomplete-container"></div>
+    <input type="hidden" id="@Model.PageSearchFormInputId-selected-trust" name="uid"/>
   </div>
 </template>
 
 <script asp-add-nonce type="application/javascript">
-  window.onload = () => {
-    Autocomplete.loadTrustSearch("@Model.InputId", "@Model.KeyWords")
+  const loadPageFormAutocomplete = async () => {
+    await Autocomplete.loadTrustSearch("@Model.PageSearchFormInputId", "@Model.KeyWords")
   }
+  window.addEventListener("load", loadPageFormAutocomplete);
 </script>
