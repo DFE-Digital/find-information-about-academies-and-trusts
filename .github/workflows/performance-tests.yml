@@ -22,7 +22,7 @@ jobs:
       - name: Run k6 test
         uses: grafana/k6-action@v0.3.1
         with:
-          filename: suite.js
+          filename: trustOverview.js
         env:
           BASE_URL: ${{ secrets.TRAMS_API_BASE_URL }}
           AUTHORIZATION_HEADER: ${{ secrets.TEST_OVERRIDE_CYPRESS_TEST_SECRET }}

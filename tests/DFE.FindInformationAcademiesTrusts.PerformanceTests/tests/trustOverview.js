@@ -35,22 +35,38 @@ export default async function () {
     'User-Agent': 'FindInformationAcademiesTrusts/1.0 k6-browser'
   })
 
+  // Go through each page for the trust and capture the page load timings
   try {
-    await page.goto(`${baseUrl}/trusts/details?uid=5143`)
-    await page.waitForLoadState('domcontentloaded')
-    await page.evaluate(() => window.performance.mark('page_load_time'));
+    await checkPageLoadTiming(page, `${baseUrl}/trusts/details?uid=5143`)
 
-    const totalActionTime = await page.evaluate(
-      () =>
-        JSON.parse(JSON.stringify(window.performance.getEntriesByName('page_load_time')))[0]
-          .startTime
-    )
+    await checkPageLoadTiming(page, `${baseUrl}/trusts/contacts?uid=5143`)
 
-    trend.add(totalActionTime)
+    await checkPageLoadTiming(page, `${baseUrl}/trusts/overview?uid=5143`)
+
+    await checkPageLoadTiming(page, `${baseUrl}/trusts/academies/details?uid=5143`)
+
+    await checkPageLoadTiming(page, `${baseUrl}/trusts/academies/ofsted-ratings?uid=5143`)
+
+    await checkPageLoadTiming(page, `${baseUrl}/trusts/academies/pupil-numbers?uid=5143`)
   }
   finally {
     await page.close()
   }
+}
+
+async function checkPageLoadTiming(page, url) {
+  await page.goto(url)
+  await page.evaluate(() => window.performance.mark('page_load_time'));
+
+  let totalActionTime = await page.evaluate(
+    () =>
+      JSON.parse(JSON.stringify(window.performance.getEntriesByName('page_load_time')))[0]
+        .startTime
+  )
+
+  trend.add(totalActionTime)
+
+  Promise.resolve()
 }
 
 export function handleSummary(data) {
