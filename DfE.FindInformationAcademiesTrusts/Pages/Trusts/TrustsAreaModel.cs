@@ -1,34 +1,34 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
-public class TrustsAreaModel : PageModel, ITrustsAreaModel
+public class TrustsAreaModel(
+    ITrustProvider trustProvider,
+    IDataSourceService dataSourceService,
+    ITrustService trustService,
+    ILogger<TrustsAreaModel> logger,
+    string pageName)
+    : PageModel, ITrustsAreaModel
 {
-    private readonly ITrustProvider _trustProvider;
-    protected readonly IDataSourceProvider DataSourceProvider;
-    private readonly ILogger<TrustsAreaModel> _logger;
-
-    public TrustsAreaModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider,
-        ILogger<TrustsAreaModel> logger, string pageName)
-    {
-        _trustProvider = trustProvider;
-        DataSourceProvider = dataSourceProvider;
-        _logger = logger;
-        PageName = pageName;
-    }
+    protected readonly IDataSourceService DataSourceService = dataSourceService;
+    protected readonly ITrustProvider TrustProvider = trustProvider;
+    protected readonly ITrustService TrustService = trustService;
 
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = "";
-    public Trust Trust { get; set; } = default!;
-    public List<DataSourceListEntry> DataSources { get; set; } = new();
-    public string PageName { get; init; }
+    public TrustSummaryServiceModel TrustSummary { get; set; } = default!;
+    public List<DataSourceListEntry> DataSources { get; set; } = [];
+    public string PageName { get; init; } = pageName;
     public string? PageTitle { get; init; }
     public string Section => ViewConstants.AboutTheTrustSectionName;
 
-    public string MapDataSourceToName(DataSource source)
+    public string MapDataSourceToName(DataSourceServiceModel dataSource)
     {
-        switch (source.Source)
+        switch (dataSource.Source)
         {
             case Source.Gias:
                 return "Get information about schools";
@@ -41,21 +41,22 @@ public class TrustsAreaModel : PageModel, ITrustsAreaModel
             case Source.ExploreEducationStatistics:
                 return "Explore education statistics";
             default:
-                _logger.LogError("Data source {source} does not map to known type", source);
+                logger.LogError("Data source {source} does not map to known type", dataSource);
                 return "Unknown";
         }
     }
 
     public virtual async Task<IActionResult> OnGetAsync()
     {
-        var trust = await _trustProvider.GetTrustByUidAsync(Uid);
+        var trustSummary = await TrustService.GetTrustSummaryAsync(Uid);
 
-        if (trust == null)
+        if (trustSummary == null)
         {
             return new NotFoundResult();
         }
 
-        Trust = trust;
+        TrustSummary = trustSummary;
+
         return Page();
     }
 }

@@ -3,10 +3,14 @@ using System.Reflection;
 using DfE.FindInformationAcademiesTrusts.Authorization;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Hardcoded;
-using DfE.FindInformationAcademiesTrusts.Pages;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories;
 using DfE.FindInformationAcademiesTrusts.Options;
+using DfE.FindInformationAcademiesTrusts.Pages;
+using DfE.FindInformationAcademiesTrusts.Services;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -76,7 +80,8 @@ internal static class Program
     private static void ConfigureHttpRequestPipeline(WebApplication app)
     {
         // Ensure we do not lose X-Forwarded-* Headers when behind a Proxy
-        var forwardOptions = new ForwardedHeadersOptions {
+        var forwardOptions = new ForwardedHeadersOptions
+        {
             ForwardedHeaders = ForwardedHeaders.All,
             RequireHeaderSymmetry = false
         };
@@ -183,14 +188,26 @@ internal static class Program
         builder.Services.AddDbContext<AcademiesDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("AcademiesDb") ??
                                  throw new InvalidOperationException("Connection string 'AcademiesDb' not found.")));
+        builder.Services.AddScoped<IAcademiesDbContext>(provider =>
+            provider.GetService<AcademiesDbContext>() ??
+            throw new InvalidOperationException("AcademiesDbContext not registered"));
 
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
+
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
-        builder.Services.AddScoped<IDataSourceProvider, DataSourceProvider>();
+
+        builder.Services.AddScoped<IAcademyRepository, AcademyRepository>();
+        builder.Services.AddScoped<ITrustRepository, TrustRepository>();
+        builder.Services.AddScoped<IDataSourceRepository, DataSourceRepository>();
+
+        builder.Services.AddScoped<IDataSourceService, DataSourceService>();
+        builder.Services.AddScoped<ITrustService, TrustService>();
+
         builder.Services.AddScoped<ITrustFactory, TrustFactory>();
         builder.Services.AddScoped<IAcademyFactory, AcademyFactory>();
         builder.Services.AddScoped<IGovernorFactory, GovernorFactory>();
         builder.Services.AddScoped<IPersonFactory, PersonFactory>();
+
         builder.Services.AddScoped<IAuthorizationHandler, HeaderRequirementHandler>();
         builder.Services.AddScoped<IOtherServicesLinkBuilder, OtherServicesLinkBuilder>();
         builder.Services.AddScoped<IFreeSchoolMealsAverageProvider, FreeSchoolMealsAverageProvider>();

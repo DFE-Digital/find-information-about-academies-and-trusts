@@ -1,6 +1,8 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,30 +10,28 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 
 public class TrustsAreaModelTests
 {
-    private readonly Mock<ITrustProvider> _mockTrustProvider;
-    private readonly Mock<IDataSourceProvider> _mockDataUpdatedProvider;
+    private readonly Mock<ITrustProvider> _mockTrustProvider = new();
+    private readonly Mock<IDataSourceService> _mockDataSourceProvider = new();
     private readonly TrustsAreaModel _sut;
-    private readonly MockLogger<TrustsAreaModel> _logger;
+    private readonly MockLogger<TrustsAreaModel> _logger = new();
+    private readonly Mock<ITrustService> _mockTrustRepository = new();
 
     public TrustsAreaModelTests()
     {
-        _logger = new MockLogger<TrustsAreaModel>();
-        _mockTrustProvider = new Mock<ITrustProvider>();
-        _mockDataUpdatedProvider = new Mock<IDataSourceProvider>();
-        _sut = new TrustsAreaModel(_mockTrustProvider.Object, _mockDataUpdatedProvider.Object, _logger.Object,
-            "Details");
+        _sut = new TrustsAreaModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
+            _mockTrustRepository.Object, _logger.Object, "Details");
     }
 
     [Fact]
-    public async Task OnGetAsync_should_fetch_a_trust_by_uid()
+    public async Task OnGetAsync_should_fetch_a_trustsummary_by_uid()
     {
-        var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
-        _mockTrustProvider.Setup(s => s.GetTrustByUidAsync(dummyTrust.Uid))
-            .ReturnsAsync(dummyTrust);
-        _sut.Uid = dummyTrust.Uid;
+        var dummyTrustSummary = new TrustSummaryServiceModel("1234", "My Trust", "Multi-academy trust", 3);
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrustSummary.Uid))
+            .ReturnsAsync(dummyTrustSummary);
+        _sut.Uid = dummyTrustSummary.Uid;
 
         await _sut.OnGetAsync();
-        _sut.Trust.Should().Be(dummyTrust);
+        _sut.TrustSummary.Should().Be(dummyTrustSummary);
     }
 
     [Fact]
@@ -44,8 +44,8 @@ public class TrustsAreaModelTests
     [Fact]
     public void PageName_should_be_set_at_initialisation()
     {
-        var sut = new TrustsAreaModel(_mockTrustProvider.Object, _mockDataUpdatedProvider.Object, _logger.Object,
-            "Contacts");
+        var sut = new TrustsAreaModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
+            _mockTrustRepository.Object, _logger.Object, "Contacts");
         sut.PageName.Should().Be("Contacts");
     }
 
@@ -58,8 +58,8 @@ public class TrustsAreaModelTests
     [Fact]
     public async Task OnGetAsync_should_return_not_found_result_if_trust_is_not_found()
     {
-        _mockTrustProvider.Setup(s => s.GetTrustByUidAsync("1111"))
-            .ReturnsAsync((Trust?)null);
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("1111"))
+            .ReturnsAsync((TrustSummaryServiceModel?)null);
 
         _sut.Uid = "1111";
         var result = await _sut.OnGetAsync();
@@ -81,14 +81,14 @@ public class TrustsAreaModelTests
     [InlineData(Source.ExploreEducationStatistics, "Explore education statistics")]
     public void MapDataSourceToName_should_return_the_correct_string_for_each_source(Source source, string expected)
     {
-        var result = _sut.MapDataSourceToName(new DataSource(source, null, UpdateFrequency.Daily));
+        var result = _sut.MapDataSourceToName(new DataSourceServiceModel(source, null, UpdateFrequency.Daily));
         result.Should().Be(expected);
     }
 
     [Fact]
     public void MapDataSourceToName_should_return_Unknown_when_source_is_not_recognised()
     {
-        var dataSource = new DataSource((Source)10, null, UpdateFrequency.Daily);
+        var dataSource = new DataSourceServiceModel((Source)10, null, UpdateFrequency.Daily);
         var result = _sut.MapDataSourceToName(dataSource);
         _logger.VerifyLogError($"Data source {dataSource} does not map to known type");
         result.Should().Be("Unknown");

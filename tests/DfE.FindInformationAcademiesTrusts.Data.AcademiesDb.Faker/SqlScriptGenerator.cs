@@ -1,4 +1,5 @@
 using System.Reflection;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -13,7 +14,7 @@ public static class SqlScriptGenerator
         using var context = new AcademiesDbContext(dbContextOptions.Options);
 
         GenerateSqlCreateScript(context, createScriptOutputFilePath);
-        
+
         // Comment in if you want to re-generate it
         // We use static data to keep it stable
         // GenerateSqlInsertScript(context, insertScriptOutputFilePath, fakeData);
@@ -21,7 +22,7 @@ public static class SqlScriptGenerator
 
     private static void GenerateSqlCreateScript(AcademiesDbContext context, string outputFilePath)
     {
-        string createScript = "CREATE DATABASE [sip];\nGO\n\n";
+        var createScript = "CREATE DATABASE [sip];\nGO\n\n";
         createScript += "USE [sip];\nGO\n\n";
         createScript += context.Database.GenerateCreateScript();
 
@@ -50,7 +51,8 @@ public static class SqlScriptGenerator
         File.WriteAllLines(outputFilePath, insertScripts);
     }
 
-    private static List<string> GenerateSqlInsertScriptSegmentsFor<T>(List<T> rowObjects, AcademiesDbContext context)
+    private static List<string> GenerateSqlInsertScriptSegmentsFor<T>(List<T> rowObjects,
+        AcademiesDbContext context)
     {
         var entityType = context.Model.FindEntityTypes(typeof(T)).FirstOrDefault()!;
         var entityProperties = typeof(T).GetProperties();

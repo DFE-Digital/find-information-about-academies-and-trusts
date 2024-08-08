@@ -17,3 +17,4 @@ _Add a summary of the changes in this pull request_
 - [ ] Deploy this branch to the test environment for manual testing once comments have been resolved and checks have passed 
 - [ ] Attach this pull request to the appropriate user story in Azure DevOps
 - [ ] Update the ADR decision log if needed
+- [ ] Add release notes to CHANGELOG.md

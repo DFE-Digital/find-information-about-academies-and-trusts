@@ -1,4 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
@@ -6,11 +8,12 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 public class FreeSchoolMealsModel : TrustsAreaModel, IAcademiesAreaModel
 {
     private readonly IFreeSchoolMealsAverageProvider _freeSchoolMealsProvider;
+    public Trust Trust { get; set; } = default!;
 
     public FreeSchoolMealsModel(ITrustProvider trustProvider,
-        IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider, IDataSourceProvider dataSourceProvider,
-        ILogger<FreeSchoolMealsModel> logger) :
-        base(trustProvider, dataSourceProvider, logger, "Academies in this trust")
+        IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider, IDataSourceService dataSourceService,
+        ILogger<FreeSchoolMealsModel> logger, ITrustService trustService) :
+        base(trustProvider, dataSourceService, trustService, logger, "Academies in this trust")
     {
         PageTitle = "Academies free school meals";
         _freeSchoolMealsProvider = freeSchoolMealsAverageProvider;
@@ -22,13 +25,15 @@ public class FreeSchoolMealsModel : TrustsAreaModel, IAcademiesAreaModel
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
+        Trust = (await TrustProvider.GetTrustByUidAsync(Uid))!;
+
+        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),
             new[]
             {
                 "Pupils eligible for free school meals"
             }));
 
-        DataSources.Add(new DataSourceListEntry(_freeSchoolMealsProvider.GetFreeSchoolMealsUpdated(),
+        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.ExploreEducationStatistics),
             new[]
             {
                 "Local authority average 2022/23", "National average 2022/23"

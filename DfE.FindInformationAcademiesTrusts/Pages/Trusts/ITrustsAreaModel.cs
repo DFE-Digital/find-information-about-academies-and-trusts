@@ -1,12 +1,12 @@
-using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public interface ITrustsAreaModel
 {
-    Trust Trust { get; set; }
+    TrustSummaryServiceModel TrustSummary { get; }
 
-    List<DataSourceListEntry> DataSources { get; set; }
+    List<DataSourceListEntry> DataSources { get; }
 
     /// <summary>
     /// The name of the page as displayed in the page h1
@@ -23,7 +23,7 @@ public interface ITrustsAreaModel
     /// </summary>
     string Section { get; }
 
-    string MapDataSourceToName(DataSource source);
+    string MapDataSourceToName(DataSourceServiceModel dataSource);
 }
 
-public record DataSourceListEntry(DataSource DataSource, IEnumerable<string> Fields);
+public record DataSourceListEntry(DataSourceServiceModel DataSource, IEnumerable<string> Fields);

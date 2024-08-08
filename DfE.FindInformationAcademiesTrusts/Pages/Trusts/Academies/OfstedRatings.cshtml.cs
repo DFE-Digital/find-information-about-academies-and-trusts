@@ -1,12 +1,17 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
 public class OfstedRatingsModel : TrustsAreaModel, IAcademiesAreaModel
 {
-    public OfstedRatingsModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider,
-        ILogger<OfstedRatingsModel> logger) : base(trustProvider, dataSourceProvider, logger, "Academies in this trust")
+    public Trust Trust { get; set; } = default!;
+
+    public OfstedRatingsModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
+        ILogger<OfstedRatingsModel> logger, ITrustService trustService) : base(trustProvider, dataSourceService,
+        trustService, logger, "Academies in this trust")
     {
         PageTitle = "Academies Ofsted ratings";
     }
@@ -17,10 +22,12 @@ public class OfstedRatingsModel : TrustsAreaModel, IAcademiesAreaModel
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
+        Trust = (await TrustProvider.GetTrustByUidAsync(Uid))!;
+
+        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),
             new[] { "Date joined trust" }));
 
-        DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetMisEstablishmentsUpdated(),
+        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Mis),
             new[]
             {
                 "Current Ofsted rating", "Date of last inspection", "Previous Ofsted rating",

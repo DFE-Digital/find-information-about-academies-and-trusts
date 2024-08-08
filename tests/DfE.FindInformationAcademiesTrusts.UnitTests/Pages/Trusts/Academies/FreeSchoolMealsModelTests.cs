@@ -1,6 +1,9 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,17 +12,23 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 public class FreeSchoolMealsModelTests
 {
     private readonly FreeSchoolMealsModel _sut;
-    private readonly Mock<IFreeSchoolMealsAverageProvider> _mockFreeSchoolMealsAverageProvider;
-    private readonly Mock<ITrustProvider> _mockTrustProvider;
+    private readonly Mock<IFreeSchoolMealsAverageProvider> _mockFreeSchoolMealsAverageProvider = new();
+    private readonly Mock<ITrustProvider> _mockTrustProvider = new();
+    private readonly Mock<ITrustService> _mockTrustRepository = new();
+    private readonly MockDataSourceService _mockDataSourceService = new();
 
     public FreeSchoolMealsModelTests()
     {
-        _mockTrustProvider = new Mock<ITrustProvider>();
-        _mockFreeSchoolMealsAverageProvider = new Mock<IFreeSchoolMealsAverageProvider>();
         var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
+
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrust);
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrust.Uid))
+            .ReturnsAsync(new TrustSummaryServiceModel(dummyTrust.Uid, dummyTrust.Name, dummyTrust.Type,
+                dummyTrust.Academies.Length));
+
         _sut = new FreeSchoolMealsModel(_mockTrustProvider.Object, _mockFreeSchoolMealsAverageProvider.Object,
-            new MockDataSourceProvider().Object, new MockLogger<FreeSchoolMealsModel>().Object) { Uid = "1234" };
+            _mockDataSourceService.Object, new MockLogger<FreeSchoolMealsModel>().Object,
+            _mockTrustRepository.Object) { Uid = "1234" };
     }
 
     [Fact]
@@ -63,9 +72,9 @@ public class FreeSchoolMealsModelTests
     }
 
     [Fact]
-    public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_null()
+    public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync((Trust?)null);
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
@@ -74,7 +83,7 @@ public class FreeSchoolMealsModelTests
     public async Task OnGetAsync_sets_correct_data_source_list()
     {
         await _sut.OnGetAsync();
-        _mockFreeSchoolMealsAverageProvider.Verify(e => e.GetFreeSchoolMealsUpdated(), Times.Once);
+        _mockDataSourceService.Verify(d => d.GetAsync(Source.ExploreEducationStatistics), Times.Once);
         _sut.DataSources.Count.Should().Be(2);
         _sut.DataSources[0].Fields.Should().Contain(new[]
         {

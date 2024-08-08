@@ -1,10 +1,19 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
-public class OverviewModel : TrustsAreaModel
+public class OverviewModel(
+    ITrustProvider trustProvider,
+    IDataSourceService dataSourceService,
+    ILogger<OverviewModel> logger,
+    ITrustService trustService)
+    : TrustsAreaModel(trustProvider, dataSourceService, trustService, logger, "Overview")
 {
+    public Trust Trust { get; set; } = default!;
+
     public IEnumerable<(string? Authority, int Total)> AcademiesInEachLocalAuthority =>
         Trust.Academies
             .GroupBy(x => x.LocalAuthority)
@@ -26,26 +35,22 @@ public class OverviewModel : TrustsAreaModel
             ? (int)Math.Round(TotalPupilNumbersInTrust / (double)TotalPupilCapacityInTrust * 100)
             : null;
 
-    public OverviewModel(ITrustProvider trustProvider, IDataSourceProvider dataSourceProvider,
-        ILogger<OverviewModel> logger) : base(trustProvider,
-        dataSourceProvider, logger, "Overview")
-    {
-    }
-
     public int GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore score)
     {
         return OfstedRatings.Any(x => x.Rating == score)
             ? OfstedRatings.Single(x => x.Rating == score).Total
             : 0;
     }
-    
+
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        DataSources.Add(new DataSourceListEntry(await DataSourceProvider.GetGiasUpdated(),
+        Trust = (await TrustProvider.GetTrustByUidAsync(Uid))!;
+
+        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),
             new List<string> { "Trust summary", "Ofsted ratings" }));
 
         return pageResult;

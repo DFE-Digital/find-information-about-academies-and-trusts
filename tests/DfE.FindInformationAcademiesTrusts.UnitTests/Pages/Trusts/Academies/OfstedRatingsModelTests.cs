@@ -1,6 +1,9 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,17 +12,22 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 public class OfstedRatingsModelTests
 {
     private readonly OfstedRatingsModel _sut;
-    private readonly Mock<ITrustProvider> _mockTrustProvider;
-    private readonly MockDataSourceProvider _mockDataSourceProvider;
+    private readonly Mock<ITrustProvider> _mockTrustProvider = new();
+    private readonly MockDataSourceService _mockDataSourceService = new();
+    private readonly Mock<ITrustService> _mockTrustRepository = new();
 
     public OfstedRatingsModelTests()
     {
         MockLogger<OfstedRatingsModel> logger = new();
         var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
-        _mockTrustProvider = new Mock<ITrustProvider>();
-        _mockDataSourceProvider = new MockDataSourceProvider();
+
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrust);
-        _sut = new OfstedRatingsModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object, logger.Object)
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrust.Uid))
+            .ReturnsAsync(new TrustSummaryServiceModel(dummyTrust.Uid, dummyTrust.Name, dummyTrust.Type,
+                dummyTrust.Academies.Length));
+
+        _sut = new OfstedRatingsModel(_mockTrustProvider.Object, _mockDataSourceService.Object, logger.Object,
+                _mockTrustRepository.Object)
             { Uid = "1234" };
     }
 
@@ -42,9 +50,9 @@ public class OfstedRatingsModelTests
     }
 
     [Fact]
-    public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_null()
+    public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync((Trust?)null);
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
@@ -53,8 +61,8 @@ public class OfstedRatingsModelTests
     public async Task OnGetAsync_sets_correct_data_source_list()
     {
         await _sut.OnGetAsync();
-        _mockDataSourceProvider.Verify(e => e.GetGiasUpdated(), Times.Once);
-        _mockDataSourceProvider.Verify(e => e.GetMisEstablishmentsUpdated(), Times.Once);
+        _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
+        _mockDataSourceService.Verify(e => e.GetAsync(Source.Mis), Times.Once);
         _sut.DataSources.Count.Should().Be(2);
         _sut.DataSources[0].Fields.Should().Contain(new List<string>
             { "Date joined trust" });
