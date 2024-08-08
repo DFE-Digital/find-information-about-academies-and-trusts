@@ -10,6 +10,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Feature flags added to allow for selectively showing features in different environments
 
+### Changed
+
+- Fix side nav not showing current for "Academies in trust" pages
+- Major updates to UI dependencies including:
+  - GOV.UK design system (v4.8 -> v5.4)
+  - DfE frontend (alpha -> v2)
+  - Scottish design system (sidenav in Trust pages)
+  - MoJ frontend (sortable tables)
+  - Accessible autocomplete (search autocomplete)
+  - Webpack bundlers/loaders
+
 ## [Release-3][release-3] (production-2024-08-09.2694)
 
 ### Changed
