@@ -1,4 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.ServiceModels;
 
@@ -16,7 +15,9 @@ public class OtherServicesLinkBuilderTests
     {
         var result =
             _sut.CompaniesHouseListingLink(DummyTrustDetailsServiceModel with { CompaniesHouseNumber = "2345" });
-        result.Should().Contain("/company/2345");
+
+        result.Should()
+            .Be("https://find-and-update.company-information.service.gov.uk/company/2345");
     }
 
     [Fact]
@@ -27,18 +28,18 @@ public class OtherServicesLinkBuilderTests
     }
 
     [Fact]
-    public void GetInformationAboutSchoolsListingLink_should_return_url_containing_trust_uid_if_trust_is_open()
+    public void GetInformationAboutSchoolsListingLink_should_return_url_containing_trust_uid()
     {
-        var result = _sut.GetInformationAboutSchoolsListingLink(DummyTrustDetailsServiceModel with { Uid = "1234" });
-        result.Should().Contain("1234");
+        var result = _sut.GetInformationAboutSchoolsListingLinkForTrust("1234");
+        result.Should().Be("https://www.get-information-schools.service.gov.uk/Groups/Group/Details/1234");
     }
 
     [Fact]
-    public void GetInformationAboutSchoolsListingLink_should_return_academy_urn_if_academy_is_provided()
+    public void GetInformationAboutSchoolsListingLink_should_return_academy_urn_in_link()
     {
-        var dummyAcademy = DummyAcademyFactory.GetDummyAcademy(111);
-        var result = _sut.GetInformationAboutSchoolsListingLink(dummyAcademy);
-        result.Should().Contain("/Establishments/Establishment/Details/111");
+        var result = _sut.GetInformationAboutSchoolsListingLinkForAcademy("111");
+        result.Should()
+            .Be("https://www.get-information-schools.service.gov.uk/Establishments/Establishment/Details/111");
     }
 
     [Fact]
@@ -51,18 +52,18 @@ public class OtherServicesLinkBuilderTests
                 Type = "Multi-academy trust",
                 CompaniesHouseNumber = "2345"
             });
-        result.Should().Contain("/Trust?companyNo=2345");
+        result.Should()
+            .Be("https://schools-financial-benchmarking.service.gov.uk/Trust?companyNo=2345");
     }
 
     [Fact]
-    public void
-        SchoolFinancialBenchmarkingListingLink_should_be_to_a_school_page_if_single_academy_trust_with_academies()
+    public void SchoolFinancialBenchmarkingListingLink_should_be_to_school_page_if_single_academy_trust_with_academies()
     {
         var result = _sut.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsServiceModel with
         {
             Type = "Single-academy trust", SingleAcademyTrustAcademyUrn = "1111"
         });
-        result.Should().Contain("/school?urn=1111");
+        result.Should().Be("https://schools-financial-benchmarking.service.gov.uk/school?urn=1111");
     }
 
     [Fact]
@@ -75,42 +76,25 @@ public class OtherServicesLinkBuilderTests
         result.Should().BeNull();
     }
 
-    [Theory]
-    [InlineData("test", null)]
-    [InlineData("test", "2222")]
-    [InlineData("", "1111")]
-    public void
-        SchoolFinancialBenchmarkingListingLink_should_be_null_if_type_is_neither_multi_or_single_academy_trust(
-            string type, string? singleAcademyTrustAcademyUrn)
-    {
-        var result = _sut.SchoolFinancialBenchmarkingServiceListingLink(DummyTrustDetailsServiceModel with
-        {
-            Type = type, SingleAcademyTrustAcademyUrn = singleAcademyTrustAcademyUrn
-        });
-        result.Should().BeNull();
-    }
-
     [Fact]
-    public void
-        FindSchoolPerformanceDataListingLink_should_be_to_a_trust_page_if_multiacademy_trust()
+    public void FindSchoolPerformanceDataListingLink_should_be_to_a_trust_page_if_multiacademy_trust()
     {
         var result =
             _sut.FindSchoolPerformanceDataListingLink(DummyTrustDetailsServiceModel with
             {
                 Uid = "1234", Type = "Multi-academy trust"
             });
-        result.Should().Contain("/multi-academy-trust/1234");
+        result.Should().Be("https://www.find-school-performance-data.service.gov.uk/multi-academy-trust/1234");
     }
 
     [Fact]
-    public void
-        FindSchoolPerformanceDataListingLink_should_be_to_a_school_page_if_single_academy_trust_with_academies()
+    public void FindSchoolPerformanceDataListingLink_should_be_to_a_school_page_if_single_academy_trust_with_academies()
     {
         var result = _sut.FindSchoolPerformanceDataListingLink(DummyTrustDetailsServiceModel with
         {
             Type = "Single-academy trust", SingleAcademyTrustAcademyUrn = "1111"
         });
-        result.Should().Contain("/school/1111");
+        result.Should().Be("https://www.find-school-performance-data.service.gov.uk/school/1111");
     }
 
     [Fact]
@@ -119,21 +103,6 @@ public class OtherServicesLinkBuilderTests
         var result = _sut.FindSchoolPerformanceDataListingLink(DummyTrustDetailsServiceModel with
         {
             Type = "Single-academy trust", SingleAcademyTrustAcademyUrn = null
-        });
-        result.Should().BeNull();
-    }
-
-    [Theory]
-    [InlineData("test", null)]
-    [InlineData("test", "2222")]
-    [InlineData("", "1")]
-    public void
-        FindSchoolPerformanceDataListingLink_should_be_null_if_type_is_neither_multi_or_single_academy_trust(
-            string type, string? singleAcademyTrustAcademyUrn)
-    {
-        var result = _sut.FindSchoolPerformanceDataListingLink(DummyTrustDetailsServiceModel with
-        {
-            Type = type, SingleAcademyTrustAcademyUrn = singleAcademyTrustAcademyUrn
         });
         result.Should().BeNull();
     }

@@ -30,7 +30,7 @@ public class DetailsModel(
 
         CompaniesHouseLink = otherServicesLinkBuilder.CompaniesHouseListingLink(TrustDetails);
         GetInformationAboutSchoolsLink =
-            otherServicesLinkBuilder.GetInformationAboutSchoolsListingLink(TrustDetails);
+            otherServicesLinkBuilder.GetInformationAboutSchoolsListingLinkForTrust(TrustDetails.Uid);
         SchoolsFinancialBenchmarkingLink =
             otherServicesLinkBuilder.SchoolFinancialBenchmarkingServiceListingLink(TrustDetails);
         FindSchoolPerformanceLink =
