@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.Hardcoded;
 
+[ExcludeFromCodeCoverage]
 public class FreeSchoolMealsAverageProvider : IFreeSchoolMealsAverageProvider
 {
     private const int NationalKey = -1;
