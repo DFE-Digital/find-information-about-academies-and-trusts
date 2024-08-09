@@ -100,7 +100,7 @@
     z-index: 2;
   }
 
-  @media (width <= 19.99em) {
+  @media (max-width: 19.99em) {
     .govuk-input__wrapper .govuk-input {
       max-width: 100%;
     }
