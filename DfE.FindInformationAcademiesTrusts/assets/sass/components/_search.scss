@@ -130,7 +130,7 @@
       color: govuk-colour("white");
     }
 
-    @media (width <= 40.0525em) {
+    @media (max-width: 40.0525em) {
       .autocomplete__input {
         border-bottom: 1px solid #aeb7bd;
         border-left: 1px solid #aeb7bd;
@@ -147,7 +147,7 @@
       }
     }
 
-    @media (min-width >= 40.0625em) {
+    @media (min-width: 40.0625em) {
       .autocomplete__input {
         border: 1px solid #ffffff;
         font-size: 16px;
@@ -156,7 +156,7 @@
       }
     }
 
-    @media (min-width >= 48.0625em) {
+    @media (min-width: 48.0625em) {
       .autocomplete__input {
         width: 335px;
       }
