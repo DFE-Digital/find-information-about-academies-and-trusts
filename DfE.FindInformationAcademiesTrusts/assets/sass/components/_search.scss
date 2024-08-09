@@ -81,105 +81,83 @@
       fill: govuk-colour("white");
     }
   }
-  
-  .dfe-header__search-form {
-    .autocomplete__input {
-      -webkit-appearance: listbox;
-      border-bottom-left-radius: 4px;
-      border-bottom-right-radius: 0;
-      border-top-left-radius: 4px;
-      border-top-right-radius: 0;
-      padding: 0 16px;
-    }
+}
 
-    .autocomplete__input:focus {
-      border: 4px solid #0b0c0c;
-      box-shadow: 0 0 0 4px #ffdd00;
-      outline: 4px solid transparent;
-      outline-offset: 4px;
+.dfe-header__search-form {
+  display: flex;
+  .autocomplete__input {
+    background-color: govuk-colour("white");
+    -webkit-appearance: listbox;
+    
+    padding: 0 dfe-spacing(3);
+
+    &:focus {
+      border: 4px solid $dfe-focus-text-color;
+      box-shadow: 0 0 0 $dfe-focus-width $dfe-focus-color;
+      outline: $dfe-focus-width solid transparent;
+      outline-offset: $dfe-focus-width;
       padding: 0 9px;
     }
-    
-    .autocomplete__input::placeholder {
-      color: #505a5f;
-      font-size: 16px;
+
+    &::placeholder {
+      color: $color_dfe-grey-1;
+      font-size: $dfe-base-font-size;
     }
 
-    .autocomplete__input:-ms-input-placeholder {
-      color: #505a5f;
-      font-size: 16px;
+    &:-ms-input-placeholder {
+      color: $color_dfe-grey-1;
+      font-size: $dfe-base-font-size;
     }
 
-    .autocomplete__input::-webkit-input-placeholder {
-      color: #505a5f;
-      font-size: 16px;
+    &::-webkit-input-placeholder {
+      color: $color_dfe-grey-1;
+      font-size: $dfe-base-font-size;
     }
 
-    .autocomplete__menu {
-      text-align: left;
+    @include mq($until: tablet) {
+      border-bottom: 1px solid $color_dfe-grey-3;
+      border-left: 1px solid $color_dfe-grey-3;
+      border-right: 0;
+      border-top: 1px solid $color_dfe-grey-3;
+      flex-grow: 2;
+      -ms-flex-positive: 2;
+      font-size: inherit;
+      height: 52px;
+      /* [4] */
+      margin: 0;
+      outline: none;
+      width: 100%;
+      /* [4] */
+      z-index: 1;
     }
 
-    .autocomplete__option-hint {
-      display: block;
-      @include govuk-font(16);
-      color: $govuk-secondary-text-colour;
+    @include mq($from: tablet) {
+      border: 1px solid $color_dfe-white;
+      font-size: $dfe-base-font-size;
+      height: dfe-spacing(6);
+      /* [2] */
+      width: 200px;
+      /* [2] */
     }
 
-    .autocomplete__option--focused .autocomplete__option-hint,
-    .autocomplete__option:hover .autocomplete__option-hint {
-      color: govuk-colour("white");
+    @include mq($from: desktop) {
+      width: 235px;
     }
+  }
+  
+  .autocomplete__menu {
+    text-align: left;
+  }
 
-    @media (max-width: 40.0525em) {
-      .autocomplete__input {
-        border-bottom: 1px solid #aeb7bd;
-        border-left: 1px solid #aeb7bd;
-        border-right: 0;
-        border-top: 1px solid #aeb7bd;
-        flex-grow: 2;
-        -ms-flex-positive: 2;
-        font-size: inherit;
-        height: 52px;
-        margin: 0;
-        outline: none;
-        width: 100%;
-        z-index: 1;
-      }
-    }
+  .autocomplete__option-hint {
+    display: block;
+    @include govuk-font(16);
+    color: $govuk-secondary-text-colour;
+  }
 
-    @media (min-width: 40.0625em) {
-      .autocomplete__input {
-        border: 1px solid #ffffff;
-        font-size: 16px;
-        height: 40px;
-        width: 335px;
-      }
-    }
-
-    @media (min-width: 48.0625em) {
-      .autocomplete__input {
-        width: 335px;
-      }
-    }
-
-    .app-search__wrapper {
-      .autocomplete__input,
-      .app-search__input {
-        border-right: none;
-        height: 2.5rem;
-        border-color: transparent;
-        border-bottom-left-radius: 4px;
-        border-bottom-right-radius: 0;
-        border-top-left-radius: 4px;
-        border-top-right-radius: 0;
-      }
-
-      .autocomplete__input:focus,
-      .app-search__input:focus {
-        height: 2.5rem;
-        box-shadow: 0 0 0 4px govuk-colour("yellow");
-      }
-    }
+  .autocomplete__option--focused .autocomplete__option-hint,
+  .autocomplete__option:hover .autocomplete__option-hint {
+    color: govuk-colour("white");
   }
 }
 
