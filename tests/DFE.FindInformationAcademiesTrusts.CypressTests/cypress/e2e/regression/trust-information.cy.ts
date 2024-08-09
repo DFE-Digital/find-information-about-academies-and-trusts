@@ -139,8 +139,8 @@ describe("Searching for a trust and checking information", () => {
                     .hasName(academyName)
                     .hasUrn(academyUrn)
                     .hasPupilsEligible("20.0%")
-                    .hasLocalAuthorityAverage("27.8%")
-                    .hasNationalAverage("22.7%");
+                    .hasLocalAuthorityAverage("29.3%")
+                    .hasNationalAverage("25.6%");
             });
     });
 });

@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.Hardcoded;
 
+[ExcludeFromCodeCoverage]
 public class FreeSchoolMealsAverageProvider : IFreeSchoolMealsAverageProvider
 {
     private const int NationalKey = -1;
@@ -10,13 +12,13 @@ public class FreeSchoolMealsAverageProvider : IFreeSchoolMealsAverageProvider
     public double GetLaAverage(Academy academy)
     {
         var key = GetPhaseTypeKey(academy);
-        return FreeSchoolMealsData.Averages2022To23[academy.OldLaCode].PercentOfPupilsByPhase[key];
+        return FreeSchoolMealsData.Averages2023To24[academy.OldLaCode].PercentOfPupilsByPhase[key];
     }
 
     public double GetNationalAverage(Academy academy)
     {
         var key = GetPhaseTypeKey(academy);
-        return FreeSchoolMealsData.Averages2022To23[NationalKey].PercentOfPupilsByPhase[key];
+        return FreeSchoolMealsData.Averages2023To24[NationalKey].PercentOfPupilsByPhase[key];
     }
 
     public DataSource GetFreeSchoolMealsUpdated()

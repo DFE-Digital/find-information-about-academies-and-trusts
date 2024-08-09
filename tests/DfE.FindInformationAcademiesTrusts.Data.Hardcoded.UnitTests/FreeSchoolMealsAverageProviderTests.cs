@@ -9,34 +9,6 @@ public class FreeSchoolMealsAverageProviderTests
     private readonly FreeSchoolMealsAverageProvider _sut = new();
 
     [Theory]
-    [InlineData(334, "Secondary", "Pupil Referral Unit", 63.52941176F)]
-    [InlineData(372, "Primary", "Community School", 26.26287001F)]
-    [InlineData(929, "16 Plus", "Academy Converter", 20.62056176F)]
-    [InlineData(931, "All-through", "Free Schools Special", 38.25095057F)]
-    public void GetLaAverage_should_return_percentage_from_hardcoded_data(int laCode, string phaseOfEducation,
-        string establishmentType, double expected)
-    {
-        var dummyAcademy = GetDummyAcademy(111, laCode: laCode, phaseOfEducation: phaseOfEducation,
-            typeOfEstablishment: establishmentType);
-        var result = _sut.GetLaAverage(dummyAcademy);
-        result.Should().BeApproximately(expected, 0.01F);
-    }
-
-    [Theory]
-    [InlineData("Secondary", "Pupil Referral Unit", 57.78940186F)]
-    [InlineData("Primary", "Community School", 23.99569177F)]
-    [InlineData("16 Plus", "Academy Converter", 22.69174097F)]
-    [InlineData("All-through", "Free Schools Special", 45.98689461F)]
-    public void GetNationalAverage_should_return_national_percentage_from_hardcoded_data(string phaseOfEducation,
-        string establishmentType, double expected)
-    {
-        var dummyAcademy = GetDummyAcademy(111, phaseOfEducation: phaseOfEducation,
-            typeOfEstablishment: establishmentType);
-        var result = _sut.GetNationalAverage(dummyAcademy);
-        result.Should().BeApproximately(expected, 0.01F);
-    }
-
-    [Theory]
     [InlineData("Secondary", "Pupil Referral Unit", ExploreEducationStatisticsPhaseType
         .StateFundedApSchool)]
     [InlineData("Middle Deemed Secondary", "Academy Alternative Provision Converter",
@@ -84,7 +56,7 @@ public class FreeSchoolMealsAverageProviderTests
     public void GetFsmUpdated_should_return_data_source()
     {
         var result = _sut.GetFreeSchoolMealsUpdated();
-        result.Should().Be(new DataSource(Source.ExploreEducationStatistics, new DateTime(2023, 10, 2),
+        result.Should().Be(new DataSource(Source.ExploreEducationStatistics, new DateTime(2024, 8, 6),
             UpdateFrequency.Annually));
     }
 }

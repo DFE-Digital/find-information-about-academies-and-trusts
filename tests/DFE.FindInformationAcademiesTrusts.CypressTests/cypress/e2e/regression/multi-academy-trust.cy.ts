@@ -100,8 +100,8 @@ describe("Testing a multi-academy trust", () => {
             .then((row) => {
                 row
                     .hasPupilsEligible("5.0%")
-                    .hasLocalAuthorityAverage("29.2%")
-                    .hasNationalAverage("24.0%");
+                    .hasLocalAuthorityAverage("29.4%")
+                    .hasNationalAverage("24.9%");
             });
     }
 
@@ -156,8 +156,8 @@ describe("Testing a multi-academy trust", () => {
             .then((row) => {
                 row
                     .hasPupilsEligible("29.0%")
-                    .hasLocalAuthorityAverage("26.3%")
-                    .hasNationalAverage("24.0%");
+                    .hasLocalAuthorityAverage("27.6%")
+                    .hasNationalAverage("24.9%");
             });
     }
 });
