@@ -1,6 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 using DfE.FindInformationAcademiesTrusts.ServiceModels;
@@ -16,20 +15,20 @@ public class AcademiesDetailsModelTests
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinkBuilder = new();
     private readonly Mock<ITrustProvider> _mockTrustProvider = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
+    private readonly Mock<IAcademyService> _mockAcademyService = new();
     private readonly MockDataSourceService _mockDataSourceService = new();
+    private readonly MockLogger<AcademiesDetailsModel> _mockLogger = new();
+
+    private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
 
     public AcademiesDetailsModelTests()
     {
-        MockLogger<AcademiesDetailsModel> logger = new();
-        var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
-
-        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrust);
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrust.Uid))
-            .ReturnsAsync(new TrustSummaryServiceModel(dummyTrust.Uid, dummyTrust.Name, dummyTrust.Type,
-                dummyTrust.Academies.Length));
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
+            .ReturnsAsync(_fakeTrust);
 
         _sut = new AcademiesDetailsModel(_mockTrustProvider.Object, _mockDataSourceService.Object,
-            _mockLinkBuilder.Object, logger.Object, _mockTrustRepository.Object) { Uid = "1234" };
+                _mockLinkBuilder.Object, _mockLogger.Object, _mockTrustRepository.Object, _mockAcademyService.Object)
+            { Uid = _fakeTrust.Uid };
     }
 
     [Fact]
@@ -59,9 +58,26 @@ public class AcademiesDetailsModelTests
     [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(_sut.Uid)).ReturnsAsync((TrustSummaryServiceModel?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_academies_from_academyService()
+    {
+        var academies = new[]
+        {
+            new AcademyDetailsServiceModel("1", "", "", "", ""),
+            new AcademyDetailsServiceModel("2", "", "", "", ""),
+            new AcademyDetailsServiceModel("3", "", "", "", "")
+        };
+        _mockAcademyService.Setup(a => a.GetAcademiesInTrustDetailsAsync(_sut.Uid))
+            .ReturnsAsync(academies);
+
+        _ = await _sut.OnGetAsync();
+
+        _sut.Academies.Should().BeEquivalentTo(academies);
     }
 
     [Fact]

@@ -203,6 +203,7 @@ internal static class Program
 
         builder.Services.AddScoped<IDataSourceService, DataSourceService>();
         builder.Services.AddScoped<ITrustService, TrustService>();
+        builder.Services.AddScoped<IAcademyService, AcademyService>();
 
         builder.Services.AddScoped<ITrustFactory, TrustFactory>();
         builder.Services.AddScoped<IAcademyFactory, AcademyFactory>();
