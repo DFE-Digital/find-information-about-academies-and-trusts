@@ -1,12 +1,12 @@
-import GOVUKFrontend from 'govuk-frontend/govuk/all'
+import { initAll as govukFrontendInitAll } from 'govuk-frontend'
 import { Autocomplete } from './javascripts/autocomplete'
-import SideNavigation from '@scottish-government/pattern-library/src/components/side-navigation/side-navigation'
+import SideNavigation from '@scottish-government/design-system/src/components/side-navigation/side-navigation'
 import $ from 'jquery'
 import { SortableTable, nodeListForEach } from '@ministryofjustice/frontend'
 
 window.$ = $
 
-GOVUKFrontend.initAll()
+govukFrontendInitAll()
 
 // Sortable table initialisation from the MOJ Frontend library
 const sortableTables = document.querySelectorAll('[data-module="moj-sortable-table"]')
