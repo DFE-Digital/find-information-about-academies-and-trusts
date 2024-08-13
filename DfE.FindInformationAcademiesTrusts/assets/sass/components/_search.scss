@@ -85,10 +85,14 @@
 
 .dfe-header__search-form {
   display: flex;
+  
+  .header-autocomplete-container{
+    width: 100%;
+  }
+  
   .autocomplete__input {
     background-color: govuk-colour("white");
     -webkit-appearance: listbox;
-    
     padding: 0 dfe-spacing(3);
 
     &:focus {
