@@ -1,4 +1,4 @@
-.dfe-header__container{
+.dfe-header__container {
   position: relative;
 }
 
@@ -14,7 +14,8 @@
   .dfe-header__search-form {
     display: flex;
 
-    .autocomplete__input, .dfe-search__input {
+    .autocomplete__input,
+    .dfe-search__input {
       background-color: govuk-colour("white");
       -webkit-appearance: listbox;
       padding: 0 dfe-spacing(3);
@@ -27,6 +28,8 @@
         padding: 0 9px;
       }
 
+      // Rule disabled as media query not considered nesting (false positive)
+      // stylelint-disable-next-line max-nesting-depth
       @include mq($until: tablet) {
         border-bottom: 1px solid $color_dfe-grey-3;
         border-left: 1px solid $color_dfe-grey-3;
@@ -42,6 +45,8 @@
         z-index: 1;
       }
 
+      // Rule disabled as media query not considered nesting (false positive)
+      // stylelint-disable-next-line max-nesting-depth
       @include mq($from: tablet) {
         @include govuk-font-size(16);
         border: 1px solid $color_dfe-white;
@@ -49,6 +54,8 @@
         width: 210px;
       }
 
+      // Rule disabled as media query not considered nesting (false positive)
+      // stylelint-disable-next-line max-nesting-depth
       @include mq($from: large-desktop) {
         width: 335px;
       }
@@ -70,7 +77,6 @@
     }
   }
 
-
   .dfe-header__search-wrap {
     @include mq($until: tablet) {
       clear: both;
@@ -91,6 +97,5 @@
 }
 
 .dfe-header__link--service {
-  @include govuk-font-size($size: 24)
+  @include govuk-font-size($size: 24);
 }
-
