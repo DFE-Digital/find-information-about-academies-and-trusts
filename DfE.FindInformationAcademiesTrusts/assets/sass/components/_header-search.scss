@@ -1,0 +1,214 @@
+.dfe-header__content {
+  float: none;
+  
+  @include mq($from: desktop) {
+    float: right;
+    border-bottom: 0;
+  }
+
+}
+
+.dfe-header__search-form {
+  display: flex;
+
+  @include mq($until: desktop) {
+    background-color: $color_dfe-white;
+    display: flex;
+    padding: dfe-spacing(3);
+    width: 100%;
+  }
+
+  .autocomplete__input, .dfe-search__input {
+    background-color: govuk-colour("white");
+    -webkit-appearance: listbox;
+    padding: 0 dfe-spacing(3);
+
+    &:focus {
+      border: 4px solid $dfe-focus-text-color;
+      box-shadow: 0 0 0 $dfe-focus-width $dfe-focus-color;
+      outline: $dfe-focus-width solid transparent;
+      outline-offset: $dfe-focus-width;
+      padding: 0 9px;
+    }
+
+    &::placeholder {
+      color: $color_dfe-grey-1;
+      font-size: $dfe-base-font-size;
+    }
+
+    &:-ms-input-placeholder {
+      color: $color_dfe-grey-1;
+      font-size: $dfe-base-font-size;
+    }
+
+    &::-webkit-input-placeholder {
+      color: $color_dfe-grey-1;
+      font-size: $dfe-base-font-size;
+    }
+
+    @include mq($until: desktop) {
+      border-bottom: 1px solid $color_dfe-grey-3;
+      border-left: 1px solid $color_dfe-grey-3;
+      border-right: 0;
+      border-top: 1px solid $color_dfe-grey-3;
+      flex-grow: 2;
+      -ms-flex-positive: 2;
+      font-size: inherit;
+      height: 52px;
+      margin: 0;
+      outline: none;
+      width: 100%;
+      z-index: 1;
+    }
+
+    @include mq($from: desktop) {
+      border: 1px solid $color_dfe-white;
+      font-size: $dfe-base-font-size;
+      height: dfe-spacing(6);
+      width: 200px;
+    }
+    
+    @include mq($from: large-desktop){
+      width: 235px;
+    }
+  }
+
+  .autocomplete__menu {
+    text-align: left;
+  }
+
+  .autocomplete__option-hint {
+    display: block;
+    @include govuk-font(16);
+    color: $govuk-secondary-text-colour;
+  }
+
+  .autocomplete__option--focused .autocomplete__option-hint,
+  .autocomplete__option:hover .autocomplete__option-hint {
+    color: govuk-colour("white");
+  }
+}
+
+.dfe-header__search {
+  float: none;
+  margin-left: 0;
+
+  @include mq($from: desktop) {
+    float: left;
+    margin-left: dfe-spacing(2);
+  }
+
+}
+
+.dfe-header__search-wrap {
+
+  @include mq($from: tablet, $until: desktop) {
+    padding-bottom: 16px;
+  }
+
+  @include mq($until: desktop) {
+
+    clear: both;
+    display: flex;
+    margin-bottom: -20px;
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-top: 16px;
+    text-align: left;
+  }
+
+  @include mq($from: desktop) {
+    display: block;
+    line-height: 0;
+  }
+}
+
+.header-autocomplete-container {
+  width: 100%;
+}
+
+.dfe-search__submit {
+  @include mq($until: desktop) {
+    background-color: $color_dfe-blue;
+    height: 52px;
+    width: auto;
+    margin: 0;
+    padding: dfe-spacing(2);
+
+    .dfe-icon__search {
+      fill: $color_dfe-white;
+      height: 38px;
+      width: 38px;
+    }
+
+    &:hover {
+      background-color: $color_shade_dfe-blue-35;
+    }
+
+    &:focus {
+      background-color: $dfe-focus-color;
+      box-shadow: 0 -4px $dfe-focus-color, 0 $dfe-focus-width $dfe-focus-text-color;
+      outline: $dfe-focus-width solid transparent;
+      outline-offset: $dfe-focus-width;
+
+      &:hover {
+        background-color: $dfe-focus-color;
+
+        .dfe-icon {
+          fill: $dfe-focus-text-color;
+        }
+      }
+
+      .dfe-icon {
+        fill: $dfe-focus-text-color;
+      }
+    }
+  }
+
+  @include mq($from: desktop) {
+    background-color: $color_dfe-grey-5;
+    display: block;
+    height: dfe-spacing(6);
+    min-width: 44px;
+
+    .dfe-icon__search {
+      height: 27px;
+      width: 27px;
+    }
+
+    &:hover {
+      background-color: $color_shade_dfe-blue-35;
+      border: 1px solid $color_dfe-white;
+
+      .dfe-icon__search {
+        fill: $color_dfe-white;
+      }
+    }
+
+    &:focus {
+      @include dfe-focused-button();
+      box-shadow: 0 -2px $dfe-focus-color, 0 $dfe-focus-width $dfe-focus-text-color;
+    }
+
+    &:active {
+      background-color: $color_shade_dfe-blue-50;
+      border: 0;
+
+      .dfe-icon__search {
+        fill: $color_dfe-white;
+      }
+    }
+  }
+}
+
+.dfe-header__logo {
+    @include mq($until: tablet) {
+      position: relative;
+      z-index: 1;
+    }
+  
+    @include mq($until: desktop) {
+      max-width: 100%;
+    }
+  
+  }
