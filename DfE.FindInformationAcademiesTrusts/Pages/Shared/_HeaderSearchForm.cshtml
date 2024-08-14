@@ -1,12 +1,13 @@
 ﻿@model BasePageModel
 @{
   var inputId = "header-search";
+  var placeholderText = "Search for a trust";
 }
 <div class="dfe-header__search-wrap" id="wrap-search">
   <form class="dfe-header__search-form" id="search" asp-page="/Search" role="search" aria-label="sitewide" method="post">
     <label class="govuk-visually-hidden" for="@inputId">Search for a trust</label>
     <div id="@inputId-no-js-search-container" class="govuk-!-width-full">
-      <input class="dfe-search__input" id="@inputId" type="search" asp-for="KeyWords" name="keywords">
+      <input class="dfe-search__input" id="@inputId" type="search" asp-for="KeyWords" name="keywords" placeholder="@placeholderText">
     </div>
     <button class="dfe-search__submit" type="submit">
       <svg class="dfe-icon dfe-icon__search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
@@ -23,7 +24,7 @@
 
 <script asp-add-nonce type="application/javascript">
   const loadHeaderAutocomplete = async () => {
-    await Autocomplete.loadTrustSearch("@inputId", "@Model.KeyWords")
+    await Autocomplete.loadTrustSearch("@inputId", "@Model.KeyWords", "@placeholderText")
   }
   window.addEventListener("load", loadHeaderAutocomplete);
 </script>
