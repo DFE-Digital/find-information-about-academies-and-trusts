@@ -5,6 +5,6 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Shared;
 
 public class BasePageModel : PageModel
 {
-    public bool ShowHeaderSearch = true;
+    public bool ShowHeaderSearch { get; init; } = true;
     [BindProperty(SupportsGet = true)] public string KeyWords { get; set; } = string.Empty;
 }
