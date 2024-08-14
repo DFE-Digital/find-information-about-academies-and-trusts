@@ -1,3 +1,4 @@
+@model BasePageModel
 <header class="dfe-header">
   <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
   <div class="dfe-width-container dfe-header__container">
@@ -7,10 +8,13 @@
         <img src="~/dist/images/dfe-logo-alt.png" class="dfe-logo-hover" alt="Department for Education">
       </a>
     </div>
-    <div class="dfe-header__content" id="content-header">
+    <div class="dfe-header__content">
+      @if (Model.ShowHeaderSearch)
+      {
       <div class="dfe-header__search">
         <partial name="_HeaderSearchForm" model="Model"/>
       </div>
+      }
     </div>
   </div>
   <div class="dfe-width-container dfe-header__service-name">

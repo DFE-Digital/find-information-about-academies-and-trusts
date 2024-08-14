@@ -27,6 +27,7 @@ public class SearchModel : BasePageModel, IPageSearchFormModel, IPaginationModel
         _trustSearch = trustSearch;
         _trustService = trustService;
         PageStatus = Trusts.PageStatus;
+        ShowHeaderSearch = false;
     }
 
     public IActionResult OnPost()
