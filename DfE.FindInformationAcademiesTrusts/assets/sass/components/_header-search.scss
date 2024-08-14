@@ -1,8 +1,9 @@
 .dfe-header__content {
   float: none;
   
-  @include mq($from: desktop) {
-    float: right;
+  @include mq($from: tablet) {
+    position: absolute;
+    right: 32px;
     border-bottom: 0;
   }
 
