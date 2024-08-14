@@ -1,9 +1,13 @@
+.dfe-header__container{
+  position: relative;
+}
+
 .dfe-header__content {
   float: none;
 
   @include mq($from: tablet) {
     position: absolute;
-    right: 32px;
+    right: 0;
     border-bottom: 0;
   }
 
