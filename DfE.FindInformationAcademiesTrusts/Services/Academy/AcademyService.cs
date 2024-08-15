@@ -1,3 +1,5 @@
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
+
 namespace DfE.FindInformationAcademiesTrusts.Services.Academy;
 
 public interface IAcademyService
@@ -5,10 +7,14 @@ public interface IAcademyService
     Task<AcademyDetailsServiceModel[]> GetAcademiesInTrustDetailsAsync(string uid);
 }
 
-public class AcademyService : IAcademyService
+public class AcademyService(IAcademyRepository academyRepository) : IAcademyService
 {
-    public Task<AcademyDetailsServiceModel[]> GetAcademiesInTrustDetailsAsync(string uid)
+    public async Task<AcademyDetailsServiceModel[]> GetAcademiesInTrustDetailsAsync(string uid)
     {
-        throw new NotImplementedException();
+        var academies = await academyRepository.GetAcademiesInTrustDetailsAsync(uid);
+
+        return academies.Select(a =>
+            new AcademyDetailsServiceModel(a.Urn, a.EstablishmentName, a.LocalAuthority, a.TypeOfEstablishment,
+                a.UrbanRural)).ToArray();
     }
 }

@@ -4,4 +4,5 @@ public interface IAcademyRepository
 {
     Task<string?> GetSingleAcademyTrustAcademyUrnAsync(string uid);
     Task<int> GetNumberOfAcademiesInTrustAsync(string uid);
+    Task<AcademyDetails[]> GetAcademiesInTrustDetailsAsync(string uid);
 }
