@@ -5,7 +5,7 @@
 }
 <div class="dfe-header__search-wrap" id="wrap-search">
   <form class="dfe-header__search-form" id="search" asp-page="/Search" role="search" aria-label="sitewide" method="post">
-    <label class="govuk-visually-hidden" for="@inputId">Search for a trust</label>
+    <label class="govuk-visually-hidden" for="@inputId">@placeholderText</label>
     <div id="@inputId-no-js-search-container" class="govuk-!-width-full">
       <input class="dfe-search__input" id="@inputId" type="search" asp-for="KeyWords" name="keywords" placeholder="@placeholderText">
     </div>
