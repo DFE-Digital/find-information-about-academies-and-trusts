@@ -1,7 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Data.Repositories;
-using DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

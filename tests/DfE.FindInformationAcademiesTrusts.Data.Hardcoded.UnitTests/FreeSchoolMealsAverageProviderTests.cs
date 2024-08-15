@@ -1,5 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 using static DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks.DummyAcademyFactory;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.Hardcoded.UnitTests;

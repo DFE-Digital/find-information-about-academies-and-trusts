@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.Hardcoded;
 

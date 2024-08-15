@@ -1,6 +1,6 @@
-using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.ServiceModels;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
 
 public class TrustDetailsServiceModelTests
 {

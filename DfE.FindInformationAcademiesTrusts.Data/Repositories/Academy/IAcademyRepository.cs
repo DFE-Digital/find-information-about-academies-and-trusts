@@ -1,4 +1,4 @@
-namespace DfE.FindInformationAcademiesTrusts.Data.Repositories;
+namespace DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 
 public interface IAcademyRepository
 {

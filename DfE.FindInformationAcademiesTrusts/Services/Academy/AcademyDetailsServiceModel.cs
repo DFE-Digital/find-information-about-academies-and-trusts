@@ -1,4 +1,4 @@
-namespace DfE.FindInformationAcademiesTrusts.ServiceModels;
+namespace DfE.FindInformationAcademiesTrusts.Services.Academy;
 
 public record AcademyDetailsServiceModel(
     string Urn,

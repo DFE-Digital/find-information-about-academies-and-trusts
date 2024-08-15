@@ -1,4 +1,5 @@
-using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 

@@ -1,6 +1,4 @@
-using DfE.FindInformationAcademiesTrusts.ServiceModels;
-
-namespace DfE.FindInformationAcademiesTrusts.Services;
+namespace DfE.FindInformationAcademiesTrusts.Services.Academy;
 
 public interface IAcademyService
 {

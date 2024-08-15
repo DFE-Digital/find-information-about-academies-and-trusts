@@ -1,5 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
-using DfE.FindInformationAcademiesTrusts.Data.Repositories;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
