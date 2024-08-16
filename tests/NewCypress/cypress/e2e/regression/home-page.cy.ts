@@ -12,9 +12,21 @@ describe("Testing the components of the home page", () => {
     it("Should check that the home pages search bar and autocomplete is present and functional", () => {
         homePage
             .enterMainSearchText("West")
-            .autocompleteIsPresent()
-            .searchButtonPresent()
+        searchPage
+            .mainAutocompleteIsPresent()
+        homePage
+            .mainSearchButtonPresent()
+        searchPage
             .autocompleteContainsTypedText("West")
+    });
+
+    it("Should check that the autocomplete does not return results when entry does not exist", () => {
+
+        homePage
+            .enterMainSearchText("KnowWhere")
+        searchPage
+            .mainAutocompleteIsPresent()
+            .autocompleteContainsTypedText("No results found")
     });
 
     it("Should check that search results are returned with a valid name entered when using the main search bar ", () => {
@@ -29,7 +41,7 @@ describe("Testing the components of the home page", () => {
             .returnToHome()
 
         homePage
-            .searchButtonPresent()
+            .mainSearchButtonPresent()
 
     });
 
