@@ -53,7 +53,58 @@ class SearchPage {
         return this;
     }
 
+    public validateSearchResultsCountWithPagination(): this {
+        const getResultsInfo = () => cy.get('#results-details'); 
+        const getResultItems = () => cy.get('.govuk-list li'); 
+        const getNextButton = () => cy.get('[data-testid="next-page"]');
+        const hasNextButton = () => cy.$$('[data-testid="next-page"]').length > 0;
     
+        // Step 1: Get the total number of results displayed in the summary
+        getResultsInfo()
+            .invoke('text')
+            .then((text: string) => {
+                const match = text.match(/(\d+)/); // Extract the total number of results from the text
+                if (match && match[0]) {
+                    const totalResults: number = parseInt(match[0], 10); // Convert to an integer
+                    let accumulatedResults: number = 0;
+
+                    // Step 2: Function to count results on each page
+                    const countResultsOnPage = (): void => {
+                        getResultItems().then(($items: JQuery<HTMLElement>) => {
+                            accumulatedResults += $items.length;
+                            cy.log(`Accumulated Results: ${accumulatedResults}`);
+
+                            if (hasNextButton()) {
+                                getNextButton().then(($next) => {
+                                    // Is the next button enabled?
+                                    if ($next.is(':visible') && !$next.is(':disabled')) {
+                                        // Click "Next" to load more results
+                                        cy.wrap($next).click();
+                                        getResultsInfo().should('be.visible'); //dynamic wait to ensure each page is loaded before continue
+                                        countResultsOnPage(); // Recursively count results on the next page
+                                    } else {
+                                        assert.fail('Next button is invisible or disabled')
+                                    }
+                                });
+                            } else {
+                                // No more pages, validate the accumulated results
+                                cy.log(`Final Accumulated Results: ${accumulatedResults}, Expected Total Results: ${totalResults}`);
+                                expect(accumulatedResults).to.equal(totalResults);
+                            }
+                        });
+                    };
+
+                    // Start counting results from the first page
+                    countResultsOnPage();
+                } else {
+                    throw new Error('Could not extract the total number of results.');
+                }
+            });
+
+        return this;
+    }
+
+
 }
 
 const searchPage = new SearchPage();
