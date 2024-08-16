@@ -36,5 +36,15 @@ describe("Testing the components of the search results page", () => {
             .checkSearchResultsReturned("East")
     });
 
+    it.only("Validates that it reutrns the amount of results stated in the search text", () => {
+
+        homePage
+            .enterMainSearchText("West")
+            .clickMainSearchButton()
+
+        searchPage
+            .validateSearchResultsCountWithPagination()
+    });
+
 
 })
