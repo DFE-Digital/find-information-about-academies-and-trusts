@@ -89,6 +89,11 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         return giasEstablishment;
     }
 
+    public void AddGiasEstablishments(IEnumerable<GiasEstablishment> giasEstablishments)
+    {
+        _giasEstablishments.AddRange(giasEstablishments);
+    }
+
     public CdmSystemuser AddCdmSystemuser(string fullName, string email)
     {
         var cdmSystemuser = new CdmSystemuser

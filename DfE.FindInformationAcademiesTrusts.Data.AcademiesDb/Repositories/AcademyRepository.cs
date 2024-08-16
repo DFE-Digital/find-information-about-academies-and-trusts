@@ -6,9 +6,19 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 
 public class AcademyRepository(IAcademiesDbContext academiesDbContext) : IAcademyRepository
 {
-    public Task<AcademyDetails[]> GetAcademiesInTrustDetailsAsync(string uid)
+    public async Task<AcademyDetails[]> GetAcademiesInTrustDetailsAsync(string uid)
     {
-        throw new NotImplementedException();
+        return await academiesDbContext.GiasGroupLinks
+            .Where(gl => gl.GroupUid == uid)
+            .Join(academiesDbContext.GiasEstablishments,
+                gl => gl.Urn!, e => e.Urn.ToString(),
+                (gl, e) =>
+                    new AcademyDetails(e.Urn.ToString(),
+                        e.EstablishmentName,
+                        e.TypeOfEstablishmentName,
+                        e.LaName,
+                        e.UrbanRuralName))
+            .ToArrayAsync();
     }
 
     public async Task<int> GetNumberOfAcademiesInTrustAsync(string uid)

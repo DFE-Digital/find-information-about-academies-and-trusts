@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories;
 
@@ -12,6 +13,41 @@ public class AcademyRepositoryTests
     public AcademyRepositoryTests()
     {
         _sut = new AcademyRepository(_mockAcademiesDbContext.Object);
+    }
+
+    [Fact]
+    public async Task GetAcademiesInTrustDetailsAsync_should_return_academies_linked_to_trust()
+    {
+        var giasGroup = _mockAcademiesDbContext.AddGiasGroup("1234");
+        var giasEstablishments = Enumerable.Range(1000, 6).Select(n => new GiasEstablishment
+        {
+            Urn = n,
+            EstablishmentName = $"Academy {n}",
+            TypeOfEstablishmentName = $"Academy type {n}",
+            LaName = $"Local authority {n}",
+            UrbanRuralName = $"UrbanRuralName {n}"
+        }).ToArray();
+        _mockAcademiesDbContext.AddGiasEstablishments(giasEstablishments);
+        _mockAcademiesDbContext.LinkGiasEstablishmentsToGiasGroup(giasEstablishments, giasGroup);
+
+        var result = await _sut.GetAcademiesInTrustDetailsAsync("1234");
+
+        result.Should()
+            .BeEquivalentTo(giasEstablishments,
+                options => options
+                    .WithAutoConversion()
+                    .ExcludingMissingMembers()
+                    .WithMapping<AcademyDetails>(e => e.TypeOfEstablishmentName, a => a.TypeOfEstablishment)
+                    .WithMapping<AcademyDetails>(e => e.LaName, a => a.LocalAuthority)
+                    .WithMapping<AcademyDetails>(e => e.UrbanRuralName, a => a.UrbanRural)
+            );
+    }
+
+    [Fact]
+    public async Task GetAcademiesInTrustDetailsAsync_should_return_empty_array_when_no_academies_linked_to_trust()
+    {
+        var result = await _sut.GetAcademiesInTrustDetailsAsync("1234");
+        result.Should().BeEmpty();
     }
 
     [Fact]
