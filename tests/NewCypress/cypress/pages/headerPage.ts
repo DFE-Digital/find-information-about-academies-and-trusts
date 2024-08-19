@@ -8,7 +8,7 @@ class HeaderPage {
         return this;
     }
 
-    public headerSearchButtonPresent(): this {
+    public checkHeaderSearchButtonPresent(): this {
         const headerSearchButton = () => cy.get('.dfe-search__submit');
 
         headerSearchButton().should('be.visible');
@@ -16,13 +16,13 @@ class HeaderPage {
         return this;
     }
 
-    public headerAutocompleteIsPresent(): this {
+    public checkHeaderAutocompleteIsPresent(): this {
         cy.get('#header-search__listbox').should('be.visible');
 
         return this;
     }
 
-    public autocompleteContainsTypedText(searchText: string): this {
+    public checkAutocompleteContainsTypedText(searchText: string): this {
         cy.get('#header-search__listbox').should(($listbox) => {
             // Ensure there are items present in the listbox
             expect($listbox.children().length).to.be.greaterThan(0);
