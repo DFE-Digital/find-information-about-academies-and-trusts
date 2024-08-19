@@ -63,8 +63,8 @@ class SearchPage {
         getResultsInfo()
             .invoke('text')
             .then((text: string) => {
-                const match = text.match(/(\d+)/); // Extract the total number of results from the text
-                if (match && match[0]) {
+                const match = /(\d+)/.exec(text); // Extract the total number of results from the text
+                if (match?.[0]) {
                     const totalResults: number = parseInt(match[0], 10); // Convert to an integer
                     let accumulatedResults: number = 0;
 
