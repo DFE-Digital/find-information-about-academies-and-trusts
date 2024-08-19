@@ -71,7 +71,6 @@ class SearchPage {
                         if ($next.is(':visible') && !$next.is(':disabled')) {
                             // Click "Next" to load more results
                             cy.wrap($next).click();
-                            getResultsInfo().should('be.visible'); //dynamic wait to ensure each page is loaded before continue
                             countResultsOnPage(expectedTotalResults, accumulatedResults); // Recursively count results on the next page
                         } else {
                             assert.fail('Next button is invisible or disabled')
