@@ -56,7 +56,6 @@ describe("Testing the components of the home page", () => {
     });
 
     it("Should check that the home page footer bar cookies link is present and functional", () => {
-        homePage
         footerLinks
             .checkCookiesLinkPresent()
             .clickCookiesLink()
