@@ -1,7 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
@@ -11,22 +11,20 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 public class OfstedRatingsModelTests
 {
     private readonly OfstedRatingsModel _sut;
-    private readonly Mock<ITrustProvider> _mockTrustProvider = new();
     private readonly MockDataSourceService _mockDataSourceService = new();
-    private readonly Mock<ITrustService> _mockTrustRepository = new();
+    private readonly Mock<ITrustService> _mockTrustService = new();
+    private readonly Mock<IAcademyService> _mockAcademyService = new();
+
+    private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
 
     public OfstedRatingsModelTests()
     {
-        MockLogger<OfstedRatingsModel> logger = new();
-        var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
+        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
+            .ReturnsAsync(_fakeTrust);
 
-        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrust);
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrust.Uid))
-            .ReturnsAsync(new TrustSummaryServiceModel(dummyTrust.Uid, dummyTrust.Name, dummyTrust.Type,
-                dummyTrust.Academies.Length));
-
-        _sut = new OfstedRatingsModel(_mockTrustProvider.Object, _mockDataSourceService.Object, logger.Object,
-                _mockTrustRepository.Object)
+        _sut = new OfstedRatingsModel(Mock.Of<ITrustProvider>(), _mockDataSourceService.Object,
+                new MockLogger<OfstedRatingsModel>().Object,
+                _mockTrustService.Object, _mockAcademyService.Object)
             { Uid = "1234" };
     }
 
@@ -51,7 +49,7 @@ public class OfstedRatingsModelTests
     [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
+        _mockTrustService.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
@@ -69,5 +67,29 @@ public class OfstedRatingsModelTests
         {
             "Current Ofsted rating", "Date of last inspection", "Previous Ofsted rating", "Date of previous inspection"
         });
+    }
+
+
+    [Fact]
+    public async Task OnGetAsync_sets_academies_from_academyService()
+    {
+        var academies = new[]
+        {
+            new AcademyOfstedServiceModel("1", "Academy 1", new DateTime(2022, 12, 1),
+                new OfstedRating(OfstedRatingScore.Good, new DateTime(2023, 1, 1)),
+                new OfstedRating(OfstedRatingScore.RequiresImprovement, new DateTime(2023, 2, 1))),
+            new AcademyOfstedServiceModel("2", "Academy 2", new DateTime(2022, 11, 2),
+                new OfstedRating(OfstedRatingScore.Good, new DateTime(2023, 1, 2)),
+                new OfstedRating(OfstedRatingScore.RequiresImprovement, new DateTime(2023, 3, 1))),
+            new AcademyOfstedServiceModel("3", "Academy 3", new DateTime(2022, 10, 3),
+                new OfstedRating(OfstedRatingScore.Good, new DateTime(2023, 1, 3)),
+                new OfstedRating(OfstedRatingScore.RequiresImprovement, new DateTime(2023, 4, 1)))
+        };
+        _mockAcademyService.Setup(a => a.GetAcademiesInTrustOfstedAsync(_sut.Uid))
+            .ReturnsAsync(academies);
+
+        _ = await _sut.OnGetAsync();
+
+        _sut.Academies.Should().BeEquivalentTo(academies);
     }
 }
