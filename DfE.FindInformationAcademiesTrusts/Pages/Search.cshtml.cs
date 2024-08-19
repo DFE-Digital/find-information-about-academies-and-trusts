@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
-public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
+public class SearchModel : BasePageModel, IPageSearchFormModel, IPaginationModel
 {
     public record AutocompleteEntry(string Address, string Name, string? TrustId);
 
@@ -15,19 +15,19 @@ public class SearchModel : PageModel, ISearchFormModel, IPaginationModel
     public string PageName { get; } = "Search";
     public IPageStatus PageStatus { get; set; }
     public Dictionary<string, string> PaginationRouteData { get; set; } = new();
-    public string InputId => "search";
-    [BindProperty(SupportsGet = true)] public string KeyWords { get; set; } = string.Empty;
+    public string PageSearchFormInputId => "search";
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = string.Empty;
     [BindProperty(SupportsGet = true)] public int PageNumber { get; set; } = 1;
 
     public IPaginatedList<TrustSearchEntry> Trusts { get; set; } =
         PaginatedList<TrustSearchEntry>.Empty();
 
-    public SearchModel(ITrustSearch trustSearch, ITrustService trustService)
+    public SearchModel(ITrustService trustService, ITrustSearch trustSearch)
     {
         _trustSearch = trustSearch;
         _trustService = trustService;
         PageStatus = Trusts.PageStatus;
+        ShowHeaderSearch = false;
     }
 
     public IActionResult OnPost()

@@ -32,7 +32,7 @@ public class SearchModelTests
         _mockTrustSearch.Setup(s => s.SearchAsync(SearchTermThatMatchesAllFakeTrusts, It.IsAny<int>()).Result)
             .Returns(new PaginatedList<TrustSearchEntry>(_fakeTrusts, _fakeTrusts.Length, 1, 1));
 
-        _sut = new SearchModel(_mockTrustSearch.Object, mockTrustService.Object);
+        _sut = new SearchModel(mockTrustService.Object, _mockTrustSearch.Object);
     }
 
     [Fact]
@@ -137,7 +137,7 @@ public class SearchModelTests
     [Fact]
     public void InputId_should_have_a_fixed_value()
     {
-        _sut.InputId.Should().Be("search");
+        _sut.PageSearchFormInputId.Should().Be("search");
     }
 
     [Fact]

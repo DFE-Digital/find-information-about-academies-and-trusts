@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - Feature flags added to allow for selectively showing features in different environments
+- Add search autocomplete to the header of the application
 
 ### Changed
 

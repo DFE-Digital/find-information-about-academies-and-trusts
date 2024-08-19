@@ -23,7 +23,7 @@ export class Autocomplete {
     return hintText
   }
 
-  loadTrustSearch = async (inputId, defaultValue) => {
+  loadTrustSearch = async (inputId, defaultValue, placeholderText) => {
     const autocompleteTemplate = document.getElementById(`${inputId}-js-autocomplete-template`)
     const autocompleteTemplateContents = autocompleteTemplate.content.cloneNode(true)
     const elementToReplace = document.getElementById(`${inputId}-no-js-search-container`)
@@ -39,6 +39,7 @@ export class Autocomplete {
       autoselect: false,
       confirmOnBlur: false,
       displayMenu: 'overlay',
+      placeholder: placeholderText || '',
       showNoOptionsFound: true,
       minLength: 3,
       templates: {

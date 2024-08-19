@@ -1,7 +1,7 @@
 namespace DfE.FindInformationAcademiesTrusts.Pages.Shared;
 
-public interface ISearchFormModel
+public interface IPageSearchFormModel
 {
     string KeyWords { get; set; }
-    string InputId { get; }
+    string PageSearchFormInputId { get; }
 }
