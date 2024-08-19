@@ -1,6 +1,4 @@
-import paginationPage from "../../pages/paginationPage";
 import searchPage from "../../pages/searchPage";
-import homePage from "../../pages/homePage";
 import headerPage from "../../pages/headerPage";
 
 describe("Testing the components of the header search", () => {

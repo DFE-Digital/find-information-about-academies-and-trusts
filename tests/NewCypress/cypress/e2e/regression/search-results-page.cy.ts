@@ -1,4 +1,3 @@
-import paginationPage from "../../pages/paginationPage";
 import searchPage from "../../pages/searchPage";
 import homePage from "../../pages/homePage";
 

@@ -16,12 +16,6 @@ class HeaderPage {
         return this;
     }
 
-    public mainAutocompleteIsPresent(): this {
-        cy.get('#header-search__listbox').should('be.visible');
-
-        return this;
-    }
-
     public headerAutocompleteIsPresent(): this {
         cy.get('#header-search__listbox').should('be.visible');
 
