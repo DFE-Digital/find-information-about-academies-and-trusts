@@ -15,14 +15,13 @@ class HomePage {
         return this;
     }
 
-    public mainSearchButtonPresent(): this {
+    public checkMainSearchButtonPresent(): this {
         const mainSearchButton = () => cy.get('[data-testid="search"]');
 
         mainSearchButton().should('be.visible');
         mainSearchButton().should('be.enabled');
         return this;
     }
-
 
 }
 

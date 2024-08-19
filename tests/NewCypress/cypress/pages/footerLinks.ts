@@ -1,6 +1,6 @@
 class FooterLinks {
 
-    public privacyLinkPresent(): this {
+    public checkPrivacyLinkPresent(): this {
         const privacyFooterButton = () => cy.contains('Privacy')
 
         privacyFooterButton().scrollIntoView().should('be.visible');
@@ -16,7 +16,7 @@ class FooterLinks {
         return this;
     }
 
-    public cookiesLinkPresent(): this {
+    public checkCookiesLinkPresent(): this {
         const cookiesFooterButton = () => cy.get('[data-testid="cookies-footer-link"]')
 
         cookiesFooterButton().scrollIntoView().should('be.visible');
@@ -32,7 +32,7 @@ class FooterLinks {
         return this;
     }
 
-    public acessibilityStatementLinkPresent(): this {
+    public checkAcessibilityStatementLinkPresent(): this {
         const acessibilityFooterButton = () => cy.contains('Accessibility')
 
         acessibilityFooterButton().scrollIntoView().should('be.visible');

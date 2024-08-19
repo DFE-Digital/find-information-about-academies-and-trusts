@@ -17,7 +17,6 @@ describe("Testing the components of the search results page", () => {
             .checkNoSearchResultsFound()
     });
 
-
     it("Checks that the user can edit their search and search for a new trust from the search page", () => {
 
         homePage
@@ -44,6 +43,5 @@ describe("Testing the components of the search results page", () => {
         searchPage
             .validateSearchResultsCountWithPagination()
     });
-
 
 })
