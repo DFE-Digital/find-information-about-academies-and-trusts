@@ -19,8 +19,12 @@ public class AcademyService(IAcademyRepository academyRepository) : IAcademyServ
                 a.UrbanRural)).ToArray();
     }
 
-    public Task<AcademyOfstedServiceModel[]> GetAcademiesInTrustOfstedAsync(string uid)
+    public async Task<AcademyOfstedServiceModel[]> GetAcademiesInTrustOfstedAsync(string uid)
     {
-        throw new NotImplementedException();
+        var academies = await academyRepository.GetAcademiesInTrustOfstedAsync(uid);
+
+        return academies.Select(a =>
+            new AcademyOfstedServiceModel(a.Urn, a.EstablishmentName, a.DateAcademyJoinedTrust, a.PreviousOfstedRating,
+                a.CurrentOfstedRating)).ToArray();
     }
 }

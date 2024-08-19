@@ -21,6 +21,11 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext) : IAcadem
             .ToArrayAsync();
     }
 
+    public Task<AcademyOfsted[]> GetAcademiesInTrustOfstedAsync(string uid)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<int> GetNumberOfAcademiesInTrustAsync(string uid)
     {
         return await academiesDbContext.GiasGroupLinks.CountAsync(gl => gl.GroupUid == uid && gl.Urn != null);
