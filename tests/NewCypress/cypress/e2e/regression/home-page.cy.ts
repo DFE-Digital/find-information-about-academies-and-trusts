@@ -13,11 +13,11 @@ describe("Testing the components of the home page", () => {
         homePage
             .enterMainSearchText("West")
         searchPage
-            .mainAutocompleteIsPresent()
+            .checkMainAutocompleteIsPresent()
         homePage
-            .mainSearchButtonPresent()
+            .checkMainSearchButtonPresent()
         searchPage
-            .autocompleteContainsTypedText("West")
+            .checkAutocompleteContainsTypedText("West")
     });
 
     it("Should check that the autocomplete does not return results when entry does not exist", () => {
@@ -25,8 +25,8 @@ describe("Testing the components of the home page", () => {
         homePage
             .enterMainSearchText("KnowWhere")
         searchPage
-            .mainAutocompleteIsPresent()
-            .autocompleteContainsTypedText("No results found")
+            .checkMainAutocompleteIsPresent()
+            .checkAutocompleteContainsTypedText("No results found")
     });
 
     it("Should check that search results are returned with a valid name entered when using the main search bar ", () => {
@@ -41,13 +41,13 @@ describe("Testing the components of the home page", () => {
             .returnToHome()
 
         homePage
-            .mainSearchButtonPresent()
+            .checkMainSearchButtonPresent()
 
     });
 
     it("Should check that the home page footer bar privacy link is present and functional", () => {
         footerLinks
-            .privacyLinkPresent()
+            .checkPrivacyLinkPresent()
             .clickPrivacyLink()
 
         paginationPage
@@ -58,7 +58,7 @@ describe("Testing the components of the home page", () => {
     it("Should check that the home page footer bar cookies link is present and functional", () => {
         homePage
         footerLinks
-            .cookiesLinkPresent()
+            .checkCookiesLinkPresent()
             .clickCookiesLink()
 
         paginationPage
@@ -68,10 +68,10 @@ describe("Testing the components of the home page", () => {
 
     it("Should check that the home page footer bar accessibility statement link is present and functional", () => {
         footerLinks
-            .acessibilityStatementLinkPresent()
+            .checkAcessibilityStatementLinkPresent()
             .clickAccessibilityStatementLink()
 
         paginationPage
-        .checkImAtTheCorrectUrl('accessibility')
+            .checkImAtTheCorrectUrl('accessibility')
     });
 })

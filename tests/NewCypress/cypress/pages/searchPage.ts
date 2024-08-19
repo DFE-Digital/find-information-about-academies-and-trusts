@@ -18,13 +18,13 @@ class SearchPage {
         return this;
     }
 
-    public mainAutocompleteIsPresent(): this {
+    public checkMainAutocompleteIsPresent(): this {
         cy.get('#home-search__listbox').should('be.visible');
 
         return this;
     }
 
-    public autocompleteContainsTypedText(searchText: string): this {
+    public checkAutocompleteContainsTypedText(searchText: string): this {
         cy.get('#home-search__listbox').should(($listbox) => {
             // Ensure there are items present in the listbox
             expect($listbox.children().length).to.be.greaterThan(0);
