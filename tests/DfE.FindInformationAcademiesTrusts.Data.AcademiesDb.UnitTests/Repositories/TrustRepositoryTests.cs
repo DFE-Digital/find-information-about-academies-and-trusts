@@ -1,3 +1,4 @@
+using System.Globalization;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
@@ -121,6 +122,47 @@ public class TrustRepositoryTests
             "",
             "",
             new DateTime(2007, 6, 28)
+        ));
+    }
+
+    [Fact]
+    public async Task GetTrustGovernanceAsync_ShouldReturnEmpty_WithNoGovernenceSet()
+    {
+        var result = await _sut.GetTrustGovernanceAsync("1234");
+
+        result.Should().BeEquivalentTo(new TrustGoverenance([], [], [], []));
+    }
+
+    [Fact]
+    public async Task GetTrustGovernanceAsync_ShouldReturnValidGovernors_WithGovernenceSet()
+    {
+        var member = new GiasGovernance
+        {
+            Gid = "9999",
+            Uid = "1234",
+            Role = "Member",
+            Forename1 = "First",
+            Forename2 = "Second",
+            Surname = "Last",
+            DateOfAppointment = DateTime.Today.AddYears(-1).ToString(CultureInfo.InvariantCulture),
+            DateTermOfOfficeEndsEnded = DateTime.Today.AddYears(1).ToString(CultureInfo.InvariantCulture)
+        };
+        var governor = new Governor(
+            "9999",
+            "1234",
+            Role: "Member",
+            FullName: "First Second Last",
+            DateOfAppointment: DateTime.Today.AddYears(-1),
+            DateOfTermEnd: DateTime.Today.AddYears(1),
+            AppointingBody: "Nick Warms",
+            Email: null
+        );
+
+        _mockAcademiesDbContext.AddGiasGovernance(member);
+        var result = await _sut.GetTrustGovernanceAsync("1234");
+
+        result.Should().BeEquivalentTo(new TrustGoverenance(
+            Members: [governor], HistoricMembers: [], TrustLeadership: [], Trustees: []
         ));
     }
 }
