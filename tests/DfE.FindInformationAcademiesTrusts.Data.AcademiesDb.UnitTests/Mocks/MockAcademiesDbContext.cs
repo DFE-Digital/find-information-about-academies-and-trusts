@@ -231,6 +231,19 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         return newItems;
     }
 
+    public void AddGiasGovernance(GiasGovernance governance)
+    {
+        var existing = _giasGovernances.FirstOrDefault(g => g.Gid == governance.Gid);
+        if (existing is not null)
+        {
+            var index = _giasGovernances.IndexOf(existing);
+            _giasGovernances[index] = governance;
+            return;
+        }
+
+        _giasGovernances.Add(governance);
+    }
+
     public List<(GiasGovernance, MstrTrustGovernance)> AddGovernancesLinkedToTrust(int num, string groupUid)
     {
         var numExistingGovernances = _giasGovernances.Count;
