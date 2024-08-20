@@ -1,24 +1,29 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts", "DfE.FindInformationAcademiesTrusts\DfE.FindInformationAcademiesTrusts.csproj", "{F9568CDF-A026-492C-96B2-A8E51ABA3B07}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FindInformationAcademiesTrusts", "DfE.FindInformationAcademiesTrusts\DfE.FindInformationAcademiesTrusts.csproj", "{F9568CDF-A026-492C-96B2-A8E51ABA3B07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.UnitTests", "tests\DfE.FindInformationAcademiesTrusts.UnitTests\DfE.FindInformationAcademiesTrusts.UnitTests.csproj", "{0A3416F9-33DB-4870-97EA-7CFF8D828031}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FindInformationAcademiesTrusts.UnitTests", "tests\DfE.FindInformationAcademiesTrusts.UnitTests\DfE.FindInformationAcademiesTrusts.UnitTests.csproj", "{0A3416F9-33DB-4870-97EA-7CFF8D828031}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data.AcademiesDb", "DfE.FindInformationAcademiesTrusts.Data.AcademiesDb\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.csproj", "{5E03FD8B-A86F-4E66-A67A-BC53B3032B44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FindInformationAcademiesTrusts.Data.AcademiesDb", "DfE.FindInformationAcademiesTrusts.Data.AcademiesDb\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.csproj", "{5E03FD8B-A86F-4E66-A67A-BC53B3032B44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests", "tests\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.csproj", "{E20D30CB-8EB1-453B-8C49-77CAFBF16A13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests", "tests\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.csproj", "{E20D30CB-8EB1-453B-8C49-77CAFBF16A13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data", "DfE.FindInformationAcademiesTrusts.Data\DfE.FindInformationAcademiesTrusts.Data.csproj", "{DC3BD883-B6DA-4C54-85CB-2CD5D261E8FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FindInformationAcademiesTrusts.Data", "DfE.FindInformationAcademiesTrusts.Data\DfE.FindInformationAcademiesTrusts.Data.csproj", "{DC3BD883-B6DA-4C54-85CB-2CD5D261E8FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker", "tests\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.csproj", "{CE03C6BD-0160-4265-A287-3EC70103E4C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker", "tests\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.csproj", "{CE03C6BD-0160-4265-A287-3EC70103E4C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data.UnitTests", "tests\DfE.FindInformationAcademiesTrusts.Data.UnitTests\DfE.FindInformationAcademiesTrusts.Data.UnitTests.csproj", "{90AA9D53-B5B0-489F-AEC1-23551EA04BC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FindInformationAcademiesTrusts.Data.UnitTests", "tests\DfE.FindInformationAcademiesTrusts.Data.UnitTests\DfE.FindInformationAcademiesTrusts.Data.UnitTests.csproj", "{90AA9D53-B5B0-489F-AEC1-23551EA04BC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data.Hardcoded", "DfE.FindInformationAcademiesTrusts.Data.Hardcoded\DfE.FindInformationAcademiesTrusts.Data.Hardcoded.csproj", "{01247163-9E65-48FB-9ACE-1A8BE995D1AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FindInformationAcademiesTrusts.Data.Hardcoded", "DfE.FindInformationAcademiesTrusts.Data.Hardcoded\DfE.FindInformationAcademiesTrusts.Data.Hardcoded.csproj", "{01247163-9E65-48FB-9ACE-1A8BE995D1AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data.Hardcoded.UnitTests", "tests\DfE.FindInformationAcademiesTrusts.Data.Hardcoded.UnitTests\DfE.FindInformationAcademiesTrusts.Data.Hardcoded.UnitTests.csproj", "{1DF57DAB-F9BA-4810-BD35-BB59996FF7BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FindInformationAcademiesTrusts.Data.Hardcoded.UnitTests", "tests\DfE.FindInformationAcademiesTrusts.Data.Hardcoded.UnitTests\DfE.FindInformationAcademiesTrusts.Data.Hardcoded.UnitTests.csproj", "{1DF57DAB-F9BA-4810-BD35-BB59996FF7BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.API", "DfE.FindInformationAcademiesTrusts.API\DfE.FindInformationAcademiesTrusts.API.csproj", "{DEB87157-7A40-432C-A241-0254EF0B438A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +67,13 @@ Global
 		{1DF57DAB-F9BA-4810-BD35-BB59996FF7BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DF57DAB-F9BA-4810-BD35-BB59996FF7BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DF57DAB-F9BA-4810-BD35-BB59996FF7BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEB87157-7A40-432C-A241-0254EF0B438A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEB87157-7A40-432C-A241-0254EF0B438A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEB87157-7A40-432C-A241-0254EF0B438A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEB87157-7A40-432C-A241-0254EF0B438A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0A3416F9-33DB-4870-97EA-7CFF8D828031} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
@@ -69,5 +81,8 @@ Global
 		{CE03C6BD-0160-4265-A287-3EC70103E4C9} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
 		{90AA9D53-B5B0-489F-AEC1-23551EA04BC5} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
 		{1DF57DAB-F9BA-4810-BD35-BB59996FF7BB} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4FAA8CCD-0030-4A4E-A853-C671E12368E1}
 	EndGlobalSection
 EndGlobal

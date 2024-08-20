@@ -1,0 +1,6 @@
+@DfE.FindInformationAcademiesTrusts.API_HostAddress = http://localhost:5014
+
+GET {{DfE.FindInformationAcademiesTrusts.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

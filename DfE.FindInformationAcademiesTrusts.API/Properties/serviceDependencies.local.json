@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "identityapp1": {
+      "connectionInfo": "App registration: s184d01-fiat-fiat-api, Tenant: DfE Platform Identity (platform.education.gov.uk - Microsoft Entra ID)",
+      "type": "identityapp.default"
+    }
+  }
+}
