@@ -1,0 +1,21 @@
+ARG ASPNET_IMAGE_TAG=8.0-bookworm-slim-amd64
+ARG DOTNET_SDK=8.0
+
+# Stage 1 - Build and publish dotnet application
+FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_SDK} AS publish
+COPY . /repo
+WORKDIR /repo
+RUN dotnet restore DfE.FindInformationAcademiesTrusts.API
+RUN dotnet build DfE.FindInformationAcademiesTrusts.API -c Release
+RUN dotnet publish DfE.FindInformationAcademiesTrusts.API -c Release -o /app --no-build
+
+COPY ./docker/web-docker-entrypoint.sh /app/docker-entrypoint.sh
+
+# Stage 2 - Put into Docker container that will actually be run
+FROM mcr.microsoft.com/dotnet/aspnet:${ASPNET_IMAGE_TAG} AS final
+LABEL org.opencontainers.image.source=https://github.com/DFE-Digital/find-information-about-academies-and-trusts
+COPY --from=publish /app /app
+WORKDIR /app
+RUN chmod +x ./docker-entrypoint.sh
+
+EXPOSE 8080/tcp
