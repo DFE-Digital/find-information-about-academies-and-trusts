@@ -18,6 +18,7 @@ locals {
   container_min_replicas                          = var.container_min_replicas
   container_max_replicas                          = var.container_max_replicas
   container_port                                  = var.container_port
+  custom_container_apps                           = var.custom_container_apps
   container_scale_http_concurrency                = var.container_scale_http_concurrency
   enable_redis_cache                              = var.enable_redis_cache
   enable_mssql_database                           = var.enable_mssql_database
