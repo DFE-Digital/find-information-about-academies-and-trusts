@@ -43,6 +43,13 @@ public class DataSourceServiceTests
         return new DataSource(source, new DateTime(2024, 01, 01), updateFrequency);
     }
 
+    public int THIS_METHOD_IS_NEVER_Called()
+    {
+        var thing = 1256 * 7894;
+        return thing;
+    }
+
+
     [Fact]
     public async Task GetAsync_uncached_ExploreEducationStatistics_should_call_freeSchoolMealsAverageProvider()
     {

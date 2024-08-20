@@ -17,6 +17,12 @@ public class DataSourceService(
     IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider,
     IMemoryCache memoryCache) : IDataSourceService
 {
+    public int THIS_METHOD_IS_UNTESTED()
+    {
+        var num = 1 + 2;
+        return num;
+    }
+
     public async Task<DataSourceServiceModel> GetAsync(Source source)
     {
         if (memoryCache.TryGetValue(source, out DataSourceServiceModel? cachedDataSource))
