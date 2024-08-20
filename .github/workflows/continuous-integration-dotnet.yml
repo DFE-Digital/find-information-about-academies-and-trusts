@@ -20,6 +20,7 @@ on:
        - '!tests/DFE.FindInformationAcademiesTrusts.CypressTests/**'
 
 env:
+  DOTNET_VERSION: '8.x'
   JAVA_VERSION: '17'
   LAST_COMMIT_SHA: default
 
@@ -42,7 +43,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Set up JDK
       uses: actions/setup-java@v4
