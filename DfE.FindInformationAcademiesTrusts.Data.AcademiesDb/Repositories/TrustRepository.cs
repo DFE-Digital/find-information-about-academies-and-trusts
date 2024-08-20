@@ -1,5 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using Microsoft.EntityFrameworkCore;
 
@@ -58,11 +60,43 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
         return trustDetailsDto;
     }
 
+    public async Task<TrustGoverenance> GetTrustGovernanceAsync(string uid)
+    {
+        var governors = await academiesDbContext.GiasGovernances
+            .Where(g => g.Uid == uid)
+            .Select(governance => new Governor(governance.Gid!, governance.Uid!, GetFullName(governance),
+                governance.Role!, governance.AppointingBody!, governance.DateOfAppointment.ParseAsNullableDate(),
+                governance.DateTermOfOfficeEndsEnded.ParseAsNullableDate(), null))
+            .ToArrayAsync();
+        var governersDto = new TrustGoverenance(
+            governors.Where(governor => governor is { IsCurrentGovernor: true, HasRoleLeadership: true }).ToArray(),
+            governors.Where(governor => governor is { IsCurrentGovernor: true, HasRoleMemeber: true })
+                .ToArray(),
+            governors.Where(governor => governor is { IsCurrentGovernor: true, HasRoleTrustee: true })
+                .ToArray(),
+            governors.Where(governor => governor.IsCurrentGovernor is false).ToArray()
+        );
+        return governersDto;
+    }
+
     private async Task<string> GetRegionAndTerritoryAsync(string uid)
     {
         return await academiesDbContext.MstrTrusts
             .Where(m => m.GroupUid == uid)
             .Select(m => m.GORregion)
             .SingleOrDefaultAsync() ?? string.Empty;
+    }
+
+    private static string GetFullName(GiasGovernance giasGovernance)
+    {
+        var fullName = giasGovernance.Forename1!; //Forename1 is always populated
+
+        if (!string.IsNullOrWhiteSpace(giasGovernance.Forename2))
+            fullName += $" {giasGovernance.Forename2}";
+
+        if (!string.IsNullOrWhiteSpace(giasGovernance.Surname))
+            fullName += $" {giasGovernance.Surname}";
+
+        return fullName;
     }
 }
