@@ -66,17 +66,8 @@ public class TrustService(
 
     public async Task<TrustGovernanceServiceModel> GetTrustGoverenaceAsync(string uid)
     {
-        var cacheKey = $"{nameof(TrustService)}:{uid}:TrustGovernance";
-
-        if (memoryCache.TryGetValue(cacheKey, out TrustGovernanceServiceModel? cachedTrustGovernance))
-        {
-            return cachedTrustGovernance!;
-        }
-
         var (trustLeadership, members, trustees, historicMembers) = await trustRepository.GetTrustGovernanceAsync(uid);
         var governanceDto = new TrustGovernanceServiceModel(trustLeadership, members, trustees, historicMembers);
-        memoryCache.Set(cacheKey, governanceDto,
-            new MemoryCacheEntryOptions { SlidingExpiration = TimeSpan.FromMinutes(10) });
         return governanceDto;
     }
 }
