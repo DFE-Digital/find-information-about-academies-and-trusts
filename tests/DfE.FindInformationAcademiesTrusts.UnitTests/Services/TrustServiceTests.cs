@@ -1,6 +1,11 @@
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
+using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
+using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
@@ -130,5 +135,62 @@ public class TrustServiceTests
             null,
             new DateTime(2007, 6, 28)
         ));
+    }
+
+    [Fact]
+    public async Task GetTrustGovernanceAsync_should_get_governanceResults_for_single_trust()
+    {
+        var startDate = DateTime.Today.AddYears(-3);
+        var futureEndDate = DateTime.Today.AddYears(1);
+        var historicEndDate = DateTime.Today.AddYears(-1);
+        var member = new Governor(
+            "9999",
+            "1234",
+            Role: "Member",
+            FullName: "First Second Last",
+            DateOfAppointment: startDate,
+            DateOfTermEnd: futureEndDate,
+            AppointingBody: "Nick Warms",
+            Email: null
+        );
+        var trustee = new Governor(
+            "9998",
+            "1234",
+            Role: "Trustee",
+            FullName: "First Second Last",
+            DateOfAppointment: startDate,
+            DateOfTermEnd: futureEndDate,
+            AppointingBody: "Nick Warms",
+            Email: null
+        );
+        var leader = new Governor(
+            "9999",
+            "1234",
+            Role: "Chair of Trustees",
+            FullName: "First Second Last",
+            DateOfAppointment: startDate,
+            DateOfTermEnd: futureEndDate,
+            AppointingBody: "Nick Warms",
+            Email: null
+        );
+        var historic = new Governor(
+            "9999",
+            "1234",
+            Role: "Trustee",
+            FullName: "First Second Last",
+            DateOfAppointment: startDate,
+            DateOfTermEnd: historicEndDate,
+            AppointingBody: "Nick Warms",
+            Email: null
+        );
+        _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync("1234"))
+            .ReturnsAsync(new TrustGovernance([leader], [member], [trustee], [historic]));
+
+        var result = await _sut.GetTrustGoverenaceAsync("1234");
+
+        result.HistoricMembers.Should().ContainSingle().Which.Should().BeEquivalentTo(historic);
+        result.Members.Should().ContainSingle().Which.Should().BeEquivalentTo(member);
+        result.Trustees.Should().ContainSingle().Which.Should().BeEquivalentTo(trustee);
+        result.TrustLeadership.Should().ContainSingle().Which.Should().BeEquivalentTo(leader);
     }
 }
