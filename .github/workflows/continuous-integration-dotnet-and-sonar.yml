@@ -1,23 +1,27 @@
-name: Build, analyse and test .NET code
+name: Test .NET code and scan all code with SonarScanner
 
 on:
   push:
     branches: [ main ]
     paths:
-      - 'DfE.FindInformationAcademiesTrusts/**'
-      - 'DfE.FindInformationAcademiesTrusts.Data/**'
-      - 'DfE.FindInformationAcademiesTrusts.Data.AcademiesDb/**'
-      - 'tests/**'
-      - '!tests/DFE.FindInformationAcademiesTrusts.CypressTests/**'
+      - '**'
+      - '!.gitignore'
+      - '!**.DotSettings'
+      - '!**.md'
+      - '!.config/**'
+      - '!.github/**'
+      - '!terraform/**'
   pull_request:
     branches: [ main, '**-feature' ]
     types: [ opened, synchronize, reopened]
     paths:
-       - 'DfE.FindInformationAcademiesTrusts/**'
-       - 'DfE.FindInformationAcademiesTrusts.Data/**'
-       - 'DfE.FindInformationAcademiesTrusts.Data.AcademiesDb/**'
-       - 'tests/**'
-       - '!tests/DFE.FindInformationAcademiesTrusts.CypressTests/**'
+      - '**'
+      - '!.gitignore'
+      - '!**.DotSettings'
+      - '!**.md'
+      - '!.config/**'
+      - '!.github/**'
+      - '!terraform/**'
 
 env:
   DOTNET_VERSION: '8.x'
