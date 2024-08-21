@@ -265,11 +265,96 @@ public class TrustRepositoryTests
         _mockAcademiesDbContext.AddGiasGovernance(input);
         var result = await _sut.GetTrustGovernanceAsync("1234");
 
-        var historicMembers = new List<Governor>();
-        historicMembers.Add(output);
+        var historicMembers = new List<Governor> { output };
 
         result.Should().BeEquivalentTo(
             new TrustGovernance([], [], [], historicMembers.ToArray())
+        );
+    }
+
+    [Fact]
+    public async Task GetTrustGovernanceAsync_ShouldSortHistoricAndCurrentGoverors()
+    {
+        var startDate = DateTime.Today.AddYears(-3);
+        var yesterday = DateTime.Today.AddDays(-1);
+        var today = DateTime.Today;
+        var tomorrow = DateTime.Today.AddDays(1);
+        var currentMember = new GiasGovernance
+        {
+            Gid = "9999",
+            Uid = "1234",
+            Role = "Member",
+            Forename1 = "First",
+            Forename2 = "Second",
+            Surname = "Last",
+            DateOfAppointment = startDate.ToShortDateString(),
+            DateTermOfOfficeEndsEnded = today.ToShortDateString(),
+            AppointingBody = "Nick Warms"
+        };
+        var currentMemberOutput = new Governor(
+            "9999",
+            "1234",
+            Role: "Member",
+            FullName: "First Second Last",
+            DateOfAppointment: startDate,
+            DateOfTermEnd: today,
+            AppointingBody: "Nick Warms",
+            Email: null
+        );
+        var currentMember2 = new GiasGovernance
+        {
+            Gid = "9998",
+            Uid = "1234",
+            Role = "Member",
+            Forename1 = "First",
+            Forename2 = "Second",
+            Surname = "Last",
+            DateOfAppointment = startDate.ToShortDateString(),
+            DateTermOfOfficeEndsEnded = tomorrow.ToShortDateString(),
+            AppointingBody = "Nick Warms"
+        };
+        var currentMember2Output = new Governor(
+            "9998",
+            "1234",
+            Role: "Member",
+            FullName: "First Second Last",
+            DateOfAppointment: startDate,
+            DateOfTermEnd: tomorrow,
+            AppointingBody: "Nick Warms",
+            Email: null
+        );
+        var historicMember = new GiasGovernance
+        {
+            Gid = "9997",
+            Uid = "1234",
+            Role = "Member",
+            Forename1 = "First",
+            Forename2 = "Second",
+            Surname = "Last",
+            DateOfAppointment = startDate.ToShortDateString(),
+            DateTermOfOfficeEndsEnded = yesterday.ToShortDateString(),
+            AppointingBody = "Nick Warms"
+        };
+        var historicMemberOutput = new Governor(
+            "9997",
+            "1234",
+            Role: "Member",
+            FullName: "First Second Last",
+            DateOfAppointment: startDate,
+            DateOfTermEnd: yesterday,
+            AppointingBody: "Nick Warms",
+            Email: null
+        );
+
+
+        _mockAcademiesDbContext.AddGiasGovernance(currentMember);
+        _mockAcademiesDbContext.AddGiasGovernance(currentMember2);
+        _mockAcademiesDbContext.AddGiasGovernance(historicMember);
+        var result = await _sut.GetTrustGovernanceAsync("1234");
+
+
+        result.Should().BeEquivalentTo(
+            new TrustGovernance([], [currentMemberOutput, currentMember2Output], [], [historicMemberOutput])
         );
     }
 }
