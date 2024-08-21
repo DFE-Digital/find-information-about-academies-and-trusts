@@ -1,4 +1,4 @@
-namespace DfE.FindInformationAcademiesTrusts.ServiceModels;
+namespace DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 public record TrustDetailsServiceModel(
     string Uid,

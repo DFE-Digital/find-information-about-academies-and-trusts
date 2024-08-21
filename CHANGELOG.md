@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Accessible autocomplete (search autocomplete)
   - Webpack bundlers/loaders
 - Updated feedback url to match RSD feedback form.
+- Reduced the load time of the Academies in trust details page
 
 ## [Release-3][release-3] (production-2024-08-09.2694)
 

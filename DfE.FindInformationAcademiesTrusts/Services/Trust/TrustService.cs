@@ -1,8 +1,8 @@
-using DfE.FindInformationAcademiesTrusts.Data.Repositories;
-using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace DfE.FindInformationAcademiesTrusts.Services;
+namespace DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 public interface ITrustService
 {

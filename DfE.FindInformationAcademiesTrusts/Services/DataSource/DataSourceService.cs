@@ -1,11 +1,10 @@
 using System.Runtime.CompilerServices;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Data.Repositories;
-using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace DfE.FindInformationAcademiesTrusts.Services;
+namespace DfE.FindInformationAcademiesTrusts.Services.DataSource;
 
 public interface IDataSourceService
 {

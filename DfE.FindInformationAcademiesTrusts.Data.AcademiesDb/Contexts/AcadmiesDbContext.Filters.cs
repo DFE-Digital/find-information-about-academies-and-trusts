@@ -11,7 +11,7 @@ public partial class AcademiesDbContext
     {
         modelBuilder.Entity<GiasGroup>(entity =>
         {
-            // This filters out all groups with invaild fields
+            // This filters out all groups with invalid fields
             // Also filters to only MATs and SATs
             // filters out all closed groups (trusts)
             entity.HasQueryFilter(g =>
@@ -22,6 +22,12 @@ public partial class AcademiesDbContext
                 g.GroupStatusCode == "OPEN" &&
                 (g.GroupType == "Multi-academy trust" ||
                  g.GroupType == "Single-academy trust"));
+        });
+
+        modelBuilder.Entity<GiasGroupLink>(entity =>
+        {
+            entity.HasQueryFilter(gl =>
+                gl.Urn != null);
         });
     }
 }

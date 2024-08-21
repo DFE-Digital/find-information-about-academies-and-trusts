@@ -1,6 +1,5 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.ServiceModels;
-using DfE.FindInformationAcademiesTrusts.Services;
+using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 

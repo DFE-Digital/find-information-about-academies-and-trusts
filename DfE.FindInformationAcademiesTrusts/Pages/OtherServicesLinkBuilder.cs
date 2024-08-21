@@ -1,12 +1,11 @@
-using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.ServiceModels;
+using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
 public interface IOtherServicesLinkBuilder
 {
-    string? GetInformationAboutSchoolsListingLink(TrustDetailsServiceModel trust);
-    string GetInformationAboutSchoolsListingLink(Academy academy);
+    string GetInformationAboutSchoolsListingLinkForTrust(string trustUid);
+    string GetInformationAboutSchoolsListingLinkForAcademy(string urn);
     string? CompaniesHouseListingLink(TrustDetailsServiceModel trust);
     string? SchoolFinancialBenchmarkingServiceListingLink(TrustDetailsServiceModel trust);
     string? FindSchoolPerformanceDataListingLink(TrustDetailsServiceModel trust);
@@ -25,14 +24,14 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
     private const string FindSchoolPerformanceDataBaseUrl =
         "https://www.find-school-performance-data.service.gov.uk";
 
-    public string GetInformationAboutSchoolsListingLink(TrustDetailsServiceModel trust)
+    public string GetInformationAboutSchoolsListingLinkForTrust(string trustUid)
     {
-        return $"{GetInformationAboutSchoolsBaseUrl}/Groups/Group/Details/{trust.Uid}";
+        return $"{GetInformationAboutSchoolsBaseUrl}/Groups/Group/Details/{trustUid}";
     }
 
-    public string GetInformationAboutSchoolsListingLink(Academy academy)
+    public string GetInformationAboutSchoolsListingLinkForAcademy(string urn)
     {
-        return $"{GetInformationAboutSchoolsBaseUrl}/Establishments/Establishment/Details/{academy.Urn}";
+        return $"{GetInformationAboutSchoolsBaseUrl}/Establishments/Establishment/Details/{urn}";
     }
 
     public string? CompaniesHouseListingLink(TrustDetailsServiceModel trust)

@@ -1,4 +1,4 @@
-using DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 
 namespace DfE.FindInformationAcademiesTrusts.Data;
 

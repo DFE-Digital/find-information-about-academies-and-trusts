@@ -2,8 +2,7 @@ using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
-using DfE.FindInformationAcademiesTrusts.ServiceModels;
-using DfE.FindInformationAcademiesTrusts.Services;
+using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,9 +26,9 @@ public class FreeSchoolMealsModelTests
                 dummyTrust.Academies.Length));
 
         _sut = new FreeSchoolMealsModel(_mockTrustProvider.Object, _mockFreeSchoolMealsAverageProvider.Object,
-            _mockDataSourceService.Object, new MockLogger<FreeSchoolMealsModel>().Object,
-            _mockTrustRepository.Object)
-        { Uid = "1234" };
+                _mockDataSourceService.Object, new MockLogger<FreeSchoolMealsModel>().Object,
+                _mockTrustRepository.Object)
+            { Uid = "1234" };
     }
 
     [Fact]
