@@ -60,7 +60,7 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
         return trustDetailsDto;
     }
 
-    public async Task<TrustGoverenance> GetTrustGovernanceAsync(string uid)
+    public async Task<TrustGovernance> GetTrustGovernanceAsync(string uid)
     {
         var governors = await academiesDbContext.GiasGovernances
             .Where(g => g.Uid == uid)
@@ -68,7 +68,7 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
                 governance.Role!, governance.AppointingBody!, governance.DateOfAppointment.ParseAsNullableDate(),
                 governance.DateTermOfOfficeEndsEnded.ParseAsNullableDate(), null))
             .ToArrayAsync();
-        var governersDto = new TrustGoverenance(
+        var governersDto = new TrustGovernance(
             governors.Where(governor => governor is { IsCurrentGovernor: true, HasRoleLeadership: true }).ToArray(),
             governors.Where(governor => governor is { IsCurrentGovernor: true, HasRoleMemeber: true })
                 .ToArray(),

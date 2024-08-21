@@ -129,7 +129,7 @@ public class TrustRepositoryTests
     {
         var result = await _sut.GetTrustGovernanceAsync("1234");
 
-        result.Should().BeEquivalentTo(new TrustGoverenance([], [], [], []));
+        result.Should().BeEquivalentTo(new TrustGovernance([], [], [], []));
     }
 
     [Theory]
@@ -189,7 +189,7 @@ public class TrustRepositoryTests
         }
 
         result.Should().BeEquivalentTo(
-            new TrustGoverenance(trustLeadership.ToArray(), members.ToArray(), trustees.ToArray(), [])
+            new TrustGovernance(trustLeadership.ToArray(), members.ToArray(), trustees.ToArray(), [])
         );
     }
 
@@ -219,7 +219,7 @@ public class TrustRepositoryTests
         var result = await _sut.GetTrustGovernanceAsync("1234");
 
         result.Should().BeEquivalentTo(
-            new TrustGoverenance([], [], [], [])
+            new TrustGovernance([], [], [], [])
         );
     }
 
@@ -268,7 +268,7 @@ public class TrustRepositoryTests
         var historicMembers = new List<Governor> { output };
 
         result.Should().BeEquivalentTo(
-            new TrustGoverenance([], [], [], historicMembers.ToArray())
+            new TrustGovernance([], [], [], historicMembers.ToArray())
         );
     }
 

@@ -1,6 +1,6 @@
 ﻿namespace DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
 
-public record TrustGoverenance(
+public record TrustGovernance(
     Governor[] TrustLeadership,
     Governor[] Members,
     Governor[] Trustees,
