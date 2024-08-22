@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+## [Release-4][release-4] (production-2024-08-22.2794)
+
 ### Added
 
 - Feature flags added to allow for selectively showing features in different environments
@@ -51,10 +53,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated text on "404 - Not Found" page to adhere to DfE design pattern and added the not found url to the support email template.
 
 [unreleased]:
-  https://github.com/DFE-Digital/dfe-complete-conversions-transfers-and-changes/compare/production-2024-08-09.2694...HEAD
+  https://github.com/DFE-Digital/dfe-complete-conversions-transfers-and-changes/compare/production-2024-08-22.2794...HEAD
 [release-1]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-07-18.2517
 [release-2]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-07-29.2601
 [release-3]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-08-09.2694
+[release-4]:
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-08-22.2794
