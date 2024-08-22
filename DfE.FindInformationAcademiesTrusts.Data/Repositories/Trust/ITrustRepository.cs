@@ -1,3 +1,5 @@
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
+
 namespace DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 
 public interface ITrustRepository
