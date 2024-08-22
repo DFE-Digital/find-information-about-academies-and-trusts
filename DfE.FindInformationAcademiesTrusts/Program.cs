@@ -19,11 +19,13 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.FeatureManagement;
 using Microsoft.Identity.Web;
 using Serilog;
+using Azure.Identity;
 
 namespace DfE.FindInformationAcademiesTrusts;
 
@@ -67,6 +69,8 @@ internal static class Program
             });
 
             AddDependenciesTo(builder);
+
+            AddDataProtectionServices(builder);
 
             var app = builder.Build();
             ConfigureHttpRequestPipeline(app);
@@ -256,6 +260,25 @@ internal static class Program
                 options.Cookie.SameSite = SameSiteMode.None;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
+    }
+
+    private static void AddDataProtectionServices(WebApplicationBuilder builder)
+    {
+      // Setup basic Data Protection and persist keys.xml to local file system
+      var dp = builder.Services.AddDataProtection();
+
+      // If a Key Vault Key URI is defined, expect to encrypt the keys.xml
+      string? kvProtectionKeyUri = builder.Configuration.GetValue<string>("DataProtection:KeyVaultKey", "");
+      if (!string.IsNullOrEmpty(kvProtectionKeyUri))
+      {
+        dp.PersistKeysToFileSystem(new DirectoryInfo(@"/srv/app/storage"));
+
+        var credentials = new DefaultAzureCredential();
+        dp.ProtectKeysWithAzureKeyVault(
+          new Uri(kvProtectionKeyUri),
+          credentials
+        );
+      }
     }
 
     private static void ReconfigureLogging(WebApplicationBuilder builder)
