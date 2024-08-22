@@ -66,4 +66,5 @@ locals {
   statuscake_contact_group_name                   = var.statuscake_contact_group_name
   statuscake_contact_group_integrations           = var.statuscake_contact_group_integrations
   statuscake_contact_group_email_addresses        = var.statuscake_contact_group_email_addresses
+  enable_container_app_file_share                 = var.enable_container_app_file_share
 }
