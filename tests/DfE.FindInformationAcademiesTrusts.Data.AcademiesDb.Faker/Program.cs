@@ -13,16 +13,24 @@ public static class Program
             //The data sets will only change when changes are made to the generator
             Randomizer.Seed = new Random(28698);
 
-
             var faker = new AcademiesDbFaker(Data.Regions, Data.LocalAuthorities, Data.Schools,
                 Data.GovernorAppointingBodies, Data.GiasPhaseNames);
             var academiesDbData = faker.Generate(Data.TrustsToGenerate);
 
-            SqlScriptGenerator.GenerateAndSaveSqlScripts(academiesDbData, "data/createScript.sql",
-                "data/insertScript.sql");
+            var baseFilePath = "data";
 
-            // Comment in if you regenerate the data
-            // JsonGenerator.GenerateAndSaveTrustsJson(academiesDbData, "data/trusts.json");
+#if DEBUG
+            //Run in debug mode to regenerate sql scripts to commit to git
+            var fakerProjectDirectory =
+                new DirectoryInfo(Directory.GetCurrentDirectory()).Parent!.Parent!.Parent!.ToString();
+            baseFilePath = Path.Combine(fakerProjectDirectory, baseFilePath);
+#endif
+
+            SqlScriptGenerator.GenerateAndSaveSqlScripts(academiesDbData,
+                Path.Join(baseFilePath, "createScript.sql"),
+                Path.Join(baseFilePath, "insertScript.sql"));
+
+            JsonGenerator.GenerateAndSaveTrustsJson(academiesDbData, Path.Join(baseFilePath, "trusts.json"));
         }
         catch (Exception e)
         {
