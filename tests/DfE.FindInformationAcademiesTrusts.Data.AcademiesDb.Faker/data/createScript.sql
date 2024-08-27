@@ -1,9 +1,12 @@
-CREATE DATABASE sip;
+PRINT 'CREATE DATABASE [sip]'
+GO
+CREATE DATABASE [sip]
+GO
+USE [sip];
 GO
 
-USE sip;
+PRINT 'CREATE tables...'
 GO
-
 IF SCHEMA_ID(N'cdm') IS NULL EXEC(N'CREATE SCHEMA [cdm];');
 GO
 
@@ -1089,4 +1092,7 @@ GO
 CREATE UNIQUE INDEX [IX_TrustGovernanceGID] ON [mstr].[TrustGovernance] ([GID]);
 GO
 
+
+PRINT '--------------------------'
+GO
 

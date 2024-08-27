@@ -76,7 +76,8 @@ public class AcademiesDbFaker
 
         foreach (var giasEstablishment in giasEstablishments)
         {
-            _academiesDbData.GiasGroupLinks.Add(GenerateGroupLink(giasEstablishment.Urn, groupUid, groupOpenDate));
+            _academiesDbData.GiasGroupLinks.Add(GenerateGroupLink(giasEstablishment.Urn,
+                giasEstablishment.EstablishmentName, groupUid, groupOpenDate));
             _academiesDbData.MisEstablishments.Add(_misEstablishmentFaker.Generate(giasEstablishment.Urn));
         }
     }
@@ -89,12 +90,14 @@ public class AcademiesDbFaker
         _cdmAccountFaker.SetTrustRelationshipManagers(dfeContacts.Skip(25).Select(c => c.Systemuserid));
     }
 
-    private GiasGroupLink GenerateGroupLink(int establishmentUrn, string groupUid, string? openDate)
+    private GiasGroupLink GenerateGroupLink(int establishmentUrn, string? establishmentName, string groupUid,
+        string? openDate)
     {
         return _giasGroupLinkFaker
             .SetGiasGroupOpenedDate(openDate)
             .Generate(groupUid,
-                establishmentUrn.ToString());
+                establishmentUrn.ToString(),
+                establishmentName);
     }
 
     private IEnumerable<GiasEstablishment> GenerateGiasEstablishments(TrustToGenerate trustToGenerate, string uid)

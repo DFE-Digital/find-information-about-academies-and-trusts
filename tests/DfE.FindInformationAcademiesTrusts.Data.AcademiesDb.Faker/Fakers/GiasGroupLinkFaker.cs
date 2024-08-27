@@ -24,11 +24,12 @@ public class GiasGroupLinkFaker
         return this;
     }
 
-    public GiasGroupLink Generate(string uid, string urn)
+    public GiasGroupLink Generate(string uid, string urn, string? establishmentName)
     {
         var fakeGroupLink = _groupLinkFaker.Generate();
         fakeGroupLink.GroupUid = uid;
         fakeGroupLink.Urn = urn;
+        fakeGroupLink.EstablishmentName = establishmentName;
         return fakeGroupLink;
     }
 }
