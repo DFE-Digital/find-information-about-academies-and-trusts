@@ -14,14 +14,6 @@ services:
       test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "mySuperStrong_pa55word!!!" -C
       interval: "2s"
       retries: 10
-  generate-sql:
-    build:
-      context: ..
-      dockerfile: docker/FakeDataGenerator.Dockerfile
-    networks:
-      - test-ci
-    volumes:
-      - testdb-volume:/data
   import-sql:
     image: mcr.microsoft.com/mssql-tools:latest
     command: |
@@ -30,12 +22,10 @@ services:
     depends_on:
       sqlserver:
         condition: service_healthy
-      generate-sql:
-        condition: service_completed_successfully
     networks:
       - test-ci
     volumes:
-      - testdb-volume:/data
+      - ../tests/DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker/data:/data
   webapp:
     build:
       context: ..
@@ -54,6 +44,3 @@ services:
 
 networks:
   test-ci:
-
-volumes:
-  testdb-volume:
