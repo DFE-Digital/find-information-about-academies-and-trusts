@@ -1,3 +1,4 @@
+using System.Globalization;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
@@ -151,8 +152,8 @@ public class TrustRepositoryTests
             Forename1 = "First",
             Forename2 = "Second",
             Surname = "Last",
-            DateOfAppointment = startDate.ToShortDateString(),
-            DateTermOfOfficeEndsEnded = endDate.ToShortDateString(),
+            DateOfAppointment = startDate.ToString("dd/MM/yyyy"),
+            DateTermOfOfficeEndsEnded = endDate.ToString("dd/MM/yyyy"),
             AppointingBody = "Nick Warms"
         };
         var output = new Governor(
@@ -211,8 +212,8 @@ public class TrustRepositoryTests
             Forename1 = "First",
             Forename2 = "Second",
             Surname = "Last",
-            DateOfAppointment = startDate.ToShortDateString(),
-            DateTermOfOfficeEndsEnded = endDate.ToShortDateString(),
+            DateOfAppointment = startDate.ToString("dd/MM/yyyy"),
+            DateTermOfOfficeEndsEnded = endDate.ToString("dd/MM/yyyy"),
             AppointingBody = "Nick Warms"
         };
 
@@ -247,8 +248,8 @@ public class TrustRepositoryTests
             Forename1 = "First",
             Forename2 = "Second",
             Surname = "Last",
-            DateOfAppointment = startDate.ToShortDateString(),
-            DateTermOfOfficeEndsEnded = endDate.ToShortDateString(),
+            DateOfAppointment = startDate.ToString("dd/MM/yyyy"),
+            DateTermOfOfficeEndsEnded = endDate.ToString("dd/MM/yyyy"),
             AppointingBody = "Nick Warms"
         };
         var output = new Governor(
@@ -288,8 +289,8 @@ public class TrustRepositoryTests
             Forename1 = "First",
             Forename2 = "Second",
             Surname = "Last",
-            DateOfAppointment = startDate.ToShortDateString(),
-            DateTermOfOfficeEndsEnded = today.ToShortDateString(),
+            DateOfAppointment = startDate.ToString("dd/MM/yyyy"),
+            DateTermOfOfficeEndsEnded = today.ToString("dd/MM/yyyy"),
             AppointingBody = "Nick Warms"
         };
         var currentMemberOutput = new Governor(
@@ -310,8 +311,8 @@ public class TrustRepositoryTests
             Forename1 = "First",
             Forename2 = "Second",
             Surname = "Last",
-            DateOfAppointment = startDate.ToShortDateString(),
-            DateTermOfOfficeEndsEnded = tomorrow.ToShortDateString(),
+            DateOfAppointment = startDate.ToString("dd/MM/yyyy"),
+            DateTermOfOfficeEndsEnded = tomorrow.ToString("dd/MM/yyyy"),
             AppointingBody = "Nick Warms"
         };
         var currentMember2Output = new Governor(
@@ -332,8 +333,8 @@ public class TrustRepositoryTests
             Forename1 = "First",
             Forename2 = "Second",
             Surname = "Last",
-            DateOfAppointment = startDate.ToShortDateString(),
-            DateTermOfOfficeEndsEnded = yesterday.ToShortDateString(),
+            DateOfAppointment = startDate.ToString("dd/MM/yyyy"),
+            DateTermOfOfficeEndsEnded = yesterday.ToString("dd/MM/yyyy"),
             AppointingBody = "Nick Warms"
         };
         var historicMemberOutput = new Governor(
