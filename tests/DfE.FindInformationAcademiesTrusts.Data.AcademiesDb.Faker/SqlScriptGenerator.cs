@@ -22,9 +22,25 @@ public static class SqlScriptGenerator
 
     private static void GenerateSqlCreateScript(AcademiesDbContext context, string outputFilePath)
     {
-        var createScript = "CREATE DATABASE [sip];\nGO\n\n";
-        createScript += "USE [sip];\nGO\n\n";
+        var createScript = """
+                           PRINT 'CREATE DATABASE [sip]'
+                           GO
+                           CREATE DATABASE [sip]
+                           GO
+                           USE [sip];
+                           GO
+
+                           PRINT 'CREATE tables...'
+                           GO
+
+                           """;
         createScript += context.Database.GenerateCreateScript();
+        createScript += """
+                        PRINT '--------------------------'
+                        GO
+
+
+                        """;
 
         Directory.CreateDirectory("data");
         File.WriteAllText(outputFilePath, createScript);
@@ -43,6 +59,7 @@ public static class SqlScriptGenerator
         insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.CdmAccounts, context));
         insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.CdmSystemusers, context));
         insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.MisEstablishments, context));
+
         insertScripts.Add("SET IDENTITY_INSERT [ops].[ApplicationEvent] ON");
         insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.ApplicationEvents, context));
         insertScripts.Add("SET IDENTITY_INSERT [ops].[ApplicationEvent] OFF");
@@ -59,7 +76,14 @@ public static class SqlScriptGenerator
         var entityColumnNames = GetEntityColumnNames(entityProperties, entityType);
         var tableName = $"[{entityType.GetSchema()}].[{entityType.GetTableName()}]";
 
-        var insertScriptSegments = new List<string>();
+        var insertScriptSegments = new List<string>
+        {
+            $"""
+
+             PRINT 'INSERT INTO {tableName}...'
+             GO
+             """
+        };
 
         // SQL Server Insert statements will only work for 1000 rows at a time. Batch the objects into a value less than that
         const int insertRowBatch = 500;
@@ -69,9 +93,27 @@ public static class SqlScriptGenerator
             if (i + insertRowBatch < rowObjects.Count)
                 rowObjectBatch = rowObjectBatch.Take(insertRowBatch);
 
-            var rows = rowObjectBatch.Select(obj => $"({GetEntityValues(obj, entityProperties)})");
-            insertScriptSegments.Add($"INSERT INTO {tableName} ({entityColumnNames}) VALUES {string.Join(',', rows)};");
+            var rows = rowObjectBatch.Select(obj => $"({GetEntityValues(obj, entityProperties)})").ToArray();
+            insertScriptSegments.Add(
+                $"""
+                 INSERT INTO {tableName}
+                     ({entityColumnNames})
+                 VALUES
+                 """
+            );
+            insertScriptSegments.AddRange(rows
+                .Select((row, rowIndex) =>
+                    $"    {row}{(rowIndex < rows.Length - 1 ? "," : "")}"));
+
+            insertScriptSegments.Add("GO");
         }
+
+        insertScriptSegments.Add(
+            """
+            PRINT '--------------------------'
+            GO
+            """
+        );
 
         return insertScriptSegments;
     }
