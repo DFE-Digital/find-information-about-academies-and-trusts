@@ -51,28 +51,14 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
         return academyOfsteds;
     }
 
-    private async Task<Dictionary<string, (OfstedRating Current, OfstedRating Previous)>> GetOfstedRatings(int[] urns)
+    private async Task<Dictionary<string, OfstedRatings>> GetOfstedRatings(int[] urns)
     {
         // Ofsted data is held in MisEstablishments for most academies
         var ofstedRatings =
             await academiesDbContext.MisEstablishments
                 .Where(me => urns.Contains(me.Urn!.Value))
-                .Select(me => new
-                {
-                    Urn = me.Urn!.Value,
-                    Current = me.OverallEffectiveness == null
-                        ? OfstedRating.None
-                        : new OfstedRating(
-                            (OfstedRatingScore)me.OverallEffectiveness.Value,
-                            me.InspectionEndDate.ParseAsNullableDate()
-                        ),
-                    Previous = me.PreviousFullInspectionOverallEffectiveness == null
-                        ? OfstedRating.None
-                        : new OfstedRating(
-                            (OfstedRatingScore)int.Parse(me.PreviousFullInspectionOverallEffectiveness),
-                            me.PreviousInspectionEndDate.ParseAsNullableDate()
-                        )
-                })
+                .Select(me => new OfstedRatings(me.Urn!.Value, me.OverallEffectiveness, me.InspectionEndDate,
+                    me.PreviousFullInspectionOverallEffectiveness, me.PreviousInspectionEndDate))
                 .ToListAsync();
 
         // Look in MisFurtherEducationEstablishments for academies not found in MisEstablishments
@@ -84,23 +70,9 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
                 await academiesDbContext.MisFurtherEducationEstablishments
                     .Where(mfe => urnsNotInMisEstablishments.Contains(mfe.ProviderUrn))
                     .Select(mfe =>
-                        new
-                        {
-                            Urn = mfe.ProviderUrn,
-                            Current = mfe.OverallEffectiveness == null
-                                ? OfstedRating.None
-                                : new OfstedRating(
-                                    (OfstedRatingScore)mfe.OverallEffectiveness.Value,
-                                    mfe.LastDayOfInspection.ParseAsNullableDate()
-                                ),
-                            Previous = mfe.PreviousOverallEffectiveness == null
-                                ? OfstedRating.None
-                                : new OfstedRating(
-                                    (OfstedRatingScore)mfe.PreviousOverallEffectiveness.Value,
-                                    mfe.PreviousLastDayOfInspection.ParseAsNullableDate()
-                                )
-                        }
-                    ).ToArrayAsync()
+                        new OfstedRatings(mfe.ProviderUrn, mfe.OverallEffectiveness, mfe.LastDayOfInspection,
+                            mfe.PreviousOverallEffectiveness, mfe.PreviousLastDayOfInspection))
+                    .ToArrayAsync()
             );
         }
 
@@ -109,10 +81,10 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
             logger.LogError(
                 "URN {Urn} was not found in Mis.Establishments or Mis.FurtherEducationEstablishments. This indicates a data integrity issue with the Ofsted data in Academies Db.",
                 urn);
-            ofstedRatings.Add(new { Urn = urn, Current = OfstedRating.None, Previous = OfstedRating.None });
+            ofstedRatings.Add(new OfstedRatings(urn, OfstedRating.None, OfstedRating.None));
         }
 
-        return ofstedRatings.ToDictionary(o => o.Urn.ToString(), o => (o.Current, o.Previous));
+        return ofstedRatings.ToDictionary(o => o.Urn.ToString(), o => o);
     }
 
     public async Task<int> GetNumberOfAcademiesInTrustAsync(string uid)
@@ -127,5 +99,37 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
                          && gl.GroupType == "Single-academy trust")
             .Select(gl => gl.Urn)
             .FirstOrDefaultAsync();
+    }
+
+    private sealed record OfstedRatings(int Urn, OfstedRating Current, OfstedRating Previous)
+    {
+        public OfstedRatings(int urn, int? currentOverallEffectiveness, string? currentInspectionEndDate,
+            string? previousOverallEffectiveness, string? previousInspectionEndDate) :
+            this(urn,
+                currentOverallEffectiveness,
+                currentInspectionEndDate,
+                previousOverallEffectiveness is null ? null : int.Parse(previousOverallEffectiveness),
+                previousInspectionEndDate)
+        {
+        }
+
+        public OfstedRatings(int urn, int? currentOverallEffectiveness, string? currentInspectionEndDate,
+            int? previousOverallEffectiveness, string? previousInspectionEndDate)
+            : this(urn,
+                currentOverallEffectiveness == null
+                    ? OfstedRating.None
+                    : new OfstedRating(
+                        (OfstedRatingScore)currentOverallEffectiveness.Value,
+                        currentInspectionEndDate.ParseAsNullableDate()
+                    ),
+                previousOverallEffectiveness == null
+                    ? OfstedRating.None
+                    : new OfstedRating(
+                        (OfstedRatingScore)previousOverallEffectiveness,
+                        previousInspectionEndDate.ParseAsNullableDate()
+                    )
+            )
+        {
+        }
     }
 }
