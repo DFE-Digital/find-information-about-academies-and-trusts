@@ -1,7 +1,6 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.ServiceModels;
-using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
@@ -29,5 +28,15 @@ public class GovernanceModel(
             new List<string> { "Governance" }));
 
         return pageResult;
+    }
+
+    public string ShowFormmatedDateOrNoData(DateTime? date)
+    {
+        if (date.HasValue)
+        {
+            return date.Value.ToString(StringFormatConstants.ViewDate);
+        }
+
+        return "No Data";
     }
 }
