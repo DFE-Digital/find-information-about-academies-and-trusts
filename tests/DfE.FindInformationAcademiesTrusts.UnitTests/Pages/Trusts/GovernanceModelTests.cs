@@ -3,7 +3,6 @@ using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.ServiceModels;
-using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,58 +12,57 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 public class GovernanceModelTests
 {
     private readonly GovernanceModel _sut;
-    private readonly Mock<IOtherServicesLinkBuilder> _mockLinksToOtherServices = new();
     private readonly Mock<ITrustProvider> _mockTrustProvider = new();
-    private static readonly DateTime startDate = DateTime.Today.AddYears(-3);
-    private static readonly DateTime futureEndDate = DateTime.Today.AddYears(1);
-    private static readonly DateTime historicEndDate = DateTime.Today.AddYears(-1);
+    private static readonly DateTime StartDate = DateTime.Today.AddYears(-3);
+    private static readonly DateTime FutureEndDate = DateTime.Today.AddYears(1);
+    private static readonly DateTime HistoricEndDate = DateTime.Today.AddYears(-1);
 
-    private static readonly Governor member = new(
+    private static readonly Governor Member = new(
         "9999",
         "1234",
         Role: "Member",
         FullName: "First Second Last",
-        DateOfAppointment: startDate,
-        DateOfTermEnd: futureEndDate,
+        DateOfAppointment: StartDate,
+        DateOfTermEnd: FutureEndDate,
         AppointingBody: "Nick Warms",
         Email: null
     );
 
-    private static readonly Governor trustee = new(
+    private static readonly Governor Trustee = new(
         "9998",
         "1234",
         Role: "Trustee",
         FullName: "First Second Last",
-        DateOfAppointment: startDate,
-        DateOfTermEnd: futureEndDate,
+        DateOfAppointment: StartDate,
+        DateOfTermEnd: FutureEndDate,
         AppointingBody: "Nick Warms",
         Email: null
     );
 
-    private static readonly Governor leader = new(
+    private static readonly Governor Leader = new(
         "9999",
         "1234",
         Role: "Chair of Trustees",
         FullName: "First Second Last",
-        DateOfAppointment: startDate,
-        DateOfTermEnd: futureEndDate,
+        DateOfAppointment: StartDate,
+        DateOfTermEnd: FutureEndDate,
         AppointingBody: "Nick Warms",
         Email: null
     );
 
-    private static readonly Governor historic = new(
+    private static readonly Governor Historic = new(
         "9999",
         "1234",
         Role: "Trustee",
         FullName: "First Second Last",
-        DateOfAppointment: startDate,
-        DateOfTermEnd: historicEndDate,
+        DateOfAppointment: StartDate,
+        DateOfTermEnd: HistoricEndDate,
         AppointingBody: "Nick Warms",
         Email: null
     );
 
     private static readonly TrustGovernanceServiceModel DummyTrustGovernanceServiceModel =
-        new([leader], [member], [trustee], [historic]);
+        new([Leader], [Member], [Trustee], [Historic]);
 
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
