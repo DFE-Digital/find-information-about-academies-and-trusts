@@ -29,14 +29,4 @@ public class GovernanceModel(
 
         return pageResult;
     }
-
-    public string ShowFormmatedDateOrNoData(DateTime? date)
-    {
-        if (date.HasValue)
-        {
-            return date.Value.ToString(StringFormatConstants.ViewDate);
-        }
-
-        return "No Data";
-    }
 }
