@@ -1,0 +1,38 @@
+﻿@model TableModel
+
+<section class="govuk-!-margin-top-4 govuk-!-margin-bottom-9 app-table-container">
+  <h3>@Model.TableName</h3>
+  @if (Model.Columns.Length > 0 && Model.Rows.Length > 0)
+  {
+    <table class="govuk-table" data-module="moj-sortable-table" aria-describedby="trust-leadership">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          @foreach (var column in Model.Columns)
+          {
+            var sortDefaultValue = Model.Columns[0] == column ? "ascending" : "none";
+            var dateFieldWidth = column.IsDate ? "column-header-date" : "";
+            <th scope="col" class="govuk-body govuk-table__header @dateFieldWidth" aria-sort="@sortDefaultValue">@column.ColumnText</th>
+          }
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        @foreach (var row in Model.Rows)
+        {
+          <tr class="govuk-table__row" data-testid="academy-row">
+            @foreach (var (item, index) in row.Select((item, index) => (item, index)))
+            {
+              var tableHeadClass = index == 0 ? "govuk-table__header" : "govuk-table__cell";
+              <th scope="row" class="govuk-body @tableHeadClass" data-sort-value="@item.sortValue" data-testid="@Model.Columns[index].TestId">
+                @item.data
+              </th>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+  else
+  {
+    <span>No @Model.TableName</span>
+  }
+</section>
