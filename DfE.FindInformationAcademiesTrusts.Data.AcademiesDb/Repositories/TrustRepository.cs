@@ -1,9 +1,8 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
-using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
-using DfE.FindInformationAcademiesTrusts.Data.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
@@ -75,7 +74,7 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
                 .ToArray(),
             governors.Where(governor => governor is { IsCurrentGovernor: true, HasRoleTrustee: true })
                 .ToArray(),
-            governors.Where(governor => governor.IsCurrentGovernor is not true).ToArray()
+            governors.Where(governor => governor.IsCurrentGovernor is false).ToArray()
         );
         return governersDto;
     }
