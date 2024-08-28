@@ -16,25 +16,25 @@ describe("Checking the details of a trust that does not have any information", (
 
     it("Should be able to find the trust and verify the empty information", () => {
         searchTrustPage
-            .enterSearchText("The empty trust")
-            .getOption("The empty trust")
+            .enterSearchText("THE EMPTY TRUST")
+            .getOption("THE EMPTY TRUST")
             .then((option) => {
                 option
-                    .hasName("The empty trust")
+                    .hasName("THE EMPTY TRUST")
                     .select();
             });
 
         searchTrustPage.search();
 
         trustPage
-            .hasName("The empty trust")
+            .hasName("THE EMPTY TRUST")
             .hasType("Single-academy trust");
 
         trustDetailsPage
             .hasAddress("")
             .hasOpenedOn("")
             .hasRegionAndTerritory("")
-            .hasUid("1313")
+            .hasUid("91313")
             .hasTrustReferenceNumber("TR3943")
             .hasUkprn("")
             .hasCompaniesHouseNumber("");
