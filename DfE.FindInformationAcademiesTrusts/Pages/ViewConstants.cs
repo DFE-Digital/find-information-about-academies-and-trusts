@@ -16,4 +16,6 @@ public static class ViewConstants
 
     public const string SuggestChangeFormLink =
         "https://forms.office.com/Pages/ResponsePage.aspx?id=yXfS-grGoU2187O4s0qC-fkHK2JGo_BIpVChpLMaBFpUNUFDSzhQN0FHVklTV0JWTzFZTjNKWTNJUi4u";
+
+    public const string NoDataText = "No Data";
 }
