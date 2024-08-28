@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using DfE.FindInformationAcademiesTrusts.Authorization;
+using DfE.FindInformationAcademiesTrusts.Clients;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
@@ -13,6 +14,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Options;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
+using DfE.FindInformationAcademiesTrusts.Services.Api;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.ApplicationInsights.Extensibility;
@@ -67,6 +69,8 @@ internal static class Program
             });
 
             AddDependenciesTo(builder);
+
+            builder.Services.AddHttpClient<IApiService, ApiHttpClient>();
 
             var app = builder.Build();
             ConfigureHttpRequestPipeline(app);
@@ -230,6 +234,10 @@ internal static class Program
             .Bind(builder.Configuration.GetSection(ApplicationInsightsOptions.ConfigurationSection));
         builder.Services.AddOptions<NotificationBannerOptions>()
             .Bind(builder.Configuration.GetSection(NotificationBannerOptions.ConfigurationSection));
+        builder.Services.AddOptions<AzureAdCIPOptions>()
+            .Bind(builder.Configuration.GetSection(AzureAdCIPOptions.ConfigurationSection));
+        builder.Services.AddOptions<FindInformationAcademiesTrustsApiOptions>()
+            .Bind(builder.Configuration.GetSection(FindInformationAcademiesTrustsApiOptions.ConfigurationSection));
         builder.Services.AddFeatureManagement();
     }
 
