@@ -6,11 +6,11 @@
   Layout = "_TrustLayout";
 }
 
-<section class="govuk-!-margin-top-4 govuk-!-margin-bottom-9 app-table-container">
-  <h3>Trust Leadership</h3>
+<section class="govuk-!-margin-top-4 govuk-!-margin-bottom-9 app-table-container" data-testid="trust-leadership">
   @if (Model.TrustGovernance.TrustLeadership.Length > 0)
   {
-    <table class="govuk-table" data-module="moj-sortable-table" aria-describedby="trust-leadership">
+    <table class="govuk-table govuk-!-margin-bottom-0" data-module="moj-sortable-table" aria-describedby="trust-leadership">
+      <caption class="govuk-table__caption govuk-table__caption--m" id="trust-leadership">Trust Leadership</caption>
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-body govuk-table__header" aria-sort="ascending">Name</th>
@@ -22,17 +22,17 @@
       <tbody class="govuk-table__body">
         @foreach (var governor in Model.TrustGovernance.TrustLeadership)
         {
-          <tr class="govuk-table__row" data-testid="academy-row">
-            <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@governor.FullName" data-testid="school-name">
+          <tr class="govuk-table__row" data-testid="trust-leadership-row">
+            <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@governor.FullName" data-testid="trust-leadership-name">
               @governor.FullName
             </th>
-            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.Role" data-testid="phase-and-age-range">
+            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.Role" data-testid="trust-leadership-role">
               @governor.Role
             </td>
-            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfAppointment?.ToString(StringFormatConstants.SortDate)" data-testid="pupil-numbers">
+            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfAppointment?.ToString(StringFormatConstants.SortDate)" data-testid="trust-leadership-from">
               @governor.DateOfAppointment.ShowDateStringOrReplaceWithText()
             </td>
-            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfTermEnd?.ToString(StringFormatConstants.SortDate)" data-testid="pupil-capacity">
+            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfTermEnd?.ToString(StringFormatConstants.SortDate)" data-testid="trust-leadership-to">
               @governor.DateOfTermEnd.ShowDateStringOrReplaceWithText()
             </td>
           </tr>
@@ -42,14 +42,16 @@
   }
   else
   {
-    <span>No Trust Leadership</span>
+    <h3 class="govuk-heading-m govuk-!-margin-bottom-3">Trust Leadership</h3>
+    <p class="govuk-body govuk-!-margin-bottom-0">No Trust Leadership</p>
   }
 </section>
-<section class="govuk-!-margin-top-4 govuk-!-margin-bottom-9 app-table-container">
-  <h3>Trustees</h3>
+
+<section class="govuk-!-margin-bottom-9 app-table-container" data-testid="trustees">
   @if (Model.TrustGovernance.Trustees.Length > 0)
   {
-    <table class="govuk-table" data-module="moj-sortable-table" aria-describedby="trust-leadership">
+    <table class="govuk-table govuk-!-margin-bottom-0" data-module="moj-sortable-table" aria-describedby="trustees">
+      <caption class="govuk-table__caption govuk-table__caption--m" id="trustees">Trustees</caption>
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-body govuk-table__header" aria-sort="ascending">Name</th>
@@ -61,17 +63,17 @@
       <tbody class="govuk-table__body">
         @foreach (var governor in Model.TrustGovernance.Trustees)
         {
-          <tr class="govuk-table__row" data-testid="academy-row">
-            <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@governor.FullName" data-testid="school-name">
+          <tr class="govuk-table__row" data-testid="trustees-row">
+            <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@governor.FullName" data-testid="trustees-name">
               @governor.FullName
             </th>
-            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.AppointingBody" data-testid="phase-and-age-range">
+            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.AppointingBody" data-testid="trustees-appointed">
               @governor.AppointingBody
             </td>
-            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfAppointment?.ToString(StringFormatConstants.SortDate)" data-testid="pupil-numbers">
+            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfAppointment?.ToString(StringFormatConstants.SortDate)" data-testid="trustees-from">
               @governor.DateOfAppointment.ShowDateStringOrReplaceWithText()
             </td>
-            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfTermEnd?.ToString(StringFormatConstants.SortDate)" data-testid="pupil-capacity">
+            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfTermEnd?.ToString(StringFormatConstants.SortDate)" data-testid="trustees-to">
               @governor.DateOfTermEnd.ShowDateStringOrReplaceWithText()
             </td>
           </tr>
@@ -81,14 +83,16 @@
   }
   else
   {
-    <span>No Trustees</span>
+    <h3 class="govuk-heading-m govuk-!-margin-bottom-3">Trustees</h3>
+    <p class="govuk-body govuk-!-margin-bottom-0">No Trustees</p>
   }
 </section>
-<section class="govuk-!-margin-top-4 govuk-!-margin-bottom-9 app-table-container">
-  <h3>Members</h3>
+
+<section class="govuk-!-margin-bottom-9 app-table-container" data-testid="members">
   @if (Model.TrustGovernance.Members.Length > 0)
   {
-    <table class="govuk-table" data-module="moj-sortable-table" aria-describedby="trust-leadership">
+    <table class="govuk-table govuk-!-margin-bottom-0" data-module="moj-sortable-table" aria-describedby="members">
+      <caption class="govuk-table__caption govuk-table__caption--m" id="members">Members</caption>
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-body govuk-table__header" aria-sort="ascending">Name</th>
@@ -100,17 +104,17 @@
       <tbody class="govuk-table__body">
         @foreach (var governor in Model.TrustGovernance.Members)
         {
-          <tr class="govuk-table__row" data-testid="academy-row">
-            <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@governor.FullName" data-testid="school-name">
+          <tr class="govuk-table__row" data-testid="members-row">
+            <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@governor.FullName" data-testid="members-name">
               @governor.FullName
             </th>
-            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.AppointingBody" data-testid="phase-and-age-range">
+            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.AppointingBody" data-testid="members-appointed">
               @governor.AppointingBody
             </td>
-            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfAppointment?.ToString(StringFormatConstants.SortDate)" data-testid="pupil-numbers">
+            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfAppointment?.ToString(StringFormatConstants.SortDate)" data-testid="members-from">
               @governor.DateOfAppointment.ShowDateStringOrReplaceWithText()
             </td>
-            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfTermEnd?.ToString(StringFormatConstants.SortDate)" data-testid="pupil-capacity">
+            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfTermEnd?.ToString(StringFormatConstants.SortDate)" data-testid="members-to">
               @governor.DateOfTermEnd.ShowDateStringOrReplaceWithText()
             </td>
           </tr>
@@ -120,14 +124,16 @@
   }
   else
   {
-    <span>No Members</span>
+    <h3 class="govuk-heading-m govuk-!-margin-bottom-3">Members</h3>
+    <p class="govuk-body govuk-!-margin-bottom-0">No Members</p>
   }
 </section>
-<section class="govuk-!-margin-top-4 govuk-!-margin-bottom-9 app-table-container">
-  <h3>Historic members</h3>
+
+<section class="app-table-container govuk-!-margin-bottom-9" data-testid="historic-members">
   @if (Model.TrustGovernance.HistoricMembers.Length > 0)
   {
-    <table class="govuk-table" data-module="moj-sortable-table" aria-describedby="trust-leadership">
+    <table class="govuk-table govuk-!-margin-bottom-0" data-module="moj-sortable-table" aria-describedby="historic-members">
+      <caption class="govuk-table__caption govuk-table__caption--m" id="historic-members">Historic members</caption>
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-body govuk-table__header" aria-sort="ascending">Name</th>
@@ -140,20 +146,20 @@
       <tbody class="govuk-table__body">
         @foreach (var governor in Model.TrustGovernance.HistoricMembers)
         {
-          <tr class="govuk-table__row" data-testid="academy-row">
-            <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@governor.FullName" data-testid="school-name">
+          <tr class="govuk-table__row" data-testid="historic-members-row">
+            <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@governor.FullName" data-testid="historic-members-name">
               @governor.FullName
             </th>
-            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.Role" data-testid="phase-and-age-range">
+            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.Role" data-testid="historic-members-role">
               @governor.Role
             </td>
-            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.AppointingBody" data-testid="phase-and-age-range">
+            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.AppointingBody" data-testid="historic-members-appointed">
               @governor.AppointingBody
             </td>
-            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfAppointment?.ToString(StringFormatConstants.SortDate)" data-testid="pupil-numbers">
+            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfAppointment?.ToString(StringFormatConstants.SortDate)" data-testid="historic-members-from">
               @governor.DateOfAppointment.ShowDateStringOrReplaceWithText()
             </td>
-            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfTermEnd?.ToString(StringFormatConstants.SortDate)" data-testid="pupil-capacity">
+            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfTermEnd?.ToString(StringFormatConstants.SortDate)" data-testid="historic-members-to">
               @governor.DateOfTermEnd.ShowDateStringOrReplaceWithText()
             </td>
           </tr>
@@ -163,6 +169,7 @@
   }
   else
   {
-    <span>No Historic Members</span>
+    <h3 class="govuk-heading-m govuk-!-margin-bottom-3">Historic members</h3>
+    <p class="govuk-body govuk-!-margin-bottom-0">No Historic members</p>
   }
 </section>
