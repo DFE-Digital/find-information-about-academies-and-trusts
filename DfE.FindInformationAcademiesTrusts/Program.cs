@@ -1,3 +1,4 @@
+using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Azure.Identity;
@@ -275,13 +276,13 @@ internal static class Program
 
             if (string.IsNullOrWhiteSpace(kvProtectionPath))
             {
-                throw new ApplicationException("DataProtection path is not set");
+                throw new InvalidOperationException("DataProtection:Path is undefined or empty");
             }
 
             var kvProtectionPathDir = new DirectoryInfo(kvProtectionPath);
             if (!kvProtectionPathDir.Exists || kvProtectionPathDir.Attributes.HasFlag(FileAttributes.ReadOnly))
             {
-                throw new ApplicationException($"DataProtection path '{kvProtectionPath}' cannot be written to");
+                throw new ReadOnlyException($"DataProtection path '{kvProtectionPath}' cannot be written to");
             }
 
             dp.PersistKeysToFileSystem(kvProtectionPathDir);
