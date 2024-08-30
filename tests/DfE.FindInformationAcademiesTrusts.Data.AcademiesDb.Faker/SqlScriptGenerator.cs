@@ -1,5 +1,6 @@
 using System.Reflection;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.OldCypressTestSupport;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -62,23 +63,9 @@ public static class SqlScriptGenerator
         insertScripts.Add("SET IDENTITY_INSERT [ops].[ApplicationEvent] OFF");
         insertScripts.AddRange(GenerateSqlInsertScriptSegmentsFor(fakeData.ApplicationSettings, context));
 
-        insertScripts.AddRange(GetEmptyTrustSqlInsertScript());
+        insertScripts.AddRange(HardCodedData.GetScripts());
 
         File.WriteAllLines(outputFilePath, insertScripts);
-    }
-
-    private static IEnumerable<string> GetEmptyTrustSqlInsertScript()
-    {
-        return new[]
-        {
-            "-- Trust with minimal information",
-            """
-            INSERT INTO [gias].[Group]
-                ([Group UID], [Group Id],[Group Name], [Group Type], [Group Status (code)]) 
-            VALUES
-                (991313, 'TR3943', 'THE EMPTY TRUST', 'Single-academy trust', 'OPEN')
-            """
-        };
     }
 
     private static List<string> GenerateSqlInsertScriptSegmentsFor<T>(List<T> rowObjects,

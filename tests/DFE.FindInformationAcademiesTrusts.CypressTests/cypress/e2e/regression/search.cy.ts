@@ -52,7 +52,7 @@ describe("Testing the search trust functionality", () => {
 
         searchTrustPage.search();
 
-        searchTrustPage.hasNumberOfResults(`10 results for "st mary"`);
+        searchTrustPage.hasNumberOfResults(`17 results for "st mary"`);
 
         cy.excuteAccessibilityTests();
 
@@ -88,7 +88,7 @@ describe("Testing the search trust functionality", () => {
             .enterSearchText("trust")
             .search();
 
-        searchTrustPage.hasNumberOfResults(`48 results for "trust"`);
+        searchTrustPage.hasNumberOfResults(`69 results for "trust"`);
 
         let trustsPageOne: Array<string> = [];
         let trustsPageTwo: Array<string> = [];

@@ -50,7 +50,6 @@ public static class Data
         new("UNITY LEARNING TRUST"),
         new("ADEPT ACADEMY TRUST"),
         new("EXCELLENCE MULTI-ACADEMY TRUST"),
-        new("PROSPERITY EDUCATION TRUST"),
         new("PATHFINDER MULTI-ACADEMY TRUST"),
         new("VITALITY ACADEMY TRUST"),
         new("FORWARD MULTI-ACADEMY TRUST"),
@@ -61,11 +60,7 @@ public static class Data
         new("EMPOWER ACADEMY TRUST"),
         new("ILLUMINATE LEARNING TRUST"),
         new("CHALLENGER MULTI-ACADEMY TRUST"),
-        new("ST MARY'S ACADEMY TRUST", "Single-academy trust", schools: "St. Mary's Academy"),
         new("ST MARY'S ANGLICAN ACADEMY", "Single-academy trust", schools: "St. Mary's Anglican Academy"),
-        new("ST MARY'S CATHOLIC HIGH SCHOOL ACADEMY TRUST", "Single-academy trust",
-            schools: "St. Mary's Catholic High School Academy"),
-        new("ST MARY'S CATHOLIC PRIMARY SCHOOL", "Single-academy trust", schools: "St. Mary's Catholic Primary School"),
         new("ST MARY'S CATHOLIC PRIMARY SCHOOL (ACADEMY TRUST), SWINDON",
             "Single-academy trust", schools: "St. Mary's Catholic Primary School"),
         new("ST MARY'S CATHOLIC PRIMARY SCHOOL (HERRINGTHORPE), A CATHOLIC VOLUNTARY ACADEMY",
@@ -264,6 +259,6 @@ public static class Data
         "Middle Deemed Secondary",
         "16 Plus",
         "Not applicable",
-        "All-through",
+        "All-through"
     };
 }
