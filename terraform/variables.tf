@@ -360,6 +360,39 @@ variable "mssql_database_name" {
   type        = string
 }
 
+variable "mssql_firewall_ipv4_allow_list" {
+  description = "A list of IPv4 Addresses that require remote access to the MSSQL Server"
+  type = map(object({
+    start_ip_range : string,
+    end_ip_range : optional(string, "")
+  }))
+  default = {}
+}
+
+variable "mssql_server_public_access_enabled" {
+  description = "Enable public internet access to your MSSQL instance. Be sure to specify 'mssql_firewall_ipv4_allow_list' to restrict inbound connections"
+  type        = bool
+  default     = false
+}
+
+variable "mssql_azuread_admin_username" {
+  description = "Username of a User within Azure AD that you want to assign as the SQL Server Administrator"
+  type        = string
+  default     = ""
+}
+
+variable "mssql_azuread_admin_object_id" {
+  description = "Object ID of a User within Azure AD that you want to assign as the SQL Server Administrator"
+  type        = string
+  default     = ""
+}
+
+variable "mssql_managed_identity_assign_role" {
+  description = "Assign the 'Storage Blob Data Contributor' Role to the SQL Server User-Assigned Managed Identity. Note: If you do not have 'Microsoft.Authorization/roleAssignments/write' permission, you will need to manually assign the 'Storage Blob Data Contributor' Role to the identity"
+  type        = bool
+  default     = false
+}
+
 variable "key_vault_access_ipv4" {
   description = "List of IPv4 Addresses that are permitted to access the Key Vault"
   type        = list(string)
