@@ -3,7 +3,7 @@ ARG NODEJS_IMAGE_TAG=18-bullseye-slim
 ARG DOTNET_SDK=8.0
 
 # Stage 1 - Build frontend assets
-FROM node:${NODEJS_IMAGE_TAG} as assets
+FROM node:${NODEJS_IMAGE_TAG} AS assets
 COPY . /repo
 WORKDIR /repo/DfE.FindInformationAcademiesTrusts
 RUN npm install
