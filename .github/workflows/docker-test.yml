@@ -34,12 +34,12 @@ jobs:
           push: false
 
       - name: Export docker image as tar
-        run: docker save -o ${{ matrix.image }}.tar ${{ steps.build.outputs.imageid }}
+        run: docker save -o ${{ steps.build.outputs.imageid }}.tar ${{ steps.build.outputs.imageid }}
 
       - name: Scan Docker image for CVEs
         uses: aquasecurity/trivy-action@0.20.0
         with:
-          input: ${{ matrix.image }}.tar
+          input: ${{ steps.build.outputs.imageid }}.tar
           format: 'sarif'
           output: 'trivy-results.sarif'
           limit-severities-for-sarif: true
