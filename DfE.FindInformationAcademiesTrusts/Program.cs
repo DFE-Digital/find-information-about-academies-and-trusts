@@ -1,5 +1,7 @@
+using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using Azure.Identity;
 using DfE.FindInformationAcademiesTrusts.Authorization;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
@@ -19,6 +21,7 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.FeatureManagement;
@@ -67,6 +70,8 @@ internal static class Program
             });
 
             AddDependenciesTo(builder);
+
+            AddDataProtectionServices(builder);
 
             var app = builder.Build();
             ConfigureHttpRequestPipeline(app);
@@ -256,6 +261,33 @@ internal static class Program
                 options.Cookie.SameSite = SameSiteMode.None;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
+    }
+
+    private static void AddDataProtectionServices(WebApplicationBuilder builder)
+    {
+        // Setup basic Data Protection and persist keys.xml to local file system
+        var dp = builder.Services.AddDataProtection();
+
+        // If a Key Vault Key URI is defined, expect to encrypt the keys.xml
+        var kvProtectionKeyUri = builder.Configuration.GetValue<string>("DataProtection:KeyVaultKey");
+        if (!string.IsNullOrWhiteSpace(kvProtectionKeyUri))
+        {
+            var kvProtectionPath = builder.Configuration.GetValue<string>("DataProtection:Path");
+
+            if (string.IsNullOrWhiteSpace(kvProtectionPath))
+            {
+                throw new InvalidOperationException("DataProtection:Path is undefined or empty");
+            }
+
+            var kvProtectionPathDir = new DirectoryInfo(kvProtectionPath);
+            if (!kvProtectionPathDir.Exists || kvProtectionPathDir.Attributes.HasFlag(FileAttributes.ReadOnly))
+            {
+                throw new ReadOnlyException($"DataProtection path '{kvProtectionPath}' cannot be written to");
+            }
+
+            dp.PersistKeysToFileSystem(kvProtectionPathDir);
+            dp.ProtectKeysWithAzureKeyVault(new Uri(kvProtectionKeyUri), new DefaultAzureCredential());
+        }
     }
 
     private static void ReconfigureLogging(WebApplicationBuilder builder)

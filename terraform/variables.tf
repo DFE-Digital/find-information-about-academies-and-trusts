@@ -433,3 +433,8 @@ variable "statuscake_contact_group_email_addresses" {
   type        = list(string)
   default     = []
 }
+
+variable "enable_container_app_file_share" {
+  description = "Create an Azure Storage Account and File Share to be mounted to the Container Apps"
+  type        = bool
+}
