@@ -26,7 +26,7 @@ services:
     networks:
       - test-ci
     volumes:
-      - ../tests/DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker/data:/data
+      - ../tests/DFE.FindInformationAcademiesTrusts.CypressTests/data:/data
 
 networks:
   test-ci:
