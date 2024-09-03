@@ -72,7 +72,7 @@ jobs:
 
     - name: Install SonarCloud scanner
       if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-      run: dotnet tool install --global dotnet-sonarscanner
+      run: dotnet tool install --global dotnet-sonarscanner --version 8.0.1
 
     - name: Install dotnet-coverage
       run: dotnet tool install --global dotnet-coverage

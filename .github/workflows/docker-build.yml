@@ -4,18 +4,11 @@ on:
   pull_request:
     paths:
       - docker/Dockerfile
-      - docker/FakeDataGenerator.Dockerfile
     types: [opened, synchronize]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        image: [
-          "Dockerfile",
-          "FakeDataGenerator.Dockerfile"
-        ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,7 +19,7 @@ jobs:
       - name: Build docker image
         uses: docker/build-push-action@v6
         with:
-          file: './docker/${{ matrix.image }}'
+          file: './docker/Dockerfile'
           secrets: github_token=${{ secrets.GITHUB_TOKEN }}
           cache-from: type=gha
           cache-to: type=gha

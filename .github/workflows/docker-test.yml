@@ -7,12 +7,6 @@ on:
 jobs:
   scan:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        image: [
-          "Dockerfile",
-          "FakeDataGenerator.Dockerfile"
-        ]
     outputs:
       image: ${{ steps.build.outputs.imageid }}
     steps:
@@ -26,7 +20,6 @@ jobs:
         uses: docker/build-push-action@v6
         id: build
         with:
-          file: './docker/${{ matrix.image }}'
           secrets: github_token=${{ secrets.GITHUB_TOKEN }}
           load: true
           cache-from: type=gha
@@ -34,12 +27,12 @@ jobs:
           push: false
 
       - name: Export docker image as tar
-        run: docker save -o ${{ matrix.image }}.tar ${{ steps.build.outputs.imageid }}
+        run: docker save -o ${{ github.ref_name }}.tar ${{ steps.build.outputs.imageid }}
 
       - name: Scan Docker image for CVEs
         uses: aquasecurity/trivy-action@0.20.0
         with:
-          input: ${{ matrix.image }}.tar
+          input: ${{ github.ref_name }}.tar
           format: 'sarif'
           output: 'trivy-results.sarif'
           limit-severities-for-sarif: true

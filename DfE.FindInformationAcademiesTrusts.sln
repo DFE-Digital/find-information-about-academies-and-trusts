@@ -12,8 +12,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data", "DfE.FindInformationAcademiesTrusts.Data\DfE.FindInformationAcademiesTrusts.Data.csproj", "{DC3BD883-B6DA-4C54-85CB-2CD5D261E8FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker", "tests\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker\DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Faker.csproj", "{CE03C6BD-0160-4265-A287-3EC70103E4C9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data.UnitTests", "tests\DfE.FindInformationAcademiesTrusts.Data.UnitTests\DfE.FindInformationAcademiesTrusts.Data.UnitTests.csproj", "{90AA9D53-B5B0-489F-AEC1-23551EA04BC5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data.Hardcoded", "DfE.FindInformationAcademiesTrusts.Data.Hardcoded\DfE.FindInformationAcademiesTrusts.Data.Hardcoded.csproj", "{01247163-9E65-48FB-9ACE-1A8BE995D1AC}"
@@ -46,10 +44,6 @@ Global
 		{DC3BD883-B6DA-4C54-85CB-2CD5D261E8FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC3BD883-B6DA-4C54-85CB-2CD5D261E8FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC3BD883-B6DA-4C54-85CB-2CD5D261E8FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CE03C6BD-0160-4265-A287-3EC70103E4C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE03C6BD-0160-4265-A287-3EC70103E4C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE03C6BD-0160-4265-A287-3EC70103E4C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE03C6BD-0160-4265-A287-3EC70103E4C9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{90AA9D53-B5B0-489F-AEC1-23551EA04BC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{90AA9D53-B5B0-489F-AEC1-23551EA04BC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90AA9D53-B5B0-489F-AEC1-23551EA04BC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -66,7 +60,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{0A3416F9-33DB-4870-97EA-7CFF8D828031} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
 		{E20D30CB-8EB1-453B-8C49-77CAFBF16A13} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
-		{CE03C6BD-0160-4265-A287-3EC70103E4C9} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
 		{90AA9D53-B5B0-489F-AEC1-23551EA04BC5} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
 		{1DF57DAB-F9BA-4810-BD35-BB59996FF7BB} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
 	EndGlobalSection
