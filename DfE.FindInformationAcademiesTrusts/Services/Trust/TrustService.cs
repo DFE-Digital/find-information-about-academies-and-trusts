@@ -65,7 +65,7 @@ public class TrustService(
         return trustDetailsDto;
     }
 
-    public async Task<TrustGovernanceServiceModel> GetTrustGovernanceAsync(string uid)
+    public async Task<TrustGovernanceServiceModel> GetTrustGoverenaceAsync(string uid)
     {
         var (trustLeadership, members, trustees, historicMembers) = await trustRepository.GetTrustGovernanceAsync(uid);
         var governanceDto = new TrustGovernanceServiceModel(trustLeadership, members, trustees, historicMembers);
