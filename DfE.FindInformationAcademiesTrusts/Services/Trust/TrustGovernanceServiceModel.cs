@@ -1,6 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 
-namespace DfE.FindInformationAcademiesTrusts.ServiceModels;
+namespace DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 public record TrustGovernanceServiceModel(
     Governor[] TrustLeadership,
