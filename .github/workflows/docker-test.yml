@@ -20,6 +20,7 @@ jobs:
         uses: docker/build-push-action@v6
         id: build
         with:
+          file: './docker/Dockerfile'
           secrets: github_token=${{ secrets.GITHUB_TOKEN }}
           load: true
           cache-from: type=gha
