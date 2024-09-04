@@ -126,7 +126,7 @@ public class TrustRepositoryTests
     }
 
     [Fact]
-    public async Task GetTrustGovernanceAsync_ShouldReturnEmpty_WithNoGovernenceSet()
+    public async Task GetTrustGovernanceAsync_ShouldReturnEmpty_WithNoGovernanceSet()
     {
         var result = await _sut.GetTrustGovernanceAsync("1234");
 
@@ -274,7 +274,7 @@ public class TrustRepositoryTests
     }
 
     [Fact]
-    public async Task GetTrustGovernanceAsync_ShouldSortHistoricAndCurrentGoverors()
+    public async Task GetTrustGovernanceAsync_ShouldSortHistoricAndCurrentGovernors()
     {
         var startDate = DateTime.Today.AddYears(-3);
         var yesterday = DateTime.Today.AddDays(-1);
