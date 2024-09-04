@@ -258,7 +258,7 @@ class GovernancePage {
     private convertDataSortValueToDate(element: JQuery<HTMLElement>) {
         const sortValue = element.attr('data-sort-value');
         if (!sortValue) {
-            throw "Sort value not found on element";
+            throw new Error("Sort value not found on element");
         }
         const year = parseInt(sortValue.substring(0, 4));
         const month = parseInt(sortValue.substring(4, 6));
