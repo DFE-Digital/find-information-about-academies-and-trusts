@@ -21,8 +21,17 @@ describe("Testing the components of the Governance page", () => {
                 .checkTrusteeColumnHeaders()
                 .checkMembersColumnHeaders()
                 .checkHistoricMembersColumnHeaders();
+        })
 
-            // Check table sorting is working
+        it("The correct roles are selected for the trust leadership table", () => {
+            governancePage.checkRolesOnTrustLeadershipTable()
+        })
+
+        it("The correct data is show on the correct tables, historic data is only on the historic table", () => {
+            governancePage.checkDatesInTablesAreValid();
+        })
+
+        it("Table sorting is working", () => {
             governancePage.checkTrustLeadershipSorting();
             governancePage.checkTrusteesSorting();
             governancePage.checkMembersSorting();
