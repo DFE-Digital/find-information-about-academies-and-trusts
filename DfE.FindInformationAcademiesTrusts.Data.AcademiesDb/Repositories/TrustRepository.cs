@@ -1,6 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Models;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using Microsoft.EntityFrameworkCore;
@@ -64,7 +63,8 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
     {
         var governors = await academiesDbContext.GiasGovernances
             .Where(g => g.Uid == uid)
-            .Select(governance => new Governor(governance.Gid!, governance.Uid!, GetFullName(governance),
+            .Select(governance => new Governor(governance.Gid!, governance.Uid!,
+                GetFullName(governance.Forename1!, governance.Forename2!, governance.Surname!),
                 governance.Role!, governance.AppointingBody!, governance.DateOfAppointment.ParseAsNullableDate(),
                 governance.DateTermOfOfficeEndsEnded.ParseAsNullableDate(), null))
             .ToArrayAsync();
@@ -87,15 +87,15 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
             .SingleOrDefaultAsync() ?? string.Empty;
     }
 
-    private static string GetFullName(GiasGovernance giasGovernance)
+    private static string GetFullName(string forename1, string forename2, string surname)
     {
-        var fullName = giasGovernance.Forename1!; //Forename1 is always populated
+        var fullName = forename1; //Forename1 is always populated
 
-        if (!string.IsNullOrWhiteSpace(giasGovernance.Forename2))
-            fullName += $" {giasGovernance.Forename2}";
+        if (!string.IsNullOrWhiteSpace(forename2))
+            fullName += $" {forename2}";
 
-        if (!string.IsNullOrWhiteSpace(giasGovernance.Surname))
-            fullName += $" {giasGovernance.Surname}";
+        if (!string.IsNullOrWhiteSpace(surname))
+            fullName += $" {surname}";
 
         return fullName;
     }
