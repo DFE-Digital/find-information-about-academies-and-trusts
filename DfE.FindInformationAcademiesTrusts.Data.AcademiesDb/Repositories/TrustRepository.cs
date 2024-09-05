@@ -58,11 +58,44 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
         return trustDetailsDto;
     }
 
+    public async Task<TrustGovernance> GetTrustGovernanceAsync(string uid)
+    {
+        var governors = await academiesDbContext.GiasGovernances
+            .Where(g => g.Uid == uid)
+            .Select(governance => new Governor(governance.Gid!, governance.Uid!,
+                GetFullName(governance.Forename1!, governance.Forename2!, governance.Surname!),
+                governance.Role!, governance.AppointingBody!, governance.DateOfAppointment.ParseAsNullableDate(),
+                governance.DateTermOfOfficeEndsEnded.ParseAsNullableDate(), null))
+            .ToArrayAsync();
+        var governersDto = new TrustGovernance(
+            governors.Where(governor => governor is { IsCurrentGovernor: true, HasRoleLeadership: true }).ToArray(),
+            governors.Where(governor => governor is { IsCurrentGovernor: true, HasRoleMemeber: true })
+                .ToArray(),
+            governors.Where(governor => governor is { IsCurrentGovernor: true, HasRoleTrustee: true })
+                .ToArray(),
+            governors.Where(governor => governor.IsCurrentGovernor is false).ToArray()
+        );
+        return governersDto;
+    }
+
     private async Task<string> GetRegionAndTerritoryAsync(string uid)
     {
         return await academiesDbContext.MstrTrusts
             .Where(m => m.GroupUid == uid)
             .Select(m => m.GORregion)
             .SingleOrDefaultAsync() ?? string.Empty;
+    }
+
+    private static string GetFullName(string forename1, string forename2, string surname)
+    {
+        var fullName = forename1; //Forename1 is always populated
+
+        if (!string.IsNullOrWhiteSpace(forename2))
+            fullName += $" {forename2}";
+
+        if (!string.IsNullOrWhiteSpace(surname))
+            fullName += $" {surname}";
+
+        return fullName;
     }
 }
