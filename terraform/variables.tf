@@ -438,3 +438,9 @@ variable "enable_container_app_file_share" {
   description = "Create an Azure Storage Account and File Share to be mounted to the Container Apps"
   type        = bool
 }
+
+variable "storage_account_ipv4_allow_list" {
+  description = "A list of public IPv4 address to grant access to the Storage Account"
+  type        = list(string)
+  default     = []
+}
