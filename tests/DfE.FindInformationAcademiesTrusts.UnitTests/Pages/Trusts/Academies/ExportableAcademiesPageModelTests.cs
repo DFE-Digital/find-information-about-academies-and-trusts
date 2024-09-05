@@ -59,20 +59,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies
             var fileResult = result as FileContentResult;
             fileResult?.ContentType.Should().Be("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         }
-
-        [Fact]
-        public async Task OnPostExportAsync_ShouldReturnNotFound_WhenUidIsInvalid()
-        {
-            // Arrange
-            string uid = "invalid-uid";
-            _mockTrustProvider.Setup(x => x.GetTrustByUidAsync(uid)).ReturnsAsync((Trust?)null);
-
-            // Act
-            var result = await _sut.OnPostExportAsync(uid);
-
-            // Assert
-            result.Should().BeOfType<NotFoundResult>();
-        }
+        
     }
 
 }

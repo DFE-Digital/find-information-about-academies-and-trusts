@@ -6,16 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies
 {
-    public abstract class ExportableAcademiesPageModel : TrustsAreaModel
+    public abstract class ExportableAcademiesPageModel(
+        ITrustProvider trustProvider,
+        IDataSourceService dataSourceService,
+        ITrustService trustService,
+        IExportService exportService,
+        ILogger<ExportableAcademiesPageModel> logger)
+        : TrustsAreaModel(trustProvider, dataSourceService, trustService, logger, "Academies in this trust")
     {
-        protected IExportService ExportService { get; }
-
-        protected ExportableAcademiesPageModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
-            ITrustService trustService, IExportService exportService, ILogger<ExportableAcademiesPageModel> logger)
-            : base(trustProvider, dataSourceService, trustService, logger, "Academies in this trust")
-        {
-            ExportService = exportService;
-        }
+        protected IExportService ExportService { get; } = exportService;
 
         public virtual async Task<IActionResult> OnPostExportAsync(string uid)
         {
