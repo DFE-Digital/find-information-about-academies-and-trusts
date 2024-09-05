@@ -1,14 +1,14 @@
 .export-button--with-icon {
-    display: flex;
-    align-items: center;
-    padding: 10px 15px;
-    font-size: 16px;
-    background-color: #f8f8f8;
-    border: 1px solid #dcdcdc;
-    color: #0b0c0c;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #f8f8f8;
+  border: 1px solid #dcdcdc;
+  color: #0b0c0c;
 }
 
 .export-button__icon {
-    margin-right: 8px;
-    fill: currentcolor; /* Ensures icon inherits the text color */
+  margin-right: 8px;
+  fill: currentcolor;
 }
