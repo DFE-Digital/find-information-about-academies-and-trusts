@@ -229,6 +229,12 @@ internal static class Program
     {
         if (builder.Environment.IsLocalDevelopment())
             builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly());
+
+        // Retrieve the connection string
+        string? connectionString = builder.Configuration.GetConnectionString("AppConfig");
+        // Load App Configuration from Azure
+        builder.Configuration.AddAzureAppConfiguration(connectionString, true);
+
         builder.Services.AddOptions<TestOverrideOptions>()
             .Bind(builder.Configuration.GetSection(TestOverrideOptions.ConfigurationSection));
         builder.Services.AddOptions<ApplicationInsightsOptions>()
