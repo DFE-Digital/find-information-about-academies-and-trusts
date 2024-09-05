@@ -438,3 +438,15 @@ variable "enable_container_app_file_share" {
   description = "Create an Azure Storage Account and File Share to be mounted to the Container Apps"
   type        = bool
 }
+
+variable "enable_app_configuration" {
+  description = "Deploy an Azure App Configuration resource"
+  type        = bool
+  default     = false
+}
+
+variable "app_configuration_sku" {
+  description = "The SKU name of the App Configuration. Possible values are free and standard. Defaults to free."
+  type        = string
+  default     = "free"
+}
