@@ -232,12 +232,23 @@ internal static class Program
             builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly());
 
         // Retrieve the connection string
-        string? connectionString = builder.Configuration.GetConnectionString("AppConfig");
+        string? appConfigConnectionString = builder.Configuration.GetConnectionString("AppConfig");
+
         // Load App Configuration and Feature Flags from Azure
-        builder.Configuration.AddAzureAppConfiguration(options =>
-            options.Connect(connectionString).UseFeatureFlags(),
-            true
-        );
+        if (!string.IsNullOrEmpty(appConfigConnectionString))
+        {
+            // Check to see if a Managed Identity has been set
+            string? azureClientId = builder.Configuration.GetSection("AZURE_CLIENT_ID").Value;
+
+            // Register App Configuration
+            builder.Configuration.AddAzureAppConfiguration(options =>
+                options.Connect(
+                    new Uri(appConfigConnectionString),
+                    new ManagedIdentityCredential(azureClientId)
+                ).UseFeatureFlags(),
+                true
+            );
+        }
 
         builder.Services.AddOptions<TestOverrideOptions>()
             .Bind(builder.Configuration.GetSection(TestOverrideOptions.ConfigurationSection));
