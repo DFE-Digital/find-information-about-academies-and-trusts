@@ -87,6 +87,22 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
         return ofstedRatings.ToDictionary(o => o.Urn.ToString(), o => o);
     }
 
+    public async Task<AcademyPupilNumbers[]> GetAcademiesInTrustPupilNumbersAsync(string uid)
+    {
+        return await academiesDbContext.GiasGroupLinks
+            .Where(gl => gl.GroupUid == uid)
+            .Join(academiesDbContext.GiasEstablishments,
+                gl => gl.Urn!, e => e.Urn.ToString(),
+                (_, e) =>
+                    new AcademyPupilNumbers(e.Urn.ToString(),
+                        e.EstablishmentName,
+                        e.PhaseOfEducationName,
+                        new AgeRange(e.StatutoryLowAge!, e.StatutoryHighAge!),
+                        e.NumberOfPupils.ParseAsNullableInt(),
+                        e.SchoolCapacity.ParseAsNullableInt()))
+            .ToArrayAsync();
+    }
+
     public async Task<int> GetNumberOfAcademiesInTrustAsync(string uid)
     {
         return await academiesDbContext.GiasGroupLinks.CountAsync(gl => gl.GroupUid == uid && gl.Urn != null);
