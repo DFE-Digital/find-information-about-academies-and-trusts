@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
@@ -8,13 +9,15 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
 public class OfstedRatingsModel : TrustsAreaModel, IAcademiesAreaModel
 {
-    public Trust Trust { get; set; } = default!;
+    public AcademyOfstedServiceModel[] Academies { get; set; } = default!;
+    private IAcademyService AcademyService { get; }
 
     public OfstedRatingsModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
-        ILogger<OfstedRatingsModel> logger, ITrustService trustService) : base(trustProvider, dataSourceService,
-        trustService, logger, "Academies in this trust")
+        ILogger<OfstedRatingsModel> logger, ITrustService trustService, IAcademyService academyService) : base(
+        trustProvider, dataSourceService, trustService, logger, "Academies in this trust")
     {
         PageTitle = "Academies Ofsted ratings";
+        AcademyService = academyService;
     }
 
     public override async Task<IActionResult> OnGetAsync()
@@ -23,7 +26,7 @@ public class OfstedRatingsModel : TrustsAreaModel, IAcademiesAreaModel
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        Trust = (await TrustProvider.GetTrustByUidAsync(Uid))!;
+        Academies = await AcademyService.GetAcademiesInTrustOfstedAsync(Uid);
 
         DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),
             new[] { "Date joined trust" }));

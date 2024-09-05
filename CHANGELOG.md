@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - Update the sorting behaviour for dates on the tables
+- Reduced the load time of the Academies in trust Ofsted page
 
 ## [Release-4][release-4] (production-2024-08-22.2794)
 

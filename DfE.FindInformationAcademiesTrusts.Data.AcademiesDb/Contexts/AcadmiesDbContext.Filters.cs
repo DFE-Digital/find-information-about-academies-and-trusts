@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
@@ -25,6 +26,12 @@ public partial class AcademiesDbContext
         });
 
         modelBuilder.Entity<GiasGroupLink>(entity =>
+        {
+            entity.HasQueryFilter(gl =>
+                gl.Urn != null);
+        });
+
+        modelBuilder.Entity<MisEstablishment>(entity =>
         {
             entity.HasQueryFilter(gl =>
                 gl.Urn != null);

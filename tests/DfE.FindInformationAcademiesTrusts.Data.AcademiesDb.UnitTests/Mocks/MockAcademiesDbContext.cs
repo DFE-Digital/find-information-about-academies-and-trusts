@@ -77,6 +77,34 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         _giasGroupLinks.Add(giasGroupLink);
     }
 
+    public void AddGiasGroupLinks(IEnumerable<GiasGroupLink> giasGroupLink)
+    {
+        _giasGroupLinks.AddRange(giasGroupLink);
+    }
+
+    public void AddGiasGroupLinksForGiasEstablishmentsToGiasGroup(IEnumerable<GiasEstablishment> giasEstablishments,
+        GiasGroup giasGroup)
+    {
+        var newGroupLinks = giasEstablishments
+            .Select(giasEstablishment => new GiasGroupLink
+            {
+                GroupUid = giasGroup.GroupUid,
+                Urn = giasEstablishment.Urn.ToString(),
+                GroupType = giasGroup.GroupType
+            }).ToArray();
+        _giasGroupLinks.AddRange(newGroupLinks);
+    }
+
+    public void AddMisEstablishments(IEnumerable<MisEstablishment> misEstablishments)
+    {
+        _misEstablishments.AddRange(misEstablishments);
+    }
+    
+    public void AddMisFurtherEducationEstablishments(IEnumerable<MisFurtherEducationEstablishment> misFurtherEducationEstablishments)
+    {
+        _misFurtherEducationEstablishments.AddRange(misFurtherEducationEstablishments);
+    }
+
     public GiasEstablishment AddGiasEstablishment(int urn, string? establishmentName = "my academy")
     {
         var giasEstablishment = new GiasEstablishment

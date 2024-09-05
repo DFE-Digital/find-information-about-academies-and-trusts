@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 
@@ -31,6 +32,32 @@ public class AcademyServiceTests
         var result = await _sut.GetAcademiesInTrustDetailsAsync(uid);
 
         result.Should().BeOfType<AcademyDetailsServiceModel[]>();
+        result.Should().BeEquivalentTo(academies);
+    }
+
+    [Fact]
+    public async Task GetAcademiesInTrustOfstedAsync_should_return_mapped_result_from_repository()
+    {
+        const string uid = "1234";
+        var academies = new[]
+        {
+            new AcademyOfsted("1", "Academy 1", new DateTime(2022, 12, 1),
+                new OfstedRating(OfstedRatingScore.Good, new DateTime(2023, 1, 1)),
+                new OfstedRating(OfstedRatingScore.RequiresImprovement, new DateTime(2023, 2, 1))),
+            new AcademyOfsted("2", "Academy 2", new DateTime(2022, 11, 2),
+                new OfstedRating(OfstedRatingScore.Good, new DateTime(2023, 1, 2)),
+                new OfstedRating(OfstedRatingScore.RequiresImprovement, new DateTime(2023, 3, 1))),
+            new AcademyOfsted("3", "Academy 3", new DateTime(2022, 10, 3),
+                new OfstedRating(OfstedRatingScore.Good, new DateTime(2023, 1, 3)),
+                new OfstedRating(OfstedRatingScore.RequiresImprovement, new DateTime(2023, 4, 1)))
+        };
+
+        _mockAcademyRepository.Setup(a => a.GetAcademiesInTrustOfstedAsync(uid))
+            .ReturnsAsync(academies);
+
+        var result = await _sut.GetAcademiesInTrustOfstedAsync(uid);
+
+        result.Should().BeOfType<AcademyOfstedServiceModel[]>();
         result.Should().BeEquivalentTo(academies);
     }
 }
