@@ -1,4 +1,5 @@
 ﻿using ClosedXML.Excel;
+using DfE.FindInformationAcademiesTrusts.Data;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.Export
 {
@@ -15,8 +16,8 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
             var headers = new List<string>
             {
                 "School Name", "URN", "Local Authority", "Type", "Rural or Urban", "Date joined",
-                "Previous Ofsted Rating", "Date of Previous Ofsted", "Before/After Joining",
-                "Current Ofsted Rating", "Date of Current Ofsted", "Before/After Joining",
+                "Previous Ofsted Rating", "Before/After Joining","Date of Previous Ofsted",
+                "Current Ofsted Rating", "Before/After Joining", "Date of Current Ofsted",
                 "Phase of Education", "Pupil Numbers", "Capacity", "% Full", "Pupils eligible for Free School Meals"
             };
 
@@ -29,13 +30,13 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
                 academy.LocalAuthority ?? string.Empty,
                 academy.TypeOfEstablishment ?? string.Empty,
                 academy.UrbanRural ?? string.Empty,
-                academy.DateAcademyJoinedTrust.ToString("yyyy-MM-dd") ?? string.Empty,
-                academy.PreviousOfstedRating?.OfstedRatingScore.ToString() ?? string.Empty,
-                academy.PreviousOfstedRating?.InspectionEndDate?.ToString("yyyy-MM-dd") ?? string.Empty,
-                academy.PreviousOfstedRating?.InspectionEndDate < academy.DateAcademyJoinedTrust ? "Before Joining" : "After Joining",
-                academy.CurrentOfstedRating?.OfstedRatingScore.ToString() ?? string.Empty,
+                academy.DateAcademyJoinedTrust.ToString("yyyy-MM-dd"),
+                academy.PreviousOfstedRating.OfstedRatingScore.ToString(),
+                IsOfstedRatingBeforeOrAfterJoining(academy.PreviousOfstedRating.OfstedRatingScore, academy.DateAcademyJoinedTrust, academy.PreviousOfstedRating.InspectionEndDate),
+                academy.PreviousOfstedRating.InspectionEndDate?.ToString("yyyy-MM-dd") ?? string.Empty,
+                academy.CurrentOfstedRating.OfstedRatingScore.ToString(),
+                IsOfstedRatingBeforeOrAfterJoining(academy.CurrentOfstedRating.OfstedRatingScore, academy.DateAcademyJoinedTrust, academy.CurrentOfstedRating.InspectionEndDate),
                 academy.CurrentOfstedRating?.InspectionEndDate?.ToString("yyyy-MM-dd") ?? string.Empty,
-                academy.CurrentOfstedRating?.InspectionEndDate < academy.DateAcademyJoinedTrust ? "Before Joining" : "After Joining",
                 academy.PhaseOfEducation ?? string.Empty,
                 academy.NumberOfPupils?.ToString() ?? string.Empty,
                 academy.SchoolCapacity?.ToString() ?? string.Empty,
@@ -44,6 +45,15 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
             ]);
 
             return GenerateSpreadsheet(trustSummary, academies, headers, dataExtractor);
+        }
+
+        private static string IsOfstedRatingBeforeOrAfterJoining(OfstedRatingScore ofstedRatingScore, DateTime dateAcademyJoinedTrust, DateTime? inspectionEndDate )
+        {
+            return ofstedRatingScore != OfstedRatingScore.None 
+                ? inspectionEndDate < dateAcademyJoinedTrust
+                    ? "Before Joining" 
+                    : "After Joining" 
+                : string.Empty;
         }
 
         private static byte[] GenerateSpreadsheet(Trust.TrustSummaryServiceModel? trustSummary, Data.Academy[]? academies, List<string> headers, Func<Data.Academy, object[]> dataExtractor)
