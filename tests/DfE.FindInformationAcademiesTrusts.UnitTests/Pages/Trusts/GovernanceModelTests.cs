@@ -69,7 +69,7 @@ public class GovernanceModelTests
 
     public GovernanceModelTests()
     {
-        _mockTrustRepository.Setup(t => t.GetTrustGoverenaceAsync(TestUid))
+        _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync(TestUid))
             .ReturnsAsync(DummyTrustGovernanceServiceModel);
         _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(TestUid))
             .ReturnsAsync(new TrustSummaryServiceModel(TestUid, "My trust", "", 0));
@@ -112,7 +112,7 @@ public class GovernanceModelTests
     public async Task OnGetAsync_sets_Governance_Service()
     {
         await _sut.OnGetAsync();
-        _mockTrustRepository.Verify(e => e.GetTrustGoverenaceAsync(TestUid), Times.Once);
+        _mockTrustRepository.Verify(e => e.GetTrustGovernanceAsync(TestUid), Times.Once);
         _sut.TrustGovernance.Should().BeEquivalentTo(DummyTrustGovernanceServiceModel);
     }
 }

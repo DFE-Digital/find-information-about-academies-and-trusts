@@ -21,7 +21,7 @@ public class GovernanceModel(
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        TrustGovernance = await TrustService.GetTrustGoverenaceAsync(Uid);
+        TrustGovernance = await TrustService.GetTrustGovernanceAsync(Uid);
 
         DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),
             new List<string> { "Governance" }));

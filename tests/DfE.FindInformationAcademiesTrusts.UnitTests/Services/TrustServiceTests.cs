@@ -182,7 +182,7 @@ public class TrustServiceTests
         _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync("1234"))
             .ReturnsAsync(new TrustGovernance([leader], [member], [trustee], [historic]));
 
-        var result = await _sut.GetTrustGoverenaceAsync("1234");
+        var result = await _sut.GetTrustGovernanceAsync("1234");
 
         result.HistoricMembers.Should().ContainSingle().Which.Should().BeEquivalentTo(historic);
         result.Members.Should().ContainSingle().Which.Should().BeEquivalentTo(member);
