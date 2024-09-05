@@ -1,6 +1,3 @@
-using System.Data;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using Azure.Identity;
 using DfE.FindInformationAcademiesTrusts.Authorization;
 using DfE.FindInformationAcademiesTrusts.Data;
