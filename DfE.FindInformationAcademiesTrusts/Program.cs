@@ -75,6 +75,7 @@ internal static class Program
 
             var app = builder.Build();
             ConfigureHttpRequestPipeline(app);
+            app.UseAzureAppConfiguration();
             app.Run();
         }
         catch (Exception ex)
@@ -232,8 +233,11 @@ internal static class Program
 
         // Retrieve the connection string
         string? connectionString = builder.Configuration.GetConnectionString("AppConfig");
-        // Load App Configuration from Azure
-        builder.Configuration.AddAzureAppConfiguration(connectionString, true);
+        // Load App Configuration and Feature Flags from Azure
+        builder.Configuration.AddAzureAppConfiguration(options =>
+            options.Connect(connectionString).UseFeatureFlags(),
+            true
+        );
 
         builder.Services.AddOptions<TestOverrideOptions>()
             .Bind(builder.Configuration.GetSection(TestOverrideOptions.ConfigurationSection));
