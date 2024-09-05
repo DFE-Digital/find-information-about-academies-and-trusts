@@ -39,8 +39,8 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
                 academy.PhaseOfEducation ?? string.Empty,
                 academy.NumberOfPupils?.ToString() ?? string.Empty,
                 academy.SchoolCapacity?.ToString() ?? string.Empty,
-                academy.PercentageFull?.ToString() ?? string.Empty,
-                academy.PercentageFreeSchoolMeals?.ToString() ?? string.Empty
+                academy.PercentageFull.HasValue ? $"{academy.PercentageFull}%" : string.Empty,
+                academy.PercentageFreeSchoolMeals.HasValue ? $"{academy.PercentageFreeSchoolMeals}%" : string.Empty
             ]);
 
             return GenerateSpreadsheet(trustSummary, academies, headers, dataExtractor);

@@ -1,18 +1,19 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
-public class PupilNumbersModel : TrustsAreaModel, IAcademiesAreaModel
+public class PupilNumbersModel : ExportableAcademiesPageModel, IAcademiesAreaModel
 {
     public Trust Trust { get; set; } = default!;
 
     public PupilNumbersModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
-        ILogger<PupilNumbersModel> logger, ITrustService trustService) : base(trustProvider, dataSourceService,
-        trustService, logger, "Academies in this trust")
+        ILogger<PupilNumbersModel> logger, ITrustService trustService, IExportService exportService) : base(trustProvider, dataSourceService,
+        trustService, exportService, logger)
     {
         PageTitle = "Academies pupil numbers";
     }

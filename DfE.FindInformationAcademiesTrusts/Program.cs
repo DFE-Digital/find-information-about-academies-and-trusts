@@ -16,6 +16,7 @@ using DfE.FindInformationAcademiesTrusts.Options;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -110,7 +111,8 @@ internal static class Program
 
         app.UseCookiePolicy(new CookiePolicyOptions
         {
-            Secure = CookieSecurePolicy.Always, HttpOnly = HttpOnlyPolicy.Always,
+            Secure = CookieSecurePolicy.Always,
+            HttpOnly = HttpOnlyPolicy.Always,
             MinimumSameSitePolicy = SameSiteMode.None
         });
 
@@ -213,6 +215,7 @@ internal static class Program
         builder.Services.AddScoped<IDataSourceService, DataSourceService>();
         builder.Services.AddScoped<ITrustService, TrustService>();
         builder.Services.AddScoped<IAcademyService, AcademyService>();
+        builder.Services.AddScoped<IExportService, ExportService>();
 
         builder.Services.AddScoped<ITrustFactory, TrustFactory>();
         builder.Services.AddScoped<IAcademyFactory, AcademyFactory>();
