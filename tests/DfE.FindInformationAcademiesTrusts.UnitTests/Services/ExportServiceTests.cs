@@ -7,12 +7,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
 {
     public class ExportServiceTests
     {
-        private readonly IExportService _sut;
-
-        public ExportServiceTests()
-        {
-            _sut = new ExportService();
-        }
+        private readonly ExportService _sut = new();
 
         [Fact]
         public void ExportAcademiesToSpreadsheetUsingProvider_ShouldGenerateCorrectHeaders()
