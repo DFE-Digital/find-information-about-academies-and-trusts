@@ -1,20 +1,21 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
-public class FreeSchoolMealsModel : TrustsAreaModel, IAcademiesAreaModel
+public class FreeSchoolMealsModel : ExportableAcademiesPageModel, IAcademiesAreaModel
 {
     private readonly IFreeSchoolMealsAverageProvider _freeSchoolMealsProvider;
     public Trust Trust { get; set; } = default!;
 
     public FreeSchoolMealsModel(ITrustProvider trustProvider,
         IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider, IDataSourceService dataSourceService,
-        ILogger<FreeSchoolMealsModel> logger, ITrustService trustService) :
-        base(trustProvider, dataSourceService, trustService, logger, "Academies in this trust")
+         ILogger<FreeSchoolMealsModel> logger, ITrustService trustService, IExportService exportService) :
+        base(trustProvider, dataSourceService, trustService, exportService, logger)
     {
         PageTitle = "Academies free school meals";
         _freeSchoolMealsProvider = freeSchoolMealsAverageProvider;
