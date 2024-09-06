@@ -2,19 +2,20 @@ using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
-public class OfstedRatingsModel : TrustsAreaModel, IAcademiesAreaModel
+public class OfstedRatingsModel : ExportableAcademiesPageModel, IAcademiesAreaModel
 {
     public AcademyOfstedServiceModel[] Academies { get; set; } = default!;
     private IAcademyService AcademyService { get; }
 
     public OfstedRatingsModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
-        ILogger<OfstedRatingsModel> logger, ITrustService trustService, IAcademyService academyService) : base(
-        trustProvider, dataSourceService, trustService, logger, "Academies in this trust")
+        ILogger<OfstedRatingsModel> logger, ITrustService trustService, IAcademyService academyService, IExportService exportService) : base(
+        trustProvider, dataSourceService, trustService, exportService, logger)
     {
         PageTitle = "Academies Ofsted ratings";
         AcademyService = academyService;

@@ -3,6 +3,7 @@
 @import "components/side-navigation";
 @import "components/table";
 @import "components/header-search";
+@import "components/export-button";
 
 .app-banner {
   @include govuk-responsive-padding(5, "top");
