@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Diagnostics;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
-public class ErrorModel(IHttpContextAccessor httpContextAccessor) : BasePageModel
+public class ErrorModel(IHttpContextAccessor httpContextAccessor) : ContentPageModel
 {
     public bool Is404Result { get; set; }
     public string OriginalPathAndQuery { get; set; } = "Unknown";

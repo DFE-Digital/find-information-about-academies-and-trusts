@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
-public class SearchModel : BasePageModel, IPageSearchFormModel, IPaginationModel
+public class SearchModel : ContentPageModel, IPageSearchFormModel, IPaginationModel
 {
     public record AutocompleteEntry(string Address, string Name, string? TrustId);
 

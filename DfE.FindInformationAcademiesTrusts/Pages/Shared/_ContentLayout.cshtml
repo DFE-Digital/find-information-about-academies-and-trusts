@@ -1,16 +1,21 @@
+@model ContentPageModel
+
 @{
   Layout = "_Layout";
 }
 
 <div class="govuk-main-wrapper app-main-wrapper">
   <div class="dfe-width-container">
-    <nav class="govuk-breadcrumbs govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-label="Breadcrumb">
-      <ol class="govuk-breadcrumbs__list">
-        <li class="govuk-breadcrumbs__list-item">
-          <a class="govuk-breadcrumbs__link" asp-page="/Index">Home</a>
-        </li>
-      </ol>
-    </nav>
+    @if (Model.ShowBreadcrumb)
+    {
+      <nav class="govuk-breadcrumbs govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-label="Breadcrumb">
+        <ol class="govuk-breadcrumbs__list">
+          <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" asp-page="/Index">Home</a>
+          </li>
+        </ol>
+      </nav>
+    }
     <main id="main-content">
       @RenderBody()
     </main>
