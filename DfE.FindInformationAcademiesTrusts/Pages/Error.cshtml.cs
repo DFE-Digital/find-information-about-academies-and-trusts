@@ -10,16 +10,24 @@ public class ErrorModel(IHttpContextAccessor httpContextAccessor) : ContentPageM
 
     public void OnGet(string statusCode)
     {
-        if (statusCode == "404")
+        switch (statusCode)
         {
-            Is404Result = true;
+            case "404":
+                Is404Result = true;
 
-            var notFoundData = httpContextAccessor.HttpContext!.Features.Get<IStatusCodeReExecuteFeature>();
-            if (notFoundData is not null)
-            {
-                OriginalPathAndQuery =
-                    $"{httpContextAccessor.HttpContext!.Request.Host}{notFoundData.OriginalPath}{notFoundData.OriginalQueryString}";
-            }
+                var notFoundData = httpContextAccessor.HttpContext!.Features.Get<IStatusCodeReExecuteFeature>();
+                if (notFoundData is not null)
+                {
+                    OriginalPathAndQuery =
+                        $"{httpContextAccessor.HttpContext!.Request.Host}{notFoundData.OriginalPath}{notFoundData.OriginalQueryString}";
+                }
+
+                break;
+
+            case "500":
+                ShowBreadcrumb = false;
+
+                break;
         }
     }
 }

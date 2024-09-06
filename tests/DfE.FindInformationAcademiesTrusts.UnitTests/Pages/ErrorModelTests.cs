@@ -56,4 +56,21 @@ public class ErrorModelTests
 
         _sut.OriginalPathAndQuery.Should().Be("my.fiat.host/notfound?var=something");
     }
+
+    [Fact]
+    public void ShowBreadcrumb_should_be_false_for_500()
+    {
+        _sut.OnGet("500");
+        _sut.ShowBreadcrumb.Should().BeFalse();
+    }
+
+    [Theory]
+    [InlineData("404")]
+    [InlineData("400")]
+    [InlineData("403")]
+    public void ShowBreadcrumb_should_be_true_for(string statusCode)
+    {
+        _sut.OnGet(statusCode);
+        _sut.ShowBreadcrumb.Should().BeTrue();
+    }
 }
