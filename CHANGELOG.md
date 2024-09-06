@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - Academies in this trust data now exportable
+- Add Home link to all pages except "there is a problem with the product" page
 
 ### Changed
 
