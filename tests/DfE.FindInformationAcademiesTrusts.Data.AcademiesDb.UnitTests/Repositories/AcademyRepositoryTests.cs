@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
@@ -229,7 +230,7 @@ public class AcademyRepositoryTests
         {
             new MisEstablishment
             {
-                Urn = urns[0], 
+                Urn = urns[0],
                 PreviousFullInspectionOverallEffectiveness = "1",
                 PreviousInspectionEndDate = "01/01/2022"
             }
@@ -239,7 +240,7 @@ public class AcademyRepositoryTests
             new MisFurtherEducationEstablishment
             {
                 ProviderUrn = urns[1],
-                PreviousOverallEffectiveness = 1, 
+                PreviousOverallEffectiveness = 1,
                 PreviousLastDayOfInspection = "01/01/2022"
             }
         });
@@ -322,5 +323,45 @@ public class AcademyRepositoryTests
         var result = await _sut.GetSingleAcademyTrustAcademyUrnAsync("2806");
 
         result.Should().Be("1234");
+    }
+
+    [Fact]
+    public async Task GetAcademiesInTrustPupilNumbersAsync_should_return_academies_linked_to_trust()
+    {
+        var giasGroup = _mockAcademiesDbContext.AddGiasGroup("1234");
+        var giasEstablishments = Enumerable.Range(1000, 6).Select(n => new GiasEstablishment
+        {
+            Urn = n,
+            EstablishmentName = $"Academy {n}",
+            PhaseOfEducationName = $"Phase of Education {n}",
+            NumberOfPupils = $"{n}",
+            SchoolCapacity = $"{n}",
+            StatutoryLowAge = $"{n + 1}",
+            StatutoryHighAge = $"{n + 10}"
+        }).ToArray();
+        _mockAcademiesDbContext.AddGiasEstablishments(giasEstablishments);
+        _mockAcademiesDbContext.AddGiasGroupLinksForGiasEstablishmentsToGiasGroup(giasEstablishments, giasGroup);
+
+        var result = await _sut.GetAcademiesInTrustPupilNumbersAsync("1234");
+
+        result.Should()
+            .BeEquivalentTo(giasEstablishments,
+                options => options
+                    .WithAutoConversion()
+                    .ExcludingMissingMembers()
+            );
+
+        for (var i = 0; i < giasEstablishments.Length; i++)
+        {
+            result[i].AgeRange.Minimum.Should().Be(giasEstablishments[i].StatutoryLowAge.ParseAsNullableInt());
+            result[i].AgeRange.Maximum.Should().Be(giasEstablishments[i].StatutoryHighAge.ParseAsNullableInt());
+        }
+    }
+
+    [Fact]
+    public async Task GetAcademiesInTrustPupilNumbersAsync_should_return_empty_array_when_no_academies_linked_to_trust()
+    {
+        var result = await _sut.GetAcademiesInTrustPupilNumbersAsync("1234");
+        result.Should().BeEmpty();
     }
 }
