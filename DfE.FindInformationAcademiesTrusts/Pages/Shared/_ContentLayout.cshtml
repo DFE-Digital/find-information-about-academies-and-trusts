@@ -14,6 +14,6 @@
     <main id="main-content">
       @RenderBody()
     </main>
-    @RenderSection("reportProblem", false)
+    @await RenderSectionAsync("reportProblem", false)
   </div>
 </div>
