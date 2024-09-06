@@ -2,6 +2,7 @@ using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ public class PupilNumbersModelTests
     private readonly Mock<ITrustProvider> _mockTrustProvider = new();
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
+    private readonly Mock<IExportService> _mockExportService = new();
 
     public PupilNumbersModelTests()
     {
@@ -26,8 +28,8 @@ public class PupilNumbersModelTests
                 dummyTrust.Academies.Length));
 
         _sut = new PupilNumbersModel(_mockTrustProvider.Object, _mockDataSourceService.Object, logger.Object,
-                _mockTrustRepository.Object)
-            { Uid = "1234" };
+                _mockTrustRepository.Object, _mockExportService.Object)
+        { Uid = "1234" };
     }
 
     [Fact]
