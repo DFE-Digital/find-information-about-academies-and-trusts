@@ -49,11 +49,21 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
 
         private static string IsOfstedRatingBeforeOrAfterJoining(OfstedRatingScore ofstedRatingScore, DateTime dateAcademyJoinedTrust, DateTime? inspectionEndDate)
         {
-            return ofstedRatingScore != OfstedRatingScore.None
-                ? inspectionEndDate < dateAcademyJoinedTrust
-                    ? "Before Joining"
-                    : "After Joining"
-                : string.Empty;
+            if (ofstedRatingScore != OfstedRatingScore.None)
+            {
+                if (inspectionEndDate < dateAcademyJoinedTrust)
+                {
+                    return "Before Joining";
+                }
+                else
+                {
+                    return "After Joining";
+                }
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         private static byte[] GenerateSpreadsheet(Trust.TrustSummaryServiceModel? trustSummary, Data.Academy[]? academies, List<string> headers, Func<Data.Academy, object[]> dataExtractor)
