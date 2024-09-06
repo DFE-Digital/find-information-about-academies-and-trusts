@@ -69,10 +69,15 @@ describe('Pagination Tests', () => {
         cy.visit('/search?keywords=tru&pagenumber=30')
 
         paginationPage
+            .checkExpectedPageNumberInPaginationBar(1)
+            .checkResultIsNotInPaginationBar(2)
+            .checkResultIsNotInPaginationBar(28)
             .checkExpectedPageNumberInPaginationBar(29)
+            .checkExpectedPageNumberInPaginationBar(30)
             .checkExpectedPageNumberInPaginationBar(31)
-            .checkResultIsNotInPaginationBar(4)
+            .checkResultIsNotInPaginationBar(32)
             .checkResultIsNotInPaginationBar(72)
+            .checkExpectedPageNumberInPaginationBar(73)
     });
 
     it('Checks that on a single result page only the page number is present', () => {

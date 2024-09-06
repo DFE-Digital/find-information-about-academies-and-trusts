@@ -29,7 +29,7 @@ describe("Testing the components of the home page", () => {
 
     it("Should check that the home page footer bar accessibility statement link is present and functional", () => {
         footerLinks
-            .checkAcessibilityStatementLinkPresent()
+            .checkAccessibilityStatementLinkPresent()
             .clickAccessibilityStatementLink()
 
         paginationPage
