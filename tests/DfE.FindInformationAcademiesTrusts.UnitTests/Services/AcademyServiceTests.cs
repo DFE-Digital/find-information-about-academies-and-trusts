@@ -8,10 +8,11 @@ public class AcademyServiceTests
 {
     private readonly AcademyService _sut;
     private readonly Mock<IAcademyRepository> _mockAcademyRepository = new();
+    private readonly Mock<IFreeSchoolMealsAverageProvider> _mockFreeSchoolMealsAverageProvider = new();
 
     public AcademyServiceTests()
     {
-        _sut = new AcademyService(_mockAcademyRepository.Object);
+        _sut = new AcademyService(_mockAcademyRepository.Object, _mockFreeSchoolMealsAverageProvider.Object);
     }
 
     [Fact]
@@ -93,5 +94,80 @@ public class AcademyServiceTests
             ageRange ?? new AgeRange(11, 18),
             numberOfPupils,
             schoolCapacity);
+    }
+
+    [Fact]
+    public async Task GetAcademiesInTrustFreeSchoolMealsAsync_should_map_relevant_fields_from_repository()
+    {
+        const string uid = "1234";
+        var academy =
+            new AcademyFreeSchoolMeals(string.Empty, null, null, 0, string.Empty, string.Empty);
+        AcademyFreeSchoolMeals[] academies =
+        [
+            academy with { Urn = "1", EstablishmentName = "Academy 1", PercentageFreeSchoolMeals = 12.0 },
+            academy with { Urn = "2", EstablishmentName = "Academy 2", PercentageFreeSchoolMeals = 0 },
+            academy with { Urn = "3", EstablishmentName = "Academy 3", PercentageFreeSchoolMeals = 24.1 },
+            academy with { Urn = "4", EstablishmentName = "Academy 4", PercentageFreeSchoolMeals = null },
+            academy with { Urn = "5", EstablishmentName = "Academy 5", PercentageFreeSchoolMeals = 100 }
+        ];
+
+        _mockAcademyRepository.Setup(a => a.GetAcademiesInTrustFreeSchoolMealsAsync(uid))
+            .ReturnsAsync(academies);
+
+        var result = await _sut.GetAcademiesInTrustFreeSchoolMealsAsync(uid);
+
+        result.Should().BeOfType<AcademyFreeSchoolMealsServiceModel[]>();
+        result.Should().BeEquivalentTo(academies, options => options
+            .Excluding(a => a.LocalAuthorityCode)
+            .Excluding(a => a.PhaseOfEducation)
+            .Excluding(a => a.TypeOfEstablishment));
+    }
+
+    [Fact]
+    public async Task
+        GetAcademiesInTrustFreeSchoolMealsAsync_should_get_relevant_fields_from_freeSchoolMealsAveragesProvider()
+    {
+        const string uid = "1234";
+        var academy =
+            new AcademyFreeSchoolMeals(string.Empty, null, null, 0, string.Empty, string.Empty);
+        AcademyFreeSchoolMeals[] academies =
+        [
+            academy with
+            {
+                LocalAuthorityCode = 12, PhaseOfEducation = "Primary", TypeOfEstablishment = "Community school"
+            },
+            academy with
+            {
+                LocalAuthorityCode = 22, PhaseOfEducation = "Secondary", TypeOfEstablishment = "Academy converter"
+            },
+            academy with
+            {
+                LocalAuthorityCode = 34, TypeOfEstablishment = "Foundation special school"
+            }
+        ];
+        _mockAcademyRepository.Setup(a => a.GetAcademiesInTrustFreeSchoolMealsAsync(uid))
+            .ReturnsAsync(academies);
+
+        _mockFreeSchoolMealsAverageProvider.Setup(f => f.GetLaAverage(12, "Primary", "Community school"))
+            .Returns(22.4);
+        _mockFreeSchoolMealsAverageProvider.Setup(f => f.GetLaAverage(22, "Secondary", "Academy converter"))
+            .Returns(23.5);
+        _mockFreeSchoolMealsAverageProvider.Setup(f => f.GetLaAverage(34, string.Empty, "Foundation special school"))
+            .Returns(70);
+        _mockFreeSchoolMealsAverageProvider.Setup(f => f.GetNationalAverage("Primary", "Community school"))
+            .Returns(12.4);
+        _mockFreeSchoolMealsAverageProvider.Setup(f => f.GetNationalAverage("Secondary", "Academy converter"))
+            .Returns(13.5);
+        _mockFreeSchoolMealsAverageProvider.Setup(f => f.GetNationalAverage(string.Empty, "Foundation special school"))
+            .Returns(60);
+
+        var result = await _sut.GetAcademiesInTrustFreeSchoolMealsAsync(uid);
+
+        result[0].LaAveragePercentageFreeSchoolMeals.Should().Be(22.4);
+        result[0].NationalAveragePercentageFreeSchoolMeals.Should().Be(12.4);
+        result[1].LaAveragePercentageFreeSchoolMeals.Should().Be(23.5);
+        result[1].NationalAveragePercentageFreeSchoolMeals.Should().Be(13.5);
+        result[2].LaAveragePercentageFreeSchoolMeals.Should().Be(70);
+        result[2].NationalAveragePercentageFreeSchoolMeals.Should().Be(60);
     }
 }
