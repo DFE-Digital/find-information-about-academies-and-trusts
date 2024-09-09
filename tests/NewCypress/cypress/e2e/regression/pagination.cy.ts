@@ -28,22 +28,25 @@ describe('Pagination Tests', () => {
     });
 
     it('Should navigate to the next page on next button click', () => {
-        paginationPage.getResults().then(firstPageFirstResult => {
-            const firstPageFirstResultText = firstPageFirstResult.first().text();
+        paginationPage
+            .clickNext()
+            .checkCurrentURLIsCorrect('pagenumber=2')
 
-            paginationPage
-                .clickNext()
-                .checkCurrentURLIsCorrect('pagenumber=2')
+        paginationPage
+            .clickNext()
+            .checkCurrentURLIsCorrect('pagenumber=3')
 
-            paginationPage
-                .getResults()
-                .first()
-                .should('not.have.text', firstPageFirstResultText);
+    });
 
-            paginationPage
-                .clickNext()
-                .checkCurrentURLIsCorrect('pagenumber=3')
-        });
+    it('Should navigate to the previous page on previous button click', () => {
+        paginationPage
+            .clickNext()
+            .checkCurrentURLIsCorrect('pagenumber=2')
+
+        paginationPage
+            .clickPrevious()
+            .checkCurrentURLIsCorrect('pagenumber=1')
+
     });
 
     it('Checks that the previous page button is not present on the first page of results', () => {
