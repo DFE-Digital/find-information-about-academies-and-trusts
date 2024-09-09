@@ -28,7 +28,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies
             }
 
             var fileContents = ExportService.ExportAcademiesToSpreadsheetUsingProvider(allAcademiesDetails, trustSummary);
-            string fileName = $"{allAcademiesDetails?.Name}-{DateTime.Now.Day}-{DateTime.Now.Month}-{DateTime.Now.Year}.xlsx";
+            string fileName = $"{allAcademiesDetails.Name}-{DateTime.Now.Day}-{DateTime.Now.Month}-{DateTime.Now.Year}.xlsx";
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
             return File(fileContents, contentType, fileName);
