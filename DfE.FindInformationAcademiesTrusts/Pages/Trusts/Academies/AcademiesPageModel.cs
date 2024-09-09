@@ -12,7 +12,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies
         ITrustService trustService,
         IExportService exportService,
         ILogger<AcademiesPageModel> logger
-    ) : TrustsAreaModel(trustProvider, dataSourceService, trustService, logger, "Academies in this trust"), ITrustsAreaModel
+    ) : TrustsAreaModel(trustProvider, dataSourceService, trustService, logger, "Academies in this trust")
     {
         protected IExportService ExportService { get; } = exportService;
 
