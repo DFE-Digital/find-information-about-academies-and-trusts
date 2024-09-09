@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
-public class FreeSchoolMealsModel : ExportableAcademiesPageModel, IAcademiesAreaModel
+public class FreeSchoolMealsModel : AcademiesPageModel
 {
     private readonly IFreeSchoolMealsAverageProvider _freeSchoolMealsProvider;
     public Trust Trust { get; set; } = default!;
@@ -18,6 +18,7 @@ public class FreeSchoolMealsModel : ExportableAcademiesPageModel, IAcademiesArea
         base(trustProvider, dataSourceService, trustService, exportService, logger)
     {
         PageTitle = "Academies free school meals";
+        TabName = "Free school meals";
         _freeSchoolMealsProvider = freeSchoolMealsAverageProvider;
     }
 
@@ -43,8 +44,6 @@ public class FreeSchoolMealsModel : ExportableAcademiesPageModel, IAcademiesArea
 
         return pageResult;
     }
-
-    public string TabName => "Free school meals";
 
     public double GetLaAverageFreeSchoolMeals(Academy academy)
     {

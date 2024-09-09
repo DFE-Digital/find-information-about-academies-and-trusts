@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
-public class OfstedRatingsModel : ExportableAcademiesPageModel, IAcademiesAreaModel
+public class OfstedRatingsModel : AcademiesPageModel
 {
     public AcademyOfstedServiceModel[] Academies { get; set; } = default!;
     private IAcademyService AcademyService { get; }
@@ -18,6 +18,7 @@ public class OfstedRatingsModel : ExportableAcademiesPageModel, IAcademiesAreaMo
         trustProvider, dataSourceService, trustService, exportService, logger)
     {
         PageTitle = "Academies Ofsted ratings";
+        TabName = "Ofsted ratings";
         AcademyService = academyService;
     }
 
@@ -41,6 +42,4 @@ public class OfstedRatingsModel : ExportableAcademiesPageModel, IAcademiesAreaMo
 
         return pageResult;
     }
-
-    public string TabName => "Ofsted ratings";
 }
