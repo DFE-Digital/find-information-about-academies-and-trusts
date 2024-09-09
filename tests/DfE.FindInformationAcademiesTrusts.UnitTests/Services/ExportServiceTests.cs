@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
@@ -101,13 +102,13 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
             worksheet.Cell(4, 3).Value.ToString().Should().Be("Local Authority 1");
             worksheet.Cell(4, 4).Value.ToString().Should().Be("Type A");
             worksheet.Cell(4, 5).Value.ToString().Should().Be("Urban");
-            worksheet.Cell(4, 6).Value.ToString().Should().Be(DateTime.Now.ToString("yyyy-MM-dd"));
+            worksheet.Cell(4, 6).Value.ToString().Should().Be(DateTime.Now.ToString(StringFormatConstants.ViewDate));
             worksheet.Cell(4, 7).Value.ToString().Should().Be("None");
             worksheet.Cell(4, 8).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 9).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 10).Value.ToString().Should().Be("Outstanding");
             worksheet.Cell(4, 11).Value.ToString().Should().Be("After Joining");
-            worksheet.Cell(4, 12).Value.ToString().Should().Be(DateTime.Now.ToString("yyyy-MM-dd"));
+            worksheet.Cell(4, 12).Value.ToString().Should().Be(DateTime.Now.ToString(StringFormatConstants.ViewDate));
             worksheet.Cell(4, 13).Value.ToString().Should().Be("Primary");
             worksheet.Cell(4, 14).Value.ToString().Should().Be("500");
             worksheet.Cell(4, 15).Value.ToString().Should().Be("600");
@@ -191,7 +192,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
             worksheet.Cell(4, 3).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 4).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 5).Value.ToString().Should().Be(string.Empty);
-            worksheet.Cell(4, 6).Value.ToString().Should().Be(DateTime.Now.ToString("yyyy-MM-dd"));
+            worksheet.Cell(4, 6).Value.ToString().Should().Be(DateTime.Now.ToString(StringFormatConstants.ViewDate));
             worksheet.Cell(4, 7).Value.ToString().Should().Be("None");
             worksheet.Cell(4, 8).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 9).Value.ToString().Should().Be(string.Empty);
