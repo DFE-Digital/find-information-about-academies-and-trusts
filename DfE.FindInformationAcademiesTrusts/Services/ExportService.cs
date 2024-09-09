@@ -1,7 +1,7 @@
 ﻿using ClosedXML.Excel;
 using DfE.FindInformationAcademiesTrusts.Data;
 
-namespace DfE.FindInformationAcademiesTrusts.Services.Export
+namespace DfE.FindInformationAcademiesTrusts.Services
 {
     public interface IExportService
     {
