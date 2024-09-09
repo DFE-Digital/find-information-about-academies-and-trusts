@@ -26,7 +26,7 @@
           </th>
           <td class="govuk-body govuk-table__cell" data-sort-value="@PupilNumbersModel.PhaseAndAgeRangeSortValue(academy)" data-testid="phase-and-age-range">
             @academy.PhaseOfEducation<br/>
-            @academy.AgeRange?.Minimum - @academy.AgeRange?.Maximum
+            @academy.AgeRange.Minimum - @academy.AgeRange.Maximum
           </td>
 
           <td class="govuk-body govuk-table__cell" data-sort-value="@academy.NumberOfPupils" data-testid="pupil-numbers">@academy.NumberOfPupils?.ToString("N0")</td>

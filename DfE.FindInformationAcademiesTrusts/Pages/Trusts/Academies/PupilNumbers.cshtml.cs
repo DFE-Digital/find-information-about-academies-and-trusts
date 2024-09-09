@@ -39,6 +39,6 @@ public class PupilNumbersModel : TrustsAreaModel, IAcademiesAreaModel
 
     public static string PhaseAndAgeRangeSortValue(AcademyPupilNumbersServiceModel academy)
     {
-        return $"{academy.PhaseOfEducation}{academy.AgeRange?.Minimum:D2}{academy.AgeRange?.Maximum:D2}";
+        return $"{academy.PhaseOfEducation}{academy.AgeRange.Minimum:D2}{academy.AgeRange.Maximum:D2}";
     }
 }
