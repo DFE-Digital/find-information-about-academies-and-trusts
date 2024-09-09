@@ -3,6 +3,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 using DfE.FindInformationAcademiesTrusts.Services;
+using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +13,9 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 public class FreeSchoolMealsModelTests
 {
     private readonly FreeSchoolMealsModel _sut;
-    private readonly Mock<IFreeSchoolMealsAverageProvider> _mockFreeSchoolMealsAverageProvider = new();
     private readonly Mock<ITrustProvider> _mockTrustProvider = new();
-    private readonly Mock<ITrustService> _mockTrustRepository = new();
+    private readonly Mock<ITrustService> _mockTrustService = new();
+    private readonly Mock<IAcademyService> _mockAcademyService = new();
     private readonly Mock<IExportService> _mockExportService = new();
     private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
     private readonly MockDataSourceService _mockDataSourceService = new();
@@ -24,14 +25,15 @@ public class FreeSchoolMealsModelTests
         var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
 
         _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrust);
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrust.Uid))
+        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(dummyTrust.Uid))
             .ReturnsAsync(new TrustSummaryServiceModel(dummyTrust.Uid, dummyTrust.Name, dummyTrust.Type,
                 dummyTrust.Academies.Length));
 
-        _sut = new FreeSchoolMealsModel(_mockTrustProvider.Object, _mockFreeSchoolMealsAverageProvider.Object,
+        _sut = new FreeSchoolMealsModel(_mockTrustProvider.Object,
                 _mockDataSourceService.Object, new MockLogger<FreeSchoolMealsModel>().Object,
-                _mockTrustRepository.Object, _mockExportService.Object, _mockDateTimeProvider.Object)
-        { Uid = "1234" };
+                _mockTrustService.Object, _mockAcademyService.Object, _mockExportService.Object,
+                _mockDateTimeProvider.Object)
+            { Uid = "1234" };
     }
 
     [Fact]
@@ -53,31 +55,9 @@ public class FreeSchoolMealsModelTests
     }
 
     [Fact]
-    public void GetLaAverageFreeSchoolMeals_should_return_double_if_free_School_meals_provider_returns_value()
-    {
-        var dummyAcademy = DummyAcademyFactory.GetDummyAcademy(111);
-        var mockPercentage = 24.5;
-        _mockFreeSchoolMealsAverageProvider.Setup(p => p.GetLaAverage(dummyAcademy)).Returns(mockPercentage);
-
-        var result = _sut.GetLaAverageFreeSchoolMeals(dummyAcademy);
-        result.Should().Be(mockPercentage);
-    }
-
-    [Fact]
-    public void GetNationalAverageFreeSchoolMeals_should_return_double_if_free_School_meals_provider_returns_value()
-    {
-        var dummyAcademy = DummyAcademyFactory.GetDummyAcademy(111);
-        var mockPercentage = 24.5;
-        _mockFreeSchoolMealsAverageProvider.Setup(p => p.GetNationalAverage(dummyAcademy)).Returns(mockPercentage);
-
-        var result = _sut.GetNationalAverageFreeSchoolMeals(dummyAcademy);
-        result.Should().Be(mockPercentage);
-    }
-
-    [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
+        _mockTrustService.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
@@ -96,5 +76,22 @@ public class FreeSchoolMealsModelTests
         {
             "Local authority average 2023/24", "National average 2023/24"
         });
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_academies_from_academyService()
+    {
+        var academies = new[]
+        {
+            new AcademyFreeSchoolMealsServiceModel("1", "Academy 1", 12.5, 13.5, 14.5),
+            new AcademyFreeSchoolMealsServiceModel("2", "Academy 2", null, 70.1, 64.1),
+            new AcademyFreeSchoolMealsServiceModel("3", "Academy 3", 8.2, 4, 10)
+        };
+        _mockAcademyService.Setup(a => a.GetAcademiesInTrustFreeSchoolMealsAsync(_sut.Uid))
+            .ReturnsAsync(academies);
+
+        _ = await _sut.OnGetAsync();
+
+        _sut.Academies.Should().BeEquivalentTo(academies);
     }
 }

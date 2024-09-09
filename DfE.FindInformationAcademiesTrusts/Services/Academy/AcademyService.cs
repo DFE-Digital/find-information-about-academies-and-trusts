@@ -7,6 +7,7 @@ public interface IAcademyService
     Task<AcademyDetailsServiceModel[]> GetAcademiesInTrustDetailsAsync(string uid);
     Task<AcademyOfstedServiceModel[]> GetAcademiesInTrustOfstedAsync(string uid);
     Task<AcademyPupilNumbersServiceModel[]> GetAcademiesInTrustPupilNumbersAsync(string uid);
+    Task<AcademyFreeSchoolMealsServiceModel[]> GetAcademiesInTrustFreeSchoolMealsAsync(string uid);
 }
 
 public class AcademyService(IAcademyRepository academyRepository) : IAcademyService
@@ -37,5 +38,10 @@ public class AcademyService(IAcademyRepository academyRepository) : IAcademyServ
             new AcademyPupilNumbersServiceModel(a.Urn, a.EstablishmentName, a.PhaseOfEducation,
                 a.AgeRange, a.NumberOfPupils,
                 a.SchoolCapacity)).ToArray();
+    }
+
+    public Task<AcademyFreeSchoolMealsServiceModel[]> GetAcademiesInTrustFreeSchoolMealsAsync(string uid)
+    {
+        throw new NotImplementedException();
     }
 }

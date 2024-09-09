@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services;
+using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
@@ -9,17 +10,17 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
 public class FreeSchoolMealsModel : AcademiesPageModel
 {
-    private readonly IFreeSchoolMealsAverageProvider _freeSchoolMealsProvider;
-    public Trust Trust { get; set; } = default!;
+    public IAcademyService AcademyService { get; }
+    public AcademyFreeSchoolMealsServiceModel[] Academies { get; set; } = default!;
 
-    public FreeSchoolMealsModel(ITrustProvider trustProvider,
-        IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider, IDataSourceService dataSourceService,
-         ILogger<FreeSchoolMealsModel> logger, ITrustService trustService, IExportService exportService, IDateTimeProvider dateTimeProvider) :
+    public FreeSchoolMealsModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
+        ILogger<FreeSchoolMealsModel> logger, ITrustService trustService, IAcademyService academyService,
+        IExportService exportService, IDateTimeProvider dateTimeProvider) :
         base(trustProvider, dataSourceService, trustService, exportService, logger, dateTimeProvider)
     {
         PageTitle = "Academies free school meals";
         TabName = "Free school meals";
-        _freeSchoolMealsProvider = freeSchoolMealsAverageProvider;
+        AcademyService = academyService;
     }
 
     public override async Task<IActionResult> OnGetAsync()
@@ -28,7 +29,7 @@ public class FreeSchoolMealsModel : AcademiesPageModel
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        Trust = (await TrustProvider.GetTrustByUidAsync(Uid))!;
+        Academies = await AcademyService.GetAcademiesInTrustFreeSchoolMealsAsync(Uid);
 
         DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),
             new[]
@@ -43,15 +44,5 @@ public class FreeSchoolMealsModel : AcademiesPageModel
             }));
 
         return pageResult;
-    }
-
-    public double GetLaAverageFreeSchoolMeals(Academy academy)
-    {
-        return _freeSchoolMealsProvider.GetLaAverage(academy);
-    }
-
-    public double GetNationalAverageFreeSchoolMeals(Academy academy)
-    {
-        return _freeSchoolMealsProvider.GetNationalAverage(academy);
     }
 }
