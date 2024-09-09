@@ -21,6 +21,12 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies
         {
             TrustSummaryServiceModel? trustSummary = await TrustService.GetTrustSummaryAsync(uid);
             Trust? allAcademiesDetails = await TrustProvider.GetTrustByUidAsync(uid);
+
+            if (trustSummary == null || allAcademiesDetails == null)
+            {
+                return new NotFoundResult();
+            }
+
             var fileContents = ExportService.ExportAcademiesToSpreadsheetUsingProvider(allAcademiesDetails, trustSummary);
             string fileName = $"{allAcademiesDetails?.Name}-{DateTime.Now.Day}-{DateTime.Now.Month}-{DateTime.Now.Year}.xlsx";
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
