@@ -52,7 +52,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies
             _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetUsingProvider(trust, trustSummary)).Returns([]);
 
             // Act
-            var result = await _sut.OnPostExportAsync(uid);
+            var result = await _sut.OnGetExportAsync(uid);
 
             // Assert
             result.Should().BeOfType<FileContentResult>();
