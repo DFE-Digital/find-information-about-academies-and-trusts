@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Pages;
 
 namespace DfE.FindInformationAcademiesTrusts.Services
 {
@@ -30,13 +31,13 @@ namespace DfE.FindInformationAcademiesTrusts.Services
                 academy.LocalAuthority ?? string.Empty,
                 academy.TypeOfEstablishment ?? string.Empty,
                 academy.UrbanRural ?? string.Empty,
-                academy.DateAcademyJoinedTrust.ToString("yyyy-MM-dd"),
+                academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.SortDate),
                 academy.PreviousOfstedRating.OfstedRatingScore.ToString(),
                 IsOfstedRatingBeforeOrAfterJoining(academy.PreviousOfstedRating.OfstedRatingScore, academy.DateAcademyJoinedTrust, academy.PreviousOfstedRating.InspectionEndDate),
-                academy.PreviousOfstedRating.InspectionEndDate?.ToString("yyyy-MM-dd") ?? string.Empty,
+                academy.PreviousOfstedRating.InspectionEndDate?.ToString(StringFormatConstants.SortDate) ?? string.Empty,
                 academy.CurrentOfstedRating.OfstedRatingScore.ToString(),
                 IsOfstedRatingBeforeOrAfterJoining(academy.CurrentOfstedRating.OfstedRatingScore, academy.DateAcademyJoinedTrust, academy.CurrentOfstedRating.InspectionEndDate),
-                academy.CurrentOfstedRating?.InspectionEndDate?.ToString("yyyy-MM-dd") ?? string.Empty,
+                academy.CurrentOfstedRating?.InspectionEndDate?.ToString(StringFormatConstants.SortDate) ?? string.Empty,
                 academy.PhaseOfEducation ?? string.Empty,
                 academy.NumberOfPupils?.ToString() ?? string.Empty,
                 academy.SchoolCapacity?.ToString() ?? string.Empty,
