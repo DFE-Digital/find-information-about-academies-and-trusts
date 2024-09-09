@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
-public class AcademiesDetailsModel : ExportableAcademiesPageModel, IAcademiesAreaModel
+public class AcademiesDetailsModel : AcademiesPageModel
 {
     public AcademyDetailsServiceModel[] Academies { get; set; } = default!;
     public IOtherServicesLinkBuilder LinkBuilder { get; }
@@ -20,6 +20,7 @@ public class AcademiesDetailsModel : ExportableAcademiesPageModel, IAcademiesAre
         dataSourceService, trustService, exportService, logger)
     {
         PageTitle = "Academies details";
+        TabName = "Details";
         LinkBuilder = linkBuilder;
         AcademyService = academyService;
     }
@@ -38,5 +39,4 @@ public class AcademiesDetailsModel : ExportableAcademiesPageModel, IAcademiesAre
         return pageResult;
     }
 
-    public string TabName => "Details";
 }

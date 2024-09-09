@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
-public class PupilNumbersModel : ExportableAcademiesPageModel, IAcademiesAreaModel
+public class PupilNumbersModel : AcademiesPageModel
 {
     public Trust Trust { get; set; } = default!;
 
@@ -16,6 +16,7 @@ public class PupilNumbersModel : ExportableAcademiesPageModel, IAcademiesAreaMod
         : base(trustProvider, dataSourceService, trustService, exportService, logger)
     {
         PageTitle = "Academies pupil numbers";
+        TabName = "Pupil numbers";
     }
 
     public override async Task<IActionResult> OnGetAsync()
@@ -31,8 +32,6 @@ public class PupilNumbersModel : ExportableAcademiesPageModel, IAcademiesAreaMod
 
         return pageResult;
     }
-
-    public string TabName => "Pupil numbers";
 
     public string PhaseAndAgeRangeSortValue(Academy academy)
     {

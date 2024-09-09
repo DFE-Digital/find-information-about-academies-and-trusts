@@ -6,16 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies
 {
-    public abstract class ExportableAcademiesPageModel(
+    public abstract class AcademiesPageModel(
         ITrustProvider trustProvider,
         IDataSourceService dataSourceService,
         ITrustService trustService,
         IExportService exportService,
-        ILogger<ExportableAcademiesPageModel> logger)
-        : TrustsAreaModel(trustProvider, dataSourceService, trustService, logger, "Academies in this trust")
+        ILogger<AcademiesPageModel> logger
+    ) : TrustsAreaModel(trustProvider, dataSourceService, trustService, logger, "Academies in this trust"), ITrustsAreaModel
     {
         protected IExportService ExportService { get; } = exportService;
 
+        public string? TabName { get; init; }
         public virtual async Task<IActionResult> OnGetExportAsync(string uid)
         {
             TrustSummaryServiceModel? trustSummary = await TrustService.GetTrustSummaryAsync(uid);
@@ -26,5 +27,6 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies
 
             return File(fileContents, contentType, fileName);
         }
+
     }
 }
