@@ -16,7 +16,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies
     {
         protected IExportService ExportService { get; } = exportService;
 
-        public virtual async Task<IActionResult> OnPostExportAsync(string uid)
+        public virtual async Task<IActionResult> OnGetExportAsync(string uid)
         {
             TrustSummaryServiceModel? trustSummary = await TrustService.GetTrustSummaryAsync(uid);
             Trust? allAcademiesDetails = await TrustProvider.GetTrustByUidAsync(uid);
