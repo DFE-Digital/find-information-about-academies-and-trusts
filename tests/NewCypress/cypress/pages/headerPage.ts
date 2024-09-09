@@ -1,33 +1,29 @@
 class HeaderPage {
 
+    elements = {
+        headerSearchButton: () => cy.get('.dfe-search__submit'),
+        mainSearchBox: () => cy.get('#header-search'),
+        headerAutocomplete: () => cy.get('#header-search__listbox')
+    };
+
     public clickHeaderSearchButton(): this {
-        const headerSearchButton = () => cy.get('.dfe-search__submit');
-
-        headerSearchButton().click();
-
+        this.elements.headerSearchButton().click();
         return this;
     }
 
     public checkHeaderSearchButtonPresent(): this {
-        const headerSearchButton = () => cy.get('.dfe-search__submit');
-
-        headerSearchButton().should('be.visible');
-        headerSearchButton().should('be.enabled');
+        this.elements.headerSearchButton().should('be.visible').should('be.enabled');
         return this;
     }
 
     public checkHeaderAutocompleteIsPresent(): this {
-        cy.get('#header-search__listbox').should('be.visible');
-
+        this.elements.headerAutocomplete().should('be.visible');
         return this;
     }
 
     public checkAutocompleteContainsTypedText(searchText: string): this {
-        cy.get('#header-search__listbox').should(($listbox) => {
-            // Ensure there are items present in the listbox
+        this.elements.headerAutocomplete().should(($listbox) => {
             expect($listbox.children().length).to.be.greaterThan(0);
-
-            // Ensure at least one item contains the typed text (case insensitive)
             const textFound = $listbox.children().toArray().some(item =>
                 item.innerText.toLowerCase().includes(searchText.toLowerCase())
             );
@@ -37,13 +33,11 @@ class HeaderPage {
     }
 
     public enterHeaderSearchText(searchText: string): this {
-        const getMainSearchBox = () => cy.get('#header-search');
-        getMainSearchBox().type(searchText);
-
+        this.elements.mainSearchBox().type(searchText);
         return this;
     }
+
 }
 
 const headerPage = new HeaderPage();
-
 export default headerPage;
