@@ -65,7 +65,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services
             return "After Joining";
         }
 
-        private static byte[] GenerateSpreadsheet(Trust.TrustSummaryServiceModel? trustSummary, Data.Academy[]? academies, List<string> headers, Func<Data.Academy, object[]> dataExtractor)
+        private static byte[] GenerateSpreadsheet(Trust.TrustSummaryServiceModel? trustSummary, Data.Academy[]? academies, List<string> headers, Func<Data.Academy, string[]> dataExtractor)
         {
             using var workbook = new XLWorkbook();
             var worksheet = workbook.Worksheets.Add("Academies");
@@ -87,7 +87,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services
                 var rowData = dataExtractor(academies[i]);
                 for (int j = 0; j < rowData.Length; j++)
                 {
-                    worksheet.Cell(i + 4, j + 1).SetValue(rowData[j].ToString());
+                    worksheet.Cell(i + 4, j + 1).SetValue(rowData[j]);
                 }
             }
             // Auto-size columns based on content
