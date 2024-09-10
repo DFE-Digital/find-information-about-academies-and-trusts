@@ -27,12 +27,16 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies
                 return new NotFoundResult();
             }
 
+            // Sanitize the trust name to remove any illegal characters
+            string sanitizedTrustName = string.Concat(allAcademiesDetails.Name.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
+
             var fileContents = ExportService.ExportAcademiesToSpreadsheetUsingProvider(allAcademiesDetails, trustSummary);
-            string fileName = $"{allAcademiesDetails.Name}-{DateTime.Now.Day}-{DateTime.Now.Month}-{DateTime.Now.Year}.xlsx";
+            string fileName = $"{sanitizedTrustName}-{DateTime.Now:yyyy-MM-dd}.xlsx";
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
             return File(fileContents, contentType, fileName);
         }
+
 
     }
 }
