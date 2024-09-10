@@ -103,9 +103,20 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
             .ToArrayAsync();
     }
 
-    public Task<AcademyFreeSchoolMeals[]> GetAcademiesInTrustFreeSchoolMealsAsync(string uid)
+    public async Task<AcademyFreeSchoolMeals[]> GetAcademiesInTrustFreeSchoolMealsAsync(string uid)
     {
-        throw new NotImplementedException();
+        return await academiesDbContext.GiasGroupLinks
+            .Where(gl => gl.GroupUid == uid)
+            .Join(academiesDbContext.GiasEstablishments,
+                gl => gl.Urn!, e => e.Urn.ToString(),
+                (gl, e) =>
+                    new AcademyFreeSchoolMeals(e.Urn.ToString(),
+                        e.EstablishmentName,
+                        e.PercentageFsm.ParseAsNullableDouble(),
+                        int.Parse(e.LaCode!),
+                        e.TypeOfEstablishmentName,
+                        e.PhaseOfEducationName))
+            .ToArrayAsync();
     }
 
     public async Task<int> GetNumberOfAcademiesInTrustAsync(string uid)
