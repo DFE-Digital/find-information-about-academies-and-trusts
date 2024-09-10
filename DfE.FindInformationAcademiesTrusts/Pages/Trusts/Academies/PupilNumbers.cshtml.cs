@@ -12,8 +12,8 @@ public class PupilNumbersModel : AcademiesPageModel
     public Trust Trust { get; set; } = default!;
 
     public PupilNumbersModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
-        ILogger<PupilNumbersModel> logger, ITrustService trustService, IExportService exportService)
-        : base(trustProvider, dataSourceService, trustService, exportService, logger)
+        ILogger<PupilNumbersModel> logger, ITrustService trustService, IExportService exportService, IDateTimeProvider dateTimeProvider)
+        : base(trustProvider, dataSourceService, trustService, exportService, logger, dateTimeProvider)
     {
         PageTitle = "Academies pupil numbers";
         TabName = "Pupil numbers";

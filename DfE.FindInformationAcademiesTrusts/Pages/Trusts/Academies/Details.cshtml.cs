@@ -16,8 +16,8 @@ public class AcademiesDetailsModel : AcademiesPageModel
 
     public AcademiesDetailsModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
         IOtherServicesLinkBuilder linkBuilder, ILogger<AcademiesDetailsModel> logger,
-        ITrustService trustService, IAcademyService academyService, IExportService exportService) : base(trustProvider,
-        dataSourceService, trustService, exportService, logger)
+        ITrustService trustService, IAcademyService academyService, IExportService exportService, IDateTimeProvider dateTimeProvider) : base(trustProvider,
+        dataSourceService, trustService, exportService, logger, dateTimeProvider)
     {
         PageTitle = "Academies details";
         TabName = "Details";

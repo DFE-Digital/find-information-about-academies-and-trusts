@@ -14,8 +14,8 @@ public class OfstedRatingsModel : AcademiesPageModel
     private IAcademyService AcademyService { get; }
 
     public OfstedRatingsModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
-        ILogger<OfstedRatingsModel> logger, ITrustService trustService, IAcademyService academyService, IExportService exportService) : base(
-        trustProvider, dataSourceService, trustService, exportService, logger)
+        ILogger<OfstedRatingsModel> logger, ITrustService trustService, IAcademyService academyService, IExportService exportService, IDateTimeProvider dateTimeProvider) : base(
+        trustProvider, dataSourceService, trustService, exportService, logger, dateTimeProvider)
     {
         PageTitle = "Academies Ofsted ratings";
         TabName = "Ofsted ratings";

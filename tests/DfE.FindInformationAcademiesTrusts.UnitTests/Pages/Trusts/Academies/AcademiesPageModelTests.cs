@@ -18,12 +18,13 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies
         private readonly Mock<IExportService> _mockExportService = new();
         private readonly Mock<IOtherServicesLinkBuilder> _mockOtherServicesLinkBuilder = new();
         private readonly Mock<IDataSourceService> _mockDataSourceService = new();
+        private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
         private readonly Mock<ILogger<AcademiesDetailsModel>> _mockLogger = new();
         private readonly AcademiesPageModel _sut;
 
         public AcademiesPageModelTests()
         {
-            _sut = new AcademiesDetailsModel(_mockTrustProvider.Object, _mockDataSourceService.Object, _mockOtherServicesLinkBuilder.Object, _mockLogger.Object, _mockTrustService.Object, _mockAcademyService.Object, _mockExportService.Object);
+            _sut = new AcademiesDetailsModel(_mockTrustProvider.Object, _mockDataSourceService.Object, _mockOtherServicesLinkBuilder.Object, _mockLogger.Object, _mockTrustService.Object, _mockAcademyService.Object, _mockExportService.Object, _mockDateTimeProvider.Object);
         }
 
         [Fact]

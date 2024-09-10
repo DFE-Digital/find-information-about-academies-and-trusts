@@ -208,6 +208,8 @@ internal static class Program
 
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
 
+        builder.Services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+
         builder.Services.AddScoped<IAcademyRepository, AcademyRepository>();
         builder.Services.AddScoped<ITrustRepository, TrustRepository>();
         builder.Services.AddScoped<IDataSourceRepository, DataSourceRepository>();
