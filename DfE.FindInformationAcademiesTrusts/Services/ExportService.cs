@@ -6,13 +6,13 @@ namespace DfE.FindInformationAcademiesTrusts.Services
 {
     public interface IExportService
     {
-        byte[] ExportAcademiesToSpreadsheetUsingProvider(Data.Trust? trust, Trust.TrustSummaryServiceModel? trustSummary);
+        byte[] ExportAcademiesToSpreadsheetUsingProvider(Data.Trust trust, Trust.TrustSummaryServiceModel? trustSummary);
     }
 
     public class ExportService : IExportService
     {
 
-        public byte[] ExportAcademiesToSpreadsheetUsingProvider(Data.Trust? trust, Trust.TrustSummaryServiceModel? trustSummary)
+        public byte[] ExportAcademiesToSpreadsheetUsingProvider(Data.Trust trust, Trust.TrustSummaryServiceModel? trustSummary)
         {
             var headers = new List<string>
             {
@@ -22,28 +22,30 @@ namespace DfE.FindInformationAcademiesTrusts.Services
                 "Phase of Education", "Pupil Numbers", "Capacity", "% Full", "Pupils eligible for Free School Meals"
             };
 
-            var academies = trust?.Academies ?? [];
+            var academies = trust.Academies;
 
-            var dataExtractor = new Func<Data.Academy, object[]>((academy) =>
-            [
-                academy.EstablishmentName ?? string.Empty,
-                academy.Urn,
-                academy.LocalAuthority ?? string.Empty,
-                academy.TypeOfEstablishment ?? string.Empty,
-                academy.UrbanRural ?? string.Empty,
-                academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.ViewDate),
-                academy.PreviousOfstedRating.OfstedRatingScore.ToString(),
-                IsOfstedRatingBeforeOrAfterJoining(academy.PreviousOfstedRating.OfstedRatingScore, academy.DateAcademyJoinedTrust, academy.PreviousOfstedRating.InspectionEndDate),
-                academy.PreviousOfstedRating.InspectionEndDate?.ToString(StringFormatConstants.ViewDate) ?? string.Empty,
-                academy.CurrentOfstedRating.OfstedRatingScore.ToString(),
-                IsOfstedRatingBeforeOrAfterJoining(academy.CurrentOfstedRating.OfstedRatingScore, academy.DateAcademyJoinedTrust, academy.CurrentOfstedRating.InspectionEndDate),
-                academy.CurrentOfstedRating?.InspectionEndDate?.ToString(StringFormatConstants.ViewDate) ?? string.Empty,
-                academy.PhaseOfEducation ?? string.Empty,
-                academy.NumberOfPupils?.ToString() ?? string.Empty,
-                academy.SchoolCapacity?.ToString() ?? string.Empty,
-                academy.PercentageFull.HasValue ? $"{academy.PercentageFull}%" : string.Empty,
-                academy.PercentageFreeSchoolMeals.HasValue ? $"{academy.PercentageFreeSchoolMeals}%" : string.Empty
-            ]);
+            var dataExtractor = new Func<Data.Academy, string[]>((academy) =>
+             new string[]
+             {
+                 academy.EstablishmentName ?? string.Empty,
+                 academy.Urn.ToString() ?? string.Empty,
+                 academy.LocalAuthority ?? string.Empty,
+                 academy.TypeOfEstablishment ?? string.Empty,
+                 academy.UrbanRural ?? string.Empty,
+                 academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.ViewDate) ?? string.Empty,
+                 academy.PreviousOfstedRating?.OfstedRatingScore.ToString() ?? string.Empty,
+                 IsOfstedRatingBeforeOrAfterJoining(academy.PreviousOfstedRating?.OfstedRatingScore ?? OfstedRatingScore.None, academy.DateAcademyJoinedTrust, academy.PreviousOfstedRating?.InspectionEndDate).ToString(),
+                 academy.PreviousOfstedRating?.InspectionEndDate?.ToString(StringFormatConstants.ViewDate) ?? string.Empty,
+                 academy.CurrentOfstedRating?.OfstedRatingScore.ToString() ?? string.Empty,
+                 IsOfstedRatingBeforeOrAfterJoining(academy.CurrentOfstedRating?.OfstedRatingScore ?? OfstedRatingScore.None, academy.DateAcademyJoinedTrust, academy.CurrentOfstedRating?.InspectionEndDate).ToString(),
+                 academy.CurrentOfstedRating?.InspectionEndDate?.ToString(StringFormatConstants.ViewDate) ?? string.Empty,
+                 academy.PhaseOfEducation ?? string.Empty,
+                 academy.NumberOfPupils?.ToString() ?? string.Empty,
+                 academy.SchoolCapacity?.ToString() ?? string.Empty,
+                 academy.PercentageFull.HasValue ? $"{academy.PercentageFull}%" : string.Empty,
+                 academy.PercentageFreeSchoolMeals.HasValue ? $"{academy.PercentageFreeSchoolMeals}%" : string.Empty
+             });
+
 
             return GenerateSpreadsheet(trustSummary, academies, headers, dataExtractor);
         }
