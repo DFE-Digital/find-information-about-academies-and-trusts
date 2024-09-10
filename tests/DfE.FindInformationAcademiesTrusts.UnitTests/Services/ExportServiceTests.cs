@@ -8,7 +8,16 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
 {
     public class ExportServiceTests
     {
+        private readonly Mock<IDateTimeProvider> _mockDateTimeProvider;
         private readonly ExportService _sut = new();
+
+        public ExportServiceTests()
+        {
+            _mockDateTimeProvider = new Mock<IDateTimeProvider>();
+
+            // Baseline date for testing will be the current date in this instance
+            _mockDateTimeProvider.Setup(m => m.Now).Returns(DateTime.Now);
+        }
 
         [Fact]
         public void ExportAcademiesToSpreadsheetUsingProvider_ShouldGenerateCorrectHeaders()
@@ -204,6 +213,65 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
             worksheet.Cell(4, 15).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 16).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 17).Value.ToString().Should().Be(string.Empty);
+        }
+
+        [Fact]
+        public void IsOfstedRatingBeforeOrAfterJoining_ShouldReturnEmptyString_WhenOfstedRatingScoreIsNone()
+        {
+            // Arrange
+            var ofstedRatingScore = OfstedRatingScore.None;
+            var dateJoinedTrust = _mockDateTimeProvider.Object.Now;
+            DateTime? inspectionEndDate = dateJoinedTrust.AddDays(-1);
+
+            // Act
+            var result = ExportService.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, inspectionEndDate);
+
+            // Assert
+            result.Should().Be(string.Empty);
+        }
+
+        [Fact]
+        public void IsOfstedRatingBeforeOrAfterJoining_ShouldReturnBeforeJoining_WhenInspectionDateIsBeforeJoiningDate()
+        {
+            // Arrange
+            var ofstedRatingScore = OfstedRatingScore.Good;
+            var dateJoinedTrust = _mockDateTimeProvider.Object.Now;
+            DateTime? inspectionEndDate = dateJoinedTrust.AddDays(-10);
+
+            // Act
+            var result = ExportService.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, inspectionEndDate);
+
+            // Assert
+            result.Should().Be("Before Joining");
+        }
+
+        [Fact]
+        public void IsOfstedRatingBeforeOrAfterJoining_ShouldReturnAfterJoining_WhenInspectionDateIsAfterJoiningDate()
+        {
+            // Arrange
+            var ofstedRatingScore = OfstedRatingScore.Good;
+            var dateJoinedTrust = _mockDateTimeProvider.Object.Now.AddDays(-10);
+            DateTime? inspectionEndDate = dateJoinedTrust.AddDays(5);
+
+            // Act
+            var result = ExportService.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, inspectionEndDate);
+
+            // Assert
+            result.Should().Be("After Joining");
+        }
+
+        [Fact]
+        public void IsOfstedRatingBeforeOrAfterJoining_ShouldReturnAfterJoining_WhenInspectionDateIsNull()
+        {
+            // Arrange
+            var ofstedRatingScore = OfstedRatingScore.Good;
+            var dateJoinedTrust = _mockDateTimeProvider.Object.Now;
+
+            // Act
+            var result = ExportService.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, null);
+
+            // Assert
+            result.Should().Be("After Joining");
         }
     }
 }

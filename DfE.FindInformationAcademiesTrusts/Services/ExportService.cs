@@ -49,7 +49,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services
             return GenerateSpreadsheet(trustSummary, academies, headers, dataExtractor);
         }
 
-        private static string IsOfstedRatingBeforeOrAfterJoining(OfstedRatingScore ofstedRatingScore, DateTime dateAcademyJoinedTrust, DateTime? inspectionEndDate)
+        public static string IsOfstedRatingBeforeOrAfterJoining(OfstedRatingScore ofstedRatingScore, DateTime dateAcademyJoinedTrust, DateTime? inspectionEndDate)
         {
             if (ofstedRatingScore == OfstedRatingScore.None)
             {
