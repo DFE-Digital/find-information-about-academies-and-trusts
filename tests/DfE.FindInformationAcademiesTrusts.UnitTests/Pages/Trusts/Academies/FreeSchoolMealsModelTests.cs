@@ -16,6 +16,7 @@ public class FreeSchoolMealsModelTests
     private readonly Mock<ITrustProvider> _mockTrustProvider = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
     private readonly Mock<IExportService> _mockExportService = new();
+    private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
     private readonly MockDataSourceService _mockDataSourceService = new();
 
     public FreeSchoolMealsModelTests()
@@ -29,7 +30,7 @@ public class FreeSchoolMealsModelTests
 
         _sut = new FreeSchoolMealsModel(_mockTrustProvider.Object, _mockFreeSchoolMealsAverageProvider.Object,
                 _mockDataSourceService.Object, new MockLogger<FreeSchoolMealsModel>().Object,
-                _mockTrustRepository.Object, _mockExportService.Object)
+                _mockTrustRepository.Object, _mockExportService.Object, _mockDateTimeProvider.Object)
         { Uid = "1234" };
     }
 

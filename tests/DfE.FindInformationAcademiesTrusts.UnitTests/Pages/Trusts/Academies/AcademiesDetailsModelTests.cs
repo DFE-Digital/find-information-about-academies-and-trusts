@@ -18,6 +18,7 @@ public class AcademiesDetailsModelTests
     private readonly Mock<ITrustService> _mockTrustRepository = new();
     private readonly Mock<IAcademyService> _mockAcademyService = new();
     private readonly Mock<IExportService> _mockExportService = new();
+    private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly MockLogger<AcademiesDetailsModel> _mockLogger = new();
 
@@ -29,7 +30,7 @@ public class AcademiesDetailsModelTests
             .ReturnsAsync(_fakeTrust);
 
         _sut = new AcademiesDetailsModel(_mockTrustProvider.Object, _mockDataSourceService.Object,
-                _mockLinkBuilder.Object, _mockLogger.Object, _mockTrustRepository.Object, _mockAcademyService.Object, _mockExportService.Object)
+                _mockLinkBuilder.Object, _mockLogger.Object, _mockTrustRepository.Object, _mockAcademyService.Object, _mockExportService.Object, _mockDateTimeProvider.Object)
         { Uid = _fakeTrust.Uid };
     }
 

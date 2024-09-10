@@ -16,6 +16,7 @@ public class PupilNumbersModelTests
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
     private readonly Mock<IExportService> _mockExportService = new();
+    private readonly Mock<DateTimeProvider> _mockDateTimeProvider = new();
 
     public PupilNumbersModelTests()
     {
@@ -28,7 +29,7 @@ public class PupilNumbersModelTests
                 dummyTrust.Academies.Length));
 
         _sut = new PupilNumbersModel(_mockTrustProvider.Object, _mockDataSourceService.Object, logger.Object,
-                _mockTrustRepository.Object, _mockExportService.Object)
+                _mockTrustRepository.Object, _mockExportService.Object, _mockDateTimeProvider.Object)
         { Uid = "1234" };
     }
 

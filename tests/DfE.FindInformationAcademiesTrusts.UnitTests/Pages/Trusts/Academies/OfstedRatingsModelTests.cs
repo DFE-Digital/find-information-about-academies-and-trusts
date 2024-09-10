@@ -16,6 +16,7 @@ public class OfstedRatingsModelTests
     private readonly Mock<ITrustService> _mockTrustService = new();
     private readonly Mock<IAcademyService> _mockAcademyService = new();
     private readonly Mock<IExportService> _mockExportService = new();
+    private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
 
     private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
 
@@ -26,7 +27,7 @@ public class OfstedRatingsModelTests
 
         _sut = new OfstedRatingsModel(Mock.Of<ITrustProvider>(), _mockDataSourceService.Object,
                 new MockLogger<OfstedRatingsModel>().Object,
-                _mockTrustService.Object, _mockAcademyService.Object, _mockExportService.Object)
+                _mockTrustService.Object, _mockAcademyService.Object, _mockExportService.Object, _mockDateTimeProvider.Object)
         { Uid = "1234" };
     }
 
