@@ -1,4 +1,3 @@
-import footerLinks from "../../pages/footerLinks";
 import paginationPage from "../../pages/paginationPage";
 import homePage from "../../pages/homePage";
 import searchPage from "../../pages/searchPage";
@@ -43,34 +42,5 @@ describe("Testing the components of the home page", () => {
         homePage
             .checkMainSearchButtonPresent()
 
-    });
-
-    it("Should check that the home page footer bar privacy link is present and functional", () => {
-        footerLinks
-            .checkPrivacyLinkPresent()
-            .clickPrivacyLink()
-
-        paginationPage
-            .checkImAtTheCorrectUrl('privacy')
-
-    });
-
-    it("Should check that the home page footer bar cookies link is present and functional", () => {
-        footerLinks
-            .checkCookiesLinkPresent()
-            .clickCookiesLink()
-
-        paginationPage
-            .checkImAtTheCorrectUrl('cookies')
-
-    });
-
-    it("Should check that the home page footer bar accessibility statement link is present and functional", () => {
-        footerLinks
-            .checkAcessibilityStatementLinkPresent()
-            .clickAccessibilityStatementLink()
-
-        paginationPage
-            .checkImAtTheCorrectUrl('accessibility')
     });
 })

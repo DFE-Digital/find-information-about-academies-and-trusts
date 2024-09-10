@@ -7,7 +7,7 @@ describe("Testing the Cookie page and its options", () => {
 
     it("Should test that the user can accept cookies at the cookies page", () => {
         cookiesPage
-            .navigateToCookiesPage();
+            .navigateToCookiesPage()
             .acceptCookies();
     });
 

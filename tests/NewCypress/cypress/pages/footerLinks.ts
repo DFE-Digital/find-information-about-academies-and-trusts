@@ -1,55 +1,42 @@
 class FooterLinks {
 
+    elements = {
+        privacyFooterButton: () => cy.contains('Privacy'),
+        cookiesFooterButton: () => cy.get('[data-testid="cookies-footer-link"]'),
+        accessibilityFooterButton: () => cy.contains('Accessibility')
+    };
+
     public checkPrivacyLinkPresent(): this {
-        const privacyFooterButton = () => cy.contains('Privacy')
-
-        privacyFooterButton().scrollIntoView().should('be.visible');
-
+        this.elements.privacyFooterButton().scrollIntoView().should('be.visible');
         return this;
     }
 
     public clickPrivacyLink(): this {
-        const privacyFooterButton = () => cy.contains('Privacy')
-
-        privacyFooterButton().scrollIntoView().click();
-
+        this.elements.privacyFooterButton().scrollIntoView().click();
         return this;
     }
 
     public checkCookiesLinkPresent(): this {
-        const cookiesFooterButton = () => cy.get('[data-testid="cookies-footer-link"]')
-
-        cookiesFooterButton().scrollIntoView().should('be.visible');
-
+        this.elements.cookiesFooterButton().scrollIntoView().should('be.visible');
         return this;
     }
 
     public clickCookiesLink(): this {
-        const cookiesFooterButton = () => cy.get('[data-testid="cookies-footer-link"]')
-
-        cookiesFooterButton().scrollIntoView().click();
-
+        this.elements.cookiesFooterButton().scrollIntoView().click();
         return this;
     }
 
-    public checkAcessibilityStatementLinkPresent(): this {
-        const acessibilityFooterButton = () => cy.contains('Accessibility')
-
-        acessibilityFooterButton().scrollIntoView().should('be.visible');
-
+    public checkAccessibilityStatementLinkPresent(): this {
+        this.elements.accessibilityFooterButton().scrollIntoView().should('be.visible');
         return this;
     }
 
     public clickAccessibilityStatementLink(): this {
-        const acessibilityFooterButton = () => cy.contains('Accessibility')
-
-        acessibilityFooterButton().scrollIntoView().click();
-
+        this.elements.accessibilityFooterButton().scrollIntoView().click();
         return this;
     }
 
 }
 
 const footerLinks = new FooterLinks();
-
 export default footerLinks;

@@ -1,57 +1,79 @@
 class PaginationPage {
 
-    public checkImAtTheCorrectUrl(urlPageName: string): this {
-        cy.url().should('include', urlPageName);
+    elements = {
+        homeButton: () => cy.get('.dfe-header__link'),
+        paginationButton: (index: number) => cy.get(`[data-testid="page-${index}"]`),
+        totalPaginationButtons: () => cy.get('[data-testid^="page-"]'),
+        pagination: () => cy.get('.govuk-pagination'),
+        nextButton: () => cy.contains('Next'),
+        previousButton: () => cy.contains('Previous'),
+        results: () => cy.get('.govuk-list > :nth-child(1)')
+    };
 
+    public checkCurrentURLIsCorrect(urlPageName: string): this {
+        cy.url().should('include', urlPageName);
         return this;
     }
 
     public returnToHome(): this {
-        const homeButton = () => cy.get('.dfe-header__link')
-
-        homeButton().click();
-
+        this.elements.homeButton().click();
         return this;
     }
 
-    public next(): this {
-        cy.get(`next-page`).click();
+    public getPaginationButton(index: number): Cypress.Chainable<JQuery<HTMLElement>> {
+        return this.elements.paginationButton(index);
+    }
 
+    public getTotalPaginationButtons(): Cypress.Chainable<number> {
+        return this.elements.totalPaginationButtons().its('length');
+    }
+
+    public checkSingleResultOnlyHasOnePage(pageNumber: number): this {
+        this.elements.pagination().should('contain', pageNumber);
+        this.elements.pagination().should('not.contain', 2, 3);
         return this;
     }
 
-    public hasNoNext(): this {
-        cy.get("next-page").should("not.exist");
-
+    public checkExpectedPageNumberInPaginationBar(pageNumber: number): this {
+        this.getPaginationButton(pageNumber).should('exist');
         return this;
     }
 
-    public previous(): this {
-        cy.get(`previous-page`).click();
-
+    public checkResultIsNotInPaginationBar(pageNumber: number): this {
+        this.getPaginationButton(pageNumber).should('not.exist');
         return this;
     }
 
-    public hasNoPrevious(): this {
-        cy.get("previous-page").should("not.exist");
-
+    public clickPageNumber(pageNumber: number): this {
+        this.getPaginationButton(pageNumber).click();
         return this;
     }
 
-    public goToPage(pageNumber: string) {
-
-        cy.get(`page-${pageNumber}`).click();
-
+    public clickNext(): this {
+        this.elements.nextButton().click();
         return this;
     }
 
-    public isCurrentPage(pageNumber: string): this {
-        cy.get(`page-${pageNumber}`).parent().should("have.class", "govuk-pagination__item--current");
-
+    public clickPrevious(): this {
+        this.elements.previousButton().click();
         return this;
     }
+
+    public checkPreviousButtonNotPresent(): this {
+        this.elements.previousButton().should('not.exist');
+        return this;
+    }
+
+    public checkNextButtonNotPresent(): this {
+        this.elements.nextButton().should('not.exist');
+        return this;
+    }
+
+    public getResults(): Cypress.Chainable<JQuery<HTMLElement>> {
+        return this.elements.results();
+    }
+
 }
 
 const paginationPage = new PaginationPage();
-
 export default paginationPage;
