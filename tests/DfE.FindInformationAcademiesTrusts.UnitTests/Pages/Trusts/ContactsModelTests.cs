@@ -95,14 +95,14 @@ public class ContactsModelTests
     public async Task OnGetAsync_sets_trust_relationship_manager()
     {
         await _sut.OnGetAsync();
-        _sut.Trust.TrustRelationshipManager?.FullName.Should().Be("Present Trm");
+        _sut.TrustRelationshipManager?.FullName.Should().Be("Present Trm");
     }
 
     [Fact]
     public async Task OnGetAsync_sets_trust_sfsolead()
     {
         await _sut.OnGetAsync();
-        _sut.Trust.SfsoLead?.FullName.Should().Be("Present Sfsolead");
+        _sut.SfsoLead?.FullName.Should().Be("Present Sfsolead");
     }
 
     [Fact]
