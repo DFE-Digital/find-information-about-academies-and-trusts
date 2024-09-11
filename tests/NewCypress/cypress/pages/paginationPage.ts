@@ -10,11 +10,6 @@ class PaginationPage {
         results: () => cy.get('.govuk-list > :nth-child(1)')
     };
 
-    public checkCurrentURLIsCorrect(urlPageName: string): this {
-        cy.url().should('include', urlPageName);
-        return this;
-    }
-
     public returnToHome(): this {
         this.elements.homeButton().click();
         return this;
