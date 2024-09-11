@@ -60,4 +60,38 @@ public class AcademyServiceTests
         result.Should().BeOfType<AcademyOfstedServiceModel[]>();
         result.Should().BeEquivalentTo(academies);
     }
+
+    [Fact]
+    public async Task GetAcademiesInTrustPupilNumbersAsync_should_return_mapped_result_from_repository()
+    {
+        const string uid = "1234";
+        AcademyPupilNumbers[] academies =
+        [
+            BuildDummyAcademyPupilNumbers("9876", "phase1", new AgeRange(2, 15), 100, 200),
+            BuildDummyAcademyPupilNumbers("8765", "phase2", new AgeRange(7, 12), 2, 5)
+        ];
+
+        _mockAcademyRepository.Setup(a => a.GetAcademiesInTrustPupilNumbersAsync(uid))
+            .ReturnsAsync(academies);
+
+        var result = await _sut.GetAcademiesInTrustPupilNumbersAsync(uid);
+
+        result.Should().BeOfType<AcademyPupilNumbersServiceModel[]>();
+        result.Should().BeEquivalentTo(academies);
+    }
+
+    private static AcademyPupilNumbers BuildDummyAcademyPupilNumbers(string urn,
+        string phaseOfEducation = "test",
+        AgeRange? ageRange = null,
+        int? numberOfPupils = 300,
+        int? schoolCapacity = 400
+    )
+    {
+        return new AcademyPupilNumbers(urn,
+            $"Academy {urn}",
+            phaseOfEducation,
+            ageRange ?? new AgeRange(11, 18),
+            numberOfPupils,
+            schoolCapacity);
+    }
 }

@@ -6,9 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+
 ### Added
 
 - Academies in this trust data now exportable
+
+### Changed
+
+- Reduced the load time of the Academies in trust pupil numbers page
+
 
 ## [Release-5][release-5] (production-2024-09-05.2971)
 

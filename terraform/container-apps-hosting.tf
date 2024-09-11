@@ -71,6 +71,7 @@ module "azure_container_apps_hosting" {
   monitor_endpoint_healthcheck = local.monitor_endpoint_healthcheck
 
   enable_container_app_file_share = local.enable_container_app_file_share
+  storage_account_ipv4_allow_list = local.storage_account_ipv4_allow_list
 
   existing_logic_app_workflow                  = local.existing_logic_app_workflow
   existing_network_watcher_name                = local.existing_network_watcher_name

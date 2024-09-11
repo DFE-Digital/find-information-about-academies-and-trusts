@@ -3,6 +3,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 using DfE.FindInformationAcademiesTrusts.Services;
+using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,7 @@ public class PupilNumbersModelTests
     private readonly Mock<ITrustService> _mockTrustRepository = new();
     private readonly Mock<IExportService> _mockExportService = new();
     private readonly Mock<DateTimeProvider> _mockDateTimeProvider = new();
+    private readonly Mock<IAcademyService> _mockAcademyService = new();
 
     public PupilNumbersModelTests()
     {
@@ -27,10 +29,16 @@ public class PupilNumbersModelTests
         _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrust.Uid))
             .ReturnsAsync(new TrustSummaryServiceModel(dummyTrust.Uid, dummyTrust.Name, dummyTrust.Type,
                 dummyTrust.Academies.Length));
+        _mockAcademyService.Setup(t => t.GetAcademiesInTrustPupilNumbersAsync(dummyTrust.Uid))
+            .ReturnsAsync([
+                new AcademyPupilNumbersServiceModel(dummyTrust.Uid, dummyTrust.Name, "Phase",
+                    new AgeRange("11", "16"), 100, 200)
+            ]);
 
         _sut = new PupilNumbersModel(_mockTrustProvider.Object, _mockDataSourceService.Object, logger.Object,
-                _mockTrustRepository.Object, _mockExportService.Object, _mockDateTimeProvider.Object)
+               _mockTrustRepository.Object, _mockExportService.Object, _mockDateTimeProvider.Object, _mockAcademyService.Object)
         { Uid = "1234" };
+
     }
 
     [Fact]
@@ -64,7 +72,9 @@ public class PupilNumbersModelTests
         var ageRange = new AgeRange(minAge, maxAge);
         var dummyAcademy = DummyAcademyFactory.GetDummyAcademy(111, phaseOfEducation: phase, ageRange: ageRange);
 
-        var result = _sut.PhaseAndAgeRangeSortValue(dummyAcademy);
+        var result = PupilNumbersModel.PhaseAndAgeRangeSortValue(new AcademyPupilNumbersServiceModel(dummyAcademy.Urn.ToString(),
+            dummyAcademy.EstablishmentName, dummyAcademy.PhaseOfEducation, dummyAcademy.AgeRange,
+            dummyAcademy.NumberOfPupils, dummyAcademy.SchoolCapacity));
         result.Should().Be(expected);
     }
 
