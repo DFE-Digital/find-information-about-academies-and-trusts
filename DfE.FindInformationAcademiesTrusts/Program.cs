@@ -1,6 +1,3 @@
-using System.Data;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using Azure.Identity;
 using DfE.FindInformationAcademiesTrusts.Authorization;
 using DfE.FindInformationAcademiesTrusts.Data;
@@ -14,6 +11,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Options;
 using DfE.FindInformationAcademiesTrusts.Pages;
+using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -27,6 +25,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.FeatureManagement;
 using Microsoft.Identity.Web;
 using Serilog;
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace DfE.FindInformationAcademiesTrusts;
 
@@ -110,7 +111,8 @@ internal static class Program
 
         app.UseCookiePolicy(new CookiePolicyOptions
         {
-            Secure = CookieSecurePolicy.Always, HttpOnly = HttpOnlyPolicy.Always,
+            Secure = CookieSecurePolicy.Always,
+            HttpOnly = HttpOnlyPolicy.Always,
             MinimumSameSitePolicy = SameSiteMode.None
         });
 
@@ -206,6 +208,8 @@ internal static class Program
 
         builder.Services.AddScoped<ITrustProvider, TrustProvider>();
 
+        builder.Services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+
         builder.Services.AddScoped<IAcademyRepository, AcademyRepository>();
         builder.Services.AddScoped<ITrustRepository, TrustRepository>();
         builder.Services.AddScoped<IDataSourceRepository, DataSourceRepository>();
@@ -213,6 +217,7 @@ internal static class Program
         builder.Services.AddScoped<IDataSourceService, DataSourceService>();
         builder.Services.AddScoped<ITrustService, TrustService>();
         builder.Services.AddScoped<IAcademyService, AcademyService>();
+        builder.Services.AddScoped<IExportService, ExportService>();
 
         builder.Services.AddScoped<ITrustFactory, TrustFactory>();
         builder.Services.AddScoped<IAcademyFactory, AcademyFactory>();

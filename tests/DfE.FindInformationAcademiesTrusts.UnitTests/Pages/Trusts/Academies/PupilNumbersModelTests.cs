@@ -2,6 +2,7 @@ using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -15,6 +16,8 @@ public class PupilNumbersModelTests
     private readonly Mock<ITrustProvider> _mockTrustProvider = new();
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
+    private readonly Mock<IExportService> _mockExportService = new();
+    private readonly Mock<DateTimeProvider> _mockDateTimeProvider = new();
     private readonly Mock<IAcademyService> _mockAcademyService = new();
 
     public PupilNumbersModelTests()
@@ -33,8 +36,9 @@ public class PupilNumbersModelTests
             ]);
 
         _sut = new PupilNumbersModel(_mockTrustProvider.Object, _mockDataSourceService.Object, logger.Object,
-                _mockTrustRepository.Object, _mockAcademyService.Object)
-            { Uid = "1234" };
+               _mockTrustRepository.Object, _mockAcademyService.Object, _mockExportService.Object, _mockDateTimeProvider.Object)
+        { Uid = "1234" };
+
     }
 
     [Fact]

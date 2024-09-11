@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
-public class AcademiesDetailsModel : TrustsAreaModel, IAcademiesAreaModel
+public class AcademiesDetailsModel : AcademiesPageModel
 {
     public AcademyDetailsServiceModel[] Academies { get; set; } = default!;
     public IOtherServicesLinkBuilder LinkBuilder { get; }
@@ -15,10 +16,11 @@ public class AcademiesDetailsModel : TrustsAreaModel, IAcademiesAreaModel
 
     public AcademiesDetailsModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
         IOtherServicesLinkBuilder linkBuilder, ILogger<AcademiesDetailsModel> logger,
-        ITrustService trustService, IAcademyService academyService) : base(trustProvider,
-        dataSourceService, trustService, logger, "Academies in this trust")
+        ITrustService trustService, IAcademyService academyService, IExportService exportService, IDateTimeProvider dateTimeProvider) : base(trustProvider,
+        dataSourceService, trustService, exportService, logger, dateTimeProvider)
     {
         PageTitle = "Academies details";
+        TabName = "Details";
         LinkBuilder = linkBuilder;
         AcademyService = academyService;
     }
@@ -37,5 +39,4 @@ public class AcademiesDetailsModel : TrustsAreaModel, IAcademiesAreaModel
         return pageResult;
     }
 
-    public string TabName => "Details";
 }
