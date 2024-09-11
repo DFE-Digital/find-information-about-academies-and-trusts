@@ -14,8 +14,7 @@ public class PupilNumbersModel : AcademiesPageModel
     public AcademyPupilNumbersServiceModel[] Academies { get; set; } = default!;
 
     public PupilNumbersModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
-
-        ILogger<PupilNumbersModel> logger, ITrustService trustService,IAcademyService academyService, IExportService exportService, IDateTimeProvider dateTimeProvider)
+        ILogger<PupilNumbersModel> logger, ITrustService trustService, IAcademyService academyService, IExportService exportService, IDateTimeProvider dateTimeProvider)
         : base(trustProvider, dataSourceService, trustService, exportService, logger, dateTimeProvider)
     {
         AcademyService = academyService;
@@ -36,9 +35,6 @@ public class PupilNumbersModel : AcademiesPageModel
 
         return pageResult;
     }
-
-
-    public string TabName => "Pupil numbers";
 
     public static string PhaseAndAgeRangeSortValue(AcademyPupilNumbersServiceModel academy)
     {

@@ -36,7 +36,7 @@ public class PupilNumbersModelTests
             ]);
 
         _sut = new PupilNumbersModel(_mockTrustProvider.Object, _mockDataSourceService.Object, logger.Object,
-               _mockTrustRepository.Object, _mockExportService.Object, _mockDateTimeProvider.Object, _mockAcademyService.Object)
+               _mockTrustRepository.Object, _mockAcademyService.Object, _mockExportService.Object, _mockDateTimeProvider.Object)
         { Uid = "1234" };
 
     }
