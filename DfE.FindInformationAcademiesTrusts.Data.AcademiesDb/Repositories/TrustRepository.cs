@@ -78,6 +78,20 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
         return governersDto;
     }
 
+    public async Task<TrustContacts> GetTrustContactsAsync(string uid)
+    {
+        var trm = await GetTrustRelationshipManagerLinkedTo(uid);
+        var sfso = await GetSfsoLeadLinkedTo(uid);
+        var governanceContacts = await GetGovernanceContactsAsync(uid);
+
+        return new TrustContacts(
+            trm,
+            sfso,
+            governanceContacts.GetValueOrDefault("Accounting Officer"),
+            governanceContacts.GetValueOrDefault("Chair of Trustees"),
+            governanceContacts.GetValueOrDefault("Chief Financial Officer"));
+    }
+
     private async Task<string> GetRegionAndTerritoryAsync(string uid)
     {
         return await academiesDbContext.MstrTrusts
@@ -97,5 +111,54 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
             fullName += $" {surname}";
 
         return fullName;
+    }
+
+    private async Task<Person?> GetTrustRelationshipManagerLinkedTo(string uid)
+    {
+        return await academiesDbContext.CdmAccounts
+            .Where(a => a.SipUid == uid)
+            .Join(academiesDbContext.CdmSystemusers, account => account.SipTrustrelationshipmanager,
+                systemuser => systemuser.Systemuserid,
+                (_, systemuser) => new Person(systemuser.Fullname!, systemuser.Internalemailaddress))
+            .SingleOrDefaultAsync();
+    }
+
+    private async Task<Person?> GetSfsoLeadLinkedTo(string uid)
+    {
+        return await academiesDbContext.CdmAccounts
+            .Where(a => a.SipUid == uid)
+            .Join(academiesDbContext.CdmSystemusers, account => account.SipAmsdlead,
+                systemuser => systemuser.Systemuserid,
+                (_, systemuser) => new Person(systemuser.Fullname!, systemuser.Internalemailaddress))
+            .SingleOrDefaultAsync();
+    }
+
+    private async Task<Dictionary<string, Person>> GetGovernanceContactsAsync(string uid)
+    {
+        string[] roles = ["Chair of Trustees", "Accounting Officer", "Chief Financial Officer"];
+        var governors = (await academiesDbContext.GiasGovernances
+                .Where(governance => governance.Uid == uid && roles.Contains(governance.Role))
+                .Select(governance => new
+                {
+                    governance.Gid,
+                    FullName = GetFullName(governance.Forename1!, governance.Forename2!, governance.Surname!),
+                    EndDate = governance.DateTermOfOfficeEndsEnded.ParseAsNullableDate(),
+                    Role = governance.Role!
+                })
+                .ToArrayAsync())
+            .Where(g => g.EndDate == null || g.EndDate >= DateTime.Today).ToArray();
+
+        var gids = governors.Select(g => g.Gid).ToArray();
+
+        var governorEmails = await academiesDbContext.MstrTrustGovernances
+            .Where(mstrTrustGovernance => gids.Contains(mstrTrustGovernance.Gid))
+            .Select(mstrTrustGovernance => new { mstrTrustGovernance.Gid, mstrTrustGovernance.Email }).ToArrayAsync();
+
+        return governors.ToDictionary(
+            governor => governor.Role,
+            governor => new Person(
+                governor.FullName,
+                governorEmails.FirstOrDefault(governorEmail => governorEmail.Gid == governor.Gid)?.Email)
+        );
     }
 }
