@@ -9,6 +9,7 @@ public interface ITrustService
     Task<TrustSummaryServiceModel?> GetTrustSummaryAsync(string uid);
     Task<TrustDetailsServiceModel> GetTrustDetailsAsync(string uid);
     Task<TrustGovernanceServiceModel> GetTrustGovernanceAsync(string uid);
+    Task<TrustContactsServiceModel> GetTrustContactsAsync(string uid);
 }
 
 public class TrustService(
@@ -69,5 +70,14 @@ public class TrustService(
         var (trustLeadership, members, trustees, historicMembers) = await trustRepository.GetTrustGovernanceAsync(uid);
         var governanceDto = new TrustGovernanceServiceModel(trustLeadership, members, trustees, historicMembers);
         return governanceDto;
+    }
+
+    public async Task<TrustContactsServiceModel> GetTrustContactsAsync(string uid)
+    {
+        var (trustRelationshipManager, sfsoLead, accountingOfficer, chairOfTrustees, chiefFinancialOfficer) =
+            await trustRepository.GetTrustContactsAsync(uid);
+
+        return new TrustContactsServiceModel(trustRelationshipManager, sfsoLead, accountingOfficer, chairOfTrustees,
+            chiefFinancialOfficer);
     }
 }
