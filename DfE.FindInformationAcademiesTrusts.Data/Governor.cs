@@ -1,10 +1,12 @@
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
+
 namespace DfE.FindInformationAcademiesTrusts.Data;
 
 public record Governor(
     string GID,
     string UID,
     string FullName,
-    string Role,
+    GovernanceRole Role,
     string AppointingBody,
     DateTime? DateOfAppointment,
     DateTime? DateOfTermEnd,
@@ -16,13 +18,13 @@ public record Governor(
         HasRoleAccountingOfficer || HasRoleChiefFinancialOfficer ||
         HasRoleChairOfTrustees;
 
-    public bool HasRoleMemeber => Role == "Member";
+    public bool HasRoleMemeber => Role == GovernanceRole.Member;
 
-    public bool HasRoleTrustee => Role == "Trustee";
+    public bool HasRoleTrustee => Role == GovernanceRole.Trustee;
 
-    private bool HasRoleAccountingOfficer => Role == "Accounting Officer";
+    private bool HasRoleAccountingOfficer => Role == GovernanceRole.AccountingOfficer;
 
-    private bool HasRoleChiefFinancialOfficer => Role == "Chief Financial Officer";
+    private bool HasRoleChiefFinancialOfficer => Role == GovernanceRole.ChiefFinancialOfficer;
 
-    private bool HasRoleChairOfTrustees => Role == "Chair of Trustees";
+    private bool HasRoleChairOfTrustees => Role == GovernanceRole.ChairOfTrustees;
 }

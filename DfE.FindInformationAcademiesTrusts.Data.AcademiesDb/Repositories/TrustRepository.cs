@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using Microsoft.EntityFrameworkCore;
 
@@ -64,7 +65,8 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
             .Where(g => g.Uid == uid)
             .Select(governance => new Governor(governance.Gid!, governance.Uid!,
                 GetFullName(governance.Forename1!, governance.Forename2!, governance.Surname!),
-                governance.Role!, governance.AppointingBody!, governance.DateOfAppointment.ParseAsNullableDate(),
+                Enum.Parse<GovernanceRole>(governance.Role!), governance.AppointingBody!,
+                governance.DateOfAppointment.ParseAsNullableDate(),
                 governance.DateTermOfOfficeEndsEnded.ParseAsNullableDate(), null))
             .ToArrayAsync();
         var governersDto = new TrustGovernance(

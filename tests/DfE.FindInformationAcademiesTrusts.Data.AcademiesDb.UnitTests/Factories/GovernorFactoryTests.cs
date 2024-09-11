@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Factories;
 
@@ -31,7 +32,7 @@ public class GovernorFactoryTests
 
         result.GID.Should().Be("1011111");
         result.UID.Should().Be("1234");
-        result.Role.Should().Be("Trustee");
+        result.Role.Should().Be(GovernanceRole.Trustee);
         result.AppointingBody.Should().Be("Appointed by GB/board");
         result.DateOfAppointment.Should().Be(new DateTime(2023, 09, 01));
         result.DateOfTermEnd.Should().Be(new DateTime(2024, 09, 01));

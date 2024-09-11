@@ -1,4 +1,5 @@
 ﻿@page
+@using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Mappings
 @using DfE.FindInformationAcademiesTrusts.Extensions
 @model GovernanceModel
 
@@ -26,8 +27,8 @@
             <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@governor.FullName" data-testid="trust-leadership-name">
               @governor.FullName
             </th>
-            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.Role" data-testid="trust-leadership-role">
-              @governor.Role
+            <td class="govuk-body govuk-table__cell" data-sort-value="@GovernorRoleMappings.GovernanceRoleEnumToString.GetValueOrDefault(governor.Role)" data-testid="trust-leadership-role">
+              @GovernorRoleMappings.GovernanceRoleEnumToString.GetValueOrDefault(governor.Role)
             </td>
             <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfAppointment?.ToString(StringFormatConstants.SortDate)" data-testid="trust-leadership-from">
               @governor.DateOfAppointment.ShowDateStringOrReplaceWithText()
@@ -150,8 +151,8 @@
             <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@governor.FullName" data-testid="historic-members-name">
               @governor.FullName
             </th>
-            <td class="govuk-body govuk-table__cell" data-sort-value="@governor.Role" data-testid="historic-members-role">
-              @governor.Role
+            <td class="govuk-body govuk-table__cell" data-sort-value="@GovernorRoleMappings.GovernanceRoleEnumToString.GetValueOrDefault(governor.Role)" data-testid="historic-members-role">
+              @GovernorRoleMappings.GovernanceRoleEnumToString.GetValueOrDefault(governor.Role)
             </td>
             <td class="govuk-body govuk-table__cell" data-sort-value="@governor.AppointingBody" data-testid="historic-members-appointed">
               @governor.AppointingBody

@@ -28,13 +28,18 @@ public class ContactsModelTests
     {
         Governor[] listOfGovernors =
         {
-            DummyGovernorFactory.GetDummyGovernor("Past Chair", ChairOfTrustees, PastGovernorDate),
-            DummyGovernorFactory.GetDummyGovernor(PresentChairOfTrustees, ChairOfTrustees, CurrentGovernorDate),
-            DummyGovernorFactory.GetDummyGovernor("Past AccountingOfficer", AccountingOfficer, PastGovernorDate),
-            DummyGovernorFactory.GetDummyGovernor(PresentAccountingOfficer, AccountingOfficer, CurrentGovernorDate),
-            DummyGovernorFactory.GetDummyGovernor("Past ChiefFinancialOfficer", ChiefFinancialOfficer,
-                PastGovernorDate),
-            DummyGovernorFactory.GetDummyGovernor(PresentChiefFinancialOfficer, ChiefFinancialOfficer, null)
+            DummyGovernorFactory.GetDummyGovernor("Past Chair", role: GovernanceRole.ChairOfTrustees,
+                dateOfTermEnd: PastGovernorDate),
+            DummyGovernorFactory.GetDummyGovernor(PresentChairOfTrustees,
+                role: GovernanceRole.ChairOfTrustees, dateOfTermEnd: CurrentGovernorDate),
+            DummyGovernorFactory.GetDummyGovernor("Past AccountingOfficer",
+                role: GovernanceRole.AccountingOfficer, dateOfTermEnd: PastGovernorDate),
+            DummyGovernorFactory.GetDummyGovernor(PresentAccountingOfficer,
+                role: GovernanceRole.AccountingOfficer, dateOfTermEnd: CurrentGovernorDate),
+            DummyGovernorFactory.GetDummyGovernor("Past ChiefFinancialOfficer",
+                role: GovernanceRole.ChiefFinancialOfficer, dateOfTermEnd: PastGovernorDate),
+            DummyGovernorFactory.GetDummyGovernor(PresentChiefFinancialOfficer,
+                role: GovernanceRole.ChiefFinancialOfficer, dateOfTermEnd: null)
         };
 
         return listOfGovernors;

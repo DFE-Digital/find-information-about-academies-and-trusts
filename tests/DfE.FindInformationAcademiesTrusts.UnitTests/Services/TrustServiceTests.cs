@@ -1,7 +1,8 @@
+using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
-using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
@@ -142,7 +143,7 @@ public class TrustServiceTests
         var member = new Governor(
             "9999",
             "1234",
-            Role: "Member",
+            Role: GovernanceRole.Member,
             FullName: "First Second Last",
             DateOfAppointment: startDate,
             DateOfTermEnd: futureEndDate,
@@ -152,7 +153,7 @@ public class TrustServiceTests
         var trustee = new Governor(
             "9998",
             "1234",
-            Role: "Trustee",
+            Role: GovernanceRole.Trustee,
             FullName: "First Second Last",
             DateOfAppointment: startDate,
             DateOfTermEnd: futureEndDate,
@@ -162,7 +163,7 @@ public class TrustServiceTests
         var leader = new Governor(
             "9999",
             "1234",
-            Role: "Chair of Trustees",
+            Role: GovernanceRole.ChairOfTrustees,
             FullName: "First Second Last",
             DateOfAppointment: startDate,
             DateOfTermEnd: futureEndDate,
@@ -172,7 +173,7 @@ public class TrustServiceTests
         var historic = new Governor(
             "9999",
             "1234",
-            Role: "Trustee",
+            Role: GovernanceRole.Trustee,
             FullName: "First Second Last",
             DateOfAppointment: startDate,
             DateOfTermEnd: historicEndDate,

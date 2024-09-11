@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 
@@ -17,7 +18,7 @@ public class GovernorFactory : IGovernorFactory
             giasGovernance.Gid!,
             giasGovernance.Uid!,
             GetFullName(giasGovernance),
-            giasGovernance.Role!,
+            Enum.Parse<GovernanceRole>(giasGovernance.Role!),
             giasGovernance.AppointingBody!,
             giasGovernance.DateOfAppointment.ParseAsNullableDate(),
             giasGovernance.DateTermOfOfficeEndsEnded.ParseAsNullableDate(),

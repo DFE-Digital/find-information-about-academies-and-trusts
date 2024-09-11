@@ -1,31 +1,34 @@
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
+
 namespace DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 
 public class DummyGovernorFactory
 {
-    private int _numberGenerated;
+    // private int _numberGenerated;
+    //
+    // public Governor GetDummyGovernor(string uid)
+    // {
+    //     _numberGenerated++;
+    //     return GetDummyGovernor(_numberGenerated.ToString(), gid: uid);
+    // }
 
-    public Governor GetDummyGovernor(string uid)
-    {
-        _numberGenerated++;
-        return GetDummyGovernor(_numberGenerated.ToString(), uid);
-    }
+    // public static Governor GetDummyGovernor(, string uid, GovernanceRole role = GovernanceRole.Member)
+    // {
+    //     return new Governor(gid,
+    //         uid,
+    //         $"Governor {gid}",
+    //         role,
+    //         "test",
+    //         null,
+    //         null,
+    //         "test");
+    // }
 
-    public static Governor GetDummyGovernor(string gid, string uid)
-    {
-        return new Governor(gid,
-            uid,
-            $"Governor {gid}",
-            "test",
-            "test",
-            null,
-            null,
-            "test");
-    }
-
-    public static Governor GetDummyGovernor(string name, string role, DateTime? dateOfTermEnd)
+    public static Governor GetDummyGovernor(string name, DateTime? dateOfTermEnd = null, string gid = "1",
+        string uid = "2", GovernanceRole role = GovernanceRole.Member)
     {
         return new Governor("1",
-            "2",
+            uid,
             name,
             role,
             "test",

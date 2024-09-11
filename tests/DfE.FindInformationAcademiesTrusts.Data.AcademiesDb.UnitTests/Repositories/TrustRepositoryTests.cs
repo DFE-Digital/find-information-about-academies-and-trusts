@@ -1,6 +1,8 @@
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Mappings;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories;
@@ -157,7 +159,7 @@ public class TrustRepositoryTests
         var output = new Governor(
             "9999",
             "1234",
-            Role: role,
+            Role: GovernorRoleMappings.GovernanceRoleStringToEnum.GetValueOrDefault(role),
             FullName: "First Second Last",
             DateOfAppointment: startDate,
             DateOfTermEnd: endDate,
@@ -253,7 +255,7 @@ public class TrustRepositoryTests
         var output = new Governor(
             "9999",
             "1234",
-            Role: role,
+            Role: GovernorRoleMappings.GovernanceRoleStringToEnum.GetValueOrDefault(role),
             FullName: "First Second Last",
             DateOfAppointment: startDate,
             DateOfTermEnd: endDate,
@@ -294,7 +296,7 @@ public class TrustRepositoryTests
         var currentMemberOutput = new Governor(
             "9999",
             "1234",
-            Role: "Member",
+            Role: GovernanceRole.Member,
             FullName: "First Second Last",
             DateOfAppointment: startDate,
             DateOfTermEnd: today,
@@ -316,7 +318,7 @@ public class TrustRepositoryTests
         var currentMember2Output = new Governor(
             "9998",
             "1234",
-            Role: "Member",
+            Role: GovernanceRole.Member,
             FullName: "First Second Last",
             DateOfAppointment: startDate,
             DateOfTermEnd: tomorrow,
@@ -338,7 +340,7 @@ public class TrustRepositoryTests
         var historicMemberOutput = new Governor(
             "9997",
             "1234",
-            Role: "Member",
+            Role: GovernanceRole.Member,
             FullName: "First Second Last",
             DateOfAppointment: startDate,
             DateOfTermEnd: yesterday,

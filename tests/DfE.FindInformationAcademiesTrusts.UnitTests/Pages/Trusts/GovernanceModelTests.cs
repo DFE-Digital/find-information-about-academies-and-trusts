@@ -18,7 +18,7 @@ public class GovernanceModelTests
     private static readonly Governor Member = new(
         "9999",
         "1234",
-        Role: "Member",
+        Role: GovernanceRole.Member,
         FullName: "First Second Last",
         DateOfAppointment: StartDate,
         DateOfTermEnd: FutureEndDate,
@@ -29,7 +29,7 @@ public class GovernanceModelTests
     private static readonly Governor Trustee = new(
         "9998",
         "1234",
-        Role: "Trustee",
+        Role: GovernanceRole.Trustee,
         FullName: "First Second Last",
         DateOfAppointment: StartDate,
         DateOfTermEnd: FutureEndDate,
@@ -40,7 +40,7 @@ public class GovernanceModelTests
     private static readonly Governor Leader = new(
         "9999",
         "1234",
-        Role: "Chair of Trustees",
+        Role: GovernanceRole.ChairOfTrustees,
         FullName: "First Second Last",
         DateOfAppointment: StartDate,
         DateOfTermEnd: FutureEndDate,
@@ -51,7 +51,7 @@ public class GovernanceModelTests
     private static readonly Governor Historic = new(
         "9999",
         "1234",
-        Role: "Trustee",
+        Role: GovernanceRole.Trustee,
         FullName: "First Second Last",
         DateOfAppointment: StartDate,
         DateOfTermEnd: HistoricEndDate,
