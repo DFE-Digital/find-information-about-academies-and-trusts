@@ -13,12 +13,11 @@ public class ContactsModel(
     ITrustService trustService)
     : TrustsAreaModel(trustProvider, dataSourceService, trustService, logger, "Contacts")
 {
-    public Trust Trust { get; set; } = default!;
-    public Governor? ChairOfTrustees { get; set; }
-
-    public Governor? AccountingOfficer { get; set; }
-
-    public Governor? ChiefFinancialOfficer { get; set; }
+    public Person? ChairOfTrustees { get; set; }
+    public Person? AccountingOfficer { get; set; }
+    public Person? SfsoLead { get; set; }
+    public Person? TrustRelationshipManager { get; set; }
+    public Person? ChiefFinancialOfficer { get; set; }
 
     public const string ContactNameNotAvailableMessage = "No contact name available";
 
@@ -32,14 +31,13 @@ public class ContactsModel(
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        Trust = (await TrustProvider.GetTrustByUidAsync(Uid))!;
+        var people = await TrustService.GetTrustContactsAsync(Uid);
 
-        ChairOfTrustees = Array.Find(Trust.Governors, x =>
-            x is { Role: "Chair of Trustees", IsCurrentGovernor: true });
-        AccountingOfficer = Array.Find(Trust.Governors, x =>
-            x is { Role: "Accounting Officer", IsCurrentGovernor: true });
-        ChiefFinancialOfficer = Array.Find(Trust.Governors, x =>
-            x is { Role: "Chief Financial Officer", IsCurrentGovernor: true });
+        ChairOfTrustees = people.ChairOfTrustees;
+        AccountingOfficer = people.AccountingOfficer;
+        ChiefFinancialOfficer = people.ChiefFinancialOfficer;
+        SfsoLead = people.SfsoLead;
+        TrustRelationshipManager = people.TrustRelationshipManager;
 
         DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Cdm),
             new List<string> { "DfE contacts" }));
