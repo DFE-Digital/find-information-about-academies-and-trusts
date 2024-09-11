@@ -12,45 +12,28 @@ public class ContactsModelTests
 {
     private readonly ContactsModel _sut;
     private readonly Mock<ITrustProvider> _mockTrustProvider = new();
-    private const string PresentChairOfTrustees = "Present ChairOfTrustees";
-    private const string PresentAccountingOfficer = "Present AccountingOfficer";
-    private const string PresentChiefFinancialOfficer = "Present ChiefFinancialOfficer";
-    private const string ChairOfTrustees = "Chair Of Trustees";
-    private const string AccountingOfficer = "Accounting Officer";
-    private const string ChiefFinancialOfficer = "Chief Financial Officer";
-    private static readonly DateTime CurrentGovernorDate = DateTime.Today;
-    private static readonly DateTime PastGovernorDate = DateTime.Today.AddDays(-1);
 
     private readonly MockDataSourceService _mockDataSourceService = new();
-    private readonly Mock<ITrustService> _mockTrustRepository = new();
+    private readonly Mock<ITrustService> _mockTrustService = new();
 
-    private static Governor[] ListOfGovernors()
-    {
-        Governor[] listOfGovernors =
-        {
-            DummyGovernorFactory.GetDummyGovernor("Past Chair", ChairOfTrustees, PastGovernorDate),
-            DummyGovernorFactory.GetDummyGovernor(PresentChairOfTrustees, ChairOfTrustees, CurrentGovernorDate),
-            DummyGovernorFactory.GetDummyGovernor("Past AccountingOfficer", AccountingOfficer, PastGovernorDate),
-            DummyGovernorFactory.GetDummyGovernor(PresentAccountingOfficer, AccountingOfficer, CurrentGovernorDate),
-            DummyGovernorFactory.GetDummyGovernor("Past ChiefFinancialOfficer", ChiefFinancialOfficer,
-                PastGovernorDate),
-            DummyGovernorFactory.GetDummyGovernor(PresentChiefFinancialOfficer, ChiefFinancialOfficer, null)
-        };
+    private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
 
-        return listOfGovernors;
-    }
+    private readonly Person _chairOfTrustees = new("Chair Of Trustees", "cot@test.com");
+    private readonly Person _chiefFinancialOfficer = new("Chief Financial Officer", "cfo@test.com");
+    private readonly Person _accountingOfficer = new("Accounting Officer", "ao@test.com");
+    private readonly Person _sfsoLead = new("SFSO Lead", "sfsol@test.com");
+    private readonly Person _trustRelationshipManager = new("Trust Relationship Manager", "trm@test.com");
 
     public ContactsModelTests()
     {
-        var dummyTrustWithGovernors = DummyTrustFactory.GetDummyTrust("1234", governors: ListOfGovernors());
-
-        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrustWithGovernors);
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrustWithGovernors.Uid))
-            .ReturnsAsync(new TrustSummaryServiceModel(dummyTrustWithGovernors.Uid, dummyTrustWithGovernors.Name,
-                dummyTrustWithGovernors.Type, dummyTrustWithGovernors.Academies.Length));
+        _mockTrustService.Setup(tp => tp.GetTrustContactsAsync("1234")).ReturnsAsync(
+            new TrustContactsServiceModel(_trustRelationshipManager, _sfsoLead, _accountingOfficer, _chairOfTrustees,
+                _chiefFinancialOfficer));
+        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
+            .ReturnsAsync(_fakeTrust);
 
         _sut = new ContactsModel(_mockTrustProvider.Object, _mockDataSourceService.Object,
-                new MockLogger<ContactsModel>().Object, _mockTrustRepository.Object)
+                new MockLogger<ContactsModel>().Object, _mockTrustService.Object)
             { Uid = "1234" };
     }
 
@@ -58,8 +41,9 @@ public class ContactsModelTests
     {
         var dummyTrustWithNoGovernors = DummyTrustFactory.GetDummyTrust("1234");
 
-        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrustWithNoGovernors);
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrustWithNoGovernors.Uid))
+        _mockTrustService.Setup(tp => tp.GetTrustContactsAsync("1234")).ReturnsAsync(
+            new TrustContactsServiceModel(null, null, null, null, null));
+        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(dummyTrustWithNoGovernors.Uid))
             .ReturnsAsync(new TrustSummaryServiceModel(dummyTrustWithNoGovernors.Uid, dummyTrustWithNoGovernors.Name,
                 dummyTrustWithNoGovernors.Type, dummyTrustWithNoGovernors.Academies.Length));
     }
@@ -74,35 +58,35 @@ public class ContactsModelTests
     public async Task OnGetAsync_sets_chair_of_trustees_to_be_current_chair()
     {
         await _sut.OnGetAsync();
-        _sut.ChairOfTrustees?.FullName.Should().Be(PresentChairOfTrustees);
+        _sut.ChairOfTrustees?.Should().Be(_chairOfTrustees);
     }
 
     [Fact]
     public async Task OnGetAsync_sets_accounting_officer_to_be_current_officer()
     {
         await _sut.OnGetAsync();
-        _sut.AccountingOfficer?.FullName.Should<string>().Be(PresentAccountingOfficer);
+        _sut.AccountingOfficer?.Should().Be(_accountingOfficer);
     }
 
     [Fact]
     public async Task OnGetAsync_sets_chief_financial_officer_to_be_current_officer()
     {
         await _sut.OnGetAsync();
-        _sut.ChiefFinancialOfficer?.FullName.Should<string>().Be(PresentChiefFinancialOfficer);
+        _sut.ChiefFinancialOfficer?.Should().Be(_chiefFinancialOfficer);
     }
 
     [Fact]
     public async Task OnGetAsync_sets_trust_relationship_manager()
     {
         await _sut.OnGetAsync();
-        _sut.Trust.TrustRelationshipManager?.FullName.Should().Be("Present Trm");
+        _sut.TrustRelationshipManager?.Should().Be(_trustRelationshipManager);
     }
 
     [Fact]
     public async Task OnGetAsync_sets_trust_sfsolead()
     {
         await _sut.OnGetAsync();
-        _sut.Trust.SfsoLead?.FullName.Should().Be("Present Sfsolead");
+        _sut.SfsoLead?.Should().Be(_sfsoLead);
     }
 
     [Fact]
@@ -118,7 +102,7 @@ public class ContactsModelTests
     {
         SetupTrustWithNoGovernors();
         await _sut.OnGetAsync();
-        _sut.AccountingOfficer?.FullName.Should().Be(null);
+        _sut.AccountingOfficer?.Should().Be(null);
     }
 
     [Fact]
@@ -126,13 +110,13 @@ public class ContactsModelTests
     {
         SetupTrustWithNoGovernors();
         await _sut.OnGetAsync();
-        _sut.ChiefFinancialOfficer?.FullName.Should().Be(null);
+        _sut.ChiefFinancialOfficer?.Should().Be(null);
     }
 
     [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustRepository.Setup(r => r.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
+        _mockTrustService.Setup(r => r.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
