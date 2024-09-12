@@ -4,8 +4,9 @@ class Navigation {
         privacyFooterButton: () => cy.contains('Privacy'),
         cookiesFooterButton: () => cy.get('[data-testid="cookies-footer-link"]'),
         accessibilityFooterButton: () => cy.contains('Accessibility'),
-        homeBreadcrumbButton: () => cy.contains('Home'),
-        trustBreadcrumbButton: (trustname: string) => cy.get('.govuk-breadcrumbs__list > :nth-child(2)').contains(trustname)
+        breadcrumb: () => cy.get('[aria-label="Breadcrumb"]'),
+        homeBreadcrumbButton: () => this.elements.breadcrumb().contains('Home'),
+        trustBreadcrumbLabel: (trustname: string) => this.elements.breadcrumb().contains(trustname)
     };
 
     public checkBrowserPageTitleContains(pageTitle: string): this {
@@ -55,16 +56,19 @@ class Navigation {
     }
     
     public checkTrustNameBreadcrumbPresent(trustname: string): this {
-        this.elements.trustBreadcrumbButton(trustname).should('be.visible')
+        this.elements.trustBreadcrumbLabel(trustname).should('be.visible')
+        return this;
+    }
+    
+    public checkBreadcrumbNotPresent(): this {
+        this.elements.breadcrumb().should('not.exist')
         return this;
     }
 
     public clickHomeBreadcrumbButton(): this {
         this.elements.homeBreadcrumbButton().click()
-
         return this;
     }
-
 }
 
 const navigation = new Navigation();
