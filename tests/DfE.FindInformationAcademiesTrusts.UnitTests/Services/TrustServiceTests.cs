@@ -1,7 +1,7 @@
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
-using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
@@ -188,5 +188,18 @@ public class TrustServiceTests
         result.Members.Should().ContainSingle().Which.Should().BeEquivalentTo(member);
         result.Trustees.Should().ContainSingle().Which.Should().BeEquivalentTo(trustee);
         result.TrustLeadership.Should().ContainSingle().Which.Should().BeEquivalentTo(leader);
+    }
+
+    [Fact]
+    public async Task GetTrustContactsAsync_should_get_governanceResults_for_single_trust()
+    {
+        var person = new Person("First Middle Last", "firstlast@email.com");
+        var contacts = new TrustContacts(person, person, person, person, person);
+        _mockTrustRepository.Setup(t => t.GetTrustContactsAsync("1234"))
+            .ReturnsAsync(contacts);
+
+        var result = await _sut.GetTrustContactsAsync("1234");
+
+        result.Should().BeEquivalentTo(contacts);
     }
 }
