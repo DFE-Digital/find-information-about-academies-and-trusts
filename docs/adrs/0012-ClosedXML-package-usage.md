@@ -22,7 +22,7 @@ We will use the ClosedXML library for Excel file manipulation within FIAT. This 
 
 - Prevalence and wide community usage (15.5k daily downloads).
 - Open-source MIT license, which avoids potential licensing costs.
-- Simplified API that wraps around OpenXML, making it easier for developers to interact with Excel files.
+- Simplified wrapper around OpenXML, making it easier for developers to interact with Excel files.
 
 Given that our use case is straightforward and doesn't rely on complex or bleeding-edge functionality, the risk of using ClosedXML is minimal. However, we will take care when upgrading to newer versions, reviewing the release notes for breaking changes.
 
