@@ -364,4 +364,39 @@ public class AcademyRepositoryTests
         var result = await _sut.GetAcademiesInTrustPupilNumbersAsync("1234");
         result.Should().BeEmpty();
     }
+
+    [Fact]
+    public async Task GetAcademiesInTrustFreeSchoolMealsAsync_should_return_academies_linked_to_trust()
+    {
+        var giasGroup = _mockAcademiesDbContext.AddGiasGroup("1234");
+        var giasEstablishments = Enumerable.Range(1000, 6).Select(n => new GiasEstablishment
+        {
+            Urn = n,
+            EstablishmentName = $"Academy {n}",
+            PhaseOfEducationName = $"Phase of Education {n}",
+            TypeOfEstablishmentName = $"Type of Education {n}",
+            LaCode = $"{n}",
+            PercentageFsm = $"{n - 950.5}"
+        }).ToArray();
+        _mockAcademiesDbContext.AddGiasEstablishments(giasEstablishments);
+        _mockAcademiesDbContext.AddGiasGroupLinksForGiasEstablishmentsToGiasGroup(giasEstablishments, giasGroup);
+
+        var result = await _sut.GetAcademiesInTrustFreeSchoolMealsAsync("1234");
+        result.Should()
+            .BeEquivalentTo(giasEstablishments,
+                options => options
+                    .WithAutoConversion()
+                    .ExcludingMissingMembers()
+                    .WithMapping<AcademyFreeSchoolMeals>(e => e.LaCode, a => a.LocalAuthorityCode)
+                    .WithMapping<AcademyFreeSchoolMeals>(e => e.PercentageFsm, a => a.PercentageFreeSchoolMeals)
+            );
+    }
+
+    [Fact]
+    public async Task
+        GetAcademiesInTrustFreeSchoolMealsAsync_should_return_empty_array_when_no_academies_linked_to_trust()
+    {
+        var result = await _sut.GetAcademiesInTrustFreeSchoolMealsAsync("1234");
+        result.Should().BeEmpty();
+    }
 }

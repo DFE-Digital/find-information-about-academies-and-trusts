@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.Academy;
@@ -7,9 +8,12 @@ public interface IAcademyService
     Task<AcademyDetailsServiceModel[]> GetAcademiesInTrustDetailsAsync(string uid);
     Task<AcademyOfstedServiceModel[]> GetAcademiesInTrustOfstedAsync(string uid);
     Task<AcademyPupilNumbersServiceModel[]> GetAcademiesInTrustPupilNumbersAsync(string uid);
+    Task<AcademyFreeSchoolMealsServiceModel[]> GetAcademiesInTrustFreeSchoolMealsAsync(string uid);
 }
 
-public class AcademyService(IAcademyRepository academyRepository) : IAcademyService
+public class AcademyService(
+    IAcademyRepository academyRepository,
+    IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider) : IAcademyService
 {
     public async Task<AcademyDetailsServiceModel[]> GetAcademiesInTrustDetailsAsync(string uid)
     {
@@ -37,5 +41,20 @@ public class AcademyService(IAcademyRepository academyRepository) : IAcademyServ
             new AcademyPupilNumbersServiceModel(a.Urn, a.EstablishmentName, a.PhaseOfEducation,
                 a.AgeRange, a.NumberOfPupils,
                 a.SchoolCapacity)).ToArray();
+    }
+
+    public async Task<AcademyFreeSchoolMealsServiceModel[]> GetAcademiesInTrustFreeSchoolMealsAsync(string uid)
+    {
+        var academies = await academyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(uid);
+
+        return academies.Select(a =>
+                new AcademyFreeSchoolMealsServiceModel(
+                    a.Urn,
+                    a.EstablishmentName,
+                    a.PercentageFreeSchoolMeals,
+                    freeSchoolMealsAverageProvider.GetLaAverage(a.LocalAuthorityCode, a.PhaseOfEducation,
+                        a.TypeOfEstablishment),
+                    freeSchoolMealsAverageProvider.GetNationalAverage(a.PhaseOfEducation, a.TypeOfEstablishment)))
+            .ToArray();
     }
 }

@@ -1,6 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
-using static DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks.DummyAcademyFactory;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.Hardcoded.UnitTests;
 
@@ -32,24 +31,20 @@ public class FreeSchoolMealsAverageProviderTests
         .StateFundedSpecialSchool)]
     [InlineData("Primary", "Community Special School", ExploreEducationStatisticsPhaseType
         .StateFundedSpecialSchool)]
-    public void GetKey_should_return_enum_value(string phaseOfEducation,
-        string establishmentType, ExploreEducationStatisticsPhaseType expected)
+    public void GetPhaseTypeKey_should_return_enum_value(string phaseOfEducation, string establishmentType,
+        ExploreEducationStatisticsPhaseType expected)
     {
-        var dummyAcademy = GetDummyAcademy(111, phaseOfEducation: phaseOfEducation,
-            typeOfEstablishment: establishmentType);
-        var result = FreeSchoolMealsAverageProvider.GetPhaseTypeKey(dummyAcademy);
+        var result = FreeSchoolMealsAverageProvider.GetPhaseTypeKey(phaseOfEducation, establishmentType);
         result.Should().Be(expected);
     }
 
     [Fact]
-    public void GetKey_should_throw_exception_if_values_are_not_in_data()
+    public void GetPhaseTypeKey_should_throw_exception_if_values_are_not_in_data()
     {
-        var dummyAcademy = GetDummyAcademy(111, phaseOfEducation: "Not a phase",
-            typeOfEstablishment: "not an establishment type");
-        var act = () => FreeSchoolMealsAverageProvider.GetPhaseTypeKey(dummyAcademy);
+        var act = () => FreeSchoolMealsAverageProvider.GetPhaseTypeKey("Not a phase", "Not an establishment type");
 
         act.Should().Throw<ArgumentOutOfRangeException>().WithMessage(
-            "Can't get ExploreEducationStatisticsPhaseType for [PhaseOfEducation:Not a phase, TypeOfEstablishment:not an establishment type] (Parameter 'academy')");
+            "Can't get ExploreEducationStatisticsPhaseType for [phaseOfEducation:Not a phase, typeOfEstablishment:Not an establishment type] (Parameter 'phaseOfEducation')");
     }
 
     [Fact]
