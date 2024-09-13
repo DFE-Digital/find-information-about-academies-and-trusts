@@ -1,3 +1,4 @@
+import navigation from "../../pages/navigation";
 import paginationPage from "../../pages/paginationPage";
 
 describe('Pagination Tests', () => {
@@ -18,22 +19,33 @@ describe('Pagination Tests', () => {
         cy.visit('/search?keywords=tru')
         paginationPage
             .clickPageNumber(2)
+        navigation
             .checkCurrentURLIsCorrect('pagenumber=2')
 
+        paginationPage
             .clickPageNumber(73)
+
+        navigation
             .checkCurrentURLIsCorrect('pagenumber=73')
 
+        paginationPage
             .clickPageNumber(72)
+
+        navigation
             .checkCurrentURLIsCorrect('pagenumber=72')
     });
 
     it('Should navigate to the next page on next button click', () => {
         paginationPage
             .clickNext()
+
+        navigation
             .checkCurrentURLIsCorrect('pagenumber=2')
 
         paginationPage
             .clickNext()
+
+        navigation
             .checkCurrentURLIsCorrect('pagenumber=3')
 
     });
@@ -41,10 +53,14 @@ describe('Pagination Tests', () => {
     it('Should navigate to the previous page on previous button click', () => {
         paginationPage
             .clickNext()
+
+        navigation
             .checkCurrentURLIsCorrect('pagenumber=2')
 
         paginationPage
             .clickPrevious()
+
+        navigation
             .checkCurrentURLIsCorrect('pagenumber=1')
 
     });
@@ -95,12 +111,16 @@ describe('Pagination Tests', () => {
     it('Should navigate to the previous page on previous button click', () => {
         paginationPage
             .clickNext()
+
+        navigation
             .checkCurrentURLIsCorrect('pagenumber=2')
 
         paginationPage.getResults().then(secondPageResults => {
             const secondPageFirstResultText = secondPageResults.first().text();
 
             paginationPage.clickPrevious()
+
+            navigation
                 .checkCurrentURLIsCorrect('pagenumber=1')
 
             paginationPage.getResults().first().should('not.have.text', secondPageFirstResultText);

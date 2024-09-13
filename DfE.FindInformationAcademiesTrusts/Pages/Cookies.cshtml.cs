@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
-public class CookiesModel : BasePageModel
+public class CookiesModel : ContentPageModel
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     public bool DisplayCookieChangedMessageOnCookiesPage { get; set; }
