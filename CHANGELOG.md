@@ -16,7 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Reduced the load time of the Academies in trust pupil numbers page
 - Reduced the load time of the Academies in trust free school meals page
-
+- Reduced the load time of the Trust contacts page
 
 ## [Release-5][release-5] (production-2024-09-05.2971)
 

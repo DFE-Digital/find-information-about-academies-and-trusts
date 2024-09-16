@@ -99,8 +99,9 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     {
         _misEstablishments.AddRange(misEstablishments);
     }
-    
-    public void AddMisFurtherEducationEstablishments(IEnumerable<MisFurtherEducationEstablishment> misFurtherEducationEstablishments)
+
+    public void AddMisFurtherEducationEstablishments(
+        IEnumerable<MisFurtherEducationEstablishment> misFurtherEducationEstablishments)
     {
         _misFurtherEducationEstablishments.AddRange(misFurtherEducationEstablishments);
     }
@@ -242,6 +243,19 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         }
 
         _giasGovernances.Add(governance);
+    }
+
+    public void AddMstrTrustGovernance(MstrTrustGovernance mstrTrustGovernance)
+    {
+        var existing = _mstrTrustGovernances.FirstOrDefault(m => m.Gid == mstrTrustGovernance.Gid);
+        if (existing is not null)
+        {
+            var index = _mstrTrustGovernances.IndexOf(existing);
+            _mstrTrustGovernances[index] = mstrTrustGovernance;
+            return;
+        }
+
+        _mstrTrustGovernances.Add(mstrTrustGovernance);
     }
 
     public List<(GiasGovernance, MstrTrustGovernance)> AddGovernancesLinkedToTrust(int num, string groupUid)
