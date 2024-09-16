@@ -136,38 +136,38 @@ class GovernancePage {
 
     public checkTrustLeadershipSorting() {
         const { TrustLeadership } = this.elements;
-        this.checkSorting(TrustLeadership.Names, TrustLeadership.NameHeader, TrustLeadership.NameHeaderButton);
-        this.checkSorting(TrustLeadership.Roles, TrustLeadership.RoleHeader, TrustLeadership.RoleHeaderButton);
-        this.checkSorting(TrustLeadership.From, TrustLeadership.FromHeader, TrustLeadership.FromHeaderButton);
-        this.checkSorting(TrustLeadership.To, TrustLeadership.ToHeader, TrustLeadership.ToHeaderButton);
+        this.checkGovernanceSorting(TrustLeadership.Names, TrustLeadership.NameHeader, TrustLeadership.NameHeaderButton);
+        this.checkGovernanceSorting(TrustLeadership.Roles, TrustLeadership.RoleHeader, TrustLeadership.RoleHeaderButton);
+        this.checkGovernanceSorting(TrustLeadership.From, TrustLeadership.FromHeader, TrustLeadership.FromHeaderButton);
+        this.checkGovernanceSorting(TrustLeadership.To, TrustLeadership.ToHeader, TrustLeadership.ToHeaderButton);
     }
 
     public checkTrusteesSorting() {
         const { Trustees } = this.elements;
-        this.checkSorting(Trustees.Names, Trustees.NameHeader, Trustees.NameHeaderButton);
-        this.checkSorting(Trustees.AppointedBys, Trustees.AppointedHeader, Trustees.AppointedHeaderButton);
-        this.checkSorting(Trustees.From, Trustees.FromHeader, Trustees.FromHeaderButton);
-        this.checkSorting(Trustees.To, Trustees.ToHeader, Trustees.ToHeaderButton);
+        this.checkGovernanceSorting(Trustees.Names, Trustees.NameHeader, Trustees.NameHeaderButton);
+        this.checkGovernanceSorting(Trustees.AppointedBys, Trustees.AppointedHeader, Trustees.AppointedHeaderButton);
+        this.checkGovernanceSorting(Trustees.From, Trustees.FromHeader, Trustees.FromHeaderButton);
+        this.checkGovernanceSorting(Trustees.To, Trustees.ToHeader, Trustees.ToHeaderButton);
     }
 
     public checkMembersSorting() {
         const { Members } = this.elements;
-        this.checkSorting(Members.Names, Members.NameHeader, Members.NameHeaderButton);
-        this.checkSorting(Members.AppointedBys, Members.AppointedHeader, Members.AppointedHeaderButton);
-        this.checkSorting(Members.From, Members.FromHeader, Members.FromHeaderButton);
-        this.checkSorting(Members.To, Members.ToHeader, Members.ToHeaderButton);
+        this.checkGovernanceSorting(Members.Names, Members.NameHeader, Members.NameHeaderButton);
+        this.checkGovernanceSorting(Members.AppointedBys, Members.AppointedHeader, Members.AppointedHeaderButton);
+        this.checkGovernanceSorting(Members.From, Members.FromHeader, Members.FromHeaderButton);
+        this.checkGovernanceSorting(Members.To, Members.ToHeader, Members.ToHeaderButton);
     }
 
     public checkHistoricMembersSorting() {
         const { HistoricMembers } = this.elements;
-        this.checkSorting(HistoricMembers.Names, HistoricMembers.NameHeader, HistoricMembers.NameHeaderButton);
-        this.checkSorting(HistoricMembers.Roles, HistoricMembers.RoleHeader, HistoricMembers.RoleHeaderButton);
-        this.checkSorting(HistoricMembers.AppointedBys, HistoricMembers.AppointedHeader, HistoricMembers.AppointedHeaderButton);
-        this.checkSorting(HistoricMembers.From, HistoricMembers.FromHeader, HistoricMembers.FromHeaderButton);
-        this.checkSorting(HistoricMembers.To, HistoricMembers.ToHeader, HistoricMembers.ToHeaderButton);
+        this.checkGovernanceSorting(HistoricMembers.Names, HistoricMembers.NameHeader, HistoricMembers.NameHeaderButton);
+        this.checkGovernanceSorting(HistoricMembers.Roles, HistoricMembers.RoleHeader, HistoricMembers.RoleHeaderButton);
+        this.checkGovernanceSorting(HistoricMembers.AppointedBys, HistoricMembers.AppointedHeader, HistoricMembers.AppointedHeaderButton);
+        this.checkGovernanceSorting(HistoricMembers.From, HistoricMembers.FromHeader, HistoricMembers.FromHeaderButton);
+        this.checkGovernanceSorting(HistoricMembers.To, HistoricMembers.ToHeader, HistoricMembers.ToHeaderButton);
     }
 
-    private checkSorting(elements: () => Cypress.Chainable<JQuery<HTMLElement>>, header: () => Cypress.Chainable<JQuery<HTMLElement>>, headerButton: () => Cypress.Chainable<JQuery<HTMLElement>>) {
+    private checkGovernanceSorting(elements: () => Cypress.Chainable<JQuery<HTMLElement>>, header: () => Cypress.Chainable<JQuery<HTMLElement>>, headerButton: () => Cypress.Chainable<JQuery<HTMLElement>>) {
         //Get current sort status
         header().invoke("attr", "aria-sort").then(value => {
             //Reset sort to asc
