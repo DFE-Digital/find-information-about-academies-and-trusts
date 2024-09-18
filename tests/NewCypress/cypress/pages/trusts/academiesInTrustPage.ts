@@ -1,25 +1,62 @@
+import { SortingUtility } from "./sortingUtility";
+
 class AcademiesInTrustPage {
 
     elements = {
         DetailsPage: {
-            table: () => cy.get('.govuk-main-wrapper > .dfe-width-container > .govuk-grid-row > .govuk-grid-column-three-quarters'),
-            authTypes: () => cy.get('[data-testid="type-of-establishment"]'),
+            table: () => cy.get('table'),
+            schoolName: () => this.elements.DetailsPage.table().find('[data-testid="school-name"]'),
+            schoolNameHeader: () => this.elements.DetailsPage.table().find("th:contains('School name')"),
+
+            localAuthority: () => this.elements.DetailsPage.table().find('[data-testid="local-authority"]'),
+            localAuthorityHeader: () => this.elements.DetailsPage.table().find("th:contains('Local authority')"),
+
+            schoolType: () => this.elements.DetailsPage.table().find('[data-testid="type-of-establishment"]'),
+            schoolTypeHeader: () => this.elements.DetailsPage.table().find("th:contains('Type')"),
+
+            ruralOrUrban: () => this.elements.DetailsPage.table().find('[data-testid="urban-or-rural"]'),
+            ruralOrUrbanHeader: () => this.elements.DetailsPage.table().find("th:contains('Rural or urban')"),
         },
+
         OfstedPage: {
-            table: () => cy.get('.govuk-main-wrapper > .dfe-width-container > .govuk-grid-row > .govuk-grid-column-three-quarters'),
+            table: () => cy.get('table'),
+
+            schoolName: () => this.elements.OfstedPage.table().find('[data-testid="school-name"]'),
+            schoolNameHeader: () => this.elements.OfstedPage.table().find("th:contains('School name')"),
+
+            dateJoined: () => this.elements.OfstedPage.table().find('[data-testid="date-joined"]'),
+            dateJoinedHeader: () => this.elements.OfstedPage.table().find("th:contains('Date joined')"),
+
             previousOfstedRating: () => cy.get('[data-testid="previous-ofsted-rating"]'),
+            previousOfstedRatingHeader: () => this.elements.OfstedPage.table().find("th:contains('Previous Ofsted rating')"),
+
             currentOfstedRating: () => cy.get('[data-testid="current-ofsted-rating"]'),
+            currentOfstedRatingHeader: () => this.elements.OfstedPage.table().find("th:contains('Current Ofsted rating')"),
         },
-        PupilNumbers: {
-            table: () => cy.get('.govuk-main-wrapper > .dfe-width-container > .govuk-grid-row > .govuk-grid-column-three-quarters'),
+
+        PupilNumbersPage: {
+            table: () => cy.get('table'),
+
+            schoolName: () => this.elements.PupilNumbersPage.table().find('[data-testid="school-name"]'),
+            schoolNameHeader: () => this.elements.PupilNumbersPage.table().find("th:contains('School name')"),
+
+            phaseAndAge: () => this.elements.PupilNumbersPage.table().find('[data-testid="phase-and-age-range"]'),
+            phaseAndAgeHeader: () => this.elements.PupilNumbersPage.table().find("th:contains('Phase and age range')"),
+
+            pupilNumbers: () => this.elements.PupilNumbersPage.table().find('[data-testid="pupil-numbers"]'),
+            pupilNumbersHeader: () => this.elements.PupilNumbersPage.table().find("th:contains('Pupil numbers')"),
+
+            pupilCapacity: () => this.elements.PupilNumbersPage.table().find('[data-testid="pupil-capacity"]'),
+            pupilCapacityHeader: () => this.elements.PupilNumbersPage.table().find("th:contains('Pupil capacity')"),
         },
+
         FreeSchoolMeals: {
-            table: () => cy.get('.govuk-main-wrapper > .dfe-width-container > .govuk-grid-row > .govuk-grid-column-three-quarters'),
+            table: () => cy.get('table'),
         },
 
     };
 
-    public checkAITDetailsHeadersPresent(): this {
+    public checkDetailsHeadersPresent(): this {
         this.elements.DetailsPage.table().should('contain', 'School name');
         this.elements.DetailsPage.table().should('contain', 'Local authority');
         this.elements.DetailsPage.table().should('contain', 'Type');
@@ -28,7 +65,7 @@ class AcademiesInTrustPage {
         return this;
     }
 
-    public checkAITOfstedHeadersPresent(): this {
+    public checkOfstedHeadersPresent(): this {
         this.elements.OfstedPage.table().should('contain', 'School name');
         this.elements.OfstedPage.table().should('contain', 'Date joined');
         this.elements.OfstedPage.table().should('contain', 'Previous Ofsted rating');
@@ -36,7 +73,7 @@ class AcademiesInTrustPage {
         return this;
     }
 
-    public checkAITPupilNumbersHeadersPresent(): this {
+    public checkPupilNumbersHeadersPresent(): this {
         this.elements.OfstedPage.table().should('contain', 'School name');
         this.elements.OfstedPage.table().should('contain', 'Phase and age range');
         this.elements.OfstedPage.table().should('contain', 'Pupil numbers');
@@ -45,7 +82,7 @@ class AcademiesInTrustPage {
         return this;
     }
 
-    public checkAITFreeSchoolMealsHeadersPresent(): this {
+    public checkFreeSchoolMealsHeadersPresent(): this {
         this.elements.OfstedPage.table().should('contain', 'School name');
         this.elements.OfstedPage.table().should('contain', 'Pupils eligible for free school meals');
         this.elements.OfstedPage.table().should('contain', 'Local authority average');
@@ -53,8 +90,8 @@ class AcademiesInTrustPage {
         return this;
     }
 
-    public checkAuthTypesOnAITDetailsTable() {
-        this.elements.DetailsPage.authTypes().each(element => {
+    public checkSchoolTypesOnDetailsTable() {
+        this.elements.DetailsPage.schoolType().each(element => {
             expect(element.text().trim()).to.be.oneOf(["Academy sponsor led", "Academy converter", "University technical college", "Free schools"])
         });
     }
@@ -77,6 +114,31 @@ class AcademiesInTrustPage {
             });
         });
         return this;
+    }
+
+    public checkTrustDetailsSorting() {
+        const { DetailsPage } = this.elements;
+        SortingUtility.checkStringSorting(DetailsPage.schoolName, DetailsPage.schoolNameHeader);
+        SortingUtility.checkStringSorting(DetailsPage.localAuthority, DetailsPage.localAuthorityHeader);
+        SortingUtility.checkStringSorting(DetailsPage.schoolType, DetailsPage.schoolTypeHeader);
+        SortingUtility.checkStringSorting(DetailsPage.ruralOrUrban, DetailsPage.ruralOrUrbanHeader);
+    }
+
+    public checkOfstedSorting() {
+        const { OfstedPage } = this.elements;
+        SortingUtility.checkStringSorting(OfstedPage.schoolName, OfstedPage.schoolNameHeader);
+        SortingUtility.checkStringSorting(OfstedPage.dateJoined, OfstedPage.dateJoinedHeader);
+        SortingUtility.checkStringSorting(OfstedPage.previousOfstedRating, OfstedPage.previousOfstedRatingHeader);
+        SortingUtility.checkStringSorting(OfstedPage.currentOfstedRating, OfstedPage.currentOfstedRatingHeader);
+    }
+
+    public checkPupilNumbersSorting() {
+        const { PupilNumbersPage: PupilNumbersPage } = this.elements;
+        SortingUtility.checkStringSorting(PupilNumbersPage.schoolName, PupilNumbersPage.schoolNameHeader);
+        SortingUtility.checkStringSorting(PupilNumbersPage.phaseAndAge, PupilNumbersPage.phaseAndAgeHeader);
+        SortingUtility.checkNumericSorting(PupilNumbersPage.pupilNumbers, PupilNumbersPage.pupilNumbersHeader);
+        SortingUtility.checkNumericSorting(PupilNumbersPage.pupilCapacity, PupilNumbersPage.pupilCapacityHeader);
+
     }
 
 }

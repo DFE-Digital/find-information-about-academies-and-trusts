@@ -1,7 +1,7 @@
 class TrustOverviewPage {
 
     elements = {
-        overviewHeader: () => cy.get('header > .govuk-heading-l'),
+        overviewHeader: () => cy.get('[data-testid="page-name"]'),
         overviewSummaryCardContentBox: () => cy.get('[data-testid="trust-summary"]'),
         overviewOfstedSummaryCardContentBox: () => cy.get('[data-testid="ofsted-ratings"]'),
         topRatingItem: () => cy.get('[data-sort-value="1"]'),

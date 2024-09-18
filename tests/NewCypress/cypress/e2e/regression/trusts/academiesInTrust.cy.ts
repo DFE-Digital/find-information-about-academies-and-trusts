@@ -8,22 +8,28 @@ describe("Testing the components of the Academies in this trust page", () => {
             cy.visit('/trusts/academies/details?uid=5712')
         });
 
-        it("Checks the correct AIT details page headers are present", () => {
+        it("Checks the correct details page headers are present", () => {
             academiesInTrustPage
-                .checkAITDetailsHeadersPresent()
+                .checkDetailsHeadersPresent()
         })
 
-        it("Checks that the correct authority types are present", () => {
+        it("Checks that the correct school types are present", () => {
             academiesInTrustPage
-                .checkAuthTypesOnAITDetailsTable()
+                .checkSchoolTypesOnDetailsTable()
         })
 
-        it("Checks that a different and larger trusts correct authority types are present", () => {
+        it("Checks that a different and larger trusts correct school types are present", () => {
             cy.visit('/trusts/academies/details?uid=5143')
             academiesInTrustPage
-                .checkAuthTypesOnAITDetailsTable()
+                .checkSchoolTypesOnDetailsTable()
         })
 
+        it("Checks the detail page sorting", () => {
+            cy.visit('/trusts/academies/details?uid=5143')
+            academiesInTrustPage
+                .checkTrustDetailsSorting()
+        })
+        
     })
 
     describe("Ofsted ratings tab", () => {
@@ -32,9 +38,9 @@ describe("Testing the components of the Academies in this trust page", () => {
             cy.visit('/trusts/academies/ofsted-ratings?uid=5712')
         });
 
-        it("Checks the correct AIT Ofsted page headers are present", () => {
+        it("Checks the correct Ofsted page headers are present", () => {
             academiesInTrustPage
-                .checkAITOfstedHeadersPresent()
+                .checkOfstedHeadersPresent()
         })
 
         it("Checks that a trusts correct Current Ofsted rating types are present", () => {
@@ -59,6 +65,11 @@ describe("Testing the components of the Academies in this trust page", () => {
                 .checkPreviousOfstedTypesOnOfstedTable()
         })
 
+        it("Checks the Ofsted page sorting", () => {
+            academiesInTrustPage
+                .checkOfstedSorting()
+        })
+
     })
 
     describe("Pupil numbers tab", () => {
@@ -67,10 +78,17 @@ describe("Testing the components of the Academies in this trust page", () => {
             cy.visit('/trusts/academies/pupil-numbers?uid=5712')
         });
 
-        it("Checks the correct AIT Pupil numbers page headers are present", () => {
+        it("Checks the correct Pupil numbers page headers are present", () => {
             academiesInTrustPage
-                .checkAITPupilNumbersHeadersPresent()
+                .checkPupilNumbersHeadersPresent()
         })
+
+        it("Checks the Ofsted page sorting", () => {
+            cy.visit('/trusts/academies/pupil-numbers?uid=5143')
+            academiesInTrustPage
+                .checkPupilNumbersSorting()
+        })
+
 
     })
 
@@ -80,9 +98,9 @@ describe("Testing the components of the Academies in this trust page", () => {
             cy.visit('/trusts/academies/free-school-meals?uid=5712')
         });
 
-        it("Checks the correct AIT Free school meals page headers are present", () => {
+        it("Checks the correct Free school meals page headers are present", () => {
             academiesInTrustPage
-                .checkAITFreeSchoolMealsHeadersPresent()
+                .checkFreeSchoolMealsHeadersPresent()
         })
 
     })

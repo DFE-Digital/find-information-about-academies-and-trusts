@@ -1,12 +1,9 @@
 class TrustDetailsPage {
 
     elements = {
-        detailsHeader: () => cy.get('header > .govuk-heading-l'),
-        trustDetailSummaryCard: () => cy.get(':nth-child(2) > .govuk-summary-card'),
-        detailsSummaryCardContentBox: () => cy.get(':nth-child(2) > .govuk-summary-card > .govuk-summary-card__content'),
-        referenceNumberSummaryCard: () => cy.get(':nth-child(3) > .govuk-summary-card'),
-        referenceNumberSummaryCardContentBox: () => cy.get(':nth-child(3) > .govuk-summary-card > .govuk-summary-card__content'),
-
+        detailsHeader: () => cy.get('[data-testid="page-name"]'),
+        trustDetailsSummaryCard: () => cy.get('[data-testid="trust-details-summary-card"]'),
+        referenceNumberSummaryCard: () => cy.get('[data-testid="reference-numbers-summary-card"]'),
     };
 
     public checkDetailsHeaderPresent(): this {
@@ -16,16 +13,16 @@ class TrustDetailsPage {
     }
 
     public checkTrustDetailSummaryCardPresent(): this {
-        this.elements.trustDetailSummaryCard().should('be.visible');
-        this.elements.trustDetailSummaryCard().should('contain', 'Trust details');
+        this.elements.trustDetailsSummaryCard().should('be.visible');
+        this.elements.trustDetailsSummaryCard().should('contain', 'Trust details');
         return this;
     }
 
     public checkTrustDetailSummaryCardItemsPresent(): this {
-        this.elements.detailsSummaryCardContentBox().should('contain', 'Address');
-        this.elements.detailsSummaryCardContentBox().should('contain', 'Opened on');
-        this.elements.detailsSummaryCardContentBox().should('contain', 'Region and territory');
-        this.elements.detailsSummaryCardContentBox().should('contain', 'Information from other services');
+        this.elements.trustDetailsSummaryCard().should('contain', 'Address');
+        this.elements.trustDetailsSummaryCard().should('contain', 'Opened on');
+        this.elements.trustDetailsSummaryCard().should('contain', 'Region and territory');
+        this.elements.trustDetailsSummaryCard().should('contain', 'Information from other services');
         return this;
     }
 
@@ -36,10 +33,10 @@ class TrustDetailsPage {
     }
 
     public checkReferenceNumbersSummaryCardItemsPresent(): this {
-        this.elements.referenceNumberSummaryCardContentBox().should('contain', 'UID');
-        this.elements.referenceNumberSummaryCardContentBox().should('contain', 'Group ID');
-        this.elements.referenceNumberSummaryCardContentBox().should('contain', 'UKPRN');
-        this.elements.referenceNumberSummaryCardContentBox().should('contain', 'Companies House number');
+        this.elements.referenceNumberSummaryCard().should('contain', 'UID');
+        this.elements.referenceNumberSummaryCard().should('contain', 'Group ID');
+        this.elements.referenceNumberSummaryCard().should('contain', 'UKPRN');
+        this.elements.referenceNumberSummaryCard().should('contain', 'Companies House number');
         return this;
     }
 

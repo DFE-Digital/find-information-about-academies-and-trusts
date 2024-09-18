@@ -1,3 +1,4 @@
+import { SortingUtility } from "./sortingUtility";
 class GovernancePage {
 
     elements = {
@@ -5,67 +6,50 @@ class GovernancePage {
             Section: () => cy.get('[data-testid="trust-leadership"]'),
             Names: () => this.elements.TrustLeadership.Section().find('[data-testid="trust-leadership-name"]'),
             NameHeader: () => this.elements.TrustLeadership.Section().find("th:contains('Name')"),
-            NameHeaderButton: () => this.elements.TrustLeadership.NameHeader().contains("Name"),
             Roles: () => this.elements.TrustLeadership.Section().find('[data-testid="trust-leadership-role"]'),
             RoleHeader: () => this.elements.TrustLeadership.Section().find("th:contains('Role')"),
-            RoleHeaderButton: () => this.elements.TrustLeadership.RoleHeader().contains("Role"),
             From: () => this.elements.TrustLeadership.Section().find('[data-testid="trust-leadership-from"]'),
             FromHeader: () => this.elements.TrustLeadership.Section().find("th:contains('From')"),
-            FromHeaderButton: () => this.elements.TrustLeadership.FromHeader().contains("From"),
             To: () => this.elements.TrustLeadership.Section().find('[data-testid="trust-leadership-to"]'),
             ToHeader: () => this.elements.TrustLeadership.Section().find("th:contains('To')"),
-            ToHeaderButton: () => this.elements.TrustLeadership.ToHeader().contains("To"),
             NoDataMessage: () => this.elements.TrustLeadership.Section().contains('No Trust Leadership')
         },
         Trustees: {
             Section: () => cy.get('[data-testid="trustees"]'),
             Names: () => this.elements.Trustees.Section().find('[data-testid="trustees-name"]'),
             NameHeader: () => this.elements.Trustees.Section().find("th:contains('Name')"),
-            NameHeaderButton: () => this.elements.Trustees.NameHeader().contains("Name"),
             AppointedBys: () => this.elements.Trustees.Section().find('[data-testid="trustees-appointed"]'),
             AppointedHeader: () => this.elements.Trustees.Section().find("th:contains('Appointed by')"),
-            AppointedHeaderButton: () => this.elements.Trustees.AppointedHeader().contains("Appointed by"),
             From: () => this.elements.Trustees.Section().find('[data-testid="trustees-from"]'),
             FromHeader: () => this.elements.Trustees.Section().find("th:contains('From')"),
-            FromHeaderButton: () => this.elements.Trustees.FromHeader().contains("From"),
             To: () => this.elements.Trustees.Section().find('[data-testid="trustees-to"]'),
             ToHeader: () => this.elements.Trustees.Section().find("th:contains('To')"),
-            ToHeaderButton: () => this.elements.Trustees.ToHeader().contains("To"),
             NoDataMessage: () => this.elements.Trustees.Section().contains('No Trustees')
         },
         Members: {
             Section: () => cy.get('[data-testid="members"]'),
             Names: () => this.elements.Members.Section().find('[data-testid="members-name"]'),
             NameHeader: () => this.elements.Members.Section().find("th:contains('Name')"),
-            NameHeaderButton: () => this.elements.Members.NameHeader().contains("Name"),
             AppointedBys: () => this.elements.Members.Section().find('[data-testid="members-appointed"]'),
             AppointedHeader: () => this.elements.Members.Section().find("th:contains('Appointed by')"),
-            AppointedHeaderButton: () => this.elements.Members.AppointedHeader().contains("Appointed by"),
             From: () => this.elements.Members.Section().find('[data-testid="members-from"]'),
             FromHeader: () => this.elements.Members.Section().find("th:contains('From')"),
-            FromHeaderButton: () => this.elements.Members.FromHeader().contains("From"),
             To: () => this.elements.Members.Section().find('[data-testid="members-to"]'),
             ToHeader: () => this.elements.Members.Section().find("th:contains('To')"),
-            ToHeaderButton: () => this.elements.Members.ToHeader().contains("To"),
             NoDataMessage: () => this.elements.Members.Section().contains('No Members')
         },
         HistoricMembers: {
             Section: () => cy.get('[data-testid="historic-members"]'),
             Names: () => this.elements.HistoricMembers.Section().find('[data-testid="historic-members-name"]'),
             NameHeader: () => this.elements.HistoricMembers.Section().find("th:contains('Name')"),
-            NameHeaderButton: () => this.elements.HistoricMembers.NameHeader().contains("Name"),
             Roles: () => this.elements.HistoricMembers.Section().find('[data-testid="historic-members-role"]'),
             RoleHeader: () => this.elements.HistoricMembers.Section().find("th:contains('Role')"),
-            RoleHeaderButton: () => this.elements.HistoricMembers.RoleHeader().contains("Role"),
             AppointedBys: () => this.elements.HistoricMembers.Section().find('[data-testid="historic-members-appointed"]'),
             AppointedHeader: () => this.elements.HistoricMembers.Section().find("th:contains('Appointed by')"),
-            AppointedHeaderButton: () => this.elements.HistoricMembers.AppointedHeader().contains("Appointed by"),
             From: () => this.elements.HistoricMembers.Section().find('[data-testid="historic-members-from"]'),
             FromHeader: () => this.elements.HistoricMembers.Section().find("th:contains('From')"),
             To: () => this.elements.HistoricMembers.Section().find('[data-testid="historic-members-to"]'),
-            FromHeaderButton: () => this.elements.HistoricMembers.FromHeader().contains("From"),
             ToHeader: () => this.elements.HistoricMembers.Section().find("th:contains('To')"),
-            ToHeaderButton: () => this.elements.HistoricMembers.ToHeader().contains("To"),
             NoDataMessage: () => this.elements.HistoricMembers.Section().contains('No Historic Members')
         }
     }
@@ -136,78 +120,35 @@ class GovernancePage {
 
     public checkTrustLeadershipSorting() {
         const { TrustLeadership } = this.elements;
-        this.checkGovernanceSorting(TrustLeadership.Names, TrustLeadership.NameHeader, TrustLeadership.NameHeaderButton);
-        this.checkGovernanceSorting(TrustLeadership.Roles, TrustLeadership.RoleHeader, TrustLeadership.RoleHeaderButton);
-        this.checkGovernanceSorting(TrustLeadership.From, TrustLeadership.FromHeader, TrustLeadership.FromHeaderButton);
-        this.checkGovernanceSorting(TrustLeadership.To, TrustLeadership.ToHeader, TrustLeadership.ToHeaderButton);
+        SortingUtility.checkStringSorting(TrustLeadership.Names, TrustLeadership.NameHeader);
+        SortingUtility.checkStringSorting(TrustLeadership.Roles, TrustLeadership.RoleHeader);
+        SortingUtility.checkStringSorting(TrustLeadership.From, TrustLeadership.FromHeader);
+        SortingUtility.checkStringSorting(TrustLeadership.To, TrustLeadership.ToHeader);
     }
 
     public checkTrusteesSorting() {
         const { Trustees } = this.elements;
-        this.checkGovernanceSorting(Trustees.Names, Trustees.NameHeader, Trustees.NameHeaderButton);
-        this.checkGovernanceSorting(Trustees.AppointedBys, Trustees.AppointedHeader, Trustees.AppointedHeaderButton);
-        this.checkGovernanceSorting(Trustees.From, Trustees.FromHeader, Trustees.FromHeaderButton);
-        this.checkGovernanceSorting(Trustees.To, Trustees.ToHeader, Trustees.ToHeaderButton);
+        SortingUtility.checkStringSorting(Trustees.Names, Trustees.NameHeader);
+        SortingUtility.checkStringSorting(Trustees.AppointedBys, Trustees.AppointedHeader);
+        SortingUtility.checkStringSorting(Trustees.From, Trustees.FromHeader);
+        SortingUtility.checkStringSorting(Trustees.To, Trustees.ToHeader);
     }
 
     public checkMembersSorting() {
         const { Members } = this.elements;
-        this.checkGovernanceSorting(Members.Names, Members.NameHeader, Members.NameHeaderButton);
-        this.checkGovernanceSorting(Members.AppointedBys, Members.AppointedHeader, Members.AppointedHeaderButton);
-        this.checkGovernanceSorting(Members.From, Members.FromHeader, Members.FromHeaderButton);
-        this.checkGovernanceSorting(Members.To, Members.ToHeader, Members.ToHeaderButton);
+        SortingUtility.checkStringSorting(Members.Names, Members.NameHeader);
+        SortingUtility.checkStringSorting(Members.AppointedBys, Members.AppointedHeader);
+        SortingUtility.checkStringSorting(Members.From, Members.FromHeader);
+        SortingUtility.checkStringSorting(Members.To, Members.ToHeader);
     }
 
     public checkHistoricMembersSorting() {
         const { HistoricMembers } = this.elements;
-        this.checkGovernanceSorting(HistoricMembers.Names, HistoricMembers.NameHeader, HistoricMembers.NameHeaderButton);
-        this.checkGovernanceSorting(HistoricMembers.Roles, HistoricMembers.RoleHeader, HistoricMembers.RoleHeaderButton);
-        this.checkGovernanceSorting(HistoricMembers.AppointedBys, HistoricMembers.AppointedHeader, HistoricMembers.AppointedHeaderButton);
-        this.checkGovernanceSorting(HistoricMembers.From, HistoricMembers.FromHeader, HistoricMembers.FromHeaderButton);
-        this.checkGovernanceSorting(HistoricMembers.To, HistoricMembers.ToHeader, HistoricMembers.ToHeaderButton);
-    }
-
-    private checkGovernanceSorting(elements: () => Cypress.Chainable<JQuery<HTMLElement>>, header: () => Cypress.Chainable<JQuery<HTMLElement>>, headerButton: () => Cypress.Chainable<JQuery<HTMLElement>>) {
-        //Get current sort status
-        header().invoke("attr", "aria-sort").then(value => {
-            //Reset sort to asc
-            if (value === "descending" || value === "none" || !value) {
-                headerButton().click();
-            }
-            //Check sorting is set to asc
-            header().should("have.attr", "aria-sort", "ascending");
-            //Collect the actual elements and add the values to an array
-            const actualAscElements: { value: string, sortValue: string }[] = [];
-            elements().each($elements => {
-                actualAscElements.push({
-                    value: $elements.text().trim(),
-                    sortValue: $elements.attr("data-sort-value") ?? ""
-                })
-            }).then(() => {
-                //Sort the elements so they will be in ascending order
-                const ascendingValues = actualAscElements.toSorted((a, b) => a.sortValue.localeCompare(b.sortValue))
-                //Compare the sorted list to the actual list
-                expect(actualAscElements, "Values are sorted").to.deep.equal(ascendingValues, "Values are sorted")
-            });
-
-            //click the button to sort by descending
-            headerButton().click();
-            //Check sorting is set to dsc
-            header().should("have.attr", "aria-sort", "descending");
-            //Collect the actual elements and add the values to an array
-            const actualDscElements: { value: string, sortValue: string }[] = [];
-            elements().each($elements => {
-                actualDscElements.push({
-                    value: $elements.text().trim(),
-                    sortValue: $elements.attr("data-sort-value") ?? ""
-                })
-            }).then(() => {
-                //Sort the elements so they will be in descending order
-                const descendingValues = actualDscElements.toSorted((a, b) => b.sortValue.localeCompare(a.sortValue))
-                //Compare the sorted list to the actual list
-                expect(actualDscElements, "Values are sorted").to.deep.equal(descendingValues, "Values are sorted")
-            });
-        })
+        SortingUtility.checkStringSorting(HistoricMembers.Names, HistoricMembers.NameHeader);
+        SortingUtility.checkStringSorting(HistoricMembers.Roles, HistoricMembers.RoleHeader);
+        SortingUtility.checkStringSorting(HistoricMembers.AppointedBys, HistoricMembers.AppointedHeader);
+        SortingUtility.checkStringSorting(HistoricMembers.From, HistoricMembers.FromHeader);
+        SortingUtility.checkStringSorting(HistoricMembers.To, HistoricMembers.ToHeader);
     }
 
     // ***********

@@ -8,14 +8,7 @@ describe("Testing the components of the Trust overview page", () => {
             cy.visit('/trusts/overview?uid=5712')
         });
 
-        it("The page loads with the correct headings and data in the Overview trust summary table", () => {
-            trustOverviewPage
-                .checkOverviewHeaderPresent()
-                .checkTrustOverviewSummaryCardItemsPresent()
-                .checkOverviewOfstedRatingsSummaryCardItemsPresent()
-        })
-
-        it("The page loads with the correct headings and data in the Overview Ofsted rating table", () => {
+        it("The page loads with the correct headings and data in the Overview summary and Ofsted rating table", () => {
             trustOverviewPage
                 .checkOverviewHeaderPresent()
                 .checkTrustOverviewSummaryCardItemsPresent()
