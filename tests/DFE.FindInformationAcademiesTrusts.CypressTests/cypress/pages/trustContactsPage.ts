@@ -40,7 +40,11 @@ class TrustContacts {
 
     private assertEmptyContact(id: string): void {
         cy.getByTestId(id)
-            .find("p").should("contain.text", "No contact information available");
+            .find("[data-testid='contact-name']").should("contain.text", "No contact name available");
+
+        cy.getByTestId(id)
+            .find("[data-testid='contact-email']")
+            .should("contain.text", "No contact email available");
     }
 
     private assertContact(id: string, name: string, email: string): void {
