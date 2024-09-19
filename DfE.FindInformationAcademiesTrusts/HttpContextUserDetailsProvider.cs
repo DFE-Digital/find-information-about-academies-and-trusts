@@ -18,7 +18,7 @@ public class HttpContextUserDetailsProvider(IHttpContextAccessor httpContextAcce
         var name = context.User.Claims.Single(c => c.Type == "name").Value;
         var email = context.User.Claims.Single(c => c.Type == "preferred_username").Value;
 
-        var nameRegex = new Regex("^([^,]+), ([^,]+)$");
+        var nameRegex = new Regex("^([^,]+), ([^,]+)$", RegexOptions.NonBacktracking);
 
         if (nameRegex.IsMatch(name))
         {
