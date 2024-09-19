@@ -133,7 +133,7 @@ class AcademiesInTrustPage {
     }
 
     public checkPupilNumbersSorting() {
-        const { PupilNumbersPage: PupilNumbersPage } = this.elements;
+        const { PupilNumbersPage } = this.elements;
         SortingUtility.checkStringSorting(PupilNumbersPage.schoolName, PupilNumbersPage.schoolNameHeader);
         SortingUtility.checkStringSorting(PupilNumbersPage.phaseAndAge, PupilNumbersPage.phaseAndAgeHeader);
         SortingUtility.checkNumericSorting(PupilNumbersPage.pupilNumbers, PupilNumbersPage.pupilNumbersHeader);
