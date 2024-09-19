@@ -1,8 +1,6 @@
 import dataDownload, { DataDownload } from "../../../pages/trusts/dataDowload";
 
 describe('Trust export and content verification', () => {
-  const downloadPage = new DataDownload();
-
   beforeEach(() => {
     cy.login()
     cy.visit('/trusts/academies/details?uid=5712');
