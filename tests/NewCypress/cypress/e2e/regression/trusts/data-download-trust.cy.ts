@@ -1,4 +1,4 @@
-import dataDownload, { DataDownload } from "../../../pages/trusts/dataDowload";
+import dataDownload from "../../../pages/trusts/dataDowload";
 
 describe('Trust export and content verification', () => {
   beforeEach(() => {
