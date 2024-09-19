@@ -32,6 +32,7 @@ zap-reports/
 .auth/
 cypress.env.json
 **/cypress/screenshots/**
+**/cypress/downloads/**
 
 ### Visual Studio and VSCode config
 .vs
