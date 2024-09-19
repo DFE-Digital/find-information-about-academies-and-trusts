@@ -83,7 +83,7 @@ jobs:
   deploy-image:
     name: Deploy to environment
     needs: [ set-env ]
-    uses: DFE-Digital/deploy-azure-container-apps-action/.github/workflows/build-push-deploy.yml@v2.4.0
+    uses: DFE-Digital/deploy-azure-container-apps-action/.github/workflows/build-push-deploy.yml@v2.5.0
     with:
       docker-image-name: 'fiat-app'
       docker-build-file-name: 'docker/Dockerfile'
