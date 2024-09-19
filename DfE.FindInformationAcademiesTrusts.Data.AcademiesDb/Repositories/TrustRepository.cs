@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using Microsoft.EntityFrameworkCore;
 
@@ -58,24 +59,53 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
         return trustDetailsDto;
     }
 
-    public async Task<TrustGovernance> GetTrustGovernanceAsync(string uid)
+    public async Task<TrustGovernance> GetTrustGovernanceAsync(string? uid = null, string? urn = null)
     {
-        var governors = await academiesDbContext.GiasGovernances
-            .Where(g => g.Uid == uid)
-            .Select(governance => new Governor(governance.Gid!, governance.Uid!,
+        if (string.IsNullOrEmpty(uid) && string.IsNullOrEmpty(urn))
+        {
+            throw new ArgumentException("Either uid or urn must be provided.");
+        }
+
+        IQueryable<GiasGovernance> query = academiesDbContext.GiasGovernances;
+
+        query = DetermineIfSATOrMAT(uid, urn, query);
+
+        var governors = await query
+            .Select(governance => new Governor(
+                governance.Gid!,
+                governance.Uid!,
                 GetFullName(governance.Forename1!, governance.Forename2!, governance.Surname!),
-                governance.Role!, governance.AppointingBody!, governance.DateOfAppointment.ParseAsNullableDate(),
-                governance.DateTermOfOfficeEndsEnded.ParseAsNullableDate(), null))
+                governance.Role!,
+                governance.AppointingBody!,
+                governance.DateOfAppointment.ParseAsNullableDate(),
+                governance.DateTermOfOfficeEndsEnded.ParseAsNullableDate(),
+                null))
             .ToArrayAsync();
+
         var governersDto = new TrustGovernance(
-            governors.Where(governor => governor is { IsCurrentGovernor: true, HasRoleLeadership: true }).ToArray(),
-            governors.Where(governor => governor is { IsCurrentGovernor: true, HasRoleMemeber: true })
-                .ToArray(),
-            governors.Where(governor => governor is { IsCurrentGovernor: true, HasRoleTrustee: true })
-                .ToArray(),
-            governors.Where(governor => governor.IsCurrentGovernor is false).ToArray()
+            governors.Where(g => g.IsCurrentGovernor && g.HasRoleLeadership).ToArray(),
+            governors.Where(g => g.IsCurrentGovernor && g.HasRoleMember).ToArray(),
+            governors.Where(g => g.IsCurrentGovernor && g.HasRoleTrustee).ToArray(),
+            governors.Where(g => !g.IsCurrentGovernor).ToArray()
         );
+
         return governersDto;
+    }
+
+    private static IQueryable<GiasGovernance> DetermineIfSATOrMAT(string? uid, string? urn, IQueryable<GiasGovernance> query)
+    {
+        if (!string.IsNullOrEmpty(urn))
+        {
+            // Use urn if it's provided
+            query = query.Where(g => g.Urn == urn);
+        }
+        else if (!string.IsNullOrEmpty(uid))
+        {
+            // Use uid if urn is not provided
+            query = query.Where(g => g.Uid == uid);
+        }
+
+        return query;
     }
 
     public async Task<TrustContacts> GetTrustContactsAsync(string uid)

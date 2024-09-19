@@ -16,7 +16,7 @@ public record Governor(
         HasRoleAccountingOfficer || HasRoleChiefFinancialOfficer ||
         HasRoleChairOfTrustees;
 
-    public bool HasRoleMemeber => Role == "Member";
+    public bool HasRoleMember => Role == "Member";
 
     public bool HasRoleTrustee => Role == "Trustee";
 
