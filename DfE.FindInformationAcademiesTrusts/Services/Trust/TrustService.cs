@@ -68,7 +68,6 @@ public class TrustService(
     {
         var urn = await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid);
 
-
         var trustGovernance = await trustRepository.GetTrustGovernanceAsync(uid, urn);
 
         return new TrustGovernanceServiceModel(
