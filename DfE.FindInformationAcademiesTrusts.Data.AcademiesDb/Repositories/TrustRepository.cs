@@ -59,18 +59,11 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
         return trustDetailsDto;
     }
 
-    public async Task<TrustGovernance> GetTrustGovernanceAsync(string? uid = null, string? urn = null)
+    public async Task<TrustGovernance> GetTrustGovernanceAsync(string uid, string? urn = null)
     {
-        if (string.IsNullOrEmpty(uid) && string.IsNullOrEmpty(urn))
-        {
-            throw new ArgumentException("Either uid or urn must be provided.");
-        }
-
         IQueryable<GiasGovernance> query = academiesDbContext.GiasGovernances;
 
-        query = DetermineIfSATOrMAT(uid, urn, query);
-
-        var governors = await query
+        var governors = await FilterBySatOrMat(uid, urn, query)
             .Select(governance => new Governor(
                 governance.Gid!,
                 governance.Uid!,
@@ -91,21 +84,15 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
 
         return governersDto;
     }
-
-    private static IQueryable<GiasGovernance> DetermineIfSATOrMAT(string? uid, string? urn, IQueryable<GiasGovernance> query)
+    private static IQueryable<GiasGovernance> FilterBySatOrMat(string uid, string? urn, IQueryable<GiasGovernance> query)
     {
         if (!string.IsNullOrEmpty(urn))
         {
-            // Use urn if it's provided
+            // Use urn if it's provided as that means this is a Single Academy Trust (SAT)
             query = query.Where(g => g.Urn == urn);
         }
-        else if (!string.IsNullOrEmpty(uid))
-        {
-            // Use uid if urn is not provided
-            query = query.Where(g => g.Uid == uid);
-        }
 
-        return query;
+        return query = query.Where(g => g.Uid == uid);
     }
 
     public async Task<TrustContacts> GetTrustContactsAsync(string uid)
