@@ -33,11 +33,27 @@ module.exports = defineConfig({
             return { success: true };
           }
           return { success: false, message: 'File not found' };
+        },
+
+        // Custom task to check if files exist in the downloads folder
+        checkForFiles(folderPath) {
+          const files = fs.readdirSync(folderPath);
+          return files.length > 0 ? files : null;
+        },
+
+        // Custom task to delete all files in the downloads folder
+        clearDownloads(folderPath) {
+          const files = fs.readdirSync(folderPath);
+          files.forEach((file) => {
+            fs.unlinkSync(path.join(folderPath, file));
+          });
+          return { success: true };
         }
       });
 
       return config;
     },
+
     downloadsFolder: 'cypress/downloads',
   },
 });

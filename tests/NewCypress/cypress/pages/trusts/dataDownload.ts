@@ -1,41 +1,44 @@
-export class DataDownload {
-    private downloadButton: string;
-    private downloadFolder: string;
+class DataDownload {
+    elements = {
+        downloadButton: () => cy.get('[data-testid="export-academy-data"]'),
+    };
 
-    constructor() {
-        this.downloadButton = '[data-testid="export-academy-data"]';
-        this.downloadFolder = 'cypress/downloads';
+    // Method to click the download button
+    public clickDownloadButton(): this {
+        this.elements.downloadButton().click();
+        return this;
     }
 
-    clickDownloadButton(): void {
-        cy.get(this.downloadButton).click();
-    }
-
-    findLatestDownloadedFile(): Cypress.Chainable<string> {
-
-        return cy.task('findLatestFile', this.downloadFolder).then((latestFile) => {
+    // Method to find the latest downloaded file
+    public findLatestDownloadedFile(): Cypress.Chainable<string> {
+        return cy.task('findLatestFile', 'cypress/downloads').then((latestFile) => {
             if (!latestFile) {
                 throw new Error('No downloaded file found');
             }
-            return latestFile as string; 
+            return latestFile as string;
         });
     }
 
-    checkFileDownloaded(): void {
+    // Method to check if the file is downloaded
+    public checkFileDownloaded(): this {
         this.findLatestDownloadedFile().then((downloadFilePath) => {
             cy.readFile(downloadFilePath, 'binary', { timeout: 10000 }).should('exist');
         });
+        return this;
     }
 
-    checkFileHasContent(): void {
+    // Method to check if the file has content
+    public checkFileHasContent(): this {
         this.findLatestDownloadedFile().then((downloadFilePath) => {
             cy.readFile(downloadFilePath, 'binary', { timeout: 10000 }).then((fileContent) => {
                 expect(fileContent.length).to.be.greaterThan(0);
             });
         });
+        return this;
     }
 
-    deleteDownloadedFile(): void {
+    // Method to delete the downloaded file
+    public deleteDownloadedFile(): this {
         this.findLatestDownloadedFile().then((downloadFilePath) => {
             cy.task<{ success: boolean; message?: string }>('deleteFile', downloadFilePath).then((result) => {
                 if (!result.success) {
@@ -43,6 +46,7 @@ export class DataDownload {
                 }
             });
         });
+        return this;
     }
 }
 
