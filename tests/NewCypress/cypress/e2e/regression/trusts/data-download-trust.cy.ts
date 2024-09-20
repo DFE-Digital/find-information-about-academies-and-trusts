@@ -13,7 +13,7 @@ describe('Trust export and content verification', () => {
     });
   });
 
-  it('should export a trust and verify it has downloaded and has content', () => {
+  it('should export academies in trust data as an xlsx and verify it has downloaded and has content', () => {
     dataDownload
       .clickDownloadButton()
       .checkFileDownloaded()
