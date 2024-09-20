@@ -1,4 +1,5 @@
 @page
+@using DfE.FindInformationAcademiesTrusts.Configuration
 @using DfE.FindInformationAcademiesTrusts.Data
 @model ContactsModel
 
@@ -6,58 +7,82 @@
   Layout = "_TrustLayout";
 }
 
-<section class="govuk-!-margin-top-8 govuk-!-margin-bottom-9">
-  <div class="govuk-summary-card">
+<section class="govuk-!-margin-bottom-9">
+  <h2 class="govuk-heading-m">
+    Contacts at DfE
+  </h2>
+  <feature name="@FeatureFlags.EditContactsUI">
+    @if (!string.IsNullOrWhiteSpace(TempData["ContactUpdatedMessage"] as string))
+    {
+      <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+        <div class="govuk-notification-banner__header">
+          <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+            Success
+          </h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+          <h3 class="govuk-notification-banner__heading">
+            @TempData["ContactUpdatedMessage"]
+          </h3>
+        </div>
+      </div>
+    }
+  </feature>
+  <div class="govuk-summary-card" data-testid="trust-relationship-manager">
     <div class="govuk-summary-card__title-wrapper">
-      <h2 class="govuk-summary-card__title">DfE contacts</h2>
-    </div>
-    <div class="govuk-summary-card__content">
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row" data-testid="trust-relationship-manager">
-          <dt class="govuk-summary-list__key">
-            Trust relationship manager
-          </dt>
-          @{ DisplayContact(Model.TrustRelationshipManager); }
+      <h3 class="govuk-summary-card__title">
+        Trust relationship manager
+      </h3>
+      <feature name="@FeatureFlags.EditContactsUI">
+        <div class="govuk-summary-card__actions">
+          <a class="govuk-link" asp-page="/Trusts/Contacts/EditTrustRelationshipManager" asp-route-uid="@Model.Uid">Change<span class="govuk-visually-hidden"> details of this contact (Trust relationship manager)</span></a>
         </div>
-        <div class="govuk-summary-list__row" data-testid="sfso-lead">
-          <dt class="govuk-summary-list__key">
-            SFSO (Schools financial support and oversight) lead
-          </dt>
-          @{ DisplayContact(Model.SfsoLead); }
-        </div>
-      </dl>
+      </feature>
     </div>
+    @{ DisplayContact(Model.TrustRelationshipManager); }
+  </div>
+  <div class="govuk-summary-card" data-testid="sfso-lead">
+    <div class="govuk-summary-card__title-wrapper">
+      <h3 class="govuk-summary-card__title">
+        SFSO (Schools financial support and oversight) lead
+      </h3>
+      <feature name="@FeatureFlags.EditContactsUI">
+        <div class="govuk-summary-card__actions">
+          <a class="govuk-link" asp-page="/Trusts/Contacts/EditSfsoLead" asp-route-uid="@Model.Uid">Change<span class="govuk-visually-hidden"> details of this contact (SFSO Lead)</span></a>
+        </div>
+      </feature>
+    </div>
+    @{ DisplayContact(Model.SfsoLead); }
   </div>
 </section>
 
 <section class="govuk-!-margin-top-8 govuk-!-margin-bottom-9">
-  <div class="govuk-summary-card">
+  <h2 class="govuk-heading-m">
+    Contacts at the trust
+  </h2>
+  <div class="govuk-summary-card" data-testid="accounting-officer">
     <div class="govuk-summary-card__title-wrapper">
-      <h2 class="govuk-summary-card__title">Trust contacts</h2>
+      <h3 class="govuk-summary-card__title">
+        Accounting officer
+      </h3>
     </div>
-    <div class="govuk-summary-card__content">
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row" data-testid="accounting-officer">
-          <dt class="govuk-summary-list__key">
-            Accounting officer
-          </dt>
-          @{ DisplayContact(Model.AccountingOfficer); }
-        </div>
-        <div class="govuk-summary-list__row" data-testid="chair-of-trustees">
-          <dt class="govuk-summary-list__key">
-            Chair of trustees
-          </dt>
-          @{ DisplayContact(Model.ChairOfTrustees); }
-        </div>
-        <div class="govuk-summary-list__row" data-testid="chief-financial-officer">
-          <dt class="govuk-summary-list__key">
-            Chief financial officer
-          </dt>
-          @{ DisplayContact(Model.ChiefFinancialOfficer); }
-        </div>
-
-      </dl>
+    @{ DisplayContact(Model.AccountingOfficer); }
+  </div>
+  <div class="govuk-summary-card" data-testid="chair-of-trustees">
+    <div class="govuk-summary-card__title-wrapper">
+      <h3 class="govuk-summary-card__title">
+        Chair of trustees
+      </h3>
     </div>
+    @{ DisplayContact(Model.ChairOfTrustees); }
+  </div>
+  <div class="govuk-summary-card" data-testid="chief-financial-officer">
+    <div class="govuk-summary-card__title-wrapper">
+      <h3 class="govuk-summary-card__title">
+        Chief financial officer
+      </h3>
+    </div>
+    @{ DisplayContact(Model.ChiefFinancialOfficer); }
   </div>
 </section>
 
@@ -65,35 +90,38 @@
 
   private void DisplayContact(Person? contactToDisplay)
   {
-    <dd class="govuk-summary-list__value">
-
-      @if (contactToDisplay is null)
-      {
-        <p class="govuk-body">@ContactsModel.ContactInformationNotAvailableMessage</p>
-      }
-      else
-      {
-        @if (!string.IsNullOrWhiteSpace(contactToDisplay.FullName))
-        {
-          <p class="govuk-body" data-testid="contact-name">@contactToDisplay.FullName</p>
-        }
-        else
-        {
-          <p class="govuk-body">@ContactsModel.ContactNameNotAvailableMessage</p>
-        }
-
-        <p class="govuk-body">
-          @if (contactToDisplay.Email is not null)
+    <div class="govuk-summary-card__content">
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Name
+          </dt>
+          @if (!string.IsNullOrWhiteSpace(contactToDisplay?.FullName))
           {
-            <a class="govuk-link" href="mailto:@contactToDisplay.Email" rel="noopener" target="_blank" data-testid="contact-email">@contactToDisplay.Email</a>
+            <dd class="govuk-summary-list__value" data-testid="contact-name">@contactToDisplay.FullName</dd>
           }
           else
           {
-            <a class="govuk-body">@ContactsModel.ContactEmailNotAvailableMessage</a>
+            <dd class="govuk-summary-list__value" data-testid="contact-name">@ContactsModel.ContactNameNotAvailableMessage</dd>
           }
-        </p>
-      }
-    </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Email address
+          </dt>
+          @if (contactToDisplay?.Email is not null)
+          {
+            <dd class="govuk-summary-list__value">
+              <a class="govuk-link" href="mailto:@contactToDisplay.Email" rel="noopener" target="_blank" data-testid="contact-email">@contactToDisplay.Email</a>
+            </dd>
+          }
+          else
+          {
+            <dd class="govuk-summary-list__value" data-testid="contact-email">@ContactsModel.ContactEmailNotAvailableMessage</dd>
+          }
+        </div>
+      </dl>
+    </div>
   }
 
 }

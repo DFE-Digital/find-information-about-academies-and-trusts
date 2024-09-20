@@ -23,8 +23,6 @@ public class ContactsModel(
 
     public const string ContactEmailNotAvailableMessage = "No contact email available";
 
-    public const string ContactInformationNotAvailableMessage = "No contact information available";
-
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();

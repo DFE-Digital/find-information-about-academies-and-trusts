@@ -6,9 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Added
+
+- Created Edit contacts UI and feature flag to hide it on production environment
+
 ### Changed
 
 - Ofsted logic can now handle null dates
+- Updated contacts page UI to split each contact into it own section
 
 ## [Release-6][release-6] (production-2024-09-17.3129)
 

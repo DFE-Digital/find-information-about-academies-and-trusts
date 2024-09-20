@@ -17,7 +17,7 @@ public interface ITrustsAreaModel
     /// <summary>
     /// The name of the page as displayed in the browser title
     /// </summary>
-    string? PageTitle { get; init; }
+    string? PageTitle { get; set; }
 
     /// <summary>
     /// The name of the section the page sits under in side navigation
