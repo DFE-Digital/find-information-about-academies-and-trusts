@@ -1,7 +1,7 @@
-using System.Globalization;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis;
+using System.Globalization;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 
@@ -39,49 +39,53 @@ public class AcademyFactory : IAcademyFactory
     private static OfstedRating GetCurrentOfstedRating(MisEstablishment? misEstablishmentCurrentOfsted,
         MisFurtherEducationEstablishment? misFurtherEducationEstablishment)
     {
-        if (misEstablishmentCurrentOfsted is not null && misEstablishmentCurrentOfsted.OverallEffectiveness is not null)
+        if (misEstablishmentCurrentOfsted is not null
+            && misEstablishmentCurrentOfsted.OverallEffectiveness is not null
+            && !string.IsNullOrEmpty(misEstablishmentCurrentOfsted.InspectionEndDate))
         {
             return new OfstedRating(
                 (OfstedRatingScore)misEstablishmentCurrentOfsted.OverallEffectiveness.Value,
-                DateTime.ParseExact(misEstablishmentCurrentOfsted.InspectionEndDate!, "dd/MM/yyyy",
-                    CultureInfo.InvariantCulture)
+                DateTime.ParseExact(misEstablishmentCurrentOfsted.InspectionEndDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture)
             );
         }
 
-        if (misFurtherEducationEstablishment is not null && misFurtherEducationEstablishment.OverallEffectiveness is not null)
+        if (misFurtherEducationEstablishment is not null
+            && misFurtherEducationEstablishment.OverallEffectiveness is not null
+            && !string.IsNullOrEmpty(misFurtherEducationEstablishment.LastDayOfInspection))
         {
             return new OfstedRating(
-                    (OfstedRatingScore)misFurtherEducationEstablishment.OverallEffectiveness.Value,
-                    DateTime.ParseExact(misFurtherEducationEstablishment.LastDayOfInspection!, "dd/MM/yyyy",
-                        CultureInfo.InvariantCulture)
-                );
+                (OfstedRatingScore)misFurtherEducationEstablishment.OverallEffectiveness.Value,
+                DateTime.ParseExact(misFurtherEducationEstablishment.LastDayOfInspection!, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+            );
         }
 
         return OfstedRating.None;
     }
 
     private static OfstedRating GetPreviousOfstedRating(MisEstablishment? misEstablishmentPreviousOfsted,
-        MisFurtherEducationEstablishment? misFurtherEducationEstablishment)
+    MisFurtherEducationEstablishment? misFurtherEducationEstablishment)
     {
-        if (misEstablishmentPreviousOfsted is not null && misEstablishmentPreviousOfsted.PreviousFullInspectionOverallEffectiveness is not null)
+        if (misEstablishmentPreviousOfsted is not null
+            && !string.IsNullOrEmpty(misEstablishmentPreviousOfsted.PreviousFullInspectionOverallEffectiveness)
+            && !string.IsNullOrEmpty(misEstablishmentPreviousOfsted.PreviousInspectionEndDate))
         {
             return new OfstedRating(
-                (OfstedRatingScore)int.Parse(misEstablishmentPreviousOfsted
-                    .PreviousFullInspectionOverallEffectiveness!),
-                DateTime.ParseExact(misEstablishmentPreviousOfsted.PreviousInspectionEndDate!, "dd/MM/yyyy",
-                    CultureInfo.InvariantCulture)
+                (OfstedRatingScore)int.Parse(misEstablishmentPreviousOfsted.PreviousFullInspectionOverallEffectiveness!),
+                DateTime.ParseExact(misEstablishmentPreviousOfsted.PreviousInspectionEndDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture)
             );
         }
 
-        if (misFurtherEducationEstablishment is not null && misFurtherEducationEstablishment.PreviousOverallEffectiveness is not null)
+        if (misFurtherEducationEstablishment is not null
+            && misFurtherEducationEstablishment.PreviousOverallEffectiveness is not null
+            && !string.IsNullOrEmpty(misFurtherEducationEstablishment.PreviousLastDayOfInspection))
         {
             return new OfstedRating(
-                    (OfstedRatingScore)misFurtherEducationEstablishment.PreviousOverallEffectiveness.Value,
-                    DateTime.ParseExact(misFurtherEducationEstablishment.PreviousLastDayOfInspection!, "dd/MM/yyyy",
-                        CultureInfo.InvariantCulture)
-                );
+                (OfstedRatingScore)misFurtherEducationEstablishment.PreviousOverallEffectiveness.Value,
+                DateTime.ParseExact(misFurtherEducationEstablishment.PreviousLastDayOfInspection!, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+            );
         }
 
         return OfstedRating.None;
     }
+
 }

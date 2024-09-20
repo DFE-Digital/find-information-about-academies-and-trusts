@@ -6,7 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Changed
 
+- Ofsted logic can now handle null dates
 
 ## [Release-6][release-6] (production-2024-09-17.3129)
 

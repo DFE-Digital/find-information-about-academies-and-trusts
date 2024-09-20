@@ -276,4 +276,56 @@ public class AcademyFactoryTests
         result.PreviousOfstedRating.Should().NotBeNull();
         result.PreviousOfstedRating.InspectionEndDate.Should().Be(new DateTime(year, month, day));
     }
+    [Fact]
+    public void CreateAcademyFrom_should_set_current_ofsted_inspection_date_to_null_if_InspectionEndDate_is_null_or_empty()
+    {
+        var misEstablishmentWithNullDate = new MisEstablishment
+        {
+            UrnAtTimeOfLatestFullInspection = _giasEstablishment.Urn,
+            InspectionEndDate = null,
+            OverallEffectiveness = 1
+        };
+
+        var misEstablishmentWithEmptyDate = new MisEstablishment
+        {
+            UrnAtTimeOfLatestFullInspection = _giasEstablishment.Urn,
+            InspectionEndDate = "",
+            OverallEffectiveness = 1
+        };
+
+        // Test when InspectionEndDate is null
+        var resultWithNullDate = _sut.CreateFrom(_giasGroupLink, _giasEstablishment, misEstablishmentWithNullDate);
+        resultWithNullDate.CurrentOfstedRating.InspectionEndDate.Should().BeNull(); // The date should be null
+
+        // Test when InspectionEndDate is empty
+        var resultWithEmptyDate = _sut.CreateFrom(_giasGroupLink, _giasEstablishment, misEstablishmentWithEmptyDate);
+        resultWithEmptyDate.CurrentOfstedRating.InspectionEndDate.Should().BeNull(); // The date should be null
+    }
+
+    [Fact]
+    public void CreateAcademyFrom_should_set_previous_ofsted_inspection_date_to_null_if_PreviousInspectionEndDate_is_null_or_empty()
+    {
+        var misEstablishmentWithNullDate = new MisEstablishment
+        {
+            UrnAtTimeOfPreviousFullInspection = _giasEstablishment.Urn,
+            PreviousInspectionEndDate = null,
+            PreviousFullInspectionOverallEffectiveness = "1"
+        };
+
+        var misEstablishmentWithEmptyDate = new MisEstablishment
+        {
+            UrnAtTimeOfPreviousFullInspection = _giasEstablishment.Urn,
+            PreviousInspectionEndDate = "",
+            PreviousFullInspectionOverallEffectiveness = "1"
+        };
+
+        // Test when PreviousInspectionEndDate is null
+        var resultWithNullDate = _sut.CreateFrom(_giasGroupLink, _giasEstablishment, misEstablishmentWithNullDate);
+        resultWithNullDate.PreviousOfstedRating.InspectionEndDate.Should().BeNull(); // The date should be null
+
+        // Test when PreviousInspectionEndDate is empty
+        var resultWithEmptyDate = _sut.CreateFrom(_giasGroupLink, _giasEstablishment, misEstablishmentWithEmptyDate);
+        resultWithEmptyDate.PreviousOfstedRating.InspectionEndDate.Should().BeNull(); // The date should be null
+    }
+
 }
