@@ -77,7 +77,7 @@ jobs:
     - name: Install dotnet-coverage
       run: dotnet tool install --global dotnet-coverage
 
-    - name: Install dotnet-stryker (mutation testing tool)
+    - name: Install other dotnet tools (including stryker mutation testing tool and entity framework cli)
       run: dotnet tool restore
 
     - name: Build and Analyse solution
@@ -91,3 +91,6 @@ jobs:
         dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
         dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
         dotnet stryker -r "cleartext" -r "html" --threshold-high 90 --threshold-low 81 --break-at 80
+
+    - name: Ensure there are no pending migrations
+      run: dotnet ef migrations has-pending-model-changes --context FiatDbContext --project DfE.FindInformationAcademiesTrusts.Data.FiatDb --startup-project DfE.FindInformationAcademiesTrusts
