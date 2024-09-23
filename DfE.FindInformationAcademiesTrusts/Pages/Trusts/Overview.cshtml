@@ -1,5 +1,6 @@
 ﻿@page
 @using DfE.FindInformationAcademiesTrusts.Data
+@using DfE.FindInformationAcademiesTrusts.Extensions
 @model OverviewModel
 
 @{
@@ -9,6 +10,7 @@
 <section>
   <div class="govuk-!-margin-top-9 govuk-!-margin-bottom-1">
     <div class="govuk-grid-row">
+      <!-- Trust Summary Section -->
       <div class="govuk-grid-column-one-half">
         <section class="govuk-summary-card" data-testid="trust-summary">
           <div class="govuk-summary-card__title-wrapper">
@@ -16,14 +18,16 @@
           </div>
           <div class="govuk-summary-card__content">
             <dl class="govuk-summary-list">
+              <!-- Total Academies -->
               <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key govuk-!-width-one-half">
                   Total academies
                 </dt>
                 <dd class="govuk-summary-list__value" data-testid="total-academies">
-                  @Model.NumberOfAcademiesInTrust
+                  @Model.TotalAcademies
                 </dd>
               </div>
+              <!-- Academies in Each Local Authority -->
               <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key govuk-!-width-one-half">
                   Academies in each local authority
@@ -35,24 +39,26 @@
                   }
                 </dd>
               </div>
+              <!-- Pupil Numbers -->
               <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key govuk-!-width-one-half">
                   Pupil numbers
                 </dt>
                 <dd class="govuk-summary-list__value" data-testid="number-of-pupils">
-                  @($"{Model.TotalPupilNumbersInTrust:n0}")
+                  @($"{Model.TotalPupilNumbers:n0}")
                 </dd>
               </div>
+              <!-- Pupil Capacity and Percentage Full -->
               <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key govuk-!-width-one-half">
                   Pupil capacity <br>(% full)
                 </dt>
                 <dd class="govuk-summary-list__value" data-testid="pupil-capacity">
-                  @($"{Model.TotalPupilCapacityInTrust:n0}")
-                  @if (Model.TotalPercentageCapacityInTrust is not null)
+                  @($"{Model.TotalCapacity:n0}")
+                  @if (Model.PercentageFull is not null)
                   {
                     <br>
-                    @($"({Model.TotalPercentageCapacityInTrust}%)")
+                    @($"({Model.PercentageFull}%)")
                   }
                 </dd>
               </div>
@@ -60,6 +66,7 @@
           </div>
         </section>
       </div>
+      <!-- Ofsted Ratings Section -->
       <div class="govuk-grid-column-one-half">
         <section class="govuk-summary-card" data-testid="ofsted-ratings">
           <div class="govuk-summary-card__title-wrapper">
@@ -74,26 +81,15 @@
                 </tr>
               </thead>
               <tbody class="govuk-table__body">
-                <tr class="govuk-table__row">
-                  <td class="govuk-body govuk-table__cell" data-sort-value="1">Outstanding</td>
-                  <td class="govuk-body govuk-table__cell govuk-table__cell--numeric" data-testid="ofsted-rating-outstanding">@Model.GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore.Outstanding)</td>
-                </tr>
-                <tr class="govuk-table__row">
-                  <td class="govuk-body govuk-table__cell" data-sort-value="2">Good</td>
-                  <td class="govuk-body govuk-table__cell govuk-table__cell--numeric" data-testid="ofsted-rating-good">@Model.GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore.Good)</td>
-                </tr>
-                <tr class="govuk-table__row">
-                  <td class="govuk-body govuk-table__cell" data-sort-value="3">Requires improvement</td>
-                  <td class="govuk-body govuk-table__cell govuk-table__cell--numeric" data-testid="ofsted-rating-requires-improvement">@Model.GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore.RequiresImprovement)</td>
-                </tr>
-                <tr class="govuk-table__row">
-                  <td class="govuk-body govuk-table__cell" data-sort-value="4">Inadequate</td>
-                  <td class="govuk-body govuk-table__cell govuk-table__cell--numeric" data-testid="ofsted-rating-inadequate">@Model.GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore.Inadequate)</td>
-                </tr>
-                <tr class="govuk-table__row">
-                  <td class="govuk-body govuk-table__cell" data-sort-value="5">Not yet inspected</td>
-                  <td class="govuk-body govuk-table__cell govuk-table__cell--numeric" data-testid="ofsted-rating-not-inspected-yet">@Model.GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore.None)</td>
-                </tr>
+                @foreach (var rating in Enum.GetValues(typeof(OfstedRatingScore)).Cast<OfstedRatingScore>())
+                {
+                  <tr class="govuk-table__row">
+                    <td class="govuk-body govuk-table__cell" data-sort-value="@rating.ToDataSortValue()">@rating.ToDisplayString()</td>
+                    <td class="govuk-body govuk-table__cell govuk-table__cell--numeric" data-test-id="ofsted-rating-@rating.ToString()">
+                      @Model.GetNumberOfAcademiesWithOfstedRating(rating)
+                    </td>
+                  </tr>
+                }
               </tbody>
             </table>
           </div>

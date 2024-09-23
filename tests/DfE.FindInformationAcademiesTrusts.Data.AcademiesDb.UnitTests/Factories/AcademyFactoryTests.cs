@@ -77,7 +77,7 @@ public class AcademyFactoryTests
         var result = _sut.CreateFrom(_giasGroupLink, _giasEstablishment);
 
         result.CurrentOfstedRating.OfstedRatingScore.Should().Be(OfstedRatingScore.None);
-        result.CurrentOfstedRating.InspectionEndDate.Should().BeNull();
+        result.CurrentOfstedRating.InspectionDate.Should().BeNull();
     }
 
     [Theory]
@@ -121,7 +121,7 @@ public class AcademyFactoryTests
         var result = _sut.CreateFrom(_giasGroupLink, _giasEstablishment, misEstablishment);
 
         result.CurrentOfstedRating.Should().NotBeNull();
-        result.CurrentOfstedRating.InspectionEndDate.Should().Be(new DateTime(year, month, day));
+        result.CurrentOfstedRating.InspectionDate.Should().Be(new DateTime(year, month, day));
     }
 
     [Theory]
@@ -169,7 +169,7 @@ public class AcademyFactoryTests
             misFurtherEducationEstablishment: misFurtherEducationEstablishment);
 
         result.CurrentOfstedRating.Should().NotBeNull();
-        result.CurrentOfstedRating.InspectionEndDate.Should().Be(new DateTime(year, month, day));
+        result.CurrentOfstedRating.InspectionDate.Should().Be(new DateTime(year, month, day));
     }
 
     [Fact]
@@ -179,7 +179,7 @@ public class AcademyFactoryTests
         var result = _sut.CreateFrom(_giasGroupLink, _giasEstablishment);
 
         result.PreviousOfstedRating.OfstedRatingScore.Should().Be(OfstedRatingScore.None);
-        result.PreviousOfstedRating.InspectionEndDate.Should().BeNull();
+        result.PreviousOfstedRating.InspectionDate.Should().BeNull();
     }
 
     [Theory]
@@ -226,7 +226,7 @@ public class AcademyFactoryTests
             misEstablishmentPreviousOfsted: misEstablishment);
 
         result.PreviousOfstedRating.Should().NotBeNull();
-        result.PreviousOfstedRating.InspectionEndDate.Should().Be(new DateTime(year, month, day));
+        result.PreviousOfstedRating.InspectionDate.Should().Be(new DateTime(year, month, day));
     }
 
     [Theory]
@@ -274,7 +274,7 @@ public class AcademyFactoryTests
             misFurtherEducationEstablishment: misFurtherEducationEstablishment);
 
         result.PreviousOfstedRating.Should().NotBeNull();
-        result.PreviousOfstedRating.InspectionEndDate.Should().Be(new DateTime(year, month, day));
+        result.PreviousOfstedRating.InspectionDate.Should().Be(new DateTime(year, month, day));
     }
     [Fact]
     public void CreateAcademyFrom_should_set_current_ofsted_inspection_date_to_null_if_InspectionEndDate_is_null_or_empty()
@@ -295,11 +295,11 @@ public class AcademyFactoryTests
 
         // Test when InspectionEndDate is null
         var resultWithNullDate = _sut.CreateFrom(_giasGroupLink, _giasEstablishment, misEstablishmentWithNullDate);
-        resultWithNullDate.CurrentOfstedRating.InspectionEndDate.Should().BeNull(); // The date should be null
+        resultWithNullDate.CurrentOfstedRating.InspectionDate.Should().BeNull(); // The date should be null
 
         // Test when InspectionEndDate is empty
         var resultWithEmptyDate = _sut.CreateFrom(_giasGroupLink, _giasEstablishment, misEstablishmentWithEmptyDate);
-        resultWithEmptyDate.CurrentOfstedRating.InspectionEndDate.Should().BeNull(); // The date should be null
+        resultWithEmptyDate.CurrentOfstedRating.InspectionDate.Should().BeNull(); // The date should be null
     }
 
     [Fact]
@@ -321,11 +321,11 @@ public class AcademyFactoryTests
 
         // Test when PreviousInspectionEndDate is null
         var resultWithNullDate = _sut.CreateFrom(_giasGroupLink, _giasEstablishment, misEstablishmentWithNullDate);
-        resultWithNullDate.PreviousOfstedRating.InspectionEndDate.Should().BeNull(); // The date should be null
+        resultWithNullDate.PreviousOfstedRating.InspectionDate.Should().BeNull(); // The date should be null
 
         // Test when PreviousInspectionEndDate is empty
         var resultWithEmptyDate = _sut.CreateFrom(_giasGroupLink, _giasEstablishment, misEstablishmentWithEmptyDate);
-        resultWithEmptyDate.PreviousOfstedRating.InspectionEndDate.Should().BeNull(); // The date should be null
+        resultWithEmptyDate.PreviousOfstedRating.InspectionDate.Should().BeNull(); // The date should be null
     }
 
 }

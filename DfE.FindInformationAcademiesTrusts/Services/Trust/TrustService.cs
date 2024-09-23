@@ -10,6 +10,7 @@ public interface ITrustService
     Task<TrustDetailsServiceModel> GetTrustDetailsAsync(string uid);
     Task<TrustGovernanceServiceModel> GetTrustGovernanceAsync(string uid);
     Task<TrustContactsServiceModel> GetTrustContactsAsync(string uid);
+    Task<TrustOverviewServiceModel> GetTrustOverviewAsync(string uid);
 }
 
 public class TrustService(
@@ -80,4 +81,33 @@ public class TrustService(
         return new TrustContactsServiceModel(trustRelationshipManager, sfsoLead, accountingOfficer, chairOfTrustees,
             chiefFinancialOfficer);
     }
+    public async Task<TrustOverviewServiceModel> GetTrustOverviewAsync(string uid)
+    {
+        var academiesOverview = await academyRepository.GetAcademiesInTrustOverviewAsync(uid);
+
+        var totalAcademies = academiesOverview.Length;
+
+        var academiesByLocalAuthority = academiesOverview
+            .GroupBy(a => a.LocalAuthority)
+            .ToDictionary(g => g.Key, g => g.Count());
+
+        var totalPupilNumbers = academiesOverview.Sum(a => a.NumberOfPupils ?? 0);
+        var totalCapacity = academiesOverview.Sum(a => a.SchoolCapacity ?? 0);
+
+        var ofstedRatings = academiesOverview
+            .GroupBy(a => a.CurrentOfstedRating)
+            .ToDictionary(g => g.Key, g => g.Count());
+
+        var overviewModel = new TrustOverviewServiceModel(
+            uid,
+            totalAcademies,
+            academiesByLocalAuthority,
+            totalPupilNumbers,
+            totalCapacity,
+            ofstedRatings
+        );
+
+        return overviewModel;
+    }
+
 }
