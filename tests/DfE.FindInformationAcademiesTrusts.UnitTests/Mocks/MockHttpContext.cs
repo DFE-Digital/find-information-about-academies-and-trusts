@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 
@@ -10,22 +11,33 @@ public class MockHttpContext : Mock<HttpContext>
     private readonly Mock<IRequestCookieCollection> _mockRequestCookies = new();
     private readonly Mock<HttpRequest> _mockRequest = new();
     private readonly Mock<IFeatureCollection> _mockFeatureCollection = new();
+    private readonly ClaimsIdentity _claimsIdentity = new();
 
     public MockHttpContext()
     {
         Mock<HttpResponse> mockResponse = new();
-
-        Setup(m => m.Request).Returns(_mockRequest.Object);
-        Setup(m => m.Response).Returns(mockResponse.Object);
-        Setup(m => m.Features).Returns(_mockFeatureCollection.Object);
-
         mockResponse.Setup(m => m.Cookies).Returns(_mockResponseCookies.Object);
+
+        ClaimsPrincipal user = new();
+        user.AddIdentity(_claimsIdentity);
+
         _mockRequest.Setup(m => m.Cookies).Returns(_mockRequestCookies.Object);
+        _mockRequest.Setup(m => m.Query[It.IsAny<string>()]).Returns("");
+
         _mockRequestCookies.Setup(m => m[It.IsAny<string>()]).Returns("False");
         _mockRequestCookies.Setup(m => m.ContainsKey(".FindInformationAcademiesTrusts.Login")).Returns(true);
         _mockRequestCookies.Setup(m => m[".FindInformationAcademiesTrusts.Login"]).Returns("You are logged in");
         _mockRequestCookies.Setup(m => m.Keys).Returns(new List<string>());
-        _mockRequest.Setup(m => m.Query[It.IsAny<string>()]).Returns("");
+
+        Setup(m => m.Request).Returns(_mockRequest.Object);
+        Setup(m => m.Response).Returns(mockResponse.Object);
+        Setup(m => m.Features).Returns(_mockFeatureCollection.Object);
+        Setup(m => m.User).Returns(user);
+    }
+
+    public void AddUserClaim(string type, string value)
+    {
+        _claimsIdentity.AddClaim(new Claim(type, value));
     }
 
     public void SetupConsentCookie(bool? accepted)
