@@ -10,7 +10,7 @@ public interface IFiatDbContext
     Task<int> SaveChangesAsync();
 }
 
-[ExcludeFromCodeCoverage(Justification = "Difficult to unit test")]
+[ExcludeFromCodeCoverage(Justification = "Tests are long running, don't want these to be mutated by Stryker")]
 public sealed class FiatDbContext(
     DbContextOptions<FiatDbContext> options,
     SetChangedByInterceptor setChangedByInterceptor)
