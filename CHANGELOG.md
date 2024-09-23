@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+## [Release-7][release-7] (production-2024-09-23.3213)
+
 ### Added
 
 - Created Edit contacts UI and feature flag to hide it on production environment
@@ -86,7 +88,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated text on "404 - Not Found" page to adhere to DfE design pattern and added the not found url to the support email template.
 
 [unreleased]:
-  https://github.com/DFE-Digital/dfe-complete-conversions-transfers-and-changes/compare/production-2024-09-17.3129...HEAD
+  https://github.com/DFE-Digital/dfe-complete-conversions-transfers-and-changes/compare/production-2024-09-23.3213...HEAD
 [release-1]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-07-18.2517
 [release-2]:
@@ -99,4 +101,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-09-05.2971
 [release-6]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-09-17.3129
-
+[release-7]:
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-09-23.3213
