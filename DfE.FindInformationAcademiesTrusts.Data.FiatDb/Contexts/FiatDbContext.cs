@@ -4,13 +4,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.FiatDb.Contexts;
 
+public interface IFiatDbContext
+{
+    DbSet<Contact> Contacts { get; set; }
+    Task<int> SaveChangesAsync();
+}
+
 [ExcludeFromCodeCoverage(Justification = "Difficult to unit test")]
 public sealed class FiatDbContext(
     DbContextOptions<FiatDbContext> options,
     SetChangedByInterceptor setChangedByInterceptor)
-    : DbContext(options)
+    : DbContext(options), IFiatDbContext
 {
     public DbSet<Contact> Contacts { get; set; }
+
+    public async Task<int> SaveChangesAsync()
+    {
+        return await base.SaveChangesAsync();
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
