@@ -3,8 +3,8 @@ using DfE.FindInformationAcademiesTrusts.Data;
 namespace DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 public record TrustContactsServiceModel(
-    Person? TrustRelationshipManager,
-    Person? SfsoLead,
+    InternalContact? TrustRelationshipManager,
+    InternalContact? SfsoLead,
     Person? AccountingOfficer,
     Person? ChairOfTrustees,
     Person? ChiefFinancialOfficer
