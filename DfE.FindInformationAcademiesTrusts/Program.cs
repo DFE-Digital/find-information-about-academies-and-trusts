@@ -9,6 +9,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Contexts;
+using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Hardcoded;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
@@ -209,6 +210,9 @@ internal static class Program
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ??
                                  throw new InvalidOperationException(
                                      "FIAT database connection string 'DefaultConnection' not found.")));
+        builder.Services.AddScoped<IFiatDbContext>(provider =>
+            provider.GetService<FiatDbContext>() ??
+            throw new InvalidOperationException("FiatDbContext not registered"));
 
         builder.Services.AddScoped<SetChangedByInterceptor>();
         builder.Services.AddScoped<IUserDetailsProvider, HttpContextUserDetailsProvider>();
@@ -222,6 +226,7 @@ internal static class Program
         builder.Services.AddScoped<IAcademyRepository, AcademyRepository>();
         builder.Services.AddScoped<ITrustRepository, TrustRepository>();
         builder.Services.AddScoped<IDataSourceRepository, DataSourceRepository>();
+        builder.Services.AddScoped<IContactRepository, ContactRepository>();
 
         builder.Services.AddScoped<IDataSourceService, DataSourceService>();
         builder.Services.AddScoped<ITrustService, TrustService>();
