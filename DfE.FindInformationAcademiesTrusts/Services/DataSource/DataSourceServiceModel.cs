@@ -2,4 +2,8 @@
 
 namespace DfE.FindInformationAcademiesTrusts.Services.DataSource;
 
-public record DataSourceServiceModel(Source Source, DateTime? LastUpdated, UpdateFrequency NextUpdated);
+public record DataSourceServiceModel(
+    Source Source,
+    DateTime? LastUpdated,
+    UpdateFrequency? NextUpdated,
+    string? UpdatedBy = null);
