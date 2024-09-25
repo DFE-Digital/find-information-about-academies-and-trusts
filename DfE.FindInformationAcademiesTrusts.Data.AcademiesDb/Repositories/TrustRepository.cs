@@ -92,7 +92,7 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
             return query.Where(g => g.Urn == urn);
         }
 
-        return query = query.Where(g => g.Uid == uid);
+        return query.Where(g => g.Uid == uid);
     }
 
     public async Task<TrustContacts> GetTrustContactsAsync(string uid, string? urn = null)
