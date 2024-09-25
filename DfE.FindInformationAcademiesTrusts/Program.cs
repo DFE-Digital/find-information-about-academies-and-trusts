@@ -1,3 +1,6 @@
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Azure.Identity;
 using DfE.FindInformationAcademiesTrusts.Authorization;
 using DfE.FindInformationAcademiesTrusts.Data;
@@ -5,6 +8,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
+using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.Hardcoded;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
@@ -25,9 +29,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.FeatureManagement;
 using Microsoft.Identity.Web;
 using Serilog;
-using System.Data;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace DfE.FindInformationAcademiesTrusts;
 
@@ -203,6 +204,14 @@ internal static class Program
         builder.Services.AddScoped<IAcademiesDbContext>(provider =>
             provider.GetService<AcademiesDbContext>() ??
             throw new InvalidOperationException("AcademiesDbContext not registered"));
+
+        builder.Services.AddDbContext<FiatDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ??
+                                 throw new InvalidOperationException(
+                                     "FIAT database connection string 'DefaultConnection' not found.")));
+
+        builder.Services.AddScoped<SetChangedByInterceptor>();
+        builder.Services.AddScoped<IUserDetailsProvider, HttpContextUserDetailsProvider>();
 
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
 

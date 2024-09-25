@@ -1,4 +1,3 @@
-version: "3.8"
 name: fiat-ci-env
 services:
   sqlserver:
@@ -16,9 +15,10 @@ services:
       retries: 10
   import-sql:
     image: mcr.microsoft.com/mssql-tools:latest
-    command: |
-      /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P "mySuperStrong_pa55word!!!" -d master -i /data/createScript.sql
-      /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P "mySuperStrong_pa55word!!!" -d master -i /data/insertScript.sql
+    command: >
+      sh -c "/opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P \"mySuperStrong_pa55word!!!\" -d master -i /data/createScript.sql -C &&
+             /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P \"mySuperStrong_pa55word!!!\" -d sip -i /data/insertScript.sql -C &&
+             /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P \"mySuperStrong_pa55word!!!\" -d master -Q \"CREATE DATABASE fiat\" -C"
     depends_on:
       sqlserver:
         condition: service_healthy
@@ -32,7 +32,8 @@ services:
       dockerfile: docker/Dockerfile
     command: /bin/bash -c "./docker-entrypoint.sh dotnet DfE.FindInformationAcademiesTrusts.dll"
     depends_on:
-      - import-sql
+      import-sql:
+        condition: service_completed_successfully
     ports:
       - "80:8080/tcp"
     networks:
@@ -41,6 +42,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=CI
       - TestOverride__CypressTestSecret=TestSuperSecret
       - ConnectionStrings__AcademiesDb=Server=sqlserver;Database=sip;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true;
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=fiat;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=true;
 
 networks:
   test-ci:

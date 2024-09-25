@@ -49,7 +49,7 @@ public class SearchModel : ContentPageModel, IPageSearchFormModel, IPaginationMo
         Trusts = await GetTrustsForKeywords();
 
         PageStatus = Trusts.PageStatus;
-        PaginationRouteData = new Dictionary<string, string> { { "Keywords", KeyWords } };
+        PaginationRouteData = new Dictionary<string, string> { { "Keywords", KeyWords ?? string.Empty } };
         return new PageResult();
     }
 
