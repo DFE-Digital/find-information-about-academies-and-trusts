@@ -402,12 +402,6 @@ public class TrustRepositoryTests
         var tadTrustGovernance = new TadTrustGovernance
         {
             Gid = gid,
-            Forename1 = forename1,
-            Forename2 = forename2,
-            Surname = surname,
-            DateOfAppointment = startDate?.ToString("dd/MM/yyyy"),
-            DateTermOfOfficeEndsEnded = endDate?.ToString("dd/MM/yyyy"),
-            AppointingBody = appointingBody,
             Email = email
         };
 
