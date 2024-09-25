@@ -417,20 +417,72 @@ public class AcademyRepositoryTests
         _mockAcademiesDbContext.AddGiasEstablishments(giasEstablishments);
         _mockAcademiesDbContext.AddGiasGroupLinksForGiasEstablishmentsToGiasGroup(giasEstablishments, giasGroup);
 
-        var expectedAcademies = giasEstablishments.Select(e => new AcademyOverview(
-            e.Urn.ToString(),
-            e.LaName ?? string.Empty,
-            int.TryParse(e.NumberOfPupils, out var pupils) ? pupils : null,
-            int.TryParse(e.SchoolCapacity, out var capacity) ? capacity : null,
-            OfstedRatingScore.None
-        )).ToArray();
+        // Act
+        var result = await _sut.GetAcademiesInTrustOverviewAsync("1234");
+
+        // Assert
+        result.Should().BeEquivalentTo(giasEstablishments,
+            options => options
+                .WithAutoConversion()
+                .ExcludingMissingMembers()
+                .WithMapping<AcademyOverview>(e => e.LaName, a => a.LocalAuthority)
+        );
+    }
+
+    // @formatter:max_line_length 500 - these tests are very difficult to read after line wrapping is enforced so increase max line length
+    [Fact]
+    public async Task GetAcademiesInTrustOverviewAsync_should_set_current_ofsted()
+    {
+        // Arrange
+        var giasGroup = _mockAcademiesDbContext.AddGiasGroup("1234");
+        var giasEstablishments = _mockAcademiesDbContext.AddGiasEstablishments(10);
+        _mockAcademiesDbContext.AddGiasGroupLinksForGiasEstablishmentsToGiasGroup(giasEstablishments, giasGroup);
+
+        var urnsAsInt = giasEstablishments.Select(gl => gl.Urn).ToArray();
+        var urns = urnsAsInt.Select(u => u.ToString()).ToArray();
+
+        _mockAcademiesDbContext.AddMisEstablishments(new[]
+        {
+            new MisEstablishment { Urn = urnsAsInt[0], OverallEffectiveness = 1, InspectionStartDate = "01/01/2022" },
+            new MisEstablishment { Urn = urnsAsInt[1], OverallEffectiveness = 2, InspectionStartDate = "29/02/2024" },
+            new MisEstablishment { Urn = urnsAsInt[2], OverallEffectiveness = 3, InspectionStartDate = "31/12/2022" },
+            new MisEstablishment { Urn = urnsAsInt[3], OverallEffectiveness = 4, InspectionStartDate = "15/10/2023" },
+            new MisEstablishment { Urn = urnsAsInt[4], OverallEffectiveness = null, InspectionStartDate = null }
+        });
+        _mockAcademiesDbContext.AddMisFurtherEducationEstablishments(new[]
+        {
+            new MisFurtherEducationEstablishment { ProviderUrn = urnsAsInt[5], OverallEffectiveness = 1, LastDayOfInspection = "01/01/2022" },
+            new MisFurtherEducationEstablishment { ProviderUrn = urnsAsInt[6], OverallEffectiveness = 2, LastDayOfInspection = "29/02/2024" },
+            new MisFurtherEducationEstablishment { ProviderUrn = urnsAsInt[7], OverallEffectiveness = 3, LastDayOfInspection = "31/12/2022" },
+            new MisFurtherEducationEstablishment { ProviderUrn = urnsAsInt[8], OverallEffectiveness = 4, LastDayOfInspection = "15/10/2023" },
+            new MisFurtherEducationEstablishment { ProviderUrn = urnsAsInt[9], OverallEffectiveness = null, LastDayOfInspection = null }
+        });
 
         // Act
         var result = await _sut.GetAcademiesInTrustOverviewAsync("1234");
 
         // Assert
-        result.Should().BeEquivalentTo(expectedAcademies, options => options.ExcludingMissingMembers());
+        var dummyAcademyOverview = new AcademyOverview(string.Empty, string.Empty, null, null, OfstedRatingScore.None);
+
+        result.Should().BeEquivalentTo(new[]
+            {
+                dummyAcademyOverview with { Urn = urns[0], CurrentOfstedRating = OfstedRatingScore.Outstanding },
+                dummyAcademyOverview with { Urn = urns[1], CurrentOfstedRating = OfstedRatingScore.Good },
+                dummyAcademyOverview with { Urn = urns[2], CurrentOfstedRating = OfstedRatingScore.RequiresImprovement },
+                dummyAcademyOverview with { Urn = urns[3], CurrentOfstedRating = OfstedRatingScore.Inadequate },
+                dummyAcademyOverview with { Urn = urns[4], CurrentOfstedRating = OfstedRatingScore.None },
+                dummyAcademyOverview with { Urn = urns[5], CurrentOfstedRating = OfstedRatingScore.Outstanding },
+                dummyAcademyOverview with { Urn = urns[6], CurrentOfstedRating = OfstedRatingScore.Good },
+                dummyAcademyOverview with { Urn = urns[7], CurrentOfstedRating = OfstedRatingScore.RequiresImprovement },
+                dummyAcademyOverview with { Urn = urns[8], CurrentOfstedRating = OfstedRatingScore.Inadequate },
+                dummyAcademyOverview with { Urn = urns[9], CurrentOfstedRating = OfstedRatingScore.None }
+            },
+            options => options
+                .Including(a => a.Urn)
+                .Including(a => a.CurrentOfstedRating)
+        );
     }
+    // @formatter:max_line_length restore
 
     [Fact]
     public async Task GetAcademiesInTrustOverviewAsync_should_handle_academies_with_missing_data()
@@ -440,7 +492,7 @@ public class AcademyRepositoryTests
         {
             Urn = 2000,
             EstablishmentName = "Academy Missing Data",
-            LaName = "Local Authority Missing",
+            LaName = null,
             NumberOfPupils = null,
             SchoolCapacity = null
         };
@@ -458,7 +510,7 @@ public class AcademyRepositoryTests
 
         var academy = result.First();
         academy.Urn.Should().Be("2000");
-        academy.LocalAuthority.Should().Be("Local Authority Missing");
+        academy.LocalAuthority.Should().Be(string.Empty);
         academy.NumberOfPupils.Should().BeNull();
         academy.SchoolCapacity.Should().BeNull();
     }
