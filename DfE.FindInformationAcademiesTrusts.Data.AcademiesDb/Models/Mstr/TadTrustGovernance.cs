@@ -3,7 +3,7 @@
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 
 [ExcludeFromCodeCoverage] // Database model POCO
-public class MstrTrustGovernance
+public class TadTrustGovernance
 {
     public long Sk { get; set; }
 

@@ -79,8 +79,10 @@ public class TrustService(
 
     public async Task<TrustContactsServiceModel> GetTrustContactsAsync(string uid)
     {
+        var urn = await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid);
+
         var (trustRelationshipManager, sfsoLead, accountingOfficer, chairOfTrustees, chiefFinancialOfficer) =
-            await trustRepository.GetTrustContactsAsync(uid);
+            await trustRepository.GetTrustContactsAsync(uid, urn);
 
         return new TrustContactsServiceModel(trustRelationshipManager, sfsoLead, accountingOfficer, chairOfTrustees,
             chiefFinancialOfficer);

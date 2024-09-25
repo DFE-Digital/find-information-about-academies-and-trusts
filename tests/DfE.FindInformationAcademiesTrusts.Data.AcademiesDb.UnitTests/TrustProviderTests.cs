@@ -294,10 +294,10 @@ public class TrustProviderTests
         var governorsLinkedToTrust = new List<Governor>();
         var newDbGovernors = _mockAcademiesDbContext.AddGovernancesLinkedToTrust(num, groupUid);
 
-        foreach (var (giasGovernance, mstrTrustGovernance) in newDbGovernors)
+        foreach (var (giasGovernance, tadTrustGovernance) in newDbGovernors)
         {
             var dummyGovernor = DummyGovernorFactory.GetDummyGovernor(giasGovernance.Gid!, groupUid);
-            _mockGovernorFactory.Setup(g => g.CreateFrom(giasGovernance, mstrTrustGovernance))
+            _mockGovernorFactory.Setup(g => g.CreateFrom(giasGovernance, tadTrustGovernance))
                 .Returns(dummyGovernor);
             governorsLinkedToTrust.Add(dummyGovernor);
         }

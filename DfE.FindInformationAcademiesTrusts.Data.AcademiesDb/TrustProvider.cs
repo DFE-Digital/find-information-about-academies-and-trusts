@@ -49,7 +49,7 @@ public class TrustProvider(
     {
         return await academiesDbContext.GiasGovernances
             .Where(g => g.Uid == uid)
-            .Join(academiesDbContext.MstrTrustGovernances,
+            .Join(academiesDbContext.TadTrustGovernances,
                 gg => gg.Gid!,
                 mtg => mtg.Gid,
                 (gg, mtg) => governorFactory.CreateFrom(gg, mtg))

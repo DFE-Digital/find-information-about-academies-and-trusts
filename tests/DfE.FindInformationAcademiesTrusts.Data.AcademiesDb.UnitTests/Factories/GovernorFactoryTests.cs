@@ -8,7 +8,7 @@ public class GovernorFactoryTests
 {
     private readonly GovernorFactory _sut = new();
 
-    private readonly MstrTrustGovernance _mstrTrustGovernance = new()
+    private readonly TadTrustGovernance _tadTrustGovernance = new()
     {
         Gid = "1011111",
         Email = "ms.governor@thetrust.com"
@@ -27,7 +27,7 @@ public class GovernorFactoryTests
             Role = "Trustee"
         };
 
-        var result = _sut.CreateFrom(giasGovernance, _mstrTrustGovernance);
+        var result = _sut.CreateFrom(giasGovernance, _tadTrustGovernance);
 
         result.GID.Should().Be("1011111");
         result.UID.Should().Be("1234");
@@ -40,20 +40,20 @@ public class GovernorFactoryTests
     [Theory]
     [InlineData("ms.governor@thetrust.com")]
     [InlineData("")]
-    public void CreateFrom_should_use_email_from_mstrTrustGovernance(string email)
+    public void CreateFrom_should_use_email_from_tadTrustGovernance(string email)
     {
         var giasGovernance = new GiasGovernance
         {
             Gid = "1011111",
             Uid = "1234"
         };
-        var mstrTrustGovernance = new MstrTrustGovernance
+        var tadTrustGovernance = new TadTrustGovernance
         {
             Gid = "1011111",
             Email = email
         };
 
-        var result = _sut.CreateFrom(giasGovernance, mstrTrustGovernance);
+        var result = _sut.CreateFrom(giasGovernance, tadTrustGovernance);
 
         result.Email.Should().Be(email);
     }
@@ -79,7 +79,7 @@ public class GovernorFactoryTests
             Title = "not used"
         };
 
-        var result = _sut.CreateFrom(giasGovernance, _mstrTrustGovernance);
+        var result = _sut.CreateFrom(giasGovernance, _tadTrustGovernance);
 
         result.FullName.Should().Be(expectedFullName);
     }

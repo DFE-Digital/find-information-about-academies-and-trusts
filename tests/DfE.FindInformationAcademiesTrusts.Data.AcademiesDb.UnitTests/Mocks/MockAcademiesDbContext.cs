@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
@@ -6,6 +5,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 
@@ -20,7 +20,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     private readonly List<MstrTrust> _mstrTrusts = [];
     private readonly List<GiasEstablishment> _giasEstablishments = [];
     private readonly List<GiasGovernance> _giasGovernances = [];
-    private readonly List<MstrTrustGovernance> _mstrTrustGovernances = [];
+    private readonly List<TadTrustGovernance> _tadTrustGovernances = [];
     private readonly List<ApplicationEvent> _applicationEvents = [];
     private readonly List<ApplicationSetting> _applicationSettings = [];
 
@@ -35,7 +35,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         SetupMockDbContext(_mstrTrusts, context => context.MstrTrusts);
         SetupMockDbContext(_giasEstablishments, context => context.GiasEstablishments);
         SetupMockDbContext(_giasGovernances, context => context.GiasGovernances);
-        SetupMockDbContext(_mstrTrustGovernances, context => context.MstrTrustGovernances);
+        SetupMockDbContext(_tadTrustGovernances, context => context.TadTrustGovernances);
         SetupMockDbContext(_applicationEvents, context => context.ApplicationEvents);
         SetupMockDbContext(_applicationSettings, context => context.ApplicationSettings);
 
@@ -52,7 +52,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     {
         var mstrTrust = new MstrTrust
         {
-            GroupUid = groupUid, GORregion = region
+            GroupUid = groupUid,
+            GORregion = region
         };
         _mstrTrusts.Add(mstrTrust);
         return mstrTrust;
@@ -62,7 +63,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         string? groupType = "Multi-academy trust")
     {
         var giasGroup = new GiasGroup
-            { GroupName = groupName, GroupUid = groupUid, GroupType = groupType, Ukprn = "my ukprn" };
+        { GroupName = groupName, GroupUid = groupUid, GroupType = groupType, Ukprn = "my ukprn" };
         _giasGroups.Add(giasGroup);
         return giasGroup;
     }
@@ -126,7 +127,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     public CdmSystemuser AddCdmSystemuser(string fullName, string email)
     {
         var cdmSystemuser = new CdmSystemuser
-            { Systemuserid = Guid.NewGuid(), Fullname = fullName, Internalemailaddress = email };
+        { Systemuserid = Guid.NewGuid(), Fullname = fullName, Internalemailaddress = email };
         _cdmSystemusers.Add(cdmSystemuser);
         return cdmSystemuser;
     }
@@ -245,23 +246,23 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         _giasGovernances.Add(governance);
     }
 
-    public void AddMstrTrustGovernance(MstrTrustGovernance mstrTrustGovernance)
+    public void AddTadTrustGovernance(TadTrustGovernance tadTrustGovernance)
     {
-        var existing = _mstrTrustGovernances.FirstOrDefault(m => m.Gid == mstrTrustGovernance.Gid);
+        var existing = _tadTrustGovernances.FirstOrDefault(m => m.Gid == tadTrustGovernance.Gid);
         if (existing is not null)
         {
-            var index = _mstrTrustGovernances.IndexOf(existing);
-            _mstrTrustGovernances[index] = mstrTrustGovernance;
+            var index = _tadTrustGovernances.IndexOf(existing);
+            _tadTrustGovernances[index] = tadTrustGovernance;
             return;
         }
 
-        _mstrTrustGovernances.Add(mstrTrustGovernance);
+        _tadTrustGovernances.Add(tadTrustGovernance);
     }
 
-    public List<(GiasGovernance, MstrTrustGovernance)> AddGovernancesLinkedToTrust(int num, string groupUid)
+    public List<(GiasGovernance, TadTrustGovernance)> AddGovernancesLinkedToTrust(int num, string groupUid)
     {
         var numExistingGovernances = _giasGovernances.Count;
-        var addedItems = new List<(GiasGovernance, MstrTrustGovernance)>();
+        var addedItems = new List<(GiasGovernance, TadTrustGovernance)>();
 
         for (var i = 0; i < num; i++)
         {
@@ -272,7 +273,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
                 Uid = groupUid,
                 Forename1 = $"Governor {i}"
             };
-            var mstrTrustGovernance = new MstrTrustGovernance
+            var tadTrustGovernance = new TadTrustGovernance
             {
                 Gid = gid,
                 Forename1 = $"Governor {i}",
@@ -280,9 +281,9 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             };
 
             _giasGovernances.Add(giasGovernance);
-            _mstrTrustGovernances.Add(mstrTrustGovernance);
+            _tadTrustGovernances.Add(tadTrustGovernance);
 
-            addedItems.Add((giasGovernance, mstrTrustGovernance));
+            addedItems.Add((giasGovernance, tadTrustGovernance));
         }
 
         return addedItems;
