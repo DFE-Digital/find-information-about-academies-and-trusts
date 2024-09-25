@@ -103,43 +103,13 @@ public class OverviewModelTests
             });
     }
 
-    [Fact]
-    public async Task OnGetAsync_sets_ofsted_ratings_list_correctly()
-    {
-        var overviewWithOfstedRatings = BaseTrustOverviewServiceModel with
-        {
-            OfstedRatings = new Dictionary<OfstedRatingScore, int>
-            {
-                { OfstedRatingScore.Outstanding, 3 },
-                { OfstedRatingScore.Good, 1 },
-                { OfstedRatingScore.Inadequate, 1 },
-                { OfstedRatingScore.RequiresImprovement, 1 },
-                { OfstedRatingScore.None, 1 }
-            }
-        };
-        _mockTrustService.Setup(t => t.GetTrustOverviewAsync(TrustUid)).ReturnsAsync(overviewWithOfstedRatings);
-
-        await _sut.OnGetAsync();
-
-        _sut.OfstedRatings
-            .Should()
-            .BeEquivalentTo(new (OfstedRatingScore Rating, int Total)[]
-            {
-                (OfstedRatingScore.Outstanding, 3),
-                (OfstedRatingScore.Good, 1),
-                (OfstedRatingScore.Inadequate, 1),
-                (OfstedRatingScore.RequiresImprovement, 1),
-                (OfstedRatingScore.None, 1)
-            });
-    }
-
     [Theory]
     [InlineData(OfstedRatingScore.Outstanding, 3)]
     [InlineData(OfstedRatingScore.Good, 4)]
     [InlineData(OfstedRatingScore.Inadequate, 5)]
     [InlineData(OfstedRatingScore.RequiresImprovement, 6)]
     [InlineData(OfstedRatingScore.None, 7)]
-    public async Task OnGetAsync_ofsted_score_count_returns_correct_number_of_ratings(OfstedRatingScore score,
+    public async Task GetNumberOfAcademiesWithOfstedRating_returns_correct_number_of_ratings(OfstedRatingScore score,
         int expectedCount)
     {
         var overviewWithOfstedRatings = BaseTrustOverviewServiceModel with
@@ -166,7 +136,8 @@ public class OverviewModelTests
     [InlineData(OfstedRatingScore.Inadequate)]
     [InlineData(OfstedRatingScore.RequiresImprovement)]
     [InlineData(OfstedRatingScore.None)]
-    public async Task OnGetAsync_ofsted_score_count_returns_zero_ratings_when_non_exist(OfstedRatingScore missingRating)
+    public async Task GetNumberOfAcademiesWithOfstedRating_returns_zero_ratings_when_non_exist(
+        OfstedRatingScore missingRating)
     {
         var ofstedRatings = new Dictionary<OfstedRatingScore, int>
         {

@@ -34,7 +34,6 @@ public class OverviewModel(
         return Page();
     }
 
-
     public int TotalAcademies => TrustOverview.TotalAcademies;
 
     public IEnumerable<(string Authority, int Total)> AcademiesInEachLocalAuthority =>
@@ -49,12 +48,8 @@ public class OverviewModel(
 
     public int? PercentageFull => TrustOverview.PercentageFull;
 
-    // Ofsted Ratings
-    public IEnumerable<(OfstedRatingScore Rating, int Total)> OfstedRatings =>
-        TrustOverview.OfstedRatings
-            .OrderBy(kv => kv.Key)
-            .Select(kv => (Rating: kv.Key, Total: kv.Value));
-
-    public int GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore score) =>
-        TrustOverview.OfstedRatings.TryGetValue(score, out var total) ? total : 0;
+    public int GetNumberOfAcademiesWithOfstedRating(OfstedRatingScore score)
+    {
+        return TrustOverview.OfstedRatings.TryGetValue(score, out var total) ? total : 0;
+    }
 }
