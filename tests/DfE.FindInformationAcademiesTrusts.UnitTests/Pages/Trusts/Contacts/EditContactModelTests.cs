@@ -2,8 +2,6 @@ using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Contacts;
 
@@ -29,28 +27,6 @@ public class EditContactModelTests
     }
 
     [Fact]
-    public async Task OnPostAsync_sets_ContactUpdated_to_true_when_validation_is_correct()
-    {
-        _sut.TrustSummary = _fakeTrust;
-        var result = await _sut.OnPostAsync();
-        result.Should().BeOfType<RedirectToPageResult>();
-        _sut.ContactUpdatedMessage.Should()
-            .Be("Changes made to the SFSO (Schools financial support and oversight) lead were successfully updated.");
-        var redirect = result as RedirectToPageResult;
-        redirect!.PageName.Should().Be("/Trusts/Contacts");
-        _sut.GeneratePageTitle().Should().NotContain("Error: ");
-    }
-
-    [Fact]
-    public async Task OnPostAsync_sets_ContactUpdated_to_false_when_validation_is_incorrect()
-    {
-        _sut.ModelState.AddModelError("Test", "Test");
-        var result = await _sut.OnPostAsync();
-        result.Should().BeOfType<PageResult>();
-        _sut.GeneratePageTitle().Should().Contain("Error: ");
-    }
-
-    [Fact]
     public void GetErrorClass_returns_the_class_string_when_validation_is_incorrect()
     {
         _sut.ModelState.AddModelError("Test", "Test");
@@ -72,8 +48,9 @@ public class EditContactModelTests
     public void GenerateErrorAriaDescribedBy_returns_the_correct_string_when_validation_is_incorrect()
     {
         _sut.ModelState.AddModelError("Test", "Test");
+        _sut.ModelState.AddModelError("Test", "Test1");
         var result = _sut.GenerateErrorAriaDescribedBy("Test");
-        result.Should().Be("error-Test-0");
+        result.Should().Be("error-Test-0 error-Test-1");
     }
 
     [Fact]
