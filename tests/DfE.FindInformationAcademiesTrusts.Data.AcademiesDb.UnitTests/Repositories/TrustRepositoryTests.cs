@@ -299,7 +299,7 @@ public class TrustRepositoryTests
     }
 
     [Fact]
-    public async Task GetTrustContactsAsync_Should_Return_CorrectDetails_EvenWithoutMatch_in_MstrTrustGovernance_table()
+    public async Task GetTrustContactsAsync_Should_Return_CorrectDetails_EvenWithoutMatch_in_TadTrustGovernance_table()
     {
         var input = new GiasGovernance
         {
@@ -399,7 +399,7 @@ public class TrustRepositoryTests
             Email: email
         );
 
-        var mstrTrustGovernance = new MstrTrustGovernance
+        var tadTrustGovernance = new TadTrustGovernance
         {
             Gid = gid,
             Forename1 = forename1,
@@ -412,7 +412,7 @@ public class TrustRepositoryTests
         };
 
         _mockAcademiesDbContext.AddGiasGovernance(giasGovernance);
-        _mockAcademiesDbContext.AddMstrTrustGovernance(mstrTrustGovernance);
+        _mockAcademiesDbContext.AddTadTrustGovernance(tadTrustGovernance);
 
         return governor;
     }
