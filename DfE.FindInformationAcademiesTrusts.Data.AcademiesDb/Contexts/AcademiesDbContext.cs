@@ -3,6 +3,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 

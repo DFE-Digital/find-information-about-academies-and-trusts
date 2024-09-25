@@ -1,4 +1,4 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
+﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 
