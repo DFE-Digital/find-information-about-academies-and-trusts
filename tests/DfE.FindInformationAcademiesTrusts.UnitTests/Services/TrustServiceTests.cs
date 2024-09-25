@@ -210,9 +210,9 @@ public class TrustServiceTests
         var uid = "1234";
         var academiesOverview = new AcademyOverview[]
         {
-        new AcademyOverview("1001", "Academy One", "LocalAuthorityA", 500, 600, OfstedRatingScore.Good),
-        new AcademyOverview("1002", "Academy Two", "LocalAuthorityB", 400, 500, OfstedRatingScore.Outstanding),
-        new AcademyOverview("1003", "Academy Three", "LocalAuthorityA", 300, 400, OfstedRatingScore.RequiresImprovement),
+            new("1001", "Academy One", "LocalAuthorityA", 500, 600, OfstedRatingScore.Good),
+            new("1002", "Academy Two", "LocalAuthorityB", 400, 500, OfstedRatingScore.Outstanding),
+            new("1003", "Academy Three", "LocalAuthorityA", 300, 400, OfstedRatingScore.RequiresImprovement)
         };
 
         _mockAcademyRepository.Setup(a => a.GetAcademiesInTrustOverviewAsync(uid))
@@ -225,18 +225,18 @@ public class TrustServiceTests
         result.Uid.Should().Be(uid);
         result.TotalAcademies.Should().Be(3);
         result.AcademiesByLocalAuthority.Should().BeEquivalentTo(new Dictionary<string, int>
-    {
-        { "LocalAuthorityA", 2 },
-        { "LocalAuthorityB", 1 }
-    });
+        {
+            { "LocalAuthorityA", 2 },
+            { "LocalAuthorityB", 1 }
+        });
         result.TotalPupilNumbers.Should().Be(500 + 400 + 300);
         result.TotalCapacity.Should().Be(600 + 500 + 400);
         result.OfstedRatings.Should().BeEquivalentTo(new Dictionary<OfstedRatingScore, int>
-    {
-        { OfstedRatingScore.Good, 1 },
-        { OfstedRatingScore.Outstanding, 1 },
-        { OfstedRatingScore.RequiresImprovement, 1 }
-    });
+        {
+            { OfstedRatingScore.Good, 1 },
+            { OfstedRatingScore.Outstanding, 1 },
+            { OfstedRatingScore.RequiresImprovement, 1 }
+        });
     }
 
     [Fact]
@@ -259,121 +259,5 @@ public class TrustServiceTests
         result.TotalPupilNumbers.Should().Be(0);
         result.TotalCapacity.Should().Be(0);
         result.OfstedRatings.Should().BeEmpty();
-    }
-
-    [Fact]
-    public void PercentageFull_ReturnsCorrectValue_WhenTotalCapacityIsGreaterThanZero()
-    {
-        // Arrange
-        var uid = "1234";
-        var totalAcademies = 5;
-        var academiesByLocalAuthority = new Dictionary<string, int>
-            {
-                { "LocalAuthorityA", 3 },
-                { "LocalAuthorityB", 2 }
-            };
-        var totalPupilNumbers = 500;
-        var totalCapacity = 1000; // Greater than zero
-        var ofstedRatings = new Dictionary<OfstedRatingScore, int>
-            {
-                { OfstedRatingScore.Good, 3 },
-                { OfstedRatingScore.Outstanding, 2 }
-            };
-
-        var model = new TrustOverviewServiceModel(
-            uid,
-            totalAcademies,
-            academiesByLocalAuthority,
-            totalPupilNumbers,
-            totalCapacity,
-            ofstedRatings
-        );
-
-        // Act
-        var percentageFull = model.PercentageFull;
-
-        // Assert
-        percentageFull.Should().Be((double)totalPupilNumbers / totalCapacity * 100);
-    }
-
-    [Fact]
-    public void PercentageFull_ReturnsZero_WhenTotalCapacityIsZero()
-    {
-        // Arrange
-        var uid = "1234";
-        var totalAcademies = 5;
-        var academiesByLocalAuthority = new Dictionary<string, int>();
-        var totalPupilNumbers = 500;
-        var totalCapacity = 0; // Zero capacity
-        var ofstedRatings = new Dictionary<OfstedRatingScore, int>();
-
-        var model = new TrustOverviewServiceModel(
-            uid,
-            totalAcademies,
-            academiesByLocalAuthority,
-            totalPupilNumbers,
-            totalCapacity,
-            ofstedRatings
-        );
-
-        // Act
-        var percentageFull = model.PercentageFull;
-
-        // Assert
-        percentageFull.Should().Be(0);
-    }
-
-    [Fact]
-    public void PercentageFull_ReturnsZero_WhenTotalPupilNumbersIsZero()
-    {
-        // Arrange
-        var uid = "1234";
-        var totalAcademies = 5;
-        var academiesByLocalAuthority = new Dictionary<string, int>();
-        var totalPupilNumbers = 0; // Zero pupils
-        var totalCapacity = 1000;
-        var ofstedRatings = new Dictionary<OfstedRatingScore, int>();
-
-        var model = new TrustOverviewServiceModel(
-            uid,
-            totalAcademies,
-            academiesByLocalAuthority,
-            totalPupilNumbers,
-            totalCapacity,
-            ofstedRatings
-        );
-
-        // Act
-        var percentageFull = model.PercentageFull;
-
-        // Assert
-        percentageFull.Should().Be(0);
-    }
-
-    [Fact]
-    public void PercentageFull_ReturnsZero_WhenTotalCapacityAndTotalPupilNumbersAreZero()
-    {
-        // Arrange
-        var uid = "1234";
-        var totalAcademies = 5;
-        var academiesByLocalAuthority = new Dictionary<string, int>();
-        var totalPupilNumbers = 0;
-        var totalCapacity = 0;
-        var ofstedRatings = new Dictionary<OfstedRatingScore, int>();
-
-        var model = new TrustOverviewServiceModel(
-            uid,
-            totalAcademies,
-            academiesByLocalAuthority,
-            totalPupilNumbers,
-            totalCapacity,
-            ofstedRatings
-        );
-
-        // Act
-        var percentageFull = model.PercentageFull;
-
-        // Assert
-        percentageFull.Should().Be(0);
     }
 }

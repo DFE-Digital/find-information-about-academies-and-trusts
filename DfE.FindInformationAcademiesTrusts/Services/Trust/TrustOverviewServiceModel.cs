@@ -10,5 +10,8 @@ public record TrustOverviewServiceModel(
     int TotalCapacity,
     IReadOnlyDictionary<OfstedRatingScore, int> OfstedRatings)
 {
-    public double PercentageFull => TotalCapacity > 0 ? (double)TotalPupilNumbers / TotalCapacity * 100 : 0;
+    public int? PercentageFull =>
+        TotalCapacity > 0
+            ? (int)Math.Round((double)TotalPupilNumbers / TotalCapacity * 100)
+            : null;
 }

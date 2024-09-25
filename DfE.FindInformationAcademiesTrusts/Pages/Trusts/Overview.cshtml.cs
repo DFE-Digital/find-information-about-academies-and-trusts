@@ -5,6 +5,7 @@ using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+
 public class OverviewModel(
     ITrustProvider trustProvider,
     IDataSourceService dataSourceService,
@@ -46,10 +47,7 @@ public class OverviewModel(
 
     public int TotalCapacity => TrustOverview.TotalCapacity;
 
-    public int? PercentageFull =>
-        TotalCapacity > 0
-            ? (int)Math.Round((double)TotalPupilNumbers / TotalCapacity * 100)
-            : null;
+    public int? PercentageFull => TrustOverview.PercentageFull;
 
     // Ofsted Ratings
     public IEnumerable<(OfstedRatingScore Rating, int Total)> OfstedRatings =>
