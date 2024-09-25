@@ -84,7 +84,7 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
 
         return governersDto;
     }
-    private static IQueryable<GiasGovernance> FilterBySatOrMat(string uid, string? urn, IQueryable<GiasGovernance> query)
+    public static IQueryable<GiasGovernance> FilterBySatOrMat(string uid, string? urn, IQueryable<GiasGovernance> query)
     {
         if (!string.IsNullOrEmpty(urn))
         {

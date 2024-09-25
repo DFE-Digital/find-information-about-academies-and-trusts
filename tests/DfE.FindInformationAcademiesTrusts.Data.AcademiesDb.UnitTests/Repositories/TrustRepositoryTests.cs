@@ -410,4 +410,41 @@ public class TrustRepositoryTests
 
         return governor;
     }
+    [Fact]
+    public void FilterBySatOrMat_WithUrn_FiltersByUrn()
+    {
+        // Arrange
+        string uid = "some-uid";
+        string urn = "some-urn";
+        var data = new List<GiasGovernance>
+        {
+            new() { Urn = "some-urn", Uid = "uid-1" },
+            new() { Urn = "another-urn", Uid = "uid-2" },
+        }.AsQueryable();
+
+        // Act
+        var result = TrustRepository.FilterBySatOrMat(uid, urn, data);
+
+        // Assert
+        Assert.All(result, g => Assert.Equal("some-urn", g.Urn));
+    }
+
+    [Fact]
+    public void FilterBySatOrMat_WithNullOrEmptyUrn_FiltersByUid()
+    {
+        // Arrange
+        string uid = "some-uid";
+        string? urn = null;
+        var data = new List<GiasGovernance>
+        {
+            new() { Urn = "urn-1", Uid = "some-uid" },
+            new() { Urn = "urn-2", Uid = "another-uid" },
+        }.AsQueryable();
+
+        // Act
+        var result = TrustRepository.FilterBySatOrMat(uid, urn, data);
+
+        // Assert
+        Assert.All(result, g => Assert.Equal("some-uid", g.Uid));
+    }
 }
