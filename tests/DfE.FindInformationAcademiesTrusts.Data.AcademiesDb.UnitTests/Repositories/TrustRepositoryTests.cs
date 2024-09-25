@@ -1,4 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
@@ -229,22 +228,6 @@ public class TrustRepositoryTests
     }
 
     [Fact]
-    public async Task GetTrustContactsAsync_Should_Return_Valid_TrustRelationshipManager_WhenOneIsPresentForTheTrust()
-    {
-        var trm = CreateTrustRelationshipManager("1234", "Trust Relationship Manager", "trm@testemail.com");
-        var result = await _sut.GetTrustContactsAsync("1234");
-        result.TrustRelationshipManager.Should().BeEquivalentTo(trm);
-    }
-
-    [Fact]
-    public async Task GetTrustContactsAsync_Should_Return_Valid_SFSOLead_WhenOneIsPresentForTheTrust()
-    {
-        var sfsoLead = CreateSfsoLead("1234", "SFSO Lead", "sfsolead@testemail.com");
-        var result = await _sut.GetTrustContactsAsync("1234");
-        result.SfsoLead.Should().BeEquivalentTo(sfsoLead);
-    }
-
-    [Fact]
     public async Task GetTrustContactsAsync_Should_Return_Valid_ChairOfTrustees_WhenOneIsPresentForTheTrust()
     {
         var governor = CreateGovernor("1234", "9876", null, _tomorrow, "Chair of Trustees");
@@ -278,8 +261,6 @@ public class TrustRepositoryTests
     public async Task GetTrustContactsAsync_Should_Return_null_WhenNoDataIsPresent()
     {
         var result = await _sut.GetTrustContactsAsync("9876");
-        result.TrustRelationshipManager.Should().BeNull();
-        result.SfsoLead.Should().BeNull();
         result.ChairOfTrustees.Should().BeNull();
         result.ChiefFinancialOfficer.Should().BeNull();
         result.AccountingOfficer.Should().BeNull();
@@ -291,8 +272,6 @@ public class TrustRepositoryTests
         _ = CreateGovernor("1234", "9876", null, _tomorrow); //Incorrect role
         _ = CreateGovernor("9876", "9876", null, _tomorrow, "Chief Financial Officer"); //Incorrect uid
         var result = await _sut.GetTrustContactsAsync("1234");
-        result.TrustRelationshipManager.Should().BeNull();
-        result.SfsoLead.Should().BeNull();
         result.ChairOfTrustees.Should().BeNull();
         result.ChiefFinancialOfficer.Should().BeNull();
         result.AccountingOfficer.Should().BeNull();
@@ -336,31 +315,6 @@ public class TrustRepositoryTests
         result.AccountingOfficer.Should().NotBeNull();
         result.AccountingOfficer!.FullName.Should().Be(tomorrow.FullName);
         result.AccountingOfficer!.Email.Should().Be(tomorrow.Email);
-    }
-
-    private Person CreateTrustRelationshipManager(string groupUid, string fullName, string email)
-    {
-        return CreatePerson(groupUid, fullName, email,
-            (cdmAccount, cdmSystemuser) => cdmAccount.SipTrustrelationshipmanager = cdmSystemuser.Systemuserid);
-    }
-
-    private Person CreateSfsoLead(string groupUid, string fullName, string email)
-    {
-        return CreatePerson(groupUid, fullName, email,
-            (cdmAccount, cdmSystemuser) => cdmAccount.SipAmsdlead = cdmSystemuser.Systemuserid);
-    }
-
-    private Person CreatePerson(string groupUid, string fullName, string email,
-        Action<CdmAccount, CdmSystemuser> accountSetup)
-    {
-        var person = new Person(fullName, email);
-
-        var cdmAccount = _mockAcademiesDbContext.AddCdmAccount(groupUid);
-        var cdmSystemuser = _mockAcademiesDbContext.AddCdmSystemuser(fullName, email);
-
-        accountSetup(cdmAccount, cdmSystemuser);
-
-        return person;
     }
 
     private Governor CreateGovernor(string uid, string gid, DateTime? startDate,
