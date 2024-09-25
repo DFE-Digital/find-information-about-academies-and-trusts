@@ -276,7 +276,6 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             var tadTrustGovernance = new TadTrustGovernance
             {
                 Gid = gid,
-                Forename1 = $"Governor {i}",
                 Email = $"governor{i}@trust{groupUid}.com"
             };
 
