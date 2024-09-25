@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FindInformationAcademie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FindInformationAcademiesTrusts.Data.Hardcoded.UnitTests", "tests\DfE.FindInformationAcademiesTrusts.Data.Hardcoded.UnitTests\DfE.FindInformationAcademiesTrusts.Data.Hardcoded.UnitTests.csproj", "{1DF57DAB-F9BA-4810-BD35-BB59996FF7BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data.FiatDb", "DfE.FindInformationAcademiesTrusts.Data.FiatDb\DfE.FindInformationAcademiesTrusts.Data.FiatDb.csproj", "{70A05478-BB89-4051-A38E-F18A4DD5DF64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FindInformationAcademiesTrusts.Data.FiatDb", "DfE.FindInformationAcademiesTrusts.Data.FiatDb\DfE.FindInformationAcademiesTrusts.Data.FiatDb.csproj", "{70A05478-BB89-4051-A38E-F18A4DD5DF64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfE.FindInformationAcademiesTrusts.Data.FiatDb.UnitTests", "tests\DfE.FindInformationAcademiesTrusts.Data.FiatDb.UnitTests\DfE.FindInformationAcademiesTrusts.Data.FiatDb.UnitTests.csproj", "{187B33C1-628B-4FF4-9A7E-C775F23F6699}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +67,10 @@ Global
 		{70A05478-BB89-4051-A38E-F18A4DD5DF64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70A05478-BB89-4051-A38E-F18A4DD5DF64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70A05478-BB89-4051-A38E-F18A4DD5DF64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{187B33C1-628B-4FF4-9A7E-C775F23F6699}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{187B33C1-628B-4FF4-9A7E-C775F23F6699}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{187B33C1-628B-4FF4-9A7E-C775F23F6699}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{187B33C1-628B-4FF4-9A7E-C775F23F6699}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{E20D30CB-8EB1-453B-8C49-77CAFBF16A13} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
 		{90AA9D53-B5B0-489F-AEC1-23551EA04BC5} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
 		{1DF57DAB-F9BA-4810-BD35-BB59996FF7BB} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
+		{187B33C1-628B-4FF4-9A7E-C775F23F6699} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CEE3F8EE-1688-4C85-8749-E2B3FCB9A5FE}
