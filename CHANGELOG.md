@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Added
+
+- Run migrations for FIAT database on application container startup
+
 ## [Release-7][release-7] (production-2024-09-23.3213)
 
 ### Added

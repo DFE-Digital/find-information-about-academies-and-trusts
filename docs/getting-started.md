@@ -28,8 +28,12 @@ cd DfE.FindInformationAcademiesTrusts
 dotnet user-secrets set "AzureAd:ClientID" "[secret goes here]"
 dotnet user-secrets set "AzureAd:ClientSecret" "[secret goes here]"
 dotnet user-secrets set "AzureAd:TenantID" "[secret goes here]"
-dotnet user-secrets set "ConnectionStrings:AcademiesDb" "[secret goes here]"
+
+dotnet user-secrets set "ConnectionStrings:AcademiesDb" "[secret goes here for AcademiesDb]"
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "[secret goes here for FiatDb]"
 ```
+
+See [database local development](./databases.md#local-development) for information on configuring a local database.
 
 ### Build and watch frontend assets
 

@@ -17,6 +17,7 @@ RUN dotnet restore DfE.FindInformationAcademiesTrusts
 RUN dotnet build DfE.FindInformationAcademiesTrusts -c Release
 RUN dotnet publish DfE.FindInformationAcademiesTrusts -c Release -o /app --no-build
 
+COPY ./DfE.FindInformationAcademiesTrusts.Data.FiatDb/Migrations/FiatDbMigrationScript.sql /app/sql/FiatDbMigrationScript.sql
 COPY ./docker/web-docker-entrypoint.sh /app/docker-entrypoint.sh
 
 # Stage 3 - Put into Docker container that will actually be run
@@ -27,3 +28,12 @@ WORKDIR /app
 RUN chmod +x ./docker-entrypoint.sh
 
 EXPOSE 8080/tcp
+
+# Stage 4 - Install SQL tools to allow migrations to be run
+RUN apt-get update
+RUN apt-get install unixodbc curl gnupg jq -y
+RUN curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc
+RUN curl https://packages.microsoft.com/config/debian/12/prod.list | tee /etc/apt/sources.list.d/mssql-release.list
+RUN apt-get update
+RUN ACCEPT_EULA=Y apt-get install msodbcsql18 mssql-tools18 -y

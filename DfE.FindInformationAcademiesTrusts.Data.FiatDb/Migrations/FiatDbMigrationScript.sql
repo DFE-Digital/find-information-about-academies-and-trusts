@@ -1,0 +1,67 @@
+﻿IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20240918134511_InitialCreate'
+)
+BEGIN
+    DECLARE @historyTableSchema sysname = SCHEMA_NAME()
+    EXEC(N'CREATE TABLE [Contacts] (
+        [Id] int NOT NULL IDENTITY,
+        [Uid] int NOT NULL,
+        [Role] nvarchar(450) NOT NULL,
+        [Name] nvarchar(500) NOT NULL,
+        [Email] nvarchar(320) NOT NULL,
+        [PeriodEnd] datetime2 GENERATED ALWAYS AS ROW END HIDDEN NOT NULL,
+        [PeriodStart] datetime2 GENERATED ALWAYS AS ROW START HIDDEN NOT NULL,
+        [LastModifiedByName] nvarchar(500) NOT NULL,
+        [LastModifiedByEmail] nvarchar(320) NOT NULL,
+        [LastModifiedAtTime] AS [PeriodStart],
+        CONSTRAINT [PK_Contacts] PRIMARY KEY ([Id]),
+        PERIOD FOR SYSTEM_TIME([PeriodStart], [PeriodEnd])
+    ) WITH (SYSTEM_VERSIONING = ON (HISTORY_TABLE = [' + @historyTableSchema + N'].[ContactsHistory]))');
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20240918134511_InitialCreate'
+)
+BEGIN
+    CREATE INDEX [IX_Contacts_Uid] ON [Contacts] ([Uid]);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20240918134511_InitialCreate'
+)
+BEGIN
+    CREATE UNIQUE INDEX [IX_Contacts_Uid_Role] ON [Contacts] ([Uid], [Role]);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20240918134511_InitialCreate'
+)
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20240918134511_InitialCreate', N'8.0.7');
+END;
+GO
+
+COMMIT;
+GO
+
