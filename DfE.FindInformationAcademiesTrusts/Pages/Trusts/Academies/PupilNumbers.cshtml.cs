@@ -15,7 +15,7 @@ public class PupilNumbersModel : AcademiesPageModel
 
     public PupilNumbersModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
         ILogger<PupilNumbersModel> logger, ITrustService trustService, IAcademyService academyService, IExportService exportService, IDateTimeProvider dateTimeProvider)
-        : base(trustProvider, dataSourceService, trustService, exportService, logger, dateTimeProvider)
+        : base(trustProvider, dataSourceService, trustService, academyService, exportService, logger, dateTimeProvider)
     {
         AcademyService = academyService;
         PageTitle = "Academies pupil numbers";
