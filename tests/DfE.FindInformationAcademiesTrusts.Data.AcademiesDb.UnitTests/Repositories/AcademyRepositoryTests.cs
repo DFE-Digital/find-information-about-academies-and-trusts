@@ -65,7 +65,7 @@ public class AcademyRepositoryTests
     public async Task GetAcademiesInTrustOfstedAsync_should_only_return_academies_linked_to_trust()
     {
         _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
-        { GroupUid = "some other trust", Urn = "some other academy" });
+            { GroupUid = "some other trust", Urn = "some other academy" });
 
         var giasGroupLinks = AddGiasGroupLinksToMockDb(6);
 
@@ -278,7 +278,7 @@ public class AcademyRepositoryTests
     public async Task GetNumberOfAcademiesInTrustAsync_should_return_number_of_grouplinks_for_uid(int numAcademies)
     {
         _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
-        { GroupUid = "some other trust", Urn = "some other academy" });
+            { GroupUid = "some other trust", Urn = "some other academy" });
 
         for (var i = 0; i < numAcademies; i++)
         {
@@ -419,10 +419,9 @@ public class AcademyRepositoryTests
 
         var expectedAcademies = giasEstablishments.Select(e => new AcademyOverview(
             e.Urn.ToString(),
-            e.EstablishmentName ?? string.Empty,
             e.LaName ?? string.Empty,
-            int.TryParse(e.NumberOfPupils, out var pupils) ? pupils : (int?)null,
-            int.TryParse(e.SchoolCapacity, out var capacity) ? capacity : (int?)null,
+            int.TryParse(e.NumberOfPupils, out var pupils) ? pupils : null,
+            int.TryParse(e.SchoolCapacity, out var capacity) ? capacity : null,
             OfstedRatingScore.None
         )).ToArray();
 
@@ -459,7 +458,6 @@ public class AcademyRepositoryTests
 
         var academy = result.First();
         academy.Urn.Should().Be("2000");
-        academy.EstablishmentName.Should().Be("Academy Missing Data");
         academy.LocalAuthority.Should().Be("Local Authority Missing");
         academy.NumberOfPupils.Should().BeNull();
         academy.SchoolCapacity.Should().BeNull();

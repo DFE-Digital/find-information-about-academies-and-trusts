@@ -1,9 +1,9 @@
+using System.Globalization;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Globalization;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 
@@ -132,6 +132,7 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
             .Select(gl => gl.Urn)
             .FirstOrDefaultAsync();
     }
+
     public async Task<AcademyOverview[]> GetAcademiesInTrustOverviewAsync(string uid)
     {
         var academiesData = await academiesDbContext.GiasGroupLinks
@@ -143,7 +144,6 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
                 (gl, e) => new
                 {
                     Urn = e.Urn.ToString(),
-                    EstablishmentName = e.EstablishmentName,
                     LocalAuthority = e.LaName,
                     NumberOfPupils = e.NumberOfPupils.ParseAsNullableInt(),
                     SchoolCapacity = e.SchoolCapacity.ParseAsNullableInt()
@@ -165,19 +165,16 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
             }
 
             return new AcademyOverview(
-                Urn: a.Urn,
-                EstablishmentName: a.EstablishmentName ?? string.Empty,
-                LocalAuthority: a.LocalAuthority ?? string.Empty,
-                NumberOfPupils: a.NumberOfPupils,
-                SchoolCapacity: a.SchoolCapacity,
-                CurrentOfstedRating: currentOfstedRating
+                a.Urn,
+                a.LocalAuthority ?? string.Empty,
+                a.NumberOfPupils,
+                a.SchoolCapacity,
+                currentOfstedRating
             );
         }).ToArray();
 
         return academiesOverview;
     }
-
-
 
     private sealed record OfstedRatings(int Urn, OfstedRating Current, OfstedRating Previous)
     {
