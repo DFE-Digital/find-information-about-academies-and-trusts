@@ -179,7 +179,7 @@ public class TrustServiceTests
             AppointingBody: "Nick Warms",
             Email: null
         );
-        _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync("1234"))
+        _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync("1234", null))
             .ReturnsAsync(new TrustGovernance([leader], [member], [trustee], [historic]));
 
         var result = await _sut.GetTrustGovernanceAsync("1234");
@@ -195,7 +195,8 @@ public class TrustServiceTests
     {
         var person = new Person("First Middle Last", "firstlast@email.com");
         var contacts = new TrustContacts(person, person, person, person, person);
-        _mockTrustRepository.Setup(t => t.GetTrustContactsAsync("1234"))
+
+        _mockTrustRepository.Setup(t => t.GetTrustContactsAsync("1234", null))
             .ReturnsAsync(contacts);
 
         var result = await _sut.GetTrustContactsAsync("1234");

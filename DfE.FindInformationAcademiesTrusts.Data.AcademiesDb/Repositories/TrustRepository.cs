@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using Microsoft.EntityFrameworkCore;
 
@@ -58,31 +59,47 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
         return trustDetailsDto;
     }
 
-    public async Task<TrustGovernance> GetTrustGovernanceAsync(string uid)
+    public async Task<TrustGovernance> GetTrustGovernanceAsync(string uid, string? urn = null)
     {
-        var governors = await academiesDbContext.GiasGovernances
-            .Where(g => g.Uid == uid)
-            .Select(governance => new Governor(governance.Gid!, governance.Uid!,
+        IQueryable<GiasGovernance> query = academiesDbContext.GiasGovernances;
+
+        var governors = await FilterBySatOrMat(uid, urn, query)
+            .Select(governance => new Governor(
+                governance.Gid!,
+                governance.Uid!,
                 GetFullName(governance.Forename1!, governance.Forename2!, governance.Surname!),
-                governance.Role!, governance.AppointingBody!, governance.DateOfAppointment.ParseAsNullableDate(),
-                governance.DateTermOfOfficeEndsEnded.ParseAsNullableDate(), null))
+                governance.Role!,
+                governance.AppointingBody!,
+                governance.DateOfAppointment.ParseAsNullableDate(),
+                governance.DateTermOfOfficeEndsEnded.ParseAsNullableDate(),
+                null))
             .ToArrayAsync();
+
         var governersDto = new TrustGovernance(
-            governors.Where(governor => governor is { IsCurrentGovernor: true, HasRoleLeadership: true }).ToArray(),
-            governors.Where(governor => governor is { IsCurrentGovernor: true, HasRoleMemeber: true })
-                .ToArray(),
-            governors.Where(governor => governor is { IsCurrentGovernor: true, HasRoleTrustee: true })
-                .ToArray(),
-            governors.Where(governor => governor.IsCurrentGovernor is false).ToArray()
+            governors.Where(g => g.IsCurrentGovernor && g.HasRoleLeadership).ToArray(),
+            governors.Where(g => g.IsCurrentGovernor && g.HasRoleMember).ToArray(),
+            governors.Where(g => g.IsCurrentGovernor && g.HasRoleTrustee).ToArray(),
+            governors.Where(g => !g.IsCurrentGovernor).ToArray()
         );
+
         return governersDto;
     }
+    public static IQueryable<GiasGovernance> FilterBySatOrMat(string uid, string? urn, IQueryable<GiasGovernance> query)
+    {
+        if (!string.IsNullOrEmpty(urn))
+        {
+            // Use urn if it's provided as that means this is a Single Academy Trust (SAT)
+            return query.Where(g => g.Urn == urn);
+        }
 
-    public async Task<TrustContacts> GetTrustContactsAsync(string uid)
+        return query.Where(g => g.Uid == uid);
+    }
+
+    public async Task<TrustContacts> GetTrustContactsAsync(string uid, string? urn = null)
     {
         var trm = await GetTrustRelationshipManagerLinkedTo(uid);
         var sfso = await GetSfsoLeadLinkedTo(uid);
-        var governanceContacts = await GetGovernanceContactsAsync(uid);
+        var governanceContacts = await GetGovernanceContactsAsync(uid, urn);
 
         return new TrustContacts(
             trm,
@@ -91,6 +108,7 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
             governanceContacts.GetValueOrDefault("Chair of Trustees"),
             governanceContacts.GetValueOrDefault("Chief Financial Officer"));
     }
+
 
     private async Task<string> GetRegionAndTerritoryAsync(string uid)
     {
@@ -133,11 +151,16 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
             .SingleOrDefaultAsync();
     }
 
-    private async Task<Dictionary<string, Person>> GetGovernanceContactsAsync(string uid)
+    private async Task<Dictionary<string, Person>> GetGovernanceContactsAsync(string uid, string? urn = null)
     {
-        string[] roles = ["Chair of Trustees", "Accounting Officer", "Chief Financial Officer"];
-        var governors = (await academiesDbContext.GiasGovernances
-                .Where(governance => governance.Uid == uid && roles.Contains(governance.Role))
+        string[] roles = { "Chair of Trustees", "Accounting Officer", "Chief Financial Officer" };
+
+        IQueryable<GiasGovernance> query = academiesDbContext.GiasGovernances;
+
+        query = FilterBySatOrMat(uid, urn, query);
+
+        var governors = (await query
+                .Where(governance => roles.Contains(governance.Role))
                 .Select(governance => new
                 {
                     governance.Gid,
@@ -150,9 +173,9 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
 
         var gids = governors.Select(g => g.Gid).ToArray();
 
-        var governorEmails = await academiesDbContext.MstrTrustGovernances
-            .Where(mstrTrustGovernance => gids.Contains(mstrTrustGovernance.Gid))
-            .Select(mstrTrustGovernance => new { mstrTrustGovernance.Gid, mstrTrustGovernance.Email }).ToArrayAsync();
+        var governorEmails = await academiesDbContext.TadTrustGovernances
+            .Where(tadTrustGovernance => gids.Contains(tadTrustGovernance.Gid))
+            .Select(tadTrustGovernance => new { tadTrustGovernance.Gid, tadTrustGovernance.Email }).ToArrayAsync();
 
         return governors.ToDictionary(
             governor => governor.Role,
@@ -161,4 +184,5 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
                 governorEmails.SingleOrDefault(governorEmail => governorEmail.Gid == governor.Gid)?.Email)
         );
     }
+
 }
