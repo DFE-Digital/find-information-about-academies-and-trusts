@@ -1,18 +1,19 @@
 ﻿using ClosedXML.Excel;
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Extensions;
 using DfE.FindInformationAcademiesTrusts.Pages;
+using DfE.FindInformationAcademiesTrusts.Services.Academy;
 
 namespace DfE.FindInformationAcademiesTrusts.Services
 {
     public interface IExportService
     {
-        byte[] ExportAcademiesToSpreadsheetUsingProvider(Data.Trust trust, Trust.TrustSummaryServiceModel? trustSummary);
+        byte[] ExportAcademiesToSpreadsheetUsingProvider(Data.Trust trust, Trust.TrustSummaryServiceModel? trustSummary, AcademyOfstedServiceModel[] ofstedRatings);
     }
 
     public class ExportService : IExportService
     {
-
-        public byte[] ExportAcademiesToSpreadsheetUsingProvider(Data.Trust trust, Trust.TrustSummaryServiceModel? trustSummary)
+        public byte[] ExportAcademiesToSpreadsheetUsingProvider(Data.Trust trust, Trust.TrustSummaryServiceModel? trustSummary, AcademyOfstedServiceModel[] ofstedRatings)
         {
             var headers = new List<string>
             {
@@ -24,27 +25,38 @@ namespace DfE.FindInformationAcademiesTrusts.Services
 
             var academies = trust.Academies;
 
-            var dataExtractor = new Func<Data.Academy, string[]>((academy) =>
-             [
-                 academy.EstablishmentName ?? string.Empty,
-                 academy.Urn.ToString() ?? string.Empty,
-                 academy.LocalAuthority ?? string.Empty,
-                 academy.TypeOfEstablishment ?? string.Empty,
-                 academy.UrbanRural ?? string.Empty,
-                 academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.ViewDate) ?? string.Empty,
-                 academy.PreviousOfstedRating?.OfstedRatingScore.ToString() ?? string.Empty,
-                 IsOfstedRatingBeforeOrAfterJoining(academy.PreviousOfstedRating?.OfstedRatingScore ?? OfstedRatingScore.None, academy.DateAcademyJoinedTrust, academy.PreviousOfstedRating?.InspectionEndDate).ToString(),
-                 academy.PreviousOfstedRating?.InspectionEndDate?.ToString(StringFormatConstants.ViewDate) ?? string.Empty,
-                 academy.CurrentOfstedRating?.OfstedRatingScore.ToString() ?? string.Empty,
-                 IsOfstedRatingBeforeOrAfterJoining(academy.CurrentOfstedRating?.OfstedRatingScore ?? OfstedRatingScore.None, academy.DateAcademyJoinedTrust, academy.CurrentOfstedRating?.InspectionEndDate).ToString(),
-                 academy.CurrentOfstedRating?.InspectionEndDate?.ToString(StringFormatConstants.ViewDate) ?? string.Empty,
-                 academy.PhaseOfEducation ?? string.Empty,
-                 academy.NumberOfPupils?.ToString() ?? string.Empty,
-                 academy.SchoolCapacity?.ToString() ?? string.Empty,
-                 academy.PercentageFull.HasValue ? $"{academy.PercentageFull}%" : string.Empty,
-                 academy.PercentageFreeSchoolMeals.HasValue ? $"{academy.PercentageFreeSchoolMeals}%" : string.Empty
-             ]);
+            // dictionary for efficient lookup of Ofsted ratings by URN - this may become redundant once we move from trust provider
+            var ofstedRatingsDict = ofstedRatings.ToDictionary(r => r.Urn);
 
+            var dataExtractor = new Func<Data.Academy, string[]>((academy) =>
+            {
+                var urn = academy.Urn.ToString();
+                ofstedRatingsDict.TryGetValue(urn, out var ofstedData);
+
+                var previousRating = ofstedData?.PreviousOfstedRating ?? OfstedRating.None;
+                var currentRating = ofstedData?.CurrentOfstedRating ?? OfstedRating.None;
+
+                return
+                [
+                    academy.EstablishmentName ?? string.Empty,
+                    urn,
+                    academy.LocalAuthority ?? string.Empty,
+                    academy.TypeOfEstablishment ?? string.Empty,
+                    academy.UrbanRural ?? string.Empty,
+                    academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.ViewDate) ?? string.Empty,
+                    previousRating?.OfstedRatingScore.ToDisplayString() ?? string.Empty,
+                    IsOfstedRatingBeforeOrAfterJoining(previousRating?.OfstedRatingScore ?? OfstedRatingScore.None, academy.DateAcademyJoinedTrust, previousRating?.InspectionDate),
+                    previousRating?.InspectionDate?.ToString(StringFormatConstants.ViewDate) ?? string.Empty,
+                    currentRating?.OfstedRatingScore.ToDisplayString() ?? string.Empty,
+                    IsOfstedRatingBeforeOrAfterJoining(currentRating?.OfstedRatingScore ?? OfstedRatingScore.None, academy.DateAcademyJoinedTrust, currentRating?.InspectionDate),
+                    currentRating?.InspectionDate?.ToString(StringFormatConstants.ViewDate) ?? string.Empty,
+                    academy.PhaseOfEducation ?? string.Empty,
+                    academy.NumberOfPupils?.ToString() ?? string.Empty,
+                    academy.SchoolCapacity?.ToString() ?? string.Empty,
+                    academy.PercentageFull.HasValue ? $"{academy.PercentageFull}%" : string.Empty,
+                    academy.PercentageFreeSchoolMeals.HasValue ? $"{academy.PercentageFreeSchoolMeals}%" : string.Empty
+                ];
+            });
 
             return GenerateSpreadsheet(trustSummary, academies, headers, dataExtractor);
         }
@@ -80,6 +92,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services
                 worksheet.Cell(3, i + 1).Value = headers[i];
             }
             worksheet.Row(3).Style.Font.Bold = true;
+
             // Adding Excel data beneath relevant headers
             for (int i = 0; i < academies?.Length; i++)
             {
@@ -89,6 +102,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services
                     worksheet.Cell(i + 4, j + 1).SetValue(rowData[j]);
                 }
             }
+
             // Auto-size columns based on content
             worksheet.Columns().AdjustToContents();
 

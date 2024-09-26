@@ -27,32 +27,32 @@ class TrustOverviewPage {
     }
 
     public hasOfstedRatingOutstanding(value: string): this {
-        cy.getByTestId("ofsted-rating-outstanding").should("contain.text", value);
+        cy.getByTestId("ofsted-rating-Outstanding").should("contain.text", value);
 
         return this;
     }
 
     public hasOfstedRatingsGood(value: string): this {
-        cy.getByTestId("ofsted-rating-good").should("contain.text", value);
+        cy.getByTestId("ofsted-rating-Good").should("contain.text", value);
 
         return this;
     }
 
 
     public hasOfstedRatingRequiresImprovement(value: string): this {
-        cy.getByTestId("ofsted-rating-requires-improvement").should("contain.text", value);
+        cy.getByTestId("ofsted-rating-RequiresImprovement").should("contain.text", value);
 
         return this;
     }
 
     public hasOfstedRatingInadequate(value: string): this {
-        cy.getByTestId("ofsted-rating-inadequate").should("contain.text", value);
+        cy.getByTestId("ofsted-rating-Inadequate").should("contain.text", value);
 
         return this;
     }
 
     public hasOfstedRatingNotInspectedYet(value: string): this {
-        cy.getByTestId("ofsted-rating-not-inspected-yet").should("contain.text", value);
+        cy.getByTestId("ofsted-rating-None").should("contain.text", value);
 
         return this;
     }

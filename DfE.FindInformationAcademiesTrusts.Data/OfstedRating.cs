@@ -1,6 +1,6 @@
 namespace DfE.FindInformationAcademiesTrusts.Data;
 
-public record OfstedRating(OfstedRatingScore OfstedRatingScore, DateTime? InspectionEndDate)
+public record OfstedRating(OfstedRatingScore OfstedRatingScore, DateTime? InspectionDate)
 {
     public static readonly OfstedRating None = new(OfstedRatingScore.None, null);
 }

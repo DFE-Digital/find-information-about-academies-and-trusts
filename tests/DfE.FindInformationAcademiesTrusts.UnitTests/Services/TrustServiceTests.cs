@@ -204,4 +204,61 @@ public class TrustServiceTests
         result.Should().BeEquivalentTo(contacts);
     }
 
+    [Fact]
+    public async Task GetTrustOverviewAsync_returns_correct_overview_for_trust_with_academies()
+    {
+        // Arrange
+        var uid = "1234";
+        var academiesOverview = new AcademyOverview[]
+        {
+            new("1001", "LocalAuthorityA", 500, 600, OfstedRatingScore.Good),
+            new("1002", "LocalAuthorityB", 400, 500, OfstedRatingScore.Outstanding),
+            new("1003", "LocalAuthorityA", 300, 400, OfstedRatingScore.RequiresImprovement)
+        };
+
+        _mockAcademyRepository.Setup(a => a.GetAcademiesInTrustOverviewAsync(uid))
+            .ReturnsAsync(academiesOverview);
+
+        // Act
+        var result = await _sut.GetTrustOverviewAsync(uid);
+
+        // Assert
+        result.Uid.Should().Be(uid);
+        result.TotalAcademies.Should().Be(3);
+        result.AcademiesByLocalAuthority.Should().BeEquivalentTo(new Dictionary<string, int>
+        {
+            { "LocalAuthorityA", 2 },
+            { "LocalAuthorityB", 1 }
+        });
+        result.TotalPupilNumbers.Should().Be(500 + 400 + 300);
+        result.TotalCapacity.Should().Be(600 + 500 + 400);
+        result.OfstedRatings.Should().BeEquivalentTo(new Dictionary<OfstedRatingScore, int>
+        {
+            { OfstedRatingScore.Good, 1 },
+            { OfstedRatingScore.Outstanding, 1 },
+            { OfstedRatingScore.RequiresImprovement, 1 }
+        });
+    }
+
+    [Fact]
+    public async Task GetTrustOverviewAsync_returns_zero_values_for_trust_with_no_academies()
+    {
+        // Arrange
+        var uid = "1234";
+        var academiesOverview = Array.Empty<AcademyOverview>();
+
+        _mockAcademyRepository.Setup(a => a.GetAcademiesInTrustOverviewAsync(uid))
+            .ReturnsAsync(academiesOverview);
+
+        // Act
+        var result = await _sut.GetTrustOverviewAsync(uid);
+
+        // Assert
+        result.Uid.Should().Be(uid);
+        result.TotalAcademies.Should().Be(0);
+        result.AcademiesByLocalAuthority.Should().BeEmpty();
+        result.TotalPupilNumbers.Should().Be(0);
+        result.TotalCapacity.Should().Be(0);
+        result.OfstedRatings.Should().BeEmpty();
+    }
 }

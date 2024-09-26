@@ -13,6 +13,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Contacts pages will now have relevant data for SATs, using the URN as an alternative to the trust UID
 - All Trust contacts now have the internal data that pertains to their email addresses, where present in our unpublished GIAS data.
 
+### Changed
+
+- Ofsted data now uses inspection start date as inspection date
+- Reduced the load time of the Trust overview page
+
 ## [Release-7][release-7] (production-2024-09-23.3213)
 
 ### Added

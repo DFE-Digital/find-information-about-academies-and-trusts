@@ -48,10 +48,11 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies
                                   "Open");
             var trustSummary = new TrustSummaryServiceModel(uid, "Sample Trust", "Multi-academy trust", 0);
             var expectedBytes = new byte[] { 1, 2, 3 };
+            var ofstedRatings = Array.Empty<AcademyOfstedServiceModel>();
 
             _mockTrustProvider.Setup(x => x.GetTrustByUidAsync(uid)).ReturnsAsync(trust);
             _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid)).ReturnsAsync(trustSummary);
-            _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetUsingProvider(trust, trustSummary)).Returns(expectedBytes);
+            _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetUsingProvider(trust, trustSummary, ofstedRatings)).Returns(expectedBytes);
 
             // Act
             var result = await _sut.OnGetExportAsync(uid);
@@ -99,10 +100,11 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies
                                                   "Open");
             var trustSummary = new TrustSummaryServiceModel(uid, "Sample/Trust:Name?", "Multi-academy trust", 0);
             var expectedBytes = new byte[] { 1, 2, 3 };
+            var ofstedRatings = Array.Empty<AcademyOfstedServiceModel>();
 
             _mockTrustProvider.Setup(x => x.GetTrustByUidAsync(uid)).ReturnsAsync(trustWithIllegalChars);
             _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid)).ReturnsAsync(trustSummary);
-            _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetUsingProvider(trustWithIllegalChars, trustSummary)).Returns(expectedBytes);
+            _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetUsingProvider(trustWithIllegalChars, trustSummary, ofstedRatings)).Returns(expectedBytes);
 
             // Act
             var result = await _sut.OnGetExportAsync(uid);

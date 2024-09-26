@@ -16,7 +16,7 @@ public class FreeSchoolMealsModel : AcademiesPageModel
     public FreeSchoolMealsModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
         ILogger<FreeSchoolMealsModel> logger, ITrustService trustService, IAcademyService academyService,
         IExportService exportService, IDateTimeProvider dateTimeProvider) :
-        base(trustProvider, dataSourceService, trustService, exportService, logger, dateTimeProvider)
+        base(trustProvider, dataSourceService, trustService, academyService, exportService, logger, dateTimeProvider)
     {
         PageTitle = "Academies free school meals";
         TabName = "Free school meals";

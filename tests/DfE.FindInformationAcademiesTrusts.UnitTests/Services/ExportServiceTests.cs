@@ -2,6 +2,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Services;
+using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
@@ -39,8 +40,11 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
                                   "Open");
             var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 0);
 
+            // Passing an empty array for ofstedRatings since no academies are present
+            var ofstedRatings = Array.Empty<AcademyOfstedServiceModel>();
+
             // Act
-            var result = _sut.ExportAcademiesToSpreadsheetUsingProvider(trust, trustSummary);
+            var result = _sut.ExportAcademiesToSpreadsheetUsingProvider(trust, trustSummary, ofstedRatings);
             using var workbook = new XLWorkbook(new MemoryStream(result));
             var worksheet = workbook.Worksheet("Academies");
 
@@ -100,8 +104,19 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
                 "Open");
             var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
 
+            // Create ofstedRatings data matching the academy URN
+            var ofstedRatings = new[]
+            {
+                new AcademyOfstedServiceModel(
+                    academy.Urn.ToString(),
+                    academy.EstablishmentName,
+                    academy.DateAcademyJoinedTrust,
+                    OfstedRating.None,
+                    new OfstedRating(OfstedRatingScore.Outstanding, DateTime.Now))
+            };
+
             // Act
-            var result = _sut.ExportAcademiesToSpreadsheetUsingProvider(trust, trustSummary);
+            var result = _sut.ExportAcademiesToSpreadsheetUsingProvider(trust, trustSummary, ofstedRatings);
             using var workbook = new XLWorkbook(new MemoryStream(result));
             var worksheet = workbook.Worksheet("Academies");
 
@@ -112,7 +127,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
             worksheet.Cell(4, 4).Value.ToString().Should().Be("Type A");
             worksheet.Cell(4, 5).Value.ToString().Should().Be("Urban");
             worksheet.Cell(4, 6).Value.ToString().Should().Be(DateTime.Now.ToString(StringFormatConstants.ViewDate));
-            worksheet.Cell(4, 7).Value.ToString().Should().Be("None");
+            worksheet.Cell(4, 7).Value.ToString().Should().Be("Not yet inspected");
             worksheet.Cell(4, 8).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 9).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 10).Value.ToString().Should().Be("Outstanding");
@@ -145,8 +160,11 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
                                   "Open");
             var trustSummary = new TrustSummaryServiceModel("1", "Empty Trust", "Multi-academy trust", 0);
 
+            // Passing an empty array for ofstedRatings since no academies are present
+            var ofstedRatings = Array.Empty<AcademyOfstedServiceModel>();
+
             // Act
-            var result = _sut.ExportAcademiesToSpreadsheetUsingProvider(trust, trustSummary);
+            var result = _sut.ExportAcademiesToSpreadsheetUsingProvider(trust, trustSummary, ofstedRatings);
             using var workbook = new XLWorkbook(new MemoryStream(result));
             var worksheet = workbook.Worksheet("Academies");
 
@@ -190,8 +208,19 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
                 "Open");
             var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
 
+            // Create ofstedRatings data with null values
+            var ofstedRatings = new[]
+            {
+                new AcademyOfstedServiceModel(
+                    academy.Urn.ToString(),
+                    null,
+                    academy.DateAcademyJoinedTrust,
+                    OfstedRating.None,
+                    OfstedRating.None)
+            };
+
             // Act
-            var result = _sut.ExportAcademiesToSpreadsheetUsingProvider(trust, trustSummary);
+            var result = _sut.ExportAcademiesToSpreadsheetUsingProvider(trust, trustSummary, ofstedRatings);
             using var workbook = new XLWorkbook(new MemoryStream(result));
             var worksheet = workbook.Worksheet("Academies");
 
@@ -202,10 +231,10 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
             worksheet.Cell(4, 4).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 5).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 6).Value.ToString().Should().Be(DateTime.Now.ToString(StringFormatConstants.ViewDate));
-            worksheet.Cell(4, 7).Value.ToString().Should().Be("None");
+            worksheet.Cell(4, 7).Value.ToString().Should().Be("Not yet inspected");
             worksheet.Cell(4, 8).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 9).Value.ToString().Should().Be(string.Empty);
-            worksheet.Cell(4, 10).Value.ToString().Should().Be("None");
+            worksheet.Cell(4, 10).Value.ToString().Should().Be("Not yet inspected");
             worksheet.Cell(4, 11).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 12).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 13).Value.ToString().Should().Be(string.Empty);
