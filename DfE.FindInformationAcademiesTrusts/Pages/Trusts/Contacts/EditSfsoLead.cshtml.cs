@@ -16,4 +16,8 @@ public class EditSfsoLeadModel(
     : EditContactModel(trustProvider, dataSourceService, trustService,
         logger, ContactRole.SfsoLead)
 {
+    protected override InternalContact? GetContactFromServiceModel(TrustContactsServiceModel contacts)
+    {
+        return contacts.SfsoLead;
+    }
 }

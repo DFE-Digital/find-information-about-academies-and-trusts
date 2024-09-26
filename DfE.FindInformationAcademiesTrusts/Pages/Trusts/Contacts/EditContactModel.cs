@@ -36,6 +36,8 @@ public abstract class EditContactModel(
 
     [TempData] public string ContactUpdatedMessage { get; set; } = string.Empty;
 
+    protected abstract InternalContact? GetContactFromServiceModel(TrustContactsServiceModel contacts);
+
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();
@@ -44,19 +46,9 @@ public abstract class EditContactModel(
 
         var contacts = await TrustService.GetTrustContactsAsync(Uid);
 
-        Email = role switch
-        {
-            ContactRole.TrustRelationshipManager => contacts.TrustRelationshipManager?.Email,
-            ContactRole.SfsoLead => contacts.SfsoLead?.Email,
-            _ => throw new ArgumentOutOfRangeException(nameof(role))
-        };
+        Email = GetContactFromServiceModel(contacts)?.Email;
+        Name = GetContactFromServiceModel(contacts)?.FullName;
 
-        Name = role switch
-        {
-            ContactRole.TrustRelationshipManager => contacts.TrustRelationshipManager?.FullName,
-            ContactRole.SfsoLead => contacts.SfsoLead?.FullName,
-            _ => throw new ArgumentOutOfRangeException(nameof(role))
-        };
         return pageResult;
     }
 

@@ -14,4 +14,10 @@ public class EditTrustRelationshipManagerModel(
     ILogger<EditTrustRelationshipManagerModel> logger,
     ITrustService trustService)
     : EditContactModel(trustProvider, dataSourceService, trustService,
-        logger, ContactRole.TrustRelationshipManager);
+        logger, ContactRole.TrustRelationshipManager)
+{
+    protected override InternalContact? GetContactFromServiceModel(TrustContactsServiceModel contacts)
+    {
+        return contacts.TrustRelationshipManager;
+    }
+}
