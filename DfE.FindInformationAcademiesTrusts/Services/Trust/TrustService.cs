@@ -64,18 +64,25 @@ public class TrustService(
 
         return trustDetailsDto;
     }
-
     public async Task<TrustGovernanceServiceModel> GetTrustGovernanceAsync(string uid)
     {
-        var (trustLeadership, members, trustees, historicMembers) = await trustRepository.GetTrustGovernanceAsync(uid);
-        var governanceDto = new TrustGovernanceServiceModel(trustLeadership, members, trustees, historicMembers);
-        return governanceDto;
+        var urn = await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid);
+
+        var trustGovernance = await trustRepository.GetTrustGovernanceAsync(uid, urn);
+
+        return new TrustGovernanceServiceModel(
+            trustGovernance.TrustLeadership,
+            trustGovernance.Members,
+            trustGovernance.Trustees,
+            trustGovernance.HistoricMembers);
     }
 
     public async Task<TrustContactsServiceModel> GetTrustContactsAsync(string uid)
     {
+        var urn = await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid);
+
         var (trustRelationshipManager, sfsoLead, accountingOfficer, chairOfTrustees, chiefFinancialOfficer) =
-            await trustRepository.GetTrustContactsAsync(uid);
+            await trustRepository.GetTrustContactsAsync(uid, urn);
 
         return new TrustContactsServiceModel(trustRelationshipManager, sfsoLead, accountingOfficer, chairOfTrustees,
             chiefFinancialOfficer);

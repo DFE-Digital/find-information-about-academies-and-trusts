@@ -1,6 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
@@ -299,7 +299,7 @@ public class TrustRepositoryTests
     }
 
     [Fact]
-    public async Task GetTrustContactsAsync_Should_Return_CorrectDetails_EvenWithoutMatch_in_MstrTrustGovernance_table()
+    public async Task GetTrustContactsAsync_Should_Return_CorrectDetails_EvenWithoutMatch_in_TadTrustGovernance_table()
     {
         var input = new GiasGovernance
         {
@@ -399,21 +399,52 @@ public class TrustRepositoryTests
             Email: email
         );
 
-        var mstrTrustGovernance = new MstrTrustGovernance
+        var tadTrustGovernance = new TadTrustGovernance
         {
             Gid = gid,
-            Forename1 = forename1,
-            Forename2 = forename2,
-            Surname = surname,
-            DateOfAppointment = startDate?.ToString("dd/MM/yyyy"),
-            DateTermOfOfficeEndsEnded = endDate?.ToString("dd/MM/yyyy"),
-            AppointingBody = appointingBody,
             Email = email
         };
 
         _mockAcademiesDbContext.AddGiasGovernance(giasGovernance);
-        _mockAcademiesDbContext.AddMstrTrustGovernance(mstrTrustGovernance);
+        _mockAcademiesDbContext.AddTadTrustGovernance(tadTrustGovernance);
 
         return governor;
+    }
+    [Fact]
+    public void FilterBySatOrMat_WithUrn_FiltersByUrn()
+    {
+        // Arrange
+        string uid = "some-uid";
+        string urn = "some-urn";
+        var data = new List<GiasGovernance>
+        {
+            new() { Urn = "some-urn", Uid = "uid-1" },
+            new() { Urn = "another-urn", Uid = "uid-2" },
+        }.AsQueryable();
+
+        // Act
+        var result = TrustRepository.FilterBySatOrMat(uid, urn, data);
+
+        // Assert
+        Assert.All(result, g => Assert.Equal("some-urn", g.Urn));
+    }
+
+    [Fact]
+    public void FilterBySatOrMat_WithNullOrEmptyUrn_FiltersByUid()
+    {
+        // Arrange
+        string uid = "some-uid";
+        string? urn = null;
+        var data = new List<GiasGovernance>
+        {
+            new() { Urn = "urn-1", Uid = "some-uid" },
+            new() { Urn = "urn-2", Uid = "another-uid" },
+        }.AsQueryable();
+
+        // Act
+        var result = TrustRepository.FilterBySatOrMat(uid, urn, data);
+
+        // Assert
+        Assert.All(result, g => Assert.Equal("some-uid", g.Uid));
     }
 }
