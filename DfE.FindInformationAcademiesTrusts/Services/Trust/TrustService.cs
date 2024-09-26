@@ -81,6 +81,7 @@ public class TrustService(
         return new TrustContactsServiceModel(trustRelationshipManager, sfsoLead, accountingOfficer, chairOfTrustees,
             chiefFinancialOfficer);
     }
+    
     public async Task<TrustOverviewServiceModel> GetTrustOverviewAsync(string uid)
     {
         var academiesOverview = await academyRepository.GetAcademiesInTrustOverviewAsync(uid);
