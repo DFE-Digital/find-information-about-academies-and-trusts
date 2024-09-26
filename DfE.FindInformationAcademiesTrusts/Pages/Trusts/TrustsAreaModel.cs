@@ -40,6 +40,8 @@ public class TrustsAreaModel(
                 return "State-funded school inspections and outcomes: management information";
             case Source.ExploreEducationStatistics:
                 return "Explore education statistics";
+            case Source.FiatDb:
+                return "Find information about academies and trusts";
             default:
                 logger.LogError("Data source {source} does not map to known type", dataSource);
                 return "Unknown";

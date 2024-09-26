@@ -79,6 +79,7 @@ public class TrustsAreaModelTests
     [InlineData(Source.Cdm, "RSD (Regional Services Division) service support team")]
     [InlineData(Source.Mis, "State-funded school inspections and outcomes: management information")]
     [InlineData(Source.ExploreEducationStatistics, "Explore education statistics")]
+    [InlineData(Source.FiatDb, "Find information about academies and trusts")]
     public void MapDataSourceToName_should_return_the_correct_string_for_each_source(Source source, string expected)
     {
         var result = _sut.MapDataSourceToName(new DataSourceServiceModel(source, null, UpdateFrequency.Daily));

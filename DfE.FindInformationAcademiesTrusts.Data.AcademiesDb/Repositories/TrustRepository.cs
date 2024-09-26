@@ -97,13 +97,9 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
 
     public async Task<TrustContacts> GetTrustContactsAsync(string uid, string? urn = null)
     {
-        var trm = await GetTrustRelationshipManagerLinkedTo(uid);
-        var sfso = await GetSfsoLeadLinkedTo(uid);
         var governanceContacts = await GetGovernanceContactsAsync(uid, urn);
 
         return new TrustContacts(
-            trm,
-            sfso,
             governanceContacts.GetValueOrDefault("Accounting Officer"),
             governanceContacts.GetValueOrDefault("Chair of Trustees"),
             governanceContacts.GetValueOrDefault("Chief Financial Officer"));
@@ -129,26 +125,6 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
             fullName += $" {surname}";
 
         return fullName;
-    }
-
-    private async Task<Person?> GetTrustRelationshipManagerLinkedTo(string uid)
-    {
-        return await academiesDbContext.CdmAccounts
-            .Where(a => a.SipUid == uid)
-            .Join(academiesDbContext.CdmSystemusers, account => account.SipTrustrelationshipmanager,
-                systemuser => systemuser.Systemuserid,
-                (_, systemuser) => new Person(systemuser.Fullname!, systemuser.Internalemailaddress))
-            .SingleOrDefaultAsync();
-    }
-
-    private async Task<Person?> GetSfsoLeadLinkedTo(string uid)
-    {
-        return await academiesDbContext.CdmAccounts
-            .Where(a => a.SipUid == uid)
-            .Join(academiesDbContext.CdmSystemusers, account => account.SipAmsdlead,
-                systemuser => systemuser.Systemuserid,
-                (_, systemuser) => new Person(systemuser.Fullname!, systemuser.Internalemailaddress))
-            .SingleOrDefaultAsync();
     }
 
     private async Task<Dictionary<string, Person>> GetGovernanceContactsAsync(string uid, string? urn = null)

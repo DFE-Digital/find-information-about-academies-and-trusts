@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Extensions;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
@@ -15,9 +16,9 @@ public class ContactsModel(
 {
     public Person? ChairOfTrustees { get; set; }
     public Person? AccountingOfficer { get; set; }
-    public Person? SfsoLead { get; set; }
-    public Person? TrustRelationshipManager { get; set; }
     public Person? ChiefFinancialOfficer { get; set; }
+    public InternalContact? SfsoLead { get; set; }
+    public InternalContact? TrustRelationshipManager { get; set; }
 
     public const string ContactNameNotAvailableMessage = "No contact name available";
 
@@ -32,8 +33,17 @@ public class ContactsModel(
         (TrustRelationshipManager, SfsoLead, AccountingOfficer, ChairOfTrustees, ChiefFinancialOfficer) =
             await TrustService.GetTrustContactsAsync(Uid);
 
-        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Cdm),
-            new List<string> { "DfE contacts" }));
+        DataSources.Add(new DataSourceListEntry(
+            new DataSourceServiceModel(Source.FiatDb, TrustRelationshipManager?.LastModifiedAtTime, null,
+                TrustRelationshipManager?.LastModifiedByEmail),
+            new List<string>
+                { ContactRole.TrustRelationshipManager.MapRoleToViewString() }));
+
+        DataSources.Add(new DataSourceListEntry(
+            new DataSourceServiceModel(Source.FiatDb, SfsoLead?.LastModifiedAtTime, null,
+                SfsoLead?.LastModifiedByEmail),
+            new List<string>
+                { ContactRole.SfsoLead.MapRoleToViewString() }));
 
         DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias), new List<string>
             { "Accounting officer name", "Chief financial officer name", "Chair of trustees name" }));

@@ -4,6 +4,7 @@
 @import "components/table";
 @import "components/header-search";
 @import "components/export-button";
+@import "components/sourceList";
 
 .app-banner {
   @include govuk-responsive-padding(5, "top");

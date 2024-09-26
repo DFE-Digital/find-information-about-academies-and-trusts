@@ -1,8 +1,8 @@
 using DfE.FindInformationAcademiesTrusts.Configuration;
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
@@ -14,18 +14,10 @@ public class EditSfsoLeadModel(
     ILogger<EditSfsoLeadModel> logger,
     ITrustService trustService)
     : EditContactModel(trustProvider, dataSourceService, trustService,
-        logger, "SFSO (Schools financial support and oversight) lead")
+        logger, ContactRole.SfsoLead)
 {
-    public override async Task<IActionResult> OnGetAsync()
+    protected override InternalContact? GetContactFromServiceModel(TrustContactsServiceModel contacts)
     {
-        var pageResult = await base.OnGetAsync();
-
-        if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
-
-        var contacts = await TrustService.GetTrustContactsAsync(Uid);
-
-        Email = contacts.SfsoLead?.Email;
-        Name = contacts.SfsoLead?.FullName;
-        return pageResult;
+        return contacts.SfsoLead;
     }
 }

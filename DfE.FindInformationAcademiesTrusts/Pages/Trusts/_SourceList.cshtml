@@ -8,12 +8,19 @@
   <ul class="govuk-list govuk-details__text">
     @foreach (var source in Model.DataSources)
     {
-      <li class="govuk-!-margin-bottom-7">
-        <p class="govuk-body">
-          <span class="govuk-!-font-weight-bold margin-right-class">@string.Join(", ", source.Fields): </span> @Model.MapDataSourceToName(source.DataSource)
-        </p>
-        <p class="govuk-body">Last updated: @(source.DataSource.LastUpdated is null ? "Unknown" : source.DataSource.LastUpdated.Value.ToString(StringFormatConstants.ViewDate))</p>
-        <p class="govuk-body">Next scheduled update: @source.DataSource.NextUpdated</p>
+      <li class="source-list-item govuk-!-margin-bottom-5">
+        <span class="govuk-!-font-weight-bold margin-right-class">@string.Join(", ", source.Fields)</span>
+
+        <span>Last updated: @(source.DataSource.LastUpdated is null ? "Unknown" : source.DataSource.LastUpdated.Value.ToString(StringFormatConstants.ViewDate))</span>
+        @if (source.DataSource.NextUpdated is not null)
+        {
+          <span>Next scheduled update: @source.DataSource.NextUpdated</span>
+        }
+        @if (source.DataSource.UpdatedBy is not null)
+        {
+          <span>Updated by: @source.DataSource.UpdatedBy</span>
+        }
+        <span>Data taken from: @Model.MapDataSourceToName(source.DataSource)</span>
       </li>
     }
   </ul>

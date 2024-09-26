@@ -21,8 +21,10 @@ public class ContactsModelTests
     private readonly Person _chairOfTrustees = new("Chair Of Trustees", "cot@test.com");
     private readonly Person _chiefFinancialOfficer = new("Chief Financial Officer", "cfo@test.com");
     private readonly Person _accountingOfficer = new("Accounting Officer", "ao@test.com");
-    private readonly Person _sfsoLead = new("SFSO Lead", "sfsol@test.com");
-    private readonly Person _trustRelationshipManager = new("Trust Relationship Manager", "trm@test.com");
+    private readonly InternalContact _sfsoLead = new("SFSO Lead", "sfsol@test.com", DateTime.Today, "test@email.com");
+
+    private readonly InternalContact _trustRelationshipManager =
+        new("Trust Relationship Manager", "trm@test.com", DateTime.Today, "test@email.com");
 
     public ContactsModelTests()
     {
@@ -125,15 +127,16 @@ public class ContactsModelTests
     public async Task OnGetAsync_sets_correct_data_source_list()
     {
         await _sut.OnGetAsync();
-        _mockDataSourceService.Verify(e => e.GetAsync(Source.Cdm), Times.Once);
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Mstr), Times.Once);
-        _sut.DataSources.Count.Should().Be(3);
+        _sut.DataSources.Count.Should().Be(4);
         _sut.DataSources[0].Fields.Should().Contain(new List<string>
-            { "DfE contacts" });
+            { "Trust relationship manager" });
         _sut.DataSources[1].Fields.Should().Contain(new List<string>
-            { "Accounting officer name", "Chief financial officer name", "Chair of trustees name" });
+            { "SFSO (Schools financial support and oversight) lead" });
         _sut.DataSources[2].Fields.Should().Contain(new List<string>
+            { "Accounting officer name", "Chief financial officer name", "Chair of trustees name" });
+        _sut.DataSources[3].Fields.Should().Contain(new List<string>
             { "Accounting officer email", "Chief financial officer email", "Chair of trustees email" });
     }
 }

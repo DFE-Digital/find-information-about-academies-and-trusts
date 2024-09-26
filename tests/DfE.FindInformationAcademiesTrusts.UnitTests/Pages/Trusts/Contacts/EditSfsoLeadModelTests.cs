@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -17,7 +18,8 @@ public class EditSfsoLeadModelTests
 
     private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
 
-    private readonly Person _sfsoLead = new("Sfso Lead", "sfso.lead@test.com");
+    private readonly InternalContact _sfsoLead = new("Sfso Lead", "sfso.lead@test.com", DateTime.Today,
+        "test@email.com");
 
     public EditSfsoLeadModelTests()
     {
@@ -52,5 +54,41 @@ public class EditSfsoLeadModelTests
         result.Should().BeOfType<PageResult>();
         _sut.Name.Should().Be(_sfsoLead.FullName);
         _sut.Email.Should().Be(_sfsoLead.Email);
+    }
+
+    [Theory]
+    [InlineData(true, true,
+        "Changes made to the SFSO (Schools financial support and oversight) lead name and email were updated.")]
+    [InlineData(true, false,
+        "Changes made to the SFSO (Schools financial support and oversight) lead name were updated.")]
+    [InlineData(false, true,
+        "Changes made to the SFSO (Schools financial support and oversight) lead email were updated.")]
+    [InlineData(false, false, "")]
+    public async Task OnPostAsync_sets_ContactUpdated_to_true_when_validation_is_correct(bool nameUpdated,
+        bool emailUpdated, string expectedMessage)
+    {
+        _sut.TrustSummary = _fakeTrust;
+        _mockTrustService
+            .Setup(r => r.UpdateContactAsync(1234, It.IsAny<string>(), It.IsAny<string>(), ContactRole.SfsoLead))
+            .ReturnsAsync(new TrustContactUpdatedServiceModel(emailUpdated, nameUpdated));
+
+        var result = await _sut.OnPostAsync();
+
+        _sut.ContactUpdatedMessage.Should().Be(expectedMessage);
+        _sut.GeneratePageTitle().Should().NotContain("Error: ");
+
+        result.Should().BeOfType<RedirectToPageResult>();
+        var redirect = result as RedirectToPageResult;
+        redirect!.PageName.Should().Be("/Trusts/Contacts");
+    }
+
+    [Fact]
+    public async Task OnPostAsync_sets_ContactUpdated_to_false_when_validation_is_incorrect()
+    {
+        _sut.ModelState.AddModelError("Test", "Test");
+        var result = await _sut.OnPostAsync();
+        result.Should().BeOfType<PageResult>();
+        _sut.GeneratePageTitle().Should().Contain("Error: ");
+        _sut.ContactUpdatedMessage.Should().Be(string.Empty);
     }
 }

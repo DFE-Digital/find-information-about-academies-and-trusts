@@ -1,5 +1,8 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Contacts;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -11,11 +14,13 @@ public class TrustServiceTests
     private readonly TrustService _sut;
     private readonly Mock<IAcademyRepository> _mockAcademyRepository = new();
     private readonly Mock<ITrustRepository> _mockTrustRepository = new();
+    private readonly Mock<IContactRepository> _mockContactRepository = new();
     private readonly MockMemoryCache _mockMemoryCache = new();
 
     public TrustServiceTests()
     {
-        _sut = new TrustService(_mockAcademyRepository.Object, _mockTrustRepository.Object, _mockMemoryCache.Object);
+        _sut = new TrustService(_mockAcademyRepository.Object, _mockTrustRepository.Object,
+            _mockContactRepository.Object, _mockMemoryCache.Object);
     }
 
     [Fact]
@@ -194,10 +199,14 @@ public class TrustServiceTests
     public async Task GetTrustContactsAsync_should_get_governanceResults_for_single_trust()
     {
         var person = new Person("First Middle Last", "firstlast@email.com");
-        var contacts = new TrustContacts(person, person, person, person, person);
-
+        var contacts = new TrustContacts(person, person, person);
         _mockTrustRepository.Setup(t => t.GetTrustContactsAsync("1234", null))
             .ReturnsAsync(contacts);
+        var internalContact =
+            new InternalContact("First Middle Last", "firstlast@email.com", DateTime.Today, "Test@email.com");
+        var internalContacts = new InternalContacts(internalContact, internalContact);
+        _mockContactRepository.Setup(t => t.GetInternalContactsAsync("1234"))
+            .ReturnsAsync(internalContacts);
 
         var result = await _sut.GetTrustContactsAsync("1234");
 
@@ -260,5 +269,21 @@ public class TrustServiceTests
         result.TotalPupilNumbers.Should().Be(0);
         result.TotalCapacity.Should().Be(0);
         result.OfstedRatings.Should().BeEmpty();
+    }
+
+    [Theory]
+    [InlineData(true, true)]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    [InlineData(false, false)]
+    public async Task UpdateContactsAsync_returns_the_correct_values_changed(bool emailUpdated, bool nameUpdated)
+    {
+        var expected = new TrustContactUpdated(emailUpdated, nameUpdated);
+        _mockContactRepository.Setup(t =>
+                t.UpdateInternalContactsAsync(1234, "Name", "Email", ContactRole.SfsoLead))
+            .ReturnsAsync(expected);
+        var result = await _sut.UpdateContactAsync(1234, "Name", "Email", ContactRole.SfsoLead);
+
+        result.Should().BeEquivalentTo(expected);
     }
 }

@@ -1,3 +1,5 @@
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using Microsoft.Extensions.Caching.Memory;
@@ -11,11 +13,14 @@ public interface ITrustService
     Task<TrustGovernanceServiceModel> GetTrustGovernanceAsync(string uid);
     Task<TrustContactsServiceModel> GetTrustContactsAsync(string uid);
     Task<TrustOverviewServiceModel> GetTrustOverviewAsync(string uid);
+    Task<TrustContactUpdatedServiceModel> UpdateContactAsync(int uid, string? name, string? email,
+        ContactRole role);
 }
 
 public class TrustService(
     IAcademyRepository academyRepository,
     ITrustRepository trustRepository,
+    IContactRepository contactRepository,
     IMemoryCache memoryCache)
     : ITrustService
 {
@@ -81,12 +86,26 @@ public class TrustService(
     public async Task<TrustContactsServiceModel> GetTrustContactsAsync(string uid)
     {
         var urn = await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid);
-
-        var (trustRelationshipManager, sfsoLead, accountingOfficer, chairOfTrustees, chiefFinancialOfficer) =
+        
+        var trustContacts =
             await trustRepository.GetTrustContactsAsync(uid, urn);
+        var internalContacts = await contactRepository.GetInternalContactsAsync(uid);
 
-        return new TrustContactsServiceModel(trustRelationshipManager, sfsoLead, accountingOfficer, chairOfTrustees,
-            chiefFinancialOfficer);
+        return new TrustContactsServiceModel(
+            internalContacts.TrustRelationshipManager,
+            internalContacts.SfsoLead,
+            ChairOfTrustees: trustContacts.ChairOfTrustees,
+            AccountingOfficer: trustContacts.AccountingOfficer,
+            ChiefFinancialOfficer: trustContacts.ChiefFinancialOfficer
+        );
+    }
+
+    public async Task<TrustContactUpdatedServiceModel> UpdateContactAsync(int uid, string? name, string? email,
+        ContactRole role)
+    {
+        var (emailChanged, nameChanged) = await contactRepository.UpdateInternalContactsAsync(uid, name, email, role);
+
+        return new TrustContactUpdatedServiceModel(emailChanged, nameChanged);
     }
     
     public async Task<TrustOverviewServiceModel> GetTrustOverviewAsync(string uid)

@@ -1,6 +1,8 @@
 @page
 @using DfE.FindInformationAcademiesTrusts.Configuration
 @using DfE.FindInformationAcademiesTrusts.Data
+@using DfE.FindInformationAcademiesTrusts.Data.Enums
+@using DfE.FindInformationAcademiesTrusts.Extensions
 @model ContactsModel
 
 @{
@@ -31,11 +33,11 @@
   <div class="govuk-summary-card" data-testid="trust-relationship-manager">
     <div class="govuk-summary-card__title-wrapper">
       <h3 class="govuk-summary-card__title">
-        Trust relationship manager
+        @ContactRole.TrustRelationshipManager.MapRoleToViewString()
       </h3>
       <feature name="@FeatureFlags.EditContactsUI">
         <div class="govuk-summary-card__actions">
-          <a class="govuk-link" asp-page="/Trusts/Contacts/EditTrustRelationshipManager" asp-route-uid="@Model.Uid">Change<span class="govuk-visually-hidden"> details of this contact (Trust relationship manager)</span></a>
+          <a class="govuk-link" asp-page="/Trusts/Contacts/EditTrustRelationshipManager" asp-route-uid="@Model.Uid">Change<span class="govuk-visually-hidden"> details of this contact (@ContactRole.TrustRelationshipManager.MapRoleToViewString())</span></a>
         </div>
       </feature>
     </div>
@@ -44,11 +46,11 @@
   <div class="govuk-summary-card" data-testid="sfso-lead">
     <div class="govuk-summary-card__title-wrapper">
       <h3 class="govuk-summary-card__title">
-        SFSO (Schools financial support and oversight) lead
+        @ContactRole.SfsoLead.MapRoleToViewString()
       </h3>
       <feature name="@FeatureFlags.EditContactsUI">
         <div class="govuk-summary-card__actions">
-          <a class="govuk-link" asp-page="/Trusts/Contacts/EditSfsoLead" asp-route-uid="@Model.Uid">Change<span class="govuk-visually-hidden"> details of this contact (SFSO Lead)</span></a>
+          <a class="govuk-link" asp-page="/Trusts/Contacts/EditSfsoLead" asp-route-uid="@Model.Uid">Change<span class="govuk-visually-hidden"> details of this contact (@ContactRole.SfsoLead.MapRoleToViewString())</span></a>
         </div>
       </feature>
     </div>
@@ -109,7 +111,7 @@
           <dt class="govuk-summary-list__key">
             Email address
           </dt>
-          @if (contactToDisplay?.Email is not null)
+          @if (!string.IsNullOrWhiteSpace(contactToDisplay?.Email))
           {
             <dd class="govuk-summary-list__value">
               <a class="govuk-link" href="mailto:@contactToDisplay.Email" rel="noopener" target="_blank" data-testid="contact-email">@contactToDisplay.Email</a>

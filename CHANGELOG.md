@@ -17,6 +17,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Ofsted data now uses inspection start date as inspection date
 - Reduced the load time of the Trust overview page
+- DfE contacts now get their data from Fiat Db instead of academies Db
+- Edited contacts are now saved to the database
 
 ## [Release-7][release-7] (production-2024-09-23.3213)
 
