@@ -131,7 +131,7 @@ public class ContactsModelTests
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Mstr), Times.Once);
         _sut.DataSources.Count.Should().Be(4);
         _sut.DataSources[0].Fields.Should().Contain(new List<string>
-            { "Trust relationship manager" });
+            { "Regions group trust relationship manager" });
         _sut.DataSources[1].Fields.Should().Contain(new List<string>
             { "SFSO (Schools financial support and oversight) lead" });
         _sut.DataSources[2].Fields.Should().Contain(new List<string>
