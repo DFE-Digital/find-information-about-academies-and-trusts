@@ -26,5 +26,3 @@ public interface ITrustsAreaModel
 
     string MapDataSourceToName(DataSourceServiceModel dataSource);
 }
-
-public record DataSourceListEntry(DataSourceServiceModel DataSource, IEnumerable<string> Fields);
