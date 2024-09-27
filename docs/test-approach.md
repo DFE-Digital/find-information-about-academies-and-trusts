@@ -25,7 +25,6 @@ flowchart TB
   subgraph remote[Push to remote branch]
     remote1[Unit tests run]
     remote2[Mutation tests run]
-    remote3[Component tests run]
     remote4[Sonarcloud]
   end
 
@@ -33,23 +32,15 @@ flowchart TB
 
   pr(Create Pull Request)
 
-  pr-->predeploy
   pr-->dev
   pr-->review
 
   review{Peer code review}
   
-  subgraph predeploy[Isolated CI environment]
-    predeploy1[Automated UI tests]
-    predeploy2[Automated accessibility tests]
-  end
-
   subgraph dev[Development environment]
-    dev1[Deployment smoke tests]
-    dev3[Automated security tests - ZAP]
+    dev1[Automated UI tests]
   end
 
-  predeploy-->testenvapproval
   dev-->testenvapproval
   
   testenvapproval(Approval to deploy to Test env)
@@ -57,14 +48,9 @@ flowchart TB
   testenvapproval-->test
 
   subgraph test[Test environment]
-    direction TB
-    test1[Deployment smoke tests]
-    test1-->manual
-    subgraph manual[Manual testing if significant UI change]
-      manual1[Manual exploratory tests]
-      manual2[Manual accessibility tests]
-      manual3[Manual cross browser tests]
-    end
+    manual1[Manual exploratory tests]
+    manual2[Manual accessibility tests]
+    manual3[Manual cross browser tests]
   end
 
   test-->merge
@@ -104,7 +90,7 @@ flowchart TB
 
 Our application is designed to support Microsoft Edge and Google Chrome laptop/PC users.
 
-**Automated** - by default all Cypress tests are run against Google Chrome in CI. Note that automated tests can only check the functionality of a page and will not spot visual differences between browsers.
+**Automated** - there are no automated cross browser tests.
 
 **Manual** - exploratory testing on Google Chrome and Microsoft Edge to ensure there are no visual differences between browsers.
 
@@ -119,27 +105,11 @@ This testing is performed as required after a significant UI change. Results are
 All .NET code is unit tested where possible. Where it is deemed not possible to unit test, code should be marked as excluded from code coverage.
 .NET unit test quality is measured by mutation testing tool [Stryker.NET](https://stryker-mutator.io/docs/stryker-net/introduction/) - a mutation score of at least 80% is required before merging to main.
 
-#### Component
-
-Component tests ensure that the units within the application work together as expected. These tests are run in the pipeline before deployment to any environment.
-
 #### UI
 
 UI tests verify that the UI behaves as it should under both happy and unhappy path conditions. These tests are are run in an isolated environment with external dependencies (such as APIs and databases) mocked.
 
-#### Deployment
-
-Deployment smoke tests ensure that all parts of a system have been deployed and are speaking to each other. They are non-invasive and should never change the state of persisted data. They should be quick to run and safe to run against a live environment.
-
 ### Security testing
-
-#### Threat modelling
-
-As part of the definition of ready, we consider consider any changes to the surface of attack and mitigate against risks. Any mitigations are included as acceptance criteria and independantly tested for.
-
-#### OWASP ZAP
-
-Tests that exercise all the web pages are run with OWASP ZAP as a proxy, this provides some automated security testing to catch big problems early.
 
 #### Audit
 

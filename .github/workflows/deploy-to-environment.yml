@@ -96,11 +96,11 @@ jobs:
       azure-aca-name: ${{ secrets.AZURE_ACA_NAME }}
       azure-aca-resource-group: ${{ secrets.AZURE_ACA_RESOURCE_GROUP }}
 
-  run-deployment-tests:
-     name: Run deployment tests
-     uses: ./.github/workflows/test-deployment.yml
+  run-automated-ui-tests:
+     name: Run automated UI tests
+     uses: ./.github/workflows/test-automated-ui.yml
      needs: [ deploy-image, set-env ]
-     if: ${{ needs.set-env.outputs.environment == 'development' || needs.set-env.outputs.environment == 'test' }}
+     if: ${{ needs.set-env.outputs.environment == 'development' }}
      with:
        environment: ${{ needs.set-env.outputs.environment }}
        branch-name: ${{ needs.set-env.outputs.branch }}
