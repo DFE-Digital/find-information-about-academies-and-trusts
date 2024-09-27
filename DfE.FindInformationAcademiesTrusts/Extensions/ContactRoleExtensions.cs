@@ -8,7 +8,7 @@ public static class ContactRoleExtensions
     {
         return role switch
         {
-            ContactRole.TrustRelationshipManager => "Trust relationship manager",
+            ContactRole.TrustRelationshipManager => "Regions group trust relationship manager",
             ContactRole.SfsoLead => "SFSO (Schools financial support and oversight) lead",
             _ => throw new ArgumentOutOfRangeException(nameof(role))
         };
