@@ -15,7 +15,7 @@ public interface IContactRepository
         ContactRole role);
 }
 
-public class ContactRepository(IFiatDbContext fiatDbContext) : IContactRepository
+public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
 {
     public async Task<InternalContacts> GetInternalContactsAsync(string uid)
     {
