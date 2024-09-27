@@ -103,7 +103,7 @@ public class FiatDbContextTests(FiatDbContainerFixture fiatDbContainerFixture) :
         await FiatDbContext.SaveChangesAsync();
         await Task.Delay(10);
 
-        var allVersions = await FiatDbContext.Contacts.TemporalAll().ToArrayAsync();
+        var allVersions = await FiatDbContext.Contacts.TemporalAll().Where(c => c.Uid == 1234).ToArrayAsync();
 
         allVersions.Should().Satisfy(
             [
