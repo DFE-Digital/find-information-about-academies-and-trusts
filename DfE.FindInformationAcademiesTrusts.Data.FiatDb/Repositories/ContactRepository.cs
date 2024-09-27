@@ -30,32 +30,42 @@ public class ContactRepository(IFiatDbContext fiatDbContext) : IContactRepositor
     public async Task<TrustContactUpdated> UpdateInternalContactsAsync(int uid, string? name, string? email,
         ContactRole role)
     {
-        var emailUpdated = false;
-        var nameUpdated = false;
-        var contact =
-            await fiatDbContext.Contacts.SingleOrDefaultAsync(contact => contact.Uid == uid && contact.Role == role);
+        var contact = await fiatDbContext.Contacts
+            .SingleOrDefaultAsync(contact => contact.Uid == uid && contact.Role == role);
         if (contact is null)
         {
-            fiatDbContext.Contacts.Add(new Contact
-                { Name = name ?? string.Empty, Email = email ?? string.Empty, Role = role, Uid = uid });
+            return await AddNewContact(uid, name, email, role);
         }
-        else
-        {
-            if (contact.Name != name)
-            {
-                nameUpdated = true;
-                contact.Name = name ?? string.Empty;
-            }
 
-            if (contact.Email != email)
-            {
-                emailUpdated = true;
-                contact.Email = email ?? string.Empty;
-            }
+        var nameUpdated = false;
+        var emailUpdated = false;
+        if (contact.Name != name)
+        {
+            nameUpdated = true;
+            contact.Name = name ?? string.Empty;
+        }
+
+        if (contact.Email != email)
+        {
+            emailUpdated = true;
+            contact.Email = email ?? string.Empty;
         }
 
         await fiatDbContext.SaveChangesAsync();
         return new TrustContactUpdated(emailUpdated, nameUpdated);
+    }
+
+    private async Task<TrustContactUpdated> AddNewContact(int uid, string? name, string? email, ContactRole role)
+    {
+        fiatDbContext.Contacts.Add(new Contact
+        {
+            Name = name ?? string.Empty,
+            Email = email ?? string.Empty,
+            Role = role,
+            Uid = uid
+        });
+        await fiatDbContext.SaveChangesAsync();
+        return new TrustContactUpdated(true, true);
     }
 
     private async Task<InternalContact?> GetTrustRelationshipManagerLinkedTo(string uid)
