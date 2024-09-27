@@ -33,6 +33,7 @@ zap-reports/
 cypress.env.json
 **/cypress/screenshots/**
 **/cypress/downloads/**
+**/cypress/reports/**
 
 ### Visual Studio and VSCode config
 .vs
