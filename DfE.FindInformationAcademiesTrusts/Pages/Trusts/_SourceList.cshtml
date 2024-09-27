@@ -1,4 +1,5 @@
-﻿@model ITrustsAreaModel
+﻿@using DfE.FindInformationAcademiesTrusts.Data.Enums
+@model ITrustsAreaModel
 <details class="govuk-details" data-module="govuk-details">
   <summary class="govuk-details__summary">
     <span class="govuk-details__summary-text">
@@ -11,16 +12,22 @@
       <li class="source-list-item govuk-!-margin-bottom-5">
         <span class="govuk-!-font-weight-bold margin-right-class">@string.Join(", ", source.Fields)</span>
 
-        <span>Last updated: @(source.DataSource.LastUpdated is null ? "Unknown" : source.DataSource.LastUpdated.Value.ToString(StringFormatConstants.ViewDate))</span>
+        <span>Last updated: @(source.LastUpdatedText)</span>
+
         @if (source.DataSource.NextUpdated is not null)
         {
           <span>Next scheduled update: @source.DataSource.NextUpdated</span>
         }
+
         @if (source.DataSource.UpdatedBy is not null)
         {
-          <span>Updated by: @source.DataSource.UpdatedBy</span>
+          <span>Updated by: @source.UpdatedByText</span>
         }
-        <span>Data taken from: @Model.MapDataSourceToName(source.DataSource)</span>
+
+        @if (source.DataSource.Source != Source.FiatDb)
+        {
+          <span>Data taken from: @Model.MapDataSourceToName(source.DataSource)</span>
+        }
       </li>
     }
   </ul>
