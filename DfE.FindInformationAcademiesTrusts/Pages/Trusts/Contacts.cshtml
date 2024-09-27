@@ -9,10 +9,8 @@
   Layout = "_TrustLayout";
 }
 
-<section class="govuk-!-margin-bottom-9">
-  <h2 class="govuk-heading-m">
-    Contacts at DfE
-  </h2>
+@section TrustPageMessage
+{
   <feature name="@FeatureFlags.EditContactsUI">
     @if (!string.IsNullOrWhiteSpace(TempData["ContactUpdatedMessage"] as string))
     {
@@ -30,6 +28,12 @@
       </div>
     }
   </feature>
+}
+
+<section class="govuk-!-margin-bottom-9">
+  <h2 class="govuk-heading-m">
+    Contacts at DfE
+  </h2>
   <div class="govuk-summary-card" data-testid="trust-relationship-manager">
     <div class="govuk-summary-card__title-wrapper">
       <h3 class="govuk-summary-card__title">
