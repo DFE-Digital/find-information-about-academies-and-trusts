@@ -1,5 +1,5 @@
 # This sets the default owner for all code.
-* dneed-nimble dynamictulip nwarms
+* @dneed-nimble @dynamictulip @nwarms
 
 # This sets the owner for Cypress tests.
-tests/DFE.FindInformationAcademiesTrusts.CypressTests/ CMurrell148
+tests/DFE.FindInformationAcademiesTrusts.CypressTests/ @CMurrell148
