@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports = defineConfig({
+  userAgent: 'FindInformationAcademiesTrusts/1.0 Cypress',
   e2e: {
     reporter: 'cypress-multi-reporters',
     reporterOptions: {
@@ -16,7 +17,7 @@ module.exports = defineConfig({
       },
     },
     setupNodeEvents(on, config) {
-      config.baseUrl = config.env.url;
+      config.baseUrl = config.env.URL;
       // Custom task to find the most recent .xlsx file in the downloads folder
       on('task', {
         findLatestFile(folderPath) {
