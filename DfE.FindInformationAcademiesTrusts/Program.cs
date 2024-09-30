@@ -38,71 +38,7 @@ internal static class Program
 {
     public static void Main(string[] args)
     {
-        //Create logging mechanism before anything else to catch bootstrap errors
-        Log.Logger = new LoggerConfiguration()
-            .WriteTo.Console()
-            .CreateBootstrapLogger();
-
-        try
-        {
-            var builder = WebApplication.CreateBuilder(args);
-
-            // Enforce HTTPS in ASP.NET Core
-            // @link https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?
-            builder.Services.AddHsts(options =>
-            {
-                options.Preload = true;
-                options.IncludeSubDomains = true;
-                options.MaxAge = TimeSpan.FromDays(365);
-            });
-
-            //Reconfigure logging before proceeding so any bootstrap exceptions can be written to App Insights
-            ReconfigureLogging(builder);
-
-            AddEnvironmentVariablesTo(builder);
-
-            builder.Services.AddRazorPages();
-            builder.Services.AddHealthChecks();
-            builder.Services.AddApplicationInsightsTelemetry();
-            AddAuthenticationServices(builder);
-
-            builder.Services.Configure<RouteOptions>(options =>
-            {
-                options.LowercaseUrls = true;
-                options.LowercaseQueryStrings = true;
-            });
-
-            AddDependenciesTo(builder);
-
-            AddDataProtectionServices(builder);
-
-            var app = builder.Build();
-            ConfigureHttpRequestPipeline(app);
-            app.Run();
-        }
-        catch (Exception ex)
-        {
-            Log.Fatal(ex, "An unhandled exception occurred during bootstrapping");
-        }
-        finally
-        {
-            Log.CloseAndFlush();
-        }
-    }
-
-    private static void ConfigureHttpRequestPipeline(WebApplication app)
-    {
-        // Ensure we do not lose X-Forwarded-* Headers when behind a Proxy
-        var forwardOptions = new ForwardedHeadersOptions
-        {
-            ForwardedHeaders = ForwardedHeaders.All,
-            RequireHeaderSymmetry = false
-        };
-        forwardOptions.KnownNetworks.Clear();
-        forwardOptions.KnownProxies.Clear();
-        app.UseForwardedHeaders(forwardOptions);
-
-        // Set HTTP Security headers
+      //big change
         app.UseSecurityHeaders(GetSecurityHeaderPolicies());
 
         if (!app.Environment.IsLocalDevelopment())
