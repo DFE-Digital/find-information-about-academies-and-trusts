@@ -1,0 +1,21 @@
+{
+  "stryker-config": {
+    "break-on-initial-test-failure": true,
+    "concurrency": 4,
+    "mutate": [
+      "!**/ContactRepository.cs",
+      "!**/FiatDbContext.cs",
+      "!**/SetChangedByInterceptor.cs"
+    ],
+    "reporters": [
+      "Dots",
+      "Html"
+    ],
+    "test-case-filter": "MutationTest!=Ignore",
+    "thresholds": {
+      "high": 100,
+      "low": 94,
+      "break": 94
+    }
+  }
+}

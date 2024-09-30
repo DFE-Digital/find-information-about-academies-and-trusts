@@ -87,7 +87,9 @@ jobs:
         dotnet build DfE.FindInformationAcademiesTrusts -c Release
         dotnet coverage collect "dotnet test" -f xml -o "coverage.xml"
         dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-        dotnet stryker -r "cleartext" -r "html" --threshold-high 90 --threshold-low 81 --break-at 80
-
+        
+    - name: Run mutation tests
+      run: dotnet stryker
+      
     - name: Ensure there are no pending migrations
       run: dotnet ef migrations has-pending-model-changes --context FiatDbContext --project DfE.FindInformationAcademiesTrusts.Data.FiatDb --startup-project DfE.FindInformationAcademiesTrusts

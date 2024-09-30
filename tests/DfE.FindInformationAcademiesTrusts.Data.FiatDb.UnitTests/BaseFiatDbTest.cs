@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.FiatDb.UnitTests;
 
+[Trait("MutationTest", "Ignore")]
 [Collection(nameof(UseFiatDbContainer))]
 public abstract class BaseFiatDbTest : IDisposable
 {
