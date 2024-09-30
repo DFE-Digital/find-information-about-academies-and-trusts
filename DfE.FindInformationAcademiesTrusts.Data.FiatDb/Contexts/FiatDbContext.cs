@@ -1,10 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Models;
+﻿using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.FiatDb.Contexts;
 
-[ExcludeFromCodeCoverage(Justification = "Tests are long running, don't want these to be mutated by Stryker")]
 public sealed class FiatDbContext(
     DbContextOptions<FiatDbContext> options,
     SetChangedByInterceptor setChangedByInterceptor)
