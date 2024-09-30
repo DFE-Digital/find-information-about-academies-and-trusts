@@ -74,13 +74,10 @@ jobs:
       if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
       run: dotnet tool install --global dotnet-sonarscanner --version 8.0.1
 
-    - name: Install dotnet-coverage
-      run: dotnet tool install --global dotnet-coverage
-
-    - name: Install other dotnet tools (including stryker mutation testing tool and entity framework cli)
+    - name: Install other dotnet tools (including stryker, code coverage and entity framework cli)
       run: dotnet tool restore
 
-    - name: Build and Analyse solution
+    - name: Build and analyse solution
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -88,7 +85,7 @@ jobs:
         dotnet-sonarscanner begin /k:"DFE-Digital_find-information-about-academies-and-trusts" /o:"dfe-digital" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
         dotnet restore DfE.FindInformationAcademiesTrusts
         dotnet build DfE.FindInformationAcademiesTrusts -c Release
-        dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
+        dotnet coverage collect "dotnet test" -f xml -o "coverage.xml"
         dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
         dotnet stryker -r "cleartext" -r "html" --threshold-high 90 --threshold-low 81 --break-at 80
 
