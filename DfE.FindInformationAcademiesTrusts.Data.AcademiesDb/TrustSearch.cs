@@ -22,15 +22,17 @@ public class TrustSearch : ITrustSearch
         }
 
         var query = _academiesDbContext.Groups
-            .Where(g =>
-                g.GroupUid != null &&
-                g.GroupId != null &&
-                g.GroupName != null &&
-                g.GroupName.Contains(searchTerm) &&
-                g.GroupType != null &&
-                (g.GroupType == "Multi-academy trust" ||
-                 g.GroupType == "Single-academy trust")
-            ); //note that LINQ translates string.contains to case insensitive SQL
+        .Where(g =>
+            g.GroupUid != null &&
+            g.GroupId != null &&
+            g.GroupName != null &&
+            g.GroupType != null &&
+            (g.GroupType == "Multi-academy trust" || g.GroupType == "Single-academy trust") &&
+            (
+                g.GroupId.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||                      // Search by Trust ID (TRN)
+                g.GroupName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)                       // Search by Trust Name
+            )
+        );
 
         var count = await query.CountAsync();
         var trustSearchEntries = await query

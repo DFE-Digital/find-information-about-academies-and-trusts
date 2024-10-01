@@ -206,4 +206,138 @@ public class TrustSearchTests
         var result = await _sut.SearchAsync("inspire");
         result.Should().HaveCount(4);
     }
+    [Fact]
+    public async Task SearchAsync_Should_Return_Trust_When_Searching_By_TrustId()
+    {
+        // Arrange
+        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        {
+            GroupUid = "1234",
+            GroupType = "Multi-academy trust",
+            GroupId = "TR01234",
+            GroupName = "Inspire Trust",
+            GroupContactStreet = "12 Abbey Road",
+            GroupContactLocality = "Dorthy Inlet",
+            GroupContactTown = "East Park",
+            GroupContactPostcode = "JY36 9VC"
+        });
+
+        // Act
+        var result = await _sut.SearchAsync("TR01234");
+
+        // Assert
+        result.Should().ContainSingle()
+            .Which.Should().BeEquivalentTo(new TrustSearchEntry(
+                "Inspire Trust",
+                "12 Abbey Road, Dorthy Inlet, East Park, JY36 9VC",
+                "1234",
+                "TR01234"));
+    }
+
+    [Fact]
+    public async Task SearchAsync_Should_Return_Empty_When_TrustId_Does_Not_Exist()
+    {
+        // Arrange
+        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        {
+            GroupUid = "1234",
+            GroupType = "Multi-academy trust",
+            GroupId = "TR01234",
+            GroupName = "Inspire Trust",
+            GroupContactStreet = "12 Abbey Road",
+            GroupContactLocality = "Dorthy Inlet",
+            GroupContactTown = "East Park",
+            GroupContactPostcode = "JY36 9VC"
+        });
+
+        // Act
+        var result = await _sut.SearchAsync("TR99999");
+
+        // Assert
+        result.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task SearchAsync_Should_Return_Trusts_When_SearchTerm_Matches_Both_TrustId_And_TrustName()
+    {
+        // Arrange
+        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        {
+            GroupUid = "1234",
+            GroupType = "Multi-academy trust",
+            GroupId = "TR01234",
+            GroupName = "TR01234 Academy",
+            GroupContactStreet = "34 Baker Street",
+            GroupContactLocality = "Another Town",
+            GroupContactTown = "West Park",
+            GroupContactPostcode = "AB12 3CD"
+        });
+
+        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        {
+            GroupUid = "5678",
+            GroupType = "Multi-academy trust",
+            GroupId = "TR05678",
+            GroupName = "TR01234 Academy",
+            GroupContactStreet = "56 High Street",
+            GroupContactLocality = "Somewhere",
+            GroupContactTown = "North Park",
+            GroupContactPostcode = "CD34 5EF"
+        });
+
+        // Act
+        var result = await _sut.SearchAsync("TR01234");
+
+        // Assert
+        result.Should().HaveCount(2);
+        result.Should().Contain(t => t.GroupId == "TR01234");
+        result.Should().Contain(t => t.Name == "TR01234 Academy");
+    }
+
+    [Fact]
+    public async Task SearchAsync_Should_Be_Case_Insensitive_When_Searching_By_TrustId()
+    {
+        // Arrange
+        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        {
+            GroupUid = "1234",
+            GroupType = "Multi-academy trust",
+            GroupId = "TR01234",
+            GroupName = "Inspire Trust",
+            GroupContactStreet = "12 Abbey Road",
+            GroupContactLocality = "Dorthy Inlet",
+            GroupContactTown = "East Park",
+            GroupContactPostcode = "JY36 9VC"
+        });
+
+        // Act
+        var result = await _sut.SearchAsync("tr01234"); // Lowercase search term
+
+        // Assert
+        result.Should().ContainSingle()
+            .Which.GroupId.Should().Be("TR01234");
+    }
+
+    [Fact]
+    public async Task SearchAsync_Should_Not_Throw_Exception_When_GroupId_Is_Null()
+    {
+        // Arrange
+        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        {
+            GroupUid = "1234",
+            GroupType = "Multi-academy trust",
+            GroupId = null,
+            GroupName = "Inspire Trust",
+            GroupContactStreet = "12 Abbey Road",
+            GroupContactLocality = "Dorthy Inlet",
+            GroupContactTown = "East Park",
+            GroupContactPostcode = "JY36 9VC"
+        });
+
+        // Act
+        Func<Task> act = async () => await _sut.SearchAsync("Inspire");
+
+        // Assert
+        await act.Should().NotThrowAsync();
+    }
 }
