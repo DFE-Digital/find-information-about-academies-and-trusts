@@ -1,27 +1,20 @@
-export class CookiesPage {
-    public withConsent(consent: string): this {
-        cy.getById(`cookies-${consent.toLowerCase()}`).check();
+class CookiesPage {
+
+
+    public navigateToCookiesPage(): this {
+        cy.visit('/cookies')
 
         return this;
     }
 
-    public hasConsent(consent): this {
-        cy.getById(`cookies-${consent.toLowerCase()}`).should("be.checked");
+    public acceptCookies(): this {
+        const acceptCookiesYesButton = () => cy.get('.govuk-radios').contains('Yes');
+
+        acceptCookiesYesButton().click();
 
         return this;
     }
 
-    public returnToPreviousPage(): this {
-        cy.getByTestId("return-to-previous-page").click();
-
-        return this;
-    }
-
-    public save(): this {
-        cy.getByTestId("save-cookie-preferences-button").click();
-
-        return this;
-    }
 }
 
 const cookiesPage = new CookiesPage();

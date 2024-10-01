@@ -1,22 +1,24 @@
-name: Run UI tests on isolated environment
+name: Run automated UI tests
+run-name: UI tests for '${{ inputs.environment }}' - `${{ inputs.branch-name }}`
 
 on:
-  pull_request:
-    branches: [ main, '**-feature' ]
-    types: [ opened, synchronize, reopened]
-  push:
-    branches: [ main ]
-
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      branch-name:
+        required: true
+        type: string
 env:
   NODE_VERSION: 18.13.0
   LAST_COMMIT_SHA: default
-  BRANCH_NAME: main
-  
+
 jobs:
-  cypress:
-    name: Set up container and run tests
+  cypress-tests:
+    name: Run automated UI tests
     runs-on: ubuntu-22.04
-    environment: development
+    environment: ${{ inputs.environment }}
     defaults:
       run:
         working-directory: tests/DFE.FindInformationAcademiesTrusts.CypressTests
@@ -24,34 +26,35 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
-          
-      - if: github.event_name == 'pull_request'
-        name: Get source branch for pull request
-        run: |
-          GIT_REF=${{ github.head_ref }}
-          echo "BRANCH_NAME=${GIT_REF}" >> $GITHUB_ENV
 
       - name: Set SHA environment variable
         run: |
           echo "LAST_COMMIT_SHA=${GITHUB_SHA:(-7)}" >> $GITHUB_ENV
-            
+
+      - uses: actions/setup-node@v4
+        name: Set up Node.js
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            tests/DFE.FindInformationAcademiesTrusts.CypressTests/package-lock.json
+
       - name: Install dependencies
         run: npm ci
-        
-      - name: Start services
-        working-directory: ./docker
-        run: docker compose -f docker-compose.ci.yml up -d
-        
+
       - name: Run the cypress tests
-        run: npm run cy:run -- --env url=http://localhost,authKey=TestSuperSecret
-        
+        env:
+          CYPRESS_URL: ${{ secrets.BASE_URL }}
+          CYPRESS_AUTH_KEY: ${{ secrets.TEST_OVERRIDE_CYPRESS_TEST_SECRET }}
+        run: npm run cy:run
+
       - name: Upload screenshots
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
-          name: screenshots-dev
+          name: screenshots-${{ inputs.environment }}
           path: tests/DFE.FindInformationAcademiesTrusts.CypressTests/cypress/screenshots
-
+          
       - name: Generate report
         if: ${{ failure() }}
         run: |
@@ -62,11 +65,5 @@ jobs:
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
-          name: reports-dev
+          name: reports-${{ inputs.environment }}
           path: tests/DFE.FindInformationAcademiesTrusts.CypressTests/mochareports
-        
-      - name: Stop services
-        if: always()
-        working-directory: ./docker
-        run: docker compose -f docker-compose.ci.yml stop
-        
