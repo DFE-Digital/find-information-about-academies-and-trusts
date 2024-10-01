@@ -16,7 +16,7 @@ public abstract class EditContactModel(
     ILogger<EditContactModel> logger,
     ContactRole role)
     : TrustsAreaModel(trustProvider, dataSourceService, trustService,
-        logger, $"Edit {role.MapRoleToViewString()}")
+        logger, $"Edit {role.MapRoleToViewString()} details")
 {
     public const string NameField = "Name";
     public const string EmailField = "Email";
@@ -30,7 +30,7 @@ public abstract class EditContactModel(
     [BindRequired]
     [EmailAddress(ErrorMessage = "Enter an email address in the correct format, like name@education.gov.uk")]
     [RegularExpression(@"(?i)^\S*@education\.gov\.uk$",
-        ErrorMessage = "Enter a DfE email address ending in @education.gov.uk without any whitespace characters")]
+        ErrorMessage = "Enter a DfE email address without any spaces")]
     [MaxLength(320)]
     public string? Email { get; set; }
 

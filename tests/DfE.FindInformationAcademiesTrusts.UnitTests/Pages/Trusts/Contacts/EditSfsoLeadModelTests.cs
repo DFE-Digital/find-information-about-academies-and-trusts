@@ -36,7 +36,7 @@ public class EditSfsoLeadModelTests
     [Fact]
     public void PageName_should_be_correct()
     {
-        _sut.PageName.Should().Be("Edit SFSO (Schools financial support and oversight) lead");
+        _sut.PageName.Should().Be("Edit SFSO (Schools financial support and oversight) lead details");
     }
 
     [Fact]

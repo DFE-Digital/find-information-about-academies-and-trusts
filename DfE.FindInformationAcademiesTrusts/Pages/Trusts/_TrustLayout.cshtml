@@ -16,6 +16,7 @@
       </div>
       <div class="govuk-grid-column-three-quarters">
         <main id="main-content">
+          @await RenderSectionAsync("TrustPageMessage", false)
           <header>
             <span class="govuk-caption-m">@Model.Section</span>
             <h1 class="govuk-heading-l" data-testid="page-name">@Model.PageName</h1>

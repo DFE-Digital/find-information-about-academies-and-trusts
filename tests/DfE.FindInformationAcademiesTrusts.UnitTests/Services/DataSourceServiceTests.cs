@@ -13,7 +13,7 @@ public class DataSourceServiceTests
     private readonly Mock<IFreeSchoolMealsAverageProvider> _mockFreeSchoolMealsAverageProvider = new();
     private readonly MockMemoryCache _mockMemoryCache = new();
 
-    private readonly Dictionary<Source, DataSource> _dummyDataSources = new()
+    private readonly Dictionary<Source, Data.Repositories.DataSource.DataSource> _dummyDataSources = new()
     {
         { Source.Cdm, GetDummyDataSource(Source.Cdm, UpdateFrequency.Daily) },
         { Source.ExploreEducationStatistics, GetDummyDataSource(Source.Cdm, UpdateFrequency.Annually) },
@@ -36,9 +36,10 @@ public class DataSourceServiceTests
             .Returns(_dummyDataSources[Source.ExploreEducationStatistics]);
     }
 
-    private static DataSource GetDummyDataSource(Source source, UpdateFrequency updateFrequency)
+    private static Data.Repositories.DataSource.DataSource GetDummyDataSource(Source source,
+        UpdateFrequency updateFrequency)
     {
-        return new DataSource(source, new DateTime(2024, 01, 01), updateFrequency);
+        return new Data.Repositories.DataSource.DataSource(source, new DateTime(2024, 01, 01), updateFrequency);
     }
 
     [Fact]
@@ -125,7 +126,7 @@ public class DataSourceServiceTests
     public async Task GetAsync_uncached_should_not_cache_source_with_null_lastUpdated()
     {
         _mockDataSourceRepository.Setup(d => d.GetAsync(Source.Gias))
-            .ReturnsAsync(new DataSource(Source.Gias, null, UpdateFrequency.Daily));
+            .ReturnsAsync(new Data.Repositories.DataSource.DataSource(Source.Gias, null, UpdateFrequency.Daily));
 
         await _sut.GetAsync(Source.Gias);
 

@@ -36,7 +36,7 @@ public class EditTrustRelationshipManagerModelTests
     [Fact]
     public void PageName_should_be_correct()
     {
-        _sut.PageName.Should().Be("Edit Trust relationship manager");
+        _sut.PageName.Should().Be("Edit Regions group trust relationship manager details");
     }
 
     [Fact]
@@ -58,11 +58,11 @@ public class EditTrustRelationshipManagerModelTests
 
     [Theory]
     [InlineData(true, true,
-        "Changes made to the Trust relationship manager name and email were updated.")]
+        "Changes made to the Regions group trust relationship manager name and email were updated.")]
     [InlineData(true, false,
-        "Changes made to the Trust relationship manager name were updated.")]
+        "Changes made to the Regions group trust relationship manager name were updated.")]
     [InlineData(false, true,
-        "Changes made to the Trust relationship manager email were updated.")]
+        "Changes made to the Regions group trust relationship manager email were updated.")]
     [InlineData(false, false, "")]
     public async Task OnPostAsync_sets_ContactUpdated_to_true_when_validation_is_correct(bool nameUpdated,
         bool emailUpdated, string expectedMessage)

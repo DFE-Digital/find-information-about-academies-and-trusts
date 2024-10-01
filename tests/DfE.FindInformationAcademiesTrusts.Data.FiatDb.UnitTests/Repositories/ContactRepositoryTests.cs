@@ -18,7 +18,7 @@ public class ContactRepositoryTests
 
     [Fact]
     public async Task
-        GetInternakContactsAsync_Should_Return_Valid_TrustRelationshipManager_WhenOneIsPresentForTheTrust()
+        GetInternalContactsAsync_Should_Return_Valid_TrustRelationshipManager_WhenOneIsPresentForTheTrust()
     {
         var trm = _mockFiatDbContext.CreateTrustRelationshipManager(1234, "Trust Relationship Manager",
             "trm@testemail.com");
@@ -51,6 +51,17 @@ public class ContactRepositoryTests
             _ = _mockFiatDbContext.CreateTrustRelationshipManager(1234, "Trm Lead", "trm@testemail.com");
         }
 
+        var result = await _sut.UpdateInternalContactsAsync(1234, "New Name", "new@email.com", role);
+        result.EmailUpdated.Should().Be(true);
+        result.NameUpdated.Should().Be(true);
+        _mockFiatDbContext.Verify(context => context.SaveChangesAsync(), Times.Once);
+    }
+
+    [Theory]
+    [InlineData(ContactRole.TrustRelationshipManager)]
+    [InlineData(ContactRole.SfsoLead)]
+    public async Task UpdateInternalContactsAsync_Should_Return_Valid_When_the_contact_does_not_exist(ContactRole role)
+    {
         var result = await _sut.UpdateInternalContactsAsync(1234, "New Name", "new@email.com", role);
         result.EmailUpdated.Should().Be(true);
         result.NameUpdated.Should().Be(true);
