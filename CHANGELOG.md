@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+## [Release-9][release-9] (production-2024-10-02.3440)
+
 ## Added
 
 - Added the ability to search for a trust by Trust Reference Number (TRN)
@@ -114,7 +116,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated text on "404 - Not Found" page to adhere to DfE design pattern and added the not found url to the support email template.
 
 [unreleased]:
-  https://github.com/DFE-Digital/dfe-complete-conversions-transfers-and-changes/compare/production-2024-09-27.3319...HEAD
+  https://github.com/DFE-Digital/dfe-complete-conversions-transfers-and-changes/compare/production-2024-10-02.3440...HEAD
 [release-1]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-07-18.2517
 [release-2]:
@@ -131,3 +133,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-09-23.3213
 [release-8]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-09-27.3319
+[release-9]:
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-10-02.3440
