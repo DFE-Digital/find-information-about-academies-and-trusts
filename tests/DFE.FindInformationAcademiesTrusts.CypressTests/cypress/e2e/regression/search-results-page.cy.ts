@@ -43,5 +43,26 @@ describe("Testing the components of the search results page", () => {
         searchPage
             .validateSearchResultsCountWithPagination()
     });
-        
+
+    it("Should return the correct trust when searching by TRN", () => {
+
+        homePage
+            .enterMainSearchText("TR02343") // Enter the TRN
+            .clickMainSearchButton()
+
+        searchPage
+            .checkSearchResultsReturned("UNITED LEARNING TRUST") // Validate that the TRN appears in the results
+    });
+
+    it("Should display 'no results found' when searching with a non-existent TRN", () => {
+
+        homePage
+            .enterMainSearchText("TR99999") // Enter a TRN that doesn't exist
+            .clickMainSearchButton()
+
+        searchPage
+            .checkNoSearchResultsFound() // Validate that no results were found
+    });
+
+
 })
