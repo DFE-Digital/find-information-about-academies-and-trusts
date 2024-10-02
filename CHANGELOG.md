@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+## Added
+
+- Added the ability to search for a trust by Trust Reference Number (TRN)
+
 ### Changed
 
 - Changed Trust relationship manager to Regions group trust relationship manager

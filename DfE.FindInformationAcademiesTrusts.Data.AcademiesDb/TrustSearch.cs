@@ -20,17 +20,21 @@ public class TrustSearch : ITrustSearch
         {
             return PaginatedList<TrustSearchEntry>.Empty();
         }
+        var lowerSearchTerm = searchTerm.ToLower();
 
         var query = _academiesDbContext.Groups
             .Where(g =>
                 g.GroupUid != null &&
                 g.GroupId != null &&
                 g.GroupName != null &&
-                g.GroupName.Contains(searchTerm) &&
                 g.GroupType != null &&
-                (g.GroupType == "Multi-academy trust" ||
-                 g.GroupType == "Single-academy trust")
-            ); //note that LINQ translates string.contains to case insensitive SQL
+                (g.GroupType == "Multi-academy trust" || g.GroupType == "Single-academy trust") &&
+                (
+                    g.GroupId.ToLower().Contains(lowerSearchTerm) ||
+                    g.GroupName.ToLower().Contains(lowerSearchTerm)
+                )
+            );
+
 
         var count = await query.CountAsync();
         var trustSearchEntries = await query
