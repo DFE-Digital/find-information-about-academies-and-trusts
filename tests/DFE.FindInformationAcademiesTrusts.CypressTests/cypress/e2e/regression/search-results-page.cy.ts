@@ -84,7 +84,7 @@ describe("Testing the components of the search results page", () => {
     it("Should return the correct trust when searching with a partial TRN", () => {
 
         homePage
-            .enterMainSearchText("TR023") 
+            .enterMainSearchText("TR0234") 
             .clickMainSearchButton()
 
         searchPage
