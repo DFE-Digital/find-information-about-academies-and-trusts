@@ -34,4 +34,14 @@ describe("Testing the components of the header search", () => {
 
     });
 
+    it("Should return the correct trust when searching by TRN using the header search", () => {
+
+        headerPage
+            .enterHeaderSearchText("TR02343") 
+            .clickHeaderSearchButton()
+
+        searchPage
+            .checkSearchResultsReturned("UNITED LEARNING TRUST") 
+    });
+
 })
