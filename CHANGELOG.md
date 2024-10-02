@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Added the ability to search for a trust by Trust Reference Number (TRN)
 
+### Changed
+
+- Changed Trust relationship manager to Regions group trust relationship manager
+- Move Successful update message to top of the trust layout for conatcts update
+- Manually edit the Updated By text for TRAMs Migration to TRAMS Migration in the UI
+
 ## [Release-8][release-8] (production-2024-09-27.3319)
 
 ### Added
