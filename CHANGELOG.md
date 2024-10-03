@@ -14,7 +14,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
-- Changed Trust relationship manager to Regions group trust relationship manager
 - Move Successful update message to top of the trust layout for conatcts update
 - Manually edit the Updated By text for TRAMs Migration to TRAMS Migration in the UI
 
