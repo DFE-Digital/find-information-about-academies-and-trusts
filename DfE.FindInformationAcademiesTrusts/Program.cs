@@ -210,9 +210,6 @@ internal static class Program
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ??
                                  throw new InvalidOperationException(
                                      "FIAT database connection string 'DefaultConnection' not found.")));
-        builder.Services.AddScoped<IFiatDbContext>(provider =>
-            provider.GetService<FiatDbContext>() ??
-            throw new InvalidOperationException("FiatDbContext not registered"));
 
         builder.Services.AddScoped<SetChangedByInterceptor>();
         builder.Services.AddScoped<IUserDetailsProvider, HttpContextUserDetailsProvider>();

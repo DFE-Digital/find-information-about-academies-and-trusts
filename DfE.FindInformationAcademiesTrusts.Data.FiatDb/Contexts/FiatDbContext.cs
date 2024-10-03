@@ -1,20 +1,12 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Models;
+﻿using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.FiatDb.Contexts;
 
-public interface IFiatDbContext
-{
-    DbSet<Contact> Contacts { get; set; }
-    Task<int> SaveChangesAsync();
-}
-
-[ExcludeFromCodeCoverage(Justification = "Difficult to unit test")]
 public sealed class FiatDbContext(
     DbContextOptions<FiatDbContext> options,
     SetChangedByInterceptor setChangedByInterceptor)
-    : DbContext(options), IFiatDbContext
+    : DbContext(options)
 {
     public DbSet<Contact> Contacts { get; set; }
 

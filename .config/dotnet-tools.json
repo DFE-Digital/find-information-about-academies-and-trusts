@@ -6,13 +6,22 @@
       "version": "8.0.7",
       "commands": [
         "dotnet-ef"
-      ]
+      ],
+      "rollForward": false
     },
     "dotnet-stryker": {
-      "version": "4.1.0",
+      "version": "4.2.0",
       "commands": [
         "dotnet-stryker"
-      ]
+      ],
+      "rollForward": false
+    },
+    "dotnet-coverage": {
+      "version": "17.12.4",
+      "commands": [
+        "dotnet-coverage"
+      ],
+      "rollForward": false
     }
   }
 }

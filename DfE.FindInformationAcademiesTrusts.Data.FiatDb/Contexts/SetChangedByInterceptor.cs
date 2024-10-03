@@ -1,11 +1,9 @@
-using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.FiatDb.Contexts;
 
-[ExcludeFromCodeCoverage(Justification = "Difficult to unit test")]
 public class SetChangedByInterceptor(IUserDetailsProvider userDetailsProvider) : ISaveChangesInterceptor
 {
     public ValueTask<InterceptionResult<int>> SavingChangesAsync(
