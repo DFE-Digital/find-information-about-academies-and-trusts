@@ -36,7 +36,7 @@ public class ContactsModelTests
 
         _sut = new ContactsModel(_mockTrustProvider.Object, _mockDataSourceService.Object,
                 new MockLogger<ContactsModel>().Object, _mockTrustService.Object)
-            { Uid = "1234" };
+        { Uid = "1234" };
     }
 
     private void SetupTrustWithNoGovernors()
@@ -131,7 +131,7 @@ public class ContactsModelTests
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Mstr), Times.Once);
         _sut.DataSources.Count.Should().Be(4);
         _sut.DataSources[0].Fields.Should().Contain(new List<string>
-            { "Regions group trust relationship manager" });
+            { "Trust relationship manager" });
         _sut.DataSources[1].Fields.Should().Contain(new List<string>
             { "SFSO (Schools financial support and oversight) lead" });
         _sut.DataSources[2].Fields.Should().Contain(new List<string>

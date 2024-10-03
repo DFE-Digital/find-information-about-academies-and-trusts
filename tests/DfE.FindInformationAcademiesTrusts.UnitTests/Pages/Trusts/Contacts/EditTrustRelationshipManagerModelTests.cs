@@ -12,6 +12,7 @@ public class EditTrustRelationshipManagerModelTests
 {
     private readonly EditTrustRelationshipManagerModel _sut;
     private readonly Mock<ITrustProvider> _mockTrustProvider = new();
+    private const string TrustRelationShipManagerDisplayName = "Trust relationship manager";
 
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustService = new();
@@ -30,13 +31,13 @@ public class EditTrustRelationshipManagerModelTests
 
         _sut = new EditTrustRelationshipManagerModel(_mockTrustProvider.Object, _mockDataSourceService.Object,
                 new MockLogger<EditTrustRelationshipManagerModel>().Object, _mockTrustService.Object)
-            { Uid = "1234" };
+        { Uid = "1234" };
     }
 
     [Fact]
     public void PageName_should_be_correct()
     {
-        _sut.PageName.Should().Be("Edit Regions group trust relationship manager details");
+        _sut.PageName.Should().Be($"Edit {TrustRelationShipManagerDisplayName} details");
     }
 
     [Fact]
@@ -58,11 +59,11 @@ public class EditTrustRelationshipManagerModelTests
 
     [Theory]
     [InlineData(true, true,
-        "Changes made to the Regions group trust relationship manager name and email were updated.")]
+        $"Changes made to the {TrustRelationShipManagerDisplayName} name and email were updated.")]
     [InlineData(true, false,
-        "Changes made to the Regions group trust relationship manager name were updated.")]
+        $"Changes made to the {TrustRelationShipManagerDisplayName} name were updated.")]
     [InlineData(false, true,
-        "Changes made to the Regions group trust relationship manager email were updated.")]
+        $"Changes made to the {TrustRelationShipManagerDisplayName} email were updated.")]
     [InlineData(false, false, "")]
     public async Task OnPostAsync_sets_ContactUpdated_to_true_when_validation_is_correct(bool nameUpdated,
         bool emailUpdated, string expectedMessage)
