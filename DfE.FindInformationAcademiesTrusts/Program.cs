@@ -235,7 +235,7 @@ internal static class Program
         builder.Services.AddScoped<IGovernorFactory, GovernorFactory>();
         builder.Services.AddScoped<IPersonFactory, PersonFactory>();
 
-        builder.Services.AddScoped<IAuthorizationHandler, HeaderRequirementHandler>();
+        builder.Services.AddScoped<IAuthorizationHandler, AutomationAuthorizationHandler>();
         builder.Services.AddScoped<IOtherServicesLinkBuilder, OtherServicesLinkBuilder>();
         builder.Services.AddScoped<IFreeSchoolMealsAverageProvider, FreeSchoolMealsAverageProvider>();
         builder.Services.AddHttpContextAccessor();
