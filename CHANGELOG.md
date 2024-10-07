@@ -6,9 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Changed
+
+- Changed when we intercept automation headers to give automation users claims for Edit contact tests
+
 ## [Release-9][release-9] (production-2024-10-02.3440)
 
-## Added
+### Added
 
 - Added the ability to search for a trust by Trust Reference Number (TRN)
 
