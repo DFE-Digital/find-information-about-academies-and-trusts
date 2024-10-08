@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using DfE.FindInformationAcademiesTrusts.Authorization;
 using DfE.FindInformationAcademiesTrusts.Options;
 using Microsoft.AspNetCore.Hosting;
@@ -7,15 +8,15 @@ using Microsoft.Net.Http.Headers;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Authorization;
 
-public class HeaderRequirementHandlerTests
+public class AutomationAuthorizationHandlerTests
 {
     private readonly Mock<IWebHostEnvironment> _mockWebHostEnvironment;
     private readonly DefaultHttpContext _httpContext;
     private readonly Mock<IOptions<TestOverrideOptions>> _mockTestOverrideOptions;
-    private readonly HeaderRequirementHandler _sut;
+    private readonly AutomationAuthorizationHandler _sut;
     private readonly Mock<IHttpContextAccessor> _mockHttpAccessor;
 
-    public HeaderRequirementHandlerTests()
+    public AutomationAuthorizationHandlerTests()
     {
         _mockHttpAccessor = new Mock<IHttpContextAccessor>();
         _mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
@@ -27,7 +28,7 @@ public class HeaderRequirementHandlerTests
             .Returns(new TestOverrideOptions { CypressTestSecret = "123" });
         _mockWebHostEnvironment.SetupGet(m => m.EnvironmentName).Returns("Development");
 
-        _sut = new HeaderRequirementHandler(_mockWebHostEnvironment.Object, _mockHttpAccessor.Object,
+        _sut = new AutomationAuthorizationHandler(_mockWebHostEnvironment.Object, _mockHttpAccessor.Object,
             _mockTestOverrideOptions.Object);
     }
 
@@ -44,7 +45,7 @@ public class HeaderRequirementHandlerTests
         _httpContext.Request.Headers.Append(HeaderNames.Authorization, "Bearer 123");
 
         //Create sut here because constructor decides whether or not an environment is live
-        var sut = new HeaderRequirementHandler(_mockWebHostEnvironment.Object, _mockHttpAccessor.Object,
+        var sut = new AutomationAuthorizationHandler(_mockWebHostEnvironment.Object, _mockHttpAccessor.Object,
             _mockTestOverrideOptions.Object);
 
         var result = sut.IsClientSecretHeaderValid();
@@ -88,5 +89,19 @@ public class HeaderRequirementHandlerTests
         var result = _sut.IsClientSecretHeaderValid();
 
         result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void SetupAutomationUser_sets_correct_claims()
+    {
+        _sut.SetupAutomationUser();
+        var expected = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+        {
+            new("name", "Automation User - name"),
+            new("preferred_username", "Automation User - email")
+        }));
+        var actual = _httpContext.User;
+        // Exclude subject due to cyclical references
+        actual.Claims.Should().BeEquivalentTo(expected.Claims, options => options.Excluding(claim => claim.Subject));
     }
 }

@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
 using DfE.FindInformationAcademiesTrusts.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
@@ -7,27 +8,22 @@ using Microsoft.Net.Http.Headers;
 
 namespace DfE.FindInformationAcademiesTrusts.Authorization;
 
-public class HeaderRequirementHandler : AuthorizationHandler<DenyAnonymousAuthorizationRequirement>,
-    IAuthorizationRequirement
+public class AutomationAuthorizationHandler(
+    IWebHostEnvironment environment,
+    IHttpContextAccessor httpContextAccessor,
+    IOptions<TestOverrideOptions> testOverrideOptions)
+    : AuthorizationHandler<DenyAnonymousAuthorizationRequirement>,
+        IAuthorizationRequirement
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly string? _cypressTestSecret;
-    private readonly bool _isLiveEnvironment;
-
-    public HeaderRequirementHandler(IWebHostEnvironment environment,
-        IHttpContextAccessor httpContextAccessor, IOptions<TestOverrideOptions> testOverrideOptions)
-    {
-        _httpContextAccessor = httpContextAccessor;
-        _cypressTestSecret = testOverrideOptions.Value.CypressTestSecret;
-        _isLiveEnvironment = environment.IsLiveEnvironment();
-    }
+    private readonly string? _cypressTestSecret = testOverrideOptions.Value.CypressTestSecret;
+    private readonly bool _isLiveEnvironment = environment.IsLiveEnvironment();
 
     public bool IsClientSecretHeaderValid()
     {
         if (string.IsNullOrWhiteSpace(_cypressTestSecret) || _isLiveEnvironment)
             return false;
 
-        var requestHeader = _httpContextAccessor.HttpContext?.Request.Headers[HeaderNames.Authorization];
+        var requestHeader = httpContextAccessor.HttpContext?.Request.Headers[HeaderNames.Authorization];
         if (string.IsNullOrWhiteSpace(requestHeader))
             return false;
 
@@ -36,12 +32,27 @@ public class HeaderRequirementHandler : AuthorizationHandler<DenyAnonymousAuthor
         return authHeader == _cypressTestSecret;
     }
 
+    public void SetupAutomationUser()
+    {
+        var identity = new ClaimsIdentity(new List<Claim>
+        {
+            new("name", "Automation User - name"),
+            new("preferred_username", "Automation User - email")
+        });
+        var user = new ClaimsPrincipal(identity);
+
+        httpContextAccessor.HttpContext!.User = user;
+    }
+
     [ExcludeFromCodeCoverage] // This method is difficult to test, everything that can be tested has been extracted to IsClientSecretHeaderValid
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
         DenyAnonymousAuthorizationRequirement requirement)
     {
         if (IsClientSecretHeaderValid())
+        {
+            SetupAutomationUser();
             context.Succeed(requirement);
+        }
 
         return Task.CompletedTask;
     }
