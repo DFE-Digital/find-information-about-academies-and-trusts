@@ -98,6 +98,10 @@ Our application is designed to support Microsoft Edge and Google Chrome laptop/P
 
 This testing is performed as required after a significant UI change. Results are recorded against the relevant "exploratory test" task in DevOps.
 
+Exploratory testing should use the testers experience with the product to direct their testing of the syste]m/s.
+
+A test charter should be used to bring structure to this testing including an entry and exit criteria, areas under test, bug recording and relevant test date.
+
 ### Functional testing
 
 #### Unit
