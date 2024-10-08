@@ -20,7 +20,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services
                 "School Name", "URN", "Local Authority", "Type", "Rural or Urban", "Date joined",
                 "Previous Ofsted Rating", "Before/After Joining","Date of Previous Ofsted",
                 "Current Ofsted Rating", "Before/After Joining", "Date of Current Ofsted",
-                "Phase of Education", "Pupil Numbers", "Capacity", "% Full", "Pupils eligible for Free School Meals"
+                "Phase of Education", "Age Range", "Pupil Numbers", "Capacity", "% Full", "Pupils eligible for Free School Meals"
             };
 
             var academies = trust.Academies;
@@ -36,6 +36,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services
                 var previousRating = ofstedData?.PreviousOfstedRating ?? OfstedRating.None;
                 var currentRating = ofstedData?.CurrentOfstedRating ?? OfstedRating.None;
 
+                var ageRangeString = GetAgeRangeString(academy);
                 return
                 [
                     academy.EstablishmentName ?? string.Empty,
@@ -51,14 +52,25 @@ namespace DfE.FindInformationAcademiesTrusts.Services
                     IsOfstedRatingBeforeOrAfterJoining(currentRating?.OfstedRatingScore ?? OfstedRatingScore.None, academy.DateAcademyJoinedTrust, currentRating?.InspectionDate),
                     currentRating?.InspectionDate?.ToString(StringFormatConstants.ViewDate) ?? string.Empty,
                     academy.PhaseOfEducation ?? string.Empty,
+                    ageRangeString,
                     academy.NumberOfPupils?.ToString() ?? string.Empty,
                     academy.SchoolCapacity?.ToString() ?? string.Empty,
                     academy.PercentageFull.HasValue ? $"{academy.PercentageFull}%" : string.Empty,
-                    academy.PercentageFreeSchoolMeals.HasValue ? $"{academy.PercentageFreeSchoolMeals}%" : string.Empty
+                    academy.PercentageFreeSchoolMeals.HasValue ? $"{academy.PercentageFreeSchoolMeals}%" : string.Empty,
                 ];
             });
 
             return GenerateSpreadsheet(trustSummary, academies, headers, dataExtractor);
+        }
+
+        private static string GetAgeRangeString(Data.Academy academy)
+        {
+            if (academy.AgeRange is not null)
+            {
+                return $"{academy.AgeRange.Minimum} - {academy.AgeRange.Maximum}";
+            }
+
+            return string.Empty;
         }
 
         public static string IsOfstedRatingBeforeOrAfterJoining(OfstedRatingScore ofstedRatingScore, DateTime dateAcademyJoinedTrust, DateTime? inspectionEndDate)

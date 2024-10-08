@@ -62,10 +62,11 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
             worksheet.Cell(3, 11).Value.ToString().Should().Be("Before/After Joining");
             worksheet.Cell(3, 12).Value.ToString().Should().Be("Date of Current Ofsted");
             worksheet.Cell(3, 13).Value.ToString().Should().Be("Phase of Education");
-            worksheet.Cell(3, 14).Value.ToString().Should().Be("Pupil Numbers");
-            worksheet.Cell(3, 15).Value.ToString().Should().Be("Capacity");
-            worksheet.Cell(3, 16).Value.ToString().Should().Be("% Full");
-            worksheet.Cell(3, 17).Value.ToString().Should().Be("Pupils eligible for Free School Meals");
+            worksheet.Cell(3, 14).Value.ToString().Should().Be("Age Range");
+            worksheet.Cell(3, 15).Value.ToString().Should().Be("Pupil Numbers");
+            worksheet.Cell(3, 16).Value.ToString().Should().Be("Capacity");
+            worksheet.Cell(3, 17).Value.ToString().Should().Be("% Full");
+            worksheet.Cell(3, 18).Value.ToString().Should().Be("Pupils eligible for Free School Meals");
         }
 
         [Fact]
@@ -134,10 +135,11 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
             worksheet.Cell(4, 11).Value.ToString().Should().Be("After Joining");
             worksheet.Cell(4, 12).Value.ToString().Should().Be(DateTime.Now.ToString(StringFormatConstants.ViewDate));
             worksheet.Cell(4, 13).Value.ToString().Should().Be("Primary");
-            worksheet.Cell(4, 14).Value.ToString().Should().Be("500");
-            worksheet.Cell(4, 15).Value.ToString().Should().Be("600");
-            worksheet.Cell(4, 16).Value.ToString().Should().Be("83%");
-            worksheet.Cell(4, 17).Value.ToString().Should().Be("20%");
+            worksheet.Cell(4, 14).Value.ToString().Should().Be("5 - 11");
+            worksheet.Cell(4, 15).Value.ToString().Should().Be("500");
+            worksheet.Cell(4, 16).Value.ToString().Should().Be("600");
+            worksheet.Cell(4, 17).Value.ToString().Should().Be("83%");
+            worksheet.Cell(4, 18).Value.ToString().Should().Be("20%");
         }
 
         [Fact]
@@ -238,10 +240,11 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
             worksheet.Cell(4, 11).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 12).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 13).Value.ToString().Should().Be(string.Empty);
-            worksheet.Cell(4, 14).Value.ToString().Should().Be(string.Empty);
+            worksheet.Cell(4, 14).Value.ToString().Should().Be("5 - 11");
             worksheet.Cell(4, 15).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 16).Value.ToString().Should().Be(string.Empty);
             worksheet.Cell(4, 17).Value.ToString().Should().Be(string.Empty);
+            worksheet.Cell(4, 18).Value.ToString().Should().Be(string.Empty);
         }
 
         [Fact]
