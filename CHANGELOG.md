@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Changed when we intercept automation headers to give automation users claims for Edit contact tests
 - Academies in this trust export now includes Age Range
+- Updated the font to use the DfE standard Inter font
 
 ## [Release-9][release-9] (production-2024-10-02.3440)
 
