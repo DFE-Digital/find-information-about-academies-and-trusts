@@ -16,7 +16,6 @@ From a test perspective the old suite did not quite hit the target of being easy
 
 From a dev perspective the old suite did not quite give them the confidence that their code was being adequately tested.
 
-
 ## Decision
 
 The decision was to create a new Cypress suite that both encompassed the old Playwright coverage and create a Cypress suite created from the ground up with a test mindset behind each part of said suite.
@@ -27,8 +26,8 @@ We also adapted the pipeline to be more in line with the new suite as previously
 
 As part of the work we also assessed the previously used docker/faker system and moved this away to pointing at test and dev as they are closer to what the live product is like and give us more confidence rather than running against hard coded/faker data.
 
-
 ## Consequences
+
 The end result was a robust suit of over 60 tests that not only captured old covered functionality but expanded upon and brought more confidence to the tech team.
 
 We now also have a good jumping off point to create new tests in as the sprints go forward.
