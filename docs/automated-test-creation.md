@@ -22,3 +22,11 @@ Our current UI automation structure is as such:
 >> - Test independance: Tests should be broken down into independent tests wherein if they fail you know exactly why and were said test is failing for quick triage. Its important that they aren't branching out or covering too many diverging paths and each cover a clear and concise test flow. 
 
 - For reporting we currently use Mocha reports - stipulations of this can be amended in the cypress.config.ts. This is also generated when we run in the pipeline.
+
+### Rough automated UI test creation flow:
+1. Create a branch for your feature/s under test
+2. Create the test spec file/s (.cy.ts) - If this is a sub category area of the site like trust for example this may need to be allocated a sub folder within the e2e test section.
+3. Next we will want to set up any page object pages you may need for the creation of your tests - this is created at the Cypress folder level and not the e2e folder level.
+4. Now we have the correct files created we want to start creating our elements and other supporting code in the page objects so we can start making the building blocks for the tests to pull from.
+5. Now the building blocks are in place we want to use these to create test steps in our test spec/s - running the test throughout the creation of each step to ensure we are creating the test as desired and all the elements, functions, methods, classes etc are working correctly.
+6. Once our test is created and passing (having checked it multiple times to ensure that the test will not flake out and ran negative tests of any assertions to check for false positives) we can push our code up for a PR and then hopefully merge said tests into the wider suite.
