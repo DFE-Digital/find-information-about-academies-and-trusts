@@ -7,6 +7,7 @@
 Accepted
 
 ## Context
+
 The old Cypress suite was not quite fit for purpose for both test and development use cases.
 
 The tests used a journey based test approach which does not quite fit the flow and layout of FIAT. It also did not fully replace/encompass that which existed before it in the Playwright tests.
@@ -17,6 +18,7 @@ From a dev perspective the old suite did not quite give them the confidence that
 
 
 ## Decision
+
 The decision was to create a new Cypress suite that both encompassed the old Playwright coverage and create a Cypress suite created from the ground up with a test mindset behind each part of said suite.
 
 This was then worked on my Test in close tandem with the Dev team ensuring that no old coverage was missed and that we also captured all requirements from test and dev.
