@@ -20,7 +20,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services
                 "School Name", "URN", "Local Authority", "Type", "Rural or Urban", "Date joined",
                 "Previous Ofsted Rating", "Before/After Joining","Date of Previous Ofsted",
                 "Current Ofsted Rating", "Before/After Joining", "Date of Current Ofsted",
-                "Phase of Education", "Pupil Numbers", "Capacity", "% Full", "Pupils eligible for Free School Meals"
+                "Phase of Education", "Age Range", "Pupil Numbers", "Capacity", "% Full", "Pupils eligible for Free School Meals"
             };
 
             var academies = trust.Academies;
@@ -35,6 +35,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services
 
                 var previousRating = ofstedData?.PreviousOfstedRating ?? OfstedRating.None;
                 var currentRating = ofstedData?.CurrentOfstedRating ?? OfstedRating.None;
+
 
                 return
                 [
@@ -51,10 +52,11 @@ namespace DfE.FindInformationAcademiesTrusts.Services
                     IsOfstedRatingBeforeOrAfterJoining(currentRating?.OfstedRatingScore ?? OfstedRatingScore.None, academy.DateAcademyJoinedTrust, currentRating?.InspectionDate),
                     currentRating?.InspectionDate?.ToString(StringFormatConstants.ViewDate) ?? string.Empty,
                     academy.PhaseOfEducation ?? string.Empty,
+                    $"{academy.AgeRange.Minimum} - {academy.AgeRange.Maximum}",
                     academy.NumberOfPupils?.ToString() ?? string.Empty,
                     academy.SchoolCapacity?.ToString() ?? string.Empty,
                     academy.PercentageFull.HasValue ? $"{academy.PercentageFull}%" : string.Empty,
-                    academy.PercentageFreeSchoolMeals.HasValue ? $"{academy.PercentageFreeSchoolMeals}%" : string.Empty
+                    academy.PercentageFreeSchoolMeals.HasValue ? $"{academy.PercentageFreeSchoolMeals}%" : string.Empty,
                 ];
             });
 
