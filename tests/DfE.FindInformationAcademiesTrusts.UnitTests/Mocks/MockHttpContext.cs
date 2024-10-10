@@ -20,6 +20,7 @@ public class MockHttpContext : Mock<HttpContext>
 
         ClaimsPrincipal user = new();
         user.AddIdentity(_claimsIdentity);
+        AddUserClaim(_claimsIdentity.RoleClaimType, "User.Role.Authorised");
 
         _mockRequest.Setup(m => m.Cookies).Returns(_mockRequestCookies.Object);
         _mockRequest.Setup(m => m.Query[It.IsAny<string>()]).Returns("");
@@ -33,6 +34,12 @@ public class MockHttpContext : Mock<HttpContext>
         Setup(m => m.Response).Returns(mockResponse.Object);
         Setup(m => m.Features).Returns(_mockFeatureCollection.Object);
         Setup(m => m.User).Returns(user);
+    }
+
+    public void SetupUnauthorizedUser()
+    {
+        var roleClaim = _claimsIdentity.Claims.Single(c => c.Type == _claimsIdentity.RoleClaimType);
+        _claimsIdentity.RemoveClaim(roleClaim);
     }
 
     public void AddUserClaim(string type, string value)

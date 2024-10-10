@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages;
 
@@ -14,7 +15,13 @@ public class ErrorModelTests
         Mock<IHttpContextAccessor> mockHttpAccessor = new();
         mockHttpAccessor.Setup(m => m.HttpContext).Returns(_mockHttpContext.Object);
 
-        _sut = new ErrorModel(mockHttpAccessor.Object);
+        _sut = new ErrorModel(mockHttpAccessor.Object)
+        {
+            PageContext = new PageContext
+            {
+                HttpContext = _mockHttpContext.Object
+            }
+        };
     }
 
     [Fact]
