@@ -80,12 +80,6 @@ public class MembersModelTests
     }
 
     [Fact]
-    public void ShowHeaderSearch_should_be_true()
-    {
-        _sut.ShowHeaderSearch.Should().Be(true);
-    }
-
-    [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_null()
     {
         _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(TestUid)).ReturnsAsync((TrustSummaryServiceModel?)null);
