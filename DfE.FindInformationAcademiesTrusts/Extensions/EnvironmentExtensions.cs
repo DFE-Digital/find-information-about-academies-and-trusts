@@ -1,4 +1,4 @@
-namespace DfE.FindInformationAcademiesTrusts;
+namespace DfE.FindInformationAcademiesTrusts.Extensions;
 
 public static class EnvironmentExtensions
 {

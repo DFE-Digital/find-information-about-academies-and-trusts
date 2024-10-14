@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Extensions;
 using Microsoft.AspNetCore.Hosting;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests;
