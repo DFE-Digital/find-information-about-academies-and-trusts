@@ -1,4 +1,5 @@
 @page
+@using DfE.FindInformationAcademiesTrusts.Configuration
 @model ErrorModel
 
 @{
@@ -15,7 +16,12 @@
       <p class="govuk-body">If you pasted the web address, check you copied the entire address.</p>
       <p class="govuk-body">
         If the web address is correct or you selected a link or button,
-        <a class="govuk-link" href="@($"{ViewConstants.ReportNotFoundMailtoLink}&body=Url is {Model.OriginalPathAndQuery}")">email Service Support for help with using this system</a>.
+        <feature name="@FeatureFlags.UpdatedFooterHelpLink" negate="true">
+          <a class="govuk-link" href="@($"{ViewConstants.ReportNotFoundMailtoLink}&body=Url is {Model.OriginalPathAndQuery}")">email Service Support for help with using this system</a>.
+        </feature>
+        <feature name="@FeatureFlags.UpdatedFooterHelpLink">
+          <a class="govuk-link" href="@ViewConstants.GetHelpFormLink">report this to Service Support for help with using this system</a>.
+        </feature>
       </p>
     }
     else
@@ -23,7 +29,12 @@
       <h1 class="govuk-heading-l">Sorry, there is a problem with the product</h1>
       <p class="govuk-body">Try again later.</p>
       <p class="govuk-body">
-        <a class="govuk-link" href="@ViewConstants.ReportAProblemMailToLink">Report this problem</a> if it continues.
+        <feature name="@FeatureFlags.UpdatedFooterHelpLink" negate="true">
+          <a class="govuk-link" href="@ViewConstants.ReportAProblemMailToLink">Report this problem</a>
+        </feature>
+        <feature name="@FeatureFlags.UpdatedFooterHelpLink">
+          <a class="govuk-link" href="@ViewConstants.GetHelpFormLink">Report this problem</a>
+        </feature> if it continues.
       </p>
     }
   </section>
