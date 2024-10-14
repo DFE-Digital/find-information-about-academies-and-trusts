@@ -251,9 +251,10 @@ internal static class Program
     {
         builder.Services.AddAuthorization(options =>
         {
-            var policyBuilder = new AuthorizationPolicyBuilder();
-            policyBuilder.RequireAuthenticatedUser();
-            options.DefaultPolicy = policyBuilder.Build();
+            options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .RequireRole("User.Role.Authorised")
+                .Build();
             options.FallbackPolicy = options.DefaultPolicy;
         });
 
@@ -269,6 +270,8 @@ internal static class Program
                 options.Cookie.IsEssential = true;
                 options.Cookie.SameSite = SameSiteMode.None;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+
+                options.AccessDeniedPath = "/no-access";
             });
 
         builder.Services.AddAntiforgery(opts => { opts.Cookie.Name = ".FindInformationAcademiesTrusts.Antiforgery"; });
