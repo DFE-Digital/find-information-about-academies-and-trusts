@@ -1,0 +1,21 @@
+@page "/no-access"
+@model NoAccessModel
+
+@{
+  Layout = "_ContentLayout";
+  ViewData["Title"] = "You do not have access to this service";
+}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-l">
+      You do not have access to this service
+    </h1>
+    <p class="govuk-body">
+      You must <a href="https://dfe.service-now.com/ithelpcentre?id=sc_cat_item&sys_id=19732a3b1b181250593ddce7b04bcbc2">request access to Find information about academies and trusts</a> before you can use it.
+    </p>
+    <p class="govuk-body">
+      It can take up to 5 days for access to be granted and you will be notified when this has happened.
+    </p>
+  </div>
+</div>
