@@ -4,7 +4,7 @@ Use this documentation to assist in automated UI test creation.
 
 ## Automated UI tests
 
-### Before creating your automated UI test it is worth first considering:
+### Before creating your automated UI test it is worth first considering
 
 - What areas of the site under test will you be hitting?
 - Are there currently usable test hooks/selectors in place that Cypress can use to interact with said page.
