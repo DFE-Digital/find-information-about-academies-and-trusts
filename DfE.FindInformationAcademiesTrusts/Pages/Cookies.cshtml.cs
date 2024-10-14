@@ -1,9 +1,11 @@
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
+[AllowAnonymous]
 public class CookiesModel : ContentPageModel
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
