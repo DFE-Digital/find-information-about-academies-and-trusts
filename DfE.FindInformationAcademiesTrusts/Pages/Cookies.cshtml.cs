@@ -1,9 +1,11 @@
 using DfE.FindInformationAcademiesTrusts.Configuration;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
+[AllowAnonymous]
 public class CookiesModel(IHttpContextAccessor httpContextAccessor) : ContentPageModel
 {
     public bool DisplayCookieChangedMessageOnCookiesPage { get; set; }
