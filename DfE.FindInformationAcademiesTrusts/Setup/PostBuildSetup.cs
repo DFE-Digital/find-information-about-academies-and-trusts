@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Configuration;
+using DfE.FindInformationAcademiesTrusts.Extensions;
 using Microsoft.AspNetCore.CookiePolicy;
 using Serilog;
 
