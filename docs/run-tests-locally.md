@@ -28,10 +28,13 @@ dotnet test
     npm install
     ```
 
-2. DFE machines may have trouble running Cypress for the first time or installing dependancies due to internal proxies and auth. If in the instance this looks like its occuring on setup you will need to run the following command to bypass this for the installation.
+2. Create a file in tests/DFE.FindInformationAcademiesTrusts.CypressTests called cypress.env.json which contains the following:
 
     ```bash
-    export NODE_TLS_REJECT_UNAUTHORIZED=0'
+    {
+    "URL": "<url of the application under test>",
+    "AUTH_KEY": "<auth bypass secret for application>"
+    }
     ```
 
 3. Open a terminal in your repository and run:
@@ -43,9 +46,7 @@ dotnet test
     npx cypress open --> #This will run Cypress for the first time and notify you of such, it should then setup Cypress locally for you. 
     ```
 
-4. Once the above step is ran you should have the Cypress UI open showing your test specs - to run these you click on the test spec and it should then run all the tests within said spec.
+4. Once the above step is ran you should have the Cypress UI open showing the e3e test option which we should now click as well as what browser we want to test in. You should now see your test specs - to run these you click on the test spec and it should then run all the tests within said spec.
 
     - If the test passes you should see a green tick next to said test with confirmation that all tests within the spec are passing if multiple.
     - If the test fails it should show you within the runner what the failed test step is with a screenshot of where it failed to help you in debugging the fail. (N.b Cypress will rerun the open spec everytime you save one of your open files)
-
-### Security testing with ZAP - Currently deprecated and will be reintroduced down the line

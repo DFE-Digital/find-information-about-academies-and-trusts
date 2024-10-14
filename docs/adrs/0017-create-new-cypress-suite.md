@@ -1,4 +1,4 @@
-# 16. Create a new Cypress test suite to replace both the old Cypress suite and old Playwright suite
+# 17. Create a new Cypress test suite to replace both the old Cypress suite and old Playwright suite
 
 **Date**: 2024-10-08
 
