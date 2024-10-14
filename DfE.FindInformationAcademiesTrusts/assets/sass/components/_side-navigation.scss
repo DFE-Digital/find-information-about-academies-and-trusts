@@ -9,6 +9,10 @@
     @include govuk-responsive-margin(6, "top");
     @include govuk-responsive-margin(6, "bottom");
   }
+
+  .ds_side-navigation__expand {
+    @include govuk-font($size: 19, $weight: bold);
+  }
 }
 
 @include ds_media-query(medium) {
