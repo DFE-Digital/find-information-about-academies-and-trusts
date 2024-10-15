@@ -4,6 +4,7 @@
 
 .dfe-header__content {
   float: none;
+  @include govuk-font($size: 19);
 
   @include mq($from: tablet) {
     position: absolute;
@@ -16,6 +17,7 @@
 
     .autocomplete__input,
     .dfe-search__input {
+      @include govuk-font($size: 19);
       background-color: govuk-colour("white");
       -webkit-appearance: listbox;
       padding: 0 dfe-spacing(3);
@@ -63,6 +65,10 @@
 
     .autocomplete__menu {
       text-align: left;
+    }
+
+    .autocomplete__option {
+      @include govuk-font($size: 19);
     }
 
     .autocomplete__option-hint {

@@ -34,6 +34,7 @@
     "accessible-autocomplete": "^3.0.0",
     "dfe-frontend": "^2.0.1",
     "govuk-frontend": "^5.4.1",
+    "inter-ui": "^4.0.2",
     "jquery": "^3.7.1"
   },
   "standard": {
