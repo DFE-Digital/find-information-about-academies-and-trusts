@@ -25,4 +25,5 @@ public interface ITrustsAreaModel
     string Section { get; }
 
     string MapDataSourceToName(DataSourceServiceModel dataSource);
+    string MapDataSourceToTestId(DataSourceListEntry source);
 }

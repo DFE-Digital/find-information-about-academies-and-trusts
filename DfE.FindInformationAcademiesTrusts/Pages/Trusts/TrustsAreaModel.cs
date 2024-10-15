@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
@@ -46,6 +47,12 @@ public class TrustsAreaModel(
                 logger.LogError("Data source {source} does not map to known type", dataSource);
                 return "Unknown";
         }
+    }
+
+    public string MapDataSourceToTestId(DataSourceListEntry source)
+    {
+        return
+            $@"data-source-{source.DataSource.Source.ToString().ToLowerInvariant()}-{string.Join("-", source.Fields.Select(s => Regex.Replace(s.ToLowerInvariant().Trim(), @"\s+", "-", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500))))}";
     }
 
     public virtual async Task<IActionResult> OnGetAsync()
