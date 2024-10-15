@@ -69,4 +69,7 @@ locals {
   enable_container_app_file_share                 = var.enable_container_app_file_share
   storage_account_ipv4_allow_list                 = var.storage_account_ipv4_allow_list
   storage_account_public_access_enabled           = var.storage_account_public_access_enabled
+  enable_health_insights_api                      = var.enable_health_insights_api
+  health_insights_api_cors_origins                = var.health_insights_api_cors_origins
+  health_insights_api_ipv4_allow_list             = var.health_insights_api_ipv4_allow_list
 }
