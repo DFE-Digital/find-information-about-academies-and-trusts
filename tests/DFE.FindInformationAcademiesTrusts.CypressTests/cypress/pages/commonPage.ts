@@ -6,9 +6,14 @@ class CommonPage {
             Message: () => this.elements.SuccessPopup.Section().find('.govuk-notification-banner__content')
         },
 
+        ErrorPopup: {
+            Section: () => cy.get('.govuk-error-summary'),
+            Message: () => this.elements.ErrorPopup.Section().find('[data-testid="error-summary"]')
+        },
+
         Datasource: {
             Section: () => cy.get('.govuk-details'),
-            LatestUpdatedBy: () => cy.get('.govuk-list > :nth-child(1) > :nth-child(3)')
+            LatestUpdatedBy: () => cy.get('[data-testid="data-source-fiatdb-trust-relationship-manager"] > :nth-child(3)')
         }
     };
 
@@ -16,6 +21,13 @@ class CommonPage {
         const { SuccessPopup } = this.elements;
         SuccessPopup.Section().should('be.visible');
         SuccessPopup.Message().should('contain.text', expectedMessage);
+        return this;
+    }
+
+    public checkErrorPopup(expectedMessage: string): this {
+        const { ErrorPopup } = this.elements;
+        ErrorPopup.Section().should('be.visible');
+        ErrorPopup.Message().should('contain.text', expectedMessage);
         return this;
     }
 

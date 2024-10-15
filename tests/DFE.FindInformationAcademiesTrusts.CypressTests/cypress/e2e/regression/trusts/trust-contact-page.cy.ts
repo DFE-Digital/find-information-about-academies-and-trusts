@@ -28,25 +28,6 @@ describe("Testing the components of the Trust contacts page", () => {
                 .checkLatestDatasourceUser('Automation User - email')
         })
 
-        it("Checks that an invalid email entered returns the correct error message ", () => {
-            const randomNumber = Math.floor(Math.random() * 9999);
-            const name = `Name${randomNumber}`
-            const email = `emai${randomNumber}l@education.gov.uk`
-
-            trustContactsPage
-                .editTRM(name, email);
-            trustContactsPage.elements.TrustRelationshipManager
-                .Name().should('contain.text', name);
-            trustContactsPage.elements.TrustRelationshipManager
-                .Email().should('contain.text', email);
-            commonPage
-                .checkSuccessPopup('Changes made to the Trust relationship manager name and email were updated');
-
-            cy.contains("Source and updates").click();
-            commonPage
-                .checkLatestDatasourceUser('Automation User - email')
-        })
-
         it("Can change Schools financial support oversight lead contact details", () => {
             const randomNumber = Math.floor(Math.random() * 9999);
             const name = `Name${randomNumber}`
@@ -123,5 +104,62 @@ describe("Testing the components of the Trust contacts page", () => {
                 .checkChiefFinancialOfficerPresent()
         })
 
+    })
+
+    describe('Checks the update error handling', () => {
+        beforeEach(() => {
+            cy.login()
+            cy.visit('/trusts/contacts?uid=5527')
+        });
+
+        it("Checks that a full non DFE email entered returns the correct error message on a TRM ", () => {
+            const randomNumber = Math.floor(Math.random() * 9999);
+            const name = `Name${randomNumber}`
+            const email = `email${randomNumber}@hotmail.co.uk`
+
+            trustContactsPage
+                .editTRM(name, email);
+            commonPage
+                .checkErrorPopup('Enter a DfE email address without any spaces')
+            // Below line to be added in when current bug is fixed as this should be displaying but is not
+            // .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
+        })
+
+        it("Checks that a full non DFE email entered returns the correct error message on a SFSO ", () => {
+            const randomNumber = Math.floor(Math.random() * 9999);
+            const name = `Name${randomNumber}`
+            const email = `email${randomNumber}@hotmail.co.uk`
+
+            trustContactsPage
+                .editSFSO(name, email);
+            commonPage
+                .checkErrorPopup('Enter a DfE email address without any spaces')
+            // Below line to be added in when current bug is fixed as this should be displaying but is not
+            // .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
+        })
+
+        it("Checks that a partial email entered returns the correct error message on a TRM ", () => {
+            const randomNumber = Math.floor(Math.random() * 9999);
+            const name = `Name${randomNumber}`
+            const email = `email${randomNumber}`
+
+            trustContactsPage
+                .editTRM(name, email);
+            commonPage
+                .checkErrorPopup('Enter a DfE email address without any spaces')
+                .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
+        })
+
+        it("Checks that a partial email entered returns the correct error message on a SFSO ", () => {
+            const randomNumber = Math.floor(Math.random() * 9999);
+            const name = `Name${randomNumber}`
+            const email = `email${randomNumber}`
+
+            trustContactsPage
+                .editSFSO(name, email);
+            commonPage
+                .checkErrorPopup('Enter a DfE email address without any spaces')
+                .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
+        })
     })
 })
