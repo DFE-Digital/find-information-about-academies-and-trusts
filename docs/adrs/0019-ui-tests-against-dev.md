@@ -10,7 +10,7 @@ Accepted
 
 Previously, we had two types of Cypress tests for our UI:
 
-- **Deployment Tests**: These pointed to the live URL of our Dev environment.
+- **Deployment Tests**: These pointed to the live URL of our Dev & Test environment.
 - **Regression Tests**: These ran against an isolated container environment spun up by the pipeline, using a substantial fake database setup.
 
 The regression testing setup, while isolated and customisable, introduced overhead due to the maintenance of the fake database and the complexity of managing isolated containers. Given the project's direction and needs, we re-evaluated this approach and made the decision to streamline it.
@@ -29,7 +29,7 @@ We decided our new suite of Cypress tests will point to the Dev environment and 
 
 ## Consequences
 
-- **Reduced Control over Test Data**: By moving away from an isolated database, we lose some control over the ability to insert and manipulate data in specific ways. While this was useful in certain edge cases, it also came with a significant overhead.
+- **Reduced Control over Test Data**: By moving away from an isolated database, we lose control over the specific data in individual fields. This means we cannot test that particular fields contain expected data, such as verifying if the correct person is listed as the Accounting Officer on the contacts page. Testing at this level of granularity is now harder, and we cannot rely on exact data matching in our tests. As a result, our UI tests will become less prescriptive.
 
 - **Less Ability to Simulate Specific Test Scenarios**: With the isolated database, we could simulate "strange" or specific data conditions. In the Dev environment, we rely more on natural data, meaning we may miss certain edge cases or need to implement workarounds for testing such scenarios.
 
