@@ -9,7 +9,7 @@
   <ul class="govuk-list govuk-details__text">
     @foreach (var source in Model.DataSources)
     {
-      <li class="source-list-item govuk-!-margin-bottom-5">
+      <li class="source-list-item govuk-!-margin-bottom-5" data-testid="@Model.MapDataSourceToTestId(source)">
         <span class="govuk-!-font-weight-bold margin-right-class">@string.Join(", ", source.Fields)</span>
 
         <span>Last updated: @(source.LastUpdatedText)</span>
