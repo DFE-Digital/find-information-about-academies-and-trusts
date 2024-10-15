@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Academies in this trust export now includes Age Range
 - Updated the font to use the DfE standard Inter font
 - Added data test ids to the source list
+- Updated the footer link to the PASS form and added a feature flag to control the release
 
 ## [Release-9][release-9] (production-2024-10-02.3440)
 
