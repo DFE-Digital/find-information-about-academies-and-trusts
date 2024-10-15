@@ -94,4 +94,74 @@ public class TrustsAreaModelTests
         _logger.VerifyLogError($"Data source {dataSource} does not map to known type");
         result.Should().Be("Unknown");
     }
+    
+    [Fact]
+    public void MapDataSourceToTestId_ShouldMapSourceAndFieldsCorrectly()
+    {
+        // Arrange
+        var source = new DataSourceServiceModel(Source.Cdm, null, null);
+        var fields = new List<string> { "Field One", "FieldTwo" };
+
+        // Act
+        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, fields));
+
+        // Assert
+        Assert.Equal("data-source-cdm-field-one-fieldtwo", result);
+    }
+
+    [Fact]
+    public void MapDataSourceToTestId_ShouldHandleEmptyFields()
+    {
+        // Arrange
+        var source = new DataSourceServiceModel(Source.Gias, null, null);
+        var fields = new List<string>();
+
+        // Act
+        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, fields));
+
+        // Assert
+        Assert.Equal("data-source-gias-", result);  // Fields are empty, but source should still be present
+    }
+
+    [Fact]
+    public void MapDataSourceToTestId_ShouldHandleFieldsWithSpaces()
+    {
+        // Arrange
+        var source = new DataSourceServiceModel(Source.Mis, null, null);
+        var fields = new List<string> { "  Field  Three", " FieldFour " };
+
+        // Act
+        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, fields));
+
+        // Assert
+        Assert.Equal("data-source-mis-field-three-fieldfour", result);
+    }
+
+    [Fact]
+    public void MapDataSourceToTestId_ShouldHandleSingleFieldCorrectly()
+    {
+        // Arrange
+        var source = new DataSourceServiceModel(Source.Mstr, null, null);
+        var fields = new List<string> { "FieldOne" };
+
+        // Act
+        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, fields));
+
+        // Assert
+        Assert.Equal("data-source-mstr-fieldone", result);
+    }
+
+    [Fact]
+    public void MapDataSourceToTestId_ShouldHandleMixedCaseFields()
+    {
+        // Arrange
+        var source = new DataSourceServiceModel(Source.FiatDb, null, null);
+        var fields = new List<string> { "FiElDOne", "FiELDTwo" };
+
+        // Act
+        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, fields));
+
+        // Assert
+        Assert.Equal("data-source-fiatdb-fieldone-fieldtwo", result);
+    }
 }
