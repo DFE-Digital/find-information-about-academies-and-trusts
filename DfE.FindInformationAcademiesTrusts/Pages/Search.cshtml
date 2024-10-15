@@ -70,6 +70,50 @@
 
   </section>
 </div>
+<div class="govuk-grid-row">
+    <section aria-labelledby="academy-results-details" class="govuk-grid-column-three-quarters">
+        <h2 id="academy-results-details" class="govuk-heading-m">
+            @Model.Academies.PageStatus.TotalResults result@(Model.Academies.PageStatus.TotalResults != 1 ? "s" : "") for academies matching "@Model.KeyWords"
+        </h2>
+        @if (Model.Academies.Any())
+        {
+            <ul class="govuk-list">
+                @foreach (var academy in Model.Academies)
+                {
+                    <li class="govuk-!-margin-bottom-6" data-testid="academy-result">
+                        <a asp-page="./Academies/Details" asp-route-urn="@academy.Urn" class="govuk-!-font-weight-bold govuk-link govuk-!-font-size-24" data-testid="academy-name">
+                            @academy.EstablishmentName
+                        </a>
+                        <dl class="govuk-summary-list govuk-summary-list--no-border app-search-results-summary-list">
+                            <div class="govuk-summary-list__row govuk-body app-search-results-summary-list__row">
+                                <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
+                                    Local Authority:
+                                </dt>
+                                <dd class="govuk-summary-list__value app-search-results-summary-list__item" data-testid="local-authority">
+                                    @academy.LocalAuthority
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row govuk-body app-search-results-summary-list__row">
+                                <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
+                                    Type:
+                                </dt>
+                                <dd class="govuk-summary-list__value app-search-results-summary-list__item" data-testid="type">
+                                    @academy.TypeOfEstablishment
+                                </dd>
+                            </div>
+                        </dl>
+                        <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6">
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="govuk-body">No academies found for "@Model.KeyWords".</p>
+        }
+    </section>
+</div>
+
 @if (Model.PageStatus.TotalResults > 0)
 {
   <partial name="Shared/_Pagination"/>

@@ -1,14 +1,15 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
+using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
 public class SearchModel : ContentPageModel, IPageSearchFormModel, IPaginationModel
 {
-    public record AutocompleteEntry(string Address, string Name, string? TrustId);
+    public record AutocompleteEntry(string Address, string Name, string? Id, string Type);
+
 
     private readonly ITrustSearch _trustSearch;
     private readonly ITrustService _trustService;
@@ -21,19 +22,29 @@ public class SearchModel : ContentPageModel, IPageSearchFormModel, IPaginationMo
 
     public IPaginatedList<TrustSearchEntry> Trusts { get; set; } =
         PaginatedList<TrustSearchEntry>.Empty();
+    [BindProperty(SupportsGet = true)] public string Urn { get; set; } = string.Empty;
 
-    public SearchModel(ITrustService trustService, ITrustSearch trustSearch)
+    public IPaginatedList<AcademyDetailsServiceModel> Academies { get; set; } = PaginatedList<AcademyDetailsServiceModel>.Empty();
+
+    private readonly IAcademyService _academyService;
+
+    public SearchModel(
+        ITrustService trustService,
+        ITrustSearch trustSearch,
+        IAcademyService academyService)
     {
         _trustSearch = trustSearch;
         _trustService = trustService;
+        _academyService = academyService;
         PageStatus = Trusts.PageStatus;
         ShowHeaderSearch = false;
     }
 
     public IActionResult OnPost()
     {
-        return RedirectToPage("/Search", new { KeyWords, Uid });
+        return RedirectToPage("/Search", new { KeyWords, Uid, Urn });
     }
+
 
     public async Task<IActionResult> OnGetAsync()
     {
@@ -46,12 +57,39 @@ public class SearchModel : ContentPageModel, IPageSearchFormModel, IPaginationMo
             }
         }
 
+        if (!string.IsNullOrWhiteSpace(Urn))
+        {
+            var academy = await _academyService.GetAcademyDetailsAsync(Urn);
+            if (academy != null && string.Equals(academy.EstablishmentName, KeyWords, StringComparison.CurrentCultureIgnoreCase))
+            {
+                return RedirectToPage("/Academies/Details", new { Urn });
+            }
+        }
+
         Trusts = await GetTrustsForKeywords();
+        Academies = await GetAcademiesForKeywords();
 
         PageStatus = Trusts.PageStatus;
-        PaginationRouteData = new Dictionary<string, string> { { "Keywords", KeyWords ?? string.Empty } };
-        return new PageResult();
+        PaginationRouteData = new Dictionary<string, string>
+{
+    { "Keywords", KeyWords ?? string.Empty },
+    { "Uid", Uid },
+    { "Urn", Urn }
+};
+
+        return Page();
     }
+    private async Task<IPaginatedList<AcademyDetailsServiceModel>> GetAcademiesForKeywords()
+    {
+        if (string.IsNullOrEmpty(KeyWords))
+        {
+            return PaginatedList<AcademyDetailsServiceModel>.Empty();
+        }
+
+        var academies = await _academyService.SearchAcademiesAsync(KeyWords, PageNumber);
+        return academies;
+    }
+
 
     private async Task<IPaginatedList<TrustSearchEntry>> GetTrustsForKeywords()
     {
@@ -62,14 +100,24 @@ public class SearchModel : ContentPageModel, IPageSearchFormModel, IPaginationMo
 
     public async Task<IActionResult> OnGetPopulateAutocompleteAsync()
     {
-        return new JsonResult((await GetTrustsForKeywords())
-            .Select(trust =>
-                new AutocompleteEntry(
-                    trust.Address,
-                    trust.Name,
-                    trust.Uid
-                )));
+        var trusts = await GetTrustsForKeywords();
+        var academies = await GetAcademiesForKeywords();
+
+        var autocompleteEntries = trusts.Select(trust => new AutocompleteEntry(
+            trust.Address,
+            trust.Name,
+            trust.Uid,
+            Type: "Trust"
+        )).Concat(academies.Select(academy => new AutocompleteEntry(
+            string.Empty,
+            academy?.EstablishmentName ?? string.Empty,
+            academy?.Urn,
+            Type: "Academy"
+        )));
+
+        return new JsonResult(autocompleteEntries);
     }
+
 
     public string Title
     {

@@ -1,9 +1,9 @@
-using System.Globalization;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 
@@ -24,6 +24,54 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
                         e.UrbanRuralName))
             .ToArrayAsync();
     }
+    public async Task<AcademyDetails?> GetAcademyDetailsAsync(string urn)
+    {
+        return await academiesDbContext.GiasEstablishments
+            .Where(e => e.Urn.ToString() == urn)
+            .Select(e => new AcademyDetails(
+                e.Urn.ToString(),
+                e.EstablishmentName,
+                e.TypeOfEstablishmentName,
+                e.LaName,
+                e.UrbanRuralName))
+            .FirstOrDefaultAsync();
+    }
+    public async Task<IPaginatedList<AcademyDetails>> SearchAcademiesAsync(string searchTerm, int page = 1)
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            return PaginatedList<AcademyDetails>.Empty();
+        }
+
+        const int PageSize = 10;
+        var lowerSearchTerm = searchTerm.ToLower();
+
+        var query = academiesDbContext.GiasEstablishments
+            .Where(e =>
+                e.EstablishmentName != null &&
+                (
+                    e.Urn.ToString().Contains(lowerSearchTerm) ||
+                    e.EstablishmentName.ToLower().Contains(lowerSearchTerm)
+                )
+            );
+
+        var count = await query.CountAsync();
+
+        var academies = await query
+            .OrderBy(e => e.EstablishmentName)
+            .Skip((page - 1) * PageSize)
+            .Take(PageSize)
+            .Select(e => new AcademyDetails(
+                e.Urn.ToString(),
+                e.EstablishmentName,
+                e.LaName,
+                e.TypeOfEstablishmentName,
+                e.UrbanRuralName))
+            .ToArrayAsync();
+
+        return new PaginatedList<AcademyDetails>(academies, count, page, PageSize);
+    }
+
 
     public async Task<AcademyOfsted[]> GetAcademiesInTrustOfstedAsync(string uid)
     {

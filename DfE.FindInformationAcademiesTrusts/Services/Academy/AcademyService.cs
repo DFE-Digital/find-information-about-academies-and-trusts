@@ -5,6 +5,8 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Academy;
 
 public interface IAcademyService
 {
+    Task<AcademyDetailsServiceModel?> GetAcademyDetailsAsync(string urn);
+    Task<IPaginatedList<AcademyDetailsServiceModel>> SearchAcademiesAsync(string searchTerm, int page = 1);
     Task<AcademyDetailsServiceModel[]> GetAcademiesInTrustDetailsAsync(string uid);
     Task<AcademyOfstedServiceModel[]> GetAcademiesInTrustOfstedAsync(string uid);
     Task<AcademyPupilNumbersServiceModel[]> GetAcademiesInTrustPupilNumbersAsync(string uid);
@@ -15,6 +17,43 @@ public class AcademyService(
     IAcademyRepository academyRepository,
     IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider) : IAcademyService
 {
+    public async Task<AcademyDetailsServiceModel?> GetAcademyDetailsAsync(string urn)
+    {
+        var academy = await academyRepository.GetAcademyDetailsAsync(urn);
+        if (academy == null)
+        {
+            return null;
+        }
+
+        return new AcademyDetailsServiceModel(
+            academy.Urn,
+            academy.EstablishmentName,
+            academy.LocalAuthority,
+            academy.TypeOfEstablishment,
+            academy.UrbanRural
+        );
+    }
+    public async Task<IPaginatedList<AcademyDetailsServiceModel>> SearchAcademiesAsync(string searchTerm, int page = 1)
+    {
+        var academiesPaginatedList = await academyRepository.SearchAcademiesAsync(searchTerm, page);
+
+        var academyServiceModels = academiesPaginatedList
+            .Select(a => new AcademyDetailsServiceModel(
+                a.Urn,
+                a.EstablishmentName,
+                a.LocalAuthority,
+                a.TypeOfEstablishment,
+                a.UrbanRural))
+            .ToArray();
+
+        return new PaginatedList<AcademyDetailsServiceModel>(
+            academyServiceModels,
+            academiesPaginatedList.PageStatus.TotalResults,
+            academiesPaginatedList.PageStatus.PageIndex,
+            10);
+    }
+
+
     public async Task<AcademyDetailsServiceModel[]> GetAcademiesInTrustDetailsAsync(string uid)
     {
         var academies = await academyRepository.GetAcademiesInTrustDetailsAsync(uid);
