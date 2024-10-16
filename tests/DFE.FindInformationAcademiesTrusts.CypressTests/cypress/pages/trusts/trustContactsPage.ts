@@ -1,3 +1,4 @@
+import commonPage from "../commonPage";
 class TrustContactsPage {
 
     elements = {
@@ -14,7 +15,7 @@ class TrustContactsPage {
             Email: () => this.elements.SchoolsFinancialSupportOversight.Section().find('[data-testid="contact-email"]'),
             EditLink: () => this.elements.SchoolsFinancialSupportOversight.Section().find('[class="govuk-summary-card__actions"] > a')
         },
-        
+
         EditContacts: {
             NameInput: () => cy.get('[name="Name"]'),
             EmailInput: () => cy.get('[name="Email"]'),
@@ -53,12 +54,44 @@ class TrustContactsPage {
         return this;
     }
 
+    public checkTRMFieldsAndDatasource(name: string, email: string): this {
+        trustContactsPage
+            .editTRM(name, email);
+        trustContactsPage.elements.TrustRelationshipManager
+            .Name().should('contain.text', name);
+        trustContactsPage.elements.TrustRelationshipManager
+            .Email().should('contain.text', email);
+        commonPage
+            .checkSuccessPopup('Changes made to the Trust relationship manager name and email were updated');
+
+        cy.contains("Source and updates").click();
+        commonPage
+            .checkLatestDatasourceUser('Automation User - email')
+        return this;
+    }
+
     public editSFSO(name: string, email: string): this {
         const { SchoolsFinancialSupportOversight, EditContacts } = this.elements;
         SchoolsFinancialSupportOversight.EditLink().click();
         EditContacts.NameInput().clear().type(name);
         EditContacts.EmailInput().clear().type(email);
         EditContacts.SaveButton().click();
+        return this;
+    }
+
+    public checkSFSOFieldsAndDatasource(name: string, email: string): this {
+        trustContactsPage
+            .editSFSO(name, email);
+        trustContactsPage.elements.SchoolsFinancialSupportOversight
+            .Name().should('contain.text', name);
+        trustContactsPage.elements.SchoolsFinancialSupportOversight
+            .Email().should('contain.text', email);
+        commonPage
+            .checkSuccessPopup('Changes made to the SFSO (Schools financial support and oversight) lead name and email were updated');
+
+        cy.contains("Source and updates").click();
+        commonPage
+            .checkLatestDatasourceUser('Automation User - email')
         return this;
     }
 

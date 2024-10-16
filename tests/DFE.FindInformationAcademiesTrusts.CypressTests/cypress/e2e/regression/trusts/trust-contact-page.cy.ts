@@ -15,17 +15,8 @@ describe("Testing the components of the Trust contacts page", () => {
             const email = `emai${randomNumber}l@education.gov.uk`
 
             trustContactsPage
-                .editTRM(name, email);
-            trustContactsPage.elements.TrustRelationshipManager
-                .Name().should('contain.text', name);
-            trustContactsPage.elements.TrustRelationshipManager
-                .Email().should('contain.text', email);
-            commonPage
-                .checkSuccessPopup('Changes made to the Trust relationship manager name and email were updated');
+                .checkTRMFieldsAndDatasource(name, email)
 
-            cy.contains("Source and updates").click();
-            commonPage
-                .checkLatestDatasourceUser('Automation User - email')
         })
 
         it("Can change Schools financial support oversight lead contact details", () => {
@@ -34,17 +25,7 @@ describe("Testing the components of the Trust contacts page", () => {
             const email = `emai${randomNumber}l@education.gov.uk`
 
             trustContactsPage
-                .editSFSO(name, email);
-            trustContactsPage.elements.SchoolsFinancialSupportOversight
-                .Name().should('contain.text', name);
-            trustContactsPage.elements.SchoolsFinancialSupportOversight
-                .Email().should('contain.text', email);
-            commonPage
-                .checkSuccessPopup('Changes made to the SFSO (Schools financial support and oversight) lead name and email were updated');
-
-            cy.contains("Source and updates").click();
-            commonPage
-                .checkLatestDatasourceUser('Automation User - email')
+                .checkSFSOFieldsAndDatasource(name, email)
         })
 
         it("Checks a trusts external contact details", () => {
@@ -66,35 +47,19 @@ describe("Testing the components of the Trust contacts page", () => {
             const randomNumber = Math.floor(Math.random() * 9999);
             const name = `Name${randomNumber}`
             const email = `emai${randomNumber}l@education.gov.uk`
-            trustContactsPage
-                .editTRM(name, email);
-            trustContactsPage.elements.TrustRelationshipManager
-                .Name().should('contain.text', name);
-            trustContactsPage.elements.TrustRelationshipManager
-                .Email().should('contain.text', email);
-            commonPage
-                .checkSuccessPopup('Changes made to the Trust relationship manager name and email were updated');
 
-            cy.contains("Source and updates").click();
-            commonPage
-                .checkLatestDatasourceUser('Automation User - email')
+            trustContactsPage
+                .checkTRMFieldsAndDatasource(name, email)
         })
 
         it("Can change Schools financial support oversight lead contact details", () => {
             const randomNumber = Math.floor(Math.random() * 9999);
             const name = `Name${randomNumber}`
             const email = `emai${randomNumber}l@education.gov.uk`
-            trustContactsPage.editSFSO(name, email);
-            trustContactsPage.elements.SchoolsFinancialSupportOversight
-                .Name().should('contain.text', name);
-            trustContactsPage.elements.SchoolsFinancialSupportOversight
-                .Email().should('contain.text', email);
-            commonPage
-                .checkSuccessPopup('Changes made to the SFSO (Schools financial support and oversight) lead name and email were updated');
 
-            cy.contains("Source and updates").click();
-            commonPage
-                .checkLatestDatasourceUser('Automation User - email')
+            trustContactsPage
+                .checkSFSOFieldsAndDatasource(name, email)
+
         })
 
         it("Checks a different trusts external contact details", () => {
