@@ -42,6 +42,12 @@ class TrustContactsPage {
             Name: () => this.elements.ChiefFinancialOfficer.Section().find('[data-testid="contact-name"]'),
             Email: () => this.elements.ChiefFinancialOfficer.Section().find('[data-testid="contact-email"]'),
         },
+
+        Datasource: {
+            Section: () => cy.get('.govuk-details'),
+            TRMLatestUpdatedBy: () => cy.get('[data-testid="data-source-fiatdb-trust-relationship-manager"] > :nth-child(3)'),
+            SFSOLatestUpdatedBy: () => cy.get('[data-testid="data-source-fiatdb-sfso-(schools-financial-support-and-oversight)-lead"] > :nth-child(3)')
+        }
     };
 
 
@@ -65,8 +71,8 @@ class TrustContactsPage {
             .checkSuccessPopup('Changes made to the Trust relationship manager name and email were updated');
 
         cy.contains("Source and updates").click();
-        commonPage
-            .checkLatestDatasourceUser('Automation User - email')
+        trustContactsPage
+            .checkLatestTRMDatasourceUser('Automation User - email')
         return this;
     }
 
@@ -90,8 +96,8 @@ class TrustContactsPage {
             .checkSuccessPopup('Changes made to the SFSO (Schools financial support and oversight) lead name and email were updated');
 
         cy.contains("Source and updates").click();
-        commonPage
-            .checkLatestDatasourceUser('Automation User - email')
+        trustContactsPage
+            .checkLatestSFSODatasourceUser('Automation User - email')
         return this;
     }
 
@@ -116,8 +122,19 @@ class TrustContactsPage {
         return this;
     }
 
+    public checkLatestTRMDatasourceUser(expectedMessage: string): this {
+        const { Datasource } = this.elements;
+        Datasource.Section().should('be.visible');
+        Datasource.TRMLatestUpdatedBy().should('contain.text', expectedMessage);
+        return this;
+    }
 
-
+    public checkLatestSFSODatasourceUser(expectedMessage: string): this {
+        const { Datasource } = this.elements;
+        Datasource.Section().should('be.visible');
+        Datasource.SFSOLatestUpdatedBy().should('contain.text', expectedMessage);
+        return this;
+    }
 }
 
 const trustContactsPage = new TrustContactsPage();

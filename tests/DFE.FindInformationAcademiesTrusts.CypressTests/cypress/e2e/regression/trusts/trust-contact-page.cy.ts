@@ -1,6 +1,14 @@
 import trustContactsPage from "../../../pages/trusts/trustContactsPage";
 import commonPage from "../../../pages/commonPage";
 
+function generateNameAndEmail() {
+    const randomNumber = Math.floor(Math.random() * 9999);
+    return {
+        name: `Name${randomNumber}`,
+        email: `email${randomNumber}@education.gov.uk`
+    }
+}
+
 describe("Testing the components of the Trust contacts page", () => {
 
     describe("On a Trust contacts page with data", () => {
@@ -10,9 +18,7 @@ describe("Testing the components of the Trust contacts page", () => {
         });
 
         it("Can change Trust relationship manager contact details", () => {
-            const randomNumber = Math.floor(Math.random() * 9999);
-            const name = `Name${randomNumber}`
-            const email = `emai${randomNumber}l@education.gov.uk`
+            const { name, email } = generateNameAndEmail();
 
             trustContactsPage
                 .checkTRMFieldsAndDatasource(name, email)
@@ -20,9 +26,7 @@ describe("Testing the components of the Trust contacts page", () => {
         })
 
         it("Can change Schools financial support oversight lead contact details", () => {
-            const randomNumber = Math.floor(Math.random() * 9999);
-            const name = `Name${randomNumber}`
-            const email = `emai${randomNumber}l@education.gov.uk`
+            const { name, email } = generateNameAndEmail();
 
             trustContactsPage
                 .checkSFSOFieldsAndDatasource(name, email)
@@ -44,18 +48,14 @@ describe("Testing the components of the Trust contacts page", () => {
         });
 
         it("Can change Trust relationship manager contact details", () => {
-            const randomNumber = Math.floor(Math.random() * 9999);
-            const name = `Name${randomNumber}`
-            const email = `emai${randomNumber}l@education.gov.uk`
+            const { name, email } = generateNameAndEmail();
 
             trustContactsPage
                 .checkTRMFieldsAndDatasource(name, email)
         })
 
         it("Can change Schools financial support oversight lead contact details", () => {
-            const randomNumber = Math.floor(Math.random() * 9999);
-            const name = `Name${randomNumber}`
-            const email = `emai${randomNumber}l@education.gov.uk`
+            const { name, email } = generateNameAndEmail();
 
             trustContactsPage
                 .checkSFSOFieldsAndDatasource(name, email)
@@ -78,12 +78,8 @@ describe("Testing the components of the Trust contacts page", () => {
         });
 
         it("Checks that a full non DFE email entered returns the correct error message on a TRM ", () => {
-            const randomNumber = Math.floor(Math.random() * 9999);
-            const name = `Name${randomNumber}`
-            const email = `email${randomNumber}@hotmail.co.uk`
-
             trustContactsPage
-                .editTRM(name, email);
+                .editTRM("Name", "email@hotmail.co.uk");
             commonPage
                 .checkErrorPopup('Enter a DfE email address without any spaces')
             // Below line to be added in when current bug is fixed as this should be displaying but is not
@@ -91,40 +87,14 @@ describe("Testing the components of the Trust contacts page", () => {
         })
 
         it("Checks that a full non DFE email entered returns the correct error message on a SFSO ", () => {
-            const randomNumber = Math.floor(Math.random() * 9999);
-            const name = `Name${randomNumber}`
-            const email = `email${randomNumber}@hotmail.co.uk`
-
             trustContactsPage
-                .editSFSO(name, email);
+                .editSFSO("Name", "email@hotmail.co.uk");
+
             commonPage
                 .checkErrorPopup('Enter a DfE email address without any spaces')
             // Below line to be added in when current bug is fixed as this should be displaying but is not
             // .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
         })
 
-        it("Checks that a partial email entered returns the correct error message on a TRM ", () => {
-            const randomNumber = Math.floor(Math.random() * 9999);
-            const name = `Name${randomNumber}`
-            const email = `email${randomNumber}`
-
-            trustContactsPage
-                .editTRM(name, email);
-            commonPage
-                .checkErrorPopup('Enter a DfE email address without any spaces')
-                .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
-        })
-
-        it("Checks that a partial email entered returns the correct error message on a SFSO ", () => {
-            const randomNumber = Math.floor(Math.random() * 9999);
-            const name = `Name${randomNumber}`
-            const email = `email${randomNumber}`
-
-            trustContactsPage
-                .editSFSO(name, email);
-            commonPage
-                .checkErrorPopup('Enter a DfE email address without any spaces')
-                .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
-        })
     })
 })

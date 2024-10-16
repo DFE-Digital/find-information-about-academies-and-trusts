@@ -11,10 +11,6 @@ class CommonPage {
             Message: () => this.elements.ErrorPopup.Section().find('[data-testid="error-summary"]')
         },
 
-        Datasource: {
-            Section: () => cy.get('.govuk-details'),
-            LatestUpdatedBy: () => cy.get('[data-testid="data-source-fiatdb-trust-relationship-manager"] > :nth-child(3)')
-        }
     };
 
     public checkSuccessPopup(expectedMessage: string): this {
@@ -31,12 +27,7 @@ class CommonPage {
         return this;
     }
 
-    public checkLatestDatasourceUser(expectedMessage: string): this {
-        const { Datasource } = this.elements;
-        Datasource.Section().should('be.visible');
-        Datasource.LatestUpdatedBy().should('contain.text', expectedMessage);
-        return this;
-    }
+
 }
 
 const commonPage = new CommonPage();
