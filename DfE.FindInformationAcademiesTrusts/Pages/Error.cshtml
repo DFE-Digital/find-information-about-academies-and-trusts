@@ -19,8 +19,8 @@
         <feature name="@FeatureFlags.UpdatedFooterHelpLink" negate="true">
           <a class="govuk-link" href="@($"{ViewConstants.ReportNotFoundMailtoLink}&body=Url is {Model.OriginalPathAndQuery}")">email Service Support for help with using this system</a>.
         </feature>
-        <feature name="@FeatureFlags.UpdatedFooterHelpLink" >
-          <a class="govuk-link" href="@ViewConstants.GetHelpFormLink" rel="noopener" target="_blank">report this to Service Support for help with using this system</a>.
+        <feature name="@FeatureFlags.UpdatedFooterHelpLink">
+          <a class="govuk-link" href="@ViewConstants.GetHelpFormLink" rel="noopener" target="_blank">report this to Service Support for help with using this system (opens in new tab)</a>.
         </feature>
       </p>
     }
@@ -33,7 +33,7 @@
           <a class="govuk-link" href="@ViewConstants.ReportAProblemMailToLink">Report this problem</a>
         </feature>
         <feature name="@FeatureFlags.UpdatedFooterHelpLink">
-          <a class="govuk-link" href="@ViewConstants.GetHelpFormLink" rel="noopener" target="_blank">Report this problem</a>
+          <a class="govuk-link" href="@ViewConstants.GetHelpFormLink" rel="noopener" target="_blank">Report this problem (opens in new tab)</a>
         </feature> if it continues.
       </p>
     }
