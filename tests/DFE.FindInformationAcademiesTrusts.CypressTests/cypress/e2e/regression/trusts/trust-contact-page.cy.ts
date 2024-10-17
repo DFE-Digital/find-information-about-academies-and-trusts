@@ -82,8 +82,28 @@ describe("Testing the components of the Trust contacts page", () => {
                 .editTRM("Name", "email@hotmail.co.uk");
             commonPage
                 .checkErrorPopup('Enter a DfE email address without any spaces')
-            // Below line to be added in when current bug is fixed as this should be displaying but is not
-            // .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
+        })
+
+        it("Checks that an incorrect email entered returns the correct error message on a TRM ", () => {
+            trustContactsPage
+                .editTRM("Name", "email");
+            commonPage
+                .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
+        })
+
+        it("Checks that illegal characters entered returns the correct error message on a TRM ", () => {
+            trustContactsPage
+                .editTRM("Name", "@£$$^&");
+            commonPage
+                .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
+        })
+
+        it("Checks that whitespace entered returns the correct error message on a TRM ", () => {
+            trustContactsPage
+                .editTRM("Name", "a     b");
+            commonPage
+                .checkErrorPopup('Enter a DfE email address without any spaces')
+                .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
         })
 
         it("Checks that a full non DFE email entered returns the correct error message on a SFSO ", () => {
@@ -92,8 +112,30 @@ describe("Testing the components of the Trust contacts page", () => {
 
             commonPage
                 .checkErrorPopup('Enter a DfE email address without any spaces')
-            // Below line to be added in when current bug is fixed as this should be displaying but is not
-            // .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
+        })
+
+        it("Checks that an incorrect email entered returns the correct error message on a SFSO ", () => {
+            trustContactsPage
+                .editSFSO("Name", "email");
+            commonPage
+                .checkErrorPopup('Enter a DfE email address without any spaces')
+                .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
+        })
+
+        it("Checks that illegal characters entered returns the correct error message on a SFSO ", () => {
+            trustContactsPage
+                .editSFSO("Name", "@£$$^&");
+            commonPage
+                .checkErrorPopup('Enter a DfE email address without any spaces')
+                .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
+        })
+
+        it("Checks that whitespace entered returns the correct error message on a SFSO ", () => {
+            trustContactsPage
+                .editSFSO("Name", "a     b");
+            commonPage
+                .checkErrorPopup('Enter a DfE email address without any spaces')
+                .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
         })
 
     })
