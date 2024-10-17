@@ -43,7 +43,7 @@ public static class SecurityServicesSetup
         {
             options.DefaultPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
-                .RequireRole("User.Role.Authorised")
+                .RequireRole(UserRoles.AuthorisedFiatUser)
                 .Build();
             options.FallbackPolicy = options.DefaultPolicy;
         });
