@@ -68,7 +68,9 @@ class TrustContactsPage {
         trustContactsPage.elements.TrustRelationshipManager
             .Email().should('contain.text', email);
         commonPage
-            .checkSuccessPopup('Changes made to the Trust relationship manager name and email were updated');
+            .checkSuccessPopup('Changes made to the Trust relationship manager name and email were updated')
+            .checkErrorPopupNotPresent('Enter a DfE email address without any spaces')
+            .checkErrorPopupNotPresent('Enter an email address in the correct format, like name@education.gov.uk')
 
         cy.contains("Source and updates").click();
         trustContactsPage
@@ -93,7 +95,9 @@ class TrustContactsPage {
         trustContactsPage.elements.SchoolsFinancialSupportOversight
             .Email().should('contain.text', email);
         commonPage
-            .checkSuccessPopup('Changes made to the SFSO (Schools financial support and oversight) lead name and email were updated');
+            .checkSuccessPopup('Changes made to the SFSO (Schools financial support and oversight) lead name and email were updated')
+            .checkErrorPopupNotPresent('Enter a DfE email address without any spaces')
+            .checkErrorPopupNotPresent('Enter an email address in the correct format, like name@education.gov.uk')
 
         cy.contains("Source and updates").click();
         trustContactsPage

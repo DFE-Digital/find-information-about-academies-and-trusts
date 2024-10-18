@@ -77,6 +77,13 @@ describe("Testing the components of the Trust contacts page", () => {
                 .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
         })
 
+        it("Checks that an email address without the prefix entered returns the correct error message on a TRM ", () => {
+            trustContactsPage
+                .editTRM("Name", "@education.gov.uk");
+            commonPage
+                .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
+        })
+
         it("Checks that a full non DFE email entered returns the correct error message on a SFSO ", () => {
             trustContactsPage
                 .editSFSO("Name", "email@hotmail.co.uk");
@@ -109,5 +116,11 @@ describe("Testing the components of the Trust contacts page", () => {
                 .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
         })
 
+        it("Checks that an email address without the prefix entered returns the correct error message on a SFSO ", () => {
+            trustContactsPage
+                .editSFSO("Name", "@education.gov.uk");
+            commonPage
+                .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
+        })
     })
 })
