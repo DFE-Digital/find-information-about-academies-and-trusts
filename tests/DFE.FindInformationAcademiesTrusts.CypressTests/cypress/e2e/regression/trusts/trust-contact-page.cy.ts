@@ -23,18 +23,14 @@ describe("Testing the components of the Trust contacts page", () => {
                 trustContactsPage
                     .checkTRMFieldsAndDatasource(name, email)
             });
-        });
 
-        ['/trusts/contacts?uid=5712', '/trusts/contacts?uid=5527'].forEach((url) => {
             it(`Can change Schools financial support oversight lead contact details ${url}`, () => {
                 const { name, email } = generateNameAndEmail();
                 cy.visit(url, { failOnStatusCode: false })
                 trustContactsPage
                     .checkSFSOFieldsAndDatasource(name, email)
             });
-        });
 
-        ['/trusts/contacts?uid=5712', '/trusts/contacts?uid=5527'].forEach((url) => {
             it(`Checks a trusts external contact details ${url}`, () => {
                 cy.visit(url, { failOnStatusCode: false })
                 trustContactsPage
