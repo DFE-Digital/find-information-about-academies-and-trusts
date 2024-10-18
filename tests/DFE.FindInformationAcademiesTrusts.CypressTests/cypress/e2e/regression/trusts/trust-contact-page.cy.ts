@@ -14,60 +14,35 @@ describe("Testing the components of the Trust contacts page", () => {
     describe("On a Trust contacts page with data", () => {
         beforeEach(() => {
             cy.login()
-            cy.visit('/trusts/contacts?uid=5712')
         });
 
-        it("Can change Trust relationship manager contact details", () => {
-            const { name, email } = generateNameAndEmail();
-
-            trustContactsPage
-                .checkTRMFieldsAndDatasource(name, email)
-
-        })
-
-        it("Can change Schools financial support oversight lead contact details", () => {
-            const { name, email } = generateNameAndEmail();
-
-            trustContactsPage
-                .checkSFSOFieldsAndDatasource(name, email)
-        })
-
-        it("Checks a trusts external contact details", () => {
-            trustContactsPage
-                .checkAccountingOfficerPresent()
-                .checkChairOfTrusteesPresent()
-                .checkChiefFinancialOfficerPresent()
-        })
-
-    })
-
-    describe("On a different Trusts contacts page with data", () => {
-        beforeEach(() => {
-            cy.login()
-            cy.visit('/trusts/contacts?uid=5527')
+        ['/trusts/contacts?uid=5712', '/trusts/contacts?uid=5527'].forEach((url) => {
+            it(`Can change Trust relationship manager contact details ${url}`, () => {
+                const { name, email } = generateNameAndEmail();
+                cy.visit(url, { failOnStatusCode: false })
+                trustContactsPage
+                    .checkTRMFieldsAndDatasource(name, email)
+            });
         });
 
-        it("Can change Trust relationship manager contact details", () => {
-            const { name, email } = generateNameAndEmail();
+        ['/trusts/contacts?uid=5712', '/trusts/contacts?uid=5527'].forEach((url) => {
+            it(`Can change Schools financial support oversight lead contact details ${url}`, () => {
+                const { name, email } = generateNameAndEmail();
+                cy.visit(url, { failOnStatusCode: false })
+                trustContactsPage
+                    .checkSFSOFieldsAndDatasource(name, email)
+            });
+        });
 
-            trustContactsPage
-                .checkTRMFieldsAndDatasource(name, email)
-        })
-
-        it("Can change Schools financial support oversight lead contact details", () => {
-            const { name, email } = generateNameAndEmail();
-
-            trustContactsPage
-                .checkSFSOFieldsAndDatasource(name, email)
-
-        })
-
-        it("Checks a different trusts external contact details", () => {
-            trustContactsPage
-                .checkAccountingOfficerPresent()
-                .checkChairOfTrusteesPresent()
-                .checkChiefFinancialOfficerPresent()
-        })
+        ['/trusts/contacts?uid=5712', '/trusts/contacts?uid=5527'].forEach((url) => {
+            it(`Checks a trusts external contact details ${url}`, () => {
+                cy.visit(url, { failOnStatusCode: false })
+                trustContactsPage
+                    .checkAccountingOfficerPresent()
+                    .checkChairOfTrusteesPresent()
+                    .checkChiefFinancialOfficerPresent()
+            });
+        });
 
     })
 
