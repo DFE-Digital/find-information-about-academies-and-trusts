@@ -281,6 +281,8 @@ internal static class Program
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 
                 options.AccessDeniedPath = "/no-access";
+
+                options.Events = new FiatCookieAuthenticationEvents();
             });
     }
 
