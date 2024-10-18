@@ -274,7 +274,7 @@ internal static class Program
             CookieAuthenticationDefaults.AuthenticationScheme,
             options =>
             {
-                options.Cookie.Name = ".FindInformationAcademiesTrusts.Login";
+                options.Cookie.Name = FiatCookies.Login;
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
                 options.Cookie.SameSite = SameSiteMode.None;
