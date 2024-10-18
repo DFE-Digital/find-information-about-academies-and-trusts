@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
+﻿using DfE.FindInformationAcademiesTrusts.Configuration;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace DfE.FindInformationAcademiesTrusts;
 
 public static class CookiesHelper
 {
-    public const string ConsentCookieName = ".FindInformationAcademiesTrust.CookieConsent";
     public const string DeleteCookieTempDataName = "DeleteCookie";
     public const string CookieChangedTempDataName = "CookieResponse";
     public const string ReturnPathQuery = "returnPath";
@@ -22,8 +22,8 @@ public static class CookiesHelper
             return false;
         }
 
-        return context.Request.Cookies.ContainsKey(ConsentCookieName) &&
-               bool.Parse(context.Request.Cookies[ConsentCookieName]!);
+        return context.Request.Cookies.ContainsKey(FiatCookies.CookieConsent) &&
+               bool.Parse(context.Request.Cookies[FiatCookies.CookieConsent]!);
     }
 
     public static string ReturnPath(HttpContext context)
@@ -35,7 +35,7 @@ public static class CookiesHelper
 
     public static bool ShowCookieBanner(HttpContext context, ITempDataDictionary tempData)
     {
-        return !context.Request.Cookies.ContainsKey(ConsentCookieName) &&
+        return !context.Request.Cookies.ContainsKey(FiatCookies.CookieConsent) &&
                tempData[DeleteCookieTempDataName] is null;
     }
 }

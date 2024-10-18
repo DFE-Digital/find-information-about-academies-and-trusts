@@ -1,19 +1,14 @@
+using DfE.FindInformationAcademiesTrusts.Configuration;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
-public class CookiesModel : ContentPageModel
+public class CookiesModel(IHttpContextAccessor httpContextAccessor) : ContentPageModel
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
     public bool DisplayCookieChangedMessageOnCookiesPage { get; set; }
     [BindProperty(SupportsGet = true)] public string? ReturnPath { get; set; }
     [BindProperty(SupportsGet = true)] public bool? Consent { get; set; }
-
-    public CookiesModel(IHttpContextAccessor httpContextAccessor)
-    {
-        _httpContextAccessor = httpContextAccessor;
-    }
 
     /// <summary>
     /// Used to load the cookies page or to set cookie preferences from the cookie banner
@@ -29,7 +24,7 @@ public class CookiesModel : ContentPageModel
         {
             if (CookiesPreferencesHaveBeenSet())
             {
-                Consent = CookiesHelper.OptionalCookiesAreAccepted(_httpContextAccessor.HttpContext!, TempData);
+                Consent = CookiesHelper.OptionalCookiesAreAccepted(httpContextAccessor.HttpContext!, TempData);
             }
 
             return Page();
@@ -55,7 +50,7 @@ public class CookiesModel : ContentPageModel
         {
             CookieOptions cookieOptions = new()
                 { Expires = DateTime.UtcNow.AddYears(1), Secure = true, HttpOnly = true };
-            _httpContextAccessor.HttpContext!.Response.Cookies.Append(CookiesHelper.ConsentCookieName,
+            httpContextAccessor.HttpContext!.Response.Cookies.Append(FiatCookies.CookieConsent,
                 Consent.Value.ToString(), cookieOptions);
             TempData[CookiesHelper.CookieChangedTempDataName] = true;
         }
@@ -74,7 +69,7 @@ public class CookiesModel : ContentPageModel
         var optionalCookiePrefixes = new[] { "ai_session", "ai_user", "ai_authUser" };
         var cookiesToDelete = GetMatchingCookies(optionalCookiePrefixes);
 
-        cookiesToDelete.ForEach(cookie => _httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie));
+        cookiesToDelete.ForEach(cookie => httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie));
     }
 
     private void DeleteGoogleAnalyticsCookies()
@@ -87,15 +82,15 @@ public class CookiesModel : ContentPageModel
             // Need to delete cookies that exists outside of our current host
             // Can't delete cookies unless the domain is specified, by default it will be the current host
             // Issue was it worked on localhost but not on dev, test or prod, because google analytics cookies are set on a different domain
-            _httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie);
-            _httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie,
+            httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie);
+            httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie,
                 new CookieOptions { Domain = ".education.gov.uk" });
         });
     }
 
     private List<string> GetMatchingCookies(string[] optionalCookiePrefixes)
     {
-        var currentCookies = _httpContextAccessor.HttpContext!.Request.Cookies.Keys;
+        var currentCookies = httpContextAccessor.HttpContext!.Request.Cookies.Keys;
 
         var cookiesToDelete = currentCookies
             .Where(currentCookie => optionalCookiePrefixes.Any(prefix => currentCookie.StartsWith(prefix)))
@@ -118,6 +113,6 @@ public class CookiesModel : ContentPageModel
 
     private bool CookiesPreferencesHaveBeenSet()
     {
-        return _httpContextAccessor.HttpContext!.Request.Cookies.ContainsKey(CookiesHelper.ConsentCookieName);
+        return httpContextAccessor.HttpContext!.Request.Cookies.ContainsKey(FiatCookies.CookieConsent);
     }
 }
