@@ -1,3 +1,6 @@
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Azure.Identity;
 using DfE.FindInformationAcademiesTrusts.Authorization;
 using DfE.FindInformationAcademiesTrusts.Configuration;
@@ -28,9 +31,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.FeatureManagement;
 using Microsoft.Identity.Web;
 using Serilog;
-using System.Data;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace DfE.FindInformationAcademiesTrusts;
 
@@ -266,7 +266,7 @@ internal static class Program
             CookieAuthenticationDefaults.AuthenticationScheme,
             options =>
             {
-                options.Cookie.Name = ".FindInformationAcademiesTrusts.Login";
+                options.Cookie.Name = FiatCookies.Login;
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
                 options.Cookie.SameSite = SameSiteMode.None;
@@ -275,7 +275,7 @@ internal static class Program
                 options.AccessDeniedPath = "/no-access";
             });
 
-        builder.Services.AddAntiforgery(opts => { opts.Cookie.Name = ".FindInformationAcademiesTrusts.Antiforgery"; });
+        builder.Services.AddAntiforgery(opts => { opts.Cookie.Name = FiatCookies.Antiforgery; });
     }
 
     private static void AddDataProtectionServices(WebApplicationBuilder builder)
