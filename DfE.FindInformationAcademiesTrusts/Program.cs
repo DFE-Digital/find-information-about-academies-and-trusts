@@ -237,7 +237,6 @@ internal static class Program
         builder.Services.AddScoped<IGovernorFactory, GovernorFactory>();
         builder.Services.AddScoped<IPersonFactory, PersonFactory>();
 
-        builder.Services.AddScoped<IAuthorizationHandler, AutomationAuthorizationHandler>();
         builder.Services.AddScoped<IOtherServicesLinkBuilder, OtherServicesLinkBuilder>();
         builder.Services.AddScoped<IFreeSchoolMealsAverageProvider, FreeSchoolMealsAverageProvider>();
         builder.Services.AddHttpContextAccessor();
@@ -258,6 +257,9 @@ internal static class Program
 
     private static void AddAuthenticationServices(WebApplicationBuilder builder)
     {
+        builder.Services.AddScoped<FiatCookieAuthenticationEvents>();
+        builder.Services.AddScoped<IAuthorizationHandler, AutomationAuthorizationHandler>();
+
         builder.Services.AddAuthorization(options =>
         {
             options.DefaultPolicy = new AuthorizationPolicyBuilder()
@@ -282,7 +284,7 @@ internal static class Program
 
                 options.AccessDeniedPath = "/no-access";
 
-                options.Events = new FiatCookieAuthenticationEvents();
+                options.EventsType = typeof(FiatCookieAuthenticationEvents);
             });
     }
 
