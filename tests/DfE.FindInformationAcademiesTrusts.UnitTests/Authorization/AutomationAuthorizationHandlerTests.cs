@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using DfE.FindInformationAcademiesTrusts.Authorization;
+using DfE.FindInformationAcademiesTrusts.Configuration;
 using DfE.FindInformationAcademiesTrusts.Options;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -98,7 +99,8 @@ public class AutomationAuthorizationHandlerTests
         var expected = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
         {
             new("name", "Automation User - name"),
-            new("preferred_username", "Automation User - email")
+            new("preferred_username", "Automation User - email"),
+            new(ClaimTypes.Role, UserRoles.AuthorisedFiatUser)
         }));
         var actual = _httpContext.User;
         // Exclude subject due to cyclical references
