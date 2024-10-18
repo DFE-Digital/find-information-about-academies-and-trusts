@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Configuration;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Http;
@@ -183,7 +184,7 @@ public class CookiesModelTests
     {
         _sut.Consent = consent;
         _sut.OnGet();
-        _mockHttpContext.VerifySecureCookieAdded(CookiesHelper.ConsentCookieName, value);
+        _mockHttpContext.VerifySecureCookieAdded(FiatCookies.CookieConsent, value);
     }
 
     [Theory]
@@ -193,7 +194,7 @@ public class CookiesModelTests
     {
         _sut.Consent = consent;
         _sut.OnPost();
-        _mockHttpContext.VerifySecureCookieAdded(CookiesHelper.ConsentCookieName, value);
+        _mockHttpContext.VerifySecureCookieAdded(FiatCookies.CookieConsent, value);
     }
 
     // (Cookie appended Delete called if needed/TempData is not null)
