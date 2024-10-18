@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Azure.Identity;
 using DfE.FindInformationAcademiesTrusts.Authorization;
+using DfE.FindInformationAcademiesTrusts.Configuration;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
@@ -14,6 +15,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Hardcoded;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
+using DfE.FindInformationAcademiesTrusts.Extensions;
 using DfE.FindInformationAcademiesTrusts.Options;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Services;
@@ -235,7 +237,6 @@ internal static class Program
         builder.Services.AddScoped<IGovernorFactory, GovernorFactory>();
         builder.Services.AddScoped<IPersonFactory, PersonFactory>();
 
-        builder.Services.AddScoped<IAuthorizationHandler, AutomationAuthorizationHandler>();
         builder.Services.AddScoped<IOtherServicesLinkBuilder, OtherServicesLinkBuilder>();
         builder.Services.AddScoped<IFreeSchoolMealsAverageProvider, FreeSchoolMealsAverageProvider>();
         builder.Services.AddHttpContextAccessor();
@@ -256,11 +257,15 @@ internal static class Program
 
     private static void AddAuthenticationServices(WebApplicationBuilder builder)
     {
+        builder.Services.AddScoped<FiatCookieAuthenticationEvents>();
+        builder.Services.AddScoped<IAuthorizationHandler, AutomationAuthorizationHandler>();
+
         builder.Services.AddAuthorization(options =>
         {
-            var policyBuilder = new AuthorizationPolicyBuilder();
-            policyBuilder.RequireAuthenticatedUser();
-            options.DefaultPolicy = policyBuilder.Build();
+            options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .RequireRole(UserRoles.AuthorisedFiatUser)
+                .Build();
             options.FallbackPolicy = options.DefaultPolicy;
         });
 
@@ -271,11 +276,15 @@ internal static class Program
             CookieAuthenticationDefaults.AuthenticationScheme,
             options =>
             {
-                options.Cookie.Name = ".FindInformationAcademiesTrusts.Login";
+                options.Cookie.Name = FiatCookies.Login;
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
                 options.Cookie.SameSite = SameSiteMode.None;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+
+                options.AccessDeniedPath = "/no-access";
+
+                options.EventsType = typeof(FiatCookieAuthenticationEvents);
             });
     }
 
