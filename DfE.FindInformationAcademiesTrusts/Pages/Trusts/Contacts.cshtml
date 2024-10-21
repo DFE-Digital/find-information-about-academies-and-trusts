@@ -67,26 +67,35 @@
     Contacts at the trust
   </h2>
   <div class="govuk-summary-card" data-testid="accounting-officer">
-    <div class="govuk-summary-card__title-wrapper">
+    <div class="govuk-summary-card__title-wrapper contact-card-title-with-disclaimer">
       <h3 class="govuk-summary-card__title">
         Accounting officer
       </h3>
+      <div class="govuk-summary-card__actions govuk-!-margin-0">
+        @await Html.PartialAsync("Shared/_SummaryCardDisclaimerText")
+      </div>
     </div>
     @{ DisplayContact(Model.AccountingOfficer); }
   </div>
   <div class="govuk-summary-card" data-testid="chair-of-trustees">
-    <div class="govuk-summary-card__title-wrapper">
+    <div class="govuk-summary-card__title-wrapper contact-card-title-with-disclaimer">
       <h3 class="govuk-summary-card__title">
         Chair of trustees
       </h3>
+      <div class="govuk-summary-card__actions govuk-!-margin-0">
+        @await Html.PartialAsync("Shared/_SummaryCardDisclaimerText")
+      </div>
     </div>
     @{ DisplayContact(Model.ChairOfTrustees); }
   </div>
   <div class="govuk-summary-card" data-testid="chief-financial-officer">
-    <div class="govuk-summary-card__title-wrapper">
+    <div class="govuk-summary-card__title-wrapper contact-card-title-with-disclaimer">
       <h3 class="govuk-summary-card__title">
         Chief financial officer
       </h3>
+      <div class="govuk-summary-card__actions govuk-!-margin-0">
+        @await Html.PartialAsync("Shared/_SummaryCardDisclaimerText")
+      </div>
     </div>
     @{ DisplayContact(Model.ChiefFinancialOfficer); }
   </div>
@@ -129,5 +138,5 @@
       </dl>
     </div>
   }
-
+  
 }
