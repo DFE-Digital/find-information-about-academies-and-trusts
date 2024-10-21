@@ -1,0 +1,16 @@
+.contact-card-title-with-disclaimer {
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #000000;
+
+  .govuk-summary-card__title,
+  .govuk-warning-text__text {
+    color: #ffffff;
+  }
+
+  .govuk-warning-text__icon {
+    background-color: #ffffff;
+    border-color: #ffffff;
+    color: #000000;
+  }
+}
