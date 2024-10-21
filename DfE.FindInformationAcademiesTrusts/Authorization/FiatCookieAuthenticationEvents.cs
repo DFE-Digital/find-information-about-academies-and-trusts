@@ -21,31 +21,45 @@ public class FiatCookieAuthenticationEvents : CookieAuthenticationEvents
     private Task RetryLogin(RedirectContext<CookieAuthenticationOptions> context)
     {
         var httpContext = context.HttpContext;
-        var cookieOptions = context.Options.Cookie.Build(httpContext);
         var cookieManager = context.Options.CookieManager;
 
-        RemoveOldLoginCookie(cookieManager, cookieOptions, httpContext);
-        AddLoginRetriedRecentlyCookie(cookieManager, cookieOptions, httpContext);
+        RemoveOldLoginCookie(cookieManager, httpContext);
+        AddLoginRetriedRecentlyCookie(cookieManager, httpContext);
 
         return base.RedirectToReturnUrl(context);
     }
 
-    private static void RemoveOldLoginCookie(ICookieManager cookieManager, CookieOptions cookieOptions,
-        HttpContext httpContext)
+    private static void RemoveOldLoginCookie(ICookieManager cookieManager, HttpContext httpContext)
     {
         if (cookieManager.GetRequestCookie(httpContext, FiatCookies.Login) is not null)
         {
-            cookieManager.DeleteCookie(httpContext, FiatCookies.Login, cookieOptions);
+            cookieManager.DeleteCookie(
+                httpContext,
+                FiatCookies.Login,
+                new CookieOptions
+                {
+                    HttpOnly = true,
+                    IsEssential = true,
+                    SameSite = SameSiteMode.Strict,
+                    Secure = true
+                });
         }
     }
 
-    private static void AddLoginRetriedRecentlyCookie(ICookieManager cookieManager, CookieOptions cookieOptions,
-        HttpContext httpContext)
+    private static void AddLoginRetriedRecentlyCookie(ICookieManager cookieManager, HttpContext httpContext)
     {
-        cookieManager.AppendResponseCookie(httpContext,
+        cookieManager.AppendResponseCookie(
+            httpContext,
             FiatCookies.LoginRetriedRecently,
             "true",
-            new CookieOptions(cookieOptions) { Expires = DateTimeOffset.UtcNow.AddMinutes(1) });
+            new CookieOptions
+            {
+                Expires = DateTimeOffset.UtcNow.AddMinutes(1),
+                HttpOnly = true,
+                IsEssential = true,
+                SameSite = SameSiteMode.Strict,
+                Secure = true
+            });
     }
 
     private static bool AlreadyRetriedLogin(ICookieManager cookieManager, HttpContext httpContext)
