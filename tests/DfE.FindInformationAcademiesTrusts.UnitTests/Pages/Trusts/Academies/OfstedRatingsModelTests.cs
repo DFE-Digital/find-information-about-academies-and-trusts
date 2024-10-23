@@ -25,7 +25,7 @@ public class OfstedRatingsModelTests
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
             .ReturnsAsync(_fakeTrust);
 
-        _sut = new OfstedRatingsModel(Mock.Of<ITrustProvider>(), _mockDataSourceService.Object,
+        _sut = new OfstedRatingsModel(_mockDataSourceService.Object,
                 new MockLogger<OfstedRatingsModel>().Object,
                 _mockTrustService.Object, _mockAcademyService.Object, _mockExportService.Object, _mockDateTimeProvider.Object)
         { Uid = "1234" };

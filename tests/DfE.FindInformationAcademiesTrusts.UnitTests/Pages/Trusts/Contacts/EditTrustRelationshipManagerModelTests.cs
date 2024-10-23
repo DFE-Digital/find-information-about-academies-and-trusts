@@ -11,7 +11,6 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Contacts;
 public class EditTrustRelationshipManagerModelTests
 {
     private readonly EditTrustRelationshipManagerModel _sut;
-    private readonly Mock<ITrustProvider> _mockTrustProvider = new();
     private const string TrustRelationShipManagerDisplayName = "Trust relationship manager";
 
     private readonly MockDataSourceService _mockDataSourceService = new();
@@ -29,7 +28,7 @@ public class EditTrustRelationshipManagerModelTests
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
             .ReturnsAsync(_fakeTrust);
 
-        _sut = new EditTrustRelationshipManagerModel(_mockTrustProvider.Object, _mockDataSourceService.Object,
+        _sut = new EditTrustRelationshipManagerModel(_mockDataSourceService.Object,
                 new MockLogger<EditTrustRelationshipManagerModel>().Object, _mockTrustService.Object)
         { Uid = "1234" };
     }

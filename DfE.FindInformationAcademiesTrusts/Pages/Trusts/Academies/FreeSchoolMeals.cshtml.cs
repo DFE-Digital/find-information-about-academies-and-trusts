@@ -13,7 +13,7 @@ public class FreeSchoolMealsModel : AcademiesPageModel
     public IAcademyService AcademyService { get; }
     public AcademyFreeSchoolMealsServiceModel[] Academies { get; set; } = default!;
 
-    public FreeSchoolMealsModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
+    public FreeSchoolMealsModel(IDataSourceService dataSourceService,
         ILogger<FreeSchoolMealsModel> logger, ITrustService trustService, IAcademyService academyService,
         IExportService exportService, IDateTimeProvider dateTimeProvider) :
         base(dataSourceService, trustService, exportService, logger, dateTimeProvider)

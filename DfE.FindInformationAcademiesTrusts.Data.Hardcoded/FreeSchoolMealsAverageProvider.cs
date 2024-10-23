@@ -1,6 +1,6 @@
-using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.Hardcoded;
 
@@ -15,20 +15,10 @@ public class FreeSchoolMealsAverageProvider : IFreeSchoolMealsAverageProvider
         return FreeSchoolMealsData.Averages2023To24[localAuthorityCode].PercentOfPupilsByPhase[key];
     }
 
-    public double GetLaAverage(Academy academy)
-    {
-        return GetLaAverage(academy.OldLaCode, academy.PhaseOfEducation, academy.TypeOfEstablishment);
-    }
-
     public double GetNationalAverage(string? phaseOfEducation, string? typeOfEstablishment)
     {
         var key = GetPhaseTypeKey(phaseOfEducation, typeOfEstablishment);
         return FreeSchoolMealsData.Averages2023To24[NationalKey].PercentOfPupilsByPhase[key];
-    }
-
-    public double GetNationalAverage(Academy academy)
-    {
-        return GetNationalAverage(academy.PhaseOfEducation, academy.TypeOfEstablishment);
     }
 
     public DataSource GetFreeSchoolMealsUpdated()
@@ -42,35 +32,35 @@ public class FreeSchoolMealsAverageProvider : IFreeSchoolMealsAverageProvider
     {
         return (phaseOfEducation: phaseOfEducation?.ToLower(),
                 typeOfEstablishment: typeOfEstablishment?.ToLower()) switch
+        {
             {
-                {
-                    phaseOfEducation: "primary" or "middle deemed primary",
-                    typeOfEstablishment: "community school" or "voluntary aided school" or "foundation school"
-                    or "voluntary controlled school" or "academy sponsor led" or "academy converter"
-                    or "city technology college" or "free schools" or "university technical college" or "studio schools"
-                } => ExploreEducationStatisticsPhaseType.StateFundedPrimary,
+                phaseOfEducation: "primary" or "middle deemed primary",
+                typeOfEstablishment: "community school" or "voluntary aided school" or "foundation school"
+                or "voluntary controlled school" or "academy sponsor led" or "academy converter"
+                or "city technology college" or "free schools" or "university technical college" or "studio schools"
+            } => ExploreEducationStatisticsPhaseType.StateFundedPrimary,
 
-                {
-                    phaseOfEducation: "secondary" or "middle deemed secondary" or "16 plus" or "not applicable"
-                    or "all-through",
-                    typeOfEstablishment: "community school" or "voluntary aided school" or "foundation school"
-                    or "voluntary controlled school" or "academy 16-19 converter" or "academy sponsor led"
-                    or "academy converter" or "city technology college" or "free schools" or "free schools 16 to 19"
-                    or "university technical college" or "studio schools" or "academy 16 to 19 sponsor led"
-                } => ExploreEducationStatisticsPhaseType.StateFundedSecondary,
+            {
+                phaseOfEducation: "secondary" or "middle deemed secondary" or "16 plus" or "not applicable"
+                or "all-through",
+                typeOfEstablishment: "community school" or "voluntary aided school" or "foundation school"
+                or "voluntary controlled school" or "academy 16-19 converter" or "academy sponsor led"
+                or "academy converter" or "city technology college" or "free schools" or "free schools 16 to 19"
+                or "university technical college" or "studio schools" or "academy 16 to 19 sponsor led"
+            } => ExploreEducationStatisticsPhaseType.StateFundedSecondary,
 
-                {
-                    typeOfEstablishment: "foundation special school" or "community special school"
-                    or "academy special converter" or "academy special sponsor led" or "free schools special"
-                } => ExploreEducationStatisticsPhaseType.StateFundedSpecialSchool,
+            {
+                typeOfEstablishment: "foundation special school" or "community special school"
+                or "academy special converter" or "academy special sponsor led" or "free schools special"
+            } => ExploreEducationStatisticsPhaseType.StateFundedSpecialSchool,
 
-                {
-                    typeOfEstablishment: "pupil referral unit" or "academy alternative provision sponsor led"
-                    or "free schools alternative provision" or "academy alternative provision converter"
-                } => ExploreEducationStatisticsPhaseType.StateFundedApSchool,
+            {
+                typeOfEstablishment: "pupil referral unit" or "academy alternative provision sponsor led"
+                or "free schools alternative provision" or "academy alternative provision converter"
+            } => ExploreEducationStatisticsPhaseType.StateFundedApSchool,
 
-                _ => throw new ArgumentOutOfRangeException(nameof(phaseOfEducation),
-                    $"Can't get ExploreEducationStatisticsPhaseType for [{nameof(phaseOfEducation)}:{phaseOfEducation}, {nameof(typeOfEstablishment)}:{typeOfEstablishment}]")
-            };
+            _ => throw new ArgumentOutOfRangeException(nameof(phaseOfEducation),
+                $"Can't get ExploreEducationStatisticsPhaseType for [{nameof(phaseOfEducation)}:{phaseOfEducation}, {nameof(typeOfEstablishment)}:{typeOfEstablishment}]")
+        };
     }
 }
