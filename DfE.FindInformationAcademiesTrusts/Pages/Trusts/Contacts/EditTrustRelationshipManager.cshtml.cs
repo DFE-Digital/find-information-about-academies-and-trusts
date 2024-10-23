@@ -9,11 +9,10 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 
 [FeatureGate(FeatureFlags.EditContactsUI)]
 public class EditTrustRelationshipManagerModel(
-    ITrustProvider trustProvider,
     IDataSourceService dataSourceService,
     ILogger<EditTrustRelationshipManagerModel> logger,
     ITrustService trustService)
-    : EditContactModel(trustProvider, dataSourceService, trustService,
+    : EditContactModel(dataSourceService, trustService,
         logger, ContactRole.TrustRelationshipManager)
 {
     protected override InternalContact? GetContactFromServiceModel(TrustContactsServiceModel contacts)

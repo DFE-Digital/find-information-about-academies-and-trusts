@@ -1,8 +1,8 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,8 +16,7 @@ public class AcademiesDetailsModel : AcademiesPageModel
 
     public AcademiesDetailsModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
         IOtherServicesLinkBuilder linkBuilder, ILogger<AcademiesDetailsModel> logger,
-        ITrustService trustService, IAcademyService academyService, IExportService exportService, IDateTimeProvider dateTimeProvider) : base(trustProvider,
-        dataSourceService, trustService, academyService, exportService, logger, dateTimeProvider)
+        ITrustService trustService, IAcademyService academyService, IExportService exportService, IDateTimeProvider dateTimeProvider) : base(dataSourceService, trustService, exportService, logger, dateTimeProvider)
     {
         PageTitle = "Academies details";
         TabName = "Details";
