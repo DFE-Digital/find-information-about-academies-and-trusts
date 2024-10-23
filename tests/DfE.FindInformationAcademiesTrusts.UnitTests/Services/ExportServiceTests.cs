@@ -1,8 +1,10 @@
 ﻿using ClosedXML.Excel;
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Pages;
-using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
@@ -10,14 +12,20 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
     public class ExportServiceTests
     {
         private readonly Mock<IDateTimeProvider> _mockDateTimeProvider;
-        private readonly ExportService _sut = new();
+        private readonly Mock<IAcademyRepository> _mockAcademyRepository;
+        private readonly Mock<ITrustRepository> _mockTrustRepository;
+        private readonly ExportService _sut;
 
         public ExportServiceTests()
         {
             _mockDateTimeProvider = new Mock<IDateTimeProvider>();
+            _mockAcademyRepository = new Mock<IAcademyRepository>();
+            _mockTrustRepository = new Mock<ITrustRepository>();
 
             // Baseline date for testing will be the current date in this instance
             _mockDateTimeProvider.Setup(m => m.Now).Returns(DateTime.Now);
+
+            _sut = new(_mockAcademyRepository.Object, _mockTrustRepository.Object);
         }
 
         [Fact]
@@ -44,7 +52,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
             var ofstedRatings = Array.Empty<AcademyOfstedServiceModel>();
 
             // Act
-            var result = _sut.ExportAcademiesToSpreadsheetUsingProvider(trust, trustSummary, ofstedRatings);
+            var result = _sut.ExportAcademiesToSpreadsheet(trust.Uid);
             using var workbook = new XLWorkbook(new MemoryStream(result));
             var worksheet = workbook.Worksheet("Academies");
 
