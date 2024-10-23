@@ -5,6 +5,7 @@
 @import "components/header-search";
 @import "components/export-button";
 @import "components/sourceList";
+@import "components/contactsSummaryCard";
 
 .app-banner {
   @include govuk-responsive-padding(5, "top");
