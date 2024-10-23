@@ -1,4 +1,6 @@
 ﻿@page
+@using DfE.FindInformationAcademiesTrusts.Data
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IndexModel
 @{
   ViewData["Title"] = "Home page";
@@ -15,10 +17,52 @@
                 Find information about academies and trusts
               </label>
             </h1>
+            <p class="govuk-body">Use this tool to learn about a trust and the academies it is responsible for.</p>
+            <details class="govuk-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                  <span>What you can find</span>
+                </span>
+              </summary>
+              <ul class="govuk-list govuk-details__text govuk-list--bullet">
+                <li class="govuk-!-margin-left-5">address and contact details</li>
+                <li class="govuk-!-margin-left-5">pupil numbers and capacities</li>
+                <li class="govuk-!-margin-left-5">Ofsted ratings</li>
+                <li class="govuk-!-margin-left-5">free school meal percentages</li>
+                <li class="govuk-!-margin-left-5">trust governance details</li>
+              </ul>
+            </details>
             <partial name="_PageSearchForm" model="Model"/>
           </form>
         </div>
       </div>
     </div>
   </div>
+  <div class="dfe-width-container govuk-!-padding-top-6">
+    <h2 class="govuk-heading-l">
+      Other tools and products
+    </h2>
+    <div class="dfe-grid-container">
+      @foreach (var serviceLink in ViewConstants.ExternalServiceLinks)
+      {
+        DisplayLinkInCard(serviceLink);
+      }
+    </div>
+  </div>
 </main>
+
+
+@functions
+{
+  private void DisplayLinkInCard(ExternalServiceLink serviceLink)
+  {
+    <div class="dfe-card">
+      <div class="dfe-card-container">
+        <h3 class="govuk-heading-m">
+          <a href="@serviceLink.Url" class="govuk-link govuk-link--no-visited-state dfe-card-link--header" rel="noopener" target="_blank" aria-label="@serviceLink.ServiceName (opens in a new tab)">@serviceLink.ServiceName</a>
+        </h3>
+        <p>@serviceLink.ServiceDescription</p>
+      </div>
+    </div>
+  }
+}
