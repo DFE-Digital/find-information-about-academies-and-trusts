@@ -13,7 +13,7 @@ public class OfstedRatingsModel : AcademiesPageModel
     public AcademyOfstedServiceModel[] Academies { get; set; } = default!;
     private IAcademyService AcademyService { get; }
 
-    public OfstedRatingsModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
+    public OfstedRatingsModel(IDataSourceService dataSourceService,
         ILogger<OfstedRatingsModel> logger, ITrustService trustService, IAcademyService academyService, IExportService exportService, IDateTimeProvider dateTimeProvider) : base(dataSourceService, trustService, exportService, logger, dateTimeProvider)
     {
         PageTitle = "Academies Ofsted ratings";

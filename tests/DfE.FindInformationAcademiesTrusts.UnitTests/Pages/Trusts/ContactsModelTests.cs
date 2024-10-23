@@ -1,6 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -11,7 +10,6 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 public class ContactsModelTests
 {
     private readonly ContactsModel _sut;
-    private readonly Mock<ITrustProvider> _mockTrustProvider = new();
 
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustService = new();
@@ -34,20 +32,22 @@ public class ContactsModelTests
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
             .ReturnsAsync(_fakeTrust);
 
-        _sut = new ContactsModel(_mockTrustProvider.Object, _mockDataSourceService.Object,
+        _sut = new ContactsModel(_mockDataSourceService.Object,
                 new MockLogger<ContactsModel>().Object, _mockTrustService.Object)
         { Uid = "1234" };
     }
 
     private void SetupTrustWithNoGovernors()
     {
-        var dummyTrustWithNoGovernors = DummyTrustFactory.GetDummyTrust("1234");
+        var testTrustUid = "1234";
+        var testTrustName = "Test Trust";
+        var testTrustType = "SAT";
 
         _mockTrustService.Setup(tp => tp.GetTrustContactsAsync("1234")).ReturnsAsync(
             new TrustContactsServiceModel(null, null, null, null, null));
-        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(dummyTrustWithNoGovernors.Uid))
-            .ReturnsAsync(new TrustSummaryServiceModel(dummyTrustWithNoGovernors.Uid, dummyTrustWithNoGovernors.Name,
-                dummyTrustWithNoGovernors.Type, dummyTrustWithNoGovernors.Academies.Length));
+        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(testTrustUid))
+            .ReturnsAsync(new TrustSummaryServiceModel(testTrustUid, testTrustName,
+                testTrustType, 0));
     }
 
     [Fact]

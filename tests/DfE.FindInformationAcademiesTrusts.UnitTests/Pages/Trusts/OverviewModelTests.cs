@@ -22,10 +22,10 @@ public class OverviewModelTests
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(TrustUid))
             .ReturnsAsync(new TrustSummaryServiceModel(TrustUid, "My Trust", "Multi-academy trust", 3));
 
-        _sut = new OverviewModel(Mock.Of<ITrustProvider>(), _mockDataSourceService.Object,
+        _sut = new OverviewModel(_mockDataSourceService.Object,
                 new MockLogger<OverviewModel>().Object,
                 _mockTrustService.Object)
-            { Uid = TrustUid };
+        { Uid = TrustUid };
     }
 
     [Fact]
@@ -70,7 +70,8 @@ public class OverviewModelTests
         var serviceModel =
             BaseTrustOverviewServiceModel with
             {
-                TotalCapacity = totalCapacity, TotalPupilNumbers = totalPupilNumbers
+                TotalCapacity = totalCapacity,
+                TotalPupilNumbers = totalPupilNumbers
             };
         _mockTrustService.Setup(t => t.GetTrustOverviewAsync(TrustUid)).ReturnsAsync(serviceModel);
 

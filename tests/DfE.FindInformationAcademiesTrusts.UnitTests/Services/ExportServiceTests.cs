@@ -29,30 +29,13 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
         }
 
         [Fact]
-        public void ExportAcademiesToSpreadsheetUsingProvider_ShouldGenerateCorrectHeaders()
+        public async Task ExportAcademiesToSpreadsheet_ShouldGenerateCorrectHeadersAsync()
         {
-            // Arrange
-            var trust = new Trust("1",
-                                  "Sample Trust",
-                                  "1001",
-                                  "12345",
-                                  "Multi-academy trust",
-                                  "Address",
-                                  DateTime.Now,
-                                  "123456",
-                                  "Region",
-                                  [],
-                                  [],
-                                  null,
-                                  null,
-                                  "Open");
+            // Arrange            
             var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 0);
 
-            // Passing an empty array for ofstedRatings since no academies are present
-            var ofstedRatings = Array.Empty<AcademyOfstedServiceModel>();
-
             // Act
-            var result = _sut.ExportAcademiesToSpreadsheet(trust.Uid);
+            var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
             using var workbook = new XLWorkbook(new MemoryStream(result));
             var worksheet = workbook.Worksheet("Academies");
 
@@ -78,54 +61,13 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
         }
 
         [Fact]
-        public void ExportAcademiesToSpreadsheetUsingProvider_ShouldCorrectlyExtractAcademyData()
+        public async Task ExportAcademiesToSpreadsheet_ShouldCorrectlyExtractAcademyDataAsync()
         {
             // Arrange
-            var academy = new Academy(
-                123456,
-                DateTime.Now,
-                "Academy 1",
-                "Type A",
-                "Local Authority 1",
-                "Urban",
-                "Primary",
-                500,
-                600,
-                20,
-                new AgeRange(5, 11),
-                new OfstedRating(OfstedRatingScore.Outstanding, DateTime.Now),
-                OfstedRating.None,
-                100);
-            var trust = new Trust(
-                "1",
-                "Sample Trust",
-                "1001",
-                "12345",
-                "Multi-academy trust",
-                "Address",
-                DateTime.Now,
-                "123456",
-                "Region",
-                [academy],
-                [],
-                null,
-                null,
-                "Open");
             var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
 
-            // Create ofstedRatings data matching the academy URN
-            var ofstedRatings = new[]
-            {
-                new AcademyOfstedServiceModel(
-                    academy.Urn.ToString(),
-                    academy.EstablishmentName,
-                    academy.DateAcademyJoinedTrust,
-                    OfstedRating.None,
-                    new OfstedRating(OfstedRatingScore.Outstanding, DateTime.Now))
-            };
-
             // Act
-            var result = _sut.ExportAcademiesToSpreadsheetUsingProvider(trust, trustSummary, ofstedRatings);
+            var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
             using var workbook = new XLWorkbook(new MemoryStream(result));
             var worksheet = workbook.Worksheet("Academies");
 
@@ -151,30 +93,16 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
         }
 
         [Fact]
-        public void ExportAcademiesToSpreadsheetUsingProvider_ShouldHandleEmptyAcademies()
+        public async Task ExportAcademiesToSpreadsheet_ShouldHandleEmptyAcademiesAsync()
         {
-            // Arrange
-            var trust = new Trust("1",
-                                  "Empty Trust",
-                                  "1001",
-                                  "12345",
-                                  "Multi-academy trust",
-                                  "Address",
-                                  DateTime.Now,
-                                  "123456",
-                                  "Region",
-                                  [],
-                                  [],
-                                  null,
-                                  null,
-                                  "Open");
+            // Arrange            
             var trustSummary = new TrustSummaryServiceModel("1", "Empty Trust", "Multi-academy trust", 0);
 
             // Passing an empty array for ofstedRatings since no academies are present
             var ofstedRatings = Array.Empty<AcademyOfstedServiceModel>();
 
             // Act
-            var result = _sut.ExportAcademiesToSpreadsheetUsingProvider(trust, trustSummary, ofstedRatings);
+            var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
             using var workbook = new XLWorkbook(new MemoryStream(result));
             var worksheet = workbook.Worksheet("Academies");
 
@@ -183,54 +111,14 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
         }
 
         [Fact]
-        public void ExportAcademiesToSpreadsheetUsingProvider_ShouldCorrectlyHandleNullValues()
+        public async Task ExportAcademiesToSpreadsheet_ShouldCorrectlyHandleNullValuesAsync()
         {
             // Arrange
-            var academy = new Academy(
-                123456,
-                DateTime.Now,
-                null, // EstablishmentName 
-                null, // TypeOfEstablishment 
-                null, // LocalAuthority
-                null, // UrbanRural 
-                null, // PhaseOfEducation
-                null, // NumberOfPupils 
-                null, // SchoolCapacity 
-                null, // PercentageFreeSchoolMeals
-                new AgeRange(5, 11), // Sample age range
-                OfstedRating.None, // CurrentOfstedRating 
-                OfstedRating.None, // PreviousOfstedRating 
-                100);
-            var trust = new Trust(
-                "1",
-                "Sample Trust",
-                "1001",
-                "12345",
-                "Multi-academy trust",
-                "Address",
-                DateTime.Now,
-                "123456",
-                "Region",
-                [academy],
-                [],
-                null,
-                null,
-                "Open");
+
             var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
 
-            // Create ofstedRatings data with null values
-            var ofstedRatings = new[]
-            {
-                new AcademyOfstedServiceModel(
-                    academy.Urn.ToString(),
-                    null,
-                    academy.DateAcademyJoinedTrust,
-                    OfstedRating.None,
-                    OfstedRating.None)
-            };
-
             // Act
-            var result = _sut.ExportAcademiesToSpreadsheetUsingProvider(trust, trustSummary, ofstedRatings);
+            var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
             using var workbook = new XLWorkbook(new MemoryStream(result));
             var worksheet = workbook.Worksheet("Academies");
 

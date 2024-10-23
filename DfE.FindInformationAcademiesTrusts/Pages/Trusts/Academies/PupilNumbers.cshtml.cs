@@ -13,7 +13,7 @@ public class PupilNumbersModel : AcademiesPageModel
     public IAcademyService AcademyService { get; }
     public AcademyPupilNumbersServiceModel[] Academies { get; set; } = default!;
 
-    public PupilNumbersModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
+    public PupilNumbersModel(IDataSourceService dataSourceService,
         ILogger<PupilNumbersModel> logger, ITrustService trustService, IAcademyService academyService, IExportService exportService, IDateTimeProvider dateTimeProvider)
         : base(dataSourceService, trustService, exportService, logger, dateTimeProvider)
     {

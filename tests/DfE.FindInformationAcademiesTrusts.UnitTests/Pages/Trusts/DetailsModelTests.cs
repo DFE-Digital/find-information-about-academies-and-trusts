@@ -1,4 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
@@ -12,7 +11,6 @@ public class DetailsModelTests
 {
     private readonly DetailsModel _sut;
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinksToOtherServices = new();
-    private readonly Mock<ITrustProvider> _mockTrustProvider = new();
 
     private static readonly TrustDetailsServiceModel DummyTrustDetailsServiceModel =
         new("1234", "", "", "", "", "", "", null, null);
@@ -27,9 +25,9 @@ public class DetailsModelTests
         _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(DummyTrustDetailsServiceModel.Uid))
             .ReturnsAsync(new TrustSummaryServiceModel(DummyTrustDetailsServiceModel.Uid, "My trust", "", 0));
 
-        _sut = new DetailsModel(_mockTrustProvider.Object, _mockDataSourceService.Object,
+        _sut = new DetailsModel(_mockDataSourceService.Object,
                 _mockLinksToOtherServices.Object, new MockLogger<DetailsModel>().Object, _mockTrustRepository.Object)
-            { Uid = DummyTrustDetailsServiceModel.Uid };
+        { Uid = DummyTrustDetailsServiceModel.Uid };
     }
 
     [Fact]

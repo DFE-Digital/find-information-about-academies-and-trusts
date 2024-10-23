@@ -14,7 +14,7 @@ public class AcademiesDetailsModel : AcademiesPageModel
     public IOtherServicesLinkBuilder LinkBuilder { get; }
     private IAcademyService AcademyService { get; }
 
-    public AcademiesDetailsModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
+    public AcademiesDetailsModel(IDataSourceService dataSourceService,
         IOtherServicesLinkBuilder linkBuilder, ILogger<AcademiesDetailsModel> logger,
         ITrustService trustService, IAcademyService academyService, IExportService exportService, IDateTimeProvider dateTimeProvider) : base(dataSourceService, trustService, exportService, logger, dateTimeProvider)
     {
