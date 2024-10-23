@@ -1,22 +1,36 @@
-class CookiesPage {
+export class CookiesPage {
 
+    elements = {
+        buttons: {
+            accept: () => cy.get('#cookies-accept'),
+            reject: () => cy.get('#cookies-reject'),
+            saveChangesButton: () => cy.get('[data-testid="save-cookie-preferences-button"]'),
+            returnToPreviousPageButton: () => cy.get('[data-testid="return-to-previous-page"]'),
+        },
+    };
 
-    public navigateToCookiesPage(): this {
-        cy.visit('/cookies')
-
+    public clickSaveChangesButton(): this {
+        this.elements.buttons.saveChangesButton().click();
         return this;
     }
 
     public acceptCookies(): this {
-        const acceptCookiesYesButton = () => cy.get('.govuk-radios').contains('Yes');
+        this.elements.buttons.accept().click();
+        this.elements.buttons.saveChangesButton().click();
+        return this;
+    }
 
-        acceptCookiesYesButton().click();
+    public rejectCookies(): this {
+        this.elements.buttons.reject().click();
+        return this;
+    }
 
+    public clickReturnToPreviousPageButton(): this {
+        this.elements.buttons.returnToPreviousPageButton().click();
         return this;
     }
 
 }
 
 const cookiesPage = new CookiesPage();
-
 export default cookiesPage;
