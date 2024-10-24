@@ -66,6 +66,35 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
             // Arrange
             var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
 
+            // Trust summary set up
+            _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(trustSummary.Uid)).ReturnsAsync(
+                new TrustSummary("Sample Trust", "Multi-academy trust"));
+            // Academies details set up
+            _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustDetailsAsync(trustSummary.Uid)).ReturnsAsync(
+                new AcademyDetails[]
+                {
+                    new("123456", "Academy 1", "Type A", "Local Authority 1", "Urban"),
+                });
+            // Academies ofsted set up
+            _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustOfstedAsync(trustSummary.Uid)).ReturnsAsync(
+                new AcademyOfsted[]
+                {
+                    new("123456", "Academy 1", DateTime.Now, new OfstedRating(OfstedRatingScore.None, null), new OfstedRating(OfstedRatingScore.Outstanding, DateTime.Now))
+                });
+            // Academies pupil number set up
+            _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustPupilNumbersAsync(trustSummary.Uid)).ReturnsAsync(
+                new AcademyPupilNumbers[]
+                {
+                    new("123456", "Academy 1", "Primary", new AgeRange(5,11), 500, 600)
+                });
+            // Academies free school meals
+            _mockAcademyRepository.Setup(m
+                => m.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid)).ReturnsAsync(
+                new AcademyFreeSchoolMeals[]
+                {
+                    new("123456", "Academy 1", 20, 1, "Type A", "Primary"),
+                });
+
             // Act
             var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
             using var workbook = new XLWorkbook(new MemoryStream(result));
@@ -117,6 +146,34 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
 
             var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
 
+            // Trust summary set up
+            _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(trustSummary.Uid)).ReturnsAsync(
+                new TrustSummary("Sample Trust", "Multi-academy trust"));
+            // Academies details set up
+            _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustDetailsAsync(trustSummary.Uid)).ReturnsAsync(
+                new AcademyDetails[]
+                {
+                    new("123456", null, null, null, null),
+                });
+            // Academies ofsted set up
+            _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustOfstedAsync(trustSummary.Uid)).ReturnsAsync(
+                new AcademyOfsted[]
+                {
+                    new("123456", null, DateTime.Now, new OfstedRating(OfstedRatingScore.None, null), new OfstedRating(OfstedRatingScore.None, null))
+                });
+            // Academies pupil number set up
+            _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustPupilNumbersAsync(trustSummary.Uid)).ReturnsAsync(
+                new AcademyPupilNumbers[]
+                {
+                    new("123456", null, null, new AgeRange(5,11), null, null)
+                });
+            // Academies free school meals
+            _mockAcademyRepository.Setup(m
+                => m.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid)).ReturnsAsync(
+                new AcademyFreeSchoolMeals[]
+                {
+                    new("123456", null, null, 1, null, null),
+                });
             // Act
             var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
             using var workbook = new XLWorkbook(new MemoryStream(result));
