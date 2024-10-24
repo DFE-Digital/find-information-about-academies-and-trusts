@@ -16,7 +16,6 @@ export class CookiesPage {
 
     public acceptCookies(): this {
         this.elements.buttons.accept().click();
-        this.elements.buttons.saveChangesButton().click();
         return this;
     }
 
@@ -27,6 +26,26 @@ export class CookiesPage {
 
     public clickReturnToPreviousPageButton(): this {
         this.elements.buttons.returnToPreviousPageButton().click();
+        return this;
+    }
+
+    public checkCookiesAcceptIsUninteracted(): this {
+        this.elements.buttons.accept().should('not.be.checked')
+        return this;
+    }
+
+    public checkCookiesAcceptIsInteracted(): this {
+        this.elements.buttons.accept().should('be.checked')
+        return this;
+    }
+
+    public checkCookiesRejectIsUninteracted(): this {
+        this.elements.buttons.reject().should('not.be.checked')
+        return this;
+    }
+
+    public checkCookiesRejectIsInteracted(): this {
+        this.elements.buttons.reject().should('be.checked')
         return this;
     }
 

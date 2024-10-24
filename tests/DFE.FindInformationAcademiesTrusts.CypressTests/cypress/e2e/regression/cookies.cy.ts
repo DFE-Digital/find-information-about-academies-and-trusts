@@ -33,7 +33,7 @@ describe('Cookie page and consent tests', () => {
 
     });
 
-    it('should check that mandatory cookies exist but otional cookies do not after rejecting optional cookies', () => {
+    it('should check that mandatory cookies exist but optional cookies do not after rejecting optional cookies', () => {
         cookiesPage
             .rejectCookies()
             .clickSaveChangesButton()
@@ -43,13 +43,13 @@ describe('Cookie page and consent tests', () => {
 
         cy.visit('/trusts/details?uid=5712')
 
-        //check optional cookies exist
+        //check optional cookies do not  exist
         cy.getCookie('ai_user').should('not.exist')
         cy.getCookie('ai_session').should('not.exist')
         cy.getCookie('ai_authUser').should('not.exist')
         cy.getCookie('_ga').should('not.exist')
 
-        //check mandatory cookies exist after saving
+        //check mandatory cookies do not exist after saving
         cy.getCookie('.FindInformationAcademiesTrust.CookieConsent').should('exist')
         cy.getCookie('ASLBSA').should('exist')
         cy.getCookie('ASLBSACORS').should('exist')
@@ -86,5 +86,47 @@ describe('Cookie page and consent tests', () => {
 
         navigation
             .checkCurrentURLIsCorrect('/trusts/contacts?uid=5712')
+    });
+
+    it('should check that both cookie accept and reject radio buttons are in their empty state when coming in from scratch', () => {
+        cookiesPage
+            .checkCookiesAcceptIsUninteracted()
+            .checkCookiesRejectIsUninteracted()
+    });
+
+    it('should check that the accept cookies button stays checked after enabling it', () => {
+        cookiesPage
+            .acceptCookies()
+            .clickSaveChangesButton()
+
+        commonPage
+            .checkSuccessPopup('You’ve set your cookie preferences')
+
+        cy.visit('/trusts/details?uid=5712')
+
+        navigation
+            .clickCookiesLink()
+            .checkCurrentURLIsCorrect('/cookies')
+
+        cookiesPage
+            .checkCookiesAcceptIsInteracted()
+    });
+
+    it('should check that the accept cookies button stays checked after enabling it', () => {
+        cookiesPage
+            .rejectCookies()
+            .clickSaveChangesButton()
+
+        commonPage
+            .checkSuccessPopup('You’ve set your cookie preferences')
+
+        cy.visit('/trusts/details?uid=5712')
+
+        navigation
+            .clickCookiesLink()
+            .checkCurrentURLIsCorrect('/cookies')
+
+        cookiesPage
+            .checkCookiesRejectIsInteracted()
     });
 });
