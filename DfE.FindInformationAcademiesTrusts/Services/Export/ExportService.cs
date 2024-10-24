@@ -24,11 +24,11 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
                 "Phase of Education", "Age Range", "Pupil Numbers", "Capacity", "% Full", "Pupils eligible for Free School Meals"
             };
 
-            var trustSummary = await trustRepository.GetTrustSummaryAsync(uid);
-            var academiesDetails = await academyRepository.GetAcademiesInTrustDetailsAsync(uid);
-            var academiesOfstedRatings = await academyRepository.GetAcademiesInTrustOfstedAsync(uid);
-            var academiesPupilNumbers = await academyRepository.GetAcademiesInTrustPupilNumbersAsync(uid);
-            var academiesFreeSchoolMeals = await academyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(uid);
+            TrustSummary? trustSummary = await trustRepository.GetTrustSummaryAsync(uid);
+            AcademyDetails[] academiesDetails = await academyRepository.GetAcademiesInTrustDetailsAsync(uid);
+            AcademyOfsted[] academiesOfstedRatings = await academyRepository.GetAcademiesInTrustOfstedAsync(uid);
+            AcademyPupilNumbers[] academiesPupilNumbers = await academyRepository.GetAcademiesInTrustPupilNumbersAsync(uid);
+            AcademyFreeSchoolMeals[] academiesFreeSchoolMeals = await academyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(uid);
 
             return GenerateSpreadsheet(trustSummary, academiesDetails, headers, academiesOfstedRatings, academiesPupilNumbers, academiesFreeSchoolMeals);
         }
