@@ -258,5 +258,22 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
             // Assert
             result.Should().Be("After Joining");
         }
+
+        [Theory]
+        [InlineData(500, 600, 83)]  // Valid case
+        [InlineData(300, 300, 100)] // Edge case: full capacity
+        [InlineData(0, 300, 0)]     // Edge case: 0 pupils
+        [InlineData(300, 0, 0)]     // Edge case: zero capacity (should return 0)
+        [InlineData(null, 300, 0)]  // Edge case: null pupils
+        [InlineData(300, null, 0)]  // Edge case: null capacity
+        [InlineData(null, null, 0)] // Edge case: both null
+        public void CalculatePercentageFull_ShouldReturnExpectedResult(int? numberOfPupils, int? schoolCapacity, float expected)
+        {
+            // Act
+            var result = ExportService.CalculatePercentageFull(numberOfPupils, schoolCapacity);
+
+            // Assert
+            Assert.Equal(expected, result);
+        }
     }
 }
