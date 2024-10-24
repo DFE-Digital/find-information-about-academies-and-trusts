@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Data;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
+[ExcludeFromCodeCoverage]
 public static class ViewConstants
 {
     public const string ServiceName = "Find information about academies and trusts";
@@ -51,5 +53,3 @@ public static class ViewConstants
             "https://educationgovuk.sharepoint.com/sites/lvewp00299/SitePages/RG%20high%20quality%20trust%20framework.aspx")
     ];
 }
-
-
