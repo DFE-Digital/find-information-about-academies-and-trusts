@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Removed legacy trust provider and associated code
 - Improved performance of academies data export
 - Updated the landing page to add more information and links to other services
+- Renamed the anti forgery cookie to a static name
 
 ## [Release-11][release-11] (production-2024-10-17.3654)
 
