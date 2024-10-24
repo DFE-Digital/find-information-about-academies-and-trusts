@@ -72,7 +72,7 @@ public class CookiesModel : ContentPageModel
 
     private void DeleteAppInsightsCookies()
     {
-        var optionalCookiePrefixes = new[] { "ai_session", "ai_user", "ai_authuser" };
+        var optionalCookiePrefixes = new[] { "ai_session", "ai_user", "ai_authUser" };
         var cookiesToDelete = GetMatchingCookies(optionalCookiePrefixes);
 
         cookiesToDelete.ForEach(cookie => _httpContextAccessor.HttpContext!.Response.Cookies.Delete(cookie));
