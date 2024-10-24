@@ -1,4 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -7,12 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public class DetailsModel(
-    ITrustProvider trustProvider,
     IDataSourceService dataSourceService,
     IOtherServicesLinkBuilder otherServicesLinkBuilder,
     ILogger<DetailsModel> logger,
     ITrustService trustService)
-    : TrustsAreaModel(trustProvider, dataSourceService, trustService, logger, "Details")
+    : TrustsAreaModel(dataSourceService, trustService, logger, "Details")
 {
     public TrustDetailsServiceModel TrustDetails { get; set; } = default!;
     public string? CompaniesHouseLink { get; set; }

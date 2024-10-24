@@ -1,8 +1,8 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,10 +13,10 @@ public class FreeSchoolMealsModel : AcademiesPageModel
     public IAcademyService AcademyService { get; }
     public AcademyFreeSchoolMealsServiceModel[] Academies { get; set; } = default!;
 
-    public FreeSchoolMealsModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
+    public FreeSchoolMealsModel(IDataSourceService dataSourceService,
         ILogger<FreeSchoolMealsModel> logger, ITrustService trustService, IAcademyService academyService,
         IExportService exportService, IDateTimeProvider dateTimeProvider) :
-        base(trustProvider, dataSourceService, trustService, academyService, exportService, logger, dateTimeProvider)
+        base(dataSourceService, trustService, exportService, logger, dateTimeProvider)
     {
         PageTitle = "Academies free school meals";
         TabName = "Free school meals";

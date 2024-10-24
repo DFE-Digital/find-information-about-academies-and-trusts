@@ -1,21 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
-using DfE.FindInformationAcademiesTrusts.Data;
+﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Extensions;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 
 public abstract class EditContactModel(
-    ITrustProvider trustProvider,
     IDataSourceService dataSourceService,
     ITrustService trustService,
     ILogger<EditContactModel> logger,
     ContactRole role)
-    : TrustsAreaModel(trustProvider, dataSourceService, trustService,
+    : TrustsAreaModel(dataSourceService, trustService,
         logger, $"Edit {role.MapRoleToViewString()} details")
 {
     public const string NameField = "Name";

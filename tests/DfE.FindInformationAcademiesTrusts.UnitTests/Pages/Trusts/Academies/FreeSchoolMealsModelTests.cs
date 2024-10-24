@@ -1,9 +1,8 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
-using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +12,6 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 public class FreeSchoolMealsModelTests
 {
     private readonly FreeSchoolMealsModel _sut;
-    private readonly Mock<ITrustProvider> _mockTrustProvider = new();
     private readonly Mock<ITrustService> _mockTrustService = new();
     private readonly Mock<IAcademyService> _mockAcademyService = new();
     private readonly Mock<IExportService> _mockExportService = new();
@@ -22,18 +20,19 @@ public class FreeSchoolMealsModelTests
 
     public FreeSchoolMealsModelTests()
     {
-        var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
+        var testTrustUid = "1234";
+        var testTrustName = "Test Trust";
+        var testTrustType = "SAT";
 
-        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrust);
-        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(dummyTrust.Uid))
-            .ReturnsAsync(new TrustSummaryServiceModel(dummyTrust.Uid, dummyTrust.Name, dummyTrust.Type,
-                dummyTrust.Academies.Length));
+        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(testTrustUid))
+            .ReturnsAsync(new TrustSummaryServiceModel(testTrustUid, testTrustName, testTrustType,
+                1));
 
-        _sut = new FreeSchoolMealsModel(_mockTrustProvider.Object,
+        _sut = new FreeSchoolMealsModel(
                 _mockDataSourceService.Object, new MockLogger<FreeSchoolMealsModel>().Object,
                 _mockTrustService.Object, _mockAcademyService.Object, _mockExportService.Object,
                 _mockDateTimeProvider.Object)
-            { Uid = "1234" };
+        { Uid = "1234" };
     }
 
     [Fact]

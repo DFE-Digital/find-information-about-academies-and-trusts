@@ -1,15 +1,13 @@
-using System.Text.RegularExpressions;
-using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public class TrustsAreaModel(
-    ITrustProvider trustProvider,
     IDataSourceService dataSourceService,
     ITrustService trustService,
     ILogger<TrustsAreaModel> logger,
@@ -17,7 +15,6 @@ public class TrustsAreaModel(
     : BasePageModel, ITrustsAreaModel
 {
     protected readonly IDataSourceService DataSourceService = dataSourceService;
-    protected readonly ITrustProvider TrustProvider = trustProvider;
     protected readonly ITrustService TrustService = trustService;
 
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = "";

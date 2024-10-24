@@ -1,8 +1,8 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,9 +13,8 @@ public class OfstedRatingsModel : AcademiesPageModel
     public AcademyOfstedServiceModel[] Academies { get; set; } = default!;
     private IAcademyService AcademyService { get; }
 
-    public OfstedRatingsModel(ITrustProvider trustProvider, IDataSourceService dataSourceService,
-        ILogger<OfstedRatingsModel> logger, ITrustService trustService, IAcademyService academyService, IExportService exportService, IDateTimeProvider dateTimeProvider) : base(
-        trustProvider, dataSourceService, trustService, academyService, exportService, logger, dateTimeProvider)
+    public OfstedRatingsModel(IDataSourceService dataSourceService,
+        ILogger<OfstedRatingsModel> logger, ITrustService trustService, IAcademyService academyService, IExportService exportService, IDateTimeProvider dateTimeProvider) : base(dataSourceService, trustService, exportService, logger, dateTimeProvider)
     {
         PageTitle = "Academies Ofsted ratings";
         TabName = "Ofsted ratings";

@@ -1,8 +1,8 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
-using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +25,7 @@ public class OfstedRatingsModelTests
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
             .ReturnsAsync(_fakeTrust);
 
-        _sut = new OfstedRatingsModel(Mock.Of<ITrustProvider>(), _mockDataSourceService.Object,
+        _sut = new OfstedRatingsModel(_mockDataSourceService.Object,
                 new MockLogger<OfstedRatingsModel>().Object,
                 _mockTrustService.Object, _mockAcademyService.Object, _mockExportService.Object, _mockDateTimeProvider.Object)
         { Uid = "1234" };

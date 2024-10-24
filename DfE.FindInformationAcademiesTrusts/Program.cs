@@ -1,12 +1,8 @@
-using System.Data;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using Azure.Identity;
 using DfE.FindInformationAcademiesTrusts.Authorization;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Factories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Repositories;
@@ -16,9 +12,9 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Options;
 using DfE.FindInformationAcademiesTrusts.Pages;
-using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -30,6 +26,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.FeatureManagement;
 using Microsoft.Identity.Web;
 using Serilog;
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace DfE.FindInformationAcademiesTrusts;
 
@@ -216,8 +215,6 @@ internal static class Program
 
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
 
-        builder.Services.AddScoped<ITrustProvider, TrustProvider>();
-
         builder.Services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 
         builder.Services.AddScoped<IAcademyRepository, AcademyRepository>();
@@ -229,11 +226,6 @@ internal static class Program
         builder.Services.AddScoped<ITrustService, TrustService>();
         builder.Services.AddScoped<IAcademyService, AcademyService>();
         builder.Services.AddScoped<IExportService, ExportService>();
-
-        builder.Services.AddScoped<ITrustFactory, TrustFactory>();
-        builder.Services.AddScoped<IAcademyFactory, AcademyFactory>();
-        builder.Services.AddScoped<IGovernorFactory, GovernorFactory>();
-        builder.Services.AddScoped<IPersonFactory, PersonFactory>();
 
         builder.Services.AddScoped<IAuthorizationHandler, AutomationAuthorizationHandler>();
         builder.Services.AddScoped<IOtherServicesLinkBuilder, OtherServicesLinkBuilder>();

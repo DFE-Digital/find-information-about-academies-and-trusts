@@ -1,5 +1,4 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.Enums;
+﻿using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
@@ -7,11 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public class GovernanceModel(
-    ITrustProvider trustProvider,
     IDataSourceService dataSourceService,
     ILogger<GovernanceModel> logger,
     ITrustService trustService)
-    : TrustsAreaModel(trustProvider, dataSourceService, trustService, logger, "Governance")
+    : TrustsAreaModel(dataSourceService, trustService, logger, "Governance")
 {
     public TrustGovernanceServiceModel TrustGovernance { get; set; } = default!;
 

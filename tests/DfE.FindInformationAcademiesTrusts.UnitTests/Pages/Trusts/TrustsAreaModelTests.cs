@@ -1,4 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
@@ -10,7 +9,6 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 
 public class TrustsAreaModelTests
 {
-    private readonly Mock<ITrustProvider> _mockTrustProvider = new();
     private readonly Mock<IDataSourceService> _mockDataSourceProvider = new();
     private readonly TrustsAreaModel _sut;
     private readonly MockLogger<TrustsAreaModel> _logger = new();
@@ -18,7 +16,7 @@ public class TrustsAreaModelTests
 
     public TrustsAreaModelTests()
     {
-        _sut = new TrustsAreaModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
+        _sut = new TrustsAreaModel(_mockDataSourceProvider.Object,
             _mockTrustRepository.Object, _logger.Object, "Details");
     }
 
@@ -44,7 +42,7 @@ public class TrustsAreaModelTests
     [Fact]
     public void PageName_should_be_set_at_initialisation()
     {
-        var sut = new TrustsAreaModel(_mockTrustProvider.Object, _mockDataSourceProvider.Object,
+        var sut = new TrustsAreaModel(_mockDataSourceProvider.Object,
             _mockTrustRepository.Object, _logger.Object, "Contacts");
         sut.PageName.Should().Be("Contacts");
     }
@@ -94,7 +92,7 @@ public class TrustsAreaModelTests
         _logger.VerifyLogError($"Data source {dataSource} does not map to known type");
         result.Should().Be("Unknown");
     }
-    
+
     [Fact]
     public void MapDataSourceToTestId_ShouldMapSourceAndFieldsCorrectly()
     {

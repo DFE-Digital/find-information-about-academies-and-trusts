@@ -8,11 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public class ContactsModel(
-    ITrustProvider trustProvider,
     IDataSourceService dataSourceService,
     ILogger<ContactsModel> logger,
     ITrustService trustService)
-    : TrustsAreaModel(trustProvider, dataSourceService, trustService, logger, "Contacts")
+    : TrustsAreaModel(dataSourceService, trustService, logger, "Contacts")
 {
     public Person? ChairOfTrustees { get; set; }
     public Person? AccountingOfficer { get; set; }

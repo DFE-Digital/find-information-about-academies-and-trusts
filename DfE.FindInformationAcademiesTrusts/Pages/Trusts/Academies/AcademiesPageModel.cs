@@ -1,21 +1,18 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Services;
-using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies
 {
     public abstract class AcademiesPageModel(
-        ITrustProvider trustProvider,
         IDataSourceService dataSourceService,
         ITrustService trustService,
-        IAcademyService academyService,
         IExportService exportService,
         ILogger<AcademiesPageModel> logger,
         IDateTimeProvider dateTimeProvider
-    ) : TrustsAreaModel(trustProvider, dataSourceService, trustService, logger, "Academies in this trust")
+    ) : TrustsAreaModel(dataSourceService, trustService, logger, "Academies in this trust")
     {
         protected IExportService ExportService { get; } = exportService;
         public IDateTimeProvider DateTimeProvider { get; } = dateTimeProvider;
@@ -23,18 +20,16 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies
         public virtual async Task<IActionResult> OnGetExportAsync(string uid)
         {
             TrustSummaryServiceModel? trustSummary = await TrustService.GetTrustSummaryAsync(uid);
-            Trust? allAcademiesDetails = await TrustProvider.GetTrustByUidAsync(uid);
-            AcademyOfstedServiceModel[] ofstedRatings = await academyService.GetAcademiesInTrustOfstedAsync(uid);
 
-            if (trustSummary == null || allAcademiesDetails == null)
+            if (trustSummary == null)
             {
                 return new NotFoundResult();
             }
 
             // Sanitize the trust name to remove any illegal characters
-            string sanitizedTrustName = string.Concat(allAcademiesDetails.Name.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
+            string sanitizedTrustName = string.Concat(trustSummary.Name.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
 
-            var fileContents = ExportService.ExportAcademiesToSpreadsheetUsingProvider(allAcademiesDetails, trustSummary, ofstedRatings);
+            var fileContents = await ExportService.ExportAcademiesToSpreadsheetAsync(uid);
             string fileName = $"{sanitizedTrustName}-{DateTimeProvider.Now:yyyy-MM-dd}.xlsx";
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 

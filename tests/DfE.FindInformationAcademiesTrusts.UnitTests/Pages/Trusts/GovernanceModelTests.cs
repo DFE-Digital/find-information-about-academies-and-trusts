@@ -1,5 +1,5 @@
-using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -10,7 +10,6 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 public class GovernanceModelTests
 {
     private readonly GovernanceModel _sut;
-    private readonly Mock<ITrustProvider> _mockTrustProvider = new();
     private static readonly DateTime StartDate = DateTime.Today.AddYears(-3);
     private static readonly DateTime FutureEndDate = DateTime.Today.AddYears(1);
     private static readonly DateTime HistoricEndDate = DateTime.Today.AddYears(-1);
@@ -74,9 +73,9 @@ public class GovernanceModelTests
         _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(TestUid))
             .ReturnsAsync(new TrustSummaryServiceModel(TestUid, "My trust", "", 0));
 
-        _sut = new GovernanceModel(_mockTrustProvider.Object, _mockDataSourceService.Object,
+        _sut = new GovernanceModel(_mockDataSourceService.Object,
                 new MockLogger<GovernanceModel>().Object, _mockTrustRepository.Object)
-            { Uid = TestUid };
+        { Uid = TestUid };
     }
 
     [Fact]
