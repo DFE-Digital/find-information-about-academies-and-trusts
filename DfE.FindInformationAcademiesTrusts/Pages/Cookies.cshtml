@@ -65,7 +65,7 @@
                     <td class="govuk-table__cell">With browser settings (Session)</td>
                 </tr>
                 <tr>
-                    <td class="govuk-table__cell">.AspNetCore.Antiforgery </td>
+                    <td class="govuk-table__cell">.FindInformationAcademiesTrusts.Antiforgery </td>
                     <td class="govuk-table__cell">Secures you and our service against Cross Site Scripting Attacks (CSRF) </td>
                     <td class="govuk-table__cell">With browser settings (Session)</td>
                 </tr>
@@ -108,7 +108,7 @@
                     <td class="govuk-table__cell">30 minutes</td>
                 </tr>
                 <tr class="govuk-table__row">
-                    <td class="govuk-table__cell">ai_authuser</td>
+                    <td class="govuk-table__cell">ai_authUser</td>
                     <td class="govuk-table__cell">This helps us to identify authenticated users and how they interact with the site</td>
                     <td class="govuk-table__cell">When you close your browser</td>
                 </tr>
@@ -130,7 +130,7 @@
     <div class="govuk-grid-column-two-thirds">
         <form method="post" name="frmCookies">
             <div class="govuk-form-group">
-                <input type="hidden" name="redirectPath" value="@(HttpContext.Request.Path + HttpContext.Request.QueryString)" />
+                <input type="hidden" name="redirectPath" value="@(HttpContext.Request.Path + HttpContext.Request.QueryString)"/>
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                         <h3 class="govuk-fieldset__heading">Do you want to accept cookies that measure your website use?</h3>
