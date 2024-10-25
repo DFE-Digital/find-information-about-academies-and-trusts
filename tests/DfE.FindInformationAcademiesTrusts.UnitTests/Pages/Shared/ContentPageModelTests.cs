@@ -40,7 +40,7 @@ public class ContentPageModelTests
     [Fact]
     public void ShowBreadcrumb_should_default_to_false_for_unauthorized_user()
     {
-        _mockHttpContext.SetupUnauthorizedUser();
+        _mockHttpContext.SetUserTo(MockHttpContext.UserAuthState.Unauthorised);
         _sut.ShowBreadcrumb.Should().BeFalse();
     }
 
@@ -49,7 +49,7 @@ public class ContentPageModelTests
     [InlineData(false)]
     public void ShowBreadcrumb_should_be_always_be_false_for_unauthorized_user(bool value)
     {
-        _mockHttpContext.SetupUnauthorizedUser();
+        _mockHttpContext.SetUserTo(MockHttpContext.UserAuthState.Unauthorised);
         _sut.ShowBreadcrumb = value;
         _sut.ShowBreadcrumb.Should().BeFalse();
     }
