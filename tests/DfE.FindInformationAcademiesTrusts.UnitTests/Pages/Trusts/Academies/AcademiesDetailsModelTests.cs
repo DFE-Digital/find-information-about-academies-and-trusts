@@ -2,8 +2,8 @@ using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
-using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +14,6 @@ public class AcademiesDetailsModelTests
 {
     private readonly AcademiesDetailsModel _sut;
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinkBuilder = new();
-    private readonly Mock<ITrustProvider> _mockTrustProvider = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
     private readonly Mock<IAcademyService> _mockAcademyService = new();
     private readonly Mock<IExportService> _mockExportService = new();
@@ -29,7 +28,7 @@ public class AcademiesDetailsModelTests
         _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
             .ReturnsAsync(_fakeTrust);
 
-        _sut = new AcademiesDetailsModel(_mockTrustProvider.Object, _mockDataSourceService.Object,
+        _sut = new AcademiesDetailsModel(_mockDataSourceService.Object,
                 _mockLinkBuilder.Object, _mockLogger.Object, _mockTrustRepository.Object, _mockAcademyService.Object, _mockExportService.Object, _mockDateTimeProvider.Object)
         { Uid = _fakeTrust.Uid };
     }

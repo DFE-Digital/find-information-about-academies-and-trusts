@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - Updated the contacts page to include disclaimer text for the trust contacts
+- Removed legacy trust provider and associated code
+- Improved performance of academies data export
 
 ## [Release-11][release-11] (production-2024-10-17.3654)
 

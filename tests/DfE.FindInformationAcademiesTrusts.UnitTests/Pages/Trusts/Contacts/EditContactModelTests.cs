@@ -1,4 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -8,7 +7,6 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Contacts;
 public class EditContactModelTests
 {
     private EditContactModel _sut;
-    private readonly Mock<ITrustProvider> _mockTrustProvider = new();
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustService = new();
 
@@ -21,9 +19,9 @@ public class EditContactModelTests
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
             .ReturnsAsync(_fakeTrust);
 
-        _sut = new EditSfsoLeadModel(_mockTrustProvider.Object, _mockDataSourceService.Object,
+        _sut = new EditSfsoLeadModel(_mockDataSourceService.Object,
                 new MockLogger<EditSfsoLeadModel>().Object, _mockTrustService.Object)
-            { Uid = "1234" };
+        { Uid = "1234" };
     }
 
     [Fact]
@@ -89,15 +87,15 @@ public class EditContactModelTests
     {
         if (pageName != null)
         {
-            _sut = new EditSfsoLeadModel(_mockTrustProvider.Object, _mockDataSourceService.Object,
+            _sut = new EditSfsoLeadModel(_mockDataSourceService.Object,
                     new MockLogger<EditSfsoLeadModel>().Object, _mockTrustService.Object)
-                { Uid = "1234", PageName = pageName, PageTitle = pageTitle };
+            { Uid = "1234", PageName = pageName, PageTitle = pageTitle };
         }
         else
         {
-            _sut = new EditSfsoLeadModel(_mockTrustProvider.Object, _mockDataSourceService.Object,
+            _sut = new EditSfsoLeadModel(_mockDataSourceService.Object,
                     new MockLogger<EditSfsoLeadModel>().Object, _mockTrustService.Object)
-                { Uid = "1234", PageTitle = pageTitle };
+            { Uid = "1234", PageTitle = pageTitle };
         }
 
         _sut.TrustSummary = _fakeTrust;

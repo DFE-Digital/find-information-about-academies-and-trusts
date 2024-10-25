@@ -7,10 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public class OverviewModel(
-    ITrustProvider trustProvider,
     IDataSourceService dataSourceService,
     ILogger<OverviewModel> logger,
-    ITrustService trustService) : TrustsAreaModel(trustProvider, dataSourceService, trustService, logger, "Overview")
+    ITrustService trustService) : TrustsAreaModel(dataSourceService, trustService, logger, "Overview")
 {
     private readonly ITrustService _trustService = trustService;
 

@@ -1,9 +1,8 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Data.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
-using DfE.FindInformationAcademiesTrusts.Services;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +12,6 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 public class PupilNumbersModelTests
 {
     private readonly PupilNumbersModel _sut;
-    private readonly Mock<ITrustProvider> _mockTrustProvider = new();
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
     private readonly Mock<IExportService> _mockExportService = new();
@@ -23,19 +21,20 @@ public class PupilNumbersModelTests
     public PupilNumbersModelTests()
     {
         MockLogger<PupilNumbersModel> logger = new();
-        var dummyTrust = DummyTrustFactory.GetDummyTrust("1234");
+        var testTrustUid = "1234";
+        var testTrustName = "Test Trust";
+        var testTrustType = "SAT";
 
-        _mockTrustProvider.Setup(tp => tp.GetTrustByUidAsync("1234")).ReturnsAsync(dummyTrust);
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrust.Uid))
-            .ReturnsAsync(new TrustSummaryServiceModel(dummyTrust.Uid, dummyTrust.Name, dummyTrust.Type,
-                dummyTrust.Academies.Length));
-        _mockAcademyService.Setup(t => t.GetAcademiesInTrustPupilNumbersAsync(dummyTrust.Uid))
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(testTrustUid))
+            .ReturnsAsync(new TrustSummaryServiceModel(testTrustUid, testTrustName, testTrustType,
+                1));
+        _mockAcademyService.Setup(t => t.GetAcademiesInTrustPupilNumbersAsync(testTrustUid))
             .ReturnsAsync([
-                new AcademyPupilNumbersServiceModel(dummyTrust.Uid, dummyTrust.Name, "Phase",
+                new AcademyPupilNumbersServiceModel(testTrustUid, testTrustName, "Phase",
                     new AgeRange("11", "16"), 100, 200)
             ]);
 
-        _sut = new PupilNumbersModel(_mockTrustProvider.Object, _mockDataSourceService.Object, logger.Object,
+        _sut = new PupilNumbersModel(_mockDataSourceService.Object, logger.Object,
                _mockTrustRepository.Object, _mockAcademyService.Object, _mockExportService.Object, _mockDateTimeProvider.Object)
         { Uid = "1234" };
 
@@ -70,11 +69,14 @@ public class PupilNumbersModelTests
         int minAge, int maxAge, string expected)
     {
         var ageRange = new AgeRange(minAge, maxAge);
-        var dummyAcademy = DummyAcademyFactory.GetDummyAcademy(111, phaseOfEducation: phase, ageRange: ageRange);
+        var testAcademyUrn = "1234";
+        var testAcademyName = "Test Academy";
+        var testAcademyNumberOfPupils = 100;
+        var testAcademySchoolCapacity = 100;
 
-        var result = PupilNumbersModel.PhaseAndAgeRangeSortValue(new AcademyPupilNumbersServiceModel(dummyAcademy.Urn.ToString(),
-            dummyAcademy.EstablishmentName, dummyAcademy.PhaseOfEducation, dummyAcademy.AgeRange,
-            dummyAcademy.NumberOfPupils, dummyAcademy.SchoolCapacity));
+        var result = PupilNumbersModel.PhaseAndAgeRangeSortValue(new AcademyPupilNumbersServiceModel(testAcademyUrn,
+            testAcademyName, phase, ageRange,
+            testAcademyNumberOfPupils, testAcademySchoolCapacity));
         result.Should().Be(expected);
     }
 
