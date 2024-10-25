@@ -34,7 +34,6 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies
 
             var trustSummary = new TrustSummaryServiceModel(uid, "Sample Trust", "Multi-academy trust", 0);
             byte[] expectedBytes = [1, 2, 3];
-            var ofstedRatings = Array.Empty<AcademyOfstedServiceModel>();
 
             _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid)).ReturnsAsync(trustSummary);
             _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(uid)).ReturnsAsync(expectedBytes);
@@ -71,7 +70,6 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies
             string uid = "1234";
             var trustSummary = new TrustSummaryServiceModel(uid, "Sample/Trust:Name?", "Multi-academy trust", 0);
             var expectedBytes = new byte[] { 1, 2, 3 };
-            var ofstedRatings = Array.Empty<AcademyOfstedServiceModel>();
 
             _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid)).ReturnsAsync(trustSummary);
             _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(uid)).ReturnsAsync(expectedBytes);

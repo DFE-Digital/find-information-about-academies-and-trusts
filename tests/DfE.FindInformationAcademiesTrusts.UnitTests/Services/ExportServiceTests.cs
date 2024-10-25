@@ -3,7 +3,6 @@ using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Pages;
-using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
@@ -126,9 +125,6 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
         {
             // Arrange            
             var trustSummary = new TrustSummaryServiceModel("1", "Empty Trust", "Multi-academy trust", 0);
-
-            // Passing an empty array for ofstedRatings since no academies are present
-            var ofstedRatings = Array.Empty<AcademyOfstedServiceModel>();
 
             // Act
             var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
