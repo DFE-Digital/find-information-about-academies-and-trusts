@@ -47,7 +47,7 @@ public class BasePageModelTests
     [Fact]
     public void ShowHeaderSearch_should_default_to_false_for_unauthorized_user()
     {
-        _mockHttpContext.SetupUnauthorizedUser();
+        _mockHttpContext.SetUserTo(MockHttpContext.UserAuthState.Unauthorised);
         var sut = new BasePageModelImplementation
         {
             PageContext = _pageContext,
@@ -62,7 +62,7 @@ public class BasePageModelTests
     [InlineData(false)]
     public void ShowHeaderSearch_should_be_always_be_false_for_unauthorized_user(bool value)
     {
-        _mockHttpContext.SetupUnauthorizedUser();
+        _mockHttpContext.SetUserTo(MockHttpContext.UserAuthState.Unauthorised);
         var sut = new BasePageModelImplementation
         {
             PageContext = _pageContext,

@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using DfE.FindInformationAcademiesTrusts.Configuration;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -20,7 +21,6 @@ public class MockHttpContext : Mock<HttpContext>
 
         ClaimsPrincipal user = new();
         user.AddIdentity(_claimsIdentity);
-        AddUserClaim(_claimsIdentity.RoleClaimType, "User.Role.Authorised");
 
         _mockRequest.Setup(m => m.Cookies).Returns(MockRequestCookies.Object);
         _mockRequest.Setup(m => m.Query[It.IsAny<string>()]).Returns("");
@@ -29,12 +29,39 @@ public class MockHttpContext : Mock<HttpContext>
         Setup(m => m.Response).Returns(mockResponse.Object);
         Setup(m => m.Features).Returns(_mockFeatureCollection.Object);
         Setup(m => m.User).Returns(user);
+
+        SetUserTo(UserAuthState.Authorised);
     }
 
-    public void SetupUnauthorizedUser()
+    public enum UserAuthState
     {
-        var roleClaim = _claimsIdentity.Claims.Single(c => c.Type == _claimsIdentity.RoleClaimType);
-        _claimsIdentity.RemoveClaim(roleClaim);
+        Authorised,
+        Unauthorised,
+        Unauthenticated
+    }
+
+    public void SetUserTo(UserAuthState value)
+    {
+        //Reset user state
+        var roleClaim = _claimsIdentity.Claims.SingleOrDefault(c => c.Type == _claimsIdentity.RoleClaimType);
+        if (roleClaim is not null) _claimsIdentity.RemoveClaim(roleClaim);
+        MockRequestCookies.Data.Remove(FiatCookies.Login);
+
+        // Set user to correct state
+        switch (value)
+        {
+            case UserAuthState.Authorised:
+                AddUserClaim(_claimsIdentity.RoleClaimType, "User.Role.Authorised");
+                MockRequestCookies.Data.Add(FiatCookies.Login, "You are logged in");
+                break;
+            case UserAuthState.Unauthorised:
+                MockRequestCookies.Data.Add(FiatCookies.Login, "You are logged in");
+                break;
+            case UserAuthState.Unauthenticated:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(value), value, null);
+        }
     }
 
     public void AddUserClaim(string type, string value)
