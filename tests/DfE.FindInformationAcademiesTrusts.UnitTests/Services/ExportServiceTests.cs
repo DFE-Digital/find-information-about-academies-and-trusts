@@ -246,17 +246,18 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
         }
 
         [Fact]
-        public void IsOfstedRatingBeforeOrAfterJoining_ShouldReturnAfterJoining_WhenInspectionDateIsNull()
+        public void IsOfstedRatingBeforeOrAfterJoining_ShouldReturnEmptyString_WhenInspectionDateIsNull()
         {
             // Arrange
             var ofstedRatingScore = OfstedRatingScore.Good;
             var dateJoinedTrust = _mockDateTimeProvider.Object.Now;
 
+
             // Act
             var result = ExportService.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, null);
 
             // Assert
-            result.Should().Be("After Joining");
+            result.Should().Be(string.Empty);
         }
 
         [Theory]
