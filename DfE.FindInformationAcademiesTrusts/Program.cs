@@ -269,6 +269,8 @@ internal static class Program
                 options.Cookie.SameSite = SameSiteMode.None;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
+
+        builder.Services.AddAntiforgery(opts => { opts.Cookie.Name = ".FindInformationAcademiesTrusts.Antiforgery"; });
     }
 
     private static void AddDataProtectionServices(WebApplicationBuilder builder)

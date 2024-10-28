@@ -29,7 +29,7 @@ describe('Cookie page and consent tests', () => {
         cy.getCookie('.FindInformationAcademiesTrust.CookieConsent').should('exist')
         cy.getCookie('ASLBSA').should('exist')
         cy.getCookie('ASLBSACORS').should('exist')
-        cy.getCookie('.AspNetCore.Antiforgery.VyLW6ORzMgk').should('exist')
+        cy.getCookie('.FindInformationAcademiesTrusts.Antiforgery').should('exist')
 
     });
 
@@ -53,7 +53,7 @@ describe('Cookie page and consent tests', () => {
         cy.getCookie('.FindInformationAcademiesTrust.CookieConsent').should('exist')
         cy.getCookie('ASLBSA').should('exist')
         cy.getCookie('ASLBSACORS').should('exist')
-        cy.getCookie('.AspNetCore.Antiforgery.VyLW6ORzMgk').should('exist')
+        cy.getCookie('.FindInformationAcademiesTrusts.Antiforgery').should('exist')
     });
 
     it('should check that the return to previous page button actually takes me to my previous page after accept cookies', () => {
