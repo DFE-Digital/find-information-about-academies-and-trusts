@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
-using DfE.FindInformationAcademiesTrusts.Configuration;
+using System.Text.Json;
 using DfE.FindInformationAcademiesTrusts.Extensions;
 using DfE.FindInformationAcademiesTrusts.Options;
 using Microsoft.AspNetCore.Authorization;
@@ -15,6 +15,8 @@ public class AutomationAuthorizationHandler(
     IOptions<TestOverrideOptions> testOverrideOptions)
     : AuthorizationHandler<IAuthorizationRequirement>
 {
+    private record AutomationUserContext(string Name, string Email, string[] Roles);
+
     private readonly string? _cypressTestSecret = testOverrideOptions.Value.CypressTestSecret;
     private readonly bool _isLiveEnvironment = environment.IsLiveEnvironment();
 
@@ -34,15 +36,26 @@ public class AutomationAuthorizationHandler(
 
     public void SetupAutomationUser()
     {
+        var httpContext = httpContextAccessor.HttpContext!;
+
+        var userContextJson = httpContext.Request.Headers["x-user-context"].ToString();
+        var automationUserContext = JsonSerializer.Deserialize<AutomationUserContext>(userContextJson,
+            new JsonSerializerOptions(JsonSerializerDefaults.Web));
+
+        if (automationUserContext == null)
+            throw new InvalidOperationException("Could not deserialize automation user context");
+
         var identity = new ClaimsIdentity(new List<Claim>
         {
-            new("name", "Automation User - name"),
-            new("preferred_username", "Automation User - email"),
-            new(ClaimTypes.Role, UserRoles.AuthorisedFiatUser)
+            new("name", automationUserContext.Name),
+            new("preferred_username", automationUserContext.Email)
         });
+        foreach (var role in automationUserContext.Roles)
+            identity.AddClaim(new Claim(ClaimTypes.Role, role));
+
         var user = new ClaimsPrincipal(identity);
 
-        httpContextAccessor.HttpContext!.User = user;
+        httpContext.User = user;
     }
 
     [ExcludeFromCodeCoverage] // This method is difficult to test, everything that can be tested has been extracted to other public methods
