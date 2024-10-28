@@ -8,29 +8,22 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 public class MockHttpContext : Mock<HttpContext>
 {
-    private readonly Mock<IResponseCookies> _mockResponseCookies = new();
-    private readonly Mock<IRequestCookieCollection> _mockRequestCookies = new();
+    public MockResponseCookies MockResponseCookies { get; } = new();
+    public MockRequestCookies MockRequestCookies { get; } = new();
     private readonly Mock<HttpRequest> _mockRequest = new();
     private readonly Mock<IFeatureCollection> _mockFeatureCollection = new();
     private readonly ClaimsIdentity _claimsIdentity = new();
-    private readonly Dictionary<string, string> _requestCookies = new();
 
     public MockHttpContext()
     {
         Mock<HttpResponse> mockResponse = new();
-        mockResponse.Setup(m => m.Cookies).Returns(_mockResponseCookies.Object);
+        mockResponse.Setup(m => m.Cookies).Returns(MockResponseCookies.Object);
 
         ClaimsPrincipal user = new();
         user.AddIdentity(_claimsIdentity);
 
-        _mockRequest.Setup(m => m.Cookies).Returns(_mockRequestCookies.Object);
+        _mockRequest.Setup(m => m.Cookies).Returns(MockRequestCookies.Object);
         _mockRequest.Setup(m => m.Query[It.IsAny<string>()]).Returns("");
-
-        _mockRequestCookies.Setup(m => m.Keys).Returns(_requestCookies.Keys);
-        _mockRequestCookies.Setup(m => m.ContainsKey(It.IsAny<string>()))
-            .Returns((string key) => _requestCookies.ContainsKey(key));
-        _mockRequestCookies.Setup(m => m[It.IsAny<string>()])
-            .Returns((string key) => _requestCookies.TryGetValue(key, out var value) ? value : null);
 
         Setup(m => m.Request).Returns(_mockRequest.Object);
         Setup(m => m.Response).Returns(mockResponse.Object);
@@ -38,11 +31,6 @@ public class MockHttpContext : Mock<HttpContext>
         Setup(m => m.User).Returns(user);
 
         SetUserTo(UserAuthState.Authorised);
-    }
-
-    public void AddRequestCookie(string key, string value)
-    {
-        _requestCookies.Add(key, value);
     }
 
     public enum UserAuthState
@@ -57,17 +45,17 @@ public class MockHttpContext : Mock<HttpContext>
         //Reset user state
         var roleClaim = _claimsIdentity.Claims.SingleOrDefault(c => c.Type == _claimsIdentity.RoleClaimType);
         if (roleClaim is not null) _claimsIdentity.RemoveClaim(roleClaim);
-        _requestCookies.Remove(FiatCookies.Login);
+        MockRequestCookies.Data.Remove(FiatCookies.Login);
 
         // Set user to correct state
         switch (value)
         {
             case UserAuthState.Authorised:
                 AddUserClaim(_claimsIdentity.RoleClaimType, "User.Role.Authorised");
-                AddRequestCookie(FiatCookies.Login, "You are logged in");
+                MockRequestCookies.Data.Add(FiatCookies.Login, "You are logged in");
                 break;
             case UserAuthState.Unauthorised:
-                AddRequestCookie(FiatCookies.Login, "You are logged in");
+                MockRequestCookies.Data.Add(FiatCookies.Login, "You are logged in");
                 break;
             case UserAuthState.Unauthenticated:
                 break;
@@ -79,36 +67,6 @@ public class MockHttpContext : Mock<HttpContext>
     public void AddUserClaim(string type, string value)
     {
         _claimsIdentity.AddClaim(new Claim(type, value));
-    }
-
-    public void SetupConsentCookie(bool? accepted)
-    {
-        if (accepted is true)
-        {
-            SetupAcceptedCookie();
-        }
-        else if (accepted is false)
-        {
-            SetupRejectedCookie();
-        }
-    }
-
-    public void SetupAcceptedCookie()
-    {
-        AddRequestCookie(FiatCookies.CookieConsent, "True");
-    }
-
-    public void SetupRejectedCookie()
-    {
-        AddRequestCookie(FiatCookies.CookieConsent, "False");
-    }
-
-    public void SetupOptionalCookies()
-    {
-        AddRequestCookie("ai_user", "True");
-        AddRequestCookie("ai_session", "True");
-        AddRequestCookie("_gid", "True");
-        AddRequestCookie("_ga", "True");
     }
 
     public void SetQueryReturnPath(string path)
@@ -144,24 +102,5 @@ public class MockHttpContext : Mock<HttpContext>
                 && m.OriginalQueryString == query));
 
         _mockRequest.Setup(m => m.Host).Returns(new HostString(host));
-    }
-
-    public void VerifySecureCookieAdded(string key, string value)
-    {
-        _mockResponseCookies.Verify(
-            m => m.Append(key, value,
-                It.Is<CookieOptions>(c => c.Secure == true && c.HttpOnly == true)), Times.Once);
-    }
-
-    public void VerifyCookieDeleted(string key)
-    {
-        _mockResponseCookies.Verify(
-            m => m.Delete(key), Times.Once);
-    }
-
-    public void VerifyNoCookiesDeleted()
-    {
-        _mockResponseCookies.Verify(
-            m => m.Delete(It.IsAny<string>()), Times.Exactly(0));
     }
 }
