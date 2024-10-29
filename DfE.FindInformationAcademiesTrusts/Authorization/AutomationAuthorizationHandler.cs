@@ -15,8 +15,9 @@ public class AutomationAuthorizationHandler(
     IOptions<TestOverrideOptions> testOverrideOptions)
     : AuthorizationHandler<IAuthorizationRequirement>
 {
-    private record AutomationUserContext(string Name, string Email, string[] Roles);
+    private sealed record AutomationUserContext(string Name, string Email, string[] Roles);
 
+    private static readonly JsonSerializerOptions WebJsonSerializerOptions = new(JsonSerializerDefaults.Web);
     private readonly string? _cypressTestSecret = testOverrideOptions.Value.CypressTestSecret;
     private readonly bool _isLiveEnvironment = environment.IsLiveEnvironment();
 
@@ -39,8 +40,8 @@ public class AutomationAuthorizationHandler(
         var httpContext = httpContextAccessor.HttpContext!;
 
         var userContextJson = httpContext.Request.Headers["x-user-context"].ToString();
-        var automationUserContext = JsonSerializer.Deserialize<AutomationUserContext>(userContextJson,
-            new JsonSerializerOptions(JsonSerializerDefaults.Web));
+        var automationUserContext =
+            JsonSerializer.Deserialize<AutomationUserContext>(userContextJson, WebJsonSerializerOptions);
 
         if (automationUserContext == null)
             throw new InvalidOperationException("Could not deserialize automation user context");
