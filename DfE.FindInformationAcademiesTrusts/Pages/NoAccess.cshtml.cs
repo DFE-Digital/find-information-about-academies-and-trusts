@@ -13,9 +13,12 @@ public class NoAccessModel : ContentPageModel
 
     public ActionResult OnGet(string? returnUrl)
     {
+        if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
+            return Page();
+
         if (User.HasAccessToFiat())
         {
-            return Url.IsLocalUrl(returnUrl) ? LocalRedirect(returnUrl) : Page();
+            return LocalRedirect(returnUrl);
         }
 
         // Users may be redirected to Access Denied because the login cookie stored in their browser contains
@@ -29,7 +32,7 @@ public class NoAccessModel : ContentPageModel
             // We use temp data to ensure we don't end up in a redirect loop for genuine unauthorised users
             TempData.Add(RetryingLogin, "true");
 
-            return Url.IsLocalUrl(returnUrl) ? LocalRedirect(returnUrl) : Page();
+            return LocalRedirect(returnUrl);
         }
 
         TempData.Remove(RetryingLogin);
