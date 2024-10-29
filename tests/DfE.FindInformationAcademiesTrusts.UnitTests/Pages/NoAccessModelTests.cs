@@ -62,6 +62,19 @@ public class NoAccessModelTests
     [InlineData(MockHttpContext.UserAuthState.Authorised)]
     [InlineData(MockHttpContext.UserAuthState.Unauthenticated)]
     [InlineData(MockHttpContext.UserAuthState.Unauthorised)]
+    public void OnGet_should_render_page_when_return_url_is_empty(MockHttpContext.UserAuthState authState)
+    {
+        _mockHttpContext.SetUserTo(authState);
+
+        var result = _sut.OnGet(string.Empty);
+
+        result.Should().BeOfType<PageResult>();
+    }
+
+    [Theory]
+    [InlineData(MockHttpContext.UserAuthState.Authorised)]
+    [InlineData(MockHttpContext.UserAuthState.Unauthenticated)]
+    [InlineData(MockHttpContext.UserAuthState.Unauthorised)]
     public void OnGet_should_never_redirect_to_external_return_url(MockHttpContext.UserAuthState authState)
     {
         _mockHttpContext.SetUserTo(authState);
