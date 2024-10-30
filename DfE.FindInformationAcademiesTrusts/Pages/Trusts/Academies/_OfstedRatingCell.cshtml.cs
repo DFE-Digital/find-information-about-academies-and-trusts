@@ -12,7 +12,7 @@ public class OfstedRatingCellModel
 
     public bool IsAfterJoining => OfstedRating.InspectionDate >= AcademyJoinedDate;
 
-    public string? OfstedRatingDescription => OfstedRating.OfstedRatingScore switch
+    public string? OfstedRatingDescription => OfstedRating.OverallEffectiveness switch
     {
         OfstedRatingScore.None => "Not yet inspected",
         OfstedRatingScore.Outstanding => "Outstanding",
@@ -21,12 +21,13 @@ public class OfstedRatingCellModel
         OfstedRatingScore.Inadequate => "Inadequate",
         _ => string.Empty
     };
+
     public int OfstedRatingSortValue
     {
         get
         {
-            if (OfstedRating.OfstedRatingScore == OfstedRatingScore.None) return 5;
-            return (int)OfstedRating.OfstedRatingScore;
+            if (OfstedRating.OverallEffectiveness == OfstedRatingScore.None) return 5;
+            return (int)OfstedRating.OverallEffectiveness;
         }
     }
 
