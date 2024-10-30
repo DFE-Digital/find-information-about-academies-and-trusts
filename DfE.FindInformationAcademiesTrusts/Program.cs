@@ -229,7 +229,6 @@ internal static class Program
         builder.Services.AddScoped<IAcademyService, AcademyService>();
         builder.Services.AddScoped<IExportService, ExportService>();
 
-        builder.Services.AddScoped<IAuthorizationHandler, AutomationAuthorizationHandler>();
         builder.Services.AddScoped<IOtherServicesLinkBuilder, OtherServicesLinkBuilder>();
         builder.Services.AddScoped<IFreeSchoolMealsAverageProvider, FreeSchoolMealsAverageProvider>();
         builder.Services.AddHttpContextAccessor();
@@ -276,6 +275,8 @@ internal static class Program
             });
 
         builder.Services.AddAntiforgery(opts => { opts.Cookie.Name = FiatCookies.Antiforgery; });
+
+        builder.Services.AddScoped<IAuthorizationHandler, AutomationAuthorizationHandler>();
     }
 
     private static void AddDataProtectionServices(WebApplicationBuilder builder)
