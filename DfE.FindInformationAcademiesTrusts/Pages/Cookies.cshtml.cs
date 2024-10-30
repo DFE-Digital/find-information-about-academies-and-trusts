@@ -1,12 +1,10 @@
 using DfE.FindInformationAcademiesTrusts.Configuration;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
-[AllowAnonymous]
-public class CookiesModel(IHttpContextAccessor httpContextAccessor) : ContentPageModel
+public class CookiesModel(IHttpContextAccessor httpContextAccessor) : AnonymousPageModel
 {
     public bool DisplayCookieChangedMessageOnCookiesPage { get; set; }
     [BindProperty(SupportsGet = true)] public string? ReturnPath { get; set; }
