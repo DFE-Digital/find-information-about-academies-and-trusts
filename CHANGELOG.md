@@ -6,11 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Added
+
+- Redirect unauthorised users to a new "no access" page giving them directions on how to get access to FIAT
+
 ### Changed
 
 - Updated the autocomplete so that searching clears the selected trust
 - Fix Privacy page having incorrect width
 - Update name of cookie consent cookie to be consistent with application name and what is displayed in the Cookie UI
+- Make cookies, accessibility statement and privacy notice pages available to users without FIAT access
+- Hide header and footer areas on pages available to users without FIAT access
+- Improve security by changing SameSite setting for the login cookie to current Microsoft recommendation of Lax
 
 ## [Release-17][release-17] (production-2024-12-18.4551)
 
