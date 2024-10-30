@@ -51,14 +51,37 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
         return academyOfsteds;
     }
 
-    private async Task<Dictionary<string, OfstedRatings>> GetOfstedRatings(int[] urns)
+    private async Task<Dictionary<string, AcademyOfstedRatings>> GetOfstedRatings(int[] urns)
     {
         // Ofsted data is held in MisEstablishments for most academies
         var ofstedRatings =
             await academiesDbContext.MisEstablishments
                 .Where(me => urns.Contains(me.Urn!.Value))
-                .Select(me => new OfstedRatings(me.Urn!.Value, me.OverallEffectiveness, me.InspectionStartDate,
-                    me.PreviousFullInspectionOverallEffectiveness, me.PreviousInspectionStartDate))
+                .Select(me => new AcademyOfstedRatings(me.Urn!.Value,
+                    new OfstedRating(
+                        (OfstedRatingScore?)me.OverallEffectiveness ?? OfstedRatingScore.None,
+                        (OfstedRatingScore?)me.QualityOfEducation ?? OfstedRatingScore.None,
+                        (OfstedRatingScore?)me.BehaviourAndAttitudes ?? OfstedRatingScore.None,
+                        (OfstedRatingScore?)me.PersonalDevelopment ?? OfstedRatingScore.None,
+                        (OfstedRatingScore?)me.EffectivenessOfLeadershipAndManagement ?? OfstedRatingScore.None,
+                        (OfstedRatingScore?)me.EarlyYearsProvisionWhereApplicable ?? OfstedRatingScore.None,
+                        (OfstedRatingScore?)me.SixthFormProvisionWhereApplicable ?? OfstedRatingScore.None,
+                        OfstedRating.ConvertStringToCategoriesOfConcern(me.CategoryOfConcern),
+                        OfstedRating.ConvertStringToSafeguardingScore(me.SafeguardingIsEffective),
+                        me.InspectionStartDate.ParseAsNullableDate()),
+                    new OfstedRating(
+                        (OfstedRatingScore?)me.PreviousFullInspectionOverallEffectiveness.ParseAsNullableInt() ??
+                        OfstedRatingScore.None,
+                        (OfstedRatingScore?)me.PreviousQualityOfEducation ?? OfstedRatingScore.None,
+                        (OfstedRatingScore?)me.PreviousBehaviourAndAttitudes ?? OfstedRatingScore.None,
+                        (OfstedRatingScore?)me.PreviousPersonalDevelopment ?? OfstedRatingScore.None,
+                        (OfstedRatingScore?)me.PreviousEffectivenessOfLeadershipAndManagement ?? OfstedRatingScore.None,
+                        (OfstedRatingScore?)me.PreviousEarlyYearsProvisionWhereApplicable ?? OfstedRatingScore.None,
+                        (OfstedRatingScore?)me.PreviousSixthFormProvisionWhereApplicable.ParseAsNullableInt() ??
+                        OfstedRatingScore.None,
+                        OfstedRating.ConvertStringToCategoriesOfConcern(me.PreviousCategoryOfConcern),
+                        OfstedRating.ConvertStringToSafeguardingScore(me.PreviousSafeguardingIsEffective),
+                        me.PreviousInspectionStartDate.ParseAsNullableDate())))
                 .ToListAsync();
 
         // Look in MisFurtherEducationEstablishments for academies not found in MisEstablishments
@@ -70,8 +93,28 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
                 await academiesDbContext.MisFurtherEducationEstablishments
                     .Where(mfe => urnsNotInMisEstablishments.Contains(mfe.ProviderUrn))
                     .Select(mfe =>
-                        new OfstedRatings(mfe.ProviderUrn, mfe.OverallEffectiveness, mfe.LastDayOfInspection,
-                            mfe.PreviousOverallEffectiveness, mfe.PreviousLastDayOfInspection))
+                        new AcademyOfstedRatings(mfe.ProviderUrn, new OfstedRating(
+                                (OfstedRatingScore?)mfe.OverallEffectiveness ?? OfstedRatingScore.None,
+                                (OfstedRatingScore?)mfe.QualityOfEducation ?? OfstedRatingScore.None,
+                                (OfstedRatingScore?)mfe.BehaviourAndAttitudes ?? OfstedRatingScore.None,
+                                (OfstedRatingScore?)mfe.PersonalDevelopment ?? OfstedRatingScore.None,
+                                (OfstedRatingScore?)mfe.EffectivenessOfLeadershipAndManagement ??
+                                OfstedRatingScore.None,
+                                OfstedRatingScore.None, OfstedRatingScore.None,
+                                CategoriesOfConcern.None,
+                                OfstedRating.ConvertStringToSafeguardingScore(mfe.IsSafeguardingEffective),
+                                mfe.LastDayOfInspection.ParseAsNullableDate()),
+                            new OfstedRating(
+                                (OfstedRatingScore?)mfe.PreviousOverallEffectiveness ?? OfstedRatingScore.None,
+                                (OfstedRatingScore?)mfe.PreviousQualityOfEducation ?? OfstedRatingScore.None,
+                                (OfstedRatingScore?)mfe.PreviousBehaviourAndAttitudes ?? OfstedRatingScore.None,
+                                (OfstedRatingScore?)mfe.PreviousPersonalDevelopment ?? OfstedRatingScore.None,
+                                (OfstedRatingScore?)mfe.PreviousEffectivenessOfLeadershipAndManagement ??
+                                OfstedRatingScore.None,
+                                OfstedRatingScore.None, OfstedRatingScore.None,
+                                CategoriesOfConcern.None,
+                                OfstedRating.ConvertStringToSafeguardingScore(mfe.PreviousSafeguarding),
+                                mfe.PreviousLastDayOfInspection.ParseAsNullableDate())))
                     .ToArrayAsync()
             );
         }
@@ -81,7 +124,7 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
             logger.LogError(
                 "URN {Urn} was not found in Mis.Establishments or Mis.FurtherEducationEstablishments. This indicates a data integrity issue with the Ofsted data in Academies Db.",
                 urn);
-            ofstedRatings.Add(new OfstedRatings(urn, OfstedRating.None, OfstedRating.None));
+            ofstedRatings.Add(new AcademyOfstedRatings(urn, OfstedRating.None, OfstedRating.None));
         }
 
         return ofstedRatings.ToDictionary(o => o.Urn.ToString(), o => o);
@@ -161,7 +204,7 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
             var currentOfstedRating = OfstedRatingScore.None;
             if (ofstedRatingsDict.TryGetValue(a.Urn, out var ofstedRatings))
             {
-                currentOfstedRating = ofstedRatings.Current?.OfstedRatingScore ?? OfstedRatingScore.None;
+                currentOfstedRating = ofstedRatings.Current?.OverallEffectiveness ?? OfstedRatingScore.None;
             }
 
             return new AcademyOverview(
@@ -176,35 +219,5 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
         return academiesOverview;
     }
 
-    private sealed record OfstedRatings(int Urn, OfstedRating Current, OfstedRating Previous)
-    {
-        public OfstedRatings(int urn, int? currentOverallEffectiveness, string? currentInspectionDate,
-            string? previousOverallEffectiveness, string? previousInspectionDate) :
-            this(urn,
-                currentOverallEffectiveness,
-                currentInspectionDate,
-                previousOverallEffectiveness is null ? null : int.Parse(previousOverallEffectiveness),
-                previousInspectionDate)
-        {
-        }
-
-        public OfstedRatings(int urn, int? currentOverallEffectiveness, string? currentInspectionDate,
-            int? previousOverallEffectiveness, string? previousInspectionDate)
-            : this(urn,
-                currentOverallEffectiveness == null
-                    ? OfstedRating.None
-                    : new OfstedRating(
-                        (OfstedRatingScore)currentOverallEffectiveness.Value,
-                        currentInspectionDate.ParseAsNullableDate()
-                    ),
-                previousOverallEffectiveness == null
-                    ? OfstedRating.None
-                    : new OfstedRating(
-                        (OfstedRatingScore)previousOverallEffectiveness,
-                        previousInspectionDate.ParseAsNullableDate()
-                    )
-            )
-        {
-        }
-    }
+    private sealed record AcademyOfstedRatings(int Urn, OfstedRating Current, OfstedRating Previous);
 }
