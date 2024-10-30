@@ -2,6 +2,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Factory;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -118,19 +119,19 @@ public class AcademyRepositoryTests
 
         _mockAcademiesDbContext.AddMisEstablishments(new[]
         {
-            new MisEstablishment { Urn = urnsAsInt[0], OverallEffectiveness = 1, InspectionStartDate = "01/01/2022" },
-            new MisEstablishment { Urn = urnsAsInt[1], OverallEffectiveness = 2, InspectionStartDate = "29/02/2024" },
-            new MisEstablishment { Urn = urnsAsInt[2], OverallEffectiveness = 3, InspectionStartDate = "31/12/2022" },
-            new MisEstablishment { Urn = urnsAsInt[3], OverallEffectiveness = 4, InspectionStartDate = "15/10/2023" },
-            new MisEstablishment { Urn = urnsAsInt[4], OverallEffectiveness = null, InspectionStartDate = null }
+            MisEstablishmentFactory.CreateMisEstablishment(urnsAsInt[0], 1, null, SafeguardingScoreString.Yes, "01/01/2022"),
+            MisEstablishmentFactory.CreateMisEstablishment(urnsAsInt[1], 2, CategoriesOfConcernString.NoticeToImprove, null, "29/02/2024"),
+            MisEstablishmentFactory.CreateMisEstablishment(urnsAsInt[2], 3, CategoriesOfConcernString.SpecialMeasures, SafeguardingScoreString.Nine, "31/12/2022"),
+            MisEstablishmentFactory.CreateMisEstablishment(urnsAsInt[3], 4, CategoriesOfConcernString.SeriousWeakness, SafeguardingScoreString.No, "15/10/2023"),
+            MisEstablishmentFactory.CreateMisEstablishment(urnsAsInt[4], null, null, null, null)
         });
         _mockAcademiesDbContext.AddMisFurtherEducationEstablishments(new[]
         {
-            new MisFurtherEducationEstablishment { ProviderUrn = urnsAsInt[5], OverallEffectiveness = 1, LastDayOfInspection = "01/01/2022" },
-            new MisFurtherEducationEstablishment { ProviderUrn = urnsAsInt[6], OverallEffectiveness = 2, LastDayOfInspection = "29/02/2024" },
-            new MisFurtherEducationEstablishment { ProviderUrn = urnsAsInt[7], OverallEffectiveness = 3, LastDayOfInspection = "31/12/2022" },
-            new MisFurtherEducationEstablishment { ProviderUrn = urnsAsInt[8], OverallEffectiveness = 4, LastDayOfInspection = "15/10/2023" },
-            new MisFurtherEducationEstablishment { ProviderUrn = urnsAsInt[9], OverallEffectiveness = null, LastDayOfInspection = null }
+            MisFurtherEstablishmentFactory.CreateMisFurtherEducationEstablishment(urnsAsInt[5], 1, SafeguardingScoreString.Yes, "01/01/2022"),
+            MisFurtherEstablishmentFactory.CreateMisFurtherEducationEstablishment(urnsAsInt[6], 2, null, "29/02/2024"),
+            MisFurtherEstablishmentFactory.CreateMisFurtherEducationEstablishment(urnsAsInt[7], 3, SafeguardingScoreString.Nine, "31/12/2022"),
+            MisFurtherEstablishmentFactory.CreateMisFurtherEducationEstablishment(urnsAsInt[8], 4, SafeguardingScoreString.No, "15/10/2023"),
+            MisFurtherEstablishmentFactory.CreateMisFurtherEducationEstablishment(urnsAsInt[9], null, null, null)
         });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync("1234");
@@ -139,16 +140,16 @@ public class AcademyRepositoryTests
 
         result.Should().BeEquivalentTo(new[]
             {
-                dummyAcademyOfsted with { Urn = urns[0], CurrentOfstedRating = new OfstedRating(OfstedRatingScore.Outstanding, new DateTime(2022, 01, 01)) },
-                dummyAcademyOfsted with { Urn = urns[1], CurrentOfstedRating = new OfstedRating(OfstedRatingScore.Good, new DateTime(2024, 02, 29)) },
-                dummyAcademyOfsted with { Urn = urns[2], CurrentOfstedRating = new OfstedRating(OfstedRatingScore.RequiresImprovement, new DateTime(2022, 12, 31)) },
-                dummyAcademyOfsted with { Urn = urns[3], CurrentOfstedRating = new OfstedRating(OfstedRatingScore.Inadequate, new DateTime(2023, 10, 15)) },
-                dummyAcademyOfsted with { Urn = urns[4], CurrentOfstedRating = OfstedRating.None },
-                dummyAcademyOfsted with { Urn = urns[5], CurrentOfstedRating = new OfstedRating(OfstedRatingScore.Outstanding, new DateTime(2022, 01, 01)) },
-                dummyAcademyOfsted with { Urn = urns[6], CurrentOfstedRating = new OfstedRating(OfstedRatingScore.Good, new DateTime(2024, 02, 29)) },
-                dummyAcademyOfsted with { Urn = urns[7], CurrentOfstedRating = new OfstedRating(OfstedRatingScore.RequiresImprovement, new DateTime(2022, 12, 31)) },
-                dummyAcademyOfsted with { Urn = urns[8], CurrentOfstedRating = new OfstedRating(OfstedRatingScore.Inadequate, new DateTime(2023, 10, 15)) },
-                dummyAcademyOfsted with { Urn = urns[9], CurrentOfstedRating = OfstedRating.None }
+                dummyAcademyOfsted with { Urn = urns[0], CurrentOfstedRating = OfstedResultFactory.OutstandingEstablishmentOfstedRating(new DateTime(2022, 01, 01)) },
+                dummyAcademyOfsted with { Urn = urns[1], CurrentOfstedRating = OfstedResultFactory.GoodEstablishmentOfstedRating(new DateTime(2024, 02, 29)) },
+                dummyAcademyOfsted with { Urn = urns[2], CurrentOfstedRating = OfstedResultFactory.RequiresImprovementEstablishmentOfstedRating(new DateTime(2022, 12, 31)) },
+                dummyAcademyOfsted with { Urn = urns[3], CurrentOfstedRating = OfstedResultFactory.InadequateEstablishmentOfstedRating(new DateTime(2023, 10, 15)) },
+                dummyAcademyOfsted with { Urn = urns[4], CurrentOfstedRating = OfstedResultFactory.NoneEstablishmentOfstedRating(null) },
+                dummyAcademyOfsted with { Urn = urns[5], CurrentOfstedRating = OfstedResultFactory.OutstandingFurtherEstablishmentOfstedRating(new DateTime(2022, 01, 01)) },
+                dummyAcademyOfsted with { Urn = urns[6], CurrentOfstedRating = OfstedResultFactory.GoodFurtherEstablishmentOfstedRating(new DateTime(2024, 02, 29)) },
+                dummyAcademyOfsted with { Urn = urns[7], CurrentOfstedRating = OfstedResultFactory.RequiresFurtherImprovementEstablishmentOfstedRating(new DateTime(2022, 12, 31)) },
+                dummyAcademyOfsted with { Urn = urns[8], CurrentOfstedRating = OfstedResultFactory.InadequateFurtherEstablishmentOfstedRating(new DateTime(2023, 10, 15)) },
+                dummyAcademyOfsted with { Urn = urns[9], CurrentOfstedRating = OfstedResultFactory.NoneFurtherEstablishmentOfstedRating(null) }
             },
             options => options
                 .Including(a => a.Urn)
@@ -165,19 +166,19 @@ public class AcademyRepositoryTests
 
         _mockAcademiesDbContext.AddMisEstablishments(new[]
         {
-            new MisEstablishment { Urn = urnsAsInt[0], PreviousFullInspectionOverallEffectiveness = "1", PreviousInspectionStartDate = "01/01/2022" },
-            new MisEstablishment { Urn = urnsAsInt[1], PreviousFullInspectionOverallEffectiveness = "2", PreviousInspectionStartDate = "29/02/2024" },
-            new MisEstablishment { Urn = urnsAsInt[2], PreviousFullInspectionOverallEffectiveness = "3", PreviousInspectionStartDate = "31/12/2022" },
-            new MisEstablishment { Urn = urnsAsInt[3], PreviousFullInspectionOverallEffectiveness = "4", PreviousInspectionStartDate = "15/10/2023" },
-            new MisEstablishment { Urn = urnsAsInt[4], PreviousFullInspectionOverallEffectiveness = null, PreviousInspectionStartDate = null }
+            MisEstablishmentFactory.CreateMisEstablishment(urnsAsInt[0], 1, null, SafeguardingScoreString.Yes, "01/01/2022", true),
+            MisEstablishmentFactory.CreateMisEstablishment(urnsAsInt[1], 2, CategoriesOfConcernString.NoticeToImprove, null, "29/02/2024", true),
+            MisEstablishmentFactory.CreateMisEstablishment(urnsAsInt[2], 3, CategoriesOfConcernString.SpecialMeasures, SafeguardingScoreString.Nine, "31/12/2022", true),
+            MisEstablishmentFactory.CreateMisEstablishment(urnsAsInt[3], 4, CategoriesOfConcernString.SeriousWeakness, SafeguardingScoreString.No, "15/10/2023", true),
+            MisEstablishmentFactory.CreateMisEstablishment(urnsAsInt[4], null, null, null, null, true)
         });
         _mockAcademiesDbContext.AddMisFurtherEducationEstablishments(new[]
         {
-            new MisFurtherEducationEstablishment { ProviderUrn = urnsAsInt[5], PreviousOverallEffectiveness = 1, PreviousLastDayOfInspection = "01/01/2022" },
-            new MisFurtherEducationEstablishment { ProviderUrn = urnsAsInt[6], PreviousOverallEffectiveness = 2, PreviousLastDayOfInspection = "29/02/2024" },
-            new MisFurtherEducationEstablishment { ProviderUrn = urnsAsInt[7], PreviousOverallEffectiveness = 3, PreviousLastDayOfInspection = "31/12/2022" },
-            new MisFurtherEducationEstablishment { ProviderUrn = urnsAsInt[8], PreviousOverallEffectiveness = 4, PreviousLastDayOfInspection = "15/10/2023" },
-            new MisFurtherEducationEstablishment { ProviderUrn = urnsAsInt[9], PreviousOverallEffectiveness = null, PreviousLastDayOfInspection = null }
+            MisFurtherEstablishmentFactory.CreateMisFurtherEducationEstablishment(urnsAsInt[5], 1, SafeguardingScoreString.Yes, "01/01/2022", true),
+            MisFurtherEstablishmentFactory.CreateMisFurtherEducationEstablishment(urnsAsInt[6], 2, null, "29/02/2024", true),
+            MisFurtherEstablishmentFactory.CreateMisFurtherEducationEstablishment(urnsAsInt[7], 3, SafeguardingScoreString.Nine, "31/12/2022", true),
+            MisFurtherEstablishmentFactory.CreateMisFurtherEducationEstablishment(urnsAsInt[8], 4, SafeguardingScoreString.No, "15/10/2023", true),
+            MisFurtherEstablishmentFactory.CreateMisFurtherEducationEstablishment(urnsAsInt[9], null, null, null, true)
         });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync("1234");
@@ -186,16 +187,16 @@ public class AcademyRepositoryTests
 
         result.Should().BeEquivalentTo(new[]
             {
-                dummyAcademyOfsted with { Urn = urns[0], PreviousOfstedRating = new OfstedRating(OfstedRatingScore.Outstanding, new DateTime(2022, 01, 01)) },
-                dummyAcademyOfsted with { Urn = urns[1], PreviousOfstedRating = new OfstedRating(OfstedRatingScore.Good, new DateTime(2024, 02, 29)) },
-                dummyAcademyOfsted with { Urn = urns[2], PreviousOfstedRating = new OfstedRating(OfstedRatingScore.RequiresImprovement, new DateTime(2022, 12, 31)) },
-                dummyAcademyOfsted with { Urn = urns[3], PreviousOfstedRating = new OfstedRating(OfstedRatingScore.Inadequate, new DateTime(2023, 10, 15)) },
-                dummyAcademyOfsted with { Urn = urns[4], PreviousOfstedRating = OfstedRating.None },
-                dummyAcademyOfsted with { Urn = urns[5], PreviousOfstedRating = new OfstedRating(OfstedRatingScore.Outstanding, new DateTime(2022, 01, 01)) },
-                dummyAcademyOfsted with { Urn = urns[6], PreviousOfstedRating = new OfstedRating(OfstedRatingScore.Good, new DateTime(2024, 02, 29)) },
-                dummyAcademyOfsted with { Urn = urns[7], PreviousOfstedRating = new OfstedRating(OfstedRatingScore.RequiresImprovement, new DateTime(2022, 12, 31)) },
-                dummyAcademyOfsted with { Urn = urns[8], PreviousOfstedRating = new OfstedRating(OfstedRatingScore.Inadequate, new DateTime(2023, 10, 15)) },
-                dummyAcademyOfsted with { Urn = urns[9], PreviousOfstedRating = OfstedRating.None }
+                dummyAcademyOfsted with { Urn = urns[0], PreviousOfstedRating = OfstedResultFactory.OutstandingEstablishmentOfstedRating(new DateTime(2022, 01, 01)) },
+                dummyAcademyOfsted with { Urn = urns[1], PreviousOfstedRating = OfstedResultFactory.GoodEstablishmentOfstedRating(new DateTime(2024, 02, 29)) },
+                dummyAcademyOfsted with { Urn = urns[2], PreviousOfstedRating = OfstedResultFactory.RequiresImprovementEstablishmentOfstedRating(new DateTime(2022, 12, 31)) },
+                dummyAcademyOfsted with { Urn = urns[3], PreviousOfstedRating = OfstedResultFactory.InadequateEstablishmentOfstedRating(new DateTime(2023, 10, 15)) },
+                dummyAcademyOfsted with { Urn = urns[4], PreviousOfstedRating = OfstedResultFactory.NoneEstablishmentOfstedRating(null) },
+                dummyAcademyOfsted with { Urn = urns[5], PreviousOfstedRating = OfstedResultFactory.OutstandingFurtherEstablishmentOfstedRating(new DateTime(2022, 01, 01)) },
+                dummyAcademyOfsted with { Urn = urns[6], PreviousOfstedRating = OfstedResultFactory.GoodFurtherEstablishmentOfstedRating(new DateTime(2024, 02, 29)) },
+                dummyAcademyOfsted with { Urn = urns[7], PreviousOfstedRating = OfstedResultFactory.RequiresFurtherImprovementEstablishmentOfstedRating(new DateTime(2022, 12, 31)) },
+                dummyAcademyOfsted with { Urn = urns[8], PreviousOfstedRating = OfstedResultFactory.InadequateFurtherEstablishmentOfstedRating(new DateTime(2023, 10, 15)) },
+                dummyAcademyOfsted with { Urn = urns[9], PreviousOfstedRating = OfstedResultFactory.NoneFurtherEstablishmentOfstedRating(null) }
             },
             options => options
                 .Including(a => a.Urn)
