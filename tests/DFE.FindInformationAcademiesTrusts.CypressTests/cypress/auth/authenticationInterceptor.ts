@@ -1,7 +1,6 @@
 
 export class AuthenticationInterceptor {
-
-    register(params?: AuthenticationInterceptorParams) {
+    register(automationUserProperties: AutomationUserProperties) {
         cy.intercept(
             {
                 url: Cypress.env("URL") + "/**",
@@ -11,14 +10,16 @@ export class AuthenticationInterceptor {
                 // Set an auth header on every request made by the browser
                 req.headers = {
                     ...req.headers,
-                    'Authorization': `Bearer ${Cypress.env("AUTH_KEY")}`
+                    'Authorization': `Bearer ${Cypress.env("AUTH_KEY")}`,
+                    'x-user-context': JSON.stringify(automationUserProperties)
                 };
             }
         ).as("AuthInterceptor");
     }
 }
 
-export type AuthenticationInterceptorParams = {
-    role?: string;
-    username?: string;
+export type AutomationUserProperties = {
+    name: string;
+    email: string;
+    roles: string[];
 }
