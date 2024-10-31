@@ -43,4 +43,11 @@ describe("Testing the components of the home page", () => {
             .checkMainSearchButtonPresent()
 
     });
+
+    it.only("Should check that the what you can find section is present and contains the relevant items ", () => {
+        homePage
+            .checkWhatYouCanFindPresent()
+            .checkWhatYouCanFindListCollapsed()
+
+    });
 })
