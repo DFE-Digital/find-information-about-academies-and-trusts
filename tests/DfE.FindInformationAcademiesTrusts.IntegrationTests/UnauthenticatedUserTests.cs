@@ -1,4 +1,5 @@
 using System.Net;
+using DfE.FindInformationAcademiesTrusts.IntegrationTests.Base;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -8,7 +9,7 @@ namespace DfE.FindInformationAcademiesTrusts.IntegrationTests;
 /// <summary>
 /// Tests for when the user isn't logged in at all
 /// </summary>
-public class UnauthenticatedUserTests : IClassFixture<WebApplicationFactory<Program>>
+public class UnauthenticatedUserTests : BaseIntegrationTest
 {
     private readonly HttpClient _client;
 

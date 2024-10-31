@@ -1,44 +1,19 @@
 using System.Net;
-using System.Security.Claims;
-using System.Text.Encodings.Web;
+using DfE.FindInformationAcademiesTrusts.IntegrationTests.AuthenticationHandlers;
+using DfE.FindInformationAcademiesTrusts.IntegrationTests.Base;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Options;
 
 namespace DfE.FindInformationAcademiesTrusts.IntegrationTests;
-
-public class UnauthorisedUserAuthenticationHandler(
-    IOptionsMonitor<AuthenticationSchemeOptions> options,
-    ILoggerFactory logger,
-    UrlEncoder encoder)
-    : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder)
-{
-    public const string AuthenticationScheme = "TestScheme";
-
-    /// <summary>
-    /// The user authenticates successfully but doesn't have the "User.Role.Authorised" role
-    /// </summary>
-    /// <returns></returns>
-    protected override Task<AuthenticateResult> HandleAuthenticateAsync()
-    {
-        var claims = new[] { new Claim(ClaimTypes.Name, "Test user") };
-        var identity = new ClaimsIdentity(claims, "Test");
-        var principal = new ClaimsPrincipal(identity);
-        var ticket = new AuthenticationTicket(principal, AuthenticationScheme);
-
-        var result = AuthenticateResult.Success(ticket);
-        return Task.FromResult(result);
-    }
-}
 
 /// <summary>
 /// Tests for when the user is authenticated but doesn't have the correct role
 /// </summary>
-public class UnauthorisedUserTests : IClassFixture<WebApplicationFactory<Program>>
+public class UnauthorisedUserTests : BaseIntegrationTest
 {
     private readonly HttpClient _client;
 
