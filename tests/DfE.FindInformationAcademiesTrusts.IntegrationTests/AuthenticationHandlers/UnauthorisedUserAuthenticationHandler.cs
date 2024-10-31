@@ -19,7 +19,11 @@ public class UnauthorisedUserAuthenticationHandler(
     /// <returns></returns>
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        var claims = new[] { new Claim(ClaimTypes.Name, "Test user") };
+        var claims = new Claim[]
+        {
+            new("name", "Test user"),
+            new("preferred_username", "Test User - email")
+        };
         var identity = new ClaimsIdentity(claims, "Test");
         var principal = new ClaimsPrincipal(identity);
         var ticket = new AuthenticationTicket(principal, AuthenticationScheme);
