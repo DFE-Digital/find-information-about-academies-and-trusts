@@ -16,7 +16,7 @@ public class CookiesHelperTests
     [Fact]
     public void OptionalCookiesAreAccepted_is_true_when_Accepted_cookie_exists()
     {
-        _mockContext.SetupAcceptedCookie();
+        _mockContext.MockRequestCookies.SetupAcceptedCookie();
         var result = CookiesHelper.OptionalCookiesAreAccepted(_mockContext.Object, _mockTempData.Object);
         result.Should().BeTrue();
     }
@@ -24,7 +24,7 @@ public class CookiesHelperTests
     [Fact]
     public void OptionalCookiesAreAccepted_is_false_when_Rejected_cookie_exists()
     {
-        _mockContext.SetupRejectedCookie();
+        _mockContext.MockRequestCookies.SetupRejectedCookie();
         var result = CookiesHelper.OptionalCookiesAreAccepted(_mockContext.Object, _mockTempData.Object);
         result.Should().BeFalse();
     }
@@ -35,7 +35,7 @@ public class CookiesHelperTests
     [InlineData(null)]
     public void OptionalCookiesAreAccepted_is_false_when_DeleteCookieTempData_exists(bool? cookieAccepted)
     {
-        _mockContext.SetupConsentCookie(cookieAccepted);
+        _mockContext.MockRequestCookies.SetupConsentCookie(cookieAccepted);
 
         SetTempDataCookieDeleted();
         var result = CookiesHelper.OptionalCookiesAreAccepted(_mockContext.Object, _mockTempData.Object);
@@ -81,7 +81,7 @@ public class CookiesHelperTests
     [InlineData(false)]
     public void ShowCookieBanner_is_false_when_consent_cookie_exists_and_temp_data_does_not_exist(bool cookieAccepted)
     {
-        _mockContext.SetupConsentCookie(cookieAccepted);
+        _mockContext.MockRequestCookies.SetupConsentCookie(cookieAccepted);
 
         var result = CookiesHelper.ShowCookieBanner(_mockContext.Object, _mockTempData.Object);
         result.Should().BeFalse();
@@ -100,7 +100,7 @@ public class CookiesHelperTests
     [InlineData(false)]
     public void ShowCookieBanner_is_false_when_consent_cookie_exists_and_temp_data_exists(bool cookieAccepted)
     {
-        _mockContext.SetupConsentCookie(cookieAccepted);
+        _mockContext.MockRequestCookies.SetupConsentCookie(cookieAccepted);
 
         SetTempDataCookieDeleted();
         var result = CookiesHelper.ShowCookieBanner(_mockContext.Object, _mockTempData.Object);

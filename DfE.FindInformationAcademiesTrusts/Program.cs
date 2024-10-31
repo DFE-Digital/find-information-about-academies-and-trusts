@@ -1,5 +1,9 @@
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Azure.Identity;
 using DfE.FindInformationAcademiesTrusts.Authorization;
+using DfE.FindInformationAcademiesTrusts.Configuration;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
@@ -10,6 +14,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Hardcoded;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
+using DfE.FindInformationAcademiesTrusts.Extensions;
 using DfE.FindInformationAcademiesTrusts.Options;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
@@ -26,9 +31,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.FeatureManagement;
 using Microsoft.Identity.Web;
 using Serilog;
-using System.Data;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace DfE.FindInformationAcademiesTrusts;
 
@@ -250,9 +252,10 @@ internal static class Program
     {
         builder.Services.AddAuthorization(options =>
         {
-            var policyBuilder = new AuthorizationPolicyBuilder();
-            policyBuilder.RequireAuthenticatedUser();
-            options.DefaultPolicy = policyBuilder.Build();
+            options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .RequireRole(UserRoles.AuthorisedFiatUser)
+                .Build();
             options.FallbackPolicy = options.DefaultPolicy;
         });
 
@@ -263,14 +266,16 @@ internal static class Program
             CookieAuthenticationDefaults.AuthenticationScheme,
             options =>
             {
-                options.Cookie.Name = ".FindInformationAcademiesTrusts.Login";
+                options.Cookie.Name = FiatCookies.Login;
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
-                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SameSite = SameSiteMode.Lax;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+
+                options.AccessDeniedPath = "/no-access";
             });
 
-        builder.Services.AddAntiforgery(opts => { opts.Cookie.Name = ".FindInformationAcademiesTrusts.Antiforgery"; });
+        builder.Services.AddAntiforgery(opts => { opts.Cookie.Name = FiatCookies.Antiforgery; });
     }
 
     private static void AddDataProtectionServices(WebApplicationBuilder builder)

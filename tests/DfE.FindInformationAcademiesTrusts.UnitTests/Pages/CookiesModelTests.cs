@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Configuration;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Http;
@@ -92,7 +93,7 @@ public class CookiesModelTests
     [InlineData(false, false)]
     public void OnGet_should_not_change_consent_when_it_is_provided(bool consent, bool? accepted)
     {
-        _mockHttpContext.SetupConsentCookie(accepted);
+        _mockHttpContext.MockRequestCookies.SetupConsentCookie(accepted);
         _sut.Consent = consent;
         _sut.OnGet();
         _sut.Consent.Should().Be(consent);
@@ -107,7 +108,7 @@ public class CookiesModelTests
     [InlineData(false, false)]
     public void OnPost_should_not_change_consent_when_it_is_provided(bool consent, bool? accepted)
     {
-        _mockHttpContext.SetupConsentCookie(accepted);
+        _mockHttpContext.MockRequestCookies.SetupConsentCookie(accepted);
         _sut.Consent = consent;
         _sut.OnPost();
         _sut.Consent.Should().Be(consent);
@@ -118,7 +119,7 @@ public class CookiesModelTests
     [InlineData(false)]
     public void OnGet_should_set_consent_when_it_not_provided_and_the_cookie_has_been_set(bool accepted)
     {
-        _mockHttpContext.SetupConsentCookie(accepted);
+        _mockHttpContext.MockRequestCookies.SetupConsentCookie(accepted);
         _sut.OnGet();
         _sut.Consent.Should().Be(accepted);
     }
@@ -183,7 +184,7 @@ public class CookiesModelTests
     {
         _sut.Consent = consent;
         _sut.OnGet();
-        _mockHttpContext.VerifySecureCookieAdded(CookiesHelper.ConsentCookieName, value);
+        _mockHttpContext.MockResponseCookies.VerifySecureCookieAdded(FiatCookies.CookieConsent, value);
     }
 
     [Theory]
@@ -193,7 +194,7 @@ public class CookiesModelTests
     {
         _sut.Consent = consent;
         _sut.OnPost();
-        _mockHttpContext.VerifySecureCookieAdded(CookiesHelper.ConsentCookieName, value);
+        _mockHttpContext.MockResponseCookies.VerifySecureCookieAdded(FiatCookies.CookieConsent, value);
     }
 
     // (Cookie appended Delete called if needed/TempData is not null)
@@ -204,10 +205,10 @@ public class CookiesModelTests
     [InlineData("_gid")]
     public void OnGet_removes_optional_cookie_when_consent_is_false(string cookieName)
     {
-        _mockHttpContext.SetupOptionalCookies();
+        _mockHttpContext.MockRequestCookies.SetupOptionalCookies();
         _sut.Consent = false;
         _sut.OnGet();
-        _mockHttpContext.VerifyCookieDeleted(cookieName);
+        _mockHttpContext.MockResponseCookies.VerifyCookieDeleted(cookieName);
     }
 
     [Theory]
@@ -217,48 +218,48 @@ public class CookiesModelTests
     [InlineData("_gid")]
     public void OnPost_removes_optional_cookie_when_consent_is_false(string cookieName)
     {
-        _mockHttpContext.SetupOptionalCookies();
+        _mockHttpContext.MockRequestCookies.SetupOptionalCookies();
         _sut.Consent = false;
         _sut.OnPost();
-        _mockHttpContext.VerifyCookieDeleted(cookieName);
+        _mockHttpContext.MockResponseCookies.VerifyCookieDeleted(cookieName);
     }
 
     [Fact]
     public void OnGet_does_not_remove_cookies_when_consent_is_true()
     {
-        _mockHttpContext.SetupOptionalCookies();
-        _mockHttpContext.SetupAcceptedCookie();
+        _mockHttpContext.MockRequestCookies.SetupOptionalCookies();
+        _mockHttpContext.MockRequestCookies.SetupAcceptedCookie();
         _sut.Consent = true;
         _sut.OnGet();
-        _mockHttpContext.VerifyNoCookiesDeleted();
+        _mockHttpContext.MockResponseCookies.VerifyNoCookiesDeleted();
     }
 
     [Fact]
     public void OnPost_does_not_remove_cookies_when_consent_is_true()
     {
-        _mockHttpContext.SetupOptionalCookies();
-        _mockHttpContext.SetupAcceptedCookie();
+        _mockHttpContext.MockRequestCookies.SetupOptionalCookies();
+        _mockHttpContext.MockRequestCookies.SetupAcceptedCookie();
         _sut.Consent = true;
         _sut.OnPost();
-        _mockHttpContext.VerifyNoCookiesDeleted();
+        _mockHttpContext.MockResponseCookies.VerifyNoCookiesDeleted();
     }
 
     [Fact]
     public void OnGet_does_not_remove_cookies_when_there_are_no_optional_cookies_to_remove()
     {
-        _mockHttpContext.SetupRejectedCookie();
+        _mockHttpContext.MockRequestCookies.SetupRejectedCookie();
         _sut.Consent = false;
         _sut.OnGet();
-        _mockHttpContext.VerifyNoCookiesDeleted();
+        _mockHttpContext.MockResponseCookies.VerifyNoCookiesDeleted();
     }
 
     [Fact]
     public void OnPost_does_not_remove_cookies_when_there_are_no_optional_cookies_to_remove()
     {
-        _mockHttpContext.SetupRejectedCookie();
+        _mockHttpContext.MockRequestCookies.SetupRejectedCookie();
         _sut.Consent = false;
         _sut.OnPost();
-        _mockHttpContext.VerifyNoCookiesDeleted();
+        _mockHttpContext.MockResponseCookies.VerifyNoCookiesDeleted();
     }
 
     //TempData
