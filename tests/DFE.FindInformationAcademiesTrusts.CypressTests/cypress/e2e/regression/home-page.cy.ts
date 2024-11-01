@@ -76,5 +76,12 @@ describe("Testing the components of the home page", () => {
             .checkWhatYouCanFindListOpen()
     })
 
+    it("Should check that the expected contents of the what you can find section are all present", () => {
+        homePage
+            .checkWhatYouCanFindPresent()
+            .clickWhatYouCanFindList()
+            .checkWhatYouCanFindListOpen()
+            .checkWhatYouCanFindListItemsPresent()
+    })
 
 })

@@ -9,7 +9,10 @@ class HomePage {
             list: () => cy.get('.govuk-list'),
             button: () => cy.get('.govuk-details__summary'),
             addressAndContactDetais: () => this.elements.whatYouCanFindList.list().contains('address and contact details'),
-
+            pupilNumbersAndCapacities: () => this.elements.whatYouCanFindList.list().contains('pupil numbers and capacities'),
+            ofstedRatings: () => this.elements.whatYouCanFindList.list().contains('Ofsted ratings'),
+            freeSchoolMealPercentages: () => this.elements.whatYouCanFindList.list().contains('free school meal percentages'),
+            trustGovernanceDetails: () => this.elements.whatYouCanFindList.list().contains('trust governance details'),
         }
     };
 
@@ -48,8 +51,14 @@ class HomePage {
         return this;
     }
 
-
-
+    public checkWhatYouCanFindListItemsPresent(): this {
+        this.elements.whatYouCanFindList.addressAndContactDetais().should('be.visible')
+        this.elements.whatYouCanFindList.pupilNumbersAndCapacities().should('be.visible')
+        this.elements.whatYouCanFindList.ofstedRatings().should('be.visible')
+        this.elements.whatYouCanFindList.freeSchoolMealPercentages().should('be.visible')
+        this.elements.whatYouCanFindList.trustGovernanceDetails().should('be.visible')
+        return this;
+    }
 }
 
 const homePage = new HomePage();
