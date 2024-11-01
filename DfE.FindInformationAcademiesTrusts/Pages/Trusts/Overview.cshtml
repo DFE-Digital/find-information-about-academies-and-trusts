@@ -83,12 +83,15 @@
               <tbody class="govuk-table__body">
                 @foreach (var rating in Enum.GetValues(typeof(OfstedRatingScore)).Cast<OfstedRatingScore>())
                 {
-                  <tr class="govuk-table__row">
-                    <td class="govuk-body govuk-table__cell" data-sort-value="@rating.ToDataSortValue()">@rating.ToDisplayString()</td>
-                    <td class="govuk-body govuk-table__cell govuk-table__cell--numeric" data-test-id="ofsted-rating-@rating.ToString()">
-                      @Model.GetNumberOfAcademiesWithOfstedRating(rating)
-                    </td>
-                  </tr>
+                  if (rating is not OfstedRatingScore.InsufficientEvidence && rating is not OfstedRatingScore.NoJudgement && rating is not OfstedRatingScore.DoesNotApply)
+                  {
+                    <tr class="govuk-table__row">
+                      <td class="govuk-body govuk-table__cell" data-sort-value="@rating.ToDataSortValue()">@rating.ToDisplayString()</td>
+                      <td class="govuk-body govuk-table__cell govuk-table__cell--numeric" data-test-id="ofsted-rating-@rating.ToString()">
+                        @Model.GetNumberOfAcademiesWithOfstedRating(rating)
+                      </td>
+                    </tr>
+                  }
                 }
               </tbody>
             </table>
