@@ -3,10 +3,11 @@ class HomePage {
     elements = {
         mainSearchBox: () => cy.get('#home-search'),
         mainSearchButton: () => cy.get('[data-testid="search"]'),
-        //whatYouCanFindList: () => cy.get('[data-testid="what-you-can-find-list"]'),
+
         whatYouCanFindList: {
             mainBox: () => cy.get('.govuk-details'),
             list: () => cy.get('.govuk-list'),
+            button: () => cy.get('.govuk-details__summary'),
             addressAndContactDetais: () => this.elements.whatYouCanFindList.list().contains('address and contact details'),
 
         }
@@ -27,13 +28,23 @@ class HomePage {
         return this;
     }
 
+    public clickWhatYouCanFindList(): this {
+        this.elements.whatYouCanFindList.button().click()
+        return this;
+    }
+
     public checkWhatYouCanFindPresent(): this {
         this.elements.whatYouCanFindList.mainBox().should('be.visible')
         return this;
     }
 
     public checkWhatYouCanFindListCollapsed(): this {
-        this.elements.whatYouCanFindList.addressAndContactDetais().should('not.be.visible')
+        this.elements.whatYouCanFindList.mainBox().should('not.have.attr', 'open')
+        return this;
+    }
+
+    public checkWhatYouCanFindListOpen(): this {
+        this.elements.whatYouCanFindList.mainBox().should('have.attr', 'open')
         return this;
     }
 

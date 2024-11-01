@@ -1,6 +1,7 @@
 import paginationPage from "../../pages/paginationPage";
 import homePage from "../../pages/homePage";
 import searchPage from "../../pages/searchPage";
+import navigation from "../../pages/navigation";
 
 describe("Testing the components of the home page", () => {
 
@@ -44,10 +45,36 @@ describe("Testing the components of the home page", () => {
 
     });
 
-    it.only("Should check that the what you can find section is present and contains the relevant items ", () => {
+    it("Should check that the what you can find section is collapsed when you first land on the home screen ", () => {
         homePage
             .checkWhatYouCanFindPresent()
             .checkWhatYouCanFindListCollapsed()
 
     });
+
+    it("Should check that the what you can find section is collapsed when you return to the home screen ", () => {
+        homePage
+            .checkWhatYouCanFindPresent()
+            .checkWhatYouCanFindListCollapsed()
+
+        cy.visit('/trusts/contacts?uid=5712')
+
+        navigation
+            .checkCurrentURLIsCorrect('/trusts/contacts?uid=5712')
+
+        cy.visit('/')
+
+        homePage
+            .checkWhatYouCanFindPresent()
+            .checkWhatYouCanFindListCollapsed()
+    });
+
+    it("Should check that the what you can find section is expanded when clicked on ", () => {
+        homePage
+            .checkWhatYouCanFindPresent()
+            .clickWhatYouCanFindList()
+            .checkWhatYouCanFindListOpen()
+    })
+
+
 })
