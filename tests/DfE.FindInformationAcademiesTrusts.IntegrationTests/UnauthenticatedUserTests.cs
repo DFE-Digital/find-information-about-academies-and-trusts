@@ -22,11 +22,8 @@ public class UnauthenticatedUserTests : BaseIntegrationTest
     }
 
     [Theory]
-    [InlineData("/accessibility")]
-    [InlineData("/cookies")]
-    [InlineData("/no-access")]
-    [InlineData("/privacy")]
-    public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
+    [MemberData(nameof(FiatPages.AllUnprotected), MemberType = typeof(FiatPages))]
+    public async Task Renders_page(string url)
     {
         var response = await _client.GetAsync(url);
 
