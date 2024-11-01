@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Renamed the anti forgery cookie to a static name
 - Updated wording for links on the landing page to tell users they open in new tabs
 - Updated the ofsted ratings to collect information about the ofsted subgrades
+- Remove the edit contact feature flag
 
 ## [Release-11][release-11] (production-2024-10-17.3654)
 
