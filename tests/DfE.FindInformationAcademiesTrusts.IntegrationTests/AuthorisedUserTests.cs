@@ -37,14 +37,9 @@ public class AuthorisedUserTests : BaseIntegrationTest
     }
 
     [Theory]
-    [InlineData("/")]
-    [InlineData("/trusts/details?uid=2044")]
-    [InlineData("/search?keywords=trust")]
-    [InlineData("/error")]
-    [InlineData("/accessibility")]
-    [InlineData("/cookies")]
-    [InlineData("/privacy")]
-    public async Task Renders_page(string url)
+    [MemberData(nameof(FiatPages.ExpectedProtectedRoutesInAppMemberData), MemberType = typeof(FiatPages))]
+    [MemberData(nameof(FiatPages.ExpectedAlwaysAccessibleRoutesMemberData), MemberType = typeof(FiatPages))]
+    public async Task Protected_page_renders_when_authorised(string url)
     {
         var response = await _client.GetAsync(url);
 
@@ -57,7 +52,20 @@ public class AuthorisedUserTests : BaseIntegrationTest
     }
 
     [Fact]
-    public async Task Redirects_to_not_found()
+    public async Task Health_check_page_renders_when_unauthorised()
+    {
+        var response = await _client.GetAsync(FiatPages.HealthCheckRoute);
+
+        using var _ = new AssertionScope();
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var pageContent = await response.Content.ReadAsStringAsync();
+        pageContent.Should().Contain("Healthy");
+    }
+
+    [Fact]
+    public async Task Not_found_page_renders_when_authorised()
     {
         var response = await _client.GetAsync("/notfound");
 
@@ -70,22 +78,15 @@ public class AuthorisedUserTests : BaseIntegrationTest
     }
 
     [Fact]
-    public async Task Returns_data_download()
+    public async Task No_access_redirects_to_return_url()
     {
-        var response = await _client.GetAsync("/trusts/academies/details?uid=2044&handler=export");
+        var response = await _client.GetAsync($"no-access?ReturnUrl={WebUtility.UrlEncode("/search")}");
 
         using var _ = new AssertionScope();
 
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.Should().Be(HttpStatusCode.Redirect);
 
-        response.Content.Headers.ContentType.Should().NotBeNull();
-        response.Content.Headers.ContentType!.MediaType.Should()
-            .Be("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-
-        response.Content.Headers.ContentDisposition.Should().NotBeNull();
-        response.Content.Headers.ContentDisposition!.DispositionType.Should().Be("attachment");
-
-        var pageContent = await response.Content.ReadAsStringAsync();
-        pageContent.Should().NotBeNull();
+        response.Headers.Location.Should().NotBeNull();
+        response.Headers.Location!.OriginalString.Should().Be("/search");
     }
 }
