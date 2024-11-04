@@ -1,22 +1,44 @@
+using Microsoft.AspNetCore.Mvc.Testing;
+
 namespace DfE.FindInformationAcademiesTrusts.IntegrationTests;
 
-public class FiatPages(EndpointDataSource endpoints)
+public static class FiatPages
 {
-    public static IEnumerable<object[]> AllUnprotected => AlwaysAccessible.Union(NoAccess);
-
-    public static readonly IEnumerable<object[]> AlwaysAccessible =
-        new[]
-        {
-            "accessibility",
-            "cookies",
-            "privacy"
-        }.Select(p => new object[] { p });
-
-    public static readonly IEnumerable<object[]> NoAccess = new[]
-    {
+    private static string[] ExpectedAlwaysAccessibleRoutes { get; } =
+    [
+        "accessibility",
+        "cookies",
+        "privacy",
         "no-access"
-    }.Select(p => new object[] { p });
+    ];
 
-    public string[] AllEndpoints => endpoints.Endpoints.OfType<RouteEndpoint>()
-        .Select(e => e.RoutePattern.RawText ?? string.Empty).ToArray();
+    //The beginning slash is present in the route endpoint data only for health check
+    public const string HealthCheckRoute = "/health";
+
+    private static RouteEndpoint[] AllRouteEndpointsInApp { get; } =
+        new WebApplicationFactory<Program>()
+            .Services.GetService<EndpointDataSource>()!
+            .Endpoints.OfType<RouteEndpoint>()
+            .ToArray();
+
+    private static string[] AllRoutesInApp { get; } =
+        AllRouteEndpointsInApp
+            .Select(r => r.RoutePattern.RawText!.ToLower())
+            .ToArray();
+
+    private static string[] AllExpectedProtectedRoutesInApp { get; } =
+        AllRoutesInApp
+            .Where(r => !ExpectedAlwaysAccessibleRoutes.Contains(r) && r != HealthCheckRoute)
+            .ToArray();
+
+    private static IEnumerable<object[]> ToXunitMemberData<T>(this IEnumerable<T> collection) where T : notnull
+    {
+        return collection.Select(item => new object[] { item });
+    }
+
+    public static IEnumerable<object[]> ExpectedAlwaysAccessibleRoutesMemberData { get; } =
+        ExpectedAlwaysAccessibleRoutes.ToXunitMemberData();
+
+    public static IEnumerable<object[]> AllExpectedProtectedRoutesInAppMemberData { get; } =
+        AllExpectedProtectedRoutesInApp.ToXunitMemberData();
 }

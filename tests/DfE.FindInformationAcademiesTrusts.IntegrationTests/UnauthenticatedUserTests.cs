@@ -22,7 +22,7 @@ public class UnauthenticatedUserTests : BaseIntegrationTest
     }
 
     [Theory]
-    [MemberData(nameof(FiatPages.AllUnprotected), MemberType = typeof(FiatPages))]
+    [MemberData(nameof(FiatPages.ExpectedAlwaysAccessibleRoutesMemberData), MemberType = typeof(FiatPages))]
     public async Task Renders_page(string url)
     {
         var response = await _client.GetAsync(url);
@@ -36,13 +36,21 @@ public class UnauthenticatedUserTests : BaseIntegrationTest
     }
 
     [Theory]
-    [InlineData("/")]
-    [InlineData("/trusts/details?uid=2044")]
-    [InlineData("/search?keywords=trust")]
-    [InlineData("/trusts/academies/details?uid=2044&handler=export")]
-    [InlineData("/signin-oidc")]
-    [InlineData("/notfound")]
-    [InlineData("/error")]
+    [InlineData(FiatPages.HealthCheckRoute)]
+    public async Task Renders_health_check_page(string url)
+    {
+        var response = await _client.GetAsync(url);
+
+        using var _ = new AssertionScope();
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var pageContent = await response.Content.ReadAsStringAsync();
+        pageContent.Should().Contain("Healthy");
+    }
+
+    [Theory]
+    [MemberData(nameof(FiatPages.AllExpectedProtectedRoutesInAppMemberData), MemberType = typeof(FiatPages))]
     public async Task Redirects_to_login_when_unauthenticated(string url)
     {
         var response = await _client.GetAsync(url);
