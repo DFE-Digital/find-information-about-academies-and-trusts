@@ -3,6 +3,5 @@
 public static class FeatureFlags
 {
     public const string TestFlag = "TestFlag";
-    public const string EditContactsUI = "EditContactsUI";
     public const string UpdatedFooterHelpLink = "UpdatedFooterHelpLink";
 }

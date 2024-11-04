@@ -1,13 +1,10 @@
-using DfE.FindInformationAcademiesTrusts.Configuration;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
-using Microsoft.FeatureManagement.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 
-[FeatureGate(FeatureFlags.EditContactsUI)]
 public class EditTrustRelationshipManagerModel(
     IDataSourceService dataSourceService,
     ILogger<EditTrustRelationshipManagerModel> logger,
