@@ -35,11 +35,10 @@ public class DefaultAppAuthenticationTests : BaseIntegrationTest
         pageContent.Should().Contain("Find information about academies and trusts");
     }
 
-    [Theory]
-    [InlineData(FiatPages.HealthCheckRoute)]
-    public async Task Health_check_page_renders_when_unauthenticated(string url)
+    [Fact]
+    public async Task Health_check_page_renders_when_unauthenticated()
     {
-        var response = await _client.GetAsync(url);
+        var response = await _client.GetAsync(FiatPages.HealthCheckRoute);
 
         using var _ = new AssertionScope();
 
