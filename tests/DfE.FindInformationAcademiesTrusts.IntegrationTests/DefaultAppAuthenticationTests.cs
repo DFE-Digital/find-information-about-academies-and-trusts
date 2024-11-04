@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Mvc.Testing;
 namespace DfE.FindInformationAcademiesTrusts.IntegrationTests;
 
 /// <summary>
-/// Tests for when the user isn't logged in at all
+/// Tests with unmodified authentication behaviour to simulate when the user isn't logged in at all
 /// </summary>
-public class UnauthenticatedUserTests : BaseIntegrationTest
+public class DefaultAppAuthenticationTests : BaseIntegrationTest
 {
     private readonly HttpClient _client;
 
-    public UnauthenticatedUserTests(WebApplicationFactory<Program> factory)
+    public DefaultAppAuthenticationTests(WebApplicationFactory<Program> factory)
     {
         _client = factory.CreateClient(new WebApplicationFactoryClientOptions
         {
@@ -23,7 +23,7 @@ public class UnauthenticatedUserTests : BaseIntegrationTest
 
     [Theory]
     [MemberData(nameof(FiatPages.ExpectedAlwaysAccessibleRoutesMemberData), MemberType = typeof(FiatPages))]
-    public async Task Renders_page(string url)
+    public async Task Unprotected_page_renders_when_unauthenticated(string url)
     {
         var response = await _client.GetAsync(url);
 
@@ -37,7 +37,7 @@ public class UnauthenticatedUserTests : BaseIntegrationTest
 
     [Theory]
     [InlineData(FiatPages.HealthCheckRoute)]
-    public async Task Renders_health_check_page(string url)
+    public async Task Health_check_page_renders_when_unauthenticated(string url)
     {
         var response = await _client.GetAsync(url);
 
@@ -51,7 +51,7 @@ public class UnauthenticatedUserTests : BaseIntegrationTest
 
     [Theory]
     [MemberData(nameof(FiatPages.AllExpectedProtectedRoutesInAppMemberData), MemberType = typeof(FiatPages))]
-    public async Task Redirects_to_login_when_unauthenticated(string url)
+    public async Task Protected_pages_redirect_to_login_when_unauthenticated(string url)
     {
         var response = await _client.GetAsync(url);
 
