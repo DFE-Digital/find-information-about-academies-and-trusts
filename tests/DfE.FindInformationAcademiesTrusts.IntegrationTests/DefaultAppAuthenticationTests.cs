@@ -13,7 +13,7 @@ public class DefaultAppAuthenticationTests : BaseIntegrationTest
 {
     private readonly HttpClient _client;
 
-    public DefaultAppAuthenticationTests(WebApplicationFactory<Program> factory)
+    public DefaultAppAuthenticationTests(ApplicationWithMockedServices factory)
     {
         _client = factory.CreateClient(new WebApplicationFactoryClientOptions
         {

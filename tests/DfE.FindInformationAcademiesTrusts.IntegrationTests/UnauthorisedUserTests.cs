@@ -17,7 +17,7 @@ public class UnauthorisedUserTests : BaseIntegrationTest
 {
     private readonly HttpClient _client;
 
-    public UnauthorisedUserTests(WebApplicationFactory<Program> factory)
+    public UnauthorisedUserTests(ApplicationWithMockedServices factory)
     {
         _client = factory.WithWebHostBuilder(builder =>
             {

@@ -1,7 +1,6 @@
 namespace DfE.FindInformationAcademiesTrusts.IntegrationTests.Base;
 
-[Trait("IntegrationTest", "true")]
-[Collection(nameof(UseWebApplicationFactory))]
+[Collection(nameof(UseApplicationWithMockedServices))]
 public abstract class BaseIntegrationTest
 {
 }
