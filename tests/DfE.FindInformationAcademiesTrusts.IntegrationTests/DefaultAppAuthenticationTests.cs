@@ -50,7 +50,7 @@ public class DefaultAppAuthenticationTests : BaseIntegrationTest
     }
 
     [Theory]
-    [MemberData(nameof(FiatPages.AllExpectedProtectedRoutesInAppMemberData), MemberType = typeof(FiatPages))]
+    [MemberData(nameof(FiatPages.ExpectedProtectedRoutesInAppMemberData), MemberType = typeof(FiatPages))]
     public async Task Protected_pages_redirect_to_login_when_unauthenticated(string url)
     {
         var response = await _client.GetAsync(url);

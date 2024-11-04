@@ -23,6 +23,7 @@ public class UnauthorisedUserTests : BaseIntegrationTest
             {
                 builder.ConfigureTestServices(services =>
                 {
+                    //Override authentication to simulate unauthorised user
                     services.AddAuthentication(UnauthorisedUserAuthenticationHandler.AuthenticationScheme)
                         .AddScheme<AuthenticationSchemeOptions, UnauthorisedUserAuthenticationHandler>(
                             UnauthorisedUserAuthenticationHandler.AuthenticationScheme,
@@ -37,10 +38,8 @@ public class UnauthorisedUserTests : BaseIntegrationTest
     }
 
     [Theory]
-    [InlineData("/accessibility")]
-    [InlineData("/cookies")]
-    [InlineData("/privacy")]
-    public async Task Renders_page(string url)
+    [MemberData(nameof(FiatPages.ExpectedAlwaysAccessibleRoutesMemberData), MemberType = typeof(FiatPages))]
+    public async Task Unprotected_page_renders_when_unauthorised(string url)
     {
         var response = await _client.GetAsync(url);
 
@@ -53,13 +52,22 @@ public class UnauthorisedUserTests : BaseIntegrationTest
     }
 
     [Theory]
-    [InlineData("/")]
-    [InlineData("/trusts/details?uid=2044")]
-    [InlineData("/search?keywords=trust")]
-    [InlineData("/trusts/academies/details?uid=2044&handler=export")]
-    [InlineData("/notfound")]
-    [InlineData("/error")]
-    public async Task Redirects_to_no_access(string url)
+    [InlineData(FiatPages.HealthCheckRoute)]
+    public async Task Health_check_page_renders_when_unauthorised(string url)
+    {
+        var response = await _client.GetAsync(url);
+
+        using var _ = new AssertionScope();
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var pageContent = await response.Content.ReadAsStringAsync();
+        pageContent.Should().Contain("Healthy");
+    }
+
+    [Theory]
+    [MemberData(nameof(FiatPages.ExpectedProtectedRoutesInAppMemberData), MemberType = typeof(FiatPages))]
+    public async Task Protected_pages_redirect_to_no_access_when_unauthorised(string url)
     {
         var response = await _client.GetAsync(url);
 
@@ -70,6 +78,6 @@ public class UnauthorisedUserTests : BaseIntegrationTest
         response.Headers.Location.Should().NotBeNull();
         response.Headers.Location!.Host.Should().Be("localhost");
         response.Headers.Location!.Segments.Should().Contain("no-access");
-        response.Headers.Location!.Query.Should().Be($"?ReturnUrl={WebUtility.UrlEncode(url)}");
+        response.Headers.Location!.Query.Should().Be($"?ReturnUrl={WebUtility.UrlEncode($"/{url}")}");
     }
 }
