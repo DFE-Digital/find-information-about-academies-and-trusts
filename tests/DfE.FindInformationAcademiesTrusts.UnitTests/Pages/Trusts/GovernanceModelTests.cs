@@ -114,4 +114,57 @@ public class GovernanceModelTests
         _mockTrustRepository.Verify(e => e.GetTrustGovernanceAsync(TestUid), Times.Once);
         _sut.TrustGovernance.Should().BeEquivalentTo(DummyTrustGovernanceServiceModel);
     }
+
+    [Fact]
+    public async Task CalculateTurnoverRate_Should_Calculate_Correctly_For_ExampleAsync()
+    {
+        // Arrange
+        var today = new DateTime(2024, 11, 4);
+        var past12MonthsStart = today.AddYears(-1).AddDays(1);
+
+        // Create 30 governors with default dates
+        var governors = Enumerable.Range(1, 30)
+            .Select(i => new Governor(
+                GID: "9999",
+                UID: "1234",
+                FullName: $"Governor {i}",
+                Role: "Trustee",
+                AppointingBody: "Body",
+                DateOfAppointment: new DateTime(2022, 1, 1),
+                DateOfTermEnd: null,
+                Email: null
+            ))
+            .ToList();
+
+        // Update 10 governors with appointments in the past 12 months
+        for (int i = 0; i < 10; i++)
+        {
+            governors[i] = governors[i] with { DateOfAppointment = past12MonthsStart.AddDays(i) };
+        }
+
+        // Update 3 governors with resignations in the past 12 months
+        for (int i = 0; i < 3; i++)
+        {
+            governors[29 - i] = governors[29 - i] with { DateOfTermEnd = past12MonthsStart.AddDays(i) };
+        }
+
+        var trustGovernance = new TrustGovernanceServiceModel(
+            [],
+            [],
+            [.. governors],
+            []
+        );
+
+        _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync(TestUid))
+            .ReturnsAsync(trustGovernance);
+
+        await _sut.OnGetAsync();
+
+
+        // Act
+        _sut.CalculateTurnoverRate();
+
+        // Assert
+        _sut.TurnoverRate.Should().Be(43.3m);
+    }
 }
