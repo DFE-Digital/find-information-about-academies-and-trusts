@@ -67,6 +67,7 @@ public class UnauthorisedUserTests : BaseIntegrationTest
 
     [Theory]
     [MemberData(nameof(FiatPages.ExpectedProtectedRoutesInAppMemberData), MemberType = typeof(FiatPages))]
+    [InlineData("notfound")]
     public async Task Protected_pages_redirect_to_no_access_when_unauthorised(string url)
     {
         var response = await _client.GetAsync(url);
