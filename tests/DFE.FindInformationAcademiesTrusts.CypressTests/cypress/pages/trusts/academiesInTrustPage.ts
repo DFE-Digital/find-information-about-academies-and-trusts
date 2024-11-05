@@ -13,7 +13,7 @@ class AcademiesInTrustPage {
     };
 
     private createDetailsPageElements() {
-        const table = () => cy.get('table');
+        const table = () => cy.get('[aria-describedby="academies-details-link"]');
         return {
             table,
             tableRows: () => table().find('tbody tr'),
@@ -29,7 +29,7 @@ class AcademiesInTrustPage {
     }
 
     private createOfstedPageElements() {
-        const table = () => cy.get('table');
+        const table = () => cy.get('[aria-describedby="ofsted-ratings-link"]');
         return {
             table,
             schoolName: () => table().find('[data-testid="school-name"]'),
@@ -44,7 +44,7 @@ class AcademiesInTrustPage {
     }
 
     private createPupilNumbersPageElements() {
-        const table = () => cy.get('table');
+        const table = () => cy.get('[aria-describedby="academies-pupil-numbers-link"]');
         return {
             table,
             schoolName: () => table().find('[data-testid="school-name"]'),
@@ -59,7 +59,7 @@ class AcademiesInTrustPage {
     }
 
     private createFreeSchoolMealsElements() {
-        const table = () => cy.get('table');
+        const table = () => cy.get('[aria-describedby="free-school-meals-link"]');
         return { table };
     }
 
