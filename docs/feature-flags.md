@@ -5,7 +5,6 @@ Feature flags can be used to programatically turn features on and off. We can us
 ## List of current flags
 
 - `TestFlag` (Default: false): Flag added to test the functionality of feature flags. Adds a line to the layout that shows flags are working when set to true.
-- `EditContactsUI` (Default: false): Flag added to control who can see the edit contacts UI on the Trust contacts page while that is still in development.
 - `UpdatedFooterHelpLink` (Default: true): Flag added to control when we release the updated help link in the footer.
 
 ## Implementation

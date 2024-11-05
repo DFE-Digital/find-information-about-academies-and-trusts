@@ -20,7 +20,7 @@ public class OfstedRatingCellModelTests
         var sut = new OfstedRatingCellModel
         {
             AcademyJoinedDate = new DateTime(),
-            OfstedRating = new OfstedRating(OfstedRatingScore.Good, new DateTime())
+            OfstedRating = new OfstedRating(2, new DateTime())
         };
 
         sut.IsAfterJoining.Should().Be(true);
@@ -82,7 +82,7 @@ public class OfstedRatingCellModelTests
     {
         var sut = new OfstedRatingCellModel
         {
-            OfstedRating = new OfstedRating(score, new DateTime()),
+            OfstedRating = new OfstedRating((int)score, new DateTime()),
             AcademyJoinedDate = new DateTime()
         };
 
@@ -111,7 +111,7 @@ public class OfstedRatingCellModelTests
     {
         var sut = new OfstedRatingCellModel
         {
-            OfstedRating = new OfstedRating(score, new DateTime()),
+            OfstedRating = new OfstedRating((int)score, new DateTime()),
             AcademyJoinedDate = new DateTime()
         };
 
@@ -123,7 +123,7 @@ public class OfstedRatingCellModelTests
         return new OfstedRatingCellModel
         {
             AcademyJoinedDate = new DateTime(2020, 11, 1),
-            OfstedRating = new OfstedRating(OfstedRatingScore.Good, new DateTime(2022, 3, 2))
+            OfstedRating = new OfstedRating((int)OfstedRatingScore.Good, new DateTime(2022, 3, 2))
         };
     }
 
@@ -132,7 +132,7 @@ public class OfstedRatingCellModelTests
         return new OfstedRatingCellModel
         {
             AcademyJoinedDate = new DateTime(2022, 3, 2),
-            OfstedRating = new OfstedRating(OfstedRatingScore.Good, new DateTime(2020, 11, 1)),
+            OfstedRating = new OfstedRating((int)OfstedRatingScore.Good, new DateTime(2020, 11, 1)),
             IdPrefix = ""
         };
     }
@@ -142,7 +142,7 @@ public class OfstedRatingCellModelTests
         return new OfstedRatingCellModel
         {
             AcademyJoinedDate = new DateTime(2022, 3, 2),
-            OfstedRating = new OfstedRating(OfstedRatingScore.None, null)
+            OfstedRating = new OfstedRating((int)OfstedRatingScore.None, null)
         };
     }
 }
