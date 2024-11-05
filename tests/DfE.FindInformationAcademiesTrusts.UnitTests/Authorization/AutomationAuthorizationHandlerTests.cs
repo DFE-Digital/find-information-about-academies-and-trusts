@@ -92,16 +92,37 @@ public class AutomationAuthorizationHandlerTests
     }
 
     [Fact]
-    public void SetupAutomationUser_sets_correct_claims()
+    public void SetupAutomationUser_sets_claims_from_user_context_header_when_no_roles()
     {
+        _httpContext.Request.Headers.Append("x-user-context",
+            """{"name": "Unauthorised Automation User - name", "email": "Unauthorised Automation User - email", "roles": []}""");
+
         _sut.SetupAutomationUser();
-        var expected = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+        var actual = _httpContext.User;
+
+        // Exclude subject due to cyclical references
+        actual.Claims.Should().BeEquivalentTo(new Claim[]
+        {
+            new("name", "Unauthorised Automation User - name"),
+            new("preferred_username", "Unauthorised Automation User - email")
+        }, options => options.Excluding(claim => claim.Subject));
+    }
+
+    [Fact]
+    public void SetupAutomationUser_sets_claims_from_user_context_header_when_authorised_role()
+    {
+        _httpContext.Request.Headers.Append("x-user-context",
+            """{"name": "Automation User - name", "email": "Automation User - email", "roles": ["User.Role.Authorised"]}""");
+
+        _sut.SetupAutomationUser();
+        var actual = _httpContext.User;
+
+        // Exclude subject due to cyclical references
+        actual.Claims.Should().BeEquivalentTo(new Claim[]
         {
             new("name", "Automation User - name"),
-            new("preferred_username", "Automation User - email")
-        }));
-        var actual = _httpContext.User;
-        // Exclude subject due to cyclical references
-        actual.Claims.Should().BeEquivalentTo(expected.Claims, options => options.Excluding(claim => claim.Subject));
+            new("preferred_username", "Automation User - email"),
+            new("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "User.Role.Authorised")
+        }, options => options.Excluding(claim => claim.Subject));
     }
 }
