@@ -12,7 +12,6 @@ class AcademiesInTrustPage {
         FreeSchoolMeals: this.createFreeSchoolMealsElements(),
     };
 
-    // Methods to retrieve element objects for each page section
     private createDetailsPageElements() {
         const table = () => cy.get('table');
         return {
@@ -64,14 +63,12 @@ class AcademiesInTrustPage {
         return { table };
     }
 
-    // Method to retrieve the academy count from the sidebar label
     public getAcademyCountFromSidebar(): Cypress.Chainable<number> {
         return this.elements.PageTabs.academyCountLabel()
             .invoke('text')
-            .then(text => parseInt(text.match(/\d+/)[0])); // Extracts the number from the label
+            .then(text => parseInt(text.match(/\d+/)[0]));
     }
 
-    // Method to retrieve the actual row count from the table on the Details page
     public getTableRowCountOnDetailsPage(): Cypress.Chainable<number> {
         return this.elements.DetailsPage.tableRows().its('length');
     }
