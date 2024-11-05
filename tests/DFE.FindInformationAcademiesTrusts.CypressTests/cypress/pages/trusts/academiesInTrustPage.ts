@@ -1,10 +1,11 @@
 import { SortingUtility } from "./sortingUtility";
 
 class AcademiesInTrustPage {
-
     elements = {
         DetailsPage: {
             table: () => cy.get('table'),
+            tableRows: () => this.elements.DetailsPage.table().find('tbody tr'),
+            
             schoolName: () => this.elements.DetailsPage.table().find('[data-testid="school-name"]'),
             schoolNameHeader: () => this.elements.DetailsPage.table().find("th:contains('School name')"),
 
@@ -54,7 +55,20 @@ class AcademiesInTrustPage {
             table: () => cy.get('table'),
         },
 
+        PageTabs: {
+            academyCountLabel: () => cy.get('[data-testid="academies-nav"]'),
+        },
     };
+
+    public getAcademyCountFromSidebar(): Cypress.Chainable<number> {
+        return this.elements.PageTabs.academyCountLabel()
+            .invoke('text')
+            .then(text => parseInt(text.match(/\d+/)[0]));
+    }
+
+    public getTableRowCountOnDetailsPage(): Cypress.Chainable<number> {
+        return this.elements.DetailsPage.tableRows().its('length');
+    }
 
     public checkDetailsHeadersPresent(): this {
         this.elements.DetailsPage.table().should('contain', 'School name');
@@ -74,25 +88,25 @@ class AcademiesInTrustPage {
     }
 
     public checkPupilNumbersHeadersPresent(): this {
-        this.elements.OfstedPage.table().should('contain', 'School name');
-        this.elements.OfstedPage.table().should('contain', 'Phase and age range');
-        this.elements.OfstedPage.table().should('contain', 'Pupil numbers');
-        this.elements.OfstedPage.table().should('contain', 'Pupil capacity');
-        this.elements.OfstedPage.table().should('contain', '% full');
+        this.elements.PupilNumbersPage.table().should('contain', 'School name');
+        this.elements.PupilNumbersPage.table().should('contain', 'Phase and age range');
+        this.elements.PupilNumbersPage.table().should('contain', 'Pupil numbers');
+        this.elements.PupilNumbersPage.table().should('contain', 'Pupil capacity');
+        this.elements.PupilNumbersPage.table().should('contain', '% full');
         return this;
     }
 
     public checkFreeSchoolMealsHeadersPresent(): this {
-        this.elements.OfstedPage.table().should('contain', 'School name');
-        this.elements.OfstedPage.table().should('contain', 'Pupils eligible for free school meals');
-        this.elements.OfstedPage.table().should('contain', 'Local authority average');
-        this.elements.OfstedPage.table().should('contain', 'National average');
+        this.elements.FreeSchoolMeals.table().should('contain', 'School name');
+        this.elements.FreeSchoolMeals.table().should('contain', 'Pupils eligible for free school meals');
+        this.elements.FreeSchoolMeals.table().should('contain', 'Local authority average');
+        this.elements.FreeSchoolMeals.table().should('contain', 'National average');
         return this;
     }
 
     public checkSchoolTypesOnDetailsTable() {
         this.elements.DetailsPage.schoolType().each(element => {
-            expect(element.text().trim()).to.be.oneOf(["Academy sponsor led", "Academy converter", "University technical college", "Free schools"])
+            expect(element.text().trim()).to.be.oneOf(["Academy sponsor led", "Academy converter", "University technical college", "Free schools"]);
         });
     }
 
@@ -138,9 +152,7 @@ class AcademiesInTrustPage {
         SortingUtility.checkStringSorting(PupilNumbersPage.phaseAndAge, PupilNumbersPage.phaseAndAgeHeader);
         SortingUtility.checkNumericSorting(PupilNumbersPage.pupilNumbers, PupilNumbersPage.pupilNumbersHeader);
         SortingUtility.checkNumericSorting(PupilNumbersPage.pupilCapacity, PupilNumbersPage.pupilCapacityHeader);
-
     }
-
 }
 
 const academiesInTrustPage = new AcademiesInTrustPage();

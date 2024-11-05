@@ -29,7 +29,31 @@ describe("Testing the components of the Academies in this trust page", () => {
             academiesInTrustPage
                 .checkTrustDetailsSorting()
         })
-        
+
+        it('should match the academy count in the sidebar with the actual table row count on the Details page', () => {
+            academiesInTrustPage
+                .getAcademyCountFromSidebar()
+                .then(expectedCount => {
+                    academiesInTrustPage
+                        .getTableRowCountOnDetailsPage()
+                        .then(actualCount => {
+                            expect(actualCount).to.eq(expectedCount);
+                        });
+                });
+        });
+
+        it('should match the academy count in the sidebar with the actual table row count on the Details page', () => {
+            cy.visit('/trusts/academies/details?uid=5143')
+            academiesInTrustPage
+                .getAcademyCountFromSidebar()
+                .then(expectedCount => {
+                    academiesInTrustPage
+                        .getTableRowCountOnDetailsPage()
+                        .then(actualCount => {
+                            expect(actualCount).to.eq(expectedCount);
+                        });
+                });
+        });
     })
 
     describe("Ofsted ratings tab", () => {
