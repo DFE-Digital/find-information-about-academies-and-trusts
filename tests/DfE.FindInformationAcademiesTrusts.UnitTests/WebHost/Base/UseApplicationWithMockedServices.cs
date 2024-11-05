@@ -1,4 +1,4 @@
-namespace DfE.FindInformationAcademiesTrusts.IntegrationTests.Base;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.WebHost.Base;
 
 [CollectionDefinition(nameof(UseApplicationWithMockedServices))]
 public class UseApplicationWithMockedServices : ICollectionFixture<ApplicationWithMockedServices>

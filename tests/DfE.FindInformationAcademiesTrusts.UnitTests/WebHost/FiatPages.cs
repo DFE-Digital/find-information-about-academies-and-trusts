@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace DfE.FindInformationAcademiesTrusts.IntegrationTests;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.WebHost;
 
 public static class FiatPages
 {

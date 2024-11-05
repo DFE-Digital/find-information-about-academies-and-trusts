@@ -4,7 +4,7 @@ using DfE.FindInformationAcademiesTrusts.Configuration;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
 
-namespace DfE.FindInformationAcademiesTrusts.IntegrationTests.AuthenticationHandlers;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.WebHost.AuthenticationHandlers;
 
 public class AuthorisedUserAuthenticationHandler(
     IOptionsMonitor<AuthenticationSchemeOptions> options,

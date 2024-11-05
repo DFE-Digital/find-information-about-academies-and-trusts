@@ -1,15 +1,14 @@
 using System.Net;
-using DfE.FindInformationAcademiesTrusts.IntegrationTests.Base;
-using FluentAssertions;
+using DfE.FindInformationAcademiesTrusts.UnitTests.WebHost.Base;
 using FluentAssertions.Execution;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace DfE.FindInformationAcademiesTrusts.IntegrationTests;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.WebHost;
 
 /// <summary>
 /// Tests with unmodified authentication behaviour to simulate when the user isn't logged in at all
 /// </summary>
-public class DefaultAppAuthenticationTests : BaseIntegrationTest
+public class DefaultAppAuthenticationTests : BaseWebHostTest
 {
     private readonly HttpClient _client;
 

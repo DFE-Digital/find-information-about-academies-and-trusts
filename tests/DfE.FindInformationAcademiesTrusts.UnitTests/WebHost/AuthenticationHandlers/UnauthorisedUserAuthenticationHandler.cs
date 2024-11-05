@@ -3,7 +3,7 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
 
-namespace DfE.FindInformationAcademiesTrusts.IntegrationTests.AuthenticationHandlers;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.WebHost.AuthenticationHandlers;
 
 public class UnauthorisedUserAuthenticationHandler(
     IOptionsMonitor<AuthenticationSchemeOptions> options,

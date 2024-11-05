@@ -6,9 +6,8 @@ using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Moq;
 
-namespace DfE.FindInformationAcademiesTrusts.IntegrationTests;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.WebHost;
 
 public class ApplicationWithMockedServices : WebApplicationFactory<Program>
 {
