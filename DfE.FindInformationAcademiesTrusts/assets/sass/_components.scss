@@ -8,8 +8,8 @@
 @import "components/contactsSummaryCard";
 
 .app-banner {
-  @include govuk-responsive-padding(5, "top");
-  @include govuk-responsive-padding(5, "bottom");
+  @include govuk-responsive-padding(3, "top");
+  @include govuk-responsive-padding(3, "bottom");
   background-color: $app-color-blue-light;
 
   .app-banner--heading {
