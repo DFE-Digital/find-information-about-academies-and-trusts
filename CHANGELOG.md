@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated wording for links on the landing page to tell users they open in new tabs
 - Updated the ofsted ratings to collect information about the ofsted subgrades
 - Remove the edit contact feature flag
+- Change Trust Navigation from side nav to top nav (service navigation component)
 
 ## [Release-11][release-11] (production-2024-10-17.3654)
 
