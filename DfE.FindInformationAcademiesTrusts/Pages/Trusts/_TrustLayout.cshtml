@@ -7,14 +7,12 @@
 
 <partial name="_TrustBanner" model="@Model"/>
 
+<partial name="_TrustNavigation" model="@Model"/>
 <div class="govuk-main-wrapper govuk-!-padding-top-0">
   <div class="dfe-width-container">
     <partial name="_TrustBreadcrumbs" model="@Model"/>
     <div class="govuk-grid-row">
-      <div class="govuk-grid-column-one-quarter">
-        <partial name="_TrustNavigation" model="@Model"/>
-      </div>
-      <div class="govuk-grid-column-three-quarters">
+      <div class="govuk-grid-column-full">
         <main id="main-content">
           @await RenderSectionAsync("TrustPageMessage", false)
           <header>
