@@ -25,7 +25,7 @@ public class OverviewModelTests
         _sut = new OverviewModel(_mockDataSourceService.Object,
                 new MockLogger<OverviewModel>().Object,
                 _mockTrustService.Object)
-        { Uid = TrustUid };
+            { Uid = TrustUid };
     }
 
     [Fact]
@@ -187,5 +187,19 @@ public class OverviewModelTests
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
         _sut.DataSources.Should().ContainSingle();
         _sut.DataSources[0].Fields.Should().Contain(new List<string> { "Trust summary", "Ofsted ratings" });
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_correct_NavigationLinks()
+    {
+        _ = await _sut.OnGetAsync();
+        _sut.NavigationLinks.Should().BeEquivalentTo([
+            new TrustNavigationLinkModel("Overview", "/Trusts/Overview", "1234", true, "overview-nav"),
+            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts", "1234", false, "contacts-nav"),
+            new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
+                "1234", false, "academies-nav"),
+            new TrustNavigationLinkModel("Governance", "/Trusts/Governance", "1234", false,
+                "governance-nav")
+        ]);
     }
 }
