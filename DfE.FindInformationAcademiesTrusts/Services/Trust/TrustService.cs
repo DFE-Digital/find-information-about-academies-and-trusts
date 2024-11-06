@@ -15,6 +15,7 @@ public interface ITrustService
     Task<TrustOverviewServiceModel> GetTrustOverviewAsync(string uid);
     Task<TrustContactUpdatedServiceModel> UpdateContactAsync(int uid, string? name, string? email,
         ContactRole role);
+    Task<IEnumerable<TrustWithManager>> GetTrustsInRegionAsync(string region);
 }
 
 public class TrustService(
@@ -86,10 +87,10 @@ public class TrustService(
     public async Task<TrustContactsServiceModel> GetTrustContactsAsync(string uid)
     {
         var urn = await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid);
-        
-        var trustContacts =
+
+        TrustContacts trustContacts =
             await trustRepository.GetTrustContactsAsync(uid, urn);
-        var internalContacts = await contactRepository.GetInternalContactsAsync(uid);
+        Data.Repositories.Contacts.InternalContacts internalContacts = await contactRepository.GetInternalContactsAsync(uid);
 
         return new TrustContactsServiceModel(
             internalContacts.TrustRelationshipManager,
@@ -107,7 +108,7 @@ public class TrustService(
 
         return new TrustContactUpdatedServiceModel(emailChanged, nameChanged);
     }
-    
+
     public async Task<TrustOverviewServiceModel> GetTrustOverviewAsync(string uid)
     {
         var academiesOverview = await academyRepository.GetAcademiesInTrustOverviewAsync(uid);
@@ -137,4 +138,36 @@ public class TrustService(
         return overviewModel;
     }
 
+    public async Task<IEnumerable<TrustWithManager>> GetTrustsInRegionAsync(string region)
+    {
+        var trusts = await trustRepository.GetTrustsByRegionAsync(region);
+        var uids = trusts.Select(t => t.Uid).ToList();
+
+        var internalContactsDict = await contactRepository.GetInternalContactsAsync(uids);
+
+        var trustsWithManagers = trusts.Select(trust =>
+        {
+            internalContactsDict.TryGetValue(trust.Uid, out var internalContacts);
+            var trustRelationshipManager = internalContacts?.TrustRelationshipManager;
+
+            return new TrustWithManager
+            {
+                Uid = trust.Uid,
+                Name = trust.Name,
+                TrustRelationshipManager = trustRelationshipManager
+            };
+        }).ToList();
+
+        return trustsWithManagers;
+    }
+
+
+
+}
+
+public class TrustWithManager
+{
+    public string Uid { get; set; } = null!;
+    public string Name { get; set; } = null!;
+    public Data.InternalContact? TrustRelationshipManager { get; set; }
 }

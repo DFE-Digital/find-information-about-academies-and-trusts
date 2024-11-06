@@ -13,6 +13,7 @@ public interface IContactRepository
 
     Task<TrustContactUpdated> UpdateInternalContactsAsync(int uid, string? name, string? email,
         ContactRole role);
+    Task<Dictionary<string, InternalContacts>> GetInternalContactsAsync(IEnumerable<string> uids);
 }
 
 public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
@@ -85,4 +86,63 @@ public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
                 contact.LastModifiedAtTime, contact.LastModifiedByEmail
             )).SingleOrDefaultAsync();
     }
+
+    public async Task<Dictionary<string, InternalContacts>> GetInternalContactsAsync(IEnumerable<string> uids)
+    {
+        var uidInts = uids.Select(uid => int.Parse(uid)).ToArray();
+
+        // Retrieve contacts for all UIDs in one query
+        var contacts = await fiatDbContext.Contacts
+            .Where(contact => uidInts.Contains(contact.Uid) &&
+                              (contact.Role == ContactRole.TrustRelationshipManager || contact.Role == ContactRole.SfsoLead))
+            .Select(contact => new
+            {
+                contact.Uid,
+                contact.Role,
+                contact.Name,
+                contact.Email,
+                contact.LastModifiedAtTime,
+                contact.LastModifiedByEmail
+            })
+            .ToListAsync();
+
+        // Group contacts by UID
+        var groupedContacts = contacts.GroupBy(c => c.Uid);
+
+        var internalContactsDict = new Dictionary<string, InternalContacts>();
+
+        foreach (var group in groupedContacts)
+        {
+            var uid = group.Key.ToString();
+
+            var trmContact = group.FirstOrDefault(c => c.Role == ContactRole.TrustRelationshipManager);
+            InternalContact? trm = null;
+            if (trmContact != null)
+            {
+                trm = new InternalContact(
+                    trmContact.Name,
+                    trmContact.Email,
+                    trmContact.LastModifiedAtTime,
+                    trmContact.LastModifiedByEmail ?? string.Empty
+                );
+            }
+
+            var sfsoContact = group.FirstOrDefault(c => c.Role == ContactRole.SfsoLead);
+            InternalContact? sfso = null;
+            if (sfsoContact != null)
+            {
+                sfso = new InternalContact(
+                    sfsoContact.Name,
+                    sfsoContact.Email,
+                    sfsoContact.LastModifiedAtTime,
+                    sfsoContact.LastModifiedByEmail ?? string.Empty
+                );
+            }
+
+            internalContactsDict[uid] = new InternalContacts(trm, sfso);
+        }
+
+        return internalContactsDict;
+    }
+
 }

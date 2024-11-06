@@ -18,6 +18,21 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
         return details is null ? null : new TrustSummary(details.Name, details.Type);
     }
 
+    public async Task<TrustInRegion[]> GetTrustsByRegionAsync(string region)
+    {
+        var trusts = await academiesDbContext.MstrTrusts
+            .Where(t => t.GORregion == region)
+            .Select(t => new TrustInRegion
+            {
+                Uid = t.GroupUid!,
+                Name = t.Name!
+            })
+            .ToArrayAsync();
+
+        return trusts;
+    }
+
+
     public async Task<TrustDetails> GetTrustDetailsAsync(string uid)
     {
         var giasGroup = await academiesDbContext.Groups
@@ -162,3 +177,5 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
     }
 
 }
+
+
