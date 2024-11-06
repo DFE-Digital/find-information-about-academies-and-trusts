@@ -34,7 +34,7 @@ public class ContactsModelTests
 
         _sut = new ContactsModel(_mockDataSourceService.Object,
                 new MockLogger<ContactsModel>().Object, _mockTrustService.Object)
-        { Uid = "1234" };
+            { Uid = "1234" };
     }
 
     private void SetupTrustWithNoGovernors()
@@ -138,5 +138,19 @@ public class ContactsModelTests
             { "Accounting officer name", "Chief financial officer name", "Chair of trustees name" });
         _sut.DataSources[3].Fields.Should().Contain(new List<string>
             { "Accounting officer email", "Chief financial officer email", "Chair of trustees email" });
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_correct_NavigationLinks()
+    {
+        _ = await _sut.OnGetAsync();
+        _sut.NavigationLinks.Should().BeEquivalentTo([
+            new TrustNavigationLinkModel("Overview", "/Trusts/Overview", "1234", false, "overview-nav"),
+            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts", "1234", true, "contacts-nav"),
+            new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
+                "1234", false, "academies-nav"),
+            new TrustNavigationLinkModel("Governance", "/Trusts/Governance", "1234", false,
+                "governance-nav")
+        ]);
     }
 }

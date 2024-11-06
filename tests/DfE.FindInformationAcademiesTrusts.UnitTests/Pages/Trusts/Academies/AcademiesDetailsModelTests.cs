@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
@@ -29,8 +30,9 @@ public class AcademiesDetailsModelTests
             .ReturnsAsync(_fakeTrust);
 
         _sut = new AcademiesDetailsModel(_mockDataSourceService.Object,
-                _mockLinkBuilder.Object, _mockLogger.Object, _mockTrustRepository.Object, _mockAcademyService.Object, _mockExportService.Object, _mockDateTimeProvider.Object)
-        { Uid = _fakeTrust.Uid };
+                _mockLinkBuilder.Object, _mockLogger.Object, _mockTrustRepository.Object, _mockAcademyService.Object,
+                _mockExportService.Object, _mockDateTimeProvider.Object)
+            { Uid = _fakeTrust.Uid };
     }
 
     [Fact]
@@ -89,5 +91,19 @@ public class AcademiesDetailsModelTests
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
         _sut.DataSources.Should().ContainSingle();
         _sut.DataSources[0].Fields.Should().Contain(new List<string> { "Details" });
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_correct_NavigationLinks()
+    {
+        _ = await _sut.OnGetAsync();
+        _sut.NavigationLinks.Should().BeEquivalentTo([
+            new TrustNavigationLinkModel("Overview", "/Trusts/Overview", "1234", false, "overview-nav"),
+            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts", "1234", false, "contacts-nav"),
+            new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
+                "1234", true, "academies-nav"),
+            new TrustNavigationLinkModel("Governance", "/Trusts/Governance", "1234", false,
+                "governance-nav")
+        ]);
     }
 }
