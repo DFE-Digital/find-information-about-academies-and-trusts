@@ -1,9 +1,9 @@
+using System.Text.RegularExpressions;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.RegularExpressions;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
@@ -52,6 +52,8 @@ public class TrustsAreaModel(
             $@"data-source-{source.DataSource.Source.ToString().ToLowerInvariant()}-{string.Join("-", source.Fields.Select(s => Regex.Replace(s.ToLowerInvariant().Trim(), @"\s+", "-", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500))))}";
     }
 
+    public TrustNavigationLinkModel[] NavigationLinks { get; set; } = [];
+
     public virtual async Task<IActionResult> OnGetAsync()
     {
         var trustSummary = await TrustService.GetTrustSummaryAsync(Uid);
@@ -62,6 +64,16 @@ public class TrustsAreaModel(
         }
 
         TrustSummary = trustSummary;
+
+        NavigationLinks =
+        [
+            new TrustNavigationLinkModel("Overview", "/Trusts/Overview", Uid, PageName == "Overview", "overview-nav"),
+            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts", Uid, PageName == "Contacts", "contacts-nav"),
+            new TrustNavigationLinkModel($"Academies ({TrustSummary.NumberOfAcademies})", "/Trusts/Academies/Details",
+                Uid, PageName == "Academies in this trust", "academies-nav"),
+            new TrustNavigationLinkModel("Governance", "/Trusts/Governance", Uid, PageName == "Governance",
+                "governance-nav")
+        ];
 
         return Page();
     }
