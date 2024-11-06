@@ -6,9 +6,9 @@ public interface IOtherServicesLinkBuilder
 {
     string GetInformationAboutSchoolsListingLinkForTrust(string trustUid);
     string GetInformationAboutSchoolsListingLinkForAcademy(string urn);
-    string? CompaniesHouseListingLink(TrustDetailsServiceModel trust);
-    string? SchoolFinancialBenchmarkingServiceListingLink(TrustDetailsServiceModel trust);
-    string? FindSchoolPerformanceDataListingLink(TrustDetailsServiceModel trust);
+    string? CompaniesHouseListingLink(TrustOverviewServiceModel trust);
+    string? SchoolFinancialBenchmarkingServiceListingLink(TrustOverviewServiceModel trust);
+    string? FindSchoolPerformanceDataListingLink(TrustOverviewServiceModel trust);
 }
 
 public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
@@ -34,13 +34,13 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
         return $"{GetInformationAboutSchoolsBaseUrl}/Establishments/Establishment/Details/{urn}";
     }
 
-    public string? CompaniesHouseListingLink(TrustDetailsServiceModel trust)
+    public string? CompaniesHouseListingLink(TrustOverviewServiceModel trust)
     {
         if (string.IsNullOrEmpty(trust.CompaniesHouseNumber)) return null;
         return $"{CompaniesHouseBaseUrl}/company/{trust.CompaniesHouseNumber}";
     }
 
-    public string? SchoolFinancialBenchmarkingServiceListingLink(TrustDetailsServiceModel trust)
+    public string? SchoolFinancialBenchmarkingServiceListingLink(TrustOverviewServiceModel trust)
     {
         if (trust.IsMultiAcademyTrust())
         {
@@ -55,7 +55,7 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
         return null;
     }
 
-    public string? FindSchoolPerformanceDataListingLink(TrustDetailsServiceModel trust)
+    public string? FindSchoolPerformanceDataListingLink(TrustOverviewServiceModel trust)
     {
         if (trust.IsMultiAcademyTrust())
         {

@@ -87,57 +87,6 @@ public class TrustServiceTests
         cachedEntry.SlidingExpiration.Should().Be(TimeSpan.FromMinutes(10));
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("123456")]
-    [InlineData("567890")]
-    public async Task GetTrustDetailsAsync_should_get_singleAcademyTrustAcademyUrn_from_academy_repository(
-        string? singleAcademyTrustAcademyUrn)
-    {
-        _mockAcademyRepository.Setup(a => a.GetSingleAcademyTrustAcademyUrnAsync("2806"))
-            .ReturnsAsync(singleAcademyTrustAcademyUrn);
-        _mockTrustRepository.Setup(t => t.GetTrustDetailsAsync("2806"))
-            .ReturnsAsync(new TrustDetails("2806",
-                "TR0012",
-                "10012345",
-                "123456",
-                "Multi-academy trust",
-                "123 Fairyland Drive, Gotham, GT12 1AB",
-                "Oxfordshire",
-                new DateTime(2007, 6, 28)));
-
-        var result = await _sut.GetTrustDetailsAsync("2806");
-
-        result.SingleAcademyTrustAcademyUrn.Should().Be(singleAcademyTrustAcademyUrn);
-    }
-
-    [Fact]
-    public async Task GetTrustDetailsAsync_should_set_properties_from_TrustRepo()
-    {
-        _mockTrustRepository.Setup(t => t.GetTrustDetailsAsync("2806"))
-            .ReturnsAsync(new TrustDetails("2806",
-                "TR0012",
-                "10012345",
-                "123456",
-                "Multi-academy trust",
-                "123 Fairyland Drive, Gotham, GT12 1AB",
-                "Oxfordshire",
-                new DateTime(2007, 6, 28)));
-
-        var result = await _sut.GetTrustDetailsAsync("2806");
-
-        result.Should().BeEquivalentTo(new TrustDetailsServiceModel("2806",
-            "TR0012",
-            "10012345",
-            "123456",
-            "Multi-academy trust",
-            "123 Fairyland Drive, Gotham, GT12 1AB",
-            "Oxfordshire",
-            null,
-            new DateTime(2007, 6, 28)
-        ));
-    }
-
     [Fact]
     public async Task GetTrustGovernanceAsync_should_get_governanceResults_for_single_trust()
     {
@@ -213,6 +162,50 @@ public class TrustServiceTests
         result.Should().BeEquivalentTo(contacts);
     }
 
+    [Theory]
+    [InlineData(null)]
+    [InlineData("123456")]
+    [InlineData("567890")]
+    public async Task GetTrustOverviewAsync_should_get_singleAcademyTrustAcademyUrn_from_academy_repository(
+        string? singleAcademyTrustAcademyUrn)
+    {
+        _mockAcademyRepository.Setup(a => a.GetSingleAcademyTrustAcademyUrnAsync("2806"))
+            .ReturnsAsync(singleAcademyTrustAcademyUrn);
+        _mockTrustRepository.Setup(t => t.GetTrustDetailsAsync("2806"))
+            .ReturnsAsync(new TrustDetails("2806",
+                "TR0012",
+                "10012345",
+                "123456",
+                "Multi-academy trust",
+                "123 Fairyland Drive, Gotham, GT12 1AB",
+                "Oxfordshire",
+                new DateTime(2007, 6, 28)));
+
+        var result = await _sut.GetTrustOverviewAsync("2806");
+
+        result.SingleAcademyTrustAcademyUrn.Should().Be(singleAcademyTrustAcademyUrn);
+    }
+
+    [Fact]
+    public async Task GetTrustOverviewAsync_should_set_properties_from_TrustRepo()
+    {
+        var trustDetails = new TrustDetails("2806",
+            "TR0012",
+            "10012345",
+            "123456",
+            "Multi-academy trust",
+            "123 Fairyland Drive, Gotham, GT12 1AB",
+            "Oxfordshire",
+            new DateTime(2007, 6, 28));
+
+        _mockTrustRepository.Setup(t => t.GetTrustDetailsAsync("2806"))
+            .ReturnsAsync(trustDetails);
+
+        var result = await _sut.GetTrustOverviewAsync("2806");
+
+        result.Should().BeEquivalentTo(trustDetails, options => options.ExcludingMissingMembers());
+    }
+
     [Fact]
     public async Task GetTrustOverviewAsync_returns_correct_overview_for_trust_with_academies()
     {
@@ -241,12 +234,6 @@ public class TrustServiceTests
         });
         result.TotalPupilNumbers.Should().Be(500 + 400 + 300);
         result.TotalCapacity.Should().Be(600 + 500 + 400);
-        result.OfstedRatings.Should().BeEquivalentTo(new Dictionary<OfstedRatingScore, int>
-        {
-            { OfstedRatingScore.Good, 1 },
-            { OfstedRatingScore.Outstanding, 1 },
-            { OfstedRatingScore.RequiresImprovement, 1 }
-        });
     }
 
     [Fact]
@@ -268,7 +255,6 @@ public class TrustServiceTests
         result.AcademiesByLocalAuthority.Should().BeEmpty();
         result.TotalPupilNumbers.Should().Be(0);
         result.TotalCapacity.Should().Be(0);
-        result.OfstedRatings.Should().BeEmpty();
     }
 
     [Theory]
