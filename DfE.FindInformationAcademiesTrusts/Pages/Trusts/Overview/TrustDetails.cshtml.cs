@@ -18,6 +18,7 @@ public class TrustDetailsModel(
     public string? GetInformationAboutSchoolsLink { get; set; }
     public string? FinancialBenchmarkingInsightsToolLink { get; set; }
     public string? FindSchoolPerformanceLink { get; set; }
+    public string? SharepointLink { get; set; }
 
     public override async Task<IActionResult> OnGetAsync()
     {
@@ -33,6 +34,7 @@ public class TrustDetailsModel(
         FindSchoolPerformanceLink =
             otherServicesLinkBuilder.FindSchoolPerformanceDataListingLink(TrustOverview.Uid, TrustOverview.Type,
                 TrustOverview.SingleAcademyTrustAcademyUrn);
+        SharepointLink = otherServicesLinkBuilder.SharepointFolderLink(TrustOverview.GroupId);
 
         return Page();
     }
