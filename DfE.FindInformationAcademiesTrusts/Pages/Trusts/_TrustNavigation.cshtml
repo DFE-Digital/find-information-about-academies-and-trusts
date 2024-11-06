@@ -1,49 +1,20 @@
 @model ITrustsAreaModel
 
-@functions {
-
-  private string GetCurrentLinkClassIf(string linkName)
-  {
-    var currentLinkClass = "ds_current govuk-!-font-weight-bold";
-    return Model.PageName == linkName ? currentLinkClass : string.Empty;
-  }
-
-}
-
-<nav aria-label="Sections" class="ds_side-navigation app-side-navigation" data-module="ds-side-navigation">
-  <input type="checkbox" class="fully-hidden js-toggle-side-navigation" id="show-side-navigation" aria-controls="side-navigation-root"/>
-  <label class="ds_side-navigation__expand" for="show-side-navigation"><span class="visually-hidden">Show all</span> Pages in this section <span class="ds_side-navigation__expand-indicator"></span></label>
-
-  <ul class="ds_side-navigation__list app-side-navigation__list" id="side-navigation-root">
-    <li class="ds_side-navigation__item  ds_side-navigation__item--has-children app-side-navigation__item--has-children">
-      <div class="govuk-caption-m app-side-navigation__title">@ViewConstants.AboutTheTrustSectionName</div>
-      <ul class="ds_side-navigation__list app-side-navigation__list">
-        <li class="ds_side-navigation__item app-side-navigation-highlight-item">
-          <a asp-page="/Trusts/Details" asp-route-uid="@Model.TrustSummary.Uid" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Details")" data-testid="details-nav">
-            <span class="visually-hidden">Trust</span>Details
-          </a>
-        </li>
-        <li class="ds_side-navigation__item app-side-navigation-highlight-item">
-          <a asp-page="/Trusts/Contacts" asp-route-uid="@Model.TrustSummary.Uid" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Contacts")" data-testid="contacts-nav">
-            <span class="visually-hidden">Trust</span>Contacts
-          </a>
-        </li>
-        <li class="ds_side-navigation__item app-side-navigation-highlight-item">
-          <a asp-page="/Trusts/Overview" asp-route-uid="@Model.TrustSummary.Uid" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Overview")" data-testid="overview-nav">
-            <span class="visually-hidden">Trust</span>Overview
-          </a>
-        </li>
-        <li class="ds_side-navigation__item app-side-navigation-highlight-item">
-          <a asp-page="/Trusts/Academies/Details" asp-route-uid="@Model.TrustSummary.Uid" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Academies in this trust")" data-testid="academies-nav">
-            Academies in this trust (@Model.TrustSummary.NumberOfAcademies)
-          </a>
-        </li>
-        <li class="ds_side-navigation__item app-side-navigation-highlight-item">
-          <a asp-page="/Trusts/Governance" asp-route-uid="@Model.TrustSummary.Uid" class="ds_side-navigation__link govuk-body govuk-link govuk-link--no-visited-state @GetCurrentLinkClassIf("Governance")" data-testid="governance-nav">
-            Governance
-          </a>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+<div class="govuk-service-navigation"
+     data-module="govuk-service-navigation">
+  <div class="govuk-width-container">
+    <div class="govuk-service-navigation__container">
+      <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+        <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden>
+          Menu
+        </button>
+        <ul class="govuk-service-navigation__list" id="navigation">
+          @foreach (var link in Model.NavigationLinks)
+          {
+            <partial name="_TrustNavigationLink" model="@link"/>
+          }
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
