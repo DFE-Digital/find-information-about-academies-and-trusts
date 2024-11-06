@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
@@ -21,7 +22,8 @@ public class TrustService(
     IAcademyRepository academyRepository,
     ITrustRepository trustRepository,
     IContactRepository contactRepository,
-    IMemoryCache memoryCache)
+    IMemoryCache memoryCache,
+    IDateTimeProvider dateTimeProvider)
     : ITrustService
 {
     public async Task<TrustSummaryServiceModel?> GetTrustSummaryAsync(string uid)
@@ -76,17 +78,20 @@ public class TrustService(
 
         var trustGovernance = await trustRepository.GetTrustGovernanceAsync(uid, urn);
 
+        var governanceTurnover = CalculateTurnoverRate(trustGovernance);
+
         return new TrustGovernanceServiceModel(
             trustGovernance.TrustLeadership,
             trustGovernance.Members,
             trustGovernance.Trustees,
-            trustGovernance.HistoricMembers);
+            trustGovernance.HistoricMembers,
+            governanceTurnover);
     }
 
     public async Task<TrustContactsServiceModel> GetTrustContactsAsync(string uid)
     {
         var urn = await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid);
-        
+
         var trustContacts =
             await trustRepository.GetTrustContactsAsync(uid, urn);
         var internalContacts = await contactRepository.GetInternalContactsAsync(uid);
@@ -107,7 +112,7 @@ public class TrustService(
 
         return new TrustContactUpdatedServiceModel(emailChanged, nameChanged);
     }
-    
+
     public async Task<TrustOverviewServiceModel> GetTrustOverviewAsync(string uid)
     {
         var academiesOverview = await academyRepository.GetAcademiesInTrustOverviewAsync(uid);
@@ -135,6 +140,48 @@ public class TrustService(
         );
 
         return overviewModel;
+    }
+    public decimal CalculateTurnoverRate(TrustGovernance trustGovernance)
+    {
+        var today = dateTimeProvider.Today;
+
+        // Past 12 Months 
+        var past12MonthsStart = today.AddYears(-1);
+
+        // Get current governors (Trustees and Members), excluding specified roles and those who have resigned
+        var currentGovernors = trustGovernance.Trustees
+            .Concat(trustGovernance.Members)
+            .Where(g => !g.HasRoleLeadership && (g.DateOfTermEnd == null || g.DateOfTermEnd >= today))
+            .ToList();
+
+        // Get all governors for event calculations (including HistoricMembers), excluding specified roles
+        var allGovernorsExcludingLeadership = trustGovernance.Trustees
+            .Concat(trustGovernance.Members)
+            .Concat(trustGovernance.HistoricMembers)
+            .Where(g => !g.HasRoleLeadership)
+            .ToList();
+
+        // Total number of current governor positions
+        int totalCurrentGovernors = currentGovernors.Count;
+
+        // Appointments in the past 12 months
+        int appointmentsInPast12Months = allGovernorsExcludingLeadership
+            .Count(g => g.DateOfAppointment != null &&
+                        g.DateOfAppointment >= past12MonthsStart &&
+                        g.DateOfAppointment <= today);
+
+        // Resignations in the past 12 months
+        int resignationsInPast12Months = allGovernorsExcludingLeadership
+            .Count(g => g.DateOfTermEnd != null &&
+                        g.DateOfTermEnd >= past12MonthsStart &&
+                        g.DateOfTermEnd <= today);
+
+        int totalEvents = appointmentsInPast12Months + resignationsInPast12Months;
+
+        // Calculate turnover rate and round to 1 decimal point
+        return totalCurrentGovernors > 0
+            ? Math.Round((decimal)totalEvents / totalCurrentGovernors * 100m, 1)
+            : 0m;
     }
 
 }
