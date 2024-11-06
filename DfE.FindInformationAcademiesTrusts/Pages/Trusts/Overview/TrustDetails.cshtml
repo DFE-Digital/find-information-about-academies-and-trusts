@@ -42,6 +42,17 @@
               @Model.TrustOverview.RegionAndTerritory
             </dd>
           </div>
+          @if (Model.SharepointLink is not null)
+          {
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                SharePoint folder (opens in a new tab)
+              </dt>
+              <dd class="govuk-summary-list__value" data-testid="sharepoint-link">
+                <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.SharepointLink">Find this trust's SharePoint folder</a>
+              </dd>
+            </div>
+          }
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
               Information from other services (opens in a new tab)
@@ -49,27 +60,27 @@
             <dd class="govuk-summary-list__value">
               @if (Model.CompaniesHouseLink is not null)
               {
-                <p class="govuk-body">
-                  <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.CompaniesHouseLink">Companies House</a>
-                </p>
+                  <p class="govuk-body">
+                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.CompaniesHouseLink">Companies House</a>
+                  </p>
               }
               @if (Model.GetInformationAboutSchoolsLink is not null)
               {
-                <p class="govuk-body">
-                  <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.GetInformationAboutSchoolsLink">Get information about schools</a>
-                </p>
+                  <p class="govuk-body">
+                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.GetInformationAboutSchoolsLink">Get information about schools</a>
+                  </p>
               }
               @if (Model.FinancialBenchmarkingInsightsToolLink is not null)
               {
-                <p class="govuk-body">
-                  <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.FinancialBenchmarkingInsightsToolLink">Financial Benchmarking and Insights Tool</a>
-                </p>
+                  <p class="govuk-body">
+                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.FinancialBenchmarkingInsightsToolLink">Financial Benchmarking and Insights Tool</a>
+                  </p>
               }
               @if (Model.FindSchoolPerformanceLink is not null)
               {
-                <p class="govuk-body">
-                  <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.FindSchoolPerformanceLink">Find school college and performance data in England</a>
-                </p>
+                  <p class="govuk-body">
+                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.FindSchoolPerformanceLink">Find school college and performance data in England</a>
+                  </p>
               }
             </dd>
           </div>
