@@ -1,0 +1,17 @@
+﻿@model TrustNavigationLinkModel
+@if (Model.LinkIsActive)
+{
+  <li class="govuk-service-navigation__item govuk-service-navigation__item--active">
+    <a class="govuk-service-navigation__link" asp-page="@Model.Page" asp-route-uid="@Model.Uid" data-testid="@Model.DataTestId">
+      <strong class="govuk-service-navigation__active-fallback govuk-!-font-weight-bold">@Model.LinkText</strong>
+    </a>
+  </li>
+}
+else
+{
+  <li class="govuk-service-navigation__item">
+    <a class="govuk-service-navigation__link govuk-!-font-weight-bold" asp-page="@Model.Page" asp-route-uid="@Model.Uid" data-testid="@Model.DataTestId">
+      @Model.LinkText
+    </a>
+  </li>
+}
