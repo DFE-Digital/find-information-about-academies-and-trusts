@@ -65,6 +65,13 @@ public class TrustsAreaModel(
 
         TrustSummary = trustSummary;
 
+        InitializeNavigationLinks();
+
+        return Page();
+    }
+
+    private void InitializeNavigationLinks()
+    {
         NavigationLinks =
         [
             new TrustNavigationLinkModel("Overview", "/Trusts/Overview", Uid, PageName == "Overview", "overview-nav"),
@@ -74,7 +81,5 @@ public class TrustsAreaModel(
             new TrustNavigationLinkModel("Governance", "/Trusts/Governance", Uid, PageName == "Governance",
                 "governance-nav")
         ];
-
-        return Page();
     }
 }
