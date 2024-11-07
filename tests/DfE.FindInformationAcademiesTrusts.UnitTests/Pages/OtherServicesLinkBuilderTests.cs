@@ -78,4 +78,22 @@ public class OtherServicesLinkBuilderTests
             _sut.FindSchoolPerformanceDataListingLink("1234", TrustType.SingleAcademyTrust, null);
         result.Should().BeNull();
     }
+
+    [Fact]
+    public void SharepointFolderLink_should_return_url_containing_GroupId()
+    {
+        var result =
+            _sut.SharepointFolderLink("TR02345");
+
+        result.Should()
+            .Be(
+                "https://educationgovuk.sharepoint.com/_layouts/15/sharepoint.aspx?oobRefiners=%7B%22FileType%22%3A%5B%22other%22%5D%7D&q=TR02345&v=%2Fsearch");
+    }
+
+    [Fact]
+    public void SharepointFolderLink_should_return_null_if_trust_has_no_CompaniesHouseNumber()
+    {
+        var result = _sut.SharepointFolderLink("");
+        result.Should().BeNull();
+    }
 }
