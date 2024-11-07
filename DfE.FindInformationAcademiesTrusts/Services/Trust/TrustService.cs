@@ -90,12 +90,12 @@ public class TrustService(
 
     public async Task<TrustOverviewServiceModel> GetTrustOverviewAsync(string uid)
     {
-        var trustDetails = await trustRepository.GetTrustDetailsAsync(uid);
-        var trustType = trustDetails.Type switch
+        var trustOverview = await trustRepository.GetTrustOverviewAsync(uid);
+        var trustType = trustOverview.Type switch
         {
             "Single-academy trust" => TrustType.SingleAcademyTrust,
             "Multi-academy trust" => TrustType.MultiAcademyTrust,
-            _ => throw new InvalidOperationException($"Unknown trust type: {trustDetails.Type}")
+            _ => throw new InvalidOperationException($"Unknown trust type: {trustOverview.Type}")
         };
 
         var singleAcademyTrustAcademyUrn = trustType is TrustType.SingleAcademyTrust
@@ -114,15 +114,15 @@ public class TrustService(
         var totalCapacity = academiesOverview.Sum(a => a.SchoolCapacity ?? 0);
 
         var overviewModel = new TrustOverviewServiceModel(
-            trustDetails.Uid,
-            trustDetails.GroupId,
-            trustDetails.Ukprn,
-            trustDetails.CompaniesHouseNumber,
+            trustOverview.Uid,
+            trustOverview.GroupId,
+            trustOverview.Ukprn,
+            trustOverview.CompaniesHouseNumber,
             trustType,
-            trustDetails.Address,
-            trustDetails.RegionAndTerritory,
+            trustOverview.Address,
+            trustOverview.RegionAndTerritory,
             singleAcademyTrustAcademyUrn,
-            trustDetails.OpenedDate,
+            trustOverview.OpenedDate,
             totalAcademies,
             academiesByLocalAuthority,
             totalPupilNumbers,
