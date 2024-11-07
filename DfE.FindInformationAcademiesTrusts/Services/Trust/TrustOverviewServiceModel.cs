@@ -1,11 +1,13 @@
-﻿namespace DfE.FindInformationAcademiesTrusts.Services.Trust;
+﻿using DfE.FindInformationAcademiesTrusts.Data.Enums;
+
+namespace DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 public record TrustOverviewServiceModel(
     string Uid,
     string? GroupId,
     string? Ukprn,
     string? CompaniesHouseNumber,
-    string Type,
+    TrustType Type,
     string Address,
     string RegionAndTerritory,
     string? SingleAcademyTrustAcademyUrn,
@@ -15,16 +17,6 @@ public record TrustOverviewServiceModel(
     int TotalPupilNumbers,
     int TotalCapacity)
 {
-    public bool IsMultiAcademyTrust()
-    {
-        return Type == "Multi-academy trust";
-    }
-
-    public bool IsSingleAcademyTrust()
-    {
-        return Type == "Single-academy trust";
-    }
-
     public int? PercentageFull =>
         TotalCapacity > 0
             ? (int)Math.Round((double)TotalPupilNumbers / TotalCapacity * 100)

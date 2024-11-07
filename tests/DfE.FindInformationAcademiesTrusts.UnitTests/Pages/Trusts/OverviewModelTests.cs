@@ -16,7 +16,8 @@ public class OverviewModelTests
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinksToOtherServices = new();
 
     private static readonly TrustOverviewServiceModel BaseTrustOverviewServiceModel =
-        new("1234", "", "", "", "", "", "", null, null, 0, new Dictionary<string, int>(), 0, 0);
+        new(TrustUid, "", "", "", TrustType.MultiAcademyTrust, "", "", null, null, 0, new Dictionary<string, int>(), 0,
+            0);
 
     public OverviewModelTests()
     {
@@ -83,7 +84,8 @@ public class OverviewModelTests
     [Fact]
     public async Task CompaniesHouseLink_is_null_if_link_builder_returns_null()
     {
-        _mockLinksToOtherServices.Setup(l => l.CompaniesHouseListingLink(BaseTrustOverviewServiceModel))
+        _mockLinksToOtherServices.Setup(l =>
+                l.CompaniesHouseListingLink(BaseTrustOverviewServiceModel.CompaniesHouseNumber))
             .Returns((string?)null);
         await _sut.OnGetAsync();
         _sut.CompaniesHouseLink.Should().BeNull();
@@ -92,7 +94,8 @@ public class OverviewModelTests
     [Fact]
     public async Task CompaniesHouseLink_is_string_if_link_builder_returns_string()
     {
-        _mockLinksToOtherServices.Setup(l => l.CompaniesHouseListingLink(BaseTrustOverviewServiceModel))
+        _mockLinksToOtherServices.Setup(l =>
+                l.CompaniesHouseListingLink(BaseTrustOverviewServiceModel.CompaniesHouseNumber))
             .Returns("url");
         await _sut.OnGetAsync();
         _sut.CompaniesHouseLink.Should().Be("url");
@@ -112,7 +115,9 @@ public class OverviewModelTests
     public async Task SchoolsFinancialBenchmarkingLink_is_null_if_link_builder_returns_null()
     {
         _mockLinksToOtherServices
-            .Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(BaseTrustOverviewServiceModel))
+            .Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(BaseTrustOverviewServiceModel.Type,
+                BaseTrustOverviewServiceModel.SingleAcademyTrustAcademyUrn,
+                BaseTrustOverviewServiceModel.CompaniesHouseNumber))
             .Returns((string?)null);
         await _sut.OnGetAsync();
         _sut.SchoolsFinancialBenchmarkingLink.Should().BeNull();
@@ -122,7 +127,9 @@ public class OverviewModelTests
     public async Task SchoolsFinancialBenchmarkingLink_is_string_if_link_builder_returns_string()
     {
         _mockLinksToOtherServices
-            .Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(BaseTrustOverviewServiceModel))
+            .Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(BaseTrustOverviewServiceModel.Type,
+                BaseTrustOverviewServiceModel.SingleAcademyTrustAcademyUrn,
+                BaseTrustOverviewServiceModel.CompaniesHouseNumber))
             .Returns("url");
         await _sut.OnGetAsync();
         _sut.SchoolsFinancialBenchmarkingLink.Should().Be("url");
@@ -131,7 +138,8 @@ public class OverviewModelTests
     [Fact]
     public async Task FindSchoolPerformanceLink_is_null_if_link_builder_returns_null()
     {
-        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(BaseTrustOverviewServiceModel))
+        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(BaseTrustOverviewServiceModel.Uid,
+                BaseTrustOverviewServiceModel.Type, BaseTrustOverviewServiceModel.SingleAcademyTrustAcademyUrn))
             .Returns((string?)null);
         await _sut.OnGetAsync();
         _sut.FindSchoolPerformanceLink.Should().BeNull();
@@ -140,7 +148,8 @@ public class OverviewModelTests
     [Fact]
     public async Task FindSchoolPerformanceLink_is_string_if_link_builder_returns_string()
     {
-        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(BaseTrustOverviewServiceModel))
+        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(BaseTrustOverviewServiceModel.Uid,
+                BaseTrustOverviewServiceModel.Type, BaseTrustOverviewServiceModel.SingleAcademyTrustAcademyUrn))
             .Returns("url");
         await _sut.OnGetAsync();
         _sut.FindSchoolPerformanceLink.Should().Be("url");
