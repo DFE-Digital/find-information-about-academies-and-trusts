@@ -27,13 +27,15 @@ public class OverviewModel(
         TrustOverview = await TrustService.GetTrustOverviewAsync(Uid);
 
         // Setup external links
-        CompaniesHouseLink = otherServicesLinkBuilder.CompaniesHouseListingLink(TrustOverview);
+        CompaniesHouseLink = otherServicesLinkBuilder.CompaniesHouseListingLink(TrustOverview.CompaniesHouseNumber);
         GetInformationAboutSchoolsLink =
             otherServicesLinkBuilder.GetInformationAboutSchoolsListingLinkForTrust(TrustOverview.Uid);
         SchoolsFinancialBenchmarkingLink =
-            otherServicesLinkBuilder.SchoolFinancialBenchmarkingServiceListingLink(TrustOverview);
+            otherServicesLinkBuilder.SchoolFinancialBenchmarkingServiceListingLink(TrustOverview.Type,
+                TrustOverview.SingleAcademyTrustAcademyUrn, TrustOverview.CompaniesHouseNumber);
         FindSchoolPerformanceLink =
-            otherServicesLinkBuilder.FindSchoolPerformanceDataListingLink(TrustOverview);
+            otherServicesLinkBuilder.FindSchoolPerformanceDataListingLink(TrustOverview.Uid, TrustOverview.Type,
+                TrustOverview.SingleAcademyTrustAcademyUrn);
 
         // Add data sources
         DataSources.Add(new DataSourceListEntry(

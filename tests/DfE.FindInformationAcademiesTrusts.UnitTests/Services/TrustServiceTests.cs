@@ -11,6 +11,15 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
 
 public class TrustServiceTests
 {
+    private static readonly TrustDetails BaseTrustDetails = new("2806",
+        "TR0012",
+        "10012345",
+        "123456",
+        "Single-academy trust",
+        "123 Fairyland Drive, Gotham, GT12 1AB",
+        "Oxfordshire",
+        new DateTime(2007, 6, 28));
+
     private readonly TrustService _sut;
     private readonly Mock<IAcademyRepository> _mockAcademyRepository = new();
     private readonly Mock<ITrustRepository> _mockTrustRepository = new();
@@ -166,20 +175,14 @@ public class TrustServiceTests
     [InlineData(null)]
     [InlineData("123456")]
     [InlineData("567890")]
-    public async Task GetTrustOverviewAsync_should_get_singleAcademyTrustAcademyUrn_from_academy_repository(
-        string? singleAcademyTrustAcademyUrn)
+    public async Task
+        GetTrustOverviewAsync_should_get_singleAcademyTrustAcademyUrn_from_academy_repository_when_trust_is_single_academy_trust(
+            string? singleAcademyTrustAcademyUrn)
     {
         _mockAcademyRepository.Setup(a => a.GetSingleAcademyTrustAcademyUrnAsync("2806"))
             .ReturnsAsync(singleAcademyTrustAcademyUrn);
         _mockTrustRepository.Setup(t => t.GetTrustDetailsAsync("2806"))
-            .ReturnsAsync(new TrustDetails("2806",
-                "TR0012",
-                "10012345",
-                "123456",
-                "Multi-academy trust",
-                "123 Fairyland Drive, Gotham, GT12 1AB",
-                "Oxfordshire",
-                new DateTime(2007, 6, 28)));
+            .ReturnsAsync(BaseTrustDetails);
 
         var result = await _sut.GetTrustOverviewAsync("2806");
 
@@ -187,23 +190,65 @@ public class TrustServiceTests
     }
 
     [Fact]
-    public async Task GetTrustOverviewAsync_should_set_properties_from_TrustRepo()
+    public async Task
+        GetTrustOverviewAsync_should_not_get_singleAcademyTrustAcademyUrn_when_trust_is_multi_academy_trust()
     {
-        var trustDetails = new TrustDetails("2806",
-            "TR0012",
-            "10012345",
-            "123456",
-            "Multi-academy trust",
-            "123 Fairyland Drive, Gotham, GT12 1AB",
-            "Oxfordshire",
-            new DateTime(2007, 6, 28));
-
         _mockTrustRepository.Setup(t => t.GetTrustDetailsAsync("2806"))
-            .ReturnsAsync(trustDetails);
+            .ReturnsAsync(BaseTrustDetails with { Type = "Multi-academy trust" });
 
         var result = await _sut.GetTrustOverviewAsync("2806");
 
-        result.Should().BeEquivalentTo(trustDetails, options => options.ExcludingMissingMembers());
+        result.SingleAcademyTrustAcademyUrn.Should().BeNull();
+        _mockAcademyRepository.Verify(a => a.GetSingleAcademyTrustAcademyUrnAsync(It.IsAny<string>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task GetTrustOverviewAsync_should_set_properties_from_TrustRepo()
+    {
+        var trustDetails = BaseTrustDetails with
+        {
+            Uid = "6798",
+            GroupId = "TR0034",
+            Ukprn = "100999999",
+            CompaniesHouseNumber = "999999",
+            Address = "99 The Road, Townville, TA9 9CB",
+            RegionAndTerritory = "Cumbria",
+            OpenedDate = new DateTime(2015, 4, 20)
+        };
+
+        _mockTrustRepository.Setup(t => t.GetTrustDetailsAsync("6798"))
+            .ReturnsAsync(trustDetails);
+
+        var result = await _sut.GetTrustOverviewAsync("6798");
+
+        result.Should()
+            .BeEquivalentTo(trustDetails, options => options.ExcludingMissingMembers().Excluding(t => t.Type));
+    }
+
+    [Theory]
+    [InlineData("Single-academy trust", TrustType.SingleAcademyTrust)]
+    [InlineData("Multi-academy trust", TrustType.MultiAcademyTrust)]
+    public async Task GetTrustOverviewAsync_should_set_trustType(string givenType, TrustType expectedTrustType)
+    {
+        _mockTrustRepository.Setup(t => t.GetTrustDetailsAsync("2806"))
+            .ReturnsAsync(BaseTrustDetails with { Type = givenType });
+
+        var result = await _sut.GetTrustOverviewAsync("2806");
+
+        result.Type.Should().Be(expectedTrustType);
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("Not a SAT or MAT")]
+    public async Task GetTrustOverviewAsync_should_throw_when_trustType_invalid(string givenType)
+    {
+        _mockTrustRepository.Setup(t => t.GetTrustDetailsAsync("2806"))
+            .ReturnsAsync(BaseTrustDetails with { Type = givenType });
+
+        var action = async () => await _sut.GetTrustOverviewAsync("2806");
+
+        await action.Should().ThrowAsync<InvalidOperationException>();
     }
 
     [Fact]
@@ -220,6 +265,8 @@ public class TrustServiceTests
 
         _mockAcademyRepository.Setup(a => a.GetAcademiesInTrustOverviewAsync(uid))
             .ReturnsAsync(academiesOverview);
+        _mockTrustRepository.Setup(t => t.GetTrustDetailsAsync(uid))
+            .ReturnsAsync(BaseTrustDetails with { Uid = uid });
 
         // Act
         var result = await _sut.GetTrustOverviewAsync(uid);
@@ -245,6 +292,8 @@ public class TrustServiceTests
 
         _mockAcademyRepository.Setup(a => a.GetAcademiesInTrustOverviewAsync(uid))
             .ReturnsAsync(academiesOverview);
+        _mockTrustRepository.Setup(t => t.GetTrustDetailsAsync(uid))
+            .ReturnsAsync(BaseTrustDetails with { Uid = uid });
 
         // Act
         var result = await _sut.GetTrustOverviewAsync(uid);

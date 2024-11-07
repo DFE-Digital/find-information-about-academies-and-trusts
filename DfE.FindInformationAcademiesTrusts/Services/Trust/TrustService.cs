@@ -91,8 +91,14 @@ public class TrustService(
     public async Task<TrustOverviewServiceModel> GetTrustOverviewAsync(string uid)
     {
         var trustDetails = await trustRepository.GetTrustDetailsAsync(uid);
+        var trustType = trustDetails.Type switch
+        {
+            "Single-academy trust" => TrustType.SingleAcademyTrust,
+            "Multi-academy trust" => TrustType.MultiAcademyTrust,
+            _ => throw new InvalidOperationException($"Unknown trust type: {trustDetails.Type}")
+        };
 
-        var singleAcademyTrustAcademyUrn = trustDetails.Type == "Single-academy trust"
+        var singleAcademyTrustAcademyUrn = trustType is TrustType.SingleAcademyTrust
             ? await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid)
             : null;
 
@@ -112,7 +118,7 @@ public class TrustService(
             trustDetails.GroupId,
             trustDetails.Ukprn,
             trustDetails.CompaniesHouseNumber,
-            trustDetails.Type,
+            trustType,
             trustDetails.Address,
             trustDetails.RegionAndTerritory,
             singleAcademyTrustAcademyUrn,
