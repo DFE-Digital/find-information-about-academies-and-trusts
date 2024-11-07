@@ -90,10 +90,11 @@ public class TrustService(
 
     public async Task<TrustOverviewServiceModel> GetTrustOverviewAsync(string uid)
     {
-        var singleAcademyTrustAcademyUrn = await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid);
-
         var trustDetails = await trustRepository.GetTrustDetailsAsync(uid);
 
+        var singleAcademyTrustAcademyUrn = trustDetails.Type == "Single-academy trust"
+            ? await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid)
+            : null;
 
         var academiesOverview = await academyRepository.GetAcademiesInTrustOverviewAsync(uid);
 
