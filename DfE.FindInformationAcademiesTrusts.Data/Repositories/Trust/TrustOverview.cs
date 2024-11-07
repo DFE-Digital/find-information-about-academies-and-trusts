@@ -1,6 +1,6 @@
 namespace DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 
-public record TrustDetails(
+public record TrustOverview(
     string Uid,
     string? GroupId,
     string? Ukprn,
