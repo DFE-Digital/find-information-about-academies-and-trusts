@@ -23,16 +23,16 @@ describe('Pagination Tests', () => {
             .checkCurrentURLIsCorrect('pagenumber=2')
 
         paginationPage
-            .clickPageNumber(73)
-
-        navigation
-            .checkCurrentURLIsCorrect('pagenumber=73')
-
-        paginationPage
             .clickPageNumber(72)
 
         navigation
             .checkCurrentURLIsCorrect('pagenumber=72')
+
+        paginationPage
+            .clickPageNumber(71)
+
+        navigation
+            .checkCurrentURLIsCorrect('pagenumber=71')
     });
 
     it('Should navigate to the next page on next button click', () => {
@@ -95,8 +95,8 @@ describe('Pagination Tests', () => {
             .checkExpectedPageNumberInPaginationBar(30)
             .checkExpectedPageNumberInPaginationBar(31)
             .checkResultIsNotInPaginationBar(32)
-            .checkResultIsNotInPaginationBar(72)
-            .checkExpectedPageNumberInPaginationBar(73)
+            .checkResultIsNotInPaginationBar(71)
+            .checkExpectedPageNumberInPaginationBar(72)
     });
 
     it('Checks that on a single result page only the page number is present', () => {
