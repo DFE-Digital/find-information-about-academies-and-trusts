@@ -53,7 +53,7 @@ public class SearchModelTests
     }
 
     [Fact]
-    public async Task OnGetAsync_should_redirect_to_trust_details_if_given_uid_and_query_is_trust_name()
+    public async Task OnGetAsync_should_redirect_to_trust_overview_if_given_uid_and_query_is_trust_name()
     {
         _sut.Uid = _fakeTrust.Uid;
         _sut.KeyWords = _fakeTrust.Name;
@@ -62,11 +62,11 @@ public class SearchModelTests
 
         result.Should().BeOfType<RedirectToPageResult>();
         var redirectResult = (RedirectToPageResult)result;
-        redirectResult.PageName.Should().Be("/Trusts/Details");
+        redirectResult.PageName.Should().Be("/Trusts/Overview");
     }
 
     [Fact]
-    public async Task OnGetAsync_should_pass_trustId_to_trust_details_if_given_trustId()
+    public async Task OnGetAsync_should_pass_trustId_to_trust_overview_if_given_trustId()
     {
         _sut.Uid = _fakeTrust.Uid;
         _sut.KeyWords = _fakeTrust.Name;
@@ -79,7 +79,7 @@ public class SearchModelTests
     }
 
     [Fact]
-    public async Task OnGetAsync_should_not_redirect_to_trust_details_if_trustId_does_not_match_query()
+    public async Task OnGetAsync_should_not_redirect_to_trust_overview_if_trustId_does_not_match_query()
     {
         var differentFakeTrust = new TrustSearchEntry("other trust", "Some address", "987", "TR0987");
         _mockTrustSearch.Setup(s => s.SearchAsync(differentFakeTrust.Name, It.IsAny<int>()))

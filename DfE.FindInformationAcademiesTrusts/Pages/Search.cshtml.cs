@@ -42,7 +42,7 @@ public class SearchModel : ContentPageModel, IPageSearchFormModel, IPaginationMo
             var trust = await _trustService.GetTrustSummaryAsync(Uid);
             if (trust != null && string.Equals(trust.Name, KeyWords, StringComparison.CurrentCultureIgnoreCase))
             {
-                return RedirectToPage("/Trusts/Details", new { Uid });
+                return RedirectToPage("/Trusts/Overview", new { Uid });
             }
         }
 
