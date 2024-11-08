@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated the ofsted ratings to collect information about the ofsted subgrades
 - Remove the edit contact feature flag
 - Change Trust Navigation from side nav to top nav (service navigation component)
+- Update the Govuk frontend package to ^5.7.1
 
 ## [Release-11][release-11] (production-2024-10-17.3654)
 
