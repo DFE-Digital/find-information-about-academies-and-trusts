@@ -45,34 +45,34 @@ public class TrustRepositoryTests
     }
 
     [Fact]
-    public async Task GetTrustDetailsAsync_should_get_regionAndTerritory_from_mstrTrusts()
+    public async Task GetTrustOverviewAsync_should_get_regionAndTerritory_from_mstrTrusts()
     {
         _ = _mockAcademiesDbContext.AddGiasGroup("2806");
         _ = _mockAcademiesDbContext.AddMstrTrust("2806", "My Region");
 
-        var result = await _sut.GetTrustDetailsAsync("2806");
+        var result = await _sut.GetTrustOverviewAsync("2806");
 
         result.RegionAndTerritory.Should().Be("My Region");
     }
 
     [Fact]
-    public async Task GetTrustDetailsAsync_should_set_regionAndTerritory_to_empty_string_when_mstrTrust_not_available()
+    public async Task GetTrustOverviewAsync_should_set_regionAndTerritory_to_empty_string_when_mstrTrust_not_available()
     {
         _ = _mockAcademiesDbContext.AddGiasGroup("2806");
 
-        var result = await _sut.GetTrustDetailsAsync("2806");
+        var result = await _sut.GetTrustOverviewAsync("2806");
 
         result.RegionAndTerritory.Should().BeEmpty();
     }
 
     [Fact]
     public async Task
-        GetTrustDetailsAsync_should_set_regionAndTerritory_to_empty_string_when_GORregion_in_mstrTrust_null()
+        GetTrustOverviewAsync_should_set_regionAndTerritory_to_empty_string_when_GORregion_in_mstrTrust_null()
     {
         _ = _mockAcademiesDbContext.AddGiasGroup("2806");
         _ = _mockAcademiesDbContext.AddMstrTrust("2806", null);
 
-        var result = await _sut.GetTrustDetailsAsync("2806");
+        var result = await _sut.GetTrustOverviewAsync("2806");
 
         result.RegionAndTerritory.Should().BeEmpty();
     }
@@ -87,7 +87,7 @@ public class TrustRepositoryTests
     [InlineData(null, null, null, null, "")]
     [InlineData("", "     ", "", null, "")]
     [InlineData("12 Abbey Road", "  ", " ", "JY36 9VC", "12 Abbey Road, JY36 9VC")]
-    public async Task GetTrustDetailsAsync_should_build_address_from_giasGroup(string? groupContactStreet,
+    public async Task GetTrustOverviewAsync_should_build_address_from_giasGroup(string? groupContactStreet,
         string? groupContactLocality, string? groupContactTown, string? groupContactPostcode,
         string? expectedAddress)
     {
@@ -101,13 +101,13 @@ public class TrustRepositoryTests
             GroupContactPostcode = groupContactPostcode
         });
 
-        var result = await _sut.GetTrustDetailsAsync("2806");
+        var result = await _sut.GetTrustOverviewAsync("2806");
 
         result.Address.Should().Be(expectedAddress);
     }
 
     [Fact]
-    public async Task GetTrustDetailsAsync_should_set_properties_from_giasGroup()
+    public async Task GetTrustOverviewAsync_should_set_properties_from_giasGroup()
     {
         _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
         {
@@ -119,9 +119,9 @@ public class TrustRepositoryTests
             IncorporatedOnOpenDate = "28/06/2007"
         });
 
-        var result = await _sut.GetTrustDetailsAsync("2806");
+        var result = await _sut.GetTrustOverviewAsync("2806");
 
-        result.Should().BeEquivalentTo(new TrustDetails("2806",
+        result.Should().BeEquivalentTo(new TrustOverview("2806",
             "TR0012",
             "10012345",
             "123456",
@@ -364,16 +364,17 @@ public class TrustRepositoryTests
 
         return governor;
     }
+
     [Fact]
     public void FilterBySatOrMat_WithUrn_FiltersByUrn()
     {
         // Arrange
-        string uid = "some-uid";
-        string urn = "some-urn";
+        var uid = "some-uid";
+        var urn = "some-urn";
         var data = new List<GiasGovernance>
         {
             new() { Urn = "some-urn", Uid = "uid-1" },
-            new() { Urn = "another-urn", Uid = "uid-2" },
+            new() { Urn = "another-urn", Uid = "uid-2" }
         }.AsQueryable();
 
         // Act
@@ -387,12 +388,12 @@ public class TrustRepositoryTests
     public void FilterBySatOrMat_WithNullOrEmptyUrn_FiltersByUid()
     {
         // Arrange
-        string uid = "some-uid";
+        var uid = "some-uid";
         string? urn = null;
         var data = new List<GiasGovernance>
         {
             new() { Urn = "urn-1", Uid = "some-uid" },
-            new() { Urn = "urn-2", Uid = "another-uid" },
+            new() { Urn = "urn-2", Uid = "another-uid" }
         }.AsQueryable();
 
         // Act

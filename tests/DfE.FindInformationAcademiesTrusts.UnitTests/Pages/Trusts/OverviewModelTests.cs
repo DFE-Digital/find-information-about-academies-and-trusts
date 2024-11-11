@@ -1,5 +1,5 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.Enums;
+﻿using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -13,18 +13,23 @@ public class OverviewModelTests
     private const string TrustUid = "1234";
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustService = new();
+    private readonly Mock<IOtherServicesLinkBuilder> _mockLinksToOtherServices = new();
 
     private static readonly TrustOverviewServiceModel BaseTrustOverviewServiceModel =
-        new("1234", 0, new Dictionary<string, int>(), 0, 0, new Dictionary<OfstedRatingScore, int>());
+        new(TrustUid, "", "", "", TrustType.MultiAcademyTrust, "", "", null, null, 0, new Dictionary<string, int>(), 0,
+            0);
 
     public OverviewModelTests()
     {
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(TrustUid))
             .ReturnsAsync(new TrustSummaryServiceModel(TrustUid, "My Trust", "Multi-academy trust", 3));
+        _mockTrustService.Setup(t => t.GetTrustOverviewAsync(TrustUid)).ReturnsAsync(BaseTrustOverviewServiceModel);
 
-        _sut = new OverviewModel(_mockDataSourceService.Object,
+        _sut = new OverviewModel(
+                _mockDataSourceService.Object,
                 new MockLogger<OverviewModel>().Object,
-                _mockTrustService.Object)
+                _mockTrustService.Object,
+                _mockLinksToOtherServices.Object)
             { Uid = TrustUid };
     }
 
@@ -32,52 +37,6 @@ public class OverviewModelTests
     public void PageName_should_be_Overview()
     {
         _sut.PageName.Should().Be("Overview");
-    }
-
-    [Theory]
-    [InlineData(0)]
-    [InlineData(200)]
-    [InlineData(1125)]
-    public async Task OnGetAsync_sets_pupil_numbers(int num)
-    {
-        _mockTrustService.Setup(t => t.GetTrustOverviewAsync(TrustUid))
-            .ReturnsAsync(BaseTrustOverviewServiceModel with { TotalPupilNumbers = num });
-
-        await _sut.OnGetAsync();
-
-        _sut.TotalPupilNumbers.Should().Be(num);
-    }
-
-    [Theory]
-    [InlineData(0)]
-    [InlineData(200)]
-    [InlineData(1125)]
-    public async Task OnGetAsync_sets_pupil_capacity(int num)
-    {
-        _mockTrustService.Setup(t => t.GetTrustOverviewAsync(TrustUid))
-            .ReturnsAsync(BaseTrustOverviewServiceModel with { TotalCapacity = num });
-
-        await _sut.OnGetAsync();
-
-        _sut.TotalCapacity.Should().Be(num);
-    }
-
-    [Theory]
-    [InlineData(400, 300)]
-    [InlineData(0, 0)]
-    public async Task OnGetAsync_sets_pupil_percentage(int totalCapacity, int totalPupilNumbers)
-    {
-        var serviceModel =
-            BaseTrustOverviewServiceModel with
-            {
-                TotalCapacity = totalCapacity,
-                TotalPupilNumbers = totalPupilNumbers
-            };
-        _mockTrustService.Setup(t => t.GetTrustOverviewAsync(TrustUid)).ReturnsAsync(serviceModel);
-
-        await _sut.OnGetAsync();
-
-        _sut.PercentageFull.Should().Be(serviceModel.PercentageFull);
     }
 
     [Fact]
@@ -104,74 +63,6 @@ public class OverviewModelTests
             });
     }
 
-    [Theory]
-    [InlineData(OfstedRatingScore.Outstanding, 3)]
-    [InlineData(OfstedRatingScore.Good, 4)]
-    [InlineData(OfstedRatingScore.Inadequate, 5)]
-    [InlineData(OfstedRatingScore.RequiresImprovement, 6)]
-    [InlineData(OfstedRatingScore.None, 7)]
-    public async Task GetNumberOfAcademiesWithOfstedRating_returns_correct_number_of_ratings(OfstedRatingScore score,
-        int expectedCount)
-    {
-        var overviewWithOfstedRatings = BaseTrustOverviewServiceModel with
-        {
-            OfstedRatings = new Dictionary<OfstedRatingScore, int>
-            {
-                { OfstedRatingScore.Outstanding, 3 },
-                { OfstedRatingScore.Good, 4 },
-                { OfstedRatingScore.Inadequate, 5 },
-                { OfstedRatingScore.RequiresImprovement, 6 },
-                { OfstedRatingScore.None, 7 }
-            }
-        };
-        _mockTrustService.Setup(t => t.GetTrustOverviewAsync(TrustUid)).ReturnsAsync(overviewWithOfstedRatings);
-
-        await _sut.OnGetAsync();
-
-        _sut.GetNumberOfAcademiesWithOfstedRating(score).Should().Be(expectedCount);
-    }
-
-    [Theory]
-    [InlineData(OfstedRatingScore.Outstanding)]
-    [InlineData(OfstedRatingScore.Good)]
-    [InlineData(OfstedRatingScore.Inadequate)]
-    [InlineData(OfstedRatingScore.RequiresImprovement)]
-    [InlineData(OfstedRatingScore.None)]
-    public async Task GetNumberOfAcademiesWithOfstedRating_returns_zero_ratings_when_non_exist(
-        OfstedRatingScore missingRating)
-    {
-        var ofstedRatings = new Dictionary<OfstedRatingScore, int>
-        {
-            { OfstedRatingScore.Outstanding, 3 },
-            { OfstedRatingScore.Good, 4 },
-            { OfstedRatingScore.Inadequate, 5 },
-            { OfstedRatingScore.RequiresImprovement, 6 },
-            { OfstedRatingScore.None, 7 }
-        };
-        ofstedRatings.Remove(missingRating);
-
-        _mockTrustService.Setup(t => t.GetTrustOverviewAsync(TrustUid))
-            .ReturnsAsync(BaseTrustOverviewServiceModel with { OfstedRatings = ofstedRatings });
-
-        await _sut.OnGetAsync();
-
-        _sut.GetNumberOfAcademiesWithOfstedRating(missingRating).Should().Be(0);
-    }
-
-    [Theory]
-    [InlineData(0)]
-    [InlineData(1)]
-    [InlineData(90)]
-    public async Task OnGetAsync_returns_correct_number_of_academies(int num)
-    {
-        _mockTrustService.Setup(t => t.GetTrustOverviewAsync(TrustUid))
-            .ReturnsAsync(BaseTrustOverviewServiceModel with { TotalAcademies = num });
-
-        await _sut.OnGetAsync();
-
-        _sut.TotalAcademies.Should().Be(num);
-    }
-
     [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
@@ -186,7 +77,82 @@ public class OverviewModelTests
         _ = await _sut.OnGetAsync();
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
         _sut.DataSources.Should().ContainSingle();
-        _sut.DataSources[0].Fields.Should().Contain(new List<string> { "Trust summary", "Ofsted ratings" });
+        _sut.DataSources[0].Fields.Should().Contain(new List<string>
+            { "Trust details", "Reference numbers", "Trust summary" });
+    }
+
+    [Fact]
+    public async Task CompaniesHouseLink_is_null_if_link_builder_returns_null()
+    {
+        _mockLinksToOtherServices.Setup(l =>
+                l.CompaniesHouseListingLink(BaseTrustOverviewServiceModel.CompaniesHouseNumber))
+            .Returns((string?)null);
+        await _sut.OnGetAsync();
+        _sut.CompaniesHouseLink.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task CompaniesHouseLink_is_string_if_link_builder_returns_string()
+    {
+        _mockLinksToOtherServices.Setup(l =>
+                l.CompaniesHouseListingLink(BaseTrustOverviewServiceModel.CompaniesHouseNumber))
+            .Returns("url");
+        await _sut.OnGetAsync();
+        _sut.CompaniesHouseLink.Should().Be("url");
+    }
+
+    [Fact]
+    public async Task GetInformationAboutSchoolsLink_is_returned_from_link_builder()
+    {
+        _mockLinksToOtherServices.Setup(l =>
+                l.GetInformationAboutSchoolsListingLinkForTrust(BaseTrustOverviewServiceModel.Uid))
+            .Returns("url");
+        await _sut.OnGetAsync();
+        _sut.GetInformationAboutSchoolsLink.Should().Be("url");
+    }
+
+    [Fact]
+    public async Task SchoolsFinancialBenchmarkingLink_is_null_if_link_builder_returns_null()
+    {
+        _mockLinksToOtherServices
+            .Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(BaseTrustOverviewServiceModel.Type,
+                BaseTrustOverviewServiceModel.SingleAcademyTrustAcademyUrn,
+                BaseTrustOverviewServiceModel.CompaniesHouseNumber))
+            .Returns((string?)null);
+        await _sut.OnGetAsync();
+        _sut.SchoolsFinancialBenchmarkingLink.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task SchoolsFinancialBenchmarkingLink_is_string_if_link_builder_returns_string()
+    {
+        _mockLinksToOtherServices
+            .Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(BaseTrustOverviewServiceModel.Type,
+                BaseTrustOverviewServiceModel.SingleAcademyTrustAcademyUrn,
+                BaseTrustOverviewServiceModel.CompaniesHouseNumber))
+            .Returns("url");
+        await _sut.OnGetAsync();
+        _sut.SchoolsFinancialBenchmarkingLink.Should().Be("url");
+    }
+
+    [Fact]
+    public async Task FindSchoolPerformanceLink_is_null_if_link_builder_returns_null()
+    {
+        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(BaseTrustOverviewServiceModel.Uid,
+                BaseTrustOverviewServiceModel.Type, BaseTrustOverviewServiceModel.SingleAcademyTrustAcademyUrn))
+            .Returns((string?)null);
+        await _sut.OnGetAsync();
+        _sut.FindSchoolPerformanceLink.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task FindSchoolPerformanceLink_is_string_if_link_builder_returns_string()
+    {
+        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(BaseTrustOverviewServiceModel.Uid,
+                BaseTrustOverviewServiceModel.Type, BaseTrustOverviewServiceModel.SingleAcademyTrustAcademyUrn))
+            .Returns("url");
+        await _sut.OnGetAsync();
+        _sut.FindSchoolPerformanceLink.Should().Be("url");
     }
 
     [Fact]

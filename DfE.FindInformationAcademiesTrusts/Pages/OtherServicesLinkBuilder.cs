@@ -1,14 +1,16 @@
-using DfE.FindInformationAcademiesTrusts.Services.Trust;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
 public interface IOtherServicesLinkBuilder
 {
+    string? CompaniesHouseListingLink(string? companiesHouseNumber);
+    string? FindSchoolPerformanceDataListingLink(string uid, TrustType trustType, string? satAcademyUrn);
     string GetInformationAboutSchoolsListingLinkForTrust(string trustUid);
     string GetInformationAboutSchoolsListingLinkForAcademy(string urn);
-    string? CompaniesHouseListingLink(TrustDetailsServiceModel trust);
-    string? SchoolFinancialBenchmarkingServiceListingLink(TrustDetailsServiceModel trust);
-    string? FindSchoolPerformanceDataListingLink(TrustDetailsServiceModel trust);
+
+    string? SchoolFinancialBenchmarkingServiceListingLink(TrustType trustType, string? satAcademyUrn,
+        string? companiesHouseNumber);
 }
 
 public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
@@ -34,39 +36,34 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
         return $"{GetInformationAboutSchoolsBaseUrl}/Establishments/Establishment/Details/{urn}";
     }
 
-    public string? CompaniesHouseListingLink(TrustDetailsServiceModel trust)
+    public string? CompaniesHouseListingLink(string? companiesHouseNumber)
     {
-        if (string.IsNullOrEmpty(trust.CompaniesHouseNumber)) return null;
-        return $"{CompaniesHouseBaseUrl}/company/{trust.CompaniesHouseNumber}";
+        return string.IsNullOrEmpty(companiesHouseNumber)
+            ? null
+            : $"{CompaniesHouseBaseUrl}/company/{companiesHouseNumber}";
     }
 
-    public string? SchoolFinancialBenchmarkingServiceListingLink(TrustDetailsServiceModel trust)
+    public string? SchoolFinancialBenchmarkingServiceListingLink(TrustType trustType, string? satAcademyUrn,
+        string? companiesHouseNumber)
     {
-        if (trust.IsMultiAcademyTrust())
+        return trustType switch
         {
-            return $"{SchoolFinancialBenchmarkingServiceBaseUrl}/Trust?companyNo={trust.CompaniesHouseNumber}";
-        }
-
-        if (trust.IsSingleAcademyTrust() && trust.SingleAcademyTrustAcademyUrn is not null)
-        {
-            return $"{SchoolFinancialBenchmarkingServiceBaseUrl}/school?urn={trust.SingleAcademyTrustAcademyUrn}";
-        }
-
-        return null;
+            TrustType.MultiAcademyTrust when companiesHouseNumber is not null =>
+                $"{SchoolFinancialBenchmarkingServiceBaseUrl}/Trust?companyNo={companiesHouseNumber}",
+            TrustType.SingleAcademyTrust when satAcademyUrn is not null =>
+                $"{SchoolFinancialBenchmarkingServiceBaseUrl}/school?urn={satAcademyUrn}",
+            _ => null
+        };
     }
 
-    public string? FindSchoolPerformanceDataListingLink(TrustDetailsServiceModel trust)
+    public string? FindSchoolPerformanceDataListingLink(string uid, TrustType trustType, string? satAcademyUrn)
     {
-        if (trust.IsMultiAcademyTrust())
+        return trustType switch
         {
-            return $"{FindSchoolPerformanceDataBaseUrl}/multi-academy-trust/{trust.Uid}";
-        }
-
-        if (trust.IsSingleAcademyTrust() && trust.SingleAcademyTrustAcademyUrn is not null)
-        {
-            return $"{FindSchoolPerformanceDataBaseUrl}/school/{trust.SingleAcademyTrustAcademyUrn}";
-        }
-
-        return null;
+            TrustType.MultiAcademyTrust => $"{FindSchoolPerformanceDataBaseUrl}/multi-academy-trust/{uid}",
+            TrustType.SingleAcademyTrust when satAcademyUrn is not null =>
+                $"{FindSchoolPerformanceDataBaseUrl}/school/{satAcademyUrn}",
+            _ => null
+        };
     }
 }
