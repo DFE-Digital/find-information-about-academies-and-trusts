@@ -74,48 +74,6 @@
       </div>
     </div>
 
-    <div class="govuk-summary-card" data-testid="reference-numbers-summary-card">
-      <div class="govuk-summary-card__title-wrapper">
-        <h2 class="govuk-summary-card__title">Reference numbers</h2>
-      </div>
-      <div class="govuk-summary-card__content">
-        <dl class="govuk-summary-list">
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              UID (Unique group identifier)
-            </dt>
-            <dd class="govuk-summary-list__value" data-testid="trust-uid">
-              @Model.TrustOverview.Uid
-            </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Group ID (identifier) and TRN (trust reference number)
-            </dt>
-            <dd class="govuk-summary-list__value" data-testid="trust-reference-number">
-              @Model.TrustOverview.GroupId
-            </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              UKPRN (UK provider reference number)
-            </dt>
-            <dd class="govuk-summary-list__value" data-testid="ukprn">
-              @Model.TrustOverview.Ukprn
-            </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Companies House number
-            </dt>
-            <dd class="govuk-summary-list__value" data-testid="companies-house-number">
-              @Model.TrustOverview.CompaniesHouseNumber
-            </dd>
-          </div>
-        </dl>
-      </div>
-    </div>
-
     <div class="govuk-summary-card" data-testid="trust-summary">
       <div class="govuk-summary-card__title-wrapper">
         <h2 class="govuk-summary-card__title" id="trust-information">Trust summary</h2>
@@ -164,6 +122,48 @@
                 <br>
                 @($"({Model.TrustOverview.PercentageFull}%)")
               }
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <div class="govuk-summary-card" data-testid="reference-numbers-summary-card">
+      <div class="govuk-summary-card__title-wrapper">
+        <h2 class="govuk-summary-card__title">Reference numbers</h2>
+      </div>
+      <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key govuk-!-width-one-half">
+              UID (Unique group identifier)
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="trust-uid">
+              @Model.TrustOverview.Uid
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key govuk-!-width-one-half">
+              Group ID (identifier) and TRN (trust reference number)
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="trust-reference-number">
+              @Model.TrustOverview.GroupId
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key govuk-!-width-one-half">
+              UKPRN (UK provider reference number)
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="ukprn">
+              @Model.TrustOverview.Ukprn
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key govuk-!-width-one-half">
+              Companies House number
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="companies-house-number">
+              @Model.TrustOverview.CompaniesHouseNumber
             </dd>
           </div>
         </dl>

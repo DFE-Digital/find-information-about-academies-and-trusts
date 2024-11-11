@@ -40,7 +40,7 @@ public class OverviewModel(
         // Add data sources
         DataSources.Add(new DataSourceListEntry(
             await DataSourceService.GetAsync(Source.Gias),
-            new List<string> { "Trust details", "Reference numbers", "Trust summary" }));
+            new List<string> { "Trust details", "Trust summary", "Reference numbers" }));
 
         return Page();
     }
