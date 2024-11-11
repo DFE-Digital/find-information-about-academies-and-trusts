@@ -59,7 +59,7 @@ public class GovernanceModelTests
     );
 
     private static readonly TrustGovernanceServiceModel DummyTrustGovernanceServiceModel =
-        new([Leader], [Member], [Trustee], [Historic]);
+        new([Leader], [Member], [Trustee], [Historic], 0);
 
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
