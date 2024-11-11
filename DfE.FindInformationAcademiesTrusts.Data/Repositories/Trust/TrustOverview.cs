@@ -2,7 +2,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 
 public record TrustOverview(
     string Uid,
-    string? GroupId,
+    string GroupId,
     string? Ukprn,
     string? CompaniesHouseNumber,
     string Type,
