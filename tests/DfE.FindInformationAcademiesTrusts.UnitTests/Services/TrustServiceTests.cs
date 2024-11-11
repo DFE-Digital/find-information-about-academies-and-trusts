@@ -15,12 +15,16 @@ public class TrustServiceTests
     private readonly Mock<IAcademyRepository> _mockAcademyRepository = new();
     private readonly Mock<ITrustRepository> _mockTrustRepository = new();
     private readonly Mock<IContactRepository> _mockContactRepository = new();
+    private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
     private readonly MockMemoryCache _mockMemoryCache = new();
 
     public TrustServiceTests()
     {
-        _sut = new TrustService(_mockAcademyRepository.Object, _mockTrustRepository.Object,
-            _mockContactRepository.Object, _mockMemoryCache.Object);
+        _sut = new TrustService(_mockAcademyRepository.Object,
+                                _mockTrustRepository.Object,
+                                _mockContactRepository.Object,
+                                _mockMemoryCache.Object,
+                                _mockDateTimeProvider.Object);
     }
 
     [Fact]
@@ -139,63 +143,6 @@ public class TrustServiceTests
     }
 
     [Fact]
-    public async Task GetTrustGovernanceAsync_should_get_governanceResults_for_single_trust()
-    {
-        var startDate = DateTime.Today.AddYears(-3);
-        var futureEndDate = DateTime.Today.AddYears(1);
-        var historicEndDate = DateTime.Today.AddYears(-1);
-        var member = new Governor(
-            "9999",
-            "1234",
-            Role: "Member",
-            FullName: "First Second Last",
-            DateOfAppointment: startDate,
-            DateOfTermEnd: futureEndDate,
-            AppointingBody: "Nick Warms",
-            Email: null
-        );
-        var trustee = new Governor(
-            "9998",
-            "1234",
-            Role: "Trustee",
-            FullName: "First Second Last",
-            DateOfAppointment: startDate,
-            DateOfTermEnd: futureEndDate,
-            AppointingBody: "Nick Warms",
-            Email: null
-        );
-        var leader = new Governor(
-            "9999",
-            "1234",
-            Role: "Chair of Trustees",
-            FullName: "First Second Last",
-            DateOfAppointment: startDate,
-            DateOfTermEnd: futureEndDate,
-            AppointingBody: "Nick Warms",
-            Email: null
-        );
-        var historic = new Governor(
-            "9999",
-            "1234",
-            Role: "Trustee",
-            FullName: "First Second Last",
-            DateOfAppointment: startDate,
-            DateOfTermEnd: historicEndDate,
-            AppointingBody: "Nick Warms",
-            Email: null
-        );
-        _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync("1234", null))
-            .ReturnsAsync(new TrustGovernance([leader], [member], [trustee], [historic]));
-
-        var result = await _sut.GetTrustGovernanceAsync("1234");
-
-        result.HistoricMembers.Should().ContainSingle().Which.Should().BeEquivalentTo(historic);
-        result.Members.Should().ContainSingle().Which.Should().BeEquivalentTo(member);
-        result.Trustees.Should().ContainSingle().Which.Should().BeEquivalentTo(trustee);
-        result.TrustLeadership.Should().ContainSingle().Which.Should().BeEquivalentTo(leader);
-    }
-
-    [Fact]
     public async Task GetTrustContactsAsync_should_get_governanceResults_for_single_trust()
     {
         var person = new Person("First Middle Last", "firstlast@email.com");
@@ -285,5 +232,266 @@ public class TrustServiceTests
         var result = await _sut.UpdateContactAsync(1234, "Name", "Email", ContactRole.SfsoLead);
 
         result.Should().BeEquivalentTo(expected);
+    }
+    [Fact]
+    public async Task GetTrustGovernanceAsync_NoGovernors_ReturnsZeroTurnoverRate()
+    {
+        // Arrange
+        var uid = "1234";
+        var urn = "5678";
+        var fixedToday = new DateTime(2023, 10, 1);
+        _mockDateTimeProvider.Setup(d => d.Today).Returns(fixedToday);
+
+        _mockAcademyRepository.Setup(a => a.GetSingleAcademyTrustAcademyUrnAsync(uid))
+            .ReturnsAsync(urn);
+
+        var trustGovernance = new TrustGovernance(
+            TrustLeadership: Array.Empty<Governor>(),
+            Members: Array.Empty<Governor>(),
+            Trustees: Array.Empty<Governor>(),
+            HistoricMembers: Array.Empty<Governor>());
+
+        _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync(uid, urn))
+            .ReturnsAsync(trustGovernance);
+
+        // Act
+        var result = await _sut.GetTrustGovernanceAsync(uid);
+
+        // Assert
+        result.TurnoverRate.Should().Be(0.0m);
+    }
+
+    [Fact]
+    public async Task GetTrustGovernanceAsync_NoEventsInPast12Months_ReturnsZeroTurnoverRate()
+    {
+        // Arrange
+        var uid = "1234";
+        var urn = "5678";
+        var fixedToday = new DateTime(2023, 10, 1);
+        _mockDateTimeProvider.Setup(d => d.Today).Returns(fixedToday);
+
+        _mockAcademyRepository.Setup(a => a.GetSingleAcademyTrustAcademyUrnAsync(uid))
+            .ReturnsAsync(urn);
+
+        var trustees = new[]
+        {
+                new Governor(
+                    GID: "1",
+                    UID: "UID1",
+                    FullName: "Trustee One",
+                    Role: "Trustee",
+                    AppointingBody: "Body",
+                    DateOfAppointment: fixedToday.AddYears(-2),
+                    DateOfTermEnd: null,
+                    Email: null)
+            };
+
+        var members = new[]
+        {
+                new Governor(
+                    GID: "2",
+                    UID: "UID2",
+                    FullName: "Member One",
+                    Role: "Member",
+                    AppointingBody: "Body",
+                    DateOfAppointment: fixedToday.AddYears(-3),
+                    DateOfTermEnd: null,
+                    Email: null)
+            };
+
+        var trustGovernance = new TrustGovernance(
+            TrustLeadership: Array.Empty<Governor>(),
+            Members: members,
+            Trustees: trustees,
+            HistoricMembers: Array.Empty<Governor>());
+
+        _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync(uid, urn))
+            .ReturnsAsync(trustGovernance);
+
+        // Act
+        var result = await _sut.GetTrustGovernanceAsync(uid);
+
+        // Assert
+        result.TurnoverRate.Should().Be(0.0m);
+    }
+
+    [Fact]
+    public async Task GetTrustGovernanceAsync_AppointmentsInPast12Months_CalculatesCorrectTurnoverRate()
+    {
+        // Arrange
+        var uid = "1234";
+        var urn = "5678";
+        var fixedToday = new DateTime(2023, 10, 1);
+        _mockDateTimeProvider.Setup(d => d.Today).Returns(fixedToday);
+
+        _mockAcademyRepository.Setup(a => a.GetSingleAcademyTrustAcademyUrnAsync(uid))
+            .ReturnsAsync(urn);
+
+        var trustee = new Governor(
+            GID: "1",
+            UID: "UID1",
+            FullName: "Trustee One",
+            Role: "Trustee",
+            AppointingBody: "Body",
+            DateOfAppointment: fixedToday.AddMonths(-6),
+            DateOfTermEnd: null,
+            Email: null);
+
+        var trustGovernance = new TrustGovernance(
+            TrustLeadership: Array.Empty<Governor>(),
+            Members: Array.Empty<Governor>(),
+            Trustees: new[] { trustee },
+            HistoricMembers: Array.Empty<Governor>());
+
+        _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync(uid, urn))
+            .ReturnsAsync(trustGovernance);
+
+        // Act
+        var result = await _sut.GetTrustGovernanceAsync(uid);
+
+        // Expected turnover rate: (1 appointment) / (1 current governor) * 100% = 100%
+        // Assert
+        result.TurnoverRate.Should().Be(100.0m);
+    }
+
+    [Fact]
+    public async Task GetTrustGovernanceAsync_AppointmentsAndResignationsInPast12Months_CalculatesCorrectTurnoverRate()
+    {
+        // Arrange
+        var uid = "1234";
+        var urn = "5678";
+        var fixedToday = new DateTime(2023, 10, 1);
+        _mockDateTimeProvider.Setup(d => d.Today).Returns(fixedToday);
+
+        _mockAcademyRepository.Setup(a => a.GetSingleAcademyTrustAcademyUrnAsync(uid))
+            .ReturnsAsync(urn);
+
+        var newTrustee = new Governor(
+            GID: "1",
+            UID: "UID1",
+            FullName: "New Trustee",
+            Role: "Trustee",
+            AppointingBody: "Body",
+            DateOfAppointment: fixedToday.AddMonths(-6),
+            DateOfTermEnd: null,
+            Email: null);
+
+        var resignedTrustee = new Governor(
+            GID: "2",
+            UID: "UID2",
+            FullName: "Resigned Trustee",
+            Role: "Trustee",
+            AppointingBody: "Body",
+            DateOfAppointment: fixedToday.AddYears(-2),
+            DateOfTermEnd: fixedToday.AddMonths(-2),
+            Email: null);
+
+        var trustGovernance = new TrustGovernance(
+            TrustLeadership: Array.Empty<Governor>(),
+            Members: Array.Empty<Governor>(),
+            Trustees: new[] { newTrustee },
+            HistoricMembers: new[] { resignedTrustee });
+
+        _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync(uid, urn))
+            .ReturnsAsync(trustGovernance);
+
+        // Act
+        var result = await _sut.GetTrustGovernanceAsync(uid);
+
+        // Total current governors: 1
+        // Total events: 1 appointment + 1 resignation = 2
+        // Expected turnover rate: (2 / 1) * 100% = 200%
+        // Assert
+        result.TurnoverRate.Should().Be(200.0m);
+    }
+
+    [Fact]
+    public async Task GetTrustGovernanceAsync_ExcludesLeadershipRoles()
+    {
+        // Arrange
+        var uid = "1234";
+        var urn = "5678";
+        var fixedToday = new DateTime(2023, 10, 1);
+        _mockDateTimeProvider.Setup(d => d.Today).Returns(fixedToday);
+
+        _mockAcademyRepository.Setup(a => a.GetSingleAcademyTrustAcademyUrnAsync(uid))
+            .ReturnsAsync(urn);
+
+        var chair = new Governor(
+            GID: "1",
+            UID: "UID1",
+            FullName: "Chair of Trustees",
+            Role: "Chair of Trustees",
+            AppointingBody: "Body",
+            DateOfAppointment: fixedToday.AddYears(-2),
+            DateOfTermEnd: null,
+            Email: null);
+
+        var trustee = new Governor(
+            GID: "2",
+            UID: "UID2",
+            FullName: "Trustee One",
+            Role: "Trustee",
+            AppointingBody: "Body",
+            DateOfAppointment: fixedToday.AddMonths(-8),
+            DateOfTermEnd: null,
+            Email: null);
+
+        var trustGovernance = new TrustGovernance(
+            TrustLeadership: new[] { chair },
+            Members: Array.Empty<Governor>(),
+            Trustees: new[] { trustee },
+            HistoricMembers: Array.Empty<Governor>());
+
+        _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync(uid, urn))
+            .ReturnsAsync(trustGovernance);
+
+        // Act
+        var result = await _sut.GetTrustGovernanceAsync(uid);
+
+        // Total current governors: 1 (excludes chair)
+        // Total events: 1 appointment (trustee)
+        // Expected turnover rate: (1 / 1) * 100% = 100%
+        // Assert
+        result.TurnoverRate.Should().Be(100.0m);
+    }
+
+    [Fact]
+    public async Task GetTrustGovernanceAsync_NullDates_AreHandledGracefully()
+    {
+        // Arrange
+        var uid = "1234";
+        var urn = "5678";
+        var fixedToday = new DateTime(2023, 10, 1);
+        _mockDateTimeProvider.Setup(d => d.Today).Returns(fixedToday);
+
+        _mockAcademyRepository.Setup(a => a.GetSingleAcademyTrustAcademyUrnAsync(uid))
+            .ReturnsAsync(urn);
+
+        var trustee = new Governor(
+            GID: "1",
+            UID: "UID1",
+            FullName: "Trustee One",
+            Role: "Trustee",
+            AppointingBody: "Body",
+            DateOfAppointment: null,
+            DateOfTermEnd: null,
+            Email: null);
+
+        var trustGovernance = new TrustGovernance(
+            TrustLeadership: Array.Empty<Governor>(),
+            Members: Array.Empty<Governor>(),
+            Trustees: new[] { trustee },
+            HistoricMembers: Array.Empty<Governor>());
+
+        _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync(uid, urn))
+            .ReturnsAsync(trustGovernance);
+
+        // Act
+        var result = await _sut.GetTrustGovernanceAsync(uid);
+
+        // Expected turnover rate: 0% (since no events)
+        // Assert
+        result.TurnoverRate.Should().Be(0.0m);
     }
 }

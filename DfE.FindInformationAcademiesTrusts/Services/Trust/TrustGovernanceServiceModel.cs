@@ -7,4 +7,4 @@ public record TrustGovernanceServiceModel(
     Governor[] Members,
     Governor[] Trustees,
     Governor[] HistoricMembers,
-    decimal GovernanceTurnover);
+    decimal TurnoverRate);
