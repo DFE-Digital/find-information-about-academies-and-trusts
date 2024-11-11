@@ -41,7 +41,7 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
 
         var trustOverview = new TrustOverview(
             giasGroup.GroupUid!, //Searched by this field so it must be present
-            giasGroup.GroupId,
+            giasGroup.GroupId!, //Enforced by EF filter
             giasGroup.Ukprn,
             giasGroup.CompaniesHouseNumber,
             giasGroup.GroupType!, //Enforced by EF filter
