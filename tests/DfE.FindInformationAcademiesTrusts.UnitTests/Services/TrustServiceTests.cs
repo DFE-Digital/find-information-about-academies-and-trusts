@@ -246,9 +246,9 @@ public class TrustServiceTests
             .ReturnsAsync(urn);
 
         var trustGovernance = new TrustGovernance(
-            TrustLeadership: Array.Empty<Governor>(),
-            Members: Array.Empty<Governor>(),
-            Trustees: Array.Empty<Governor>(),
+            CurrentTrustLeadership: Array.Empty<Governor>(),
+            CurrentMembers: Array.Empty<Governor>(),
+            CurrentTrustees: Array.Empty<Governor>(),
             HistoricMembers: Array.Empty<Governor>());
 
         _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync(uid, urn))
@@ -300,9 +300,9 @@ public class TrustServiceTests
             };
 
         var trustGovernance = new TrustGovernance(
-            TrustLeadership: Array.Empty<Governor>(),
-            Members: members,
-            Trustees: trustees,
+            CurrentTrustLeadership: Array.Empty<Governor>(),
+            CurrentMembers: members,
+            CurrentTrustees: trustees,
             HistoricMembers: Array.Empty<Governor>());
 
         _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync(uid, urn))
@@ -338,9 +338,9 @@ public class TrustServiceTests
             Email: null);
 
         var trustGovernance = new TrustGovernance(
-            TrustLeadership: Array.Empty<Governor>(),
-            Members: Array.Empty<Governor>(),
-            Trustees: new[] { trustee },
+            CurrentTrustLeadership: Array.Empty<Governor>(),
+            CurrentMembers: Array.Empty<Governor>(),
+            CurrentTrustees: new[] { trustee },
             HistoricMembers: Array.Empty<Governor>());
 
         _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync(uid, urn))
@@ -387,9 +387,9 @@ public class TrustServiceTests
             Email: null);
 
         var trustGovernance = new TrustGovernance(
-            TrustLeadership: Array.Empty<Governor>(),
-            Members: Array.Empty<Governor>(),
-            Trustees: new[] { newTrustee },
+            CurrentTrustLeadership: Array.Empty<Governor>(),
+            CurrentMembers: Array.Empty<Governor>(),
+            CurrentTrustees: new[] { newTrustee },
             HistoricMembers: new[] { resignedTrustee });
 
         _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync(uid, urn))
@@ -438,9 +438,9 @@ public class TrustServiceTests
             Email: null);
 
         var trustGovernance = new TrustGovernance(
-            TrustLeadership: new[] { chair },
-            Members: Array.Empty<Governor>(),
-            Trustees: new[] { trustee },
+            CurrentTrustLeadership: new[] { chair },
+            CurrentMembers: Array.Empty<Governor>(),
+            CurrentTrustees: new[] { trustee },
             HistoricMembers: Array.Empty<Governor>());
 
         _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync(uid, urn))
@@ -479,9 +479,9 @@ public class TrustServiceTests
             Email: null);
 
         var trustGovernance = new TrustGovernance(
-            TrustLeadership: Array.Empty<Governor>(),
-            Members: Array.Empty<Governor>(),
-            Trustees: new[] { trustee },
+            CurrentTrustLeadership: Array.Empty<Governor>(),
+            CurrentMembers: Array.Empty<Governor>(),
+            CurrentTrustees: new[] { trustee },
             HistoricMembers: Array.Empty<Governor>());
 
         _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync(uid, urn))

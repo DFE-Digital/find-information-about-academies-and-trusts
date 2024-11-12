@@ -81,9 +81,9 @@ public class TrustService(
         var governanceTurnover = CalculateTurnoverRate(trustGovernance);
 
         return new TrustGovernanceServiceModel(
-            trustGovernance.TrustLeadership,
-            trustGovernance.Members,
-            trustGovernance.Trustees,
+            trustGovernance.CurrentTrustLeadership,
+            trustGovernance.CurrentMembers,
+            trustGovernance.CurrentTrustees,
             trustGovernance.HistoricMembers,
             governanceTurnover);
     }
@@ -148,15 +148,15 @@ public class TrustService(
         // Past 12 Months 
         var past12MonthsStart = today.AddYears(-1);
 
-        // Get current governors (Trustees and Members), excluding specified roles and those who have resigned
-        var currentGovernors = trustGovernance.Trustees
-            .Concat(trustGovernance.Members)
-            .Where(g => !g.HasRoleLeadership && (g.DateOfTermEnd == null || g.DateOfTermEnd >= today))
+        // Get current governors (Trustees and Members)
+        var currentGovernors = trustGovernance.CurrentTrustees
+            .Concat(trustGovernance.CurrentMembers)
             .ToList();
 
+
         // Get all governors for event calculations (including HistoricMembers), excluding specified roles
-        var allGovernorsExcludingLeadership = trustGovernance.Trustees
-            .Concat(trustGovernance.Members)
+        var allGovernorsExcludingLeadership = trustGovernance.CurrentTrustees
+            .Concat(trustGovernance.CurrentMembers)
             .Concat(trustGovernance.HistoricMembers)
             .Where(g => !g.HasRoleLeadership)
             .ToList();

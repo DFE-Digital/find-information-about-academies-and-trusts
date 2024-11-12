@@ -17,7 +17,7 @@
     </div>
 </div>
 <section class="govuk-!-margin-top-4 govuk-!-margin-bottom-9 app-table-container" data-testid="trust-leadership">
-    @if (Model.TrustGovernance.TrustLeadership.Length > 0)
+    @if (Model.TrustGovernance.CurrentTrustLeadership.Length > 0)
     {
         <table class="govuk-table govuk-!-margin-bottom-0" data-module="moj-sortable-table" aria-describedby="trust-leadership">
             <caption class="govuk-table__caption govuk-table__caption--m" id="trust-leadership">Trust Leadership</caption>
@@ -30,7 +30,7 @@
                 </tr>
             </thead>
             <tbody class="govuk-table__body">
-                @foreach (var governor in Model.TrustGovernance.TrustLeadership)
+                @foreach (var governor in Model.TrustGovernance.CurrentTrustLeadership)
                 {
                     <tr class="govuk-table__row" data-testid="trust-leadership-row">
                         <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@governor.FullName" data-testid="trust-leadership-name">
@@ -58,7 +58,7 @@
 </section>
 
 <section class="govuk-!-margin-bottom-9 app-table-container" data-testid="trustees">
-    @if (Model.TrustGovernance.Trustees.Length > 0)
+    @if (Model.TrustGovernance.CurrentTrustees.Length > 0)
     {
         <table class="govuk-table govuk-!-margin-bottom-0" data-module="moj-sortable-table" aria-describedby="trustees">
             <caption class="govuk-table__caption govuk-table__caption--m" id="trustees">Trustees</caption>
@@ -71,7 +71,7 @@
                 </tr>
             </thead>
             <tbody class="govuk-table__body">
-                @foreach (var governor in Model.TrustGovernance.Trustees)
+                @foreach (var governor in Model.TrustGovernance.CurrentTrustees)
                 {
                     <tr class="govuk-table__row" data-testid="trustees-row">
                         <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@governor.FullName" data-testid="trustees-name">
@@ -99,7 +99,7 @@
 </section>
 
 <section class="govuk-!-margin-bottom-9 app-table-container" data-testid="members">
-    @if (Model.TrustGovernance.Members.Length > 0)
+    @if (Model.TrustGovernance.CurrentMembers.Length > 0)
     {
         <table class="govuk-table govuk-!-margin-bottom-0" data-module="moj-sortable-table" aria-describedby="members">
             <caption class="govuk-table__caption govuk-table__caption--m" id="members">Members</caption>
@@ -112,7 +112,7 @@
                 </tr>
             </thead>
             <tbody class="govuk-table__body">
-                @foreach (var governor in Model.TrustGovernance.Members)
+                @foreach (var governor in Model.TrustGovernance.CurrentMembers)
                 {
                     <tr class="govuk-table__row" data-testid="members-row">
                         <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@governor.FullName" data-testid="members-name">

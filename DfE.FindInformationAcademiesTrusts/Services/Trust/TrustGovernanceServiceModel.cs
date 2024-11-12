@@ -3,8 +3,8 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 namespace DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 public record TrustGovernanceServiceModel(
-    Governor[] TrustLeadership,
-    Governor[] Members,
-    Governor[] Trustees,
+    Governor[] CurrentTrustLeadership,
+    Governor[] CurrentMembers,
+    Governor[] CurrentTrustees,
     Governor[] HistoricMembers,
     decimal TurnoverRate);
