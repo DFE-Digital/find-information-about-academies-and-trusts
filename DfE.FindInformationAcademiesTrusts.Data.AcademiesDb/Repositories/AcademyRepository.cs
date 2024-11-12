@@ -176,7 +176,7 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
             .FirstOrDefaultAsync();
     }
 
-    public async Task<AcademyOverview[]> GetAcademiesInTrustOverviewAsync(string uid)
+    public async Task<AcademyOverview[]> GetOverviewOfAcademiesInTrustAsync(string uid)
     {
         return await academiesDbContext.GiasGroupLinks
             .Where(gl => gl.GroupUid == uid)

@@ -263,7 +263,7 @@ public class TrustServiceTests
             new("1003", "LocalAuthorityA", 300, 400)
         };
 
-        _mockAcademyRepository.Setup(a => a.GetAcademiesInTrustOverviewAsync(uid))
+        _mockAcademyRepository.Setup(a => a.GetOverviewOfAcademiesInTrustAsync(uid))
             .ReturnsAsync(academiesOverview);
         _mockTrustRepository.Setup(t => t.GetTrustOverviewAsync(uid))
             .ReturnsAsync(BaseTrustOverview with { Uid = uid });
@@ -290,7 +290,7 @@ public class TrustServiceTests
         var uid = "1234";
         var academiesOverview = Array.Empty<AcademyOverview>();
 
-        _mockAcademyRepository.Setup(a => a.GetAcademiesInTrustOverviewAsync(uid))
+        _mockAcademyRepository.Setup(a => a.GetOverviewOfAcademiesInTrustAsync(uid))
             .ReturnsAsync(academiesOverview);
         _mockTrustRepository.Setup(t => t.GetTrustOverviewAsync(uid))
             .ReturnsAsync(BaseTrustOverview with { Uid = uid });
