@@ -258,9 +258,9 @@ public class TrustServiceTests
         var uid = "1234";
         var academiesOverview = new AcademyOverview[]
         {
-            new("1001", "LocalAuthorityA", 500, 600, OfstedRatingScore.Good),
-            new("1002", "LocalAuthorityB", 400, 500, OfstedRatingScore.Outstanding),
-            new("1003", "LocalAuthorityA", 300, 400, OfstedRatingScore.RequiresImprovement)
+            new("1001", "LocalAuthorityA", 500, 600),
+            new("1002", "LocalAuthorityB", 400, 500),
+            new("1003", "LocalAuthorityA", 300, 400)
         };
 
         _mockAcademyRepository.Setup(a => a.GetAcademiesInTrustOverviewAsync(uid))
