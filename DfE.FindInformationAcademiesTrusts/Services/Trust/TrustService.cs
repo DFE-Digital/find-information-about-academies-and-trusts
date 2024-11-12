@@ -102,7 +102,7 @@ public class TrustService(
             ? await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid)
             : null;
 
-        var academiesOverview = await academyRepository.GetAcademiesInTrustOverviewAsync(uid);
+        var academiesOverview = await academyRepository.GetOverviewOfAcademiesInTrustAsync(uid);
 
         var totalAcademies = academiesOverview.Length;
 
