@@ -16,7 +16,7 @@ describe("Testing the components of the Trust overview page", () => {
         
     })
 
-    describe("On a Trust Detail page with data", () => {
+    describe("On a Trust Overview page with data", () => {
         beforeEach(() => {
             cy.login()
             cy.visit('/trusts/overview?uid=5712')
