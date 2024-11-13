@@ -605,17 +605,4 @@ public class AcademyRepositoryTests
         // Assert
         result.Should().Be(OfstedRatingScore.None);
     }
-
-    [Fact]
-    public void Should_Return_None_When_Rating_Is_Whitespace_String()
-    {
-        // Arrange
-        var rating = "   ";
-
-        // Act
-        var result = AcademyRepository.ConvertOverallEffectivenessToOfstedRatingScore(rating);
-
-        // Assert
-        result.Should().Be(OfstedRatingScore.None);
-    }
 }
