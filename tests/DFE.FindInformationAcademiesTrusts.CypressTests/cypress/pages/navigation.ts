@@ -123,6 +123,30 @@ class Navigation {
         this.elements.AcadmiesInThisTrustNav.DetailsAcadmiesTrustButton().click()
         return this;
     }
+
+    public checkAcademiesInTrustNavNotPresent(): this {
+        this.elements.AcadmiesInThisTrustNav.DetailsAcadmiesTrustButton().should('not.exist')
+        this.elements.AcadmiesInThisTrustNav.OfstedAcadmiesTrustButton().should('not.exist')
+        this.elements.AcadmiesInThisTrustNav.PupilNumbersAcadmiesTrustButton().should('not.exist')
+        this.elements.AcadmiesInThisTrustNav.FreeSchoolMealsAcadmiesTrustButton().should('not.exist')
+        return this;
+    }
+
+    public checkAllAcademiesInTrustNavItemsPresent(): this {
+        this.elements.AcadmiesInThisTrustNav.DetailsAcadmiesTrustButton().should('be.visible')
+        this.elements.AcadmiesInThisTrustNav.OfstedAcadmiesTrustButton().should('be.visible')
+        this.elements.AcadmiesInThisTrustNav.PupilNumbersAcadmiesTrustButton().should('be.visible')
+        this.elements.AcadmiesInThisTrustNav.FreeSchoolMealsAcadmiesTrustButton().should('be.visible')
+        return this;
+    }
+
+    public checkAllServiceNavItemsPresent(): this {
+        this.elements.ServiceNav.OverviewServiceNavButton().should('be.visible')
+        this.elements.ServiceNav.ContactsServiceNavButton().should('be.visible')
+        this.elements.ServiceNav.academiesInThisTrustServiceNavButton().should('be.visible')
+        this.elements.ServiceNav.GovernanceServiceNavButton().should('be.visible')
+        return this;
+    }
 }
 
 const navigation = new Navigation();

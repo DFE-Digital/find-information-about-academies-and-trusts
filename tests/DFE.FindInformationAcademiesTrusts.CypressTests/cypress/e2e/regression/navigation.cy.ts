@@ -98,6 +98,7 @@ describe('Testing Navigation', () => {
             navigation
                 .clickContactsServiceNavButton()
                 .checkCurrentURLIsCorrect('/contacts?uid=5527')
+                .checkAllServiceNavItemsPresent()
             trustContactsPage
                 .checkChairOfTrusteesPresent()
                 .checkAccountingOfficerPresent()
@@ -107,6 +108,7 @@ describe('Testing Navigation', () => {
             navigation
                 .clickAcademiesInThisTrustServiceNavButton()
                 .checkCurrentURLIsCorrect('/academies/details?uid=5527')
+                .checkAllServiceNavItemsPresent()
             academiesInTrustPage
                 .checkDetailsHeadersPresent()
         });
@@ -115,6 +117,7 @@ describe('Testing Navigation', () => {
             navigation
                 .clickGovernanceServiceNavButton()
                 .checkCurrentURLIsCorrect('/governance?uid=5527')
+                .checkAllServiceNavItemsPresent()
             governancePage
                 .checkTrusteeColumnHeaders()
         });
@@ -124,13 +127,14 @@ describe('Testing Navigation', () => {
             navigation
                 .clickOverviewServiceNavButton()
                 .checkCurrentURLIsCorrect('/overview?uid=5527')
+                .checkAllServiceNavItemsPresent()
             trustOverviewPage
                 .checkOverviewHeaderPresent()
         });
 
     })
 
-    describe.only("Testing the academies in this trust navigation", () => {
+    describe("Testing the academies in this trust navigation", () => {
         beforeEach(() => {
             cy.login();
             cy.visit('/trusts/academies/details?uid=5527');
@@ -140,6 +144,8 @@ describe('Testing Navigation', () => {
             navigation
                 .clickOfstedAcadmiesTrustButton()
                 .checkCurrentURLIsCorrect('/trusts/academies/ofsted-ratings?uid=5527')
+                .checkAllServiceNavItemsPresent()
+                .checkAllAcademiesInTrustNavItemsPresent()
             academiesInTrustPage
                 .checkOfstedHeadersPresent()
         });
@@ -148,6 +154,8 @@ describe('Testing Navigation', () => {
             navigation
                 .clickPupilNumbersAcadmiesTrustButton()
                 .checkCurrentURLIsCorrect('/trusts/academies/pupil-numbers?uid=5527')
+                .checkAllServiceNavItemsPresent()
+                .checkAllAcademiesInTrustNavItemsPresent()
             academiesInTrustPage
                 .checkPupilNumbersHeadersPresent()
         });
@@ -156,6 +164,8 @@ describe('Testing Navigation', () => {
             navigation
                 .clickFreeSchoolMealsAcadmiesTrustButton()
                 .checkCurrentURLIsCorrect('/trusts/academies/free-school-meals?uid=5527')
+                .checkAllServiceNavItemsPresent()
+                .checkAllAcademiesInTrustNavItemsPresent()
             academiesInTrustPage
                 .checkFreeSchoolMealsHeadersPresent()
         });
@@ -164,9 +174,16 @@ describe('Testing Navigation', () => {
             navigation
                 .clickDetailsAcadmiesTrustButton()
                 .checkCurrentURLIsCorrect('/trusts/academies/details?uid=5527')
+                .checkAllServiceNavItemsPresent()
+                .checkAllAcademiesInTrustNavItemsPresent()
             academiesInTrustPage
                 .checkDetailsHeadersPresent()
         });
 
+        it('Should check that the academies in this trust nav items are not present when I am not in the relevant academies page', () => {
+            cy.visit('/trusts/overview?uid=5527');
+            navigation
+                .checkAcademiesInTrustNavNotPresent()
+        });
     })
 })
