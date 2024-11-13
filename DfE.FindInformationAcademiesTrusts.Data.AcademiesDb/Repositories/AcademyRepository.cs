@@ -1,9 +1,9 @@
-using System.Globalization;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 
@@ -59,7 +59,7 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
                 .Where(me => urns.Contains(me.Urn!.Value))
                 .Select(me => new AcademyOfstedRatings(me.Urn!.Value,
                     new OfstedRating(
-                        (OfstedRatingScore?)me.OverallEffectiveness ?? OfstedRatingScore.None,
+                        ConvertOverallEffectivenessToOfstedRatingScore(me.OverallEffectiveness),
                         (OfstedRatingScore?)me.QualityOfEducation ?? OfstedRatingScore.None,
                         (OfstedRatingScore?)me.BehaviourAndAttitudes ?? OfstedRatingScore.None,
                         (OfstedRatingScore?)me.PersonalDevelopment ?? OfstedRatingScore.None,
@@ -128,6 +128,27 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
         }
 
         return ofstedRatings.ToDictionary(o => o.Urn.ToString(), o => o);
+    }
+    public static OfstedRatingScore ConvertOverallEffectivenessToOfstedRatingScore(string? rating)
+    {
+        if (string.IsNullOrWhiteSpace(rating))
+            return OfstedRatingScore.None;
+
+        // Check if it is 'Not judged' all other gradings are int based
+        if (rating.ToLower().Equals("not judged"))
+        {
+            return OfstedRatingScore.NoJudgement;
+        }
+
+        // Attempt to parse the string as an integer
+        if (int.TryParse(rating, out int intRating))
+        {
+            if (Enum.IsDefined(typeof(OfstedRatingScore), intRating))
+                return (OfstedRatingScore)intRating;
+        }
+
+        // Default case if parsing fails
+        return OfstedRatingScore.None;
     }
 
     public async Task<AcademyPupilNumbers[]> GetAcademiesInTrustPupilNumbersAsync(string uid)
