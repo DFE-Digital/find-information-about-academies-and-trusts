@@ -141,10 +141,9 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
         }
 
         // Attempt to parse the string as an integer
-        if (int.TryParse(rating, out int intRating))
+        if (int.TryParse(rating, out int intRating) && Enum.IsDefined(typeof(OfstedRatingScore), intRating))
         {
-            if (Enum.IsDefined(typeof(OfstedRatingScore), intRating))
-                return (OfstedRatingScore)intRating;
+            return (OfstedRatingScore)intRating;
         }
 
         // Default case if parsing fails
