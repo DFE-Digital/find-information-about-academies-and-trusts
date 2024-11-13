@@ -5,7 +5,7 @@ describe("Testing the components of the header search", () => {
 
     beforeEach(() => {
         cy.login()
-        cy.visit('/trusts/details?uid=5527')
+        cy.visit('/trusts/overview?uid=5527')
     });
 
     it("Should check that the header search bar and autocomplete is present and functional", () => {
