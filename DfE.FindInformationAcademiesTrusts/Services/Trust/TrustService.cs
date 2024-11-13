@@ -9,10 +9,10 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Trust;
 public interface ITrustService
 {
     Task<TrustSummaryServiceModel?> GetTrustSummaryAsync(string uid);
-    Task<TrustDetailsServiceModel> GetTrustDetailsAsync(string uid);
     Task<TrustGovernanceServiceModel> GetTrustGovernanceAsync(string uid);
     Task<TrustContactsServiceModel> GetTrustContactsAsync(string uid);
     Task<TrustOverviewServiceModel> GetTrustOverviewAsync(string uid);
+
     Task<TrustContactUpdatedServiceModel> UpdateContactAsync(int uid, string? name, string? email,
         ContactRole role);
 }
@@ -50,26 +50,6 @@ public class TrustService(
         return trustSummaryServiceModel;
     }
 
-    public async Task<TrustDetailsServiceModel> GetTrustDetailsAsync(string uid)
-    {
-        var singleAcademyTrustAcademyUrn = await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid);
-
-        var trustDetails = await trustRepository.GetTrustDetailsAsync(uid);
-
-        var trustDetailsDto = new TrustDetailsServiceModel(
-            trustDetails.Uid,
-            trustDetails.GroupId,
-            trustDetails.Ukprn,
-            trustDetails.CompaniesHouseNumber,
-            trustDetails.Type,
-            trustDetails.Address,
-            trustDetails.RegionAndTerritory,
-            singleAcademyTrustAcademyUrn,
-            trustDetails.OpenedDate
-        );
-
-        return trustDetailsDto;
-    }
     public async Task<TrustGovernanceServiceModel> GetTrustGovernanceAsync(string uid)
     {
         var urn = await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid);
@@ -86,7 +66,7 @@ public class TrustService(
     public async Task<TrustContactsServiceModel> GetTrustContactsAsync(string uid)
     {
         var urn = await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid);
-        
+
         var trustContacts =
             await trustRepository.GetTrustContactsAsync(uid, urn);
         var internalContacts = await contactRepository.GetInternalContactsAsync(uid);
@@ -107,10 +87,22 @@ public class TrustService(
 
         return new TrustContactUpdatedServiceModel(emailChanged, nameChanged);
     }
-    
+
     public async Task<TrustOverviewServiceModel> GetTrustOverviewAsync(string uid)
     {
-        var academiesOverview = await academyRepository.GetAcademiesInTrustOverviewAsync(uid);
+        var trustOverview = await trustRepository.GetTrustOverviewAsync(uid);
+        var trustType = trustOverview.Type switch
+        {
+            "Single-academy trust" => TrustType.SingleAcademyTrust,
+            "Multi-academy trust" => TrustType.MultiAcademyTrust,
+            _ => throw new InvalidOperationException($"Unknown trust type: {trustOverview.Type}")
+        };
+
+        var singleAcademyTrustAcademyUrn = trustType is TrustType.SingleAcademyTrust
+            ? await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid)
+            : null;
+
+        var academiesOverview = await academyRepository.GetOverviewOfAcademiesInTrustAsync(uid);
 
         var totalAcademies = academiesOverview.Length;
 
@@ -121,20 +113,22 @@ public class TrustService(
         var totalPupilNumbers = academiesOverview.Sum(a => a.NumberOfPupils ?? 0);
         var totalCapacity = academiesOverview.Sum(a => a.SchoolCapacity ?? 0);
 
-        var ofstedRatings = academiesOverview
-            .GroupBy(a => a.CurrentOfstedRating)
-            .ToDictionary(g => g.Key, g => g.Count());
-
         var overviewModel = new TrustOverviewServiceModel(
-            uid,
+            trustOverview.Uid,
+            trustOverview.GroupId,
+            trustOverview.Ukprn,
+            trustOverview.CompaniesHouseNumber,
+            trustType,
+            trustOverview.Address,
+            trustOverview.RegionAndTerritory,
+            singleAcademyTrustAcademyUrn,
+            trustOverview.OpenedDate,
             totalAcademies,
             academiesByLocalAuthority,
             totalPupilNumbers,
-            totalCapacity,
-            ofstedRatings
+            totalCapacity
         );
 
         return overviewModel;
     }
-
 }

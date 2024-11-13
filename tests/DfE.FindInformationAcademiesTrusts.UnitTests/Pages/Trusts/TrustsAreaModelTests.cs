@@ -71,6 +71,25 @@ public class TrustsAreaModelTests
         result.Should().BeOfType<NotFoundResult>();
     }
 
+    [Fact]
+    public async Task OnGetAsync_should_populate_NavigationLinks()
+    {
+        var dummyTrustSummary = new TrustSummaryServiceModel("1234", "My Trust", "Multi-academy trust", 3);
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrustSummary.Uid))
+            .ReturnsAsync(dummyTrustSummary);
+        _sut.Uid = dummyTrustSummary.Uid;
+
+        await _sut.OnGetAsync();
+        _sut.NavigationLinks.Should().BeEquivalentTo([
+            new TrustNavigationLinkModel("Overview", "/Trusts/Overview", "1234", false, "overview-nav"),
+            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts", "1234", false, "contacts-nav"),
+            new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
+                "1234", false, "academies-nav"),
+            new TrustNavigationLinkModel("Governance", "/Trusts/Governance", "1234", false,
+                "governance-nav")
+        ]);
+    }
+
     [Theory]
     [InlineData(Source.Gias, "Get information about schools")]
     [InlineData(Source.Mstr, "Get information about schools (internal use only, do not share outside of DfE)")]
@@ -118,7 +137,7 @@ public class TrustsAreaModelTests
         var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, fields));
 
         // Assert
-        Assert.Equal("data-source-gias-", result);  // Fields are empty, but source should still be present
+        Assert.Equal("data-source-gias-", result); // Fields are empty, but source should still be present
     }
 
     [Fact]

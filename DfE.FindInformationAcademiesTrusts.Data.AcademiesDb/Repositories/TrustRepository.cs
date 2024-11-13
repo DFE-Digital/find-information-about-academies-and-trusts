@@ -18,7 +18,7 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
         return details is null ? null : new TrustSummary(details.Name, details.Type);
     }
 
-    public async Task<TrustDetails> GetTrustDetailsAsync(string uid)
+    public async Task<TrustOverview> GetTrustOverviewAsync(string uid)
     {
         var giasGroup = await academiesDbContext.Groups
             .Where(g => g.GroupUid == uid)
@@ -39,9 +39,9 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
 
         var regionAndTerritory = await GetRegionAndTerritoryAsync(uid);
 
-        var trustDetailsDto = new TrustDetails(
+        var trustOverview = new TrustOverview(
             giasGroup.GroupUid!, //Searched by this field so it must be present
-            giasGroup.GroupId,
+            giasGroup.GroupId!, //Enforced by EF filter
             giasGroup.Ukprn,
             giasGroup.CompaniesHouseNumber,
             giasGroup.GroupType!, //Enforced by EF filter
@@ -56,7 +56,7 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
             giasGroup.IncorporatedOnOpenDate.ParseAsNullableDate()
         );
 
-        return trustDetailsDto;
+        return trustOverview;
     }
 
     public async Task<TrustGovernance> GetTrustGovernanceAsync(string uid, string? urn = null)
@@ -84,6 +84,7 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
 
         return governersDto;
     }
+
     public static IQueryable<GiasGovernance> FilterBySatOrMat(string uid, string? urn, IQueryable<GiasGovernance> query)
     {
         if (!string.IsNullOrEmpty(urn))
@@ -160,5 +161,4 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
                 governorEmails.SingleOrDefault(governorEmail => governorEmail.Gid == governor.Gid)?.Email)
         );
     }
-
 }

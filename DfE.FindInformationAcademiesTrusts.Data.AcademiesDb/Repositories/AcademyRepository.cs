@@ -176,47 +176,23 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
             .FirstOrDefaultAsync();
     }
 
-    public async Task<AcademyOverview[]> GetAcademiesInTrustOverviewAsync(string uid)
+    public async Task<AcademyOverview[]> GetOverviewOfAcademiesInTrustAsync(string uid)
     {
-        var academiesData = await academiesDbContext.GiasGroupLinks
+        return await academiesDbContext.GiasGroupLinks
             .Where(gl => gl.GroupUid == uid)
             .Join(
                 academiesDbContext.GiasEstablishments,
                 gl => gl.Urn!,
                 e => e.Urn.ToString(),
-                (gl, e) => new
-                {
-                    Urn = e.Urn.ToString(),
-                    LocalAuthority = e.LaName,
-                    NumberOfPupils = e.NumberOfPupils.ParseAsNullableInt(),
-                    SchoolCapacity = e.SchoolCapacity.ParseAsNullableInt()
-                })
-            .ToListAsync();
-
-        // Get URNs as ints
-        var urns = academiesData.Select(a => int.Parse(a.Urn)).ToArray();
-
-        // Fetch Ofsted ratings
-        var ofstedRatingsDict = await GetOfstedRatings(urns);
-
-        var academiesOverview = academiesData.Select(a =>
-        {
-            var currentOfstedRating = OfstedRatingScore.None;
-            if (ofstedRatingsDict.TryGetValue(a.Urn, out var ofstedRatings))
-            {
-                currentOfstedRating = ofstedRatings.Current?.OverallEffectiveness ?? OfstedRatingScore.None;
-            }
-
-            return new AcademyOverview(
-                a.Urn,
-                a.LocalAuthority ?? string.Empty,
-                a.NumberOfPupils,
-                a.SchoolCapacity,
-                currentOfstedRating
-            );
-        }).ToArray();
-
-        return academiesOverview;
+                (gl, e) =>
+                    new AcademyOverview
+                    (
+                        e.Urn.ToString(),
+                        e.LaName ?? string.Empty,
+                        e.NumberOfPupils.ParseAsNullableInt(),
+                        e.SchoolCapacity.ParseAsNullableInt()
+                    ))
+            .ToArrayAsync();
     }
 
     private sealed record AcademyOfstedRatings(int Urn, OfstedRating Current, OfstedRating Previous);

@@ -27,72 +27,76 @@
   }
 }
 
-<section class="govuk-!-margin-bottom-9">
-  <h2 class="govuk-heading-m">
-    Contacts at DfE
-  </h2>
-  <div class="govuk-summary-card" data-testid="trust-relationship-manager">
-    <div class="govuk-summary-card__title-wrapper">
-      <h3 class="govuk-summary-card__title">
-        @ContactRole.TrustRelationshipManager.MapRoleToViewString()
-      </h3>
-      <div class="govuk-summary-card__actions">
-        <a class="govuk-link" asp-page="/Trusts/Contacts/EditTrustRelationshipManager" asp-route-uid="@Model.Uid">Change<span class="govuk-visually-hidden"> details of this contact (@ContactRole.TrustRelationshipManager.MapRoleToViewString())</span></a>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <section class="govuk-!-margin-bottom-9">
+      <h2 class="govuk-heading-m">
+        Contacts at DfE
+      </h2>
+      <div class="govuk-summary-card" data-testid="trust-relationship-manager">
+        <div class="govuk-summary-card__title-wrapper">
+          <h3 class="govuk-summary-card__title">
+            @ContactRole.TrustRelationshipManager.MapRoleToViewString()
+          </h3>
+          <div class="govuk-summary-card__actions">
+            <a class="govuk-link" asp-page="/Trusts/Contacts/EditTrustRelationshipManager" asp-route-uid="@Model.Uid">Change<span class="govuk-visually-hidden"> details of this contact (@ContactRole.TrustRelationshipManager.MapRoleToViewString())</span></a>
+          </div>
+        </div>
+        @{ DisplayContact(Model.TrustRelationshipManager); }
       </div>
-    </div>
-    @{ DisplayContact(Model.TrustRelationshipManager); }
-  </div>
-  <div class="govuk-summary-card" data-testid="sfso-lead">
-    <div class="govuk-summary-card__title-wrapper">
-      <h3 class="govuk-summary-card__title">
-        @ContactRole.SfsoLead.MapRoleToViewString()
-      </h3>
-      <div class="govuk-summary-card__actions">
-        <a class="govuk-link" asp-page="/Trusts/Contacts/EditSfsoLead" asp-route-uid="@Model.Uid">Change<span class="govuk-visually-hidden"> details of this contact (@ContactRole.SfsoLead.MapRoleToViewString())</span></a>
+      <div class="govuk-summary-card" data-testid="sfso-lead">
+        <div class="govuk-summary-card__title-wrapper">
+          <h3 class="govuk-summary-card__title">
+            @ContactRole.SfsoLead.MapRoleToViewString()
+          </h3>
+          <div class="govuk-summary-card__actions">
+            <a class="govuk-link" asp-page="/Trusts/Contacts/EditSfsoLead" asp-route-uid="@Model.Uid">Change<span class="govuk-visually-hidden"> details of this contact (@ContactRole.SfsoLead.MapRoleToViewString())</span></a>
+          </div>
+        </div>
+        @{ DisplayContact(Model.SfsoLead); }
       </div>
-    </div>
-    @{ DisplayContact(Model.SfsoLead); }
-  </div>
-</section>
+    </section>
 
-<section class="govuk-!-margin-top-8 govuk-!-margin-bottom-9">
-  <h2 class="govuk-heading-m">
-    Contacts at the trust
-  </h2>
-  <div class="govuk-summary-card" data-testid="accounting-officer">
-    <div class="govuk-summary-card__title-wrapper contact-card-title-with-disclaimer">
-      <h3 class="govuk-summary-card__title">
-        Accounting officer
-      </h3>
-      <div class="govuk-summary-card__actions govuk-!-margin-0">
-        @await Html.PartialAsync("Shared/_SummaryCardDisclaimerText")
+    <section class="govuk-!-margin-top-8 govuk-!-margin-bottom-9">
+      <h2 class="govuk-heading-m">
+        Contacts at the trust
+      </h2>
+      <div class="govuk-summary-card" data-testid="accounting-officer">
+        <div class="govuk-summary-card__title-wrapper contact-card-title-with-disclaimer">
+          <h3 class="govuk-summary-card__title">
+            Accounting officer
+          </h3>
+          <div class="govuk-summary-card__actions govuk-!-margin-0">
+            @await Html.PartialAsync("Shared/_SummaryCardDisclaimerText")
+          </div>
+        </div>
+        @{ DisplayContact(Model.AccountingOfficer); }
       </div>
-    </div>
-    @{ DisplayContact(Model.AccountingOfficer); }
-  </div>
-  <div class="govuk-summary-card" data-testid="chair-of-trustees">
-    <div class="govuk-summary-card__title-wrapper contact-card-title-with-disclaimer">
-      <h3 class="govuk-summary-card__title">
-        Chair of trustees
-      </h3>
-      <div class="govuk-summary-card__actions govuk-!-margin-0">
-        @await Html.PartialAsync("Shared/_SummaryCardDisclaimerText")
+      <div class="govuk-summary-card" data-testid="chair-of-trustees">
+        <div class="govuk-summary-card__title-wrapper contact-card-title-with-disclaimer">
+          <h3 class="govuk-summary-card__title">
+            Chair of trustees
+          </h3>
+          <div class="govuk-summary-card__actions govuk-!-margin-0">
+            @await Html.PartialAsync("Shared/_SummaryCardDisclaimerText")
+          </div>
+        </div>
+        @{ DisplayContact(Model.ChairOfTrustees); }
       </div>
-    </div>
-    @{ DisplayContact(Model.ChairOfTrustees); }
-  </div>
-  <div class="govuk-summary-card" data-testid="chief-financial-officer">
-    <div class="govuk-summary-card__title-wrapper contact-card-title-with-disclaimer">
-      <h3 class="govuk-summary-card__title">
-        Chief financial officer
-      </h3>
-      <div class="govuk-summary-card__actions govuk-!-margin-0">
-        @await Html.PartialAsync("Shared/_SummaryCardDisclaimerText")
+      <div class="govuk-summary-card" data-testid="chief-financial-officer">
+        <div class="govuk-summary-card__title-wrapper contact-card-title-with-disclaimer">
+          <h3 class="govuk-summary-card__title">
+            Chief financial officer
+          </h3>
+          <div class="govuk-summary-card__actions govuk-!-margin-0">
+            @await Html.PartialAsync("Shared/_SummaryCardDisclaimerText")
+          </div>
+        </div>
+        @{ DisplayContact(Model.ChiefFinancialOfficer); }
       </div>
-    </div>
-    @{ DisplayContact(Model.ChiefFinancialOfficer); }
+    </section>
   </div>
-</section>
+</div>
 
 @functions {
 
