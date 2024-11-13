@@ -97,6 +97,7 @@ describe('Testing Navigation', () => {
         it('Should check that the contacts navigation button takes me to the correct page', () => {
             navigation
                 .clickContactsServiceNavButton()
+                .checkContactsServiceNavButtonIsHighlighed()
                 .checkCurrentURLIsCorrect('/contacts?uid=5527')
                 .checkAllServiceNavItemsPresent()
             trustContactsPage
@@ -107,6 +108,7 @@ describe('Testing Navigation', () => {
         it('Should check that the Academies navigation button takes me to the correct page', () => {
             navigation
                 .clickAcademiesInThisTrustServiceNavButton()
+                .checkAcademiesInThisTrustServiceNavButtonIsHighlighted()
                 .checkCurrentURLIsCorrect('/academies/details?uid=5527')
                 .checkAllServiceNavItemsPresent()
             academiesInTrustPage
@@ -116,6 +118,7 @@ describe('Testing Navigation', () => {
         it('Should check that the Governance navigation button takes me to the correct page', () => {
             navigation
                 .clickGovernanceServiceNavButton()
+                .checkGovernanceServiceNavButtonIsHighlighted()
                 .checkCurrentURLIsCorrect('/governance?uid=5527')
                 .checkAllServiceNavItemsPresent()
             governancePage
@@ -126,6 +129,7 @@ describe('Testing Navigation', () => {
             cy.visit('trusts/governance?uid=5527');
             navigation
                 .clickOverviewServiceNavButton()
+                .checkOverviewServiceNavButtonIsHighlighted()
                 .checkCurrentURLIsCorrect('/overview?uid=5527')
                 .checkAllServiceNavItemsPresent()
             trustOverviewPage

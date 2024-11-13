@@ -89,8 +89,18 @@ class Navigation {
         return this;
     }
 
+    public checkAcademiesInThisTrustServiceNavButtonIsHighlighted(): this {
+        this.elements.ServiceNav.academiesInThisTrustServiceNavButton().should('have.class','govuk-service-navigation__item--active');
+        return this;
+    }
+
     public clickContactsServiceNavButton(): this {
         this.elements.ServiceNav.ContactsServiceNavButton().click()
+        return this;
+    }
+
+    public checkContactsServiceNavButtonIsHighlighed(): this {
+        this.elements.ServiceNav.ContactsServiceNavButton().should('have.class', 'govuk-service-navigation__item--active');
         return this;
     }
 
@@ -99,8 +109,18 @@ class Navigation {
         return this;
     }
 
+    public checkGovernanceServiceNavButtonIsHighlighted(): this {
+        this.elements.ServiceNav.GovernanceServiceNavButton().should('have.class', 'govuk-service-navigation__item--active');
+        return this;
+    }
+
     public clickOverviewServiceNavButton(): this {
         this.elements.ServiceNav.OverviewServiceNavButton().click()
+        return this;
+    }
+
+    public checkOverviewServiceNavButtonIsHighlighted(): this {
+        this.elements.ServiceNav.OverviewServiceNavButton().should('have.class', 'govuk-service-navigation__item--active');
         return this;
     }
 
