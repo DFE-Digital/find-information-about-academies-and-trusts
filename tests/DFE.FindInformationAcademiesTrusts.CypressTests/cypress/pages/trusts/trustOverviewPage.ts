@@ -28,7 +28,7 @@ class TrustOverviewPage {
 
     public checkTrustSummaryCardPresent(): this {
         this.elements.trustSummaryCard().should('be.visible');
-        this.elements.trustSummaryCard().should('contain', 'Trust details');
+        this.elements.trustSummaryCard().should('contain', 'Trust summary');
         return this;
     }
 
