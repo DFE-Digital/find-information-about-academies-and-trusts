@@ -17,7 +17,7 @@ describe('Cookie page and consent tests', () => {
         commonPage
             .checkSuccessPopup('You’ve set your cookie preferences')
 
-        cy.visit('/trusts/details?uid=5712')
+        cy.visit('/trusts/overview?uid=5712')
 
         //check optional cookies exist
         cy.getCookie('ai_user').should('exist')
@@ -41,7 +41,7 @@ describe('Cookie page and consent tests', () => {
         commonPage
             .checkSuccessPopup('You’ve set your cookie preferences')
 
-        cy.visit('/trusts/details?uid=5712')
+        cy.visit('/trusts/overview?uid=5712')
 
         //check optional cookies do not  exist
         cy.getCookie('ai_user').should('not.exist')
@@ -102,7 +102,7 @@ describe('Cookie page and consent tests', () => {
         commonPage
             .checkSuccessPopup('You’ve set your cookie preferences')
 
-        cy.visit('/trusts/details?uid=5712')
+        cy.visit('/trusts/overview?uid=5712')
 
         navigation
             .clickCookiesLink()
@@ -120,7 +120,7 @@ describe('Cookie page and consent tests', () => {
         commonPage
             .checkSuccessPopup('You’ve set your cookie preferences')
 
-        cy.visit('/trusts/details?uid=5712')
+        cy.visit('/trusts/overview?uid=5712')
 
         navigation
             .clickCookiesLink()
