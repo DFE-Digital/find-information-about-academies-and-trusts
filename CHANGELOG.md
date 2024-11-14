@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Changed
+
+- Update node version in github runners and docker image
+
 ## [Release-12][release-12] (production-2024-11-13.3974)
 
 ### Changed
