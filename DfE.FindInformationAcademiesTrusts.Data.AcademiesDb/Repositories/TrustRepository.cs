@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 
-public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRepository
+public class TrustRepository(IAcademiesDbContext academiesDbContext, IUtilities utilities) : ITrustRepository
 {
     public async Task<TrustSummary?> GetTrustSummaryAsync(string uid)
     {
@@ -45,13 +45,12 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
             giasGroup.Ukprn,
             giasGroup.CompaniesHouseNumber,
             giasGroup.GroupType!, //Enforced by EF filter
-            string.Join(", ", new[]
-            {
+            utilities.BuildAddressString(
                 giasGroup.GroupContactStreet,
                 giasGroup.GroupContactLocality,
                 giasGroup.GroupContactTown,
                 giasGroup.GroupContactPostcode
-            }.Where(s => !string.IsNullOrWhiteSpace(s))),
+            ),
             regionAndTerritory,
             giasGroup.IncorporatedOnOpenDate.ParseAsNullableDate()
         );
