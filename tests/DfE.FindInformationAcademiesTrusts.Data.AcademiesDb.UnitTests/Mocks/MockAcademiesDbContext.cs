@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
@@ -6,7 +7,6 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 
@@ -41,11 +41,16 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         SetupMockDbContext(_applicationSettings, context => context.ApplicationSettings);
 
         //Set up some unused data
-        AddGiasGroups(15);
+        for (var i = 0; i < 15; i++)
+        {
+            AddGiasGroup(groupName: $"Unused {i}");
+        }
+
         AddGiasEstablishments(15);
         AddMstrTrusts(15);
-        var otherTrust = AddGiasGroup("Some other trust");
-        AddGovernancesLinkedToTrust(20, "Some other trust");
+
+        var otherTrust = AddGiasGroup(groupName: "Some other trust");
+        AddGovernancesLinkedToTrust(20, otherTrust.GroupUid!);
         LinkGiasEstablishmentsToGiasGroup(AddGiasEstablishments(5), otherTrust);
     }
 
@@ -58,20 +63,6 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         };
         _mstrTrusts.Add(mstrTrust);
         return mstrTrust;
-    }
-
-    public GiasGroup AddGiasGroup(string groupUid, string? groupName = "trust 1",
-        string? groupType = "Multi-academy trust")
-    {
-        var giasGroup = new GiasGroup
-        { GroupName = groupName, GroupUid = groupUid, GroupType = groupType, Ukprn = "my ukprn" };
-        _giasGroups.Add(giasGroup);
-        return giasGroup;
-    }
-
-    public void AddGiasGroup(GiasGroup giasGroup)
-    {
-        _giasGroups.Add(giasGroup);
     }
 
     public void AddGiasGroupLink(GiasGroupLink giasGroupLink)
@@ -125,21 +116,6 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         _giasEstablishments.AddRange(giasEstablishments);
     }
 
-    public CdmSystemuser AddCdmSystemuser(string fullName, string email)
-    {
-        var cdmSystemuser = new CdmSystemuser
-        { Systemuserid = Guid.NewGuid(), Fullname = fullName, Internalemailaddress = email };
-        _cdmSystemusers.Add(cdmSystemuser);
-        return cdmSystemuser;
-    }
-
-    public CdmAccount AddCdmAccount(string groupUid)
-    {
-        var cdmAccount = new CdmAccount { SipUid = groupUid };
-        _cdmAccounts.Add(cdmAccount);
-        return cdmAccount;
-    }
-
     public void AddApplicationEvent(string description,
         DateTime? dateTime,
         string? message = "Finished", char? eventType = 'I')
@@ -173,29 +149,31 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         });
     }
 
-    public List<GiasGroup> AddGiasGroups(int num)
+    public void AddGiasGroup(GiasGroup giasGroup)
     {
-        return AddGiasGroupsForSearchTerm(string.Empty, num);
+        _giasGroups.Add(giasGroup);
     }
 
-    public List<GiasGroup> AddGiasGroupsForSearchTerm(string term, int num)
+    public GiasGroup AddGiasGroup(string? groupUid = null, string? groupName = null, string? groupId = null,
+        string? groupType = null)
     {
-        var numExisting = _giasGroups.Count;
-        var newItems = new List<GiasGroup>();
-        for (var i = 0; i < num; i++)
+        var nextTrustNumber = _giasGroups.Count + 1;
+        groupUid ??= nextTrustNumber.ToString();
+
+        //Don't allow duplicate UIDs
+        if (_giasGroups.Any(g => g.GroupUid == groupUid))
+            _giasGroups.Remove(_giasGroups.Single(g => g.GroupUid == groupUid));
+
+        var giasGroup = new GiasGroup
         {
-            newItems.Add(new GiasGroup
-            {
-                GroupName = $"trust {term} {i}",
-                GroupUid = $"{i + numExisting}",
-                GroupId = $"TR0{i + numExisting}",
-                GroupType = "Multi-academy trust"
-            });
-        }
+            GroupId = groupId ?? $"TR0{nextTrustNumber}",
+            GroupName = groupName ?? $"Trust {nextTrustNumber}",
+            GroupUid = groupUid,
+            GroupType = groupType ?? "Multi-academy trust"
+        };
+        AddGiasGroup(giasGroup);
 
-        _giasGroups.AddRange(newItems);
-
-        return newItems;
+        return giasGroup;
     }
 
     public List<MstrTrust> AddMstrTrusts(int num)
