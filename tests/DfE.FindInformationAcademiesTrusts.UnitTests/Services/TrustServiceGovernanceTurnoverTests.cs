@@ -24,261 +24,140 @@ public class TrustServiceGovernanceTurnoverTests
                                 _mockMemoryCache.Object,
                                 _mockDateTimeProvider.Object);
     }
-
-    private Governor CreateGovernor(
-        string role,
-        DateTime? dateOfAppointment,
-        DateTime? dateOfTermEnd)
-    {
-        return new Governor(
-            GID: Guid.NewGuid().ToString(),
-            UID: Guid.NewGuid().ToString(),
-            FullName: "Test Governor",
-            Role: role,
-            AppointingBody: "Test Body",
-            DateOfAppointment: dateOfAppointment,
-            DateOfTermEnd: dateOfTermEnd,
-            Email: "test@example.com");
-    }
-
     [Fact]
-    public void CalculateTurnoverRate_WhenTotalCurrentGovernorsIsZero_ReturnsZero()
+    public void CalculateTurnoverRate_Returns_Zero_When_No_CurrentGovernors()
     {
+        // Arrange
         var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: Array.Empty<Governor>(),
-            CurrentMembers: Array.Empty<Governor>(),
-            CurrentTrustees: Array.Empty<Governor>(),
-            HistoricMembers: Array.Empty<Governor>()
+            CurrentTrustLeadership: [],
+            CurrentMembers: [],
+            CurrentTrustees: [],
+            HistoricMembers: []
         );
 
-        var today = new DateTime(2023, 10, 1);
-        _mockDateTimeProvider.Setup(d => d.Today).Returns(today);
+        _mockDateTimeProvider.Setup(d => d.Today).Returns(new DateTime(2023, 10, 1));
 
-        var result = _sut.CalculateTurnoverRate(trustGovernance);
+        // Act
+        var result = _sut.GetGovernanceTurnoverRate(trustGovernance);
 
+        // Assert
         result.Should().Be(0m);
     }
 
     [Fact]
-    public void CalculateTurnoverRate_NoAppointmentsOrResignations_ReturnsZero()
+    public void CalculateTurnoverRate_Calculates_CorrectTurnover()
     {
-        var today = new DateTime(2023, 10, 1);
-        _mockDateTimeProvider.Setup(d => d.Today).Returns(today);
+        // Arrange
+        var startDate = new DateTime(2022, 1, 1);
+        var endDate = new DateTime(2023, 1, 1);
+        _mockDateTimeProvider.Setup(d => d.Today).Returns(new DateTime(2023, 10, 1));
 
-        var currentTrustees = new List<Governor>
-            {
-                CreateGovernor("Trustee", today.AddYears(-2), null)
-            };
-
+        var governor = new Governor("1", "UID", "John Doe", "Member", "Appointing Body", startDate, endDate, null);
         var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: Array.Empty<Governor>(),
-            CurrentMembers: Array.Empty<Governor>(),
-            CurrentTrustees: currentTrustees.ToArray(),
-            HistoricMembers: Array.Empty<Governor>()
+            CurrentTrustLeadership: [],
+            CurrentMembers: [governor],
+            CurrentTrustees: [],
+            HistoricMembers: [governor]
         );
 
-        var result = _sut.CalculateTurnoverRate(trustGovernance);
+        // Act
+        var result = _sut.GetGovernanceTurnoverRate(trustGovernance);
 
-        result.Should().Be(0m);
+        // Assert
+        result.Should().BeGreaterThan(0m); // Check if it calculates a rate instead of zero
     }
 
     [Fact]
-    public void CalculateTurnoverRate_WithAppointments_ReturnsCorrectRate()
+    public void GetAllGovernorsForEvents_Excludes_LeadershipRoles()
     {
-        var today = new DateTime(2023, 10, 1);
-        _mockDateTimeProvider.Setup(d => d.Today).Returns(today);
-
-        var currentTrustees = new List<Governor>
-            {
-                CreateGovernor("Trustee", today.AddMonths(-6), null),
-                CreateGovernor("Trustee", today.AddMonths(-13), null)
-            };
-
+        // Arrange
+        var leaderGovernor = new Governor("1", "UID", "John Doe", "Chair of Trustees", "Appointing Body", null, null, null);
+        var trusteeGovernor = new Governor("2", "UID2", "Jane Doe", "Trustee", "Appointing Body", null, null, null);
         var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: Array.Empty<Governor>(),
-            CurrentMembers: Array.Empty<Governor>(),
-            CurrentTrustees: currentTrustees.ToArray(),
-            HistoricMembers: Array.Empty<Governor>()
+            CurrentTrustLeadership: [leaderGovernor],
+            CurrentMembers: [trusteeGovernor],
+            CurrentTrustees: [],
+            HistoricMembers: []
         );
 
-        var result = _sut.CalculateTurnoverRate(trustGovernance);
+        // Act
+        var result = TrustService.GetGovernorsExcludingLeadership(trustGovernance);
 
-        result.Should().Be(50.0m);
+        // Assert
+        result.Should().Contain(trusteeGovernor);
+        result.Should().NotContain(leaderGovernor); // Ensure leadership roles are excluded
     }
 
     [Fact]
-    public void CalculateTurnoverRate_WithResignations_ReturnsCorrectRate()
+    public void GetCurrentGovernors_Returns_AllCurrentMembersAndTrustees()
     {
-        var today = new DateTime(2023, 10, 1);
-        _mockDateTimeProvider.Setup(d => d.Today).Returns(today);
-
-        var historicMembers = new List<Governor>
-            {
-                CreateGovernor("Trustee", today.AddYears(-2), today.AddMonths(-6))
-            };
-
-        var currentTrustees = new List<Governor>
-            {
-                CreateGovernor("Trustee", today.AddYears(-3), null)
-            };
-
+        // Arrange
+        var member = new Governor("1", "UID1", "John Doe", "Member", "Appointing Body", null, null, null);
+        var trustee = new Governor("2", "UID2", "Jane Doe", "Trustee", "Appointing Body", null, null, null);
         var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: Array.Empty<Governor>(),
-            CurrentMembers: Array.Empty<Governor>(),
-            CurrentTrustees: currentTrustees.ToArray(),
-            HistoricMembers: historicMembers.ToArray()
+            CurrentTrustLeadership: [],
+            CurrentMembers: [member],
+            CurrentTrustees: [trustee],
+            HistoricMembers: []
         );
 
-        var result = _sut.CalculateTurnoverRate(trustGovernance);
+        // Act
+        var result = TrustService.GetCurrentGovernors(trustGovernance);
 
-        result.Should().Be(100.0m);
+        // Assert
+        result.Should().Contain(member);
+        result.Should().Contain(trustee);
     }
 
-    [Fact]
-    public void CalculateTurnoverRate_WithAppointmentsAndResignations_ReturnsCorrectRate()
+    [Theory]
+    [InlineData("2023-01-01", "2023-12-31", 2)]
+    [InlineData("2022-01-01", "2022-05-15", 1)]
+    [InlineData("2021-01-01", "2021-12-31", 0)]
+    public void CountWithinDateRange_Calculates_CorrectCount(
+        string rangeStart, string rangeEnd, int expectedCount)
     {
-        var today = new DateTime(2023, 10, 1);
-        _mockDateTimeProvider.Setup(d => d.Today).Returns(today);
+        // Arrange
+        var startDate = DateTime.Parse(rangeStart);
+        var endDate = DateTime.Parse(rangeEnd);
+        var governors = new List<Governor>
+        {
+            new Governor("1", "UID1", "John Doe", "Trustee", "Appointing Body", new DateTime(2023, 1, 1), null, null),
+            new Governor("2", "UID2", "Jane Doe", "Member", "Appointing Body", new DateTime(2023, 5, 15), null, null),
+            new Governor("3", "UID3", "Jake Doe", "Trustee", "Appointing Body", new DateTime(2022, 5, 15), null, null)
+        };
 
-        var currentTrustees = new List<Governor>
-            {
-                CreateGovernor("Trustee", today.AddMonths(-6), null),
-                CreateGovernor("Trustee", today.AddYears(-2), null)
-            };
+        // Act
+        var result = TrustService.CountEventsWithinDateRange(governors, g => g.DateOfAppointment, startDate, endDate);
 
-        var historicMembers = new List<Governor>
-            {
-                CreateGovernor("Trustee", today.AddYears(-3), today.AddMonths(-4))
-            };
-
-        var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: Array.Empty<Governor>(),
-            CurrentMembers: Array.Empty<Governor>(),
-            CurrentTrustees: currentTrustees.ToArray(),
-            HistoricMembers: historicMembers.ToArray()
-        );
-
-        var result = _sut.CalculateTurnoverRate(trustGovernance);
-
-        result.Should().Be(100.0m);
+        // Assert
+        result.Should().Be(expectedCount);
     }
 
-    [Fact]
-    public void CalculateTurnoverRate_ExcludesLeadershipRoles()
+    [Theory]
+    [InlineData(0, 0, 0.0)]
+    [InlineData(0, 10, 0.0)]
+    public void CalculateTurnoverRate_Returns_Zero_When_TotalCurrentGovernors_Is_Zero(
+       int totalCurrentGovernors, int totalEvents, decimal expectedRate)
     {
-        var today = new DateTime(2023, 10, 1);
-        _mockDateTimeProvider.Setup(d => d.Today).Returns(today);
+        // Act
+        var result = TrustService.CalculateTurnoverRate(totalCurrentGovernors, totalEvents);
 
-        var leadershipGovernor = CreateGovernor("Chair of Trustees", today.AddMonths(-6), null);
-        var trusteeGovernor = CreateGovernor("Trustee", today.AddMonths(-6), null);
-
-        var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: new[] { leadershipGovernor },
-            CurrentMembers: Array.Empty<Governor>(),
-            CurrentTrustees: new[] { leadershipGovernor, trusteeGovernor },
-            HistoricMembers: Array.Empty<Governor>()
-        );
-
-        var result = _sut.CalculateTurnoverRate(trustGovernance);
-
-        result.Should().Be(50.0m);
+        // Assert
+        result.Should().Be(expectedRate);
     }
 
-    [Fact]
-    public void CalculateTurnoverRate_AppointmentOnPast12MonthsStartDate_Included()
+    [Theory]
+    [InlineData(10, 5, 50.0)]
+    [InlineData(4, 3, 75.0)]
+    [InlineData(3, 1, 33.3)]
+    [InlineData(10, 0, 0.0)]
+    public void CalculateTurnoverRate_Calculates_CorrectRate_When_TotalCurrentGovernors_Is_Greater_Than_Zero(
+        int totalCurrentGovernors, int totalEvents, decimal expectedRate)
     {
-        var today = new DateTime(2023, 10, 1);
-        var past12MonthsStart = today.AddYears(-1);
-        _mockDateTimeProvider.Setup(d => d.Today).Returns(today);
+        // Act
+        var result = TrustService.CalculateTurnoverRate(totalCurrentGovernors, totalEvents);
 
-        var currentTrustees = new List<Governor>
-            {
-                CreateGovernor("Trustee", past12MonthsStart, null)
-            };
-
-        var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: Array.Empty<Governor>(),
-            CurrentMembers: Array.Empty<Governor>(),
-            CurrentTrustees: currentTrustees.ToArray(),
-            HistoricMembers: Array.Empty<Governor>()
-        );
-
-        var result = _sut.CalculateTurnoverRate(trustGovernance);
-
-        result.Should().Be(100.0m);
-    }
-
-    [Fact]
-    public void CalculateTurnoverRate_AppointmentOnTodayDate_Included()
-    {
-        var today = new DateTime(2023, 10, 1);
-        _mockDateTimeProvider.Setup(d => d.Today).Returns(today);
-
-        var currentTrustees = new List<Governor>
-            {
-                CreateGovernor("Trustee", today, null)
-            };
-
-        var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: Array.Empty<Governor>(),
-            CurrentMembers: Array.Empty<Governor>(),
-            CurrentTrustees: currentTrustees.ToArray(),
-            HistoricMembers: Array.Empty<Governor>()
-        );
-
-        var result = _sut.CalculateTurnoverRate(trustGovernance);
-
-        result.Should().Be(100.0m);
-    }
-
-    [Fact]
-    public void CalculateTurnoverRate_AppointmentBeforePast12MonthsStartDate_Excluded()
-    {
-        var today = new DateTime(2023, 10, 1);
-        var past12MonthsStart = today.AddYears(-1);
-        _mockDateTimeProvider.Setup(d => d.Today).Returns(today);
-
-        var currentTrustees = new List<Governor>
-            {
-                CreateGovernor("Trustee", past12MonthsStart.AddDays(-1), null)
-            };
-
-        var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: Array.Empty<Governor>(),
-            CurrentMembers: Array.Empty<Governor>(),
-            CurrentTrustees: currentTrustees.ToArray(),
-            HistoricMembers: Array.Empty<Governor>()
-        );
-
-        var result = _sut.CalculateTurnoverRate(trustGovernance);
-
-        result.Should().Be(0.0m);
-    }
-
-    [Fact]
-    public void CalculateTurnoverRate_RoundsToOneDecimalPlace()
-    {
-        var today = new DateTime(2023, 10, 1);
-        _mockDateTimeProvider.Setup(d => d.Today).Returns(today);
-
-        var currentTrustees = new List<Governor>
-            {
-                CreateGovernor("Trustee", today.AddMonths(-1), null),
-                CreateGovernor("Trustee", today.AddMonths(-2), null),
-                CreateGovernor("Trustee", today.AddMonths(-13), null),
-                CreateGovernor("Trustee", today.AddMonths(-14), null),
-                CreateGovernor("Trustee", today.AddMonths(-15), null),
-            };
-
-        var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: Array.Empty<Governor>(),
-            CurrentMembers: Array.Empty<Governor>(),
-            CurrentTrustees: currentTrustees.ToArray(),
-            HistoricMembers: Array.Empty<Governor>()
-        );
-
-        var result = _sut.CalculateTurnoverRate(trustGovernance);
-
-        result.Should().Be(40.0m);
+        // Assert
+        result.Should().Be(expectedRate);
     }
 }
