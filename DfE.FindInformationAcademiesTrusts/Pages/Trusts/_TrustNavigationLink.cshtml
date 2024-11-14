@@ -3,7 +3,7 @@
 {
   <li class="govuk-service-navigation__item govuk-service-navigation__item--active" data-testid="@Model.DataTestId">
     <a class="govuk-service-navigation__link" asp-page="@Model.Page" asp-route-uid="@Model.Uid" >
-      <span class="visually-hidden">Trust </span><strong class="govuk-service-navigation__active-fallback govuk-!-font-weight-bold">@Model.LinkText</strong>
+      <span class="govuk-visually-hidden">Trust </span><strong class="govuk-service-navigation__active-fallback govuk-!-font-weight-bold">@Model.LinkText</strong>
     </a>
   </li>
 }
@@ -11,7 +11,7 @@ else
 {
   <li class="govuk-service-navigation__item" data-testid="@Model.DataTestId">
     <a class="govuk-service-navigation__link govuk-!-font-weight-bold" asp-page="@Model.Page" asp-route-uid="@Model.Uid">
-      <span class="visually-hidden">Trust </span>@Model.LinkText
+      <span class="govuk-visually-hidden">Trust </span>@Model.LinkText
     </a>
   </li>
 }
