@@ -59,7 +59,7 @@ public class GovernanceModelTests
     );
 
     private static readonly TrustGovernanceServiceModel DummyTrustGovernanceServiceModel =
-        new([Leader], [Member], [Trustee], [Historic]);
+        new([Leader], [Member], [Trustee], [Historic], 0);
 
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
@@ -75,7 +75,7 @@ public class GovernanceModelTests
 
         _sut = new GovernanceModel(_mockDataSourceService.Object,
                 new MockLogger<GovernanceModel>().Object, _mockTrustRepository.Object)
-            { Uid = TestUid };
+        { Uid = TestUid };
     }
 
     [Fact]
