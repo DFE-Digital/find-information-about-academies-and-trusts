@@ -45,10 +45,10 @@ public class TrustServiceGovernanceTurnoverTests
     public void CalculateTurnoverRate_WhenTotalCurrentGovernorsIsZero_ReturnsZero()
     {
         var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: [],
-            CurrentMembers: [],
-            CurrentTrustees: [],
-            HistoricMembers: []
+            CurrentTrustLeadership: Array.Empty<Governor>(),
+            CurrentMembers: Array.Empty<Governor>(),
+            CurrentTrustees: Array.Empty<Governor>(),
+            HistoricMembers: Array.Empty<Governor>()
         );
 
         var today = new DateTime(2023, 10, 1);
@@ -71,10 +71,10 @@ public class TrustServiceGovernanceTurnoverTests
             };
 
         var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: [],
-            CurrentMembers: [],
+            CurrentTrustLeadership: Array.Empty<Governor>(),
+            CurrentMembers: Array.Empty<Governor>(),
             CurrentTrustees: currentTrustees.ToArray(),
-            HistoricMembers: []
+            HistoricMembers: Array.Empty<Governor>()
         );
 
         var result = _sut.CalculateTurnoverRate(trustGovernance);
@@ -95,10 +95,10 @@ public class TrustServiceGovernanceTurnoverTests
             };
 
         var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: [],
-            CurrentMembers: [],
+            CurrentTrustLeadership: Array.Empty<Governor>(),
+            CurrentMembers: Array.Empty<Governor>(),
             CurrentTrustees: currentTrustees.ToArray(),
-            HistoricMembers: []
+            HistoricMembers: Array.Empty<Governor>()
         );
 
         var result = _sut.CalculateTurnoverRate(trustGovernance);
@@ -123,8 +123,8 @@ public class TrustServiceGovernanceTurnoverTests
             };
 
         var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: [],
-            CurrentMembers: [],
+            CurrentTrustLeadership: Array.Empty<Governor>(),
+            CurrentMembers: Array.Empty<Governor>(),
             CurrentTrustees: currentTrustees.ToArray(),
             HistoricMembers: historicMembers.ToArray()
         );
@@ -152,8 +152,8 @@ public class TrustServiceGovernanceTurnoverTests
             };
 
         var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: [],
-            CurrentMembers: [],
+            CurrentTrustLeadership: Array.Empty<Governor>(),
+            CurrentMembers: Array.Empty<Governor>(),
             CurrentTrustees: currentTrustees.ToArray(),
             HistoricMembers: historicMembers.ToArray()
         );
@@ -174,9 +174,9 @@ public class TrustServiceGovernanceTurnoverTests
 
         var trustGovernance = new TrustGovernance(
             CurrentTrustLeadership: new[] { leadershipGovernor },
-            CurrentMembers: [],
+            CurrentMembers: Array.Empty<Governor>(),
             CurrentTrustees: new[] { leadershipGovernor, trusteeGovernor },
-            HistoricMembers: []
+            HistoricMembers: Array.Empty<Governor>()
         );
 
         var result = _sut.CalculateTurnoverRate(trustGovernance);
@@ -197,10 +197,10 @@ public class TrustServiceGovernanceTurnoverTests
             };
 
         var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: [],
-            CurrentMembers: [],
+            CurrentTrustLeadership: Array.Empty<Governor>(),
+            CurrentMembers: Array.Empty<Governor>(),
             CurrentTrustees: currentTrustees.ToArray(),
-            HistoricMembers: []
+            HistoricMembers: Array.Empty<Governor>()
         );
 
         var result = _sut.CalculateTurnoverRate(trustGovernance);
@@ -220,10 +220,10 @@ public class TrustServiceGovernanceTurnoverTests
             };
 
         var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: [],
-            CurrentMembers: [],
+            CurrentTrustLeadership: Array.Empty<Governor>(),
+            CurrentMembers: Array.Empty<Governor>(),
             CurrentTrustees: currentTrustees.ToArray(),
-            HistoricMembers: []
+            HistoricMembers: Array.Empty<Governor>()
         );
 
         var result = _sut.CalculateTurnoverRate(trustGovernance);
@@ -244,10 +244,10 @@ public class TrustServiceGovernanceTurnoverTests
             };
 
         var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: [],
-            CurrentMembers: [],
+            CurrentTrustLeadership: Array.Empty<Governor>(),
+            CurrentMembers: Array.Empty<Governor>(),
             CurrentTrustees: currentTrustees.ToArray(),
-            HistoricMembers: []
+            HistoricMembers: Array.Empty<Governor>()
         );
 
         var result = _sut.CalculateTurnoverRate(trustGovernance);
@@ -271,10 +271,10 @@ public class TrustServiceGovernanceTurnoverTests
             };
 
         var trustGovernance = new TrustGovernance(
-            CurrentTrustLeadership: [],
-            CurrentMembers: [],
+            CurrentTrustLeadership: Array.Empty<Governor>(),
+            CurrentMembers: Array.Empty<Governor>(),
             CurrentTrustees: currentTrustees.ToArray(),
-            HistoricMembers: []
+            HistoricMembers: Array.Empty<Governor>()
         );
 
         var result = _sut.CalculateTurnoverRate(trustGovernance);
