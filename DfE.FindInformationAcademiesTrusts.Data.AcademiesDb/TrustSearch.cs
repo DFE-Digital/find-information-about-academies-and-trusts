@@ -1,18 +1,11 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 
-public class TrustSearch : ITrustSearch
+public class TrustSearch(IAcademiesDbContext academiesDbContext, IUtilities utilities) : ITrustSearch
 {
-    private readonly IAcademiesDbContext _academiesDbContext;
     private const int PageSize = 20;
-
-    public TrustSearch(IAcademiesDbContext academiesDbContext)
-    {
-        _academiesDbContext = academiesDbContext;
-    }
 
     public async Task<IPaginatedList<TrustSearchEntry>> SearchAsync(string searchTerm, int page = 1)
     {
@@ -42,7 +35,16 @@ public class TrustSearch : ITrustSearch
             .Skip((page - 1) * PageSize)
             .Take(PageSize)
             .Select(g =>
-                new TrustSearchEntry(g.GroupName!, g.BuildAddressString(), g.GroupUid!, g.GroupId!))
+                new TrustSearchEntry(
+                    g.GroupName!, //Enforced by EF filter
+                    utilities.BuildAddressString(
+                        g.GroupContactStreet,
+                        g.GroupContactLocality,
+                        g.GroupContactTown,
+                        g.GroupContactPostcode),
+                    g.GroupUid!, //Enforced by EF filter
+                    g.GroupId! //Enforced by EF filter
+                ))
             .ToArrayAsync();
 
         return new PaginatedList<TrustSearchEntry>(trustSearchEntries, count, page, PageSize);
