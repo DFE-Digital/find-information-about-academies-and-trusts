@@ -1,6 +1,5 @@
 import { initAll as govukFrontendInitAll } from 'govuk-frontend'
 import { Autocomplete } from './javascripts/autocomplete'
-import SideNavigation from '@scottish-government/design-system/src/components/side-navigation/side-navigation'
 import $ from 'jquery'
 import { SortableTable, nodeListForEach } from '@ministryofjustice/frontend'
 
@@ -19,11 +18,6 @@ nodeListForEach(
       table
     })
 )
-
-const sideNavs = [].slice.call(
-  document.querySelectorAll('[data-module="ds-side-navigation"]')
-)
-sideNavs.forEach((accordion) => new SideNavigation(accordion).init())
 
 // Add Autocomplete namespace so that exposed methods can be invoked from Razor Partial
 window.Autocomplete = new Autocomplete()
