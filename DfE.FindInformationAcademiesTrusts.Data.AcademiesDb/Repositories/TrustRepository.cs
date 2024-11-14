@@ -12,7 +12,12 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext, IUtilities 
     {
         var details = await academiesDbContext.Groups
             .Where(g => g.GroupUid == uid)
-            .Select(g => new { Name = g.GroupName ?? string.Empty, Type = g.GroupType ?? string.Empty })
+            .Select(g => new
+                {
+                    Name = g.GroupName!,
+                    Type = g.GroupType!
+                }
+            ) //GroupName and GroupType will never be null due to EF query filters
             .SingleOrDefaultAsync();
 
         return details is null ? null : new TrustSummary(details.Name, details.Type);

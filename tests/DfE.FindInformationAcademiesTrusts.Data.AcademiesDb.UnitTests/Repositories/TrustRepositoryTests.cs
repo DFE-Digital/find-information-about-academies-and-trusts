@@ -42,15 +42,6 @@ public class TrustRepositoryTests
     }
 
     [Fact]
-    public async Task GetTrustSummaryAsync_should_return_empty_values_on_null_group_fields()
-    {
-        _ = _mockAcademiesDbContext.AddGiasGroup("2806", null, null);
-
-        var result = await _sut.GetTrustSummaryAsync("2806");
-        result.Should().BeEquivalentTo(new TrustSummary(string.Empty, string.Empty));
-    }
-
-    [Fact]
     public async Task GetTrustOverviewAsync_should_get_regionAndTerritory_from_mstrTrusts()
     {
         _ = _mockAcademiesDbContext.AddGiasGroup("2806");
