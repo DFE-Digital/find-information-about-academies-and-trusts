@@ -24,12 +24,16 @@ public class TrustServiceTests
     private readonly Mock<IAcademyRepository> _mockAcademyRepository = new();
     private readonly Mock<ITrustRepository> _mockTrustRepository = new();
     private readonly Mock<IContactRepository> _mockContactRepository = new();
+    private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
     private readonly MockMemoryCache _mockMemoryCache = new();
 
     public TrustServiceTests()
     {
-        _sut = new TrustService(_mockAcademyRepository.Object, _mockTrustRepository.Object,
-            _mockContactRepository.Object, _mockMemoryCache.Object);
+        _sut = new TrustService(_mockAcademyRepository.Object,
+                                _mockTrustRepository.Object,
+                                _mockContactRepository.Object,
+                                _mockMemoryCache.Object,
+                                _mockDateTimeProvider.Object);
     }
 
     [Fact]
@@ -102,6 +106,8 @@ public class TrustServiceTests
         var startDate = DateTime.Today.AddYears(-3);
         var futureEndDate = DateTime.Today.AddYears(1);
         var historicEndDate = DateTime.Today.AddYears(-1);
+        var today = new DateTime(2023, 10, 1);
+        _mockDateTimeProvider.Setup(d => d.Today).Returns(today);
         var member = new Governor(
             "9999",
             "1234",
@@ -148,9 +154,9 @@ public class TrustServiceTests
         var result = await _sut.GetTrustGovernanceAsync("1234");
 
         result.HistoricMembers.Should().ContainSingle().Which.Should().BeEquivalentTo(historic);
-        result.Members.Should().ContainSingle().Which.Should().BeEquivalentTo(member);
-        result.Trustees.Should().ContainSingle().Which.Should().BeEquivalentTo(trustee);
-        result.TrustLeadership.Should().ContainSingle().Which.Should().BeEquivalentTo(leader);
+        result.CurrentMembers.Should().ContainSingle().Which.Should().BeEquivalentTo(member);
+        result.CurrentTrustees.Should().ContainSingle().Which.Should().BeEquivalentTo(trustee);
+        result.CurrentTrustLeadership.Should().ContainSingle().Which.Should().BeEquivalentTo(leader);
     }
 
     [Fact]
