@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Added Governance turnover to governance page
 
+## [Release-12][release-12] (production-2024-11-13.3974)
+
 ### Changed
 
 - Updated the contacts page to include disclaimer text for the trust contacts
@@ -20,6 +22,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated wording for links on the landing page to tell users they open in new tabs
 - Updated the ofsted ratings to collect information about the ofsted subgrades
 - Remove the edit contact feature flag
+- Change Trust Navigation from side nav to top nav (service navigation component)
+- Update the Govuk frontend package to ^5.7.1
+- Moved breadcrumbs into the trust banner
+- Merged Trust details page into Trust Overview page
+- Redirect successful search to Overview page
+- Removed Ofsted summary card from Trust Overview
 
 ## [Release-11][release-11] (production-2024-10-17.3654)
 
@@ -146,7 +154,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated text on "404 - Not Found" page to adhere to DfE design pattern and added the not found url to the support email template.
 
 [unreleased]:
-  https://github.com/DFE-Digital/dfe-complete-conversions-transfers-and-changes/compare/production-2024-10-17.3654...HEAD
+  https://github.com/DFE-Digital/dfe-complete-conversions-transfers-and-changes/compare/production-2024-11-13.3974...HEAD
 [release-1]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-07-18.2517
 [release-2]:
@@ -169,3 +177,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-10-17.3629
 [release-11]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-10-17.3654
+[release-12]:
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-11-13.3974
