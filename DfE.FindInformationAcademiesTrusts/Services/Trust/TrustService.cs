@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
@@ -21,7 +22,8 @@ public class TrustService(
     IAcademyRepository academyRepository,
     ITrustRepository trustRepository,
     IContactRepository contactRepository,
-    IMemoryCache memoryCache)
+    IMemoryCache memoryCache,
+    IDateTimeProvider dateTimeProvider)
     : ITrustService
 {
     public async Task<TrustSummaryServiceModel?> GetTrustSummaryAsync(string uid)
@@ -56,11 +58,14 @@ public class TrustService(
 
         var trustGovernance = await trustRepository.GetTrustGovernanceAsync(uid, urn);
 
+        var governanceTurnover = GetGovernanceTurnoverRate(trustGovernance);
+
         return new TrustGovernanceServiceModel(
-            trustGovernance.TrustLeadership,
-            trustGovernance.Members,
-            trustGovernance.Trustees,
-            trustGovernance.HistoricMembers);
+            trustGovernance.CurrentTrustLeadership,
+            trustGovernance.CurrentMembers,
+            trustGovernance.CurrentTrustees,
+            trustGovernance.HistoricMembers,
+            governanceTurnover);
     }
 
     public async Task<TrustContactsServiceModel> GetTrustContactsAsync(string uid)
@@ -131,4 +136,72 @@ public class TrustService(
 
         return overviewModel;
     }
+    public decimal GetGovernanceTurnoverRate(TrustGovernance trustGovernance)
+    {
+        var today = dateTimeProvider.Today;
+
+        // Past 12 Months 
+        var past12MonthsStart = today.AddYears(-1);
+
+        // Get current governors (Trustees and Members)
+        List<Governor> currentGovernors = GetCurrentGovernors(trustGovernance);
+
+
+        // Get all governors for event calculations (including HistoricMembers), excluding specified roles
+        List<Governor> eligibleGovernorsForTurnoverCalculation = GetGovernorsExcludingLeadership(trustGovernance);
+
+        // Total number of current governor positions
+        int totalCurrentGovernors = currentGovernors.Count;
+
+        // Appointments in the past 12 months
+        int appointmentsInPast12Months = CountEventsWithinDateRange(
+            eligibleGovernorsForTurnoverCalculation,
+            g => g.DateOfAppointment,
+            past12MonthsStart,
+            today
+        );
+
+        // Resignations in the past 12 months
+        int resignationsInPast12Months = CountEventsWithinDateRange(
+            eligibleGovernorsForTurnoverCalculation,
+            g => g.DateOfTermEnd,
+            past12MonthsStart,
+            today
+        );
+
+        int totalEvents = appointmentsInPast12Months + resignationsInPast12Months;
+        return CalculateTurnoverRate(totalCurrentGovernors, totalEvents);
+    }
+
+    public static decimal CalculateTurnoverRate(int totalCurrentGovernors, int totalEvents)
+    {
+        // Calculate turnover rate and round to 1 decimal point
+        return totalCurrentGovernors > 0
+            ? Math.Round((decimal)totalEvents / totalCurrentGovernors * 100m, 1)
+            : 0m;
+    }
+
+    public static List<Governor> GetGovernorsExcludingLeadership(TrustGovernance trustGovernance)
+    {
+        return trustGovernance.CurrentTrustees
+                    .Concat(trustGovernance.CurrentMembers)
+                    .Concat(trustGovernance.HistoricMembers)
+                    .Where(g => !g.HasRoleLeadership)
+                    .ToList();
+    }
+
+    public static List<Governor> GetCurrentGovernors(TrustGovernance trustGovernance)
+    {
+        return trustGovernance.CurrentTrustees
+                    .Concat(trustGovernance.CurrentMembers)
+                    .ToList();
+    }
+
+    public static int CountEventsWithinDateRange<T>(IEnumerable<T> items, Func<T, DateTime?> dateSelector, DateTime rangeStart, DateTime rangeEnd)
+    {
+        return items.Count(item => dateSelector(item) != null &&
+                                   dateSelector(item) >= rangeStart &&
+                                   dateSelector(item) <= rangeEnd);
+    }
+
 }

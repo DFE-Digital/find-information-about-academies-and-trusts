@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Added
+
+- Added Governance turnover to governance page
+
 ### Changed
 
 - Updated the node version in the github runners and docker image
