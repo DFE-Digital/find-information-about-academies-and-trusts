@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
-- Update node version in github runners and docker image
+- Updated the node version in the github runners and docker image
 
 ## [Release-12][release-12] (production-2024-11-13.3974)
 
