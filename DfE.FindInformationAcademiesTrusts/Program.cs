@@ -1,3 +1,6 @@
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Azure.Identity;
 using DfE.FindInformationAcademiesTrusts.Authorization;
 using DfE.FindInformationAcademiesTrusts.Data;
@@ -26,9 +29,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.FeatureManagement;
 using Microsoft.Identity.Web;
 using Serilog;
-using System.Data;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace DfE.FindInformationAcademiesTrusts;
 
@@ -216,6 +216,8 @@ internal static class Program
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
 
         builder.Services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+
+        builder.Services.AddScoped<IUtilities, Utilities>();
 
         builder.Services.AddScoped<IAcademyRepository, AcademyRepository>();
         builder.Services.AddScoped<ITrustRepository, TrustRepository>();

@@ -6,13 +6,17 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
 public class TrustSearchTests
 {
     private readonly TrustSearch _sut;
-    private readonly MockAcademiesDbContext _mockAcademiesDbContext;
+    private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
+    private readonly Mock<IUtilities> _mockUtilities = new();
 
     public TrustSearchTests()
     {
-        _mockAcademiesDbContext = new MockAcademiesDbContext();
+        _mockUtilities
+            .Setup(u => u.BuildAddressString(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
+                It.IsAny<string>()))
+            .Returns(string.Empty);
 
-        _sut = new TrustSearch(_mockAcademiesDbContext.Object);
+        _sut = new TrustSearch(_mockAcademiesDbContext.Object, _mockUtilities.Object);
     }
 
     [Theory]
@@ -80,11 +84,7 @@ public class TrustSearchTests
             GroupUid = "1234",
             GroupType = "Multi-academy trust",
             GroupId = "TR01234",
-            GroupName = "Inspire 1234",
-            GroupContactStreet = "12 Abbey Road",
-            GroupContactLocality = "Dorthy Inlet",
-            GroupContactTown = "East Park",
-            GroupContactPostcode = "JY36 9VC"
+            GroupName = "Inspire 1234"
         });
 
         var result = await _sut.SearchAsync("Inspire 1234");
@@ -92,39 +92,37 @@ public class TrustSearchTests
         result.Should().ContainSingle()
             .Which.Should().BeEquivalentTo(new TrustSearchEntry(
                 "Inspire 1234",
-                "12 Abbey Road, Dorthy Inlet, East Park, JY36 9VC",
+                string.Empty,
                 "1234",
                 "TR01234"));
     }
 
-    [Theory]
-    [InlineData("12 Abbey Road", "Dorthy Inlet", "East Park", "JY36 9VC",
-        "12 Abbey Road, Dorthy Inlet, East Park, JY36 9VC")]
-    [InlineData(null, "Dorthy Inlet", "East Park", "JY36 9VC", "Dorthy Inlet, East Park, JY36 9VC")]
-    [InlineData("12 Abbey Road", null, "East Park", "JY36 9VC", "12 Abbey Road, East Park, JY36 9VC")]
-    [InlineData("12 Abbey Road", "Dorthy Inlet", null, "JY36 9VC", "12 Abbey Road, Dorthy Inlet, JY36 9VC")]
-    [InlineData("12 Abbey Road", "Dorthy Inlet", "East Park", null, "12 Abbey Road, Dorthy Inlet, East Park")]
-    [InlineData(null, null, null, null, "")]
-    [InlineData("", "     ", "", null, "")]
-    [InlineData("12 Abbey Road", "  ", " ", "JY36 9VC", "12 Abbey Road, JY36 9VC")]
-    public async Task SearchAsync_should_return_trust_address_formatted_as_string(string? groupContactStreet,
-        string? groupContactLocality, string? groupContactTown, string? groupContactPostcode, string? expectedAddress)
+    [Fact]
+    public async Task SearchAsync_should_set_address_from_utilities()
     {
+        const string street = "a street";
+        const string locality = "a locality";
+        const string town = "a town";
+        const string postcode = "a postcode";
+        const string expectedAddress = "an address";
         _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
         {
             GroupUid = "1234",
             GroupType = "Multi-academy trust",
             GroupId = "TR01234",
             GroupName = "Inspire 1234",
-            GroupContactStreet = groupContactStreet,
-            GroupContactLocality = groupContactLocality,
-            GroupContactTown = groupContactTown,
-            GroupContactPostcode = groupContactPostcode
+            GroupContactStreet = street,
+            GroupContactLocality = locality,
+            GroupContactTown = town,
+            GroupContactPostcode = postcode
         });
+        _mockUtilities.Setup(u => u.BuildAddressString(street, locality, town, postcode))
+            .Returns(expectedAddress);
 
         var result = await _sut.SearchAsync("Inspire");
 
-        result.Single().Address.Should().Be(expectedAddress);
+        result.Should().ContainSingle()
+            .Which.Address.Should().Be(expectedAddress);
     }
 
     [Theory]
