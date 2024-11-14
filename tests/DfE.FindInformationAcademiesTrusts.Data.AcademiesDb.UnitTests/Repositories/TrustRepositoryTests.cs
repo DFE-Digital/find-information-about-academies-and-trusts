@@ -35,7 +35,7 @@ public class TrustRepositoryTests
     [InlineData("9008", "Trust with no academies", "Multi-academy trust")]
     public async Task GetTrustSummaryAsync_should_return_trustSummary_if_found(string uid, string name, string type)
     {
-        _ = _mockAcademiesDbContext.AddGiasGroup(uid, name, type);
+        _ = _mockAcademiesDbContext.AddGiasGroup(uid, name, groupType: type);
 
         var result = await _sut.GetTrustSummaryAsync(uid);
         result.Should().BeEquivalentTo(new TrustSummary(name, type));

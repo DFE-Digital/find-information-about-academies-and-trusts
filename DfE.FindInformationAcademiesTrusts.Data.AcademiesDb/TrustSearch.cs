@@ -13,23 +13,18 @@ public class TrustSearch(IAcademiesDbContext academiesDbContext, IUtilities util
         {
             return PaginatedList<TrustSearchEntry>.Empty();
         }
+
         var lowerSearchTerm = searchTerm.ToLower();
 
-        var query = _academiesDbContext.Groups
-            .Where(g =>
-                g.GroupUid != null &&
-                g.GroupId != null &&
-                g.GroupName != null &&
-                g.GroupType != null &&
-                (g.GroupType == "Multi-academy trust" || g.GroupType == "Single-academy trust") &&
-                (
-                    g.GroupId.ToLower().Contains(lowerSearchTerm) ||
-                    g.GroupName.ToLower().Contains(lowerSearchTerm)
+        var query = academiesDbContext.Groups
+                .Where(g =>
+                    g.GroupId!.ToLower().Contains(lowerSearchTerm)
+                    || g.GroupName!.ToLower().Contains(lowerSearchTerm)
                 )
-            );
-
+            ; // GroupId and GroupName cannot be null because they are in EF query filters
 
         var count = await query.CountAsync();
+
         var trustSearchEntries = await query
             .OrderBy(g => g.GroupName)
             .Skip((page - 1) * PageSize)

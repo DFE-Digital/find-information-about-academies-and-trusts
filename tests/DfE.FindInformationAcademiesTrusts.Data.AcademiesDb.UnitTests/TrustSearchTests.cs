@@ -25,7 +25,7 @@ public class TrustSearchTests
     [InlineData(30)]
     public async Task SearchAsync_should_only_return_20_results_when_there_are_more_than_20_matches(int numMatches)
     {
-        _mockAcademiesDbContext.AddGiasGroupsForSearchTerm("inspire", numMatches);
+        AddGiasGroupsForSearchTerm("inspire", numMatches);
 
         var result = await _sut.SearchAsync("inspire");
         result.Should().HaveCount(20);
@@ -34,11 +34,12 @@ public class TrustSearchTests
     [Fact]
     public async Task SearchAsync_should_return_the_correct_results_page_when_there_are_more_than_20_matches()
     {
-        const int matches = 60;
-        var groups = _mockAcademiesDbContext.AddGiasGroups(matches);
-        for (var i = 0; i < groups.Count; i++)
+        for (var page = 1; page <= 3; page++)
         {
-            groups[i].GroupName = "Page " + Math.Ceiling((double)(i + 1) / 20);
+            for (var i = 0; i < 20; i++)
+            {
+                _mockAcademiesDbContext.AddGiasGroup(groupName: $"Page {page}");
+            }
         }
 
         var result = await _sut.SearchAsync("Page");
@@ -54,7 +55,7 @@ public class TrustSearchTests
     [Fact]
     public async Task SearchAsync_should_return_all_results_when_there_are_less_than_20_matches()
     {
-        _mockAcademiesDbContext.AddGiasGroupsForSearchTerm("inspire", 19);
+        AddGiasGroupsForSearchTerm("inspire", 19);
 
         var result = await _sut.SearchAsync("inspire");
         result.Should().HaveCount(19);
@@ -70,7 +71,7 @@ public class TrustSearchTests
     [Fact]
     public async Task SearchAsync_should_return_a_single_item_if_there_is_one_matching_term()
     {
-        _mockAcademiesDbContext.AddGiasGroupsForSearchTerm("inspire", 1);
+        AddGiasGroupsForSearchTerm("inspire", 1);
 
         var result = await _sut.SearchAsync("inspire");
         result.Should().ContainSingle().Which.Name.Should().Contain("inspire");
@@ -146,11 +147,10 @@ public class TrustSearchTests
     [Fact]
     public async Task SearchAsync_should_return_trusts_sorted_alphabetically_by_trust_name()
     {
-        var groups = _mockAcademiesDbContext.AddGiasGroups(5);
         var names = new[] { "education", "abbey", "educations", "aldridge trust", "abbey trust" };
-        for (var i = 0; i < names.Length; i++)
+        foreach (var name in names)
         {
-            groups[i].GroupName = names[i];
+            _mockAcademiesDbContext.AddGiasGroup(groupName: name);
         }
 
         var result = await _sut.SearchAsync("a");
@@ -158,78 +158,17 @@ public class TrustSearchTests
     }
 
     [Fact]
-    public async Task SearchAsync_should_only_return_single_and_multi_academy_trusts()
-    {
-        var groups = _mockAcademiesDbContext.AddGiasGroupsForSearchTerm("inspire", 5);
-
-        groups[0].GroupType = "Federation";
-        groups[1].GroupType = "Single-academy trust";
-        groups[2].GroupType = "Multi-academy trust";
-        groups[3].GroupType = "Trust";
-        groups[4].GroupType = "School sponsor";
-
-        var result = await _sut.SearchAsync("inspire");
-        result.Should().HaveCount(2);
-    }
-
-    [Fact]
-    public async Task SearchAsync_should_not_return_groups_with_a_null_GroupUid()
-    {
-        var groups = _mockAcademiesDbContext.AddGiasGroupsForSearchTerm("inspire", 5);
-
-        groups[0].GroupUid = null;
-
-        var result = await _sut.SearchAsync("inspire");
-        result.Should().HaveCount(4);
-    }
-
-    [Fact]
-    public async Task SearchAsync_should_not_return_groups_with_a_null_GroupId()
-    {
-        var groups = _mockAcademiesDbContext.AddGiasGroupsForSearchTerm("inspire", 5);
-
-        groups[0].GroupId = null;
-
-        var result = await _sut.SearchAsync("inspire");
-        result.Should().HaveCount(4);
-    }
-
-    [Fact]
-    public async Task SearchAsync_should_not_return_groups_with_a_null_GroupName()
-    {
-        var groups = _mockAcademiesDbContext.AddGiasGroupsForSearchTerm("inspire", 5);
-
-        groups[0].GroupName = null;
-
-        var result = await _sut.SearchAsync("inspire");
-        result.Should().HaveCount(4);
-    }
-    [Fact]
     public async Task SearchAsync_Should_Return_Trust_When_Searching_By_TrustId()
     {
         // Arrange
-        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
-        {
-            GroupUid = "1234",
-            GroupType = "Multi-academy trust",
-            GroupId = "TR01234",
-            GroupName = "Inspire Trust",
-            GroupContactStreet = "12 Abbey Road",
-            GroupContactLocality = "Dorthy Inlet",
-            GroupContactTown = "East Park",
-            GroupContactPostcode = "JY36 9VC"
-        });
+        _mockAcademiesDbContext.AddGiasGroup(groupId: "TR01234");
 
         // Act
         var result = await _sut.SearchAsync("TR01234");
 
         // Assert
         result.Should().ContainSingle()
-            .Which.Should().BeEquivalentTo(new TrustSearchEntry(
-                "Inspire Trust",
-                "12 Abbey Road, Dorthy Inlet, East Park, JY36 9VC",
-                "1234",
-                "TR01234"));
+            .Which.GroupId.Should().Be("TR01234");
     }
 
     [Fact]
@@ -264,7 +203,7 @@ public class TrustSearchTests
             GroupUid = "1234",
             GroupType = "Multi-academy trust",
             GroupId = "TR01234",
-            GroupName = "TR01234 Academy",
+            GroupName = "A Trust",
             GroupContactStreet = "34 Baker Street",
             GroupContactLocality = "Another Town",
             GroupContactTown = "West Park",
@@ -276,7 +215,7 @@ public class TrustSearchTests
             GroupUid = "5678",
             GroupType = "Multi-academy trust",
             GroupId = "TR05678",
-            GroupName = "TR01234 Academy",
+            GroupName = "Trust 1234",
             GroupContactStreet = "56 High Street",
             GroupContactLocality = "Somewhere",
             GroupContactTown = "North Park",
@@ -284,12 +223,12 @@ public class TrustSearchTests
         });
 
         // Act
-        var result = await _sut.SearchAsync("TR01234");
+        var result = await _sut.SearchAsync("1234");
 
         // Assert
         result.Should().HaveCount(2);
         result.Should().Contain(t => t.GroupId == "TR01234");
-        result.Should().Contain(t => t.Name == "TR01234 Academy");
+        result.Should().Contain(t => t.Name == "Trust 1234");
     }
 
     [Fact]
@@ -316,26 +255,11 @@ public class TrustSearchTests
             .Which.GroupId.Should().Be("TR01234");
     }
 
-    [Fact]
-    public async Task SearchAsync_Should_Not_Throw_Exception_When_GroupId_Is_Null()
+    private void AddGiasGroupsForSearchTerm(string term, int num)
     {
-        // Arrange
-        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        for (var i = 0; i < num; i++)
         {
-            GroupUid = "1234",
-            GroupType = "Multi-academy trust",
-            GroupId = null,
-            GroupName = "Inspire Trust",
-            GroupContactStreet = "12 Abbey Road",
-            GroupContactLocality = "Dorthy Inlet",
-            GroupContactTown = "East Park",
-            GroupContactPostcode = "JY36 9VC"
-        });
-
-        // Act
-        Func<Task> act = async () => await _sut.SearchAsync("Inspire");
-
-        // Assert
-        await act.Should().NotThrowAsync();
+            _mockAcademiesDbContext.AddGiasGroup(groupName: $"Trust {term} {i}");
+        }
     }
 }
