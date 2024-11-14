@@ -25,7 +25,7 @@ public class TrustServiceGovernanceTurnoverTests
                                 _mockDateTimeProvider.Object);
     }
     [Fact]
-    public void CalculateTurnoverRate_Returns_Zero_When_No_CurrentGovernors()
+    public void GetGovernanceTurnoverRate_Returns_Zero_When_No_CurrentGovernors()
     {
         // Arrange
         var trustGovernance = new TrustGovernance(
@@ -45,7 +45,7 @@ public class TrustServiceGovernanceTurnoverTests
     }
 
     [Fact]
-    public void CalculateTurnoverRate_Calculates_CorrectTurnover()
+    public void GetGovernanceTurnoverRate_Calculates_CorrectTurnover()
     {
         // Arrange
         var startDate = new DateTime(2022, 1, 1);
@@ -68,7 +68,7 @@ public class TrustServiceGovernanceTurnoverTests
     }
 
     [Fact]
-    public void GetAllGovernorsForEvents_Excludes_LeadershipRoles()
+    public void GetGovernorsExcludingLeadership_Excludes_LeadershipRoles()
     {
         // Arrange
         var leaderGovernor = new Governor("1", "UID", "John Doe", "Chair of Trustees", "Appointing Body", null, null, null);
@@ -113,7 +113,7 @@ public class TrustServiceGovernanceTurnoverTests
     [InlineData("2023-01-01", "2023-12-31", 2)]
     [InlineData("2022-01-01", "2022-05-15", 1)]
     [InlineData("2021-01-01", "2021-12-31", 0)]
-    public void CountWithinDateRange_Calculates_CorrectCount(
+    public void CountEventsWithinDateRange_Calculates_CorrectCount(
         string rangeStart, string rangeEnd, int expectedCount)
     {
         // Arrange
