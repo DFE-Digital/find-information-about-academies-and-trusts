@@ -200,7 +200,8 @@ internal static class Program
     {
         builder.Services.AddDbContext<AcademiesDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("AcademiesDb") ??
-                                 throw new InvalidOperationException("Connection string 'AcademiesDb' not found.")));
+                                 throw new InvalidOperationException("Connection string 'AcademiesDb' not found."))
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)); // Academies db data is always readonly
         builder.Services.AddScoped<IAcademiesDbContext>(provider =>
             provider.GetService<AcademiesDbContext>() ??
             throw new InvalidOperationException("AcademiesDbContext not registered"));
