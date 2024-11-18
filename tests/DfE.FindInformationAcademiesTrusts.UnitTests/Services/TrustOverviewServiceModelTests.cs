@@ -1,4 +1,4 @@
-using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
@@ -6,12 +6,8 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
 public class TrustOverviewServiceModelTests
 {
     private static readonly TrustOverviewServiceModel BaseTrustOverviewServiceModel =
-        new(string.Empty,
-            0,
-            new Dictionary<string, int>(),
-            0,
-            0,
-            new Dictionary<OfstedRatingScore, int>());
+        new("1234", "", "", "", TrustType.MultiAcademyTrust, "", "", null, null, 0, new Dictionary<string, int>(), 0,
+            0);
 
     [Theory]
     [InlineData(100, 100, 100)]

@@ -402,7 +402,7 @@ public class AcademyRepositoryTests
     }
 
     [Fact]
-    public async Task GetAcademiesInTrustOverviewAsync_should_return_academies_linked_to_trust()
+    public async Task GetOverviewOfAcademiesInTrustAsync_should_return_academies_linked_to_trust()
     {
         // Arrange
         var giasGroup = _mockAcademiesDbContext.AddGiasGroup("1234");
@@ -419,7 +419,7 @@ public class AcademyRepositoryTests
         _mockAcademiesDbContext.AddGiasGroupLinksForGiasEstablishmentsToGiasGroup(giasEstablishments, giasGroup);
 
         // Act
-        var result = await _sut.GetAcademiesInTrustOverviewAsync("1234");
+        var result = await _sut.GetOverviewOfAcademiesInTrustAsync("1234");
 
         // Assert
         result.Should().BeEquivalentTo(giasEstablishments,
@@ -486,7 +486,7 @@ public class AcademyRepositoryTests
     // @formatter:max_line_length restore
 
     [Fact]
-    public async Task GetAcademiesInTrustOverviewAsync_should_handle_academies_with_missing_data()
+    public async Task GetOverviewOfAcademiesInTrustAsync_should_handle_academies_with_missing_data()
     {
         var giasGroup = _mockAcademiesDbContext.AddGiasGroup("1234");
         var giasEstablishment = new GiasEstablishment
@@ -504,7 +504,7 @@ public class AcademyRepositoryTests
             Urn = giasEstablishment.Urn.ToString()
         });
 
-        var result = await _sut.GetAcademiesInTrustOverviewAsync("1234");
+        var result = await _sut.GetOverviewOfAcademiesInTrustAsync("1234");
 
         result.Should().NotBeNull();
         result.Length.Should().Be(1);
@@ -517,17 +517,17 @@ public class AcademyRepositoryTests
     }
 
     [Fact]
-    public async Task GetAcademiesInTrustOverviewAsync_should_return_empty_array_when_no_academies_linked_to_trust()
+    public async Task GetOverviewOfAcademiesInTrustAsync_should_return_empty_array_when_no_academies_linked_to_trust()
     {
-        var result = await _sut.GetAcademiesInTrustOverviewAsync("1234");
+        var result = await _sut.GetOverviewOfAcademiesInTrustAsync("1234");
         result.Should().NotBeNull();
         result.Should().BeEmpty();
     }
 
     [Fact]
-    public async Task GetAcademiesInTrustOverviewAsync_should_return_empty_array_when_trust_does_not_exist()
+    public async Task GetOverviewOfAcademiesInTrustAsync_should_return_empty_array_when_trust_does_not_exist()
     {
-        var result = await _sut.GetAcademiesInTrustOverviewAsync("non-existent-uid");
+        var result = await _sut.GetOverviewOfAcademiesInTrustAsync("non-existent-uid");
         result.Should().NotBeNull();
         result.Should().BeEmpty();
     }

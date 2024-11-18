@@ -277,4 +277,150 @@ public class ExportServiceTests
         // Assert
         Assert.Equal(expected, result);
     }
+    [Fact]
+    public async Task ExportAcademiesToSpreadsheet_ShouldHandleNullTrustSummaryAsync()
+    {
+        // Arrange
+        var uid = "some-uid";
+        _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(uid))
+            .ReturnsAsync((TrustSummary?)null);
+
+        // Act
+        var result = await _sut.ExportAcademiesToSpreadsheetAsync(uid);
+        using var workbook = new XLWorkbook(new MemoryStream(result));
+        var worksheet = workbook.Worksheet("Academies");
+
+        // Assert
+        worksheet.Cell(1, 1).Value.ToString().Should().Be(string.Empty);
+        worksheet.Cell(2, 1).Value.ToString().Should().Be(string.Empty);
+    }
+
+    [Fact]
+    public async Task ExportAcademiesToSpreadsheet_ShouldHandleMissingOfstedDataAsync()
+    {
+        // Arrange
+        var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
+        var academyUrn = "123456";
+
+        _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(trustSummary.Uid))
+            .ReturnsAsync(new TrustSummary("Sample Trust", "Multi-academy trust"));
+        _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustDetailsAsync(trustSummary.Uid))
+            .ReturnsAsync(new AcademyDetails[]
+            {
+            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban"),
+            });
+        _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustOfstedAsync(trustSummary.Uid))
+            .ReturnsAsync(Array.Empty<AcademyOfsted>());
+
+        // Act
+        var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
+        using var workbook = new XLWorkbook(new MemoryStream(result));
+        var worksheet = workbook.Worksheet("Academies");
+
+        // Assert
+        worksheet.Cell(4, 7).Value.ToString().Should().Be("Not yet inspected");
+        worksheet.Cell(4, 8).Value.ToString().Should().Be(string.Empty);
+        worksheet.Cell(4, 9).Value.ToString().Should().Be(string.Empty);
+        worksheet.Cell(4, 10).Value.ToString().Should().Be("Not yet inspected");
+        worksheet.Cell(4, 11).Value.ToString().Should().Be(string.Empty);
+        worksheet.Cell(4, 12).Value.ToString().Should().Be(string.Empty);
+    }
+
+    [Fact]
+    public async Task ExportAcademiesToSpreadsheet_ShouldHandleMissingPupilNumbersDataAsync()
+    {
+        // Arrange
+        var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
+        var academyUrn = "123456";
+
+        _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(trustSummary.Uid))
+            .ReturnsAsync(new TrustSummary("Sample Trust", "Multi-academy trust"));
+        _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustDetailsAsync(trustSummary.Uid))
+            .ReturnsAsync(new AcademyDetails[]
+            {
+            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban"),
+            });
+        _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustPupilNumbersAsync(trustSummary.Uid))
+            .ReturnsAsync(Array.Empty<AcademyPupilNumbers>());
+
+        // Act
+        var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
+        using var workbook = new XLWorkbook(new MemoryStream(result));
+        var worksheet = workbook.Worksheet("Academies");
+
+        // Assert
+        worksheet.Cell(4, 15).Value.ToString().Should().Be(string.Empty);
+        worksheet.Cell(4, 16).Value.ToString().Should().Be(string.Empty);
+        worksheet.Cell(4, 17).Value.ToString().Should().Be(string.Empty);
+    }
+
+    [Fact]
+    public async Task ExportAcademiesToSpreadsheet_ShouldHandleZeroPercentageFullAsync()
+    {
+        // Arrange
+        var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
+        var academyUrn = "123456";
+
+        _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(trustSummary.Uid))
+            .ReturnsAsync(new TrustSummary("Sample Trust", "Multi-academy trust"));
+        _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustDetailsAsync(trustSummary.Uid))
+            .ReturnsAsync(new AcademyDetails[]
+            {
+            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban"),
+            });
+        _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustPupilNumbersAsync(trustSummary.Uid))
+            .ReturnsAsync(new AcademyPupilNumbers[]
+            {
+            new(academyUrn, "Academy 1", "Primary", new AgeRange(5,11), 0, 300)
+            });
+
+        // Act
+        var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
+        using var workbook = new XLWorkbook(new MemoryStream(result));
+        var worksheet = workbook.Worksheet("Academies");
+
+        // Assert
+        worksheet.Cell(4, 17).Value.ToString().Should().Be(string.Empty); // % Full should be empty
+    }
+
+    [Fact]
+    public async Task ExportAcademiesToSpreadsheet_ShouldHandleMissingFreeSchoolMealsDataAsync()
+    {
+        // Arrange
+        var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
+        var academyUrn = "123456";
+
+        _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(trustSummary.Uid))
+            .ReturnsAsync(new TrustSummary("Sample Trust", "Multi-academy trust"));
+        _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustDetailsAsync(trustSummary.Uid))
+            .ReturnsAsync(new AcademyDetails[]
+            {
+            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban"),
+            });
+        _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid))
+            .ReturnsAsync(Array.Empty<AcademyFreeSchoolMeals>());
+
+        // Act
+        var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
+        using var workbook = new XLWorkbook(new MemoryStream(result));
+        var worksheet = workbook.Worksheet("Academies");
+
+        // Assert
+        worksheet.Cell(4, 18).Value.ToString().Should().Be(string.Empty);
+    }
+
+    [Fact]
+    public void IsOfstedRatingBeforeOrAfterJoining_ShouldReturnAfterJoining_WhenInspectionDateIsEqualToJoiningDate()
+    {
+        // Arrange
+        var ofstedRatingScore = OfstedRatingScore.Good;
+        var dateJoinedTrust = _mockDateTimeProvider.Object.Now;
+        DateTime? inspectionEndDate = dateJoinedTrust;
+
+        // Act
+        var result = ExportService.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, inspectionEndDate);
+
+        // Assert
+        result.Should().Be("After Joining");
+    }
 }

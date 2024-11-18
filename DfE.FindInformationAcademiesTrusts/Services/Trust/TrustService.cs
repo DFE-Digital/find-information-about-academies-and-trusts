@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
@@ -9,10 +10,10 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Trust;
 public interface ITrustService
 {
     Task<TrustSummaryServiceModel?> GetTrustSummaryAsync(string uid);
-    Task<TrustDetailsServiceModel> GetTrustDetailsAsync(string uid);
     Task<TrustGovernanceServiceModel> GetTrustGovernanceAsync(string uid);
     Task<TrustContactsServiceModel> GetTrustContactsAsync(string uid);
     Task<TrustOverviewServiceModel> GetTrustOverviewAsync(string uid);
+
     Task<TrustContactUpdatedServiceModel> UpdateContactAsync(int uid, string? name, string? email,
         ContactRole role);
 }
@@ -21,7 +22,8 @@ public class TrustService(
     IAcademyRepository academyRepository,
     ITrustRepository trustRepository,
     IContactRepository contactRepository,
-    IMemoryCache memoryCache)
+    IMemoryCache memoryCache,
+    IDateTimeProvider dateTimeProvider)
     : ITrustService
 {
     public async Task<TrustSummaryServiceModel?> GetTrustSummaryAsync(string uid)
@@ -50,43 +52,26 @@ public class TrustService(
         return trustSummaryServiceModel;
     }
 
-    public async Task<TrustDetailsServiceModel> GetTrustDetailsAsync(string uid)
-    {
-        var singleAcademyTrustAcademyUrn = await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid);
-
-        var trustDetails = await trustRepository.GetTrustDetailsAsync(uid);
-
-        var trustDetailsDto = new TrustDetailsServiceModel(
-            trustDetails.Uid,
-            trustDetails.GroupId,
-            trustDetails.Ukprn,
-            trustDetails.CompaniesHouseNumber,
-            trustDetails.Type,
-            trustDetails.Address,
-            trustDetails.RegionAndTerritory,
-            singleAcademyTrustAcademyUrn,
-            trustDetails.OpenedDate
-        );
-
-        return trustDetailsDto;
-    }
     public async Task<TrustGovernanceServiceModel> GetTrustGovernanceAsync(string uid)
     {
         var urn = await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid);
 
         var trustGovernance = await trustRepository.GetTrustGovernanceAsync(uid, urn);
 
+        var governanceTurnover = GetGovernanceTurnoverRate(trustGovernance);
+
         return new TrustGovernanceServiceModel(
-            trustGovernance.TrustLeadership,
-            trustGovernance.Members,
-            trustGovernance.Trustees,
-            trustGovernance.HistoricMembers);
+            trustGovernance.CurrentTrustLeadership,
+            trustGovernance.CurrentMembers,
+            trustGovernance.CurrentTrustees,
+            trustGovernance.HistoricMembers,
+            governanceTurnover);
     }
 
     public async Task<TrustContactsServiceModel> GetTrustContactsAsync(string uid)
     {
         var urn = await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid);
-        
+
         var trustContacts =
             await trustRepository.GetTrustContactsAsync(uid, urn);
         var internalContacts = await contactRepository.GetInternalContactsAsync(uid);
@@ -107,10 +92,22 @@ public class TrustService(
 
         return new TrustContactUpdatedServiceModel(emailChanged, nameChanged);
     }
-    
+
     public async Task<TrustOverviewServiceModel> GetTrustOverviewAsync(string uid)
     {
-        var academiesOverview = await academyRepository.GetAcademiesInTrustOverviewAsync(uid);
+        var trustOverview = await trustRepository.GetTrustOverviewAsync(uid);
+        var trustType = trustOverview.Type switch
+        {
+            "Single-academy trust" => TrustType.SingleAcademyTrust,
+            "Multi-academy trust" => TrustType.MultiAcademyTrust,
+            _ => throw new InvalidOperationException($"Unknown trust type: {trustOverview.Type}")
+        };
+
+        var singleAcademyTrustAcademyUrn = trustType is TrustType.SingleAcademyTrust
+            ? await academyRepository.GetSingleAcademyTrustAcademyUrnAsync(uid)
+            : null;
+
+        var academiesOverview = await academyRepository.GetOverviewOfAcademiesInTrustAsync(uid);
 
         var totalAcademies = academiesOverview.Length;
 
@@ -121,20 +118,90 @@ public class TrustService(
         var totalPupilNumbers = academiesOverview.Sum(a => a.NumberOfPupils ?? 0);
         var totalCapacity = academiesOverview.Sum(a => a.SchoolCapacity ?? 0);
 
-        var ofstedRatings = academiesOverview
-            .GroupBy(a => a.CurrentOfstedRating)
-            .ToDictionary(g => g.Key, g => g.Count());
-
         var overviewModel = new TrustOverviewServiceModel(
-            uid,
+            trustOverview.Uid,
+            trustOverview.GroupId,
+            trustOverview.Ukprn,
+            trustOverview.CompaniesHouseNumber,
+            trustType,
+            trustOverview.Address,
+            trustOverview.RegionAndTerritory,
+            singleAcademyTrustAcademyUrn,
+            trustOverview.OpenedDate,
             totalAcademies,
             academiesByLocalAuthority,
             totalPupilNumbers,
-            totalCapacity,
-            ofstedRatings
+            totalCapacity
         );
 
         return overviewModel;
+    }
+    public decimal GetGovernanceTurnoverRate(TrustGovernance trustGovernance)
+    {
+        var today = dateTimeProvider.Today;
+
+        // Past 12 Months 
+        var past12MonthsStart = today.AddYears(-1);
+
+        // Get current governors (Trustees and Members)
+        List<Governor> currentGovernors = GetCurrentGovernors(trustGovernance);
+
+
+        // Get all governors for event calculations (including HistoricMembers), excluding specified roles
+        List<Governor> eligibleGovernorsForTurnoverCalculation = GetGovernorsExcludingLeadership(trustGovernance);
+
+        // Total number of current governor positions
+        int totalCurrentGovernors = currentGovernors.Count;
+
+        // Appointments in the past 12 months
+        int appointmentsInPast12Months = CountEventsWithinDateRange(
+            eligibleGovernorsForTurnoverCalculation,
+            g => g.DateOfAppointment,
+            past12MonthsStart,
+            today
+        );
+
+        // Resignations in the past 12 months
+        int resignationsInPast12Months = CountEventsWithinDateRange(
+            eligibleGovernorsForTurnoverCalculation,
+            g => g.DateOfTermEnd,
+            past12MonthsStart,
+            today
+        );
+
+        int totalEvents = appointmentsInPast12Months + resignationsInPast12Months;
+        return CalculateTurnoverRate(totalCurrentGovernors, totalEvents);
+    }
+
+    public static decimal CalculateTurnoverRate(int totalCurrentGovernors, int totalEvents)
+    {
+        // Calculate turnover rate and round to 1 decimal point
+        return totalCurrentGovernors > 0
+            ? Math.Round((decimal)totalEvents / totalCurrentGovernors * 100m, 1)
+            : 0m;
+    }
+
+    public static List<Governor> GetGovernorsExcludingLeadership(TrustGovernance trustGovernance)
+    {
+        return trustGovernance.CurrentTrustees
+                    .Concat(trustGovernance.CurrentMembers)
+                    .Concat(trustGovernance.HistoricMembers)
+                    .Where(g => !g.HasRoleLeadership)
+                    .ToList();
+    }
+
+    public static List<Governor> GetCurrentGovernors(TrustGovernance trustGovernance)
+    {
+        return trustGovernance.CurrentTrustees
+                    .Concat(trustGovernance.CurrentMembers)
+                    .ToList();
+    }
+
+    public static int CountEventsWithinDateRange<T>(IEnumerable<T> items, Func<T, DateTime?> dateSelector, DateTime rangeStart, DateTime rangeEnd)
+    {
+        return items.Count(item => dateSelector(item) != null &&
+                                   dateSelector(item) >= rangeStart &&
+                                   dateSelector(item) <= rangeEnd);
     }
 
 }

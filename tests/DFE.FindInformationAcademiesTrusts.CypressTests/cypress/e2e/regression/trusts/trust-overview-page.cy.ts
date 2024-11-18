@@ -8,21 +8,25 @@ describe("Testing the components of the Trust overview page", () => {
             cy.visit('/trusts/overview?uid=5712')
         });
 
-        it("The page loads with the correct headings and data in the Overview summary and Ofsted rating table", () => {
+        it("The page loads with the correct headings and data in the Trust summary card", () => {
             trustOverviewPage
                 .checkOverviewHeaderPresent()
-                .checkTrustOverviewSummaryCardItemsPresent()
-                .checkOverviewOfstedRatingsSummaryCardItemsPresent()
+                .checkTrustSummaryCardPresent()
+                .checkTrustSummaryCardItemsPresent()
         })
-        
-        it("Checks Ofsted rating table 'Rating' sort functionality", () => {
+
+        it("The page loads with the correct headings and data in the Trust details card", () => {
             trustOverviewPage
-                .checkRatingSortAscending()
-                .checkTopResultItem('Outstanding')
-                .clickRatingHeader()
-                .checkRatingSortDescending()
-                .checkTopResultItem('Not yet inspected')
-        })      
+                .checkTrustDetailCardPresent()
+                .checkTrustDetailCardItemsPresent()
+        })
+
+        it("The page loads with the correct headings and data in the reference numbers card", () => {
+            trustOverviewPage
+                .checkReferenceNumbersCardPresent()
+                .checkReferenceNumbersCardItemsPresent()
+
+        })
 
     })
 })

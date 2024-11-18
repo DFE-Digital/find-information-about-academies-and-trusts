@@ -59,7 +59,7 @@ public class GovernanceModelTests
     );
 
     private static readonly TrustGovernanceServiceModel DummyTrustGovernanceServiceModel =
-        new([Leader], [Member], [Trustee], [Historic]);
+        new([Leader], [Member], [Trustee], [Historic], 0);
 
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustRepository = new();
@@ -113,5 +113,19 @@ public class GovernanceModelTests
         await _sut.OnGetAsync();
         _mockTrustRepository.Verify(e => e.GetTrustGovernanceAsync(TestUid), Times.Once);
         _sut.TrustGovernance.Should().BeEquivalentTo(DummyTrustGovernanceServiceModel);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_correct_NavigationLinks()
+    {
+        _ = await _sut.OnGetAsync();
+        _sut.NavigationLinks.Should().BeEquivalentTo([
+            new TrustNavigationLinkModel("Overview", "/Trusts/Overview", "1234", false, "overview-nav"),
+            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts", "1234", false, "contacts-nav"),
+            new TrustNavigationLinkModel("Academies (0)", "/Trusts/Academies/Details",
+                "1234", false, "academies-nav"),
+            new TrustNavigationLinkModel("Governance", "/Trusts/Governance", "1234", true,
+                "governance-nav")
+        ]);
     }
 }
