@@ -1,0 +1,44 @@
+using DfE.FIAT.Data;
+using DfE.FIAT.Data.Enums;
+using DfE.FIAT.Web.Services.Academy;
+using DfE.FIAT.Web.Services.DataSource;
+using DfE.FIAT.Web.Services.Export;
+using DfE.FIAT.Web.Services.Trust;
+using Microsoft.AspNetCore.Mvc;
+
+namespace DfE.FIAT.Web.Pages.Trusts.Academies;
+
+public class OfstedRatingsModel : AcademiesPageModel
+{
+    public AcademyOfstedServiceModel[] Academies { get; set; } = default!;
+    private IAcademyService AcademyService { get; }
+
+    public OfstedRatingsModel(IDataSourceService dataSourceService,
+        ILogger<OfstedRatingsModel> logger, ITrustService trustService, IAcademyService academyService, IExportService exportService, IDateTimeProvider dateTimeProvider) : base(dataSourceService, trustService, exportService, logger, dateTimeProvider)
+    {
+        PageTitle = "Academies Ofsted ratings";
+        TabName = "Ofsted ratings";
+        AcademyService = academyService;
+    }
+
+    public override async Task<IActionResult> OnGetAsync()
+    {
+        var pageResult = await base.OnGetAsync();
+
+        if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
+
+        Academies = await AcademyService.GetAcademiesInTrustOfstedAsync(Uid);
+
+        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),
+            new[] { "Date joined trust" }));
+
+        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Mis),
+            new[]
+            {
+                "Current Ofsted rating", "Date of last inspection", "Previous Ofsted rating",
+                "Date of previous inspection"
+            }));
+
+        return pageResult;
+    }
+}

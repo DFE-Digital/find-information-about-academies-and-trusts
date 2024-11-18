@@ -20,17 +20,17 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
         cache: npm
         cache-dependency-path: |
-          DfE.FindInformationAcademiesTrusts/package-lock.json
+          DfE.FIAT.Web/package-lock.json
           tests/DFE.FindInformationAcademiesTrusts.CypressTests/package-lock.json
 
     - name: Install dependencies
       run: |
-        (cd DfE.FindInformationAcademiesTrusts && npm ci)
+        (cd DfE.FIAT.Web && npm ci)
         (cd tests/DFE.FindInformationAcademiesTrusts.CypressTests && npm ci)
 
     - name: Analyse front end assets
       run: |
-        cd DfE.FindInformationAcademiesTrusts && npm run lint
+        cd DfE.FIAT.Web && npm run lint
 
     # - name: Analyse Cypress tests
     #   run: |

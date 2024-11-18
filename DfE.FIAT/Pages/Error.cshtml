@@ -1,0 +1,41 @@
+@page
+@using DfE.FIAT.Web.Configuration
+@model ErrorModel
+
+@{
+  Layout = "_ContentLayout";
+  ViewData["Title"] = Model.Is404Result ? "Page not found" : "There is a problem with the product";
+}
+
+<div class="govuk-grid-row">
+  <section class="govuk-grid-column-three-quarters">
+    @if (Model.Is404Result)
+    {
+      <h1 class="govuk-heading-l">Page not found</h1>
+      <p class="govuk-body">If you typed the web address, check it is correct.</p>
+      <p class="govuk-body">If you pasted the web address, check you copied the entire address.</p>
+      <p class="govuk-body">
+        If the web address is correct or you selected a link or button,
+        <feature name="@FeatureFlags.UpdatedFooterHelpLink" negate="true">
+          <a class="govuk-link" href="@($"{ViewConstants.ReportNotFoundMailtoLink}&body=Url is {Model.OriginalPathAndQuery}")">email Service Support for help with using this system</a>.
+        </feature>
+        <feature name="@FeatureFlags.UpdatedFooterHelpLink">
+          <a class="govuk-link" href="@ViewConstants.GetHelpFormLink" rel="noopener" target="_blank">report this to Service Support for help with using this system (opens in new tab)</a>.
+        </feature>
+      </p>
+    }
+    else
+    {
+      <h1 class="govuk-heading-l">Sorry, there is a problem with the product</h1>
+      <p class="govuk-body">Try again later.</p>
+      <p class="govuk-body">
+        <feature name="@FeatureFlags.UpdatedFooterHelpLink" negate="true">
+          <a class="govuk-link" href="@ViewConstants.ReportAProblemMailToLink">Report this problem</a>
+        </feature>
+        <feature name="@FeatureFlags.UpdatedFooterHelpLink">
+          <a class="govuk-link" href="@ViewConstants.GetHelpFormLink" rel="noopener" target="_blank">Report this problem (opens in new tab)</a>
+        </feature> if it continues.
+      </p>
+    }
+  </section>
+</div>

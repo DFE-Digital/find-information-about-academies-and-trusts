@@ -1,0 +1,174 @@
+﻿@page
+@namespace DfE.FIAT.Web.Pages.Trusts
+@model OverviewModel
+
+@{
+  Layout = "_TrustLayout";
+}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-summary-card" data-testid="trust-details-summary-card">
+      <div class="govuk-summary-card__title-wrapper">
+        <h2 class="govuk-summary-card__title">Trust details</h2>
+      </div>
+      <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Address
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="address">
+              @Model.TrustOverview.Address
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Opened on
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="opened-on">
+              @if (Model.TrustOverview.OpenedDate is not null)
+              {
+                @Model.TrustOverview.OpenedDate.Value.ToString(StringFormatConstants.ViewDate)
+              }
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Region and territory
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="region-and-territory">
+              @Model.TrustOverview.RegionAndTerritory
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Information from other services (opens in a new tab)
+            </dt>
+            <dd class="govuk-summary-list__value">
+              @if (Model.CompaniesHouseLink is not null)
+              {
+                <p class="govuk-body">
+                  <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.CompaniesHouseLink">Companies House</a>
+                </p>
+              }
+              @if (Model.GetInformationAboutSchoolsLink is not null)
+              {
+                <p class="govuk-body">
+                  <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.GetInformationAboutSchoolsLink">Get information about schools</a>
+                </p>
+              }
+              @if (Model.SchoolsFinancialBenchmarkingLink is not null)
+              {
+                <p class="govuk-body">
+                  <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.SchoolsFinancialBenchmarkingLink">Schools financial benchmarking</a>
+                </p>
+              }
+              @if (Model.FindSchoolPerformanceLink is not null)
+              {
+                <p class="govuk-body">
+                  <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.FindSchoolPerformanceLink">Find school college and performance data in England</a>
+                </p>
+              }
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <div class="govuk-summary-card" data-testid="trust-summary">
+      <div class="govuk-summary-card__title-wrapper">
+        <h2 class="govuk-summary-card__title" id="trust-information">Trust summary</h2>
+      </div>
+      <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+          <!-- Total Academies -->
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key govuk-!-width-one-half">
+              Total academies
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="total-academies">
+              @Model.TrustOverview.TotalAcademies
+            </dd>
+          </div>
+          <!-- Academies in Each Local Authority -->
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key govuk-!-width-one-half">
+              Academies in each local authority
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="academies-in-each-authority">
+              @foreach (var (authority, total) in Model.AcademiesInEachLocalAuthority)
+              {
+                <p class="govuk-body govuk-!-margin-bottom-1">@total in @authority</p>
+              }
+            </dd>
+          </div>
+          <!-- Pupil Numbers -->
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key govuk-!-width-one-half">
+              Pupil numbers
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="number-of-pupils">
+              @($"{Model.TrustOverview.TotalPupilNumbers:n0}")
+            </dd>
+          </div>
+          <!-- Pupil Capacity and Percentage Full -->
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key govuk-!-width-one-half">
+              Pupil capacity <br>(% full)
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="pupil-capacity">
+              @($"{Model.TrustOverview.TotalCapacity:n0}")
+              @if (Model.TrustOverview.PercentageFull is not null)
+              {
+                <br>
+                @($"({Model.TrustOverview.PercentageFull}%)")
+              }
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <div class="govuk-summary-card" data-testid="reference-numbers-summary-card">
+      <div class="govuk-summary-card__title-wrapper">
+        <h2 class="govuk-summary-card__title">Reference numbers</h2>
+      </div>
+      <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key govuk-!-width-one-half">
+              UID (Unique group identifier)
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="trust-uid">
+              @Model.TrustOverview.Uid
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key govuk-!-width-one-half">
+              Group ID (identifier) and TRN (trust reference number)
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="trust-reference-number">
+              @Model.TrustOverview.GroupId
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key govuk-!-width-one-half">
+              UKPRN (UK provider reference number)
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="ukprn">
+              @Model.TrustOverview.Ukprn
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key govuk-!-width-one-half">
+              Companies House number
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="companies-house-number">
+              @Model.TrustOverview.CompaniesHouseNumber
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>

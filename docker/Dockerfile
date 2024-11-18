@@ -5,7 +5,7 @@ ARG DOTNET_SDK=8.0
 # Stage 1 - Build frontend assets
 FROM node:${NODEJS_IMAGE_TAG} AS assets
 COPY . /repo
-WORKDIR /repo/DfE.FindInformationAcademiesTrusts
+WORKDIR /repo/DfE.FIAT
 RUN npm install
 RUN npm run build
 
@@ -13,11 +13,11 @@ RUN npm run build
 FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_SDK} AS publish
 COPY --from=assets /repo /repo
 WORKDIR /repo
-RUN dotnet restore DfE.FindInformationAcademiesTrusts
-RUN dotnet build DfE.FindInformationAcademiesTrusts -c Release
-RUN dotnet publish DfE.FindInformationAcademiesTrusts -c Release -o /app --no-build
+RUN dotnet restore DfE.FIAT
+RUN dotnet build DfE.FIAT.Web -c Release
+RUN dotnet publish DfE.FIAT.Web -c Release -o /app --no-build
 
-COPY ./DfE.FindInformationAcademiesTrusts.Data.FiatDb/Migrations/FiatDbMigrationScript.sql /app/sql/FiatDbMigrationScript.sql
+COPY ./DfE.FIAT.Data.FiatDb/Migrations/FiatDbMigrationScript.sql /app/sql/FiatDbMigrationScript.sql
 COPY ./docker/web-docker-entrypoint.sh /app/docker-entrypoint.sh
 
 # Stage 3 - Put into Docker container that will actually be run

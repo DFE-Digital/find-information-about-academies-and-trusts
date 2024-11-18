@@ -5,7 +5,7 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    command: /bin/bash -c "./docker-entrypoint.sh dotnet DfE.FindInformationAcademiesTrusts.dll"
+    command: /bin/bash -c "./docker-entrypoint.sh dotnet DfE.FIAT.dll"
     ports:
       - "80:8080/tcp"
     env_file:

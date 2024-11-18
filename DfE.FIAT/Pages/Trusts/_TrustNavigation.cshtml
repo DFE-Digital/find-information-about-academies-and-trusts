@@ -1,0 +1,22 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@namespace DfE.FIAT.Web.Pages.Trusts
+@model ITrustsAreaModel
+
+<div class="govuk-service-navigation"
+     data-module="govuk-service-navigation">
+  <div class="govuk-width-container">
+    <div class="govuk-service-navigation__container">
+      <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+        <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden>
+          Menu
+        </button>
+        <ul class="govuk-service-navigation__list" id="navigation">
+          @foreach (var link in Model.NavigationLinks)
+          {
+            <partial name="_TrustNavigationLink" model="@link"/>
+          }
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

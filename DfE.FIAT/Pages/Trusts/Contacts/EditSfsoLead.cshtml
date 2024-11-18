@@ -1,0 +1,11 @@
+@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@namespace DfE.FIAT.Web.Pages.Trusts.Contacts
+@model EditSfsoLeadModel
+
+@{
+  Layout = "_Layout";
+  ViewData["Title"] = Model.GeneratePageTitle();
+}
+
+<partial name="_EditContactsForm" model="@Model"/>

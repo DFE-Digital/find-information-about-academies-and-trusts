@@ -1,0 +1,33 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@namespace DfE.FIAT.Web.Pages.Trusts
+@model ITrustsAreaModel
+
+@{
+  Layout = "_Layout";
+  ViewData["Title"] = $"{Model.PageTitle ?? Model.PageName} - {Model.TrustSummary.Name}";
+}
+
+<partial name="_TrustBanner" model="@Model"/>
+<partial name="_TrustNavigation" model="@Model"/>
+<div class="govuk-main-wrapper govuk-!-padding-top-6">
+  <div class="dfe-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <main id="main-content">
+          @await RenderSectionAsync("TrustPageMessage", false)
+          <header>
+            <span class="govuk-caption-m">@Model.Section</span>
+            <h1 class="govuk-heading-l" data-testid="page-name">@Model.PageName</h1>
+          </header>
+          @RenderBody()
+        </main>
+        <partial name="_SourceList"/>
+        <partial name="_ReportProblemLink"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+  @await RenderSectionAsync("Scripts", false)
+}
