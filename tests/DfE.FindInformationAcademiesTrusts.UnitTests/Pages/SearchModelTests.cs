@@ -30,6 +30,8 @@ public class SearchModelTests
             .Returns(_fakeTrust);
         _mockTrustSearch.Setup(s => s.SearchAsync(SearchTermThatMatchesAllFakeTrusts, It.IsAny<int>()).Result)
             .Returns(new PaginatedList<TrustSearchEntry>(_fakeTrusts, _fakeTrusts.Length, 1, 1));
+        _mockTrustSearch.Setup(s => s.SearchAutocompleteAsync(SearchTermThatMatchesAllFakeTrusts))
+            .ReturnsAsync(_fakeTrusts);
 
         _sut = new SearchModel(mockTrustService.Object, _mockTrustSearch.Object);
     }
