@@ -3,7 +3,7 @@ import accessibleAutocomplete from 'accessible-autocomplete'
 export class Autocomplete {
   suggest = async (query, populateResults) => {
     if (query) {
-      const response = await fetch(`/search?handler=populateautocomplete&keywords=${query}`)
+      const response = await fetch(`/search-autocomplete?keywords=${query}`)
       const results = await response.json()
       populateResults(results)
     }

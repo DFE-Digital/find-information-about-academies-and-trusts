@@ -8,8 +8,6 @@ namespace DfE.FindInformationAcademiesTrusts.Pages;
 
 public class SearchModel : ContentPageModel, IPageSearchFormModel, IPaginationModel
 {
-    public record AutocompleteEntry(string Address, string Name, string? TrustId);
-
     private readonly ITrustSearch _trustSearch;
     private readonly ITrustService _trustService;
     public string PageName => "Search";
@@ -56,28 +54,6 @@ public class SearchModel : ContentPageModel, IPageSearchFormModel, IPaginationMo
 
         PaginationRouteData = new Dictionary<string, string> { { "Keywords", KeyWords ?? string.Empty } };
         return new PageResult();
-    }
-
-    public async Task<IActionResult> OnGetPopulateAutocompleteAsync()
-    {
-        IEnumerable<AutocompleteEntry> autocompleteEntries;
-
-        if (string.IsNullOrWhiteSpace(KeyWords))
-        {
-            autocompleteEntries = Array.Empty<AutocompleteEntry>();
-        }
-        else
-        {
-            autocompleteEntries = (await _trustSearch.SearchAutocompleteAsync(KeyWords))
-                .Select(trust =>
-                    new AutocompleteEntry(
-                        trust.Address,
-                        trust.Name,
-                        trust.Uid
-                    ));
-        }
-
-        return new JsonResult(autocompleteEntries);
     }
 
     public string Title

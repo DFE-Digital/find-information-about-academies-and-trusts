@@ -76,7 +76,12 @@ internal static class Program
             AddDataProtectionServices(builder);
 
             var app = builder.Build();
+
             ConfigureHttpRequestPipeline(app);
+
+            app.MapGet("/search-autocomplete", async (string keyWords, AutocompleteHandler autocompleteHandler) =>
+                await autocompleteHandler.OnGet(keyWords));
+
             app.Run();
         }
         catch (Exception ex)
@@ -214,6 +219,7 @@ internal static class Program
         builder.Services.AddScoped<SetChangedByInterceptor>();
         builder.Services.AddScoped<IUserDetailsProvider, HttpContextUserDetailsProvider>();
 
+        builder.Services.AddScoped<AutocompleteHandler>();
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
 
         builder.Services.AddScoped<IDateTimeProvider, DateTimeProvider>();
