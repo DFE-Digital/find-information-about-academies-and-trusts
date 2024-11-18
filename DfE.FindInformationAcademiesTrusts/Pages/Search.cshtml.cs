@@ -12,21 +12,19 @@ public class SearchModel : ContentPageModel, IPageSearchFormModel, IPaginationMo
 
     private readonly ITrustSearch _trustSearch;
     private readonly ITrustService _trustService;
-    public string PageName { get; } = "Search";
-    public IPageStatus PageStatus { get; set; }
+    public string PageName => "Search";
+    public IPageStatus PageStatus => Trusts.PageStatus;
     public Dictionary<string, string> PaginationRouteData { get; set; } = new();
     public string PageSearchFormInputId => "search";
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = string.Empty;
     [BindProperty(SupportsGet = true)] public int PageNumber { get; set; } = 1;
 
-    public IPaginatedList<TrustSearchEntry> Trusts { get; set; } =
-        PaginatedList<TrustSearchEntry>.Empty();
+    public IPaginatedList<TrustSearchEntry> Trusts { get; set; } = PaginatedList<TrustSearchEntry>.Empty();
 
     public SearchModel(ITrustService trustService, ITrustSearch trustSearch)
     {
         _trustSearch = trustSearch;
         _trustService = trustService;
-        PageStatus = Trusts.PageStatus;
         ShowHeaderSearch = false;
     }
 
@@ -46,29 +44,24 @@ public class SearchModel : ContentPageModel, IPageSearchFormModel, IPaginationMo
             }
         }
 
-        Trusts = await GetTrustsForKeywords();
+        Trusts = await _trustSearch.SearchAsync(KeyWords, PageNumber);
 
-        PageStatus = Trusts.PageStatus;
         PaginationRouteData = new Dictionary<string, string> { { "Keywords", KeyWords ?? string.Empty } };
         return new PageResult();
     }
 
-    private async Task<IPaginatedList<TrustSearchEntry>> GetTrustsForKeywords()
-    {
-        return !string.IsNullOrEmpty(KeyWords)
-            ? await _trustSearch.SearchAsync(KeyWords, PageNumber)
-            : PaginatedList<TrustSearchEntry>.Empty();
-    }
-
     public async Task<IActionResult> OnGetPopulateAutocompleteAsync()
     {
-        return new JsonResult((await GetTrustsForKeywords())
+        var autocompleteEntries =
+            (await _trustSearch.SearchAutocompleteAsync(KeyWords))
             .Select(trust =>
                 new AutocompleteEntry(
                     trust.Address,
                     trust.Name,
                     trust.Uid
-                )));
+                ));
+
+        return new JsonResult(autocompleteEntries);
     }
 
     public string Title
