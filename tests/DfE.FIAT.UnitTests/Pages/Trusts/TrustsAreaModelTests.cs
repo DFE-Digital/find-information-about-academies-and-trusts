@@ -1,0 +1,184 @@
+using DfE.FIAT.Data.Enums;
+using DfE.FIAT.Web.Pages.Trusts;
+using DfE.FIAT.Web.Services.DataSource;
+using DfE.FIAT.Web.Services.Trust;
+using DfE.FIAT.UnitTests.Mocks;
+using Microsoft.AspNetCore.Mvc;
+
+namespace DfE.FIAT.UnitTests.Pages.Trusts;
+
+public class TrustsAreaModelTests
+{
+    private readonly Mock<IDataSourceService> _mockDataSourceProvider = new();
+    private readonly TrustsAreaModel _sut;
+    private readonly MockLogger<TrustsAreaModel> _logger = new();
+    private readonly Mock<ITrustService> _mockTrustRepository = new();
+
+    public TrustsAreaModelTests()
+    {
+        _sut = new TrustsAreaModel(_mockDataSourceProvider.Object,
+            _mockTrustRepository.Object, _logger.Object, "Details");
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_fetch_a_trustsummary_by_uid()
+    {
+        var dummyTrustSummary = new TrustSummaryServiceModel("1234", "My Trust", "Multi-academy trust", 3);
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrustSummary.Uid))
+            .ReturnsAsync(dummyTrustSummary);
+        _sut.Uid = dummyTrustSummary.Uid;
+
+        await _sut.OnGetAsync();
+        _sut.TrustSummary.Should().Be(dummyTrustSummary);
+    }
+
+    [Fact]
+    public async Task GroupUid_should_be_empty_string_by_default()
+    {
+        await _sut.OnGetAsync();
+        _sut.Uid.Should().BeEquivalentTo(string.Empty);
+    }
+
+    [Fact]
+    public void PageName_should_be_set_at_initialisation()
+    {
+        var sut = new TrustsAreaModel(_mockDataSourceProvider.Object,
+            _mockTrustRepository.Object, _logger.Object, "Contacts");
+        sut.PageName.Should().Be("Contacts");
+    }
+
+    [Fact]
+    public void PageSection_should_be_AboutTheTrust()
+    {
+        _sut.Section.Should().Be("About the trust");
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_return_not_found_result_if_trust_is_not_found()
+    {
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("1111"))
+            .ReturnsAsync((TrustSummaryServiceModel?)null);
+
+        _sut.Uid = "1111";
+        var result = await _sut.OnGetAsync();
+        result.Should().BeOfType<NotFoundResult>();
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_return_not_found_result_if_Uid_is_not_provided()
+    {
+        var result = await _sut.OnGetAsync();
+        result.Should().BeOfType<NotFoundResult>();
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_populate_NavigationLinks()
+    {
+        var dummyTrustSummary = new TrustSummaryServiceModel("1234", "My Trust", "Multi-academy trust", 3);
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrustSummary.Uid))
+            .ReturnsAsync(dummyTrustSummary);
+        _sut.Uid = dummyTrustSummary.Uid;
+
+        await _sut.OnGetAsync();
+        _sut.NavigationLinks.Should().BeEquivalentTo([
+            new TrustNavigationLinkModel("Overview", "/Trusts/Overview", "1234", false, "overview-nav"),
+            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts", "1234", false, "contacts-nav"),
+            new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
+                "1234", false, "academies-nav"),
+            new TrustNavigationLinkModel("Governance", "/Trusts/Governance", "1234", false,
+                "governance-nav")
+        ]);
+    }
+
+    [Theory]
+    [InlineData(Source.Gias, "Get information about schools")]
+    [InlineData(Source.Mstr, "Get information about schools (internal use only, do not share outside of DfE)")]
+    [InlineData(Source.Cdm, "RSD (Regional Services Division) service support team")]
+    [InlineData(Source.Mis, "State-funded school inspections and outcomes: management information")]
+    [InlineData(Source.ExploreEducationStatistics, "Explore education statistics")]
+    [InlineData(Source.FiatDb, "Find information about academies and trusts")]
+    public void MapDataSourceToName_should_return_the_correct_string_for_each_source(Source source, string expected)
+    {
+        var result = _sut.MapDataSourceToName(new DataSourceServiceModel(source, null, UpdateFrequency.Daily));
+        result.Should().Be(expected);
+    }
+
+    [Fact]
+    public void MapDataSourceToName_should_return_Unknown_when_source_is_not_recognised()
+    {
+        var dataSource = new DataSourceServiceModel((Source)10, null, UpdateFrequency.Daily);
+        var result = _sut.MapDataSourceToName(dataSource);
+        _logger.VerifyLogError($"Data source {dataSource} does not map to known type");
+        result.Should().Be("Unknown");
+    }
+
+    [Fact]
+    public void MapDataSourceToTestId_ShouldMapSourceAndFieldsCorrectly()
+    {
+        // Arrange
+        var source = new DataSourceServiceModel(Source.Cdm, null, null);
+        var fields = new List<string> { "Field One", "FieldTwo" };
+
+        // Act
+        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, fields));
+
+        // Assert
+        Assert.Equal("data-source-cdm-field-one-fieldtwo", result);
+    }
+
+    [Fact]
+    public void MapDataSourceToTestId_ShouldHandleEmptyFields()
+    {
+        // Arrange
+        var source = new DataSourceServiceModel(Source.Gias, null, null);
+        var fields = new List<string>();
+
+        // Act
+        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, fields));
+
+        // Assert
+        Assert.Equal("data-source-gias-", result); // Fields are empty, but source should still be present
+    }
+
+    [Fact]
+    public void MapDataSourceToTestId_ShouldHandleFieldsWithSpaces()
+    {
+        // Arrange
+        var source = new DataSourceServiceModel(Source.Mis, null, null);
+        var fields = new List<string> { "  Field  Three", " FieldFour " };
+
+        // Act
+        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, fields));
+
+        // Assert
+        Assert.Equal("data-source-mis-field-three-fieldfour", result);
+    }
+
+    [Fact]
+    public void MapDataSourceToTestId_ShouldHandleSingleFieldCorrectly()
+    {
+        // Arrange
+        var source = new DataSourceServiceModel(Source.Mstr, null, null);
+        var fields = new List<string> { "FieldOne" };
+
+        // Act
+        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, fields));
+
+        // Assert
+        Assert.Equal("data-source-mstr-fieldone", result);
+    }
+
+    [Fact]
+    public void MapDataSourceToTestId_ShouldHandleMixedCaseFields()
+    {
+        // Arrange
+        var source = new DataSourceServiceModel(Source.FiatDb, null, null);
+        var fields = new List<string> { "FiElDOne", "FiELDTwo" };
+
+        // Act
+        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, fields));
+
+        // Assert
+        Assert.Equal("data-source-fiatdb-fieldone-fieldtwo", result);
+    }
+}

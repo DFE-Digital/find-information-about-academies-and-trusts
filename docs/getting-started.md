@@ -23,7 +23,7 @@ Use this documentation to configure your local development environment.
 Use the dotnet user secrets tool to set local secrets, any missing required secrets will cause the application to fail at startup with an exception detailing which secrets are missing.
 
 ```bash
-cd DfE.FindInformationAcademiesTrusts
+cd DfE.FIAT
 
 dotnet user-secrets set "AzureAd:ClientID" "[secret goes here]"
 dotnet user-secrets set "AzureAd:ClientSecret" "[secret goes here]"
@@ -40,7 +40,7 @@ See [database local development](./databases.md#local-development) for informati
 The frontend assets must be built before the .NET project. The assets are built into the `wwwroot` folder.
 
 ```bash
-cd DfE.FindInformationAcademiesTrusts
+cd DfE.FIAT
 npm install
 npm run dev
 ```

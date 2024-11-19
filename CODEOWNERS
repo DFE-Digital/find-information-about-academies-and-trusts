@@ -7,4 +7,4 @@ docker/* @drizzlyowl @stretch96 @dneed-nimble @dynamictulip @nwarms
 terraform/* @drizzlyowl @stretch96 @dneed-nimble @dynamictulip @nwarms
 
 # This sets the owner for Cypress tests.
-tests/DFE.FindInformationAcademiesTrusts.CypressTests/ @CMurrell148 @dneed-nimble @dynamictulip @nwarms
+tests/DFE.FIAT.CypressTests/ @CMurrell148 @dneed-nimble @dynamictulip @nwarms

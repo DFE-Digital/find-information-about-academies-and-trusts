@@ -1,0 +1,39 @@
+@namespace DfE.FIAT.Web.Pages.Shared
+@model BasePageModel
+<header class="dfe-header">
+  <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
+  <div class="dfe-width-container dfe-header__container">
+    <div class="dfe-header__logo">
+      <a class="dfe-header__link govuk-link" href="/">
+        <img src="~/dist/images/dfe-logo.png" class="dfe-logo" alt="Department for Education">
+        <img src="~/dist/images/dfe-logo-alt.png" class="dfe-logo-hover" alt="Department for Education">
+      </a>
+      <div class="dfe-header__service-name">
+        <a href="/" class="dfe-header__link--service govuk-link">@ViewConstants.ServiceName</a>
+      </div>
+    </div>
+    <div class="dfe-header__content">
+      @if (Model.ShowHeaderSearch)
+      {
+        <div class="dfe-header__search">
+          <partial name="_HeaderSearchForm" model="Model"/>
+        </div>
+      }
+    </div>
+  </div>
+</header>
+
+<div class="app-banner app-banner--s">
+  <div class="dfe-width-container">
+    <div class="govuk-phase-banner">
+      <p class="govuk-phase-banner__content">
+        <strong class="govuk-tag govuk-phase-banner__content__tag">
+          Beta
+        </strong>
+        <span class="govuk-phase-banner__text">
+          This is a new product – your <a class="govuk-link" href="@ViewConstants.FeedbackFormLink" target="_blank">feedback (opens in a new tab)</a> will help us to improve it.
+        </span>
+      </p>
+    </div>
+  </div>
+</div>

@@ -35,7 +35,7 @@ Spinning up a SQL Server docker container is much faster with Test Containers th
 ## Consequences
 
 - The new database tests will be run in the pipeline as part of the standard unit test run - no extra config is needed here because all GitHub Actions runners have Docker configured and available.
-- All code currently in `DfE.FindInformationAcademiesTrusts.Data.FiatDb` is now testable and can now be included in code coverage metrics.
+- All code currently in `DfE.FIAT.Data.FiatDb` is now testable and can now be included in code coverage metrics.
 - The database tests will be longer running than other unit tests (on BYOD Mac it adds an extra 8 seconds, DfE Windows machines vary but generally take longer than that). If running IDEs in continuous testing mode on a developers local machine, a developer may want to exclude these tests from their unit testing session.
 - The database tests will be excluded from Stryker mutation testing due to the length of their execution time.
 - If the docker engine is not running then the database tests will fail (but other tests will run and behave as per normal).

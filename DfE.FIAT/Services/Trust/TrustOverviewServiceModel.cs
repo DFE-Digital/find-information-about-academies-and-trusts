@@ -1,0 +1,24 @@
+﻿using DfE.FIAT.Data.Enums;
+
+namespace DfE.FIAT.Web.Services.Trust;
+
+public record TrustOverviewServiceModel(
+    string Uid,
+    string GroupId,
+    string? Ukprn,
+    string? CompaniesHouseNumber,
+    TrustType Type,
+    string Address,
+    string RegionAndTerritory,
+    string? SingleAcademyTrustAcademyUrn,
+    DateTime? OpenedDate,
+    int TotalAcademies,
+    IReadOnlyDictionary<string, int> AcademiesByLocalAuthority,
+    int TotalPupilNumbers,
+    int TotalCapacity)
+{
+    public int? PercentageFull =>
+        TotalCapacity > 0
+            ? (int)Math.Round((double)TotalPupilNumbers / TotalCapacity * 100)
+            : null;
+}

@@ -83,8 +83,8 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: |
         dotnet-sonarscanner begin /k:"DFE-Digital_find-information-about-academies-and-trusts" /o:"dfe-digital" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
-        dotnet restore DfE.FindInformationAcademiesTrusts
-        dotnet build DfE.FindInformationAcademiesTrusts -c Release
+        dotnet restore DfE.FIAT.Web
+        dotnet build DfE.FIAT.Web -c Release
         dotnet coverage collect "dotnet test" -f xml -o "coverage.xml"
         dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
         
@@ -92,4 +92,4 @@ jobs:
       run: dotnet stryker
       
     - name: Ensure there are no pending migrations
-      run: dotnet ef migrations has-pending-model-changes --context FiatDbContext --project DfE.FindInformationAcademiesTrusts.Data.FiatDb --startup-project DfE.FindInformationAcademiesTrusts
+      run: dotnet ef migrations has-pending-model-changes --context FiatDbContext --project DfE.FIAT.Data.FiatDb --startup-project DfE.FIAT

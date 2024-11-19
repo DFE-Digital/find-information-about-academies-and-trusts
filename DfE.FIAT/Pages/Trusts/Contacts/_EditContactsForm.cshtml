@@ -1,0 +1,62 @@
+﻿@namespace DfE.FIAT.Web.Pages.Trusts.Contacts
+@model EditContactModel
+
+<partial name="Trusts/_TrustBanner" model="@Model"/>
+
+<div class="govuk-main-wrapper govuk-!-padding-top-6">
+  <div class="dfe-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-three-quarters">
+        <main id="main-content">
+          <form method="post">
+            <fieldset class="govuk-fieldset">
+              <div>
+                <span class="govuk-caption-m">@Model.Section</span>
+                <legend class="govuk-!-padding-0">
+                  <h1 class="govuk-heading-l">@Model.PageName</h1>
+                </legend>
+              </div>
+              <partial name="Shared/_ErrorSummary" model="@Model"/>
+              <div class="govuk-form-group @Model.GetErrorClass("Name")">
+                <label class="govuk-label govuk-label--m" for="Name">
+                  Full name
+                </label>
+                @foreach (var error in Model.GetErrorList(EditContactModel.NameField))
+                {
+                  <p id="error-@EditContactModel.NameField-@error.index" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> @error.errorMessage
+                  </p>
+                }
+                <input asp-for="@Model.Name" class="govuk-input govuk-!-width-two-thirds" id="Name" type="text" spellcheck="false" aria-describedby="@Model.GenerateErrorAriaDescribedBy(EditContactModel.NameField)"/>
+              </div>
+              <div class="govuk-form-group @Model.GetErrorClass(EditContactModel.EmailField)">
+                <label class="govuk-label govuk-label--m" for="@EditContactModel.EmailField">
+                  Email address
+                </label>
+                <div id="email-hint" class="govuk-hint">
+                  Only valid DfE email addresses can be used e.g. joe.bloggs@education.gov.uk
+                </div>
+                @foreach (var error in Model.GetErrorList(EditContactModel.EmailField))
+                {
+                  <p id="error-@EditContactModel.EmailField-@error.index" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> @error.errorMessage
+                  </p>
+                }
+                <input asp-for="@Model.Email" class="govuk-input govuk-!-width-two-thirds" id="Email" type="email" spellcheck="false" autocomplete="email" aria-describedby="email-hint @Model.GenerateErrorAriaDescribedBy(EditContactModel.EmailField)"/>
+              </div>
+              <div class="govuk-button-group">
+                <button type="submit" class="govuk-button" data-module="govuk-button" formnovalidate>
+                  Save and continue
+                </button>
+                <a class="govuk-link" asp-page="/Trusts/Contacts" asp-route-uid="@Model.Uid">
+                  Cancel
+                </a>
+              </div>
+            </fieldset>
+          </form>
+          <partial name="_ReportProblemLink"/>
+        </main>
+      </div>
+    </div>
+  </div>
+</div>

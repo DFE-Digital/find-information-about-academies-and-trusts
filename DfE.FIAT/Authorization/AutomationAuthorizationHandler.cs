@@ -1,0 +1,59 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
+using DfE.FIAT.Web.Options;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
+
+namespace DfE.FIAT.Web.Authorization;
+
+public class AutomationAuthorizationHandler(
+    IWebHostEnvironment environment,
+    IHttpContextAccessor httpContextAccessor,
+    IOptions<TestOverrideOptions> testOverrideOptions)
+    : AuthorizationHandler<DenyAnonymousAuthorizationRequirement>,
+        IAuthorizationRequirement
+{
+    private readonly string? _cypressTestSecret = testOverrideOptions.Value.CypressTestSecret;
+    private readonly bool _isLiveEnvironment = environment.IsLiveEnvironment();
+
+    public bool IsClientSecretHeaderValid()
+    {
+        if (string.IsNullOrWhiteSpace(_cypressTestSecret) || _isLiveEnvironment)
+            return false;
+
+        var requestHeader = httpContextAccessor.HttpContext?.Request.Headers[HeaderNames.Authorization];
+        if (string.IsNullOrWhiteSpace(requestHeader))
+            return false;
+
+        var authHeader = requestHeader.Value.ToString().Replace("Bearer ", string.Empty);
+
+        return authHeader == _cypressTestSecret;
+    }
+
+    public void SetupAutomationUser()
+    {
+        var identity = new ClaimsIdentity(new List<Claim>
+        {
+            new("name", "Automation User - name"),
+            new("preferred_username", "Automation User - email")
+        });
+        var user = new ClaimsPrincipal(identity);
+
+        httpContextAccessor.HttpContext!.User = user;
+    }
+
+    [ExcludeFromCodeCoverage] // This method is difficult to test, everything that can be tested has been extracted to IsClientSecretHeaderValid
+    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
+        DenyAnonymousAuthorizationRequirement requirement)
+    {
+        if (IsClientSecretHeaderValid())
+        {
+            SetupAutomationUser();
+            context.Succeed(requirement);
+        }
+
+        return Task.CompletedTask;
+    }
+}

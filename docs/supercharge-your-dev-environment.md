@@ -38,26 +38,26 @@ We recommend setting Rider to clean code on save.
 - Configure JavaScript linting
   - Go to Languages & Frameworks -> JavaScript -> Code Quality Tools -> ESLint
   - Select `Manual ESLint configuration`
-  - In the dropdown for ESLint package, press the down arrow and select `.../DfE.FindInformationAcademiesTrusts/node_modules/standard`. If nothing is here then ensure you have done an `npm install` in the project directory
+  - In the dropdown for ESLint package, press the down arrow and select `.../DfE.FIAT.Web/node_modules/standard`. If nothing is here then ensure you have done an `npm install` in the project directory
   - Tick `Run ESLint --fix on save`
   - Go to Editor > Code style > JavaScript
   - In the top right click `Set from...` and select `JavaScript Standard Style`
 - Configure CSS linting
   - Go to Languages & Frameworks -> Style Sheets -> Stylelint
   - Select `Enable`
-  - In the dropdown for Stylelint package, press the down arrow and select `.../DfE.FindInformationAcademiesTrusts/node_modules/styleint`. If nothing is here then ensure you have done an `npm install` in the project directory
+  - In the dropdown for Stylelint package, press the down arrow and select `.../DfE.FIAT.Web/node_modules/styleint`. If nothing is here then ensure you have done an `npm install` in the project directory
   - In `Run for files` enter: "{\*_/_,\*}.{css,scss}"
 - Configure C# linting
   - Go to Tools -> Actions on Save
   - Tick `Reformat and Cleanup Code`
-  - Ensure that Profile is set to `DfE.FindInformationAcademiesTrusts`
+  - Ensure that Profile is set to `DfE.FIAT.Web`
 
-If using Rider or Resharper then the `DfE.FindInformationAcademiesTrusts.sln.DotSettings` should be automatically identified and used for manual C# code cleanup.
+If using Rider or Resharper then the `DfE.FIAT.sln.DotSettings` should be automatically identified and used for manual C# code cleanup.
 
 You can also run linting on JavaScript, CSS and SCSS files using the command line:
 
 ```bash
-cd DfE.FindInformationAcademiesTrusts
+cd DfE.FIAT
 npm run lint ## for a list of issues
 npm run lint:fix ## to scan and fix issues
 ```

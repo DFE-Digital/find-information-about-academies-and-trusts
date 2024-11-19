@@ -30,7 +30,7 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    command: /bin/bash -c "./docker-entrypoint.sh dotnet DfE.FindInformationAcademiesTrusts.dll"
+    command: /bin/bash -c "./docker-entrypoint.sh dotnet DfE.FIAT.dll"
     depends_on:
       import-sql:
         condition: service_completed_successfully
