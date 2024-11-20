@@ -1,6 +1,6 @@
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
 
-public class UtilitiesTests
+public class StringFormattingUtilitiesTests
 {
     [Theory]
     [InlineData("12 Abbey Road", "Dorthy Inlet", "East Park", "JY36 9VC",
@@ -15,7 +15,7 @@ public class UtilitiesTests
     public void BuildAddressString_should_build_address_correctly_from_different_combinations_of_values(
         string? street, string? locality, string? town, string? postcode, string expected)
     {
-        var sut = new Utilities();
+        var sut = new StringFormattingUtilities();
 
         var result = sut.BuildAddressString(street, locality, town, postcode);
 

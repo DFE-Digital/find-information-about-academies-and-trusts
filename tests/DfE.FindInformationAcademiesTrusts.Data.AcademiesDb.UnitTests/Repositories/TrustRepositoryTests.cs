@@ -10,7 +10,7 @@ public class TrustRepositoryTests
 {
     private readonly TrustRepository _sut;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
-    private readonly Mock<IUtilities> _mockUtilities = new();
+    private readonly Mock<IStringFormattingUtilities> _mockStringFormattingUtilities = new();
 
     private readonly DateTime _lastYear = DateTime.Today.AddYears(-1);
     private readonly DateTime _nextYear = DateTime.Today.AddYears(1);
@@ -21,12 +21,12 @@ public class TrustRepositoryTests
 
     public TrustRepositoryTests()
     {
-        _mockUtilities
+        _mockStringFormattingUtilities
             .Setup(u => u.BuildAddressString(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
                 It.IsAny<string>()))
             .Returns(string.Empty);
 
-        _sut = new TrustRepository(_mockAcademiesDbContext.Object, _mockUtilities.Object);
+        _sut = new TrustRepository(_mockAcademiesDbContext.Object, _mockStringFormattingUtilities.Object);
     }
 
     [Theory]
@@ -93,7 +93,7 @@ public class TrustRepositoryTests
             GroupContactPostcode = postcode
         });
 
-        _mockUtilities.Setup(u => u.BuildAddressString(street, locality, town, postcode))
+        _mockStringFormattingUtilities.Setup(u => u.BuildAddressString(street, locality, town, postcode))
             .Returns(expectedAddress);
 
         var result = await _sut.GetTrustOverviewAsync("2806");

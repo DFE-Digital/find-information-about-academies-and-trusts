@@ -1,11 +1,11 @@
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 
-public interface IUtilities
+public interface IStringFormattingUtilities
 {
     string BuildAddressString(string? street, string? locality, string? town, string? postcode);
 }
 
-public class Utilities : IUtilities
+public class StringFormattingUtilities : IStringFormattingUtilities
 {
     public string BuildAddressString(string? street, string? locality, string? town, string? postcode)
     {

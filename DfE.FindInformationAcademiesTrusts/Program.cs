@@ -218,7 +218,7 @@ internal static class Program
 
         builder.Services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 
-        builder.Services.AddScoped<IUtilities, Utilities>();
+        builder.Services.AddScoped<IStringFormattingUtilities, StringFormattingUtilities>();
 
         builder.Services.AddScoped<IAcademyRepository, AcademyRepository>();
         builder.Services.AddScoped<ITrustRepository, TrustRepository>();

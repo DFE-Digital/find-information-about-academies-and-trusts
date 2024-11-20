@@ -7,16 +7,16 @@ public class TrustSearchTests
 {
     private readonly TrustSearch _sut;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
-    private readonly Mock<IUtilities> _mockUtilities = new();
+    private readonly Mock<IStringFormattingUtilities> _mockStringFormattingUtilities = new();
 
     public TrustSearchTests()
     {
-        _mockUtilities
+        _mockStringFormattingUtilities
             .Setup(u => u.BuildAddressString(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
                 It.IsAny<string>()))
             .Returns(string.Empty);
 
-        _sut = new TrustSearch(_mockAcademiesDbContext.Object, _mockUtilities.Object);
+        _sut = new TrustSearch(_mockAcademiesDbContext.Object, _mockStringFormattingUtilities.Object);
     }
 
     [Theory]
@@ -158,7 +158,7 @@ public class TrustSearchTests
     }
 
     [Fact]
-    public async Task SearchAsync_should_set_address_from_utilities()
+    public async Task SearchAsync_should_set_address_from_stringFormattingUtilities()
     {
         const string street = "a street";
         const string locality = "a locality";
@@ -176,7 +176,7 @@ public class TrustSearchTests
             GroupContactTown = town,
             GroupContactPostcode = postcode
         });
-        _mockUtilities.Setup(u => u.BuildAddressString(street, locality, town, postcode))
+        _mockStringFormattingUtilities.Setup(u => u.BuildAddressString(street, locality, town, postcode))
             .Returns(expectedAddress);
 
         var result = await _sut.SearchAsync("Inspire");
@@ -186,7 +186,7 @@ public class TrustSearchTests
     }
 
     [Fact]
-    public async Task SearchAutocompleteAsync_should_set_address_from_utilities()
+    public async Task SearchAutocompleteAsync_should_set_address_from_stringFormattingUtilities()
     {
         const string street = "a street";
         const string locality = "a locality";
@@ -204,7 +204,7 @@ public class TrustSearchTests
             GroupContactTown = town,
             GroupContactPostcode = postcode
         });
-        _mockUtilities.Setup(u => u.BuildAddressString(street, locality, town, postcode))
+        _mockStringFormattingUtilities.Setup(u => u.BuildAddressString(street, locality, town, postcode))
             .Returns(expectedAddress);
 
         var result = await _sut.SearchAutocompleteAsync("Inspire");

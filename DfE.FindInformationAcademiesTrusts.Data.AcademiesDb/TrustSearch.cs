@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 
-public class TrustSearch(IAcademiesDbContext academiesDbContext, IUtilities utilities) : ITrustSearch
+public class TrustSearch(IAcademiesDbContext academiesDbContext, IStringFormattingUtilities stringFormattingUtilities)
+    : ITrustSearch
 {
     private const int PageSize = 20;
 
@@ -26,7 +27,7 @@ public class TrustSearch(IAcademiesDbContext academiesDbContext, IUtilities util
             .Select(g =>
                 new TrustSearchEntry(
                     g.GroupName!, //Enforced by EF filter
-                    utilities.BuildAddressString(
+                    stringFormattingUtilities.BuildAddressString(
                         g.GroupContactStreet,
                         g.GroupContactLocality,
                         g.GroupContactTown,
@@ -65,7 +66,7 @@ public class TrustSearch(IAcademiesDbContext academiesDbContext, IUtilities util
                 .Select(g =>
                     new TrustSearchEntry(
                         g.GroupName!, //Enforced by EF filter
-                        utilities.BuildAddressString(
+                        stringFormattingUtilities.BuildAddressString(
                             g.GroupContactStreet,
                             g.GroupContactLocality,
                             g.GroupContactTown,
