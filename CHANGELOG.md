@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Improve performance of search page and search autocomplete
 - Minor performance improvement to all academies db database calls
+- Refactored and split up the program file into separate config files
 
 ## [Release-13][release-13] (production-2024-11-14.4036)
 
