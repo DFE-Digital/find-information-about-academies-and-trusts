@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
+using FluentAssertions.Execution;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -15,11 +16,11 @@ public class SearchModelTests
     private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
 
     private readonly TrustSearchEntry[] _fakeTrusts =
-    {
+    [
         new("trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC", "2044", ""),
         new("trust 2", "Grant Course, North East Lincolnshire, QH96 9WV", "2044", ""),
         new("trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ", "2044", "")
-    };
+    ];
 
     public SearchModelTests()
     {
@@ -28,14 +29,21 @@ public class SearchModelTests
 
         mockTrustService.Setup(s => s.GetTrustSummaryAsync(_fakeTrust.Uid).Result)
             .Returns(_fakeTrust);
-        _mockTrustSearch.Setup(s => s.SearchAsync(SearchTermThatMatchesAllFakeTrusts, It.IsAny<int>()).Result)
-            .Returns(new PaginatedList<TrustSearchEntry>(_fakeTrusts, _fakeTrusts.Length, 1, 1));
+
+        _mockTrustSearch.Setup(s => s.SearchAsync(It.IsAny<string?>(), It.IsAny<int>()))
+            .ReturnsAsync(PaginatedList<TrustSearchEntry>.Empty());
+        _mockTrustSearch.Setup(s => s.SearchAsync(SearchTermThatMatchesAllFakeTrusts, It.IsAny<int>()))
+            .ReturnsAsync(new PaginatedList<TrustSearchEntry>(_fakeTrusts, _fakeTrusts.Length, 1, 1));
+        _mockTrustSearch.Setup(s => s.SearchAutocompleteAsync(It.IsAny<string?>()))
+            .ReturnsAsync([]);
+        _mockTrustSearch.Setup(s => s.SearchAutocompleteAsync(SearchTermThatMatchesAllFakeTrusts))
+            .ReturnsAsync(_fakeTrusts);
 
         _sut = new SearchModel(mockTrustService.Object, _mockTrustSearch.Object);
     }
 
     [Fact]
-    public async Task OnGetAsync_should_search_if_query_parameter_provided()
+    public async Task OnGetAsync_should_search_with_query_parameter_provided()
     {
         _sut.KeyWords = SearchTermThatMatchesAllFakeTrusts;
 
@@ -45,11 +53,24 @@ public class SearchModelTests
     }
 
     [Fact]
-    public async Task OnGetAsync_should_default_to_empty_trusts_if_no_query()
+    public async Task OnGetAsync_should_return_no_results_page_if_no_trusts_found_for_term()
     {
+        _sut.KeyWords = "no matching trusts";
+
         await _sut.OnGetAsync();
 
         _sut.Trusts.Should().BeEmpty();
+        _sut.PaginationRouteData["Keywords"].Should().Be("no matching trusts");
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_return_no_results_page_if_no_keyword_given()
+    {
+        _sut.KeyWords = null;
+        await _sut.OnGetAsync();
+
+        _sut.Trusts.Should().BeEmpty();
+        _sut.PaginationRouteData["Keywords"].Should().Be(string.Empty);
     }
 
     [Fact]
@@ -60,21 +81,8 @@ public class SearchModelTests
 
         var result = await _sut.OnGetAsync();
 
-        result.Should().BeOfType<RedirectToPageResult>();
-        var redirectResult = (RedirectToPageResult)result;
+        var redirectResult = result.Should().BeOfType<RedirectToPageResult>().Subject;
         redirectResult.PageName.Should().Be("/Trusts/Overview");
-    }
-
-    [Fact]
-    public async Task OnGetAsync_should_pass_trustId_to_trust_overview_if_given_trustId()
-    {
-        _sut.Uid = _fakeTrust.Uid;
-        _sut.KeyWords = _fakeTrust.Name;
-
-        var result = await _sut.OnGetAsync();
-
-        result.Should().BeOfType<RedirectToPageResult>();
-        var redirectResult = (RedirectToPageResult)result;
         redirectResult.RouteValues.Should().ContainKey("Uid").WhoseValue.Should().Be(_fakeTrust.Uid);
     }
 
@@ -101,14 +109,32 @@ public class SearchModelTests
 
         var result = await _sut.OnGetPopulateAutocompleteAsync();
 
-        result.Should().BeOfType<JsonResult>();
-        var jsonResult = (JsonResult)result;
+        var jsonResult = result.Should().BeOfType<JsonResult>().Subject;
         jsonResult.Value.Should().BeEquivalentTo(_fakeTrusts.Select(trust =>
             new SearchModel.AutocompleteEntry(
                 trust.Address,
                 trust.Name,
                 trust.Uid
-            )));
+            )
+        ));
+    }
+
+    [Theory]
+    [InlineData("no matching trusts")]
+    [InlineData("")]
+    [InlineData(null)]
+    public async Task OnGetPopulateAutocompleteAsync_should_return_empty_json_when_no_matching_keyword(string? keywords)
+    {
+        _sut.KeyWords = keywords;
+
+        var result = await _sut.OnGetPopulateAutocompleteAsync();
+
+        using var _ = new AssertionScope();
+
+        var jsonResult = result.Should().BeOfType<JsonResult>().Subject;
+        jsonResult.Value.Should()
+            .BeAssignableTo<IEnumerable<SearchModel.AutocompleteEntry>>()
+            .Which.Should().BeEmpty();
     }
 
     [Fact]
@@ -119,6 +145,12 @@ public class SearchModelTests
         result.PageName.Should().BeEquivalentTo("/Search");
         result.RouteValues?["KeyWords"].Should().BeEquivalentTo(string.Empty);
         result.RouteValues?["Uid"].Should().BeEquivalentTo(string.Empty);
+    }
+
+    [Fact]
+    public void ShowHeaderSearch_should_be_false()
+    {
+        _sut.ShowHeaderSearch.Should().BeFalse();
     }
 
     [Fact]
@@ -205,7 +237,7 @@ public class SearchModelTests
     public void Title_Should_Include_The_Keywords_When_they_Are_Set_And_There_Is_Only_one_page()
     {
         _sut.KeyWords = "Test";
-        _sut.PageStatus = new PageStatus(1, 1, 1);
+        _sut.Trusts = new PaginatedList<TrustSearchEntry>(Array.Empty<TrustSearchEntry>(), 1, 1, 1);
         _sut.Title.Should().BeEquivalentTo("Search - Test");
     }
 
@@ -213,7 +245,7 @@ public class SearchModelTests
     public void Title_Should_Include_The_Keywords_And_Page_Number_When_They_Are_Set()
     {
         _sut.KeyWords = "Test";
-        _sut.PageStatus = new PageStatus(1, 2, 3);
-        _sut.Title.Should().BeEquivalentTo("Search (page 1 of 2) - Test");
+        _sut.Trusts = new PaginatedList<TrustSearchEntry>(Array.Empty<TrustSearchEntry>(), 46, 2, 20);
+        _sut.Title.Should().BeEquivalentTo("Search (page 2 of 3) - Test");
     }
 }

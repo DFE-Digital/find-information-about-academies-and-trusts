@@ -10,6 +10,7 @@ public class TrustRepositoryTests
 {
     private readonly TrustRepository _sut;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
+    private readonly Mock<IStringFormattingUtilities> _mockStringFormattingUtilities = new();
 
     private readonly DateTime _lastYear = DateTime.Today.AddYears(-1);
     private readonly DateTime _nextYear = DateTime.Today.AddYears(1);
@@ -20,7 +21,12 @@ public class TrustRepositoryTests
 
     public TrustRepositoryTests()
     {
-        _sut = new TrustRepository(_mockAcademiesDbContext.Object);
+        _mockStringFormattingUtilities
+            .Setup(u => u.BuildAddressString(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
+                It.IsAny<string>()))
+            .Returns(string.Empty);
+
+        _sut = new TrustRepository(_mockAcademiesDbContext.Object, _mockStringFormattingUtilities.Object);
     }
 
     [Theory]
@@ -29,19 +35,10 @@ public class TrustRepositoryTests
     [InlineData("9008", "Trust with no academies", "Multi-academy trust")]
     public async Task GetTrustSummaryAsync_should_return_trustSummary_if_found(string uid, string name, string type)
     {
-        _ = _mockAcademiesDbContext.AddGiasGroup(uid, name, type);
+        _ = _mockAcademiesDbContext.AddGiasGroup(uid, name, groupType: type);
 
         var result = await _sut.GetTrustSummaryAsync(uid);
         result.Should().BeEquivalentTo(new TrustSummary(name, type));
-    }
-
-    [Fact]
-    public async Task GetTrustSummaryAsync_should_return_empty_values_on_null_group_fields()
-    {
-        _ = _mockAcademiesDbContext.AddGiasGroup("2806", null, null);
-
-        var result = await _sut.GetTrustSummaryAsync("2806");
-        result.Should().BeEquivalentTo(new TrustSummary(string.Empty, string.Empty));
     }
 
     [Fact]
@@ -77,29 +74,27 @@ public class TrustRepositoryTests
         result.RegionAndTerritory.Should().BeEmpty();
     }
 
-    [Theory]
-    [InlineData("12 Abbey Road", "Dorthy Inlet", "East Park", "JY36 9VC",
-        "12 Abbey Road, Dorthy Inlet, East Park, JY36 9VC")]
-    [InlineData(null, "Dorthy Inlet", "East Park", "JY36 9VC", "Dorthy Inlet, East Park, JY36 9VC")]
-    [InlineData("12 Abbey Road", null, "East Park", "JY36 9VC", "12 Abbey Road, East Park, JY36 9VC")]
-    [InlineData("12 Abbey Road", "Dorthy Inlet", null, "JY36 9VC", "12 Abbey Road, Dorthy Inlet, JY36 9VC")]
-    [InlineData("12 Abbey Road", "Dorthy Inlet", "East Park", null, "12 Abbey Road, Dorthy Inlet, East Park")]
-    [InlineData(null, null, null, null, "")]
-    [InlineData("", "     ", "", null, "")]
-    [InlineData("12 Abbey Road", "  ", " ", "JY36 9VC", "12 Abbey Road, JY36 9VC")]
-    public async Task GetTrustOverviewAsync_should_build_address_from_giasGroup(string? groupContactStreet,
-        string? groupContactLocality, string? groupContactTown, string? groupContactPostcode,
-        string? expectedAddress)
+    [Fact]
+    public async Task GetTrustOverviewAsync_should_build_address_from_giasGroup()
     {
+        const string street = "a street";
+        const string locality = "a locality";
+        const string town = "a town";
+        const string postcode = "a postcode";
+        const string expectedAddress = "an address";
+
         _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
         {
             GroupUid = "2806",
             GroupType = "Multi-academy trust",
-            GroupContactStreet = groupContactStreet,
-            GroupContactLocality = groupContactLocality,
-            GroupContactTown = groupContactTown,
-            GroupContactPostcode = groupContactPostcode
+            GroupContactStreet = street,
+            GroupContactLocality = locality,
+            GroupContactTown = town,
+            GroupContactPostcode = postcode
         });
+
+        _mockStringFormattingUtilities.Setup(u => u.BuildAddressString(street, locality, town, postcode))
+            .Returns(expectedAddress);
 
         var result = await _sut.GetTrustOverviewAsync("2806");
 

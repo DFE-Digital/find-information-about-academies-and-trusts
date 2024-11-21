@@ -6,13 +6,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 
-public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRepository
+public class TrustRepository(
+    IAcademiesDbContext academiesDbContext,
+    IStringFormattingUtilities stringFormattingUtilities) : ITrustRepository
 {
     public async Task<TrustSummary?> GetTrustSummaryAsync(string uid)
     {
         var details = await academiesDbContext.Groups
             .Where(g => g.GroupUid == uid)
-            .Select(g => new { Name = g.GroupName ?? string.Empty, Type = g.GroupType ?? string.Empty })
+            .Select(g => new
+                {
+                    Name = g.GroupName!,
+                    Type = g.GroupType!
+                }
+            ) //GroupName and GroupType will never be null due to EF query filters
             .SingleOrDefaultAsync();
 
         return details is null ? null : new TrustSummary(details.Name, details.Type);
@@ -45,13 +52,12 @@ public class TrustRepository(IAcademiesDbContext academiesDbContext) : ITrustRep
             giasGroup.Ukprn,
             giasGroup.CompaniesHouseNumber,
             giasGroup.GroupType!, //Enforced by EF filter
-            string.Join(", ", new[]
-            {
+            stringFormattingUtilities.BuildAddressString(
                 giasGroup.GroupContactStreet,
                 giasGroup.GroupContactLocality,
                 giasGroup.GroupContactTown,
                 giasGroup.GroupContactPostcode
-            }.Where(s => !string.IsNullOrWhiteSpace(s))),
+            ),
             regionAndTerritory,
             giasGroup.IncorporatedOnOpenDate.ParseAsNullableDate()
         );
