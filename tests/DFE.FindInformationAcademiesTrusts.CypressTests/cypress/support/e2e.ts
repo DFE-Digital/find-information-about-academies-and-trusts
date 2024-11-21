@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */ //required to enable custom Cypress commands typescript support
 import { AuthenticationInterceptorParams } from '../auth/authenticationInterceptor';
 import './commands'
 
