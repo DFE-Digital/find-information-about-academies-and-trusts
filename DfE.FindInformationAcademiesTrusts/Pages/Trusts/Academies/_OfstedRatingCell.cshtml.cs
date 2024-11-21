@@ -19,6 +19,7 @@ public class OfstedRatingCellModel
         OfstedRatingScore.Good => "Good",
         OfstedRatingScore.RequiresImprovement => "Requires improvement",
         OfstedRatingScore.Inadequate => "Inadequate",
+        OfstedRatingScore.NoJudgement => "No Judgement",
         _ => string.Empty
     };
 
