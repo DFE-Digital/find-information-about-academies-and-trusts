@@ -2,7 +2,7 @@ import navigation from "../../pages/navigation";
 import academiesPage from "../../pages/trusts/academiesPage";
 import governancePage from "../../pages/trusts/governancePage";
 import trustContactsPage from "../../pages/trusts/trustContactsPage";
-import trustOverviewPage from "../../pages/trusts/trustOverviewPage";
+import overviewPage from "../../pages/trusts/overviewPage";
 
 describe('Testing Navigation', () => {
 
@@ -132,7 +132,7 @@ describe('Testing Navigation', () => {
                 .checkOverviewServiceNavButtonIsHighlighted()
                 .checkCurrentURLIsCorrect('/overview?uid=5527')
                 .checkAllServiceNavItemsPresent()
-            trustOverviewPage
+            overviewPage
                 .checkOverviewHeaderPresent()
         });
 
