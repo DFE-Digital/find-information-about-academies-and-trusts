@@ -12,23 +12,33 @@ public static class MisEstablishmentFactory
         {
             return new MisEstablishment
             {
-                Urn = urn, PreviousFullInspectionOverallEffectiveness = grade.ToString(),
-                PreviousQualityOfEducation = grade, PreviousBehaviourAndAttitudes = grade,
-                PreviousPersonalDevelopment = grade, PreviousEffectivenessOfLeadershipAndManagement = grade,
+                Urn = urn,
+                PreviousFullInspectionOverallEffectiveness = grade.ToString(),
+                PreviousQualityOfEducation = grade,
+                PreviousBehaviourAndAttitudes = grade,
+                PreviousPersonalDevelopment = grade,
+                PreviousEffectivenessOfLeadershipAndManagement = grade,
                 PreviousEarlyYearsProvisionWhereApplicable = grade,
                 PreviousSixthFormProvisionWhereApplicable = grade.ToString(),
-                PreviousCategoryOfConcern = categoriesOfConcern, PreviousSafeguardingIsEffective = safeguarding,
+                PreviousCategoryOfConcern = categoriesOfConcern,
+                PreviousSafeguardingIsEffective = safeguarding,
                 PreviousInspectionStartDate = dateString
             };
         }
 
         return new MisEstablishment
         {
-            Urn = urn, OverallEffectiveness = grade, QualityOfEducation = grade, BehaviourAndAttitudes = grade,
-            PersonalDevelopment = grade, EffectivenessOfLeadershipAndManagement = grade,
+            Urn = urn,
+            OverallEffectiveness = grade.ToString(),
+            QualityOfEducation = grade,
+            BehaviourAndAttitudes = grade,
+            PersonalDevelopment = grade,
+            EffectivenessOfLeadershipAndManagement = grade,
             EarlyYearsProvisionWhereApplicable = grade,
-            SixthFormProvisionWhereApplicable = grade, CategoryOfConcern = categoriesOfConcern,
-            SafeguardingIsEffective = safeguarding, InspectionStartDate = dateString
+            SixthFormProvisionWhereApplicable = grade,
+            CategoryOfConcern = categoriesOfConcern,
+            SafeguardingIsEffective = safeguarding,
+            InspectionStartDate = dateString
         };
     }
 }

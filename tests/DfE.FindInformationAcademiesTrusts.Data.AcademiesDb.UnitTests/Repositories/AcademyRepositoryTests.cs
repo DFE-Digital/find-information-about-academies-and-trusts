@@ -66,7 +66,7 @@ public class AcademyRepositoryTests
     public async Task GetAcademiesInTrustOfstedAsync_should_only_return_academies_linked_to_trust()
     {
         _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
-            { GroupUid = "some other trust", Urn = "some other academy" });
+        { GroupUid = "some other trust", Urn = "some other academy" });
 
         var giasGroupLinks = AddGiasGroupLinksToMockDb(6);
 
@@ -279,7 +279,7 @@ public class AcademyRepositoryTests
     public async Task GetNumberOfAcademiesInTrustAsync_should_return_number_of_grouplinks_for_uid(int numAcademies)
     {
         _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
-            { GroupUid = "some other trust", Urn = "some other academy" });
+        { GroupUid = "some other trust", Urn = "some other academy" });
 
         for (var i = 0; i < numAcademies; i++)
         {
@@ -476,4 +476,116 @@ public class AcademyRepositoryTests
         result.Should().NotBeNull();
         result.Should().BeEmpty();
     }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void Should_Return_None_When_Rating_Is_NullOrWhitespace(string rating)
+    {
+        // Act
+        var result = AcademyRepository.ConvertOverallEffectivenessToOfstedRatingScore(rating);
+
+        // Assert
+        result.Should().Be(OfstedRatingScore.None);
+    }
+
+    [Theory]
+    [InlineData("Not judged")]
+    [InlineData("not judged")]
+    [InlineData("NOT JUDGED")]
+    [InlineData("NoT JuDgEd")]
+    public void Should_Return_NoJudgement_When_Rating_Is_NotJudged_CaseInsensitive(string rating)
+    {
+        // Act
+        var result = AcademyRepository.ConvertOverallEffectivenessToOfstedRatingScore(rating);
+
+        // Assert
+        result.Should().Be(OfstedRatingScore.NoJudgement);
+    }
+
+    [Theory]
+    [InlineData("1", OfstedRatingScore.Outstanding)]
+    [InlineData("2", OfstedRatingScore.Good)]
+    [InlineData("3", OfstedRatingScore.RequiresImprovement)]
+    [InlineData("4", OfstedRatingScore.Inadequate)]
+    [InlineData("8", OfstedRatingScore.DoesNotApply)]
+    [InlineData("9", OfstedRatingScore.NoJudgement)]
+    [InlineData("0", OfstedRatingScore.InsufficientEvidence)]
+    [InlineData("-1", OfstedRatingScore.None)]
+    public void Should_Return_Correct_OfstedRatingScore_When_Rating_Is_Valid_Integer_String(string rating, OfstedRatingScore expected)
+    {
+        // Act
+        var result = AcademyRepository.ConvertOverallEffectivenessToOfstedRatingScore(rating);
+
+        // Assert
+        result.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("5")]
+    [InlineData("10")]
+    [InlineData("-2")]
+    public void Should_Return_None_When_Rating_Is_Integer_Not_Defined_In_Enum(string rating)
+    {
+        // Act
+        var result = AcademyRepository.ConvertOverallEffectivenessToOfstedRatingScore(rating);
+
+        // Assert
+        result.Should().Be(OfstedRatingScore.None);
+    }
+
+    [Theory]
+    [InlineData("abc")]
+    [InlineData("Good")]
+    [InlineData("Outstanding")]
+    [InlineData("Requires Improvement")]
+    [InlineData("Inadequate")]
+    [InlineData("N/A")]
+    [InlineData("Unknown")]
+    public void Should_Return_None_When_Rating_Is_Invalid_String(string rating)
+    {
+        // Act
+        var result = AcademyRepository.ConvertOverallEffectivenessToOfstedRatingScore(rating);
+
+        // Assert
+        result.Should().Be(OfstedRatingScore.None);
+    }
+
+    [Theory]
+    [InlineData("1", "2", OfstedRatingScore.Outstanding, OfstedRatingScore.Good)]
+    [InlineData("Not judged", "Not judged", OfstedRatingScore.NoJudgement, OfstedRatingScore.NoJudgement)]
+    [InlineData("abc", "def", OfstedRatingScore.None, OfstedRatingScore.None)]
+    [InlineData("2", "Not judged", OfstedRatingScore.Good, OfstedRatingScore.NoJudgement)]
+    [InlineData("Not judged", "1", OfstedRatingScore.NoJudgement, OfstedRatingScore.Outstanding)]
+    public async Task GetAcademiesInTrustOfstedAsync_should_correctly_convert_OverallEffectiveness_and_PreviousFullInspectionOverallEffectiveness(
+        string overallEffectiveness,
+        string previousOverallEffectiveness,
+        OfstedRatingScore expectedCurrentScore,
+        OfstedRatingScore expectedPreviousScore)
+    {
+        // Arrange
+        var giasGroupLink = AddGiasGroupLinksToMockDb(1).Single();
+        var urn = int.Parse(giasGroupLink.Urn!);
+
+        var me = new MisEstablishment
+        {
+            Urn = urn,
+            OverallEffectiveness = overallEffectiveness,
+            PreviousFullInspectionOverallEffectiveness = previousOverallEffectiveness,
+            InspectionStartDate = "01/01/2022",
+            PreviousInspectionStartDate = "01/01/2021"
+        };
+        _mockAcademiesDbContext.AddMisEstablishments(new[] { me });
+
+        // Act
+        var result = await _sut.GetAcademiesInTrustOfstedAsync("1234");
+
+        // Assert
+        var academyOfsted = result.Should().ContainSingle().Which;
+        academyOfsted.Urn.Should().Be(giasGroupLink.Urn);
+        academyOfsted.CurrentOfstedRating.OverallEffectiveness.Should().Be(expectedCurrentScore);
+        academyOfsted.PreviousOfstedRating.OverallEffectiveness.Should().Be(expectedPreviousScore);
+    }
+
+
 }

@@ -91,7 +91,7 @@ public class MisEstablishment
 
     public string? SchoolTypeAtTimeOfLatestFullInspection { get; set; }
 
-    public int? OverallEffectiveness { get; set; }
+    public string? OverallEffectiveness { get; set; }
 
     public string? CategoryOfConcern { get; set; }
 
