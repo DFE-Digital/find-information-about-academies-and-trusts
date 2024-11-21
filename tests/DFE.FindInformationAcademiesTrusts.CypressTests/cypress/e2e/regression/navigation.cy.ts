@@ -1,5 +1,5 @@
 import navigation from "../../pages/navigation";
-import academiesInTrustPage from "../../pages/trusts/academiesInTrustPage";
+import academiesPage from "../../pages/trusts/academiesPage";
 import governancePage from "../../pages/trusts/governancePage";
 import trustContactsPage from "../../pages/trusts/trustContactsPage";
 import trustOverviewPage from "../../pages/trusts/trustOverviewPage";
@@ -107,11 +107,11 @@ describe('Testing Navigation', () => {
 
         it('Should check that the Academies navigation button takes me to the correct page', () => {
             navigation
-                .clickAcademiesInThisTrustServiceNavButton()
-                .checkAcademiesInThisTrustServiceNavButtonIsHighlighted()
+                .clickAcademiesServiceNavButton()
+                .checkAcademiesServiceNavButtonIsHighlighted()
                 .checkCurrentURLIsCorrect('/academies/details?uid=5527')
                 .checkAllServiceNavItemsPresent()
-            academiesInTrustPage
+            academiesPage
                 .checkDetailsHeadersPresent()
         });
 
