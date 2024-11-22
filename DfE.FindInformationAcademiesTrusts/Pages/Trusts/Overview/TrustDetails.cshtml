@@ -1,0 +1,80 @@
+﻿@page
+@model TrustDetailsModel
+
+@{
+  Layout = "_TrustLayout";
+}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m">
+      Trust details
+    </h2>
+    <div class="govuk-summary-card" data-testid="trust-details-summary-card">
+      <div class="govuk-summary-card__title-wrapper">
+        <h3 class="govuk-summary-card__title">Trust details</h3>
+      </div>
+      <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Address
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="address">
+              @Model.TrustOverview.Address
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Opened on
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="opened-on">
+              @if (Model.TrustOverview.OpenedDate is not null)
+              {
+                @Model.TrustOverview.OpenedDate.Value.ToString(StringFormatConstants.ViewDate)
+              }
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Region and territory
+            </dt>
+            <dd class="govuk-summary-list__value" data-testid="region-and-territory">
+              @Model.TrustOverview.RegionAndTerritory
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Information from other services (opens in a new tab)
+            </dt>
+            <dd class="govuk-summary-list__value">
+              @if (Model.CompaniesHouseLink is not null)
+              {
+                <p class="govuk-body">
+                  <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.CompaniesHouseLink">Companies House</a>
+                </p>
+              }
+              @if (Model.GetInformationAboutSchoolsLink is not null)
+              {
+                <p class="govuk-body">
+                  <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.GetInformationAboutSchoolsLink">Get information about schools</a>
+                </p>
+              }
+              @if (Model.SchoolsFinancialBenchmarkingLink is not null)
+              {
+                <p class="govuk-body">
+                  <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.SchoolsFinancialBenchmarkingLink">Schools financial benchmarking</a>
+                </p>
+              }
+              @if (Model.FindSchoolPerformanceLink is not null)
+              {
+                <p class="govuk-body">
+                  <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.FindSchoolPerformanceLink">Find school college and performance data in England</a>
+                </p>
+              }
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
