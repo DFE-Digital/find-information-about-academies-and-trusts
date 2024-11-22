@@ -122,7 +122,7 @@ describe('Testing Navigation', () => {
                 .checkCurrentURLIsCorrect('/governance?uid=5527')
                 .checkAllServiceNavItemsPresent();
             governancePage
-                .checkTrusteeColumnHeaders();
+                .checkTrusteesTableHeadersAreVisible();
         });
 
         it('Should check that the Overview navigation button takes me to the correct page', () => {
