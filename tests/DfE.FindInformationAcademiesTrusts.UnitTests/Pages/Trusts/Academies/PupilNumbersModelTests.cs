@@ -103,12 +103,19 @@ public class PupilNumbersModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.NavigationLinks.Should().BeEquivalentTo([
-            new TrustNavigationLinkModel("Overview", "/Trusts/Overview", "1234", false, "overview-nav"),
-            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts", "1234", false, "contacts-nav"),
+            new TrustNavigationLinkModel("Overview", "/Trusts/Overview/TrustDetails", "1234", false, "overview-nav"),
+            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", "1234", false, "contacts-nav"),
             new TrustNavigationLinkModel("Academies (1)", "/Trusts/Academies/Details",
                 "1234", true, "academies-nav"),
-            new TrustNavigationLinkModel("Governance", "/Trusts/Governance", "1234", false,
+            new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", "1234", false,
                 "governance-nav")
         ]);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_SubNavigationLinks_toEmptyArray()
+    {
+        _ = await _sut.OnGetAsync();
+        _sut.SubNavigationLinks.Should().Equal([]);
     }
 }
