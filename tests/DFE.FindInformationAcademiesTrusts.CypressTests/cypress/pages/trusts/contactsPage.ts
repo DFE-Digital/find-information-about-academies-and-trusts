@@ -1,5 +1,5 @@
 import commonPage from "../commonPage";
-class TrustContactsPage {
+class ContactsPage {
 
     elements = {
         TrustRelationshipManager: {
@@ -61,20 +61,20 @@ class TrustContactsPage {
     }
 
     public checkTRMFieldsAndDatasource(name: string, email: string): this {
-        trustContactsPage
+        contactsPage
             .editTRM(name, email);
-        trustContactsPage.elements.TrustRelationshipManager
+        contactsPage.elements.TrustRelationshipManager
             .Name().should('contain.text', name);
-        trustContactsPage.elements.TrustRelationshipManager
+        contactsPage.elements.TrustRelationshipManager
             .Email().should('contain.text', email);
         commonPage
             .checkSuccessPopup('Changes made to the Trust relationship manager name and email were updated')
             .checkErrorPopupNotPresent('Enter a DfE email address without any spaces')
-            .checkErrorPopupNotPresent('Enter an email address in the correct format, like name@education.gov.uk')
+            .checkErrorPopupNotPresent('Enter an email address in the correct format, like name@education.gov.uk');
 
         cy.contains("Source and updates").click();
-        trustContactsPage
-            .checkLatestTRMDatasourceUser('Automation User - email')
+        contactsPage
+            .checkLatestTRMDatasourceUser('Automation User - email');
         return this;
     }
 
@@ -88,20 +88,20 @@ class TrustContactsPage {
     }
 
     public checkSFSOFieldsAndDatasource(name: string, email: string): this {
-        trustContactsPage
+        contactsPage
             .editSFSO(name, email);
-        trustContactsPage.elements.SchoolsFinancialSupportOversight
+        contactsPage.elements.SchoolsFinancialSupportOversight
             .Name().should('contain.text', name);
-        trustContactsPage.elements.SchoolsFinancialSupportOversight
+        contactsPage.elements.SchoolsFinancialSupportOversight
             .Email().should('contain.text', email);
         commonPage
             .checkSuccessPopup('Changes made to the SFSO (Schools financial support and oversight) lead name and email were updated')
             .checkErrorPopupNotPresent('Enter a DfE email address without any spaces')
-            .checkErrorPopupNotPresent('Enter an email address in the correct format, like name@education.gov.uk')
+            .checkErrorPopupNotPresent('Enter an email address in the correct format, like name@education.gov.uk');
 
         cy.contains("Source and updates").click();
-        trustContactsPage
-            .checkLatestSFSODatasourceUser('Automation User - email')
+        contactsPage
+            .checkLatestSFSODatasourceUser('Automation User - email');
         return this;
     }
 
@@ -141,5 +141,5 @@ class TrustContactsPage {
     }
 }
 
-const trustContactsPage = new TrustContactsPage();
-export default trustContactsPage;
+const contactsPage = new ContactsPage();
+export default contactsPage;
