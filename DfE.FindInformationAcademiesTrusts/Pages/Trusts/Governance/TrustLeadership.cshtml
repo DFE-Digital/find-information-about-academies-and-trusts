@@ -1,0 +1,56 @@
+﻿@page
+@using DfE.FindInformationAcademiesTrusts.Extensions
+@model TrustLeadershipModel
+
+@{
+  Layout = "_TrustLayout";
+}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <partial name="_GovernanceTurnover" model="@Model"/>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <section class="govuk-!-margin-top-4 govuk-!-margin-bottom-9 app-table-container" data-testid="trust-leadership">
+      @if (Model.TrustGovernance.CurrentTrustLeadership.Length > 0)
+      {
+        <table class="govuk-table govuk-!-margin-bottom-0" data-module="moj-sortable-table" aria-describedby="trust-leadership">
+          <caption class="govuk-table__caption govuk-table__caption--m" id="trust-leadership">Trust Leadership</caption>
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-body govuk-table__header" aria-sort="ascending">Name</th>
+              <th scope="col" class="govuk-body govuk-table__header" aria-sort="none">Role</th>
+              <th scope="col" class="govuk-body govuk-table__header column-header-date" aria-sort="none">From</th>
+              <th scope="col" class="govuk-body govuk-table__header column-header-date" aria-sort="none">To</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            @foreach (var governor in Model.TrustGovernance.CurrentTrustLeadership)
+            {
+              <tr class="govuk-table__row" data-testid="trust-leadership-row">
+                <th scope="row" class="govuk-body govuk-table__header" data-sort-value="@governor.FullName" data-testid="trust-leadership-name">
+                  @governor.FullName
+                </th>
+                <td class="govuk-body govuk-table__cell" data-sort-value="@governor.Role" data-testid="trust-leadership-role">
+                  @governor.Role
+                </td>
+                <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfAppointment?.ToString(StringFormatConstants.SortDate)" data-testid="trust-leadership-from">
+                  @governor.DateOfAppointment.ShowDateStringOrReplaceWithText()
+                </td>
+                <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfTermEnd?.ToString(StringFormatConstants.SortDate)" data-testid="trust-leadership-to">
+                  @governor.DateOfTermEnd.ShowDateStringOrReplaceWithText()
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+      else
+      {
+        <h3 class="govuk-heading-m govuk-!-margin-bottom-3">Trust Leadership</h3>
+        <p class="govuk-body govuk-!-margin-bottom-0">No Trust Leadership</p>
+      }
+    </section>
+  </div>
+</div>
