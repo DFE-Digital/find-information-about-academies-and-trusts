@@ -27,15 +27,11 @@ class CommonPage {
         return this;
     }
 
-    public checkErrorPopupNotPresent(expectedMessage: string): this {
+    public checkErrorPopupNotPresent(): this {
         const { ErrorPopup } = this.elements;
         ErrorPopup.Section().should('not.exist');
         return this;
     }
-
-    
-
-
 }
 
 const commonPage = new CommonPage();
