@@ -1,0 +1,160 @@
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Governance;
+using DfE.FindInformationAcademiesTrusts.Services.Trust;
+using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
+using Microsoft.AspNetCore.Mvc;
+
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Governance;
+
+public class GovernanceAreaModelTests
+{
+    private readonly GovernanceAreaModel _sut;
+    private static readonly DateTime StartDate = DateTime.Today.AddYears(-3);
+    private static readonly DateTime FutureEndDate = DateTime.Today.AddYears(1);
+    private static readonly DateTime HistoricEndDate = DateTime.Today.AddYears(-1);
+
+    private static readonly Governor Member = new(
+        "9999",
+        "1234",
+        Role: "Member",
+        FullName: "First Second Last",
+        DateOfAppointment: StartDate,
+        DateOfTermEnd: FutureEndDate,
+        AppointingBody: "Nick Warms",
+        Email: null
+    );
+
+    private static readonly Governor Trustee = new(
+        "9998",
+        "1234",
+        Role: "Trustee",
+        FullName: "First Second Last",
+        DateOfAppointment: StartDate,
+        DateOfTermEnd: FutureEndDate,
+        AppointingBody: "Nick Warms",
+        Email: null
+    );
+
+    private static readonly Governor Leader = new(
+        "9999",
+        "1234",
+        Role: "Chair of Trustees",
+        FullName: "First Second Last",
+        DateOfAppointment: StartDate,
+        DateOfTermEnd: FutureEndDate,
+        AppointingBody: "Nick Warms",
+        Email: null
+    );
+
+    private static readonly Governor Historic = new(
+        "9999",
+        "1234",
+        Role: "Trustee",
+        FullName: "First Second Last",
+        DateOfAppointment: StartDate,
+        DateOfTermEnd: HistoricEndDate,
+        AppointingBody: "Nick Warms",
+        Email: null
+    );
+
+    private static readonly TrustGovernanceServiceModel DummyTrustGovernanceServiceModel =
+        new([Leader], [Member], [Trustee], [Historic], 0);
+
+    private readonly MockDataSourceService _mockDataSourceService = new();
+    private readonly Mock<ITrustService> _mockTrustService = new();
+
+    private static readonly string TestUid = "1234";
+
+    public GovernanceAreaModelTests()
+    {
+        _mockTrustService.Setup(t => t.GetTrustGovernanceAsync(TestUid))
+            .ReturnsAsync(DummyTrustGovernanceServiceModel);
+        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(TestUid))
+            .ReturnsAsync(new TrustSummaryServiceModel(TestUid, "My trust", "", 0));
+
+        _sut = new GovernanceAreaModel(_mockDataSourceService.Object, _mockTrustService.Object,
+                new MockLogger<GovernanceAreaModel>().Object, model => model.Page == "./TrustLeadership")
+            { Uid = TestUid };
+    }
+
+    [Fact]
+    public void PageName_should_be_Governance()
+    {
+        _sut.PageName.Should().Be("Governance");
+    }
+
+    [Fact]
+    public void ShowHeaderSearch_should_be_true()
+    {
+        _sut.ShowHeaderSearch.Should().Be(true);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_null()
+    {
+        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(TestUid)).ReturnsAsync((TrustSummaryServiceModel?)null);
+        var result = await _sut.OnGetAsync();
+        result.Should().BeOfType<NotFoundResult>();
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_correct_data_source_list()
+    {
+        await _sut.OnGetAsync();
+        _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
+        _sut.DataSources.Should().ContainSingle();
+        _sut.DataSources[0].Fields.Should().Contain(new List<string> { "Governance" });
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_Governance_Service()
+    {
+        await _sut.OnGetAsync();
+        _mockTrustService.Verify(e => e.GetTrustGovernanceAsync(TestUid), Times.Once);
+        _sut.TrustGovernance.Should().BeEquivalentTo(DummyTrustGovernanceServiceModel);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_correct_NavigationLinks()
+    {
+        _ = await _sut.OnGetAsync();
+        _sut.NavigationLinks.Should().BeEquivalentTo([
+            new TrustNavigationLinkModel("Overview", "/Trusts/Overview/TrustDetails", "1234", false, "overview-nav"),
+            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", "1234", false, "contacts-nav"),
+            new TrustNavigationLinkModel("Academies (0)", "/Trusts/Academies/Details",
+                "1234", false, "academies-nav"),
+            new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", "1234", true,
+                "governance-nav")
+        ]);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_correct_SubNavigationLinks()
+    {
+        _ = await _sut.OnGetAsync();
+        _sut.SubNavigationLinks.Should().BeEquivalentTo([
+            new TrustSubNavigationLinkModel("Trust Leadership (1)", "./TrustLeadership", "1234", "Governance")
+                { LinkIsActive = true },
+            new TrustSubNavigationLinkModel("Trustees (1)", "./Trustees", "1234", "Governance"),
+            new TrustSubNavigationLinkModel("Members (1)", "./Members", "1234", "Governance"),
+            new TrustSubNavigationLinkModel("Historic Members (1)", "./HistoricMembers", "1234", "Governance")
+        ]);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_throws_when_no_matching_SubNavLink_is_found()
+    {
+        var sut = new GovernanceAreaModel(
+                _mockDataSourceService.Object,
+                _mockTrustService.Object,
+                new MockLogger<GovernanceAreaModel>().Object,
+                _ => false)
+            { Uid = TestUid };
+
+        Func<Task> act = async () => await sut.OnGetAsync();
+
+        await act.Should().ThrowAsync<InvalidOperationException>();
+    }
+}
