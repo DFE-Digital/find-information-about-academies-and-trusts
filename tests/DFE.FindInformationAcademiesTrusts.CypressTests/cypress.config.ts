@@ -1,6 +1,6 @@
-const { defineConfig } = require("cypress");
-const fs = require('fs');
-const path = require('path');
+import { defineConfig } from "cypress";
+import fs from 'fs';
+import path from 'path';
 
 module.exports = defineConfig({
   userAgent: 'FindInformationAcademiesTrusts/1.0 Cypress',
@@ -16,11 +16,13 @@ module.exports = defineConfig({
         json: true,
       },
     },
+
     setupNodeEvents(on, config) {
-      config.baseUrl = config.env.URL;
+      config.baseUrl = config.env.URL as string;
+
       // Custom task to find the most recent .xlsx file in the downloads folder
       on('task', {
-        findLatestFile(folderPath) {
+        findLatestFile(folderPath: string) {
           const files = fs.readdirSync(folderPath);
           const xlsxFiles = files.filter(file => file.endsWith('.xlsx'));
 
@@ -38,7 +40,7 @@ module.exports = defineConfig({
         },
 
         // Custom task to delete a file
-        deleteFile(filePath) {
+        deleteFile(filePath: string) {
           if (fs.existsSync(filePath)) {
             fs.unlinkSync(filePath);
             return { success: true };
@@ -47,7 +49,7 @@ module.exports = defineConfig({
         },
 
         // Custom task to check if files exist in the downloads folder
-        checkForFiles(folderPath) {
+        checkForFiles(folderPath: string) {
           if (fs.existsSync(folderPath)) {
             const files = fs.readdirSync(folderPath);
             return files.length > 0 ? files : null;
@@ -56,7 +58,7 @@ module.exports = defineConfig({
         },
 
         // Custom task to delete all files in the downloads folder
-        clearDownloads(folderPath) {
+        clearDownloads(folderPath: string) {
           if (fs.existsSync(folderPath)) {
             const files = fs.readdirSync(folderPath);
             files.forEach((file) => {
