@@ -8,9 +8,6 @@ public static class ViewConstants
 {
     public const string ServiceName = "Find information about academies and trusts";
     public const string AboutTheTrustSectionName = "About the trust";
-    
-    public const string ContactNameNotAvailableMessage = "No contact name available";
-    public const string ContactEmailNotAvailableMessage = "No contact email available";
 
     public const string ReportAProblemMailToLink =
         "mailto:regionalservices.rg@education.gov.uk?subject=Report a problem with Find information about academies and trusts";
