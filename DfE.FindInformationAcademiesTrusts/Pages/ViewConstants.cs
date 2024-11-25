@@ -55,4 +55,8 @@ public static class ViewConstants
             "Process guidance and tools for making trust-related project decisions.",
             "https://educationgovuk.sharepoint.com/sites/lvewp00299/SitePages/RG%20high%20quality%20trust%20framework.aspx")
     ];
+    
+    public const string GovernancePageTitle = "Governance";
+    public const string ContactsPageTitle = "Contacts";
+    public const string OverviewPageTitle = "Overview";
 }
