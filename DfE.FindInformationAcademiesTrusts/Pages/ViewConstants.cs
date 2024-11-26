@@ -8,7 +8,7 @@ public static class ViewConstants
 {
     public const string ServiceName = "Find information about academies and trusts";
     public const string AboutTheTrustSectionName = "About the trust";
-    
+
     public const string ContactNameNotAvailableMessage = "No contact name available";
     public const string ContactEmailNotAvailableMessage = "No contact email available";
 
@@ -55,8 +55,9 @@ public static class ViewConstants
             "Process guidance and tools for making trust-related project decisions.",
             "https://educationgovuk.sharepoint.com/sites/lvewp00299/SitePages/RG%20high%20quality%20trust%20framework.aspx")
     ];
-    
+
     public const string GovernancePageTitle = "Governance";
     public const string ContactsPageTitle = "Contacts";
     public const string OverviewPageTitle = "Overview";
+    public const string OfstedPageTitle = "Ofsted";
 }
