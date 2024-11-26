@@ -1,0 +1,72 @@
+@page "/trusts/ofsted/previous-ratings"
+@using DfE.FindInformationAcademiesTrusts.Extensions
+@model PreviousRatingsModel
+
+@{
+  Layout = "Ofsted/_OfstedLayout";
+}
+
+<section class="govuk-!-margin-top-8 app-table-container" data-testid="ofsted-previous-ratings-table">
+  <table class="govuk-table" data-module="moj-sortable-table">
+    <caption class="govuk-table__caption govuk-table__caption--m">Previous ratings</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header" aria-sort="ascending" data-testid="ofsted-previous-ratings-school-name-header">
+          School name
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body column-header-ofsted-rating" aria-sort="none" data-testid="ofsted-previous-ratings-quality-of-education-header">
+          Quality of education
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body column-header-ofsted-rating" aria-sort="none" data-testid="ofsted-previous-ratings-behaviour-and-attitudes-header">
+          Behaviour and attitudes
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body column-header-ofsted-rating" aria-sort="none" data-testid="ofsted-previous-ratings-personal-development-header">
+          Personal development
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body column-header-ofsted-rating" aria-sort="none" data-testid="ofsted-previous-ratings-leadership-and-management-header">
+          Leadership and management
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body column-header-ofsted-rating" aria-sort="none" data-testid="ofsted-previous-ratings-early-years-provision-header">
+          Early years provision
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body column-header-ofsted-rating" aria-sort="none" data-testid="ofsted-previous-ratings-sixth-form-provision-header">
+          Sixth form provision
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body" aria-sort="none" data-testid="ofsted-previous-ratings-before-or-after-joining-header">
+          Before or after joining
+        </th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      @foreach (var academy in Model.Academies)
+      {
+        <tr class="govuk-table__row" data-testid="academy-row">
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.EstablishmentName" data-testid="ofsted-previous-ratings-school-name">
+            @academy.EstablishmentName<br/>
+          </td>
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.QualityOfEducation.ToDataSortValue()" data-testid="ofsted-previous-ratings-quality-of-education">
+            @academy.PreviousOfstedRating.QualityOfEducation.ToDisplayString()
+          </td>
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.BehaviourAndAttitudues.ToDataSortValue()" data-testid="ofsted-previous-ratings-behaviour-and-attitudes">
+            @academy.PreviousOfstedRating.BehaviourAndAttitudues.ToDisplayString()
+          </td>
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.PersonalDevelopment.ToDataSortValue()" data-testid="ofsted-previous-ratings-personal-development">
+            @academy.PreviousOfstedRating.PersonalDevelopment.ToDisplayString()
+          </td>
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.EffectivenessOfLeadershipAndManagement.ToDataSortValue()" data-testid="ofsted-previous-ratings-leadership-and-management">
+            @academy.PreviousOfstedRating.EffectivenessOfLeadershipAndManagement.ToDisplayString()
+          </td>
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.EarlyYearsProvision.ToDataSortValue()" data-testid="ofsted-previous-ratings-early-years-provision">
+            @academy.PreviousOfstedRating.EarlyYearsProvision.ToDisplayString()
+          </td>
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.SixthFormProvision.ToDataSortValue()" data-testid="ofsted-previous-ratings-sixth-form-provision">
+            @academy.PreviousOfstedRating.SixthFormProvision.ToDisplayString()
+          </td>
+          <td class="govuk-table__cell govuk-body" data-sort-value="@(academy.IsPreviousInspectionAfterJoining ? "After" : "Before")" data-testid="ofsted-previous-ratings-before-or-after-joining ">
+            @await Html.PartialAsync("_BeforeOrAfterTag", academy.IsCurrentInspectionAfterJoining)
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>

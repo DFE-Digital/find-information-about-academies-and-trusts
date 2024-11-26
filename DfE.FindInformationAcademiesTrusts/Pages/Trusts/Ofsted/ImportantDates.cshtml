@@ -1,0 +1,48 @@
+@page "/trusts/ofsted/important-dates"
+@using DfE.FindInformationAcademiesTrusts.Extensions
+@model ImportantDatesModel
+
+@{
+  Layout = "Ofsted/_OfstedLayout";
+}
+
+<section class="govuk-!-margin-top-8 app-table-container" data-testid="ofsted-important-dates-school-name-table" >
+  <table class="govuk-table" data-module="moj-sortable-table">
+    <caption class="govuk-table__caption govuk-table__caption--m">Important dates</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header" aria-sort="ascending" data-testid="ofsted-important-dates-school-name-header" >
+          School name
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body column-header-ofsted-date" aria-sort="none" data-testid="ofsted-important-dates-date-joined-header">
+          Date joined
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body column-header-ofsted-date" aria-sort="none" data-testid="ofsted-important-dates-date-of-current-inspection-header" >
+          Date of current inspection
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body column-header-ofsted-date" aria-sort="none" data-testid="ofsted-important-dates-date-of-previous-inspection-header">
+          Date of previous inspection
+        </th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      @foreach (var academy in Model.Academies)
+      {
+        <tr class="govuk-table__row" data-testid="academy-row">
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.EstablishmentName" data-testid="ofsted-important-dates-school-name">
+            @academy.EstablishmentName<br/>
+          </td>
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.SortDate)" data-testid="ofsted-important-dates-date-joined">
+            @academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.ViewDate)
+          </td>
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.CurrentOfstedRating.InspectionDate?.ToString(StringFormatConstants.SortDate)" data-testid="ofsted-important-dates-date-of-current-inspection">
+            @academy.CurrentOfstedRating.InspectionDate.ShowDateStringOrReplaceWithText()
+          </td>
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.InspectionDate?.ToString(StringFormatConstants.SortDate)" data-testid="ofsted-important-dates-date-of-previous-inspection">
+            @academy.PreviousOfstedRating.InspectionDate.ShowDateStringOrReplaceWithText()
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>
