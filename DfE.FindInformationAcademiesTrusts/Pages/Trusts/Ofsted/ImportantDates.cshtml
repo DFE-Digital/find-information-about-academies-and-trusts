@@ -1,0 +1,46 @@
+@page
+@model ImportantDatesModel
+
+@{
+  Layout = "_TrustLayout";
+}
+
+<section class="govuk-!-margin-top-8 govuk-!-margin-bottom-9 app-table-container">
+  <table class="govuk-table" data-module="moj-sortable-table" aria-describedby="ofsted-ratings-link">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header" aria-sort="ascending">
+          School name
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body" aria-sort="none">
+          Date joined
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body" aria-sort="none">
+          Date of current inspection
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body" aria-sort="none">
+          Date of previous inspection
+        </th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      @foreach (var academy in Model.Academies)
+      {
+        <tr class="govuk-table__row" data-testid="academy-row">
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.EstablishmentName" data-testid="school-name">
+            @academy.EstablishmentName<br/>
+          </td>
+          <td class="govuk-table__cell govuk-body">
+            @academy.DateAcademyJoinedTrust
+          </td>
+          <td class="govuk-table__cell govuk-body">
+            @academy.CurrentOfstedRating.InspectionDate
+          </td>
+          <td class="govuk-table__cell govuk-body">
+            @academy.PreviousOfstedRating.InspectionDate
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>

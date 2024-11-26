@@ -1,0 +1,70 @@
+@page
+@model CurrentRatingsModel
+
+@{
+  Layout = "_TrustLayout";
+}
+
+<section class="govuk-!-margin-top-8 govuk-!-margin-bottom-9 app-table-container">
+  <table class="govuk-table" data-module="moj-sortable-table" aria-describedby="ofsted-ratings-link">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header" aria-sort="ascending">
+          School name
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body" aria-sort="none">
+          Quality of education
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body" aria-sort="none">
+          Behaviour and attitudes
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body" aria-sort="none">
+          Personal development
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body" aria-sort="none">
+          Leadership and management
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body" aria-sort="none">
+          Early years provision
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body" aria-sort="none">
+          Sixth form provision
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body" aria-sort="none">
+          Before or after joining
+        </th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      @foreach (var academy in Model.Academies)
+      {
+        <tr class="govuk-table__row" data-testid="academy-row">
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.EstablishmentName" data-testid="school-name">
+            @academy.EstablishmentName<br/>
+          </td>
+          <td class="govuk-table__cell govuk-body">
+            @academy.CurrentOfstedRating.QualityOfEducation
+          </td>
+          <td class="govuk-table__cell govuk-body">
+            @academy.CurrentOfstedRating.BehaviourAndAttitudues
+          </td>
+          <td class="govuk-table__cell govuk-body">
+            @academy.CurrentOfstedRating.PersonalDevelopment
+          </td>
+          <td class="govuk-table__cell govuk-body">
+            @academy.CurrentOfstedRating.EffectivenessOfLeadershipAndManagement
+          </td>
+          <td class="govuk-table__cell govuk-body">
+            @academy.CurrentOfstedRating.EarlyYearsProvision
+          </td>
+          <td class="govuk-table__cell govuk-body">
+            @academy.CurrentOfstedRating.SixthFormProvision
+          </td>
+          <td class="govuk-table__cell govuk-body">
+            @academy.DateAcademyJoinedTrust.ToLocalTime() @academy.CurrentOfstedRating.InspectionDate!.Value.ToLocalTime()
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>
