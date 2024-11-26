@@ -8,4 +8,9 @@ public record AcademyOfstedServiceModel(
     DateTime DateAcademyJoinedTrust,
     OfstedRating PreviousOfstedRating,
     OfstedRating CurrentOfstedRating
-);
+)
+{
+    public bool IsCurrentInspectionAfterJoining => CurrentOfstedRating.InspectionDate >= DateAcademyJoinedTrust;
+
+    public bool IsPreviousInspectionAfterJoining => PreviousOfstedRating.InspectionDate >= DateAcademyJoinedTrust;
+}
