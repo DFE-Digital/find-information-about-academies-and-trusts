@@ -13,10 +13,9 @@ describe("Testing the components of the Governance page", () => {
         it("The trust leadership page loads with the correct headings and data", () => {
             cy.visit(`/trusts/governance/trust-leadership?uid=${trustWithFullGovernanceData}`);
 
-            // Todo: Check page sub-heading "Trust leadership" is visible
-
             // Trust leadership table is visible and working
             governancePage
+                .checkTrustLeadershipSubHeaderPresent()
                 .checkTrustLeadershipTableHeadersAreVisible()
                 .checkTrustLeadershipAppointmentDatesAreCurrent()
                 .checkOnlyTrustLeadershipRolesArePresent();
@@ -29,10 +28,9 @@ describe("Testing the components of the Governance page", () => {
         it("The trustees page loads with the correct headings and data", () => {
             cy.visit(`/trusts/governance/trustees?uid=${trustWithFullGovernanceData}`);
 
-            // Todo: Check page sub-heading "Trustees" is visible
-
             // Trustee table is visible and working
             governancePage
+                .checkTrusteesSubHeaderPresent()
                 .checkTrusteesTableHeadersAreVisible()
                 .checkTrusteesAppointmentDatesAreCurrent();
 
@@ -44,10 +42,9 @@ describe("Testing the components of the Governance page", () => {
         it("The members page loads with the correct headings and data", () => {
             cy.visit(`/trusts/governance/members?uid=${trustWithFullGovernanceData}`);
 
-            // Todo: Check page sub-heading "Members" is visible
-
             // Members table is visible and working
             governancePage
+                .checkMembersSubHeaderPresent()
                 .checkMembersTableHeadersAreVisible()
                 .checkMembersAppointmentDatesAreCurrent();
 
@@ -59,10 +56,9 @@ describe("Testing the components of the Governance page", () => {
         it("The historic members page loads with the correct headings and data", () => {
             cy.visit(`/trusts/governance/historic-members?uid=${trustWithFullGovernanceData}`);
 
-            // Todo: Check page sub-heading "Historic members" is visible
-
             // Historic members table is visible and working
             governancePage
+                .checkHistoricMembersSubHeaderPresent()
                 .checkHistoricMembersTableHeadersAreVisible()
                 .checkHistoricMembersAppointmentDatesAreInThePast();
 

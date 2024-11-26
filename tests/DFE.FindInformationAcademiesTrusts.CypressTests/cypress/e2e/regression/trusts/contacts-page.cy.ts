@@ -161,7 +161,8 @@ describe("Testing the components of the Trust contacts page", () => {
             cy.visit('/trusts/contacts/in-the-trust?uid=5527');
 
             contactsPage
-                .clickContactsInDfeSubnavButton();
+                .clickContactsInDfeSubnavButton()
+                .checkContactsInDfeSubHeaderPresent();
 
             navigation
                 .checkCurrentURLIsCorrect('/trusts/contacts/in-dfe?uid=5527');
@@ -176,7 +177,8 @@ describe("Testing the components of the Trust contacts page", () => {
             cy.visit('/trusts/contacts/in-dfe?uid=5527');
 
             contactsPage
-                .clickContactsInTheTrustSubnavButton();
+                .clickContactsInTheTrustSubnavButton()
+                .checkContactsInTheTrustSubHeaderPresent();
 
             navigation
                 .checkCurrentURLIsCorrect('/trusts/contacts/in-the-trust?uid=5527');

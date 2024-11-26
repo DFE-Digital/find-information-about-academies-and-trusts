@@ -3,61 +3,65 @@ class GovernancePage {
 
     elements = {
         TrustLeadership: {
-            Section: () => cy.get('[data-testid="trust-leadership"]'),
-            Names: () => this.elements.TrustLeadership.Section().find('[data-testid="trust-leadership-name"]'),
-            NameHeader: () => this.elements.TrustLeadership.Section().find("th:contains('Name')"),
-            Roles: () => this.elements.TrustLeadership.Section().find('[data-testid="trust-leadership-role"]'),
-            RoleHeader: () => this.elements.TrustLeadership.Section().find("th:contains('Role')"),
-            From: () => this.elements.TrustLeadership.Section().find('[data-testid="trust-leadership-from"]'),
-            FromHeader: () => this.elements.TrustLeadership.Section().find("th:contains('From')"),
-            To: () => this.elements.TrustLeadership.Section().find('[data-testid="trust-leadership-to"]'),
-            ToHeader: () => this.elements.TrustLeadership.Section().find("th:contains('To')"),
-            NoDataMessage: () => this.elements.TrustLeadership.Section().contains('No Trust Leadership')
+            section: () => cy.get('[data-testid="trust-leadership"]'),
+            names: () => this.elements.TrustLeadership.section().find('[data-testid="trust-leadership-name"]'),
+            nameHeader: () => this.elements.TrustLeadership.section().find("th:contains('Name')"),
+            Roles: () => this.elements.TrustLeadership.section().find('[data-testid="trust-leadership-role"]'),
+            RoleHeader: () => this.elements.TrustLeadership.section().find("th:contains('Role')"),
+            From: () => this.elements.TrustLeadership.section().find('[data-testid="trust-leadership-from"]'),
+            FromHeader: () => this.elements.TrustLeadership.section().find("th:contains('From')"),
+            To: () => this.elements.TrustLeadership.section().find('[data-testid="trust-leadership-to"]'),
+            ToHeader: () => this.elements.TrustLeadership.section().find("th:contains('To')"),
+            NoDataMessage: () => this.elements.TrustLeadership.section().contains('No Trust Leadership'),
         },
         Trustees: {
-            Section: () => cy.get('[data-testid="trustees"]'),
-            Names: () => this.elements.Trustees.Section().find('[data-testid="trustees-name"]'),
-            NameHeader: () => this.elements.Trustees.Section().find("th:contains('Name')"),
-            AppointedBy: () => this.elements.Trustees.Section().find('[data-testid="trustees-appointed"]'),
-            AppointedHeader: () => this.elements.Trustees.Section().find("th:contains('Appointed by')"),
-            From: () => this.elements.Trustees.Section().find('[data-testid="trustees-from"]'),
-            FromHeader: () => this.elements.Trustees.Section().find("th:contains('From')"),
-            To: () => this.elements.Trustees.Section().find('[data-testid="trustees-to"]'),
-            ToHeader: () => this.elements.Trustees.Section().find("th:contains('To')"),
-            NoDataMessage: () => this.elements.Trustees.Section().contains('No Trustees')
+            section: () => cy.get('[data-testid="trustees"]'),
+            Names: () => this.elements.Trustees.section().find('[data-testid="trustees-name"]'),
+            NameHeader: () => this.elements.Trustees.section().find("th:contains('Name')"),
+            AppointedBy: () => this.elements.Trustees.section().find('[data-testid="trustees-appointed"]'),
+            AppointedHeader: () => this.elements.Trustees.section().find("th:contains('Appointed by')"),
+            From: () => this.elements.Trustees.section().find('[data-testid="trustees-from"]'),
+            FromHeader: () => this.elements.Trustees.section().find("th:contains('From')"),
+            To: () => this.elements.Trustees.section().find('[data-testid="trustees-to"]'),
+            ToHeader: () => this.elements.Trustees.section().find("th:contains('To')"),
+            NoDataMessage: () => this.elements.Trustees.section().contains('No Trustees'),
         },
         Members: {
-            Section: () => cy.get('[data-testid="members"]'),
-            Names: () => this.elements.Members.Section().find('[data-testid="members-name"]'),
-            NameHeader: () => this.elements.Members.Section().find("th:contains('Name')"),
-            AppointedBy: () => this.elements.Members.Section().find('[data-testid="members-appointed"]'),
-            AppointedHeader: () => this.elements.Members.Section().find("th:contains('Appointed by')"),
-            From: () => this.elements.Members.Section().find('[data-testid="members-from"]'),
-            FromHeader: () => this.elements.Members.Section().find("th:contains('From')"),
-            To: () => this.elements.Members.Section().find('[data-testid="members-to"]'),
-            ToHeader: () => this.elements.Members.Section().find("th:contains('To')"),
-            NoDataMessage: () => this.elements.Members.Section().contains('No Members')
+            section: () => cy.get('[data-testid="members"]'),
+            names: () => this.elements.Members.section().find('[data-testid="members-name"]'),
+            nameHeader: () => this.elements.Members.section().find("th:contains('Name')"),
+            AppointedBy: () => this.elements.Members.section().find('[data-testid="members-appointed"]'),
+            AppointedHeader: () => this.elements.Members.section().find("th:contains('Appointed by')"),
+            From: () => this.elements.Members.section().find('[data-testid="members-from"]'),
+            FromHeader: () => this.elements.Members.section().find("th:contains('From')"),
+            To: () => this.elements.Members.section().find('[data-testid="members-to"]'),
+            ToHeader: () => this.elements.Members.section().find("th:contains('To')"),
+            NoDataMessage: () => this.elements.Members.section().contains('No Members'),
+
         },
         HistoricMembers: {
-            Section: () => cy.get('[data-testid="historic-members"]'),
-            Names: () => this.elements.HistoricMembers.Section().find('[data-testid="historic-members-name"]'),
-            NameHeader: () => this.elements.HistoricMembers.Section().find("th:contains('Name')"),
-            Roles: () => this.elements.HistoricMembers.Section().find('[data-testid="historic-members-role"]'),
-            RoleHeader: () => this.elements.HistoricMembers.Section().find("th:contains('Role')"),
-            AppointedBy: () => this.elements.HistoricMembers.Section().find('[data-testid="historic-members-appointed"]'),
-            AppointedHeader: () => this.elements.HistoricMembers.Section().find("th:contains('Appointed by')"),
-            From: () => this.elements.HistoricMembers.Section().find('[data-testid="historic-members-from"]'),
-            FromHeader: () => this.elements.HistoricMembers.Section().find("th:contains('From')"),
-            To: () => this.elements.HistoricMembers.Section().find('[data-testid="historic-members-to"]'),
-            ToHeader: () => this.elements.HistoricMembers.Section().find("th:contains('To')"),
-            NoDataMessage: () => this.elements.HistoricMembers.Section().contains('No Historic Members')
+            section: () => cy.get('[data-testid="historic-members"]'),
+            Names: () => this.elements.HistoricMembers.section().find('[data-testid="historic-members-name"]'),
+            NameHeader: () => this.elements.HistoricMembers.section().find("th:contains('Name')"),
+            Roles: () => this.elements.HistoricMembers.section().find('[data-testid="historic-members-role"]'),
+            RoleHeader: () => this.elements.HistoricMembers.section().find("th:contains('Role')"),
+            AppointedBy: () => this.elements.HistoricMembers.section().find('[data-testid="historic-members-appointed"]'),
+            AppointedHeader: () => this.elements.HistoricMembers.section().find("th:contains('Appointed by')"),
+            From: () => this.elements.HistoricMembers.section().find('[data-testid="historic-members-from"]'),
+            FromHeader: () => this.elements.HistoricMembers.section().find("th:contains('From')"),
+            To: () => this.elements.HistoricMembers.section().find('[data-testid="historic-members-to"]'),
+            ToHeader: () => this.elements.HistoricMembers.section().find("th:contains('To')"),
+            NoDataMessage: () => this.elements.HistoricMembers.section().contains('No Historic Members'),
         },
         subNav: {
             trustLeadershipSubnavButton: () => cy.get('[data-testid="governance-trust-leadership-subnav"]'),
             trusteesSubnavButton: () => cy.get('[data-testid="governance-trustees-subnav"]'),
             membersSubnavButton: () => cy.get('[data-testid="governance-members-subnav"]'),
             historicMembersSubnavButton: () => cy.get('[data-testid="governance-historic-members-subnav"]')
-        }
+        },
+        subHeaders: {
+            subHeader: () => cy.get('[data-testid="subpage-header"]')
+        },
     };
 
     // *************
@@ -66,8 +70,32 @@ class GovernancePage {
     //
     // *************
 
+    public checkTrustLeadershipSubHeaderPresent() {
+        this.elements.subHeaders.subHeader().should('be.visible');
+        this.elements.subHeaders.subHeader().should('contain', 'Trust Leadership');
+        return this;
+    }
+
+    public checkTrusteesSubHeaderPresent() {
+        this.elements.subHeaders.subHeader().should('be.visible');
+        this.elements.subHeaders.subHeader().should('contain', 'Trustees');
+        return this;
+    }
+
+    public checkMembersSubHeaderPresent() {
+        this.elements.subHeaders.subHeader().should('be.visible');
+        this.elements.subHeaders.subHeader().should('contain', 'Members');
+        return this;
+    }
+
+    public checkHistoricMembersSubHeaderPresent() {
+        this.elements.subHeaders.subHeader().should('be.visible');
+        this.elements.subHeaders.subHeader().should('contain', 'Historic members');
+        return this;
+    }
+
     public checkTrustLeadershipTableHeadersAreVisible() {
-        this.elements.TrustLeadership.NameHeader().should('be.visible');
+        this.elements.TrustLeadership.nameHeader().should('be.visible');
         this.elements.TrustLeadership.RoleHeader().should('be.visible');
         this.elements.TrustLeadership.FromHeader().should('be.visible');
         this.elements.TrustLeadership.ToHeader().should('be.visible');
@@ -83,7 +111,7 @@ class GovernancePage {
     }
 
     public checkMembersTableHeadersAreVisible() {
-        this.elements.Members.NameHeader().should('be.visible');
+        this.elements.Members.nameHeader().should('be.visible');
         this.elements.Members.AppointedHeader().should('be.visible');
         this.elements.Members.FromHeader().should('be.visible');
         this.elements.Members.ToHeader().should('be.visible');
@@ -108,7 +136,7 @@ class GovernancePage {
 
     public checkTrustLeadershipColumnsSortCorrectly() {
         const { TrustLeadership } = this.elements;
-        SortingUtility.checkStringSorting(TrustLeadership.Names, TrustLeadership.NameHeader);
+        SortingUtility.checkStringSorting(TrustLeadership.names, TrustLeadership.nameHeader);
         SortingUtility.checkStringSorting(TrustLeadership.Roles, TrustLeadership.RoleHeader);
         SortingUtility.checkStringSorting(TrustLeadership.From, TrustLeadership.FromHeader);
         SortingUtility.checkStringSorting(TrustLeadership.To, TrustLeadership.ToHeader);
@@ -124,7 +152,7 @@ class GovernancePage {
 
     public checkMembersColumnsSortCorrectly() {
         const { Members } = this.elements;
-        SortingUtility.checkStringSorting(Members.Names, Members.NameHeader);
+        SortingUtility.checkStringSorting(Members.names, Members.nameHeader);
         SortingUtility.checkStringSorting(Members.AppointedBy, Members.AppointedHeader);
         SortingUtility.checkStringSorting(Members.From, Members.FromHeader);
         SortingUtility.checkStringSorting(Members.To, Members.ToHeader);

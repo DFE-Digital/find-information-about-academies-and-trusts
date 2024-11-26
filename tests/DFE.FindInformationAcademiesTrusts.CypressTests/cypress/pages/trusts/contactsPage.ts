@@ -53,7 +53,10 @@ class ContactsPage {
         subNav: {
             contactsInDfeSubnavButton: () => cy.get('[data-testid="contacts-in-dfe-subnav"]'),
             contactsInTheTrustSubnavButton: () => cy.get('[data-testid="contacts-in-the-trust-subnav"]'),
-        }
+        },
+        subHeaders: {
+            subHeader: () => cy.get('[data-testid="subpage-header"]'),
+        },
     };
 
     public editTrustRelationshipManager(name: string, email: string): this {
@@ -166,6 +169,18 @@ class ContactsPage {
 
     public checkContactsInTheTrustSubnavButtonIsHighlighted(): this {
         this.elements.subNav.contactsInTheTrustSubnavButton().should('have.prop', 'aria-current', true);
+        return this;
+    }
+
+    public checkContactsInDfeSubHeaderPresent(): this {
+        this.elements.subHeaders.subHeader().should('be.visible');
+        this.elements.subHeaders.subHeader().should('contain', 'Contacts in DfE');
+        return this;
+    }
+
+    public checkContactsInTheTrustSubHeaderPresent(): this {
+        this.elements.subHeaders.subHeader().should('be.visible');
+        this.elements.subHeaders.subHeader().should('contain', 'Contacts in the trust');
         return this;
     }
 }
