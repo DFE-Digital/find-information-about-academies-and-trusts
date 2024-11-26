@@ -13,10 +13,12 @@ public static class OfstedRatingScoreExtensions
             OfstedRatingScore.RequiresImprovement => 3,
             OfstedRatingScore.Inadequate => 4,
             OfstedRatingScore.None => 5,
+            OfstedRatingScore.DoesNotApply => 8,
+            OfstedRatingScore.NoJudgement => 9,
             _ => -1
         };
     }
-    
+
     public static string ToDisplayString(this OfstedRatingScore rating)
     {
         return rating switch
@@ -26,8 +28,9 @@ public static class OfstedRatingScoreExtensions
             OfstedRatingScore.RequiresImprovement => "Requires improvement",
             OfstedRatingScore.Inadequate => "Inadequate",
             OfstedRatingScore.None => "Not yet inspected",
+            OfstedRatingScore.NoJudgement => "No Judgement",
+            OfstedRatingScore.DoesNotApply => "Does not apply",
             _ => "Unknown"
         };
     }
 }
-
