@@ -11,6 +11,7 @@ describe("Testing the components of the Trust overview page", () => {
 
         it("The page loads with the correct headings and data in the Trust details card", () => {
             overviewPage
+                .checkTrustDetailsSubHeaderPresent()
                 .checkTrustDetailsCardPresent()
                 .checkTrustDetailsCardItemsPresent();
         });
@@ -24,6 +25,7 @@ describe("Testing the components of the Trust overview page", () => {
 
         it("The page loads with the correct headings and data in the Trust summary card", () => {
             overviewPage
+                .checkTrustSummarySubHeaderPresent()
                 .checkOverviewHeaderPresent()
                 .checkTrustSummaryCardPresent()
                 .checkTrustSummaryCardItemsPresent();
@@ -38,6 +40,7 @@ describe("Testing the components of the Trust overview page", () => {
 
         it("The page loads with the correct headings and data in the reference numbers card", () => {
             overviewPage
+                .checkReferenceNumversSubHeaderPresent()
                 .checkReferenceNumbersCardPresent()
                 .checkReferenceNumbersCardItemsPresent();
 

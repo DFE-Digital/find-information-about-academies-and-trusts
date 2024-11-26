@@ -9,11 +9,15 @@ class OverviewPage {
         detailsHeader: () => cy.get('[data-testid="page-name"]'),
         trustDetailsCard: () => cy.get('[data-testid="trust-details-summary-card"]'),
         referenceNumberCard: () => cy.get('[data-testid="reference-numbers-summary-card"]'),
+        trustDetailsSubHeader: () => cy.get('[data-testid="reference-numbers-summary-card"]'),
 
         subNav: {
             trustDetailsSubnavButton: () => cy.get('[data-testid="overview-trust-details-subnav"]'),
             trustSummarySubnavButton: () => cy.get('[data-testid="overview-trust-summary-subnav"]'),
             referenceNumbersSubnavButton: () => cy.get('[data-testid="overview-reference-numbers-subnav"]'),
+        },
+        subHeaders: {
+            subHeader: () => cy.get('[data-testid="subpage-header"]'),
         },
     };
 
@@ -108,6 +112,25 @@ class OverviewPage {
         this.elements.subNav.referenceNumbersSubnavButton().should('have.prop', 'aria-current', true);
         return this;
     }
+
+    public checkTrustDetailsSubHeaderPresent(): this {
+        this.elements.subHeaders.subHeader().should('be.visible');
+        this.elements.subHeaders.subHeader().should('contain', 'Trust details');
+        return this;
+    }
+
+    public checkTrustSummarySubHeaderPresent(): this {
+        this.elements.subHeaders.subHeader().should('be.visible');
+        this.elements.subHeaders.subHeader().should('contain', 'Trust summary');
+        return this;
+    }
+
+    public checkReferenceNumversSubHeaderPresent(): this {
+        this.elements.subHeaders.subHeader().should('be.visible');
+        this.elements.subHeaders.subHeader().should('contain', 'Reference numbers');
+        return this;
+    }
+
 }
 
 const overviewPage = new OverviewPage();
