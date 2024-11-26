@@ -6,12 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Added
+
+- Add trust page sub navigation
+
 ### Changed
 
 - Overall effectiveness ofsted rating can now be 'not judged'
 - Improve performance of search page and search autocomplete
 - Minor performance improvement to all academies db database calls
 - Refactored and split up the program file into separate config files
+- Split up all trust pages into sub pages
 
 ## [Release-13][release-13] (production-2024-11-14.4036)
 

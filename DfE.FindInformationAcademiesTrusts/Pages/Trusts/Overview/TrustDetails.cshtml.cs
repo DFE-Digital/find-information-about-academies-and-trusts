@@ -1,18 +1,16 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+﻿using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
 
-public class OverviewModel(
+public class TrustDetailsModel(
     IDataSourceService dataSourceService,
-    ILogger<OverviewModel> logger,
+    ILogger<TrustDetailsModel> logger,
     ITrustService trustService,
     IOtherServicesLinkBuilder otherServicesLinkBuilder)
-    : TrustsAreaModel(dataSourceService, trustService, logger, "Overview")
+    : OverviewAreaModel(dataSourceService, trustService, logger)
 {
-    public TrustOverviewServiceModel TrustOverview { get; set; } = default!;
     public string? CompaniesHouseLink { get; set; }
     public string? GetInformationAboutSchoolsLink { get; set; }
     public string? SchoolsFinancialBenchmarkingLink { get; set; }
@@ -22,9 +20,6 @@ public class OverviewModel(
     {
         var pageResult = await base.OnGetAsync();
         if (pageResult is NotFoundResult) return pageResult;
-
-        // Fetch the trust overview data
-        TrustOverview = await TrustService.GetTrustOverviewAsync(Uid);
 
         // Setup external links
         CompaniesHouseLink = otherServicesLinkBuilder.CompaniesHouseListingLink(TrustOverview.CompaniesHouseNumber);
@@ -37,17 +32,6 @@ public class OverviewModel(
             otherServicesLinkBuilder.FindSchoolPerformanceDataListingLink(TrustOverview.Uid, TrustOverview.Type,
                 TrustOverview.SingleAcademyTrustAcademyUrn);
 
-        // Add data sources
-        DataSources.Add(new DataSourceListEntry(
-            await DataSourceService.GetAsync(Source.Gias),
-            new List<string> { "Trust details", "Trust summary", "Reference numbers" }));
-
         return Page();
     }
-
-    public IEnumerable<(string Authority, int Total)> AcademiesInEachLocalAuthority =>
-        TrustOverview.AcademiesByLocalAuthority
-            .OrderByDescending(kv => kv.Value)
-            .ThenBy(kv => kv.Key)
-            .Select(kv => (Authority: kv.Key, Total: kv.Value));
 }

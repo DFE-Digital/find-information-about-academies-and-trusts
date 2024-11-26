@@ -30,7 +30,7 @@ public class EditTrustRelationshipManagerModelTests
 
         _sut = new EditTrustRelationshipManagerModel(_mockDataSourceService.Object,
                 new MockLogger<EditTrustRelationshipManagerModel>().Object, _mockTrustService.Object)
-        { Uid = "1234" };
+            { Uid = "1234" };
     }
 
     [Fact]
@@ -80,7 +80,7 @@ public class EditTrustRelationshipManagerModelTests
 
         result.Should().BeOfType<RedirectToPageResult>();
         var redirect = result as RedirectToPageResult;
-        redirect!.PageName.Should().Be("/Trusts/Contacts");
+        redirect!.PageName.Should().Be("/Trusts/Contacts/InDfe");
     }
 
     [Fact]

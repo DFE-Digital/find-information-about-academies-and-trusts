@@ -1,15 +1,16 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Governance;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Governance;
 
-public class GovernanceModelTests
+public class TrusteesModelTests
 {
-    private readonly GovernanceModel _sut;
+    private readonly TrusteesModel _sut;
     private static readonly DateTime StartDate = DateTime.Today.AddYears(-3);
     private static readonly DateTime FutureEndDate = DateTime.Today.AddYears(1);
     private static readonly DateTime HistoricEndDate = DateTime.Today.AddYears(-1);
@@ -66,16 +67,16 @@ public class GovernanceModelTests
 
     private static readonly string TestUid = "1234";
 
-    public GovernanceModelTests()
+    public TrusteesModelTests()
     {
         _mockTrustRepository.Setup(t => t.GetTrustGovernanceAsync(TestUid))
             .ReturnsAsync(DummyTrustGovernanceServiceModel);
         _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(TestUid))
             .ReturnsAsync(new TrustSummaryServiceModel(TestUid, "My trust", "", 0));
 
-        _sut = new GovernanceModel(_mockDataSourceService.Object,
-                new MockLogger<GovernanceModel>().Object, _mockTrustRepository.Object)
-        { Uid = TestUid };
+        _sut = new TrusteesModel(_mockDataSourceService.Object,
+                new MockLogger<TrusteesModel>().Object, _mockTrustRepository.Object)
+            { Uid = TestUid };
     }
 
     [Fact]
@@ -120,12 +121,24 @@ public class GovernanceModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.NavigationLinks.Should().BeEquivalentTo([
-            new TrustNavigationLinkModel("Overview", "/Trusts/Overview", "1234", false, "overview-nav"),
-            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts", "1234", false, "contacts-nav"),
+            new TrustNavigationLinkModel("Overview", "/Trusts/Overview/TrustDetails", "1234", false, "overview-nav"),
+            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", "1234", false, "contacts-nav"),
             new TrustNavigationLinkModel("Academies (0)", "/Trusts/Academies/Details",
                 "1234", false, "academies-nav"),
-            new TrustNavigationLinkModel("Governance", "/Trusts/Governance", "1234", true,
+            new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", "1234", true,
                 "governance-nav")
+        ]);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_correct_SubNavigationLinks()
+    {
+        _ = await _sut.OnGetAsync();
+        _sut.SubNavigationLinks.Should().BeEquivalentTo([
+            new TrustSubNavigationLinkModel("Trust leadership (1)", "./TrustLeadership", "1234", "Governance", false),
+            new TrustSubNavigationLinkModel("Trustees (1)", "./Trustees", "1234", "Governance", true),
+            new TrustSubNavigationLinkModel("Members (1)", "./Members", "1234", "Governance", false),
+            new TrustSubNavigationLinkModel("Historic members (1)", "./HistoricMembers", "1234", "Governance", false)
         ]);
     }
 }

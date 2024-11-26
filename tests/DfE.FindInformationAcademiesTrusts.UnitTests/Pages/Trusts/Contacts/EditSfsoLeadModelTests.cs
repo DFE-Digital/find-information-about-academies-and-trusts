@@ -29,7 +29,7 @@ public class EditSfsoLeadModelTests
 
         _sut = new EditSfsoLeadModel(_mockDataSourceService.Object,
                 new MockLogger<EditSfsoLeadModel>().Object, _mockTrustService.Object)
-        { Uid = "1234" };
+            { Uid = "1234" };
     }
 
     [Fact]
@@ -78,7 +78,7 @@ public class EditSfsoLeadModelTests
 
         result.Should().BeOfType<RedirectToPageResult>();
         var redirect = result as RedirectToPageResult;
-        redirect!.PageName.Should().Be("/Trusts/Contacts");
+        redirect!.PageName.Should().Be("/Trusts/Contacts/InDfe");
     }
 
     [Fact]

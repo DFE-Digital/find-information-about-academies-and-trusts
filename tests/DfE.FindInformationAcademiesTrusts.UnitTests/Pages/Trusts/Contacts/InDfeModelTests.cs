@@ -1,15 +1,16 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Contacts;
 
-public class ContactsModelTests
+public class InDfeModelTests
 {
-    private readonly ContactsModel _sut;
+    private readonly InDfeModel _sut;
 
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustService = new();
@@ -24,7 +25,7 @@ public class ContactsModelTests
     private readonly InternalContact _trustRelationshipManager =
         new("Trust Relationship Manager", "trm@test.com", DateTime.Today, "test@email.com");
 
-    public ContactsModelTests()
+    public InDfeModelTests()
     {
         _mockTrustService.Setup(tp => tp.GetTrustContactsAsync("1234")).ReturnsAsync(
             new TrustContactsServiceModel(_trustRelationshipManager, _sfsoLead, _accountingOfficer, _chairOfTrustees,
@@ -32,8 +33,9 @@ public class ContactsModelTests
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
             .ReturnsAsync(_fakeTrust);
 
-        _sut = new ContactsModel(_mockDataSourceService.Object,
-                new MockLogger<ContactsModel>().Object, _mockTrustService.Object)
+        _sut = new InDfeModel(_mockDataSourceService.Object,
+                _mockTrustService.Object,
+                new MockLogger<InDfeModel>().Object)
             { Uid = "1234" };
     }
 
@@ -145,12 +147,22 @@ public class ContactsModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.NavigationLinks.Should().BeEquivalentTo([
-            new TrustNavigationLinkModel("Overview", "/Trusts/Overview", "1234", false, "overview-nav"),
-            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts", "1234", true, "contacts-nav"),
+            new TrustNavigationLinkModel("Overview", "/Trusts/Overview/TrustDetails", "1234", false, "overview-nav"),
+            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", "1234", true, "contacts-nav"),
             new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
                 "1234", false, "academies-nav"),
-            new TrustNavigationLinkModel("Governance", "/Trusts/Governance", "1234", false,
+            new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", "1234", false,
                 "governance-nav")
+        ]);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_correct_SubNavigationLinks()
+    {
+        _ = await _sut.OnGetAsync();
+        _sut.SubNavigationLinks.Should().BeEquivalentTo([
+            new TrustSubNavigationLinkModel("In DfE", "./InDfE", "1234", "Contacts", true),
+            new TrustSubNavigationLinkModel("In the trust", "./InTrust", "1234", "Contacts", false)
         ]);
     }
 }
