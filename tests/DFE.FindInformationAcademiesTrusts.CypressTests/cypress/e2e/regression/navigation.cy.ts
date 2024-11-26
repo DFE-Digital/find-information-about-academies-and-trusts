@@ -1,8 +1,8 @@
 import navigation from "../../pages/navigation";
-import academiesInTrustPage from "../../pages/trusts/academiesInTrustPage";
+import academiesPage from "../../pages/trusts/academiesPage";
 import governancePage from "../../pages/trusts/governancePage";
-import trustContactsPage from "../../pages/trusts/trustContactsPage";
-import trustOverviewPage from "../../pages/trusts/trustOverviewPage";
+import contactsPage from "../../pages/trusts/contactsPage";
+import overviewPage from "../../pages/trusts/overviewPage";
 
 describe('Testing Navigation', () => {
 
@@ -14,32 +14,32 @@ describe('Testing Navigation', () => {
         it("Should check that the home page footer bar privacy link is present and functional", () => {
             navigation
                 .checkPrivacyLinkPresent()
-                .clickPrivacyLink()
+                .clickPrivacyLink();
 
             navigation
-                .checkCurrentURLIsCorrect('privacy')
+                .checkCurrentURLIsCorrect('privacy');
 
         });
 
         it("Should check that the home page footer bar cookies link is present and functional", () => {
             navigation
                 .checkCookiesLinkPresent()
-                .clickCookiesLink()
+                .clickCookiesLink();
 
             navigation
-                .checkCurrentURLIsCorrect('cookies')
+                .checkCurrentURLIsCorrect('cookies');
 
         });
 
         it("Should check that the home page footer bar accessibility statement link is present and functional", () => {
             navigation
                 .checkAccessibilityStatementLinkPresent()
-                .clickAccessibilityStatementLink()
+                .clickAccessibilityStatementLink();
 
             navigation
-                .checkCurrentURLIsCorrect('accessibility')
+                .checkCurrentURLIsCorrect('accessibility');
         });
-    })
+    });
 
     describe("Testing the breadcrumb links and their relevant functionality", () => {
         beforeEach(() => {
@@ -48,26 +48,26 @@ describe('Testing Navigation', () => {
 
         ['/search', '/accessibility', '/cookies', '/privacy', '/notfound'].forEach((url) => {
             it(`Should have Home breadcrumb only on ${url}`, () => {
-                cy.visit(url, { failOnStatusCode: false })
+                cy.visit(url, { failOnStatusCode: false });
 
                 navigation
                     .checkCurrentURLIsCorrect(url)
                     .checkHomeBreadcrumbPresent()
                     .clickHomeBreadcrumbButton()
-                    .checkBrowserPageTitleContains('Home page')
+                    .checkBrowserPageTitleContains('Home page');
             });
         });
 
         ['/', '/error'].forEach((url) => {
             it(`Should have no breadcrumb on ${url}`, () => {
-                cy.visit(url)
+                cy.visit(url);
 
                 navigation
                     .checkCurrentURLIsCorrect(url)
                     .checkAccessibilityStatementLinkPresent() // ensure page content has loaded - all pages have an a11y statement link
-                    .checkBreadcrumbNotPresent()
+                    .checkBreadcrumbNotPresent();
             });
-        })
+        });
 
         it('Should check that a trusts name breadcrumb is displayed on the trusts page', () => {
             cy.visit('/trusts/overview?uid=5712');
@@ -75,7 +75,7 @@ describe('Testing Navigation', () => {
             navigation
                 .checkTrustNameBreadcrumbPresent('ASPIRE NORTH EAST MULTI ACADEMY TRUST')
                 .clickHomeBreadcrumbButton()
-                .checkBrowserPageTitleContains('Home page')
+                .checkBrowserPageTitleContains('Home page');
         });
 
         it('Should check a different trusts name breadcrumb is displayed on the trusts page', () => {
@@ -84,9 +84,9 @@ describe('Testing Navigation', () => {
             navigation
                 .checkTrustNameBreadcrumbPresent('ASHTON WEST END PRIMARY ACADEMY')
                 .clickHomeBreadcrumbButton()
-                .checkBrowserPageTitleContains('Home page')
+                .checkBrowserPageTitleContains('Home page');
         });
-    })
+    });
 
     describe("Testing the service navigation", () => {
         beforeEach(() => {
@@ -99,20 +99,20 @@ describe('Testing Navigation', () => {
                 .clickContactsServiceNavButton()
                 .checkContactsServiceNavButtonIsHighlighed()
                 .checkCurrentURLIsCorrect('/contacts?uid=5527')
-                .checkAllServiceNavItemsPresent()
-            trustContactsPage
+                .checkAllServiceNavItemsPresent();
+            contactsPage
                 .checkChairOfTrusteesPresent()
-                .checkAccountingOfficerPresent()
+                .checkAccountingOfficerPresent();
         });
 
         it('Should check that the Academies navigation button takes me to the correct page', () => {
             navigation
-                .clickAcademiesInThisTrustServiceNavButton()
-                .checkAcademiesInThisTrustServiceNavButtonIsHighlighted()
+                .clickAcademiesServiceNavButton()
+                .checkAcademiesServiceNavButtonIsHighlighted()
                 .checkCurrentURLIsCorrect('/academies/details?uid=5527')
-                .checkAllServiceNavItemsPresent()
-            academiesInTrustPage
-                .checkDetailsHeadersPresent()
+                .checkAllServiceNavItemsPresent();
+            academiesPage
+                .checkDetailsHeadersPresent();
         });
 
         it('Should check that the Governance navigation button takes me to the correct page', () => {
@@ -120,9 +120,9 @@ describe('Testing Navigation', () => {
                 .clickGovernanceServiceNavButton()
                 .checkGovernanceServiceNavButtonIsHighlighted()
                 .checkCurrentURLIsCorrect('/governance?uid=5527')
-                .checkAllServiceNavItemsPresent()
+                .checkAllServiceNavItemsPresent();
             governancePage
-                .checkTrusteeColumnHeaders()
+                .checkTrusteesTableHeadersAreVisible();
         });
 
         it('Should check that the Overview navigation button takes me to the correct page', () => {
@@ -131,11 +131,11 @@ describe('Testing Navigation', () => {
                 .clickOverviewServiceNavButton()
                 .checkOverviewServiceNavButtonIsHighlighted()
                 .checkCurrentURLIsCorrect('/overview?uid=5527')
-                .checkAllServiceNavItemsPresent()
-            trustOverviewPage
-                .checkOverviewHeaderPresent()
+                .checkAllServiceNavItemsPresent();
+            overviewPage
+                .checkOverviewHeaderPresent();
         });
 
-    })
+    });
 
-})
+});

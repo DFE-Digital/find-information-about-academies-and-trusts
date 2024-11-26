@@ -1,6 +1,6 @@
 import { SortingUtility } from "./sortingUtility";
 
-class AcademiesInTrustPage {
+class AcademiesPage {
     // Elements for each page section
     elements = {
         PageTabs: {
@@ -162,5 +162,5 @@ class AcademiesInTrustPage {
     }
 }
 
-const academiesInTrustPage = new AcademiesInTrustPage();
-export default academiesInTrustPage;
+const academiesPage = new AcademiesPage();
+export default academiesPage;

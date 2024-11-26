@@ -5,6 +5,7 @@ import path from 'path';
 module.exports = defineConfig({
   userAgent: 'FindInformationAcademiesTrusts/1.0 Cypress',
   e2e: {
+    experimentalRunAllSpecs: true,
     reporter: 'cypress-multi-reporters',
     reporterOptions: {
       reporterEnabled: 'mochawesome',
@@ -14,7 +15,7 @@ module.exports = defineConfig({
         overwrite: false,
         html: false,
         json: true,
-      },
+      }
     },
 
     setupNodeEvents(on, config) {
