@@ -1,6 +1,8 @@
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,11 +12,15 @@ public class OfstedAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
     IAcademyService academyService,
+    IExportService exportService,
+    IDateTimeProvider dateTimeProvider,
     ILogger<OfstedAreaModel> logger)
     : TrustsAreaModel(dataSourceService, trustService, logger, "Ofsted")
 {
     public AcademyOfstedServiceModel[] Academies { get; set; } = default!;
     private IAcademyService AcademyService { get; } = academyService;
+    protected IExportService ExportService { get; } = exportService;
+    public IDateTimeProvider DateTimeProvider { get; } = dateTimeProvider;
 
     public override async Task<IActionResult> OnGetAsync()
     {
@@ -48,5 +54,25 @@ public class OfstedAreaModel(
         ]));
 
         return pageResult;
+    }
+
+    public virtual async Task<IActionResult> OnGetExportAsync(string uid)
+    {
+        var trustSummary = await TrustService.GetTrustSummaryAsync(uid);
+
+        if (trustSummary == null)
+        {
+            return new NotFoundResult();
+        }
+
+        // Sanitize the trust name to remove any illegal characters
+        var sanitizedTrustName =
+            string.Concat(trustSummary.Name.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
+
+        var fileContents = await ExportService.ExportAcademiesToSpreadsheetAsync(uid);
+        var fileName = $"{sanitizedTrustName}-{DateTimeProvider.Now:yyyy-MM-dd}.xlsx";
+        var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+        return File(fileContents, contentType, fileName);
     }
 }
