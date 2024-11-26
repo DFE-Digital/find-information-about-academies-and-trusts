@@ -5,31 +5,31 @@ describe("Testing the components of the Academies page", () => {
 
     describe("Details tab", () => {
         beforeEach(() => {
-            cy.login()
-            cy.visit('/trusts/academies/details?uid=5712')
+            cy.login();
+            cy.visit('/trusts/academies/details?uid=5712');
         });
 
         it("Checks the correct details page headers are present", () => {
             academiesPage
-                .checkDetailsHeadersPresent()
-        })
+                .checkDetailsHeadersPresent();
+        });
 
         it("Checks that the correct school types are present", () => {
             academiesPage
-                .checkSchoolTypesOnDetailsTable()
-        })
+                .checkSchoolTypesOnDetailsTable();
+        });
 
         it("Checks that a different and larger trusts correct school types are present", () => {
-            cy.visit('/trusts/academies/details?uid=5143')
+            cy.visit('/trusts/academies/details?uid=5143');
             academiesPage
-                .checkSchoolTypesOnDetailsTable()
-        })
+                .checkSchoolTypesOnDetailsTable();
+        });
 
         it("Checks the detail page sorting", () => {
-            cy.visit('/trusts/academies/details?uid=5143')
+            cy.visit('/trusts/academies/details?uid=5143');
             academiesPage
-                .checkTrustDetailsSorting()
-        })
+                .checkTrustDetailsSorting();
+        });
 
         it('should match the academy count in the sidebar with the actual table row count on the Details page', () => {
             academiesPage.getAcademyCountFromSidebar().then(expectedCount => {
@@ -43,80 +43,80 @@ describe("Testing the components of the Academies page", () => {
                 academiesPage.getTableRowCountOnDetailsPage().should('eq', expectedCount);
             });
         });
-    })
+    });
 
     describe("Ofsted ratings tab", () => {
         beforeEach(() => {
-            cy.login()
-            cy.visit('/trusts/academies/ofsted-ratings?uid=5712')
+            cy.login();
+            cy.visit('/trusts/academies/ofsted-ratings?uid=5712');
         });
 
         it("Checks the correct Ofsted page headers are present", () => {
             academiesPage
-                .checkOfstedHeadersPresent()
-        })
+                .checkOfstedHeadersPresent();
+        });
 
         it("Checks that a trusts correct Current Ofsted rating types are present", () => {
             academiesPage
-                .checkCurrentOfstedTypesOnOfstedTable()
-        })
+                .checkCurrentOfstedTypesOnOfstedTable();
+        });
 
         it("Checks that a trusts correct Previous Ofsted rating types are present", () => {
             academiesPage
-                .checkPreviousOfstedTypesOnOfstedTable()
-        })
+                .checkPreviousOfstedTypesOnOfstedTable();
+        });
 
         it("Checks that a different trusts correct Current Ofsted rating types are present", () => {
-            cy.visit('/trusts/academies/ofsted-ratings?uid=5143')
+            cy.visit('/trusts/academies/ofsted-ratings?uid=5143');
             academiesPage
-                .checkCurrentOfstedTypesOnOfstedTable()
-        })
+                .checkCurrentOfstedTypesOnOfstedTable();
+        });
 
         it("Checks that a different trusts correct Previous Ofsted rating types are present", () => {
-            cy.visit('/trusts/academies/ofsted-ratings?uid=5143')
+            cy.visit('/trusts/academies/ofsted-ratings?uid=5143');
             academiesPage
-                .checkPreviousOfstedTypesOnOfstedTable()
-        })
+                .checkPreviousOfstedTypesOnOfstedTable();
+        });
 
         it("Checks the Ofsted page sorting", () => {
             academiesPage
-                .checkOfstedSorting()
-        })
+                .checkOfstedSorting();
+        });
 
-    })
+    });
 
     describe("Pupil numbers tab", () => {
         beforeEach(() => {
-            cy.login()
-            cy.visit('/trusts/academies/pupil-numbers?uid=5712')
+            cy.login();
+            cy.visit('/trusts/academies/pupil-numbers?uid=5712');
         });
 
         it("Checks the correct Pupil numbers page headers are present", () => {
             academiesPage
-                .checkPupilNumbersHeadersPresent()
-        })
+                .checkPupilNumbersHeadersPresent();
+        });
 
         it("Checks the Ofsted page sorting", () => {
-            cy.visit('/trusts/academies/pupil-numbers?uid=5143')
+            cy.visit('/trusts/academies/pupil-numbers?uid=5143');
             academiesPage
-                .checkPupilNumbersSorting()
-        })
+                .checkPupilNumbersSorting();
+        });
 
 
-    })
+    });
 
     describe("Free school meals", () => {
         beforeEach(() => {
-            cy.login()
-            cy.visit('/trusts/academies/free-school-meals?uid=5712')
+            cy.login();
+            cy.visit('/trusts/academies/free-school-meals?uid=5712');
         });
 
         it("Checks the correct Free school meals page headers are present", () => {
             academiesPage
-                .checkFreeSchoolMealsHeadersPresent()
-        })
+                .checkFreeSchoolMealsHeadersPresent();
+        });
 
-    })
+    });
 
     describe("Testing the academies sub navigation", () => {
         beforeEach(() => {
@@ -129,9 +129,9 @@ describe("Testing the components of the Academies page", () => {
                 .clickOfstedAcadmiesTrustButton()
                 .checkCurrentURLIsCorrect('/trusts/academies/ofsted-ratings?uid=5527')
                 .checkAllServiceNavItemsPresent()
-                .checkAllAcademiesNavItemsPresent()
+                .checkAllAcademiesNavItemsPresent();
             academiesPage
-                .checkOfstedHeadersPresent()
+                .checkOfstedHeadersPresent();
         });
 
         it('Should check that the academies Pupil numbers navigation button takes me to the correct page', () => {
@@ -139,9 +139,9 @@ describe("Testing the components of the Academies page", () => {
                 .clickPupilNumbersAcadmiesTrustButton()
                 .checkCurrentURLIsCorrect('/trusts/academies/pupil-numbers?uid=5527')
                 .checkAllServiceNavItemsPresent()
-                .checkAllAcademiesNavItemsPresent()
+                .checkAllAcademiesNavItemsPresent();
             academiesPage
-                .checkPupilNumbersHeadersPresent()
+                .checkPupilNumbersHeadersPresent();
         });
 
         it('Should check that the academies Free school meals navigation button takes me to the correct page', () => {
@@ -149,26 +149,26 @@ describe("Testing the components of the Academies page", () => {
                 .clickFreeSchoolMealsAcadmiesTrustButton()
                 .checkCurrentURLIsCorrect('/trusts/academies/free-school-meals?uid=5527')
                 .checkAllServiceNavItemsPresent()
-                .checkAllAcademiesNavItemsPresent()
+                .checkAllAcademiesNavItemsPresent();
             academiesPage
-                .checkFreeSchoolMealsHeadersPresent()
+                .checkFreeSchoolMealsHeadersPresent();
         });
 
         it('Should check that the academies Details navigation button takes me to the correct page', () => {
-            cy.visit('/trusts/academies/free-school-meals?uid=5527')
+            cy.visit('/trusts/academies/free-school-meals?uid=5527');
             navigation
                 .clickDetailsAcadmiesTrustButton()
                 .checkCurrentURLIsCorrect('/trusts/academies/details?uid=5527')
                 .checkAllServiceNavItemsPresent()
-                .checkAllAcademiesNavItemsPresent()
+                .checkAllAcademiesNavItemsPresent();
             academiesPage
-                .checkDetailsHeadersPresent()
+                .checkDetailsHeadersPresent();
         });
 
         it('Should check that the academies sub nav items are not present when I am not in the relevant academies page', () => {
-            cy.visit('/trusts/overview?uid=5527');
+            cy.visit('/trusts/overview/trust-details?uid=5527');
             navigation
-                .checkAcademiesSubNavNotPresent()
+                .checkAcademiesSubNavNotPresent();
         });
-    })
-})
+    });
+});
