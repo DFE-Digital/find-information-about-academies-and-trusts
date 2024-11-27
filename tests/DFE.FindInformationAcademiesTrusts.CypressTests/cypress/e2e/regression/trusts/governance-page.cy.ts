@@ -90,6 +90,20 @@ describe("Testing the components of the Governance page", () => {
                 cy.visit(`/trusts/governance/historic-members?uid=${uid}`);
                 governancePage.checkHistoricMembersColumnsSortCorrectly();
             });
+
+            it("Sub navigation links contain correct number of governors", () => {
+                cy.visit(`/trusts/governance/trust-leadership?uid=${uid}`);
+                governancePage.checkTrustLeadershipLinkValueMatchesNumberOfTrustLeaders();
+
+                cy.visit(`/trusts/governance/trustees?uid=${uid}`);
+                governancePage.checkTrusteesLinkValueMatchesNumberOfTrustees();
+
+                cy.visit(`/trusts/governance/members?uid=${uid}`);
+                governancePage.checkMembersLinkValueMatchesNumberOfMembers();
+
+                cy.visit(`/trusts/governance/historic-members?uid=${uid}`);
+                governancePage.checkHistoricMembersLinkValueMatchesNumberOfHistoricMembers();
+            });
         });
     });
 
@@ -197,7 +211,6 @@ describe("Testing the components of the Governance page", () => {
                 .checkAllSubNavItemsPresent()
                 .checkHistoricMembersSubHeaderPresent();
         });
-
 
         it('Should check that the governance sub nav items are not present when I am not on the governance page', () => {
             cy.visit('/trusts/overview/trust-details?uid=5527');
