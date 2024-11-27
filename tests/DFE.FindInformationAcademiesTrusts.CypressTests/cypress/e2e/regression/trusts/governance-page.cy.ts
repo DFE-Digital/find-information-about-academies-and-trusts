@@ -3,86 +3,97 @@ import governancePage from "../../../pages/trusts/governancePage";
 
 describe("Testing the components of the Governance page", () => {
 
-    describe("On a Governance page with data", () => {
-        const trustWithFullGovernanceData = 5712;
+    beforeEach(() => {
+        cy.login();
+    });
 
-        beforeEach(() => {
-            cy.login();
-        });
+    const trustsWithGovernanceData = [
+        {
+            typeOfTrust: "single academy trust with governance data",
+            uid: 5712
+        },
+        {
+            typeOfTrust: "multi academy trust with governance data",
+            uid: 5527
+        }
+    ];
+    trustsWithGovernanceData.forEach(({ typeOfTrust, uid }) => {
+        describe(`On the Governance pages for a ${typeOfTrust}`, () => {
 
-        it("The trust leadership page loads with the correct headings and data", () => {
-            cy.visit(`/trusts/governance/trust-leadership?uid=${trustWithFullGovernanceData}`);
+            it("The trust leadership page loads with the correct headings and data", () => {
+                cy.visit(`/trusts/governance/trust-leadership?uid=${uid}`);
 
-            // Trust leadership table is visible and working
-            governancePage
-                .checkTrustLeadershipSubHeaderPresent()
-                .checkTrustLeadershipTableHeadersAreVisible()
-                .checkTrustLeadershipAppointmentDatesAreCurrent()
-                .checkOnlyTrustLeadershipRolesArePresent();
+                // Trust leadership table is visible and working
+                governancePage
+                    .checkTrustLeadershipSubHeaderPresent()
+                    .checkTrustLeadershipTableHeadersAreVisible()
+                    .checkTrustLeadershipAppointmentDatesAreCurrent()
+                    .checkOnlyTrustLeadershipRolesArePresent();
 
-            // "No Trust Leadership" message is hidden
-            governancePage
-                .checkNoTrustLeadershipMessageIsHidden();
-        });
+                // "No Trust Leadership" message is hidden
+                governancePage
+                    .checkNoTrustLeadershipMessageIsHidden();
+            });
 
-        it("The trustees page loads with the correct headings and data", () => {
-            cy.visit(`/trusts/governance/trustees?uid=${trustWithFullGovernanceData}`);
+            it("The trustees page loads with the correct headings and data", () => {
+                cy.visit(`/trusts/governance/trustees?uid=${uid}`);
 
-            // Trustee table is visible and working
-            governancePage
-                .checkTrusteesSubHeaderPresent()
-                .checkTrusteesTableHeadersAreVisible()
-                .checkTrusteesAppointmentDatesAreCurrent();
+                // Trustee table is visible and working
+                governancePage
+                    .checkTrusteesSubHeaderPresent()
+                    .checkTrusteesTableHeadersAreVisible()
+                    .checkTrusteesAppointmentDatesAreCurrent();
 
-            // "No Trustees" message is hidden
-            governancePage
-                .checkNoTrusteesMessageIsHidden();
-        });
+                // "No Trustees" message is hidden
+                governancePage
+                    .checkNoTrusteesMessageIsHidden();
+            });
 
-        it("The members page loads with the correct headings and data", () => {
-            cy.visit(`/trusts/governance/members?uid=${trustWithFullGovernanceData}`);
+            it("The members page loads with the correct headings and data", () => {
+                cy.visit(`/trusts/governance/members?uid=${uid}`);
 
-            // Members table is visible and working
-            governancePage
-                .checkMembersSubHeaderPresent()
-                .checkMembersTableHeadersAreVisible()
-                .checkMembersAppointmentDatesAreCurrent();
+                // Members table is visible and working
+                governancePage
+                    .checkMembersSubHeaderPresent()
+                    .checkMembersTableHeadersAreVisible()
+                    .checkMembersAppointmentDatesAreCurrent();
 
-            // "No Members" message is hidden
-            governancePage
-                .checkNoMembersMessageIsHidden();
-        });
+                // "No Members" message is hidden
+                governancePage
+                    .checkNoMembersMessageIsHidden();
+            });
 
-        it("The historic members page loads with the correct headings and data", () => {
-            cy.visit(`/trusts/governance/historic-members?uid=${trustWithFullGovernanceData}`);
+            it("The historic members page loads with the correct headings and data", () => {
+                cy.visit(`/trusts/governance/historic-members?uid=${uid}`);
 
-            // Historic members table is visible and working
-            governancePage
-                .checkHistoricMembersSubHeaderPresent()
-                .checkHistoricMembersTableHeadersAreVisible()
-                .checkHistoricMembersAppointmentDatesAreInThePast();
+                // Historic members table is visible and working
+                governancePage
+                    .checkHistoricMembersSubHeaderPresent()
+                    .checkHistoricMembersTableHeadersAreVisible()
+                    .checkHistoricMembersAppointmentDatesAreInThePast();
 
-            // "No Historic Members" message is hidden
-            governancePage
-                .checkNoHistoricMembersMessageIsHidden();
-        });
+                // "No Historic Members" message is hidden
+                governancePage
+                    .checkNoHistoricMembersMessageIsHidden();
+            });
 
-        it("Table sorting is working", () => {
-            cy.visit(`/trusts/governance/trust-leadership?uid=${trustWithFullGovernanceData}`);
-            governancePage.checkTrustLeadershipColumnsSortCorrectly();
+            it("Table sorting is working", () => {
+                cy.visit(`/trusts/governance/trust-leadership?uid=${uid}`);
+                governancePage.checkTrustLeadershipColumnsSortCorrectly();
 
-            cy.visit(`/trusts/governance/trustees?uid=${trustWithFullGovernanceData}`);
-            governancePage.checkTrusteesColumnsSortCorrectly();
+                cy.visit(`/trusts/governance/trustees?uid=${uid}`);
+                governancePage.checkTrusteesColumnsSortCorrectly();
 
-            cy.visit(`/trusts/governance/members?uid=${trustWithFullGovernanceData}`);
-            governancePage.checkMembersColumnsSortCorrectly();
+                cy.visit(`/trusts/governance/members?uid=${uid}`);
+                governancePage.checkMembersColumnsSortCorrectly();
 
-            cy.visit(`/trusts/governance/historic-members?uid=${trustWithFullGovernanceData}`);
-            governancePage.checkHistoricMembersColumnsSortCorrectly();
+                cy.visit(`/trusts/governance/historic-members?uid=${uid}`);
+                governancePage.checkHistoricMembersColumnsSortCorrectly();
+            });
         });
     });
 
-    [
+    const trustsWithNoGovernanceData = [
         {
             typeOfTrust: "single academy trust with no governance data",
             uid: 17737
@@ -91,14 +102,11 @@ describe("Testing the components of the Governance page", () => {
             typeOfTrust: "multi academy trust with no governance data",
             uid: 17637
         }
-    ].forEach(({ typeOfTrust, uid }) => {
-        describe.only(`On a Governance page for a ${typeOfTrust}`, () => {
-            beforeEach(() => {
-                cy.login();
-            });
+    ];
+    trustsWithNoGovernanceData.forEach(({ typeOfTrust, uid }) => {
+        describe(`On the Governance pages for a ${typeOfTrust}`, () => {
 
             it("The tables should be replaced with no data messages", () => {
-                cy.login();
                 cy.visit(`/trusts/governance/trust-leadership?uid=${uid}`);
                 governancePage.checkNoTrustLeadershipMessageIsVisible();
 
@@ -133,9 +141,6 @@ describe("Testing the components of the Governance page", () => {
     });
 
     describe("Testing the governance sub navigation", () => {
-        beforeEach(() => {
-            cy.login();
-        });
 
         it('Should check that the trust leadership navigation button takes me to the correct page', () => {
             cy.visit('/trusts/governance/historic-members?uid=5527');
