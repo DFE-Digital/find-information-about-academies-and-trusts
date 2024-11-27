@@ -238,22 +238,22 @@ class GovernancePage {
     //
     // **********************
 
-    public checkNoTrustLeadershipMessageIsVisble(): this {
+    public checkNoTrustLeadershipMessageIsVisible(): this {
         this.elements.TrustLeadership.NoDataMessage().should('be.visible');
         return this;
     }
 
-    public checkNoTrusteesMessageIsVisble(): this {
+    public checkNoTrusteesMessageIsVisible(): this {
         this.elements.Trustees.NoDataMessage().should('be.visible');
         return this;
     }
 
-    public checkNotMembersMessageIsVisble(): this {
+    public checkNotMembersMessageIsVisible(): this {
         this.elements.Members.NoDataMessage().should('be.visible');
         return this;
     }
 
-    public checkNoHistoricMembersMessageIsVisble(): this {
+    public checkNoHistoricMembersMessageIsVisible(): this {
         this.elements.HistoricMembers.NoDataMessage().should('be.visible');
         return this;
     }
@@ -359,6 +359,37 @@ class GovernancePage {
 
     public checkHistoricMembersSubnavButtonIsHighlighted(): this {
         this.elements.subNav.historicMembersSubnavButton().should('have.prop', 'aria-current', true);
+        return this;
+    }
+
+    private getCountFromSubNavButton(subNavButton: Cypress.Chainable<JQuery<HTMLElement>>): Cypress.Chainable<number> {
+        return subNavButton
+            .invoke('text')
+            .then(text => {
+                const matches = /\d+/.exec(text);
+                if (!matches)
+                    throw new Error("No count found in button text.");
+                return parseInt(matches[0]);
+            });
+    }
+
+    public checkTrustLeadershipSubnavButtonHasZeroInBrackets(): this {
+        this.getCountFromSubNavButton(this.elements.subNav.trustLeadershipSubnavButton()).should('eq', 0);
+        return this;
+    }
+
+    public checkTrusteesSubnavButtonHasZeroInBrackets(): this {
+        this.getCountFromSubNavButton(this.elements.subNav.trusteesSubnavButton()).should('eq', 0);
+        return this;
+    }
+
+    public checkMembersSubnavButtonHasZeroInBrackets(): this {
+        this.getCountFromSubNavButton(this.elements.subNav.membersSubnavButton()).should('eq', 0);
+        return this;
+    }
+
+    public checkHistoricMembersSubnavButtonHasZeroInBrackets(): this {
+        this.getCountFromSubNavButton(this.elements.subNav.historicMembersSubnavButton()).should('eq', 0);
         return this;
     }
 }

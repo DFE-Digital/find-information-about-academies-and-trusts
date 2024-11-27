@@ -82,28 +82,53 @@ describe("Testing the components of the Governance page", () => {
         });
     });
 
-    describe("On a Governance page without data", () => {
-        const trustWithNoGovernanceData = 5712;
+    [
+        {
+            typeOfTrust: "single academy trust with no governance data",
+            uid: 17737
+        },
+        {
+            typeOfTrust: "multi academy trust with no governance data",
+            uid: 17637
+        }
+    ].forEach(({ typeOfTrust, uid }) => {
+        describe.only(`On a Governance page for a ${typeOfTrust}`, () => {
+            beforeEach(() => {
+                cy.login();
+            });
 
-        beforeEach(() => {
-            cy.login();
-        });
+            it("The tables should be replaced with no data messages", () => {
+                cy.login();
+                cy.visit(`/trusts/governance/trust-leadership?uid=${uid}`);
+                governancePage.checkNoTrustLeadershipMessageIsVisible();
 
-        it("The tables should be replaced with no data messages", () => {
-            cy.visit(`/trusts/governance/trust-leadership?uid=${trustWithNoGovernanceData}`);
-            governancePage.checkNoTrustLeadershipMessageIsVisble();
+                cy.visit(`/trusts/governance/trustees?uid=${uid}`);
+                governancePage.checkNoTrusteesMessageIsVisible();
 
-            cy.visit(`/trusts/governance/trustees?uid=${trustWithNoGovernanceData}`);
-            governancePage.checkNoTrusteesMessageIsVisble();
+                cy.visit(`/trusts/governance/members?uid=${uid}`);
+                governancePage.checkNotMembersMessageIsVisible();
+            });
 
-            cy.visit(`/trusts/governance/members?uid=${trustWithNoGovernanceData}`);
-            governancePage.checkNotMembersMessageIsVisble();
-        });
+            //Skipping below test case until no data governance page issue sorted (Bug raised 179544)
+            it.skip("The historic members table should be replaced with no data message", () => {
+                cy.visit(`/trusts/governance/historic-members?uid=${uid}`);
+                governancePage.checkNoHistoricMembersMessageIsVisible();
+            });
 
-        //Skipping below test until no data governance page issue sorted (Bug raised 179544)
-        it.skip("The historic members table should be replaced with no data message", () => {
-            cy.visit(`/trusts/governance/historic-members?uid=${trustWithNoGovernanceData}`);
-            governancePage.checkNoHistoricMembersMessageIsVisble();
+            it("The number of governors in each sub nav title should be 0", () => {
+                cy.visit(`/trusts/governance/trust-leadership?uid=${uid}`);
+                governancePage.checkTrustLeadershipSubnavButtonHasZeroInBrackets();
+
+                cy.visit(`/trusts/governance/trustees?uid=${uid}`);
+                governancePage.checkTrusteesSubnavButtonHasZeroInBrackets();
+
+                cy.visit(`/trusts/governance/members?uid=${uid}`);
+                governancePage.checkMembersSubnavButtonHasZeroInBrackets();
+
+                cy.visit(`/trusts/governance/historic-members?uid=${uid}`);
+                governancePage.checkHistoricMembersSubnavButtonHasZeroInBrackets();
+            });
+
         });
     });
 
