@@ -147,9 +147,8 @@ describe("Testing the components of the Governance page", () => {
                 .checkCurrentURLIsCorrect('/trusts/governance/trust-leadership?uid=5527');
 
             governancePage
-                .checkAllSubNavItemsPresent();
-
-            // Todo: Check page sub-heading "Trust leadership" is visible
+                .checkAllSubNavItemsPresent()
+                .checkTrustLeadershipSubHeaderPresent();
         });
 
         it('Should check that the trustees navigation button takes me to the correct page', () => {
@@ -162,9 +161,8 @@ describe("Testing the components of the Governance page", () => {
                 .checkCurrentURLIsCorrect('/trusts/governance/trustees?uid=5527');
 
             governancePage
-                .checkAllSubNavItemsPresent();
-
-            // Todo: Check page sub-heading "Trustees" is visible
+                .checkAllSubNavItemsPresent()
+                .checkTrusteesSubHeaderPresent();
         });
 
         it('Should check that the members navigation button takes me to the correct page', () => {
@@ -177,9 +175,8 @@ describe("Testing the components of the Governance page", () => {
                 .checkCurrentURLIsCorrect('/trusts/governance/members?uid=5527');
 
             governancePage
-                .checkAllSubNavItemsPresent();
-
-            // Todo: Check page sub-heading "Members" is visible
+                .checkAllSubNavItemsPresent()
+                .checkMembersSubHeaderPresent();
         });
 
         it('Should check that the historic members navigation button takes me to the correct page', () => {
@@ -192,9 +189,8 @@ describe("Testing the components of the Governance page", () => {
                 .checkCurrentURLIsCorrect('/trusts/governance/historic-members?uid=5527');
 
             governancePage
-                .checkAllSubNavItemsPresent();
-
-            // Todo: Check page sub-heading "Historic members" is visible
+                .checkAllSubNavItemsPresent()
+                .checkHistoricMembersSubHeaderPresent();
         });
 
 
