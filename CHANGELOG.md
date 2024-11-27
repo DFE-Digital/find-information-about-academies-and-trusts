@@ -9,6 +9,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - Add trust page sub navigation
+- Added Ofsted pages to service nav level
+
+### Removed
+
+- Remove acadmies in trust ofsted page
 
 ### Changed
 
