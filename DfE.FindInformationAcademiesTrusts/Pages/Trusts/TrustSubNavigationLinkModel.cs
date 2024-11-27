@@ -1,4 +1,6 @@
-﻿namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+﻿using DfE.FindInformationAcademiesTrusts.Extensions;
+
+namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public record TrustSubNavigationLinkModel(
     string LinkText,
@@ -7,6 +9,5 @@ public record TrustSubNavigationLinkModel(
     string ServiceName,
     bool LinkIsActive)
 {
-    public string TestId =>
-        $"{ServiceName.ToLowerInvariant().Trim().Replace(" ", "-")}-{LinkText.ToLowerInvariant().Trim().Replace(" ", "-")}-subnav";
+    public string TestId => $"{ServiceName}-{LinkText}-subnav".Kebabify();
 }
