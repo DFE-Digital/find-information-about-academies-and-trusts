@@ -13,11 +13,11 @@ function generateNameAndEmail() {
 const testTrustData = [
     {
         typeOfTrust: "single academy trust with contacts",
-        uid: 5712
+        uid: 5527
     },
     {
         typeOfTrust: "multi academy trust with contacts",
-        uid: 5527
+        uid: 5712
     }
 ];
 
