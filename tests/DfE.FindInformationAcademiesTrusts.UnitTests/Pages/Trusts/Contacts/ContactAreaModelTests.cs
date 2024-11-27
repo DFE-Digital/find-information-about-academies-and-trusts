@@ -152,6 +152,7 @@ public class ContactAreaModelTests
             new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", TestUid, true, "contacts-nav"),
             new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
                 TestUid, false, "academies-nav"),
+            new TrustNavigationLinkModel("Ofsted", "/Trusts/Ofsted/CurrentRatings", "1234", false, "ofsted-nav"),
             new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", TestUid, false,
                 "governance-nav")
         ]);

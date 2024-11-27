@@ -8,90 +8,91 @@ using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
+
+public class AcademiesPageModelTests
 {
-    public class AcademiesPageModelTests
+    private readonly Mock<ITrustService> _mockTrustService = new();
+    private readonly Mock<IAcademyService> _mockAcademyService = new();
+    private readonly Mock<IExportService> _mockExportService = new();
+    private readonly Mock<IOtherServicesLinkBuilder> _mockOtherServicesLinkBuilder = new();
+    private readonly Mock<IDataSourceService> _mockDataSourceService = new();
+    private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
+    private readonly Mock<ILogger<AcademiesDetailsModel>> _mockLogger = new();
+    private readonly AcademiesPageModel _sut;
+
+    public AcademiesPageModelTests()
     {
-        private readonly Mock<ITrustService> _mockTrustService = new();
-        private readonly Mock<IAcademyService> _mockAcademyService = new();
-        private readonly Mock<IExportService> _mockExportService = new();
-        private readonly Mock<IOtherServicesLinkBuilder> _mockOtherServicesLinkBuilder = new();
-        private readonly Mock<IDataSourceService> _mockDataSourceService = new();
-        private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
-        private readonly Mock<ILogger<AcademiesDetailsModel>> _mockLogger = new();
-        private readonly AcademiesPageModel _sut;
+        _sut = new AcademiesDetailsModel(_mockDataSourceService.Object, _mockOtherServicesLinkBuilder.Object,
+            _mockLogger.Object, _mockTrustService.Object, _mockAcademyService.Object, _mockExportService.Object,
+            _mockDateTimeProvider.Object);
+    }
 
-        public AcademiesPageModelTests()
-        {
-            _sut = new AcademiesDetailsModel(_mockDataSourceService.Object, _mockOtherServicesLinkBuilder.Object, _mockLogger.Object, _mockTrustService.Object, _mockAcademyService.Object, _mockExportService.Object, _mockDateTimeProvider.Object);
-        }
+    [Fact]
+    public async Task OnGetExportAsync_ShouldReturnFileResult_WhenUidIsValid()
+    {
+        // Arrange
+        var uid = "1234";
 
-        [Fact]
-        public async Task OnGetExportAsync_ShouldReturnFileResult_WhenUidIsValid()
-        {
-            // Arrange
-            string uid = "1234";
+        var trustSummary = new TrustSummaryServiceModel(uid, "Sample Trust", "Multi-academy trust", 0);
+        byte[] expectedBytes = [1, 2, 3];
 
-            var trustSummary = new TrustSummaryServiceModel(uid, "Sample Trust", "Multi-academy trust", 0);
-            byte[] expectedBytes = [1, 2, 3];
-
-            _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid)).ReturnsAsync(trustSummary);
-            _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(uid)).ReturnsAsync(expectedBytes);
+        _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid)).ReturnsAsync(trustSummary);
+        _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(uid)).ReturnsAsync(expectedBytes);
 
 
-            // Act
-            var result = await _sut.OnGetExportAsync(uid);
+        // Act
+        var result = await _sut.OnGetExportAsync(uid);
 
-            // Assert
-            result.Should().BeOfType<FileContentResult>();
-            var fileResult = result as FileContentResult;
-            fileResult?.ContentType.Should().Be("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            fileResult?.FileContents.Should().BeEquivalentTo(expectedBytes);
-        }
-        [Fact]
-        public async Task OnGetExportAsync_ShouldReturnNotFound_WhenUidIsInvalid()
-        {
-            // Arrange
-            string uid = "invalid-uid";
+        // Assert
+        result.Should().BeOfType<FileContentResult>();
+        var fileResult = result as FileContentResult;
+        fileResult?.ContentType.Should().Be("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        fileResult?.FileContents.Should().BeEquivalentTo(expectedBytes);
+    }
 
-            _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid)).ReturnsAsync((TrustSummaryServiceModel?)null);
+    [Fact]
+    public async Task OnGetExportAsync_ShouldReturnNotFound_WhenUidIsInvalid()
+    {
+        // Arrange
+        var uid = "invalid-uid";
 
-            // Act
-            var result = await _sut.OnGetExportAsync(uid);
+        _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid)).ReturnsAsync((TrustSummaryServiceModel?)null);
 
-            // Assert
-            result.Should().BeOfType<NotFoundResult>();
-        }
+        // Act
+        var result = await _sut.OnGetExportAsync(uid);
 
-        [Fact]
-        public async Task OnGetExportAsync_ShouldSanitizeTrustName_WhenTrustNameContainsIllegalCharacters()
-        {
-            // Arrange
-            string uid = "1234";
-            var trustSummary = new TrustSummaryServiceModel(uid, "Sample/Trust:Name?", "Multi-academy trust", 0);
-            var expectedBytes = new byte[] { 1, 2, 3 };
+        // Assert
+        result.Should().BeOfType<NotFoundResult>();
+    }
 
-            _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid)).ReturnsAsync(trustSummary);
-            _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(uid)).ReturnsAsync(expectedBytes);
+    [Fact]
+    public async Task OnGetExportAsync_ShouldSanitizeTrustName_WhenTrustNameContainsIllegalCharacters()
+    {
+        // Arrange
+        var uid = "1234";
+        var trustSummary = new TrustSummaryServiceModel(uid, "Sample/Trust:Name?", "Multi-academy trust", 0);
+        var expectedBytes = new byte[] { 1, 2, 3 };
 
-            // Act
-            var result = await _sut.OnGetExportAsync(uid);
+        _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid)).ReturnsAsync(trustSummary);
+        _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(uid)).ReturnsAsync(expectedBytes);
 
-            // Assert
-            result.Should().BeOfType<FileContentResult>();
-            var fileResult = result as FileContentResult;
-            fileResult?.ContentType.Should().Be("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            fileResult?.FileContents.Should().BeEquivalentTo(expectedBytes);
+        // Act
+        var result = await _sut.OnGetExportAsync(uid);
 
-            // Verify that the file name is sanitized (no illegal characters)
-            string fileDownloadName = fileResult?.FileDownloadName ?? string.Empty;
-            var invalidFileNameChars = Path.GetInvalidFileNameChars();
+        // Assert
+        result.Should().BeOfType<FileContentResult>();
+        var fileResult = result as FileContentResult;
+        fileResult?.ContentType.Should().Be("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        fileResult?.FileContents.Should().BeEquivalentTo(expectedBytes);
+        fileResult?.FileDownloadName.Should().NotBeEmpty();
 
-            // Check that the file name doesn't contain any invalid characters
-            bool containsInvalidChars = fileDownloadName.Any(c => invalidFileNameChars.Contains(c));
-            containsInvalidChars.Should().BeFalse("the file name should not contain any illegal characters");
-        }
+        // Verify that the file name is sanitized (no illegal characters)
+        var fileDownloadName = fileResult?.FileDownloadName ?? string.Empty;
+        var invalidFileNameChars = Path.GetInvalidFileNameChars();
+
+        // Check that the file name doesn't contain any invalid characters
+        var containsInvalidChars = fileDownloadName.Any(c => invalidFileNameChars.Contains(c));
+        containsInvalidChars.Should().BeFalse("the file name should not contain any illegal characters");
     }
 }
-
-
