@@ -4,11 +4,18 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 
 public class TrustSubNavigationLinkModelTests
 {
-    private readonly TrustSubNavigationLinkModel _sut = new("Link Text", "/page", "1234", "Service Name", true);
+    private readonly TrustSubNavigationLinkModel _baseLinkModel = new("", "", "", "", false);
 
-    [Fact]
-    public void TestId_Should_BeExpected()
+    [Theory]
+    [InlineData("Link Text", "Service Name", "service-name-link-text-subnav")]
+    [InlineData("Link", "Page", "page-link-subnav")]
+    [InlineData("Things (12)", "Page", "page-things-subnav")]
+    [InlineData("Historic things (0)", "Other Page", "other-page-historic-things-subnav")]
+    public void TestId_should_kebabify_service_name_and_link_text(string linkText, string serviceName,
+        string expected)
     {
-        _sut.TestId.Should().Be("service-name-link-text-subnav");
+        var sut = _baseLinkModel with { LinkText = linkText, ServiceName = serviceName };
+
+        sut.TestId.Should().Be(expected);
     }
 }

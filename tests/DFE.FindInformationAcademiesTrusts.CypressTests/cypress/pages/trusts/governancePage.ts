@@ -12,6 +12,7 @@ class GovernancePage {
             FromHeader: () => this.elements.TrustLeadership.section().find("th:contains('From')"),
             To: () => this.elements.TrustLeadership.section().find('[data-testid="trust-leadership-to"]'),
             ToHeader: () => this.elements.TrustLeadership.section().find("th:contains('To')"),
+            tableRows: () => this.elements.TrustLeadership.section().find('tbody tr'),
             NoDataMessage: () => this.elements.TrustLeadership.section().contains('No Trust Leadership'),
         },
         Trustees: {
@@ -24,6 +25,7 @@ class GovernancePage {
             FromHeader: () => this.elements.Trustees.section().find("th:contains('From')"),
             To: () => this.elements.Trustees.section().find('[data-testid="trustees-to"]'),
             ToHeader: () => this.elements.Trustees.section().find("th:contains('To')"),
+            tableRows: () => this.elements.Trustees.section().find('tbody tr'),
             NoDataMessage: () => this.elements.Trustees.section().contains('No Trustees'),
         },
         Members: {
@@ -36,6 +38,7 @@ class GovernancePage {
             FromHeader: () => this.elements.Members.section().find("th:contains('From')"),
             To: () => this.elements.Members.section().find('[data-testid="members-to"]'),
             ToHeader: () => this.elements.Members.section().find("th:contains('To')"),
+            tableRows: () => this.elements.Members.section().find('tbody tr'),
             NoDataMessage: () => this.elements.Members.section().contains('No Members'),
 
         },
@@ -51,6 +54,7 @@ class GovernancePage {
             FromHeader: () => this.elements.HistoricMembers.section().find("th:contains('From')"),
             To: () => this.elements.HistoricMembers.section().find('[data-testid="historic-members-to"]'),
             ToHeader: () => this.elements.HistoricMembers.section().find("th:contains('To')"),
+            tableRows: () => this.elements.HistoricMembers.section().find('tbody tr'),
             NoDataMessage: () => this.elements.HistoricMembers.section().contains('No Historic Members'),
         },
         subNav: {
@@ -238,22 +242,22 @@ class GovernancePage {
     //
     // **********************
 
-    public checkNoTrustLeadershipMessageIsVisble(): this {
+    public checkNoTrustLeadershipMessageIsVisible(): this {
         this.elements.TrustLeadership.NoDataMessage().should('be.visible');
         return this;
     }
 
-    public checkNoTrusteesMessageIsVisble(): this {
+    public checkNoTrusteesMessageIsVisible(): this {
         this.elements.Trustees.NoDataMessage().should('be.visible');
         return this;
     }
 
-    public checkNotMembersMessageIsVisble(): this {
+    public checkNotMembersMessageIsVisible(): this {
         this.elements.Members.NoDataMessage().should('be.visible');
         return this;
     }
 
-    public checkNoHistoricMembersMessageIsVisble(): this {
+    public checkNoHistoricMembersMessageIsVisible(): this {
         this.elements.HistoricMembers.NoDataMessage().should('be.visible');
         return this;
     }
@@ -359,6 +363,70 @@ class GovernancePage {
 
     public checkHistoricMembersSubnavButtonIsHighlighted(): this {
         this.elements.subNav.historicMembersSubnavButton().should('have.prop', 'aria-current', true);
+        return this;
+    }
+
+    private getCountFromSubNavButton(subNavButton: Cypress.Chainable<JQuery<HTMLElement>>): Cypress.Chainable<number> {
+        return subNavButton
+            .invoke('text')
+            .then(text => {
+                const matches = /\d+/.exec(text);
+                if (!matches)
+                    throw new Error("No count found in button text.");
+                return parseInt(matches[0]);
+            });
+    }
+
+    public checkTrustLeadershipSubnavButtonHasZeroInBrackets(): this {
+        this.getCountFromSubNavButton(this.elements.subNav.trustLeadershipSubnavButton()).should('eq', 0);
+        return this;
+    }
+
+    public checkTrusteesSubnavButtonHasZeroInBrackets(): this {
+        this.getCountFromSubNavButton(this.elements.subNav.trusteesSubnavButton()).should('eq', 0);
+        return this;
+    }
+
+    public checkMembersSubnavButtonHasZeroInBrackets(): this {
+        this.getCountFromSubNavButton(this.elements.subNav.membersSubnavButton()).should('eq', 0);
+        return this;
+    }
+
+    public checkHistoricMembersSubnavButtonHasZeroInBrackets(): this {
+        this.getCountFromSubNavButton(this.elements.subNav.historicMembersSubnavButton()).should('eq', 0);
+        return this;
+    }
+
+    private checkButtonCountMatchesActualNumberOfGovernors(subNavButton: Cypress.Chainable<JQuery<HTMLElement>>, tableRows: Cypress.Chainable<JQuery<HTMLElement>>) {
+        tableRows.its('length')
+            .then((numberOfGovernors) => {
+                //Ensure that the table has some data
+                expect(numberOfGovernors).to.be.greaterThan(0, 'Check that there are governors because this test requires a trust with full governance data');
+
+                this.getCountFromSubNavButton(subNavButton)
+                    .then((buttonCount) => {
+                        expect(buttonCount).to.eq(numberOfGovernors, 'Check that number of governors is the same as the number in the sub nav link');
+                    });
+            });
+    }
+
+    public checkTrustLeadershipLinkValueMatchesNumberOfTrustLeaders(): this {
+        this.checkButtonCountMatchesActualNumberOfGovernors(this.elements.subNav.trustLeadershipSubnavButton(), this.elements.TrustLeadership.tableRows());
+        return this;
+    }
+
+    public checkTrusteesLinkValueMatchesNumberOfTrustees(): this {
+        this.checkButtonCountMatchesActualNumberOfGovernors(this.elements.subNav.trusteesSubnavButton(), this.elements.Trustees.tableRows());
+        return this;
+    }
+
+    public checkMembersLinkValueMatchesNumberOfMembers(): this {
+        this.checkButtonCountMatchesActualNumberOfGovernors(this.elements.subNav.membersSubnavButton(), this.elements.Members.tableRows());
+        return this;
+    }
+
+    public checkHistoricMembersLinkValueMatchesNumberOfHistoricMembers(): this {
+        this.checkButtonCountMatchesActualNumberOfGovernors(this.elements.subNav.historicMembersSubnavButton(), this.elements.HistoricMembers.tableRows());
         return this;
     }
 }
