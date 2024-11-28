@@ -1,4 +1,4 @@
-import { SortingUtility } from "./sortingUtility";
+import { TableUtility } from "../tableUtility";
 
 class OfstedPage {
     elements = {
@@ -25,19 +25,19 @@ class OfstedPage {
     }
 
     public checkOfstedSorting(): this {
-        SortingUtility.checkStringSorting(
+        TableUtility.checkStringSorting(
             this.elements.currentRatings.SchoolName,
             this.elements.currentRatings.SchoolNameHeader
         );
-        SortingUtility.checkStringSorting(
+        TableUtility.checkStringSorting(
             this.elements.currentRatings.DateJoined,
             this.elements.currentRatings.DateJoinedHeader
         );
-        SortingUtility.checkStringSorting(
+        TableUtility.checkStringSorting(
             this.elements.currentRatings.PreviousOfstedRating,
             this.elements.currentRatings.PreviousOfstedRatingHeader
         );
-        SortingUtility.checkStringSorting(
+        TableUtility.checkStringSorting(
             this.elements.currentRatings.CurrentOfstedRating,
             this.elements.currentRatings.CurrentOfstedRatingHeader
         );
