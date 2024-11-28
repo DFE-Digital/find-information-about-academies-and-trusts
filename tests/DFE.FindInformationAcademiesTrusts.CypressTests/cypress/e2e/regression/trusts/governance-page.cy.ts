@@ -10,11 +10,11 @@ describe("Testing the components of the Governance page", () => {
     const trustsWithGovernanceData = [
         {
             typeOfTrust: "single academy trust with governance data",
-            uid: 5712
+            uid: 5527
         },
         {
             typeOfTrust: "multi academy trust with governance data",
-            uid: 5527
+            uid: 5712
         }
     ];
     trustsWithGovernanceData.forEach(({ typeOfTrust, uid }) => {
