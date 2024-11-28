@@ -89,52 +89,63 @@ describe('Testing Navigation', () => {
     });
 
     describe("Testing the trusts service navigation", () => {
+        // Test each link from a different page in round robin
+        // Governance -> Overview -> Contacts -> Academies -> Governance
+
         beforeEach(() => {
             cy.login();
-            cy.visit('/trusts/overview/trust-details?uid=5527');
+        });
+
+        it('Should check that the Overview navigation button takes me to the overview trust details page', () => {
+            // Governance -> Overview
+            cy.visit('/trusts/governance/trust-leadership?uid=5527');
+
+            navigation
+                .clickOverviewServiceNavButton()
+                .checkOverviewServiceNavButtonIsHighlighted()
+                .checkCurrentURLIsCorrect('/trusts/overview/trust-details?uid=5527')
+                .checkAllServiceNavItemsPresent();
+            overviewPage
+                .checkTrustDetailsSubHeaderPresent();
         });
 
         it('Should check that the contacts navigation button takes me to the contacts in DfE page', () => {
+            // Overview -> Contacts
+            cy.visit('/trusts/overview/trust-details?uid=5527');
+
             navigation
                 .clickContactsServiceNavButton()
                 .checkContactsServiceNavButtonIsHighlighed()
-                .checkCurrentURLIsCorrect('/contacts/in-dfe?uid=5527')
+                .checkCurrentURLIsCorrect('/trusts/contacts/in-dfe?uid=5527')
                 .checkAllServiceNavItemsPresent();
             contactsPage
-                .checkChairOfTrusteesPresent()
-                .checkAccountingOfficerPresent();
+                .checkContactsInDfeSubHeaderPresent();
         });
 
         it('Should check that the Academies navigation button takes me to the academies details page', () => {
+            // Contacts -> Academies
+            cy.visit('/trusts/contacts/in-dfe?uid=5527');
+
             navigation
                 .clickAcademiesServiceNavButton()
                 .checkAcademiesServiceNavButtonIsHighlighted()
-                .checkCurrentURLIsCorrect('/academies/details?uid=5527')
+                .checkCurrentURLIsCorrect('/trusts/academies/details?uid=5527')
                 .checkAllServiceNavItemsPresent();
             academiesPage
                 .checkDetailsHeadersPresent();
         });
 
         it('Should check that the Governance navigation button takes me to the governance trust leadership page', () => {
+            // Academies -> Governance
+            cy.visit('/trusts/academies/details?uid=5527');
+
             navigation
                 .clickGovernanceServiceNavButton()
                 .checkGovernanceServiceNavButtonIsHighlighted()
-                .checkCurrentURLIsCorrect('/governance/trust-leadership?uid=5527')
+                .checkCurrentURLIsCorrect('/trusts/governance/trust-leadership?uid=5527')
                 .checkAllServiceNavItemsPresent();
             governancePage
-                .checkTrusteesTableHeadersAreVisible();
+                .checkTrustLeadershipSubHeaderPresent();
         });
-
-        it('Should check that the Overview navigation button takes me to the overview trust details page', () => {
-            cy.visit('trusts/trust-leadership?uid=5527');
-            navigation
-                .clickOverviewServiceNavButton()
-                .checkOverviewServiceNavButtonIsHighlighted()
-                .checkCurrentURLIsCorrect('/overview/trust-details?uid=5527')
-                .checkAllServiceNavItemsPresent();
-            overviewPage
-                .checkOverviewHeaderPresent();
-        });
-
     });
 });
