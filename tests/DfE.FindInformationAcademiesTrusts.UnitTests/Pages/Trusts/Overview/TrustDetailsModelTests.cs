@@ -1,15 +1,16 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Overview;
 
-public class OverviewModelTests
+public class TrustDetailsModelTests
 {
-    private readonly OverviewModel _sut;
+    private readonly TrustDetailsModel _sut;
     private const string TrustUid = "1234";
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustService = new();
@@ -19,15 +20,15 @@ public class OverviewModelTests
         new(TrustUid, "", "", "", TrustType.MultiAcademyTrust, "", "", null, null, 0, new Dictionary<string, int>(), 0,
             0);
 
-    public OverviewModelTests()
+    public TrustDetailsModelTests()
     {
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(TrustUid))
             .ReturnsAsync(new TrustSummaryServiceModel(TrustUid, "My Trust", "Multi-academy trust", 3));
         _mockTrustService.Setup(t => t.GetTrustOverviewAsync(TrustUid)).ReturnsAsync(BaseTrustOverviewServiceModel);
 
-        _sut = new OverviewModel(
+        _sut = new TrustDetailsModel(
                 _mockDataSourceService.Object,
-                new MockLogger<OverviewModel>().Object,
+                new MockLogger<TrustDetailsModel>().Object,
                 _mockTrustService.Object,
                 _mockLinksToOtherServices.Object)
             { Uid = TrustUid };
@@ -37,30 +38,6 @@ public class OverviewModelTests
     public void PageName_should_be_Overview()
     {
         _sut.PageName.Should().Be("Overview");
-    }
-
-    [Fact]
-    public async Task OnGetAsync_sets_list_of_local_authorities()
-    {
-        var overviewWithLocalAuthorities = BaseTrustOverviewServiceModel with
-        {
-            AcademiesByLocalAuthority = new Dictionary<string, int>
-            {
-                { "localAuth1", 6 },
-                { "localAuth2", 1 }
-            }
-        };
-        _mockTrustService.Setup(t => t.GetTrustOverviewAsync(TrustUid)).ReturnsAsync(overviewWithLocalAuthorities);
-
-        await _sut.OnGetAsync();
-
-        _sut.AcademiesInEachLocalAuthority
-            .Should()
-            .BeEquivalentTo(new (string Authority, int Total)[]
-            {
-                ("localAuth1", 6),
-                ("localAuth2", 1)
-            });
     }
 
     [Fact]
@@ -160,12 +137,23 @@ public class OverviewModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.NavigationLinks.Should().BeEquivalentTo([
-            new TrustNavigationLinkModel("Overview", "/Trusts/Overview", "1234", true, "overview-nav"),
-            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts", "1234", false, "contacts-nav"),
+            new TrustNavigationLinkModel("Overview", "/Trusts/Overview/TrustDetails", "1234", true, "overview-nav"),
+            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", "1234", false, "contacts-nav"),
             new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
                 "1234", false, "academies-nav"),
-            new TrustNavigationLinkModel("Governance", "/Trusts/Governance", "1234", false,
+            new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", "1234", false,
                 "governance-nav")
+        ]);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_correct_SubNavigationLinks()
+    {
+        _ = await _sut.OnGetAsync();
+        _sut.SubNavigationLinks.Should().BeEquivalentTo([
+            new TrustSubNavigationLinkModel("Trust details", "./TrustDetails", "1234", "Overview", true),
+            new TrustSubNavigationLinkModel("Trust summary", "./TrustSummary", "1234", "Overview", false),
+            new TrustSubNavigationLinkModel("Reference numbers", "./ReferenceNumbers", "1234", "Overview", false)
         ]);
     }
 }

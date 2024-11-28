@@ -5,12 +5,13 @@ using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 
-public class ContactsModel(
+public class ContactAreaModel(
     IDataSourceService dataSourceService,
-    ILogger<ContactsModel> logger,
-    ITrustService trustService)
+    ITrustService trustService,
+    ILogger<ContactAreaModel> logger
+)
     : TrustsAreaModel(dataSourceService, trustService, logger, "Contacts")
 {
     public Person? ChairOfTrustees { get; set; }
@@ -19,15 +20,17 @@ public class ContactsModel(
     public InternalContact? SfsoLead { get; set; }
     public InternalContact? TrustRelationshipManager { get; set; }
 
-    public const string ContactNameNotAvailableMessage = "No contact name available";
-
-    public const string ContactEmailNotAvailableMessage = "No contact email available";
-
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
+
+        SubNavigationLinks =
+        [
+            new TrustSubNavigationLinkModel("In DfE", "./InDfE", Uid, PageName, this is InDfeModel),
+            new TrustSubNavigationLinkModel("In the trust", "./InTrust", Uid, PageName, this is InTrustModel)
+        ];
 
         (TrustRelationshipManager, SfsoLead, AccountingOfficer, ChairOfTrustees, ChiefFinancialOfficer) =
             await TrustService.GetTrustContactsAsync(Uid);

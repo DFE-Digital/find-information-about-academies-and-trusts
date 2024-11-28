@@ -74,12 +74,17 @@ public class TrustsAreaModel(
     {
         NavigationLinks =
         [
-            new TrustNavigationLinkModel("Overview", "/Trusts/Overview", Uid, PageName == "Overview", "overview-nav"),
-            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts", Uid, PageName == "Contacts", "contacts-nav"),
+            new TrustNavigationLinkModel("Overview", "/Trusts/Overview/TrustDetails", Uid, PageName == "Overview",
+                "overview-nav"),
+            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", Uid, PageName == "Contacts",
+                "contacts-nav"),
             new TrustNavigationLinkModel($"Academies ({TrustSummary.NumberOfAcademies})", "/Trusts/Academies/Details",
                 Uid, PageName == "Academies in this trust", "academies-nav"),
-            new TrustNavigationLinkModel("Governance", "/Trusts/Governance", Uid, PageName == "Governance",
+            new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", Uid,
+                PageName == "Governance",
                 "governance-nav")
         ];
     }
+
+    public TrustSubNavigationLinkModel[] SubNavigationLinks { get; set; } = [];
 }

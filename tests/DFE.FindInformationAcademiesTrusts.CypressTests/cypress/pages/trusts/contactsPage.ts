@@ -1,9 +1,9 @@
-import commonPage from "../commonPage";
-class TrustContactsPage {
+class ContactsPage {
 
     elements = {
         TrustRelationshipManager: {
             Section: () => cy.get('[data-testid="trust-relationship-manager"]'),
+            Title: () => this.elements.TrustRelationshipManager.Section().find('.govuk-summary-card__title'),
             Name: () => this.elements.TrustRelationshipManager.Section().find('[data-testid="contact-name"]'),
             Email: () => this.elements.TrustRelationshipManager.Section().find('[data-testid="contact-email"]'),
             EditLink: () => this.elements.TrustRelationshipManager.Section().find('[class="govuk-summary-card__actions"] > a')
@@ -11,6 +11,7 @@ class TrustContactsPage {
 
         SchoolsFinancialSupportOversight: {
             Section: () => cy.get('[data-testid="sfso-lead"]'),
+            Title: () => this.elements.SchoolsFinancialSupportOversight.Section().find('.govuk-summary-card__title'),
             Name: () => this.elements.SchoolsFinancialSupportOversight.Section().find('[data-testid="contact-name"]'),
             Email: () => this.elements.SchoolsFinancialSupportOversight.Section().find('[data-testid="contact-email"]'),
             EditLink: () => this.elements.SchoolsFinancialSupportOversight.Section().find('[class="govuk-summary-card__actions"] > a')
@@ -44,14 +45,21 @@ class TrustContactsPage {
         },
 
         Datasource: {
-            Section: () => cy.get('.govuk-details'),
+            Section: () => cy.get('[data-testid="data-source-and-updates"]'),
             TRMLatestUpdatedBy: () => cy.get('[data-testid="data-source-fiatdb-trust-relationship-manager"] > :nth-child(3)'),
             SFSOLatestUpdatedBy: () => cy.get('[data-testid="data-source-fiatdb-sfso-(schools-financial-support-and-oversight)-lead"] > :nth-child(3)')
-        }
+        },
+
+        subNav: {
+            contactsInDfeSubnavButton: () => cy.get('[data-testid="contacts-in-dfe-subnav"]'),
+            contactsInTheTrustSubnavButton: () => cy.get('[data-testid="contacts-in-the-trust-subnav"]'),
+        },
+        subHeaders: {
+            subHeader: () => cy.get('[data-testid="subpage-header"]'),
+        },
     };
 
-
-    public editTRM(name: string, email: string): this {
+    public editTrustRelationshipManager(name: string, email: string): this {
         const { TrustRelationshipManager, EditContacts } = this.elements;
         TrustRelationshipManager.EditLink().click();
         EditContacts.NameInput().clear().type(name);
@@ -60,25 +68,13 @@ class TrustContactsPage {
         return this;
     }
 
-    public checkTRMFieldsAndDatasource(name: string, email: string): this {
-        trustContactsPage
-            .editTRM(name, email);
-        trustContactsPage.elements.TrustRelationshipManager
-            .Name().should('contain.text', name);
-        trustContactsPage.elements.TrustRelationshipManager
-            .Email().should('contain.text', email);
-        commonPage
-            .checkSuccessPopup('Changes made to the Trust relationship manager name and email were updated')
-            .checkErrorPopupNotPresent('Enter a DfE email address without any spaces')
-            .checkErrorPopupNotPresent('Enter an email address in the correct format, like name@education.gov.uk')
-
-        cy.contains("Source and updates").click();
-        trustContactsPage
-            .checkLatestTRMDatasourceUser('Automation User - email')
+    public checkTrustRelationshipManagerIsSuccessfullyUpdated(name: string, email: string): this {
+        this.elements.TrustRelationshipManager.Name().should('contain.text', name);
+        this.elements.TrustRelationshipManager.Email().should('contain.text', email);
         return this;
     }
 
-    public editSFSO(name: string, email: string): this {
+    public editSfsoLead(name: string, email: string): this {
         const { SchoolsFinancialSupportOversight, EditContacts } = this.elements;
         SchoolsFinancialSupportOversight.EditLink().click();
         EditContacts.NameInput().clear().type(name);
@@ -87,21 +83,23 @@ class TrustContactsPage {
         return this;
     }
 
-    public checkSFSOFieldsAndDatasource(name: string, email: string): this {
-        trustContactsPage
-            .editSFSO(name, email);
-        trustContactsPage.elements.SchoolsFinancialSupportOversight
-            .Name().should('contain.text', name);
-        trustContactsPage.elements.SchoolsFinancialSupportOversight
-            .Email().should('contain.text', email);
-        commonPage
-            .checkSuccessPopup('Changes made to the SFSO (Schools financial support and oversight) lead name and email were updated')
-            .checkErrorPopupNotPresent('Enter a DfE email address without any spaces')
-            .checkErrorPopupNotPresent('Enter an email address in the correct format, like name@education.gov.uk')
+    public checkSfsoLeadIsSuccessfullyUpdated(name: string, email: string): this {
+        this.elements.SchoolsFinancialSupportOversight.Name().should('contain.text', name);
+        this.elements.SchoolsFinancialSupportOversight.Email().should('contain.text', email);
+        return this;
+    }
 
-        cy.contains("Source and updates").click();
-        trustContactsPage
-            .checkLatestSFSODatasourceUser('Automation User - email')
+    public checkTrustRelationshipManagerIsPresent(): this {
+        this.elements.TrustRelationshipManager.Title().should('contain', 'Trust relationship manager');
+        this.elements.TrustRelationshipManager.Name().should('be.visible');
+        this.elements.TrustRelationshipManager.Email().should('be.visible');
+        return this;
+    }
+
+    public checkSfsoLeadIsPresent(): this {
+        this.elements.SchoolsFinancialSupportOversight.Title().should('contain', 'SFSO (Schools financial support and oversight) lead');
+        this.elements.SchoolsFinancialSupportOversight.Name().should('be.visible');
+        this.elements.SchoolsFinancialSupportOversight.Email().should('be.visible');
         return this;
     }
 
@@ -126,20 +124,66 @@ class TrustContactsPage {
         return this;
     }
 
-    public checkLatestTRMDatasourceUser(expectedMessage: string): this {
+    public checkTrustRelationshipManagerDatasourceLastUpdatedByUser(expectedUser: string): this {
         const { Datasource } = this.elements;
+        Datasource.Section().click();
         Datasource.Section().should('be.visible');
-        Datasource.TRMLatestUpdatedBy().should('contain.text', expectedMessage);
+        Datasource.TRMLatestUpdatedBy().should('contain.text', expectedUser);
         return this;
     }
 
-    public checkLatestSFSODatasourceUser(expectedMessage: string): this {
+    public checkSfsoLeadDatasourceLastUpdatedByUser(expectedUser: string): this {
         const { Datasource } = this.elements;
+        Datasource.Section().click();
         Datasource.Section().should('be.visible');
-        Datasource.SFSOLatestUpdatedBy().should('contain.text', expectedMessage);
+        Datasource.SFSOLatestUpdatedBy().should('contain.text', expectedUser);
+        return this;
+    }
+
+    public clickContactsInDfeSubnavButton(): this {
+        this.elements.subNav.contactsInDfeSubnavButton().click();
+        return this;
+    }
+
+    public clickContactsInTheTrustSubnavButton(): this {
+        this.elements.subNav.contactsInTheTrustSubnavButton().click();
+        return this;
+    }
+
+    public checkAllSubNavItemsPresent(): this {
+        this.elements.subNav.contactsInDfeSubnavButton().should('be.visible');
+        this.elements.subNav.contactsInTheTrustSubnavButton().should('be.visible');
+        return this;
+    }
+
+    public checkSubNavNotPresent(): this {
+        this.elements.subNav.contactsInDfeSubnavButton().should('not.exist');
+        this.elements.subNav.contactsInTheTrustSubnavButton().should('not.exist');
+        return this;
+    }
+
+    public checkContactsInDfeSubnavButtonIsHighlighted(): this {
+        this.elements.subNav.contactsInDfeSubnavButton().should('have.prop', 'aria-current', true);
+        return this;
+    }
+
+    public checkContactsInTheTrustSubnavButtonIsHighlighted(): this {
+        this.elements.subNav.contactsInTheTrustSubnavButton().should('have.prop', 'aria-current', true);
+        return this;
+    }
+
+    public checkContactsInDfeSubHeaderPresent(): this {
+        this.elements.subHeaders.subHeader().should('be.visible');
+        this.elements.subHeaders.subHeader().should('contain', 'Contacts in DfE');
+        return this;
+    }
+
+    public checkContactsInTheTrustSubHeaderPresent(): this {
+        this.elements.subHeaders.subHeader().should('be.visible');
+        this.elements.subHeaders.subHeader().should('contain', 'Contacts in the trust');
         return this;
     }
 }
 
-const trustContactsPage = new TrustContactsPage();
-export default trustContactsPage;
+const contactsPage = new ContactsPage();
+export default contactsPage;

@@ -3,9 +3,12 @@
 Use this documentation to help supercharge your dev environment. We recommend using Rider or Visual Studio with ReSharper.
 
 - [Supercharge your dev environment](#supercharge-your-dev-environment)
-- [Set up continuous testing](#set-up-continuous-testing)
-- [Analyse test coverage](#analyse-test-coverage)
-- [Configure linting and code cleanup](#configure-linting-and-code-cleanup)
+  - [Set up continuous testing](#set-up-continuous-testing)
+  - [Analyse test coverage](#analyse-test-coverage)
+  - [Configure linting and code cleanup](#configure-linting-and-code-cleanup)
+    - [Linting markdown](#linting-markdown)
+    - [Linting cypress tests](#linting-cypress-tests)
+    - [Formatting cypress tests](#formatting-cypress-tests)
 
 ## Set up continuous testing
 
@@ -65,21 +68,31 @@ npm run lint:fix ## to scan and fix issues
 ### Linting markdown
 
 We use `markdownlint` to check for lint issues on Markdown files in the pipeline.
-You can install the [VS code extension](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint) to check your files locally.
+You can install the [markdownlint VS code extension](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint) to check your files locally.
 
 ### Linting cypress tests
 
-Tests are written in TypeScript and we are using `ts-standard` for linting.
-You can configure VS code to use standard as your default formatter:
+Tests are written in TypeScript and we are using `typescript-eslint` and `eslint-plugin-cypress` for linting.
+You can install [ESLint VS code extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) to highlight errors caught by the linter as you code.
 
-1. Install VS code extension [StandardJS - JavaScript Standard Style](https://marketplace.visualstudio.com/items?itemName=standard.vscode-standard)
+### Formatting cypress tests
 
-2. Edit your _Settings.json_ file (workspace or user):
+We recommend using VS code to format your code as you work.
+
+In your [settings](https://code.visualstudio.com/docs/getstarted/settings) change these values:
+
+- `Editor: Format On Save` => :white_check_mark:
+- `Editor: Format On Type` => :white_check_mark:
+- `Files: Insert Final Newline` => :white_check_mark:
+- `TypeScript › Format: Semicolons` => `insert`
+
+Alternatively, you add the following to your [settings.json file](https://code.visualstudio.com/docs/getstarted/settings#_settings-json-file)
 
 ```json
 {
-  "[typescript]": {
-    "editor.defaultFormatter": "standard.vscode-standard"
-  }
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "files.insertFinalNewline": true,
+    "typescript.format.semicolons": "insert"
 }
 ```

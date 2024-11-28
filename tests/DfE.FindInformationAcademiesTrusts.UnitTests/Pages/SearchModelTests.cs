@@ -17,9 +17,9 @@ public class SearchModelTests
 
     private readonly TrustSearchEntry[] _fakeTrusts =
     [
-        new("trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC", "2044", ""),
-        new("trust 2", "Grant Course, North East Lincolnshire, QH96 9WV", "2044", ""),
-        new("trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ", "2044", "")
+        new TrustSearchEntry("trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC", "2044", ""),
+        new TrustSearchEntry("trust 2", "Grant Course, North East Lincolnshire, QH96 9WV", "2044", ""),
+        new TrustSearchEntry("trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ", "2044", "")
     ];
 
     public SearchModelTests()
@@ -82,7 +82,7 @@ public class SearchModelTests
         var result = await _sut.OnGetAsync();
 
         var redirectResult = result.Should().BeOfType<RedirectToPageResult>().Subject;
-        redirectResult.PageName.Should().Be("/Trusts/Overview");
+        redirectResult.PageName.Should().Be("/Trusts/Overview/TrustDetails");
         redirectResult.RouteValues.Should().ContainKey("Uid").WhoseValue.Should().Be(_fakeTrust.Uid);
     }
 

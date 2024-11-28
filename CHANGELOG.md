@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Added
+
+- Add trust page sub navigation
+
+### Changed
+
+- Split up all trust pages into sub pages
+
 ## [Release-14][release-14] (production-2024-11-21.4136)
 
 ### Changed

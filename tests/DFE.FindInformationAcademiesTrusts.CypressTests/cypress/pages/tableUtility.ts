@@ -1,4 +1,38 @@
-export class SortingUtility {
+export class TableUtility {
+
+    private static getTodayDateWithoutTime() {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return today;
+    }
+
+    public static checkCellDateIsBeforeTodayOrHasNoData(cellElement: JQuery<HTMLElement>) {
+        const cellContent = cellElement.text().trim();
+        const cellDate = new Date(cellContent);
+
+        // If cell is a valid date
+        if (cellDate.valueOf()) {
+            expect(cellDate).to.be.lessThan(this.getTodayDateWithoutTime(), `Date "${cellContent}" should be before today`);
+            return;
+        }
+
+        // Otherwise
+        expect(cellContent).to.equal("No Data", "Cell should have no data");
+    }
+
+    public static checkCellDateIsOnOrAfterTodayOrHasNoData(cellElement: JQuery<HTMLElement>) {
+        const cellContent = cellElement.text().trim();
+        const cellDate = new Date(cellContent);
+
+        // If cell is a valid date
+        if (cellDate.valueOf()) {
+            expect(cellDate).to.be.at.least(this.getTodayDateWithoutTime(), `Date "${cellContent}" should be on or after today`);
+            return;
+        }
+
+        // Otherwise
+        expect(cellContent).to.equal("No Data", "Cell should have no data");
+    }
 
     public static checkStringSorting(
         elements: () => Cypress.Chainable<JQuery<HTMLElement>>,
@@ -11,7 +45,7 @@ export class SortingUtility {
             }
 
             header().should("have.attr", "aria-sort", "ascending");
-            const actualAscElements: { value: string, sortValue: string }[] = [];
+            const actualAscElements: { value: string, sortValue: string; }[] = [];
             elements().each($elements => {
                 actualAscElements.push({
                     value: $elements.text().trim(),
@@ -24,7 +58,7 @@ export class SortingUtility {
 
             headerButton().click();
             header().should("have.attr", "aria-sort", "descending");
-            const actualDscElements: { value: string, sortValue: string }[] = [];
+            const actualDscElements: { value: string, sortValue: string; }[] = [];
             elements().each($elements => {
                 actualDscElements.push({
                     value: $elements.text().trim(),
@@ -48,7 +82,7 @@ export class SortingUtility {
             }
 
             header().should("have.attr", "aria-sort", "ascending");
-            const actualAscElements: { value: string, sortValue: number }[] = [];
+            const actualAscElements: { value: string, sortValue: number; }[] = [];
             elements().each($elements => {
                 actualAscElements.push({
                     value: $elements.text().trim(),
@@ -61,7 +95,7 @@ export class SortingUtility {
 
             headerButton().click();
             header().should("have.attr", "aria-sort", "descending");
-            const actualDscElements: { value: string, sortValue: number }[] = [];
+            const actualDscElements: { value: string, sortValue: number; }[] = [];
             elements().each($elements => {
                 actualDscElements.push({
                     value: $elements.text().trim(),

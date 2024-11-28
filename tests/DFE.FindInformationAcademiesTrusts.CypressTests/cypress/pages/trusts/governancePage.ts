@@ -1,76 +1,72 @@
-import { SortingUtility } from "./sortingUtility";
+import { TableUtility } from "../tableUtility";
 class GovernancePage {
 
     elements = {
         TrustLeadership: {
-            Section: () => cy.get('[data-testid="trust-leadership"]'),
-            Names: () => this.elements.TrustLeadership.Section().find('[data-testid="trust-leadership-name"]'),
-            NameHeader: () => this.elements.TrustLeadership.Section().find("th:contains('Name')"),
-            Roles: () => this.elements.TrustLeadership.Section().find('[data-testid="trust-leadership-role"]'),
-            RoleHeader: () => this.elements.TrustLeadership.Section().find("th:contains('Role')"),
-            From: () => this.elements.TrustLeadership.Section().find('[data-testid="trust-leadership-from"]'),
-            FromHeader: () => this.elements.TrustLeadership.Section().find("th:contains('From')"),
-            To: () => this.elements.TrustLeadership.Section().find('[data-testid="trust-leadership-to"]'),
-            ToHeader: () => this.elements.TrustLeadership.Section().find("th:contains('To')"),
-            NoDataMessage: () => this.elements.TrustLeadership.Section().contains('No Trust Leadership')
+            section: () => cy.get('[data-testid="trust-leadership"]'),
+            names: () => this.elements.TrustLeadership.section().find('[data-testid="trust-leadership-name"]'),
+            nameHeader: () => this.elements.TrustLeadership.section().find("th:contains('Name')"),
+            Roles: () => this.elements.TrustLeadership.section().find('[data-testid="trust-leadership-role"]'),
+            RoleHeader: () => this.elements.TrustLeadership.section().find("th:contains('Role')"),
+            From: () => this.elements.TrustLeadership.section().find('[data-testid="trust-leadership-from"]'),
+            FromHeader: () => this.elements.TrustLeadership.section().find("th:contains('From')"),
+            To: () => this.elements.TrustLeadership.section().find('[data-testid="trust-leadership-to"]'),
+            ToHeader: () => this.elements.TrustLeadership.section().find("th:contains('To')"),
+            tableRows: () => this.elements.TrustLeadership.section().find('tbody tr'),
+            NoDataMessage: () => this.elements.TrustLeadership.section().contains('No Trust Leadership'),
         },
         Trustees: {
-            Section: () => cy.get('[data-testid="trustees"]'),
-            Names: () => this.elements.Trustees.Section().find('[data-testid="trustees-name"]'),
-            NameHeader: () => this.elements.Trustees.Section().find("th:contains('Name')"),
-            AppointedBys: () => this.elements.Trustees.Section().find('[data-testid="trustees-appointed"]'),
-            AppointedHeader: () => this.elements.Trustees.Section().find("th:contains('Appointed by')"),
-            From: () => this.elements.Trustees.Section().find('[data-testid="trustees-from"]'),
-            FromHeader: () => this.elements.Trustees.Section().find("th:contains('From')"),
-            To: () => this.elements.Trustees.Section().find('[data-testid="trustees-to"]'),
-            ToHeader: () => this.elements.Trustees.Section().find("th:contains('To')"),
-            NoDataMessage: () => this.elements.Trustees.Section().contains('No Trustees')
+            section: () => cy.get('[data-testid="trustees"]'),
+            Names: () => this.elements.Trustees.section().find('[data-testid="trustees-name"]'),
+            NameHeader: () => this.elements.Trustees.section().find("th:contains('Name')"),
+            AppointedBy: () => this.elements.Trustees.section().find('[data-testid="trustees-appointed"]'),
+            AppointedHeader: () => this.elements.Trustees.section().find("th:contains('Appointed by')"),
+            From: () => this.elements.Trustees.section().find('[data-testid="trustees-from"]'),
+            FromHeader: () => this.elements.Trustees.section().find("th:contains('From')"),
+            To: () => this.elements.Trustees.section().find('[data-testid="trustees-to"]'),
+            ToHeader: () => this.elements.Trustees.section().find("th:contains('To')"),
+            tableRows: () => this.elements.Trustees.section().find('tbody tr'),
+            NoDataMessage: () => this.elements.Trustees.section().contains('No Trustees'),
         },
         Members: {
-            Section: () => cy.get('[data-testid="members"]'),
-            Names: () => this.elements.Members.Section().find('[data-testid="members-name"]'),
-            NameHeader: () => this.elements.Members.Section().find("th:contains('Name')"),
-            AppointedBys: () => this.elements.Members.Section().find('[data-testid="members-appointed"]'),
-            AppointedHeader: () => this.elements.Members.Section().find("th:contains('Appointed by')"),
-            From: () => this.elements.Members.Section().find('[data-testid="members-from"]'),
-            FromHeader: () => this.elements.Members.Section().find("th:contains('From')"),
-            To: () => this.elements.Members.Section().find('[data-testid="members-to"]'),
-            ToHeader: () => this.elements.Members.Section().find("th:contains('To')"),
-            NoDataMessage: () => this.elements.Members.Section().contains('No Members')
+            section: () => cy.get('[data-testid="members"]'),
+            names: () => this.elements.Members.section().find('[data-testid="members-name"]'),
+            nameHeader: () => this.elements.Members.section().find("th:contains('Name')"),
+            AppointedBy: () => this.elements.Members.section().find('[data-testid="members-appointed"]'),
+            AppointedHeader: () => this.elements.Members.section().find("th:contains('Appointed by')"),
+            From: () => this.elements.Members.section().find('[data-testid="members-from"]'),
+            FromHeader: () => this.elements.Members.section().find("th:contains('From')"),
+            To: () => this.elements.Members.section().find('[data-testid="members-to"]'),
+            ToHeader: () => this.elements.Members.section().find("th:contains('To')"),
+            tableRows: () => this.elements.Members.section().find('tbody tr'),
+            NoDataMessage: () => this.elements.Members.section().contains('No Members'),
+
         },
         HistoricMembers: {
-            Section: () => cy.get('[data-testid="historic-members"]'),
-            Names: () => this.elements.HistoricMembers.Section().find('[data-testid="historic-members-name"]'),
-            NameHeader: () => this.elements.HistoricMembers.Section().find("th:contains('Name')"),
-            Roles: () => this.elements.HistoricMembers.Section().find('[data-testid="historic-members-role"]'),
-            RoleHeader: () => this.elements.HistoricMembers.Section().find("th:contains('Role')"),
-            AppointedBys: () => this.elements.HistoricMembers.Section().find('[data-testid="historic-members-appointed"]'),
-            AppointedHeader: () => this.elements.HistoricMembers.Section().find("th:contains('Appointed by')"),
-            From: () => this.elements.HistoricMembers.Section().find('[data-testid="historic-members-from"]'),
-            FromHeader: () => this.elements.HistoricMembers.Section().find("th:contains('From')"),
-            To: () => this.elements.HistoricMembers.Section().find('[data-testid="historic-members-to"]'),
-            ToHeader: () => this.elements.HistoricMembers.Section().find("th:contains('To')"),
-            NoDataMessage: () => this.elements.HistoricMembers.Section().contains('No Historic Members')
-        }
-    }
-
-    // **********
-    //
-    // NAVIGATION
-    //
-    // **********
-
-    public navigateToFullGovernancePage(): this {
-        cy.visit('/trusts/governance?uid=5712')
-
-        return this;
-    }
-
-    public navigateToEmptyGovernancePage(): this {
-        cy.visit('/trusts/governance?uid=5527')
-
-        return this;
-    }
+            section: () => cy.get('[data-testid="historic-members"]'),
+            Names: () => this.elements.HistoricMembers.section().find('[data-testid="historic-members-name"]'),
+            NameHeader: () => this.elements.HistoricMembers.section().find("th:contains('Name')"),
+            Roles: () => this.elements.HistoricMembers.section().find('[data-testid="historic-members-role"]'),
+            RoleHeader: () => this.elements.HistoricMembers.section().find("th:contains('Role')"),
+            AppointedBy: () => this.elements.HistoricMembers.section().find('[data-testid="historic-members-appointed"]'),
+            AppointedHeader: () => this.elements.HistoricMembers.section().find("th:contains('Appointed by')"),
+            From: () => this.elements.HistoricMembers.section().find('[data-testid="historic-members-from"]'),
+            FromHeader: () => this.elements.HistoricMembers.section().find("th:contains('From')"),
+            To: () => this.elements.HistoricMembers.section().find('[data-testid="historic-members-to"]'),
+            ToHeader: () => this.elements.HistoricMembers.section().find("th:contains('To')"),
+            tableRows: () => this.elements.HistoricMembers.section().find('tbody tr'),
+            NoDataMessage: () => this.elements.HistoricMembers.section().contains('No Historic Members'),
+        },
+        subNav: {
+            trustLeadershipSubnavButton: () => cy.get('[data-testid="governance-trust-leadership-subnav"]'),
+            trusteesSubnavButton: () => cy.get('[data-testid="governance-trustees-subnav"]'),
+            membersSubnavButton: () => cy.get('[data-testid="governance-members-subnav"]'),
+            historicMembersSubnavButton: () => cy.get('[data-testid="governance-historic-members-subnav"]')
+        },
+        subHeaders: {
+            subHeader: () => cy.get('[data-testid="subpage-header"]')
+        },
+    };
 
     // *************
     //
@@ -78,15 +74,39 @@ class GovernancePage {
     //
     // *************
 
-    public checkTrustLeadershipColumnHeaders() {
-        this.elements.TrustLeadership.NameHeader().should('be.visible');
+    public checkTrustLeadershipSubHeaderPresent() {
+        this.elements.subHeaders.subHeader().should('be.visible');
+        this.elements.subHeaders.subHeader().should('contain', 'Trust Leadership');
+        return this;
+    }
+
+    public checkTrusteesSubHeaderPresent() {
+        this.elements.subHeaders.subHeader().should('be.visible');
+        this.elements.subHeaders.subHeader().should('contain', 'Trustees');
+        return this;
+    }
+
+    public checkMembersSubHeaderPresent() {
+        this.elements.subHeaders.subHeader().should('be.visible');
+        this.elements.subHeaders.subHeader().should('contain', 'Members');
+        return this;
+    }
+
+    public checkHistoricMembersSubHeaderPresent() {
+        this.elements.subHeaders.subHeader().should('be.visible');
+        this.elements.subHeaders.subHeader().should('contain', 'Historic members');
+        return this;
+    }
+
+    public checkTrustLeadershipTableHeadersAreVisible() {
+        this.elements.TrustLeadership.nameHeader().should('be.visible');
         this.elements.TrustLeadership.RoleHeader().should('be.visible');
         this.elements.TrustLeadership.FromHeader().should('be.visible');
         this.elements.TrustLeadership.ToHeader().should('be.visible');
         return this;
     }
 
-    public checkTrusteeColumnHeaders() {
+    public checkTrusteesTableHeadersAreVisible() {
         this.elements.Trustees.NameHeader().should('be.visible');
         this.elements.Trustees.AppointedHeader().should('be.visible');
         this.elements.Trustees.FromHeader().should('be.visible');
@@ -94,15 +114,15 @@ class GovernancePage {
         return this;
     }
 
-    public checkMembersColumnHeaders() {
-        this.elements.Members.NameHeader().should('be.visible');
+    public checkMembersTableHeadersAreVisible() {
+        this.elements.Members.nameHeader().should('be.visible');
         this.elements.Members.AppointedHeader().should('be.visible');
         this.elements.Members.FromHeader().should('be.visible');
         this.elements.Members.ToHeader().should('be.visible');
         return this;
     }
 
-    public checkHistoricMembersColumnHeaders() {
+    public checkHistoricMembersTableHeadersAreVisible() {
         this.elements.HistoricMembers.NameHeader().should('be.visible');
         this.elements.HistoricMembers.RoleHeader().should('be.visible');
         this.elements.HistoricMembers.AppointedHeader().should('be.visible');
@@ -117,38 +137,37 @@ class GovernancePage {
     //
     // **************
 
-
-    public checkTrustLeadershipSorting() {
+    public checkTrustLeadershipColumnsSortCorrectly() {
         const { TrustLeadership } = this.elements;
-        SortingUtility.checkStringSorting(TrustLeadership.Names, TrustLeadership.NameHeader);
-        SortingUtility.checkStringSorting(TrustLeadership.Roles, TrustLeadership.RoleHeader);
-        SortingUtility.checkStringSorting(TrustLeadership.From, TrustLeadership.FromHeader);
-        SortingUtility.checkStringSorting(TrustLeadership.To, TrustLeadership.ToHeader);
+        TableUtility.checkStringSorting(TrustLeadership.names, TrustLeadership.nameHeader);
+        TableUtility.checkStringSorting(TrustLeadership.Roles, TrustLeadership.RoleHeader);
+        TableUtility.checkStringSorting(TrustLeadership.From, TrustLeadership.FromHeader);
+        TableUtility.checkStringSorting(TrustLeadership.To, TrustLeadership.ToHeader);
     }
 
-    public checkTrusteesSorting() {
+    public checkTrusteesColumnsSortCorrectly() {
         const { Trustees } = this.elements;
-        SortingUtility.checkStringSorting(Trustees.Names, Trustees.NameHeader);
-        SortingUtility.checkStringSorting(Trustees.AppointedBys, Trustees.AppointedHeader);
-        SortingUtility.checkStringSorting(Trustees.From, Trustees.FromHeader);
-        SortingUtility.checkStringSorting(Trustees.To, Trustees.ToHeader);
+        TableUtility.checkStringSorting(Trustees.Names, Trustees.NameHeader);
+        TableUtility.checkStringSorting(Trustees.AppointedBy, Trustees.AppointedHeader);
+        TableUtility.checkStringSorting(Trustees.From, Trustees.FromHeader);
+        TableUtility.checkStringSorting(Trustees.To, Trustees.ToHeader);
     }
 
-    public checkMembersSorting() {
+    public checkMembersColumnsSortCorrectly() {
         const { Members } = this.elements;
-        SortingUtility.checkStringSorting(Members.Names, Members.NameHeader);
-        SortingUtility.checkStringSorting(Members.AppointedBys, Members.AppointedHeader);
-        SortingUtility.checkStringSorting(Members.From, Members.FromHeader);
-        SortingUtility.checkStringSorting(Members.To, Members.ToHeader);
+        TableUtility.checkStringSorting(Members.names, Members.nameHeader);
+        TableUtility.checkStringSorting(Members.AppointedBy, Members.AppointedHeader);
+        TableUtility.checkStringSorting(Members.From, Members.FromHeader);
+        TableUtility.checkStringSorting(Members.To, Members.ToHeader);
     }
 
-    public checkHistoricMembersSorting() {
+    public checkHistoricMembersColumnsSortCorrectly() {
         const { HistoricMembers } = this.elements;
-        SortingUtility.checkStringSorting(HistoricMembers.Names, HistoricMembers.NameHeader);
-        SortingUtility.checkStringSorting(HistoricMembers.Roles, HistoricMembers.RoleHeader);
-        SortingUtility.checkStringSorting(HistoricMembers.AppointedBys, HistoricMembers.AppointedHeader);
-        SortingUtility.checkStringSorting(HistoricMembers.From, HistoricMembers.FromHeader);
-        SortingUtility.checkStringSorting(HistoricMembers.To, HistoricMembers.ToHeader);
+        TableUtility.checkStringSorting(HistoricMembers.Names, HistoricMembers.NameHeader);
+        TableUtility.checkStringSorting(HistoricMembers.Roles, HistoricMembers.RoleHeader);
+        TableUtility.checkStringSorting(HistoricMembers.AppointedBy, HistoricMembers.AppointedHeader);
+        TableUtility.checkStringSorting(HistoricMembers.From, HistoricMembers.FromHeader);
+        TableUtility.checkStringSorting(HistoricMembers.To, HistoricMembers.ToHeader);
     }
 
     // ***********
@@ -157,54 +176,28 @@ class GovernancePage {
     //
     // ***********
 
-    public checkDatesInTablesAreValid(): this {
-        governancePage.elements.TrustLeadership.From().each(element => { governancePage.checkDateCellIsBeforeToday(element) })
-        governancePage.elements.TrustLeadership.To().each(element => { governancePage.checkDateCellIsAfterToday(element) })
-
-        governancePage.elements.Trustees.From().each(element => { governancePage.checkDateCellIsBeforeToday(element) })
-        governancePage.elements.Trustees.To().each(element => { governancePage.checkDateCellIsAfterToday(element) })
-
-        governancePage.elements.Members.From().each(element => { governancePage.checkDateCellIsBeforeToday(element) })
-        governancePage.elements.Members.To().each(element => { governancePage.checkDateCellIsAfterToday(element) })
-
-        governancePage.elements.HistoricMembers.From().each(element => { governancePage.checkDateCellIsBeforeToday(element) })
-        governancePage.elements.HistoricMembers.To().each(element => { governancePage.checkDateCellIsBeforeToday(element) })
+    public checkTrustLeadershipAppointmentDatesAreCurrent(): this {
+        governancePage.elements.TrustLeadership.From().each(cell => { TableUtility.checkCellDateIsBeforeTodayOrHasNoData(cell); });
+        governancePage.elements.TrustLeadership.To().each(cell => { TableUtility.checkCellDateIsOnOrAfterTodayOrHasNoData(cell); });
         return this;
     }
 
-    private checkDateCellIsBeforeToday(element: JQuery<HTMLElement>) {
-        if (this.checkForSortValueOrNoData(element)) {
-            const today = new Date(Date.now());
-            today.setHours(0);
-            today.setMinutes(0);
-            today.setSeconds(0);
-            today.setMilliseconds(0);
-            const date = this.convertDataSortValueToDate(element);
-            expect(date.getTime()).to.be.lessThan(today.getTime());
-        }
+    public checkTrusteesAppointmentDatesAreCurrent(): this {
+        governancePage.elements.Trustees.From().each(cell => { TableUtility.checkCellDateIsBeforeTodayOrHasNoData(cell); });
+        governancePage.elements.Trustees.To().each(cell => { TableUtility.checkCellDateIsOnOrAfterTodayOrHasNoData(cell); });
+        return this;
     }
 
-    private checkDateCellIsAfterToday(element: JQuery<HTMLElement>) {
-        if (this.checkForSortValueOrNoData(element)) {
-            const today = new Date(Date.now());
-            today.setHours(0);
-            today.setMinutes(0);
-            today.setSeconds(0);
-            today.setMilliseconds(0);
-            const date = this.convertDataSortValueToDate(element);
-            expect(date.getTime()).to.be.greaterThan(today.getTime());
-        }
+    public checkMembersAppointmentDatesAreCurrent(): this {
+        governancePage.elements.Members.From().each(cell => { TableUtility.checkCellDateIsBeforeTodayOrHasNoData(cell); });
+        governancePage.elements.Members.To().each(cell => { TableUtility.checkCellDateIsOnOrAfterTodayOrHasNoData(cell); });
+        return this;
     }
 
-    private convertDataSortValueToDate(element: JQuery<HTMLElement>) {
-        const sortValue = element.attr('data-sort-value');
-        if (!sortValue) {
-            throw new Error("Sort value not found on element");
-        }
-        const year = parseInt(sortValue.substring(0, 4));
-        const month = parseInt(sortValue.substring(4, 6));
-        const day = parseInt(sortValue.substring(6));
-        return new Date(year, month - 1, day);
+    public checkHistoricMembersAppointmentDatesAreInThePast(): this {
+        governancePage.elements.HistoricMembers.From().each(cell => { TableUtility.checkCellDateIsBeforeTodayOrHasNoData(cell); });
+        governancePage.elements.HistoricMembers.To().each(cell => { TableUtility.checkCellDateIsBeforeTodayOrHasNoData(cell); });
+        return this;
     }
 
     // **********************
@@ -213,53 +206,44 @@ class GovernancePage {
     //
     // **********************
 
-    public checkNoTrustLeadershipMessageIsVisble(): this {
+    public checkNoTrustLeadershipMessageIsVisible(): this {
         this.elements.TrustLeadership.NoDataMessage().should('be.visible');
         return this;
     }
 
-    public checkNoTrusteesMessageIsVisble(): this {
+    public checkNoTrusteesMessageIsVisible(): this {
         this.elements.Trustees.NoDataMessage().should('be.visible');
         return this;
     }
 
-    public checkNotMembersMessageIsVisble(): this {
+    public checkNotMembersMessageIsVisible(): this {
         this.elements.Members.NoDataMessage().should('be.visible');
         return this;
     }
 
-    public checkNoHistoricMembersMessageIsVisble(): this {
+    public checkNoHistoricMembersMessageIsVisible(): this {
         this.elements.HistoricMembers.NoDataMessage().should('be.visible');
         return this;
     }
 
-    public checkNoTrustLeadershipMessageIsNotVisble(): this {
+    public checkNoTrustLeadershipMessageIsHidden(): this {
         this.elements.TrustLeadership.NoDataMessage().should('not.exist');
         return this;
     }
 
-    public checkNoTrusteesMessageIsNotVisble(): this {
+    public checkNoTrusteesMessageIsHidden(): this {
         this.elements.Trustees.NoDataMessage().should('not.exist');
         return this;
     }
 
-    public checkNoMembersMessageIsNotVisble(): this {
+    public checkNoMembersMessageIsHidden(): this {
         this.elements.Members.NoDataMessage().should('not.exist');
         return this;
     }
 
-    public checkNoHistoricMembersMessageIsNotVisble(): this {
+    public checkNoHistoricMembersMessageIsHidden(): this {
         this.elements.HistoricMembers.NoDataMessage().should('not.exist');
         return this;
-    }
-
-    private checkForSortValueOrNoData(element: JQuery<HTMLElement>) {
-        const sortValue = element.attr('data-sort-value');
-        if (!sortValue) {
-            expect(element.text().trim()).to.be.equal("No Data")
-            return false;
-        }
-        return true;
     }
 
     // ***********
@@ -268,13 +252,139 @@ class GovernancePage {
     //
     // ***********
 
-    public checkRolesOnTrustLeadershipTable() {
+    public checkOnlyTrustLeadershipRolesArePresent() {
         this.elements.TrustLeadership.Roles().each(element => {
-            expect(element.text().trim()).to.be.oneOf(["Chief Financial Officer", "Accounting Officer", "Chair of Trustees"])
+            expect(element.text().trim()).to.be.oneOf(["Chief Financial Officer", "Accounting Officer", "Chair of Trustees"]);
         });
+        return this;
+    }
+
+    // ***********
+    //
+    // SUB NAVIGATION MENU
+    //
+    // ***********
+
+    public clickTrustLeadershipSubnavButton(): this {
+        this.elements.subNav.trustLeadershipSubnavButton().click();
+        return this;
+    }
+
+    public clickTrusteesSubnavButton(): this {
+        this.elements.subNav.trusteesSubnavButton().click();
+        return this;
+    }
+
+    public clickMembersSubnavButton(): this {
+        this.elements.subNav.membersSubnavButton().click();
+        return this;
+    }
+
+    public clickHistoricMembersSubnavButton(): this {
+        this.elements.subNav.historicMembersSubnavButton().click();
+        return this;
+    }
+
+    public checkAllSubNavItemsPresent(): this {
+        this.elements.subNav.trustLeadershipSubnavButton().should('be.visible');
+        this.elements.subNav.trusteesSubnavButton().should('be.visible');
+        this.elements.subNav.membersSubnavButton().should('be.visible');
+        this.elements.subNav.historicMembersSubnavButton().should('be.visible');
+        return this;
+    }
+
+    public checkSubNavNotPresent(): this {
+        this.elements.subNav.trustLeadershipSubnavButton().should('not.exist');
+        this.elements.subNav.trusteesSubnavButton().should('not.exist');
+        this.elements.subNav.membersSubnavButton().should('not.exist');
+        this.elements.subNav.historicMembersSubnavButton().should('not.exist');
+        return this;
+    }
+
+    public checkTrustLeadershipSubnavButtonIsHighlighted(): this {
+        this.elements.subNav.trustLeadershipSubnavButton().should('have.prop', 'aria-current', true);
+        return this;
+    }
+
+    public checkTrusteesSubnavButtonIsHighlighted(): this {
+        this.elements.subNav.trusteesSubnavButton().should('have.prop', 'aria-current', true);
+        return this;
+    }
+
+    public checkMembersSubnavButtonIsHighlighted(): this {
+        this.elements.subNav.membersSubnavButton().should('have.prop', 'aria-current', true);
+        return this;
+    }
+
+    public checkHistoricMembersSubnavButtonIsHighlighted(): this {
+        this.elements.subNav.historicMembersSubnavButton().should('have.prop', 'aria-current', true);
+        return this;
+    }
+
+    private getCountFromSubNavButton(subNavButton: Cypress.Chainable<JQuery<HTMLElement>>): Cypress.Chainable<number> {
+        return subNavButton
+            .invoke('text')
+            .then(text => {
+                const matches = /\d+/.exec(text);
+                if (!matches)
+                    throw new Error("No count found in button text.");
+                return parseInt(matches[0]);
+            });
+    }
+
+    public checkTrustLeadershipSubnavButtonHasZeroInBrackets(): this {
+        this.getCountFromSubNavButton(this.elements.subNav.trustLeadershipSubnavButton()).should('eq', 0);
+        return this;
+    }
+
+    public checkTrusteesSubnavButtonHasZeroInBrackets(): this {
+        this.getCountFromSubNavButton(this.elements.subNav.trusteesSubnavButton()).should('eq', 0);
+        return this;
+    }
+
+    public checkMembersSubnavButtonHasZeroInBrackets(): this {
+        this.getCountFromSubNavButton(this.elements.subNav.membersSubnavButton()).should('eq', 0);
+        return this;
+    }
+
+    public checkHistoricMembersSubnavButtonHasZeroInBrackets(): this {
+        this.getCountFromSubNavButton(this.elements.subNav.historicMembersSubnavButton()).should('eq', 0);
+        return this;
+    }
+
+    private checkButtonCountMatchesActualNumberOfGovernors(subNavButton: Cypress.Chainable<JQuery<HTMLElement>>, tableRows: Cypress.Chainable<JQuery<HTMLElement>>) {
+        tableRows.its('length')
+            .then((numberOfGovernors) => {
+                //Ensure that the table has some data
+                expect(numberOfGovernors).to.be.greaterThan(0, 'Check that there are governors because this test requires a trust with full governance data');
+
+                this.getCountFromSubNavButton(subNavButton)
+                    .then((buttonCount) => {
+                        expect(buttonCount).to.eq(numberOfGovernors, 'Check that number of governors is the same as the number in the sub nav link');
+                    });
+            });
+    }
+
+    public checkTrustLeadershipLinkValueMatchesNumberOfTrustLeaders(): this {
+        this.checkButtonCountMatchesActualNumberOfGovernors(this.elements.subNav.trustLeadershipSubnavButton(), this.elements.TrustLeadership.tableRows());
+        return this;
+    }
+
+    public checkTrusteesLinkValueMatchesNumberOfTrustees(): this {
+        this.checkButtonCountMatchesActualNumberOfGovernors(this.elements.subNav.trusteesSubnavButton(), this.elements.Trustees.tableRows());
+        return this;
+    }
+
+    public checkMembersLinkValueMatchesNumberOfMembers(): this {
+        this.checkButtonCountMatchesActualNumberOfGovernors(this.elements.subNav.membersSubnavButton(), this.elements.Members.tableRows());
+        return this;
+    }
+
+    public checkHistoricMembersLinkValueMatchesNumberOfHistoricMembers(): this {
+        this.checkButtonCountMatchesActualNumberOfGovernors(this.elements.subNav.historicMembersSubnavButton(), this.elements.HistoricMembers.tableRows());
+        return this;
     }
 }
 
 const governancePage = new GovernancePage();
-
 export default governancePage;

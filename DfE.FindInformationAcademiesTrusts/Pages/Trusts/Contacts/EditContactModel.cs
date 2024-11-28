@@ -1,11 +1,11 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data;
+﻿using System.ComponentModel.DataAnnotations;
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Extensions;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.ComponentModel.DataAnnotations;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 
@@ -72,7 +72,7 @@ public abstract class EditContactModel(
             _ => throw new InvalidOperationException(nameof(result))
         };
 
-        return RedirectToPage("/Trusts/Contacts", new { Uid });
+        return RedirectToPage("/Trusts/Contacts/InDfe", new { Uid });
     }
 
     public string GetErrorClass(string key)
