@@ -1,4 +1,4 @@
-import { SortingUtility } from "./sortingUtility";
+import { TableUtility } from "../tableUtility";
 
 class AcademiesPage {
     // Elements for each page section
@@ -139,26 +139,26 @@ class AcademiesPage {
 
     public checkTrustDetailsSorting() {
         const { DetailsPage } = this.elements;
-        SortingUtility.checkStringSorting(DetailsPage.schoolName, DetailsPage.schoolNameHeader);
-        SortingUtility.checkStringSorting(DetailsPage.localAuthority, DetailsPage.localAuthorityHeader);
-        SortingUtility.checkStringSorting(DetailsPage.schoolType, DetailsPage.schoolTypeHeader);
-        SortingUtility.checkStringSorting(DetailsPage.ruralOrUrban, DetailsPage.ruralOrUrbanHeader);
+        TableUtility.checkStringSorting(DetailsPage.schoolName, DetailsPage.schoolNameHeader);
+        TableUtility.checkStringSorting(DetailsPage.localAuthority, DetailsPage.localAuthorityHeader);
+        TableUtility.checkStringSorting(DetailsPage.schoolType, DetailsPage.schoolTypeHeader);
+        TableUtility.checkStringSorting(DetailsPage.ruralOrUrban, DetailsPage.ruralOrUrbanHeader);
     }
 
     public checkOfstedSorting() {
         const { OfstedPage } = this.elements;
-        SortingUtility.checkStringSorting(OfstedPage.schoolName, OfstedPage.schoolNameHeader);
-        SortingUtility.checkStringSorting(OfstedPage.dateJoined, OfstedPage.dateJoinedHeader);
-        SortingUtility.checkStringSorting(OfstedPage.previousOfstedRating, OfstedPage.previousOfstedRatingHeader);
-        SortingUtility.checkStringSorting(OfstedPage.currentOfstedRating, OfstedPage.currentOfstedRatingHeader);
+        TableUtility.checkStringSorting(OfstedPage.schoolName, OfstedPage.schoolNameHeader);
+        TableUtility.checkStringSorting(OfstedPage.dateJoined, OfstedPage.dateJoinedHeader);
+        TableUtility.checkStringSorting(OfstedPage.previousOfstedRating, OfstedPage.previousOfstedRatingHeader);
+        TableUtility.checkStringSorting(OfstedPage.currentOfstedRating, OfstedPage.currentOfstedRatingHeader);
     }
 
     public checkPupilNumbersSorting() {
         const { PupilNumbersPage } = this.elements;
-        SortingUtility.checkStringSorting(PupilNumbersPage.schoolName, PupilNumbersPage.schoolNameHeader);
-        SortingUtility.checkStringSorting(PupilNumbersPage.phaseAndAge, PupilNumbersPage.phaseAndAgeHeader);
-        SortingUtility.checkNumericSorting(PupilNumbersPage.pupilNumbers, PupilNumbersPage.pupilNumbersHeader);
-        SortingUtility.checkNumericSorting(PupilNumbersPage.pupilCapacity, PupilNumbersPage.pupilCapacityHeader);
+        TableUtility.checkStringSorting(PupilNumbersPage.schoolName, PupilNumbersPage.schoolNameHeader);
+        TableUtility.checkStringSorting(PupilNumbersPage.phaseAndAge, PupilNumbersPage.phaseAndAgeHeader);
+        TableUtility.checkNumericSorting(PupilNumbersPage.pupilNumbers, PupilNumbersPage.pupilNumbersHeader);
+        TableUtility.checkNumericSorting(PupilNumbersPage.pupilCapacity, PupilNumbersPage.pupilCapacityHeader);
     }
 }
 

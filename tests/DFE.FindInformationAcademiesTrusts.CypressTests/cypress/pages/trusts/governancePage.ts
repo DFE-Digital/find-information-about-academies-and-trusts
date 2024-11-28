@@ -1,4 +1,4 @@
-import { SortingUtility } from "./sortingUtility";
+import { TableUtility } from "../tableUtility";
 class GovernancePage {
 
     elements = {
@@ -137,38 +137,37 @@ class GovernancePage {
     //
     // **************
 
-
     public checkTrustLeadershipColumnsSortCorrectly() {
         const { TrustLeadership } = this.elements;
-        SortingUtility.checkStringSorting(TrustLeadership.names, TrustLeadership.nameHeader);
-        SortingUtility.checkStringSorting(TrustLeadership.Roles, TrustLeadership.RoleHeader);
-        SortingUtility.checkStringSorting(TrustLeadership.From, TrustLeadership.FromHeader);
-        SortingUtility.checkStringSorting(TrustLeadership.To, TrustLeadership.ToHeader);
+        TableUtility.checkStringSorting(TrustLeadership.names, TrustLeadership.nameHeader);
+        TableUtility.checkStringSorting(TrustLeadership.Roles, TrustLeadership.RoleHeader);
+        TableUtility.checkStringSorting(TrustLeadership.From, TrustLeadership.FromHeader);
+        TableUtility.checkStringSorting(TrustLeadership.To, TrustLeadership.ToHeader);
     }
 
     public checkTrusteesColumnsSortCorrectly() {
         const { Trustees } = this.elements;
-        SortingUtility.checkStringSorting(Trustees.Names, Trustees.NameHeader);
-        SortingUtility.checkStringSorting(Trustees.AppointedBy, Trustees.AppointedHeader);
-        SortingUtility.checkStringSorting(Trustees.From, Trustees.FromHeader);
-        SortingUtility.checkStringSorting(Trustees.To, Trustees.ToHeader);
+        TableUtility.checkStringSorting(Trustees.Names, Trustees.NameHeader);
+        TableUtility.checkStringSorting(Trustees.AppointedBy, Trustees.AppointedHeader);
+        TableUtility.checkStringSorting(Trustees.From, Trustees.FromHeader);
+        TableUtility.checkStringSorting(Trustees.To, Trustees.ToHeader);
     }
 
     public checkMembersColumnsSortCorrectly() {
         const { Members } = this.elements;
-        SortingUtility.checkStringSorting(Members.names, Members.nameHeader);
-        SortingUtility.checkStringSorting(Members.AppointedBy, Members.AppointedHeader);
-        SortingUtility.checkStringSorting(Members.From, Members.FromHeader);
-        SortingUtility.checkStringSorting(Members.To, Members.ToHeader);
+        TableUtility.checkStringSorting(Members.names, Members.nameHeader);
+        TableUtility.checkStringSorting(Members.AppointedBy, Members.AppointedHeader);
+        TableUtility.checkStringSorting(Members.From, Members.FromHeader);
+        TableUtility.checkStringSorting(Members.To, Members.ToHeader);
     }
 
     public checkHistoricMembersColumnsSortCorrectly() {
         const { HistoricMembers } = this.elements;
-        SortingUtility.checkStringSorting(HistoricMembers.Names, HistoricMembers.NameHeader);
-        SortingUtility.checkStringSorting(HistoricMembers.Roles, HistoricMembers.RoleHeader);
-        SortingUtility.checkStringSorting(HistoricMembers.AppointedBy, HistoricMembers.AppointedHeader);
-        SortingUtility.checkStringSorting(HistoricMembers.From, HistoricMembers.FromHeader);
-        SortingUtility.checkStringSorting(HistoricMembers.To, HistoricMembers.ToHeader);
+        TableUtility.checkStringSorting(HistoricMembers.Names, HistoricMembers.NameHeader);
+        TableUtility.checkStringSorting(HistoricMembers.Roles, HistoricMembers.RoleHeader);
+        TableUtility.checkStringSorting(HistoricMembers.AppointedBy, HistoricMembers.AppointedHeader);
+        TableUtility.checkStringSorting(HistoricMembers.From, HistoricMembers.FromHeader);
+        TableUtility.checkStringSorting(HistoricMembers.To, HistoricMembers.ToHeader);
     }
 
     // ***********
@@ -178,62 +177,27 @@ class GovernancePage {
     // ***********
 
     public checkTrustLeadershipAppointmentDatesAreCurrent(): this {
-        governancePage.elements.TrustLeadership.From().each(element => { governancePage.checkDateIsBeforeTodayOrHasNoData(element); });
-        governancePage.elements.TrustLeadership.To().each(element => { governancePage.checkDateIsOnOrAfterTodayOrHasNoData(element); });
+        governancePage.elements.TrustLeadership.From().each(cell => { TableUtility.checkCellDateIsBeforeTodayOrHasNoData(cell); });
+        governancePage.elements.TrustLeadership.To().each(cell => { TableUtility.checkCellDateIsOnOrAfterTodayOrHasNoData(cell); });
         return this;
     }
 
     public checkTrusteesAppointmentDatesAreCurrent(): this {
-        governancePage.elements.Trustees.From().each(element => { governancePage.checkDateIsBeforeTodayOrHasNoData(element); });
-        governancePage.elements.Trustees.To().each(element => { governancePage.checkDateIsOnOrAfterTodayOrHasNoData(element); });
+        governancePage.elements.Trustees.From().each(cell => { TableUtility.checkCellDateIsBeforeTodayOrHasNoData(cell); });
+        governancePage.elements.Trustees.To().each(cell => { TableUtility.checkCellDateIsOnOrAfterTodayOrHasNoData(cell); });
         return this;
     }
 
     public checkMembersAppointmentDatesAreCurrent(): this {
-        governancePage.elements.Members.From().each(element => { governancePage.checkDateIsBeforeTodayOrHasNoData(element); });
-        governancePage.elements.Members.To().each(element => { governancePage.checkDateIsOnOrAfterTodayOrHasNoData(element); });
+        governancePage.elements.Members.From().each(cell => { TableUtility.checkCellDateIsBeforeTodayOrHasNoData(cell); });
+        governancePage.elements.Members.To().each(cell => { TableUtility.checkCellDateIsOnOrAfterTodayOrHasNoData(cell); });
         return this;
     }
 
     public checkHistoricMembersAppointmentDatesAreInThePast(): this {
-        governancePage.elements.HistoricMembers.From().each(element => { governancePage.checkDateIsBeforeTodayOrHasNoData(element); });
-        governancePage.elements.HistoricMembers.To().each(element => { governancePage.checkDateIsBeforeTodayOrHasNoData(element); });
+        governancePage.elements.HistoricMembers.From().each(cell => { TableUtility.checkCellDateIsBeforeTodayOrHasNoData(cell); });
+        governancePage.elements.HistoricMembers.To().each(cell => { TableUtility.checkCellDateIsBeforeTodayOrHasNoData(cell); });
         return this;
-    }
-
-    private checkDateIsBeforeTodayOrHasNoData(element: JQuery<HTMLElement>) {
-        if (this.checkForSortValueOrNoData(element)) {
-            const today = new Date(Date.now());
-            today.setHours(0);
-            today.setMinutes(0);
-            today.setSeconds(0);
-            today.setMilliseconds(0);
-            const date = this.convertDataSortValueToDate(element);
-            expect(date.getTime()).to.be.lessThan(today.getTime());
-        }
-    }
-
-    private checkDateIsOnOrAfterTodayOrHasNoData(element: JQuery<HTMLElement>) {
-        if (this.checkForSortValueOrNoData(element)) {
-            const today = new Date(Date.now());
-            today.setHours(0);
-            today.setMinutes(0);
-            today.setSeconds(0);
-            today.setMilliseconds(0);
-            const date = this.convertDataSortValueToDate(element);
-            expect(date.getTime()).to.be.at.least(today.getTime());
-        }
-    }
-
-    private convertDataSortValueToDate(element: JQuery<HTMLElement>) {
-        const sortValue = element.attr('data-sort-value');
-        if (!sortValue) {
-            throw new Error("Sort value not found on element");
-        }
-        const year = parseInt(sortValue.substring(0, 4));
-        const month = parseInt(sortValue.substring(4, 6));
-        const day = parseInt(sortValue.substring(6));
-        return new Date(year, month - 1, day);
     }
 
     // **********************
@@ -280,15 +244,6 @@ class GovernancePage {
     public checkNoHistoricMembersMessageIsHidden(): this {
         this.elements.HistoricMembers.NoDataMessage().should('not.exist');
         return this;
-    }
-
-    private checkForSortValueOrNoData(element: JQuery<HTMLElement>) {
-        const sortValue = element.attr('data-sort-value');
-        if (!sortValue) {
-            expect(element.text().trim()).to.be.equal("No Data");
-            return false;
-        }
-        return true;
     }
 
     // ***********
