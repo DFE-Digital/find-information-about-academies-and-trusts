@@ -1,4 +1,4 @@
-import academiesPage from "../../../pages/trusts/academiesPage";
+import ofstedPage from "../../../pages/trusts/ofstedPage";
 
 describe("Testing the Ofsted page and its subpages ", () => {
     beforeEach(() => {
@@ -7,34 +7,34 @@ describe("Testing the Ofsted page and its subpages ", () => {
     });
 
     it("Checks the correct Ofsted page headers are present", () => {
-        academiesPage
+        ofstedPage
             .checkOfstedHeadersPresent();
     });
 
     it("Checks that a trusts correct Current Ofsted rating types are present", () => {
-        academiesPage
+        ofstedPage
             .checkCurrentOfstedTypesOnOfstedTable();
     });
 
     it("Checks that a trusts correct Previous Ofsted rating types are present", () => {
-        academiesPage
+        ofstedPage
             .checkPreviousOfstedTypesOnOfstedTable();
     });
 
     it("Checks that a different trusts correct Current Ofsted rating types are present", () => {
         cy.visit('/trusts/academies/ofsted-ratings?uid=5143');
-        academiesPage
+        ofstedPage
             .checkCurrentOfstedTypesOnOfstedTable();
     });
 
     it("Checks that a different trusts correct Previous Ofsted rating types are present", () => {
         cy.visit('/trusts/academies/ofsted-ratings?uid=5143');
-        academiesPage
+        ofstedPage
             .checkPreviousOfstedTypesOnOfstedTable();
     });
 
     it("Checks the Ofsted page sorting", () => {
-        academiesPage
+        ofstedPage
             .checkOfstedSorting();
     });
 
