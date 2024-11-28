@@ -6,14 +6,39 @@
 
 @functions {
 
-  private string? GetAriaCurrentIf(string linkName)
+  private string GetCurrentlySelectedClassIf(string linkName)
   {
-    var ariaCurrentValue = "page";
-    return Model.TabName == linkName ? ariaCurrentValue : null;
+    var selectedClass = "govuk-tabs__list-item--selected";
+    return Model.TabName == linkName ? selectedClass : string.Empty;
   }
 
 }
 
+<div class="govuk-tabs">
+  <h2 class="govuk-tabs__title">
+    Contents
+  </h2>
+  <ul class="govuk-tabs__list">
+    <li class="govuk-tabs__list-item @GetCurrentlySelectedClassIf("Details")">
+      <a id="academies-details-link" class="govuk-tabs__tab" asp-page="./Details" asp-route-uid="@Model.TrustSummary.Uid">
+        <span class="govuk-visually-hidden">Academies </span>Details
+      </a>
+    </li>
+    <li class="govuk-tabs__list-item @GetCurrentlySelectedClassIf("Pupil numbers")">
+      <a id="academies-pupil-numbers-link" class="govuk-tabs__tab" asp-page="./PupilNumbers" asp-route-uid="@Model.TrustSummary.Uid">
+        <span class="govuk-visually-hidden">Academies </span>Pupil numbers
+      </a>
+    </li>
+    <li class="govuk-tabs__list-item @GetCurrentlySelectedClassIf("Free school meals")">
+      <a id="free-school-meals-link" class="govuk-tabs__tab" asp-page="./FreeSchoolMeals" asp-route-uid="@Model.TrustSummary.Uid">
+        <span class="govuk-visually-hidden">Academies </span>Free school meals
+      </a>
+    </li>
+  </ul>
+  <div class="govuk-tabs__panel">
+    @RenderBody()
+  </div>
+</div>
 <section class="govuk-!-margin-top-2 govuk-!-margin-bottom-2 export-container">
   <input type="hidden" name="Uid" value="@Model.TrustSummary.Uid"/>
   <a asp-page-handler="Export" asp-route-uid="@Model.TrustSummary.Uid"
@@ -24,25 +49,6 @@
     Download all academy data
   </a>
 </section>
-<nav class="moj-sub-navigation" aria-label="Academies tabs">
-
-  <ul class="moj-sub-navigation__list">
-    <li class="moj-sub-navigation__item">
-      <a id="academies-details-link" class="moj-sub-navigation__link" aria-current="@GetAriaCurrentIf("Details")" asp-page="./Details" asp-route-uid="@Model.TrustSummary.Uid"><span class="govuk-visually-hidden">Academies </span>Details</a>
-    </li>
-
-    <li class="moj-sub-navigation__item">
-      <a id="academies-pupil-numbers-link" class="moj-sub-navigation__link" aria-current="@GetAriaCurrentIf("Pupil numbers")" asp-page="./PupilNumbers" asp-route-uid="@Model.TrustSummary.Uid"><span class="govuk-visually-hidden">Academies </span>Pupil numbers</a>
-    </li>
-
-    <li class="moj-sub-navigation__item">
-      <a id="free-school-meals-link" class="moj-sub-navigation__link" aria-current="@GetAriaCurrentIf("Free school meals")" asp-page="./FreeSchoolMeals" asp-route-uid="@Model.TrustSummary.Uid"><span class="govuk-visually-hidden">Academies </span>Free school meals</a>
-    </li>
-  </ul>
-
-</nav>
-
-@RenderBody()
 
 @section Scripts {
   @await RenderSectionAsync("Scripts", false)
