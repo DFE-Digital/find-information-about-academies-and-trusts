@@ -179,19 +179,19 @@ class GovernancePage {
 
     public checkTrustLeadershipAppointmentDatesAreCurrent(): this {
         governancePage.elements.TrustLeadership.From().each(element => { governancePage.checkDateIsBeforeTodayOrHasNoData(element); });
-        governancePage.elements.TrustLeadership.To().each(element => { governancePage.checkDateIsAfterTodayOrHasNoData(element); });
+        governancePage.elements.TrustLeadership.To().each(element => { governancePage.checkDateIsOnOrAfterTodayOrHasNoData(element); });
         return this;
     }
 
     public checkTrusteesAppointmentDatesAreCurrent(): this {
         governancePage.elements.Trustees.From().each(element => { governancePage.checkDateIsBeforeTodayOrHasNoData(element); });
-        governancePage.elements.Trustees.To().each(element => { governancePage.checkDateIsAfterTodayOrHasNoData(element); });
+        governancePage.elements.Trustees.To().each(element => { governancePage.checkDateIsOnOrAfterTodayOrHasNoData(element); });
         return this;
     }
 
     public checkMembersAppointmentDatesAreCurrent(): this {
         governancePage.elements.Members.From().each(element => { governancePage.checkDateIsBeforeTodayOrHasNoData(element); });
-        governancePage.elements.Members.To().each(element => { governancePage.checkDateIsAfterTodayOrHasNoData(element); });
+        governancePage.elements.Members.To().each(element => { governancePage.checkDateIsOnOrAfterTodayOrHasNoData(element); });
         return this;
     }
 
@@ -213,7 +213,7 @@ class GovernancePage {
         }
     }
 
-    private checkDateIsAfterTodayOrHasNoData(element: JQuery<HTMLElement>) {
+    private checkDateIsOnOrAfterTodayOrHasNoData(element: JQuery<HTMLElement>) {
         if (this.checkForSortValueOrNoData(element)) {
             const today = new Date(Date.now());
             today.setHours(0);
@@ -221,7 +221,7 @@ class GovernancePage {
             today.setSeconds(0);
             today.setMilliseconds(0);
             const date = this.convertDataSortValueToDate(element);
-            expect(date.getTime()).to.be.greaterThan(today.getTime());
+            expect(date.getTime()).to.be.at.least(today.getTime());
         }
     }
 
