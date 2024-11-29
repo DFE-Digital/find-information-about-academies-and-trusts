@@ -88,9 +88,28 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         _giasGroupLinks.AddRange(newGroupLinks);
     }
 
+    public void AddMisEstablishment(MisEstablishment misEstablishment)
+    {
+        _misEstablishments.Add(misEstablishment);
+    }
+
+    public void AddMisEstablishment(int? urn, string? inspectionStartDate = null)
+    {
+        AddMisEstablishment(new MisEstablishment
+        {
+            Urn = urn,
+            InspectionStartDate = inspectionStartDate
+        });
+    }
+
     public void AddMisEstablishments(IEnumerable<MisEstablishment> misEstablishments)
     {
         _misEstablishments.AddRange(misEstablishments);
+    }
+
+    public void AddMisFurtherEducationEstablishment(MisFurtherEducationEstablishment misFurtherEducationEstablishment)
+    {
+        _misFurtherEducationEstablishments.Add(misFurtherEducationEstablishment);
     }
 
     public void AddMisFurtherEducationEstablishments(
@@ -291,40 +310,5 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         }
 
         return establishmentGroupLinks;
-    }
-
-    public List<MisEstablishment> AddCurrentMisEstablishments(
-        IEnumerable<int> urns)
-    {
-        var newItems = urns
-            .Select(urn => new MisEstablishment
-            {
-                UrnAtTimeOfLatestFullInspection = urn
-            }).ToList();
-
-        _misEstablishments.AddRange(newItems);
-
-        return newItems;
-    }
-
-    public List<MisEstablishment> AddPreviousMisEstablishments(IEnumerable<int> urns)
-    {
-        var newItems = urns
-            .Select(urn =>
-                new MisEstablishment { UrnAtTimeOfPreviousFullInspection = urn }).ToList();
-
-        _misEstablishments.AddRange(newItems);
-
-        return newItems;
-    }
-
-    public List<MisFurtherEducationEstablishment> CreateMisFurtherEducationEstablishments(IEnumerable<int> urns)
-    {
-        var newItems = urns
-            .Select(urn => new MisFurtherEducationEstablishment { ProviderUrn = urn }).ToList();
-
-        _misFurtherEducationEstablishments.AddRange(newItems);
-
-        return newItems;
     }
 }

@@ -3,19 +3,18 @@ namespace DfE.FindInformationAcademiesTrusts.Data;
 public record OfstedRating(
     OfstedRatingScore OverallEffectiveness,
     OfstedRatingScore QualityOfEducation,
-    OfstedRatingScore BehaviourAndAttitudues,
+    OfstedRatingScore BehaviourAndAttitudes,
     OfstedRatingScore PersonalDevelopment,
     OfstedRatingScore EffectivenessOfLeadershipAndManagement,
     OfstedRatingScore EarlyYearsProvision,
     OfstedRatingScore SixthFormProvision,
     CategoriesOfConcern CategoryOfConcern,
-    SafeguardingScore SafeguradingIsEffective,
+    SafeguardingScore SafeguardingIsEffective,
     DateTime? InspectionDate)
 {
     public static readonly OfstedRating None = new(OfstedRatingScore.None, OfstedRatingScore.None,
-        OfstedRatingScore.None, OfstedRatingScore.None,
-        OfstedRatingScore.None, OfstedRatingScore.None, OfstedRatingScore.None, CategoriesOfConcern.None,
-        SafeguardingScore.None, null);
+        OfstedRatingScore.None, OfstedRatingScore.None, OfstedRatingScore.None, OfstedRatingScore.None,
+        OfstedRatingScore.None, CategoriesOfConcern.NotInspected, SafeguardingScore.None, null);
 
     public OfstedRating(int? overallEffectiveness, DateTime? inspectionDate)
         : this(
@@ -26,7 +25,7 @@ public record OfstedRating(
             OfstedRatingScore.None,
             OfstedRatingScore.None,
             OfstedRatingScore.None,
-            CategoriesOfConcern.None,
+            CategoriesOfConcern.NotInspected,
             SafeguardingScore.None,
             inspectionDate
         )
@@ -47,21 +46,6 @@ public record OfstedRating(
                 return SafeguardingScore.None;
         }
     }
-
-    public static CategoriesOfConcern ConvertStringToCategoriesOfConcern(string? input)
-    {
-        switch (input)
-        {
-            case CategoriesOfConcernString.SpecialMeasures:
-                return CategoriesOfConcern.SpecialMeasures;
-            case CategoriesOfConcernString.SeriousWeakness:
-                return CategoriesOfConcern.SeriousWeakness;
-            case CategoriesOfConcernString.NoticeToImprove:
-                return CategoriesOfConcern.NoticeToImprove;
-            default:
-                return CategoriesOfConcern.None;
-        }
-    }
 }
 
 public static class SafeguardingScoreString
@@ -69,13 +53,6 @@ public static class SafeguardingScoreString
     public const string Yes = "Yes";
     public const string No = "No";
     public const string Nine = "9";
-}
-
-public static class CategoriesOfConcernString
-{
-    public const string SpecialMeasures = "SM";
-    public const string SeriousWeakness = "SWK";
-    public const string NoticeToImprove = "NTI";
 }
 
 public enum OfstedRatingScore
@@ -100,7 +77,9 @@ public enum SafeguardingScore
 
 public enum CategoriesOfConcern
 {
-    None = -1,
+    NotInspected = -1,
+    DoesNotApply,
+    NoConcerns,
     SpecialMeasures,
     SeriousWeakness,
     NoticeToImprove
