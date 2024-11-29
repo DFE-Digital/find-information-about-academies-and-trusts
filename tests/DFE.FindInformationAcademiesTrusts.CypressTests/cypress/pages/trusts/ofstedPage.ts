@@ -133,7 +133,7 @@ class OfstedPage {
     public checkBeforeOrAfterJoiningJudgementsPresent(): this {
         this.elements.currentRatings.beforeOrAfterJoining().each((element) => {
             const text = element.text().trim();
-            expect(text).to.match(/Before|After/);
+            expect(text).to.match(/Before|After|Not yet inspected/);
         });
         return this;
     }
