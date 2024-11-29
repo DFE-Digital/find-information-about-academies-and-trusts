@@ -91,7 +91,7 @@ class OfstedPage {
     }
 
     public checkBehaviourAndAttitudesJudgementsPresent(): this {
-        this.elements.currentRatings.qualityOfEducation().each((element) => {
+        this.elements.currentRatings.behaviourAndAttitudes().each((element) => {
             const text = element.text().trim();
             expect(text).to.match(/Good|Outstanding|No Judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
         });
@@ -99,7 +99,7 @@ class OfstedPage {
     }
 
     public checkPesronalDevelopmentJudgementsPresent(): this {
-        this.elements.currentRatings.qualityOfEducation().each((element) => {
+        this.elements.currentRatings.personalDevelopment().each((element) => {
             const text = element.text().trim();
             expect(text).to.match(/Good|Outstanding|No Judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
         });
@@ -107,33 +107,33 @@ class OfstedPage {
     }
 
     public checkLeadershipAndManagementJudgementsPresent(): this {
-        this.elements.currentRatings.qualityOfEducation().each((element) => {
+        this.elements.currentRatings.leadershipAndManagement().each((element) => {
             const text = element.text().trim();
-            expect(text).to.match(/Good|Outstanding|No Judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
+            expect(text).to.match(/Good|Outstanding|No Judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply/);
         });
         return this;
     }
 
     public checkEarlyYearsProvisionJudgementsPresent(): this {
-        this.elements.currentRatings.qualityOfEducation().each((element) => {
+        this.elements.currentRatings.earlyYearsProvision().each((element) => {
             const text = element.text().trim();
-            expect(text).to.match(/Good|Outstanding|No Judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
+            expect(text).to.match(/Good|Outstanding|No Judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply/);
         });
         return this;
     }
 
     public checkSixthFormProvisionJudgementsPresent(): this {
-        this.elements.currentRatings.qualityOfEducation().each((element) => {
+        this.elements.currentRatings.sixthFormProvision().each((element) => {
             const text = element.text().trim();
-            expect(text).to.match(/Good|Outstanding|No Judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
+            expect(text).to.match(/Good|Outstanding|No Judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply/);
         });
         return this;
     }
 
     public checkBeforeOrAfterJoiningJudgementsPresent(): this {
-        this.elements.currentRatings.qualityOfEducation().each((element) => {
+        this.elements.currentRatings.beforeOrAfterJoining().each((element) => {
             const text = element.text().trim();
-            expect(text).to.match(/Good|Outstanding|No Judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
+            expect(text).to.match(/Before|After/);
         });
         return this;
     }
