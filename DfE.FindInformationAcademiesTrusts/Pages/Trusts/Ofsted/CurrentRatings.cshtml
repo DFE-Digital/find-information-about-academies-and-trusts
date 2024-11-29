@@ -62,7 +62,7 @@
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.CurrentOfstedRating.SixthFormProvision.ToDataSortValue()" data-testid="ofsted-current-ratings-sixth-form-provision">
             @academy.CurrentOfstedRating.SixthFormProvision.ToDisplayString()
           </td>
-          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.WhenDidCurrentInspectionHappen" data-testid="ofsted-previous-ratings-before-or-after-joining ">
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.WhenDidCurrentInspectionHappen" data-testid="ofsted-previous-ratings-before-or-after-joining">
             @await Html.PartialAsync("_BeforeOrAfterTag", academy.WhenDidCurrentInspectionHappen)
           </td>
         </tr>
