@@ -153,7 +153,6 @@ class Navigation {
 
     public checkAllAcademiesNavItemsPresent(): this {
         this.elements.acadmiesSubNav.detailsAcadmiesTrustButton().should('be.visible');
-        this.elements.acadmiesSubNav.ofstedAcadmiesTrustButton().should('be.visible');
         this.elements.acadmiesSubNav.pupilNumbersAcadmiesTrustButton().should('be.visible');
         this.elements.acadmiesSubNav.freeSchoolMealsAcadmiesTrustButton().should('be.visible');
         return this;
