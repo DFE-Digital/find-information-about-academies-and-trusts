@@ -164,6 +164,7 @@ class Navigation {
         this.elements.serviceNav.contactsServiceNavButton().should('be.visible');
         this.elements.serviceNav.academiesServiceNavButton().should('be.visible');
         this.elements.serviceNav.governanceServiceNavButton().should('be.visible');
+        this.elements.acadmiesSubNav.ofstedAcadmiesTrustButton().should('be.visible');
         return this;
     }
 }
