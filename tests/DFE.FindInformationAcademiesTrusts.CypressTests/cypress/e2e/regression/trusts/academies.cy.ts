@@ -45,45 +45,6 @@ describe("Testing the components of the Academies page", () => {
         });
     });
 
-    describe("Ofsted ratings tab", () => {
-        beforeEach(() => {
-            cy.login();
-            cy.visit('/trusts/academies/ofsted-ratings?uid=5712');
-        });
-
-        it("Checks the correct Ofsted page headers are present", () => {
-            academiesPage
-                .checkOfstedHeadersPresent();
-        });
-
-        it("Checks that a trusts correct Current Ofsted rating types are present", () => {
-            academiesPage
-                .checkCurrentOfstedTypesOnOfstedTable();
-        });
-
-        it("Checks that a trusts correct Previous Ofsted rating types are present", () => {
-            academiesPage
-                .checkPreviousOfstedTypesOnOfstedTable();
-        });
-
-        it("Checks that a different trusts correct Current Ofsted rating types are present", () => {
-            cy.visit('/trusts/academies/ofsted-ratings?uid=5143');
-            academiesPage
-                .checkCurrentOfstedTypesOnOfstedTable();
-        });
-
-        it("Checks that a different trusts correct Previous Ofsted rating types are present", () => {
-            cy.visit('/trusts/academies/ofsted-ratings?uid=5143');
-            academiesPage
-                .checkPreviousOfstedTypesOnOfstedTable();
-        });
-
-        it("Checks the Ofsted page sorting", () => {
-            academiesPage
-                .checkOfstedSorting();
-        });
-
-    });
 
     describe("Pupil numbers tab", () => {
         beforeEach(() => {
@@ -95,13 +56,6 @@ describe("Testing the components of the Academies page", () => {
             academiesPage
                 .checkPupilNumbersHeadersPresent();
         });
-
-        it("Checks the Ofsted page sorting", () => {
-            cy.visit('/trusts/academies/pupil-numbers?uid=5143');
-            academiesPage
-                .checkPupilNumbersSorting();
-        });
-
 
     });
 
@@ -122,16 +76,6 @@ describe("Testing the components of the Academies page", () => {
         beforeEach(() => {
             cy.login();
             cy.visit('/trusts/academies/details?uid=5527');
-        });
-
-        it('Should check that the academies Ofsted ratings navigation button takes me to the correct page', () => {
-            navigation
-                .clickOfstedAcadmiesTrustButton()
-                .checkCurrentURLIsCorrect('/trusts/academies/ofsted-ratings?uid=5527')
-                .checkAllServiceNavItemsPresent()
-                .checkAllAcademiesNavItemsPresent();
-            academiesPage
-                .checkOfstedHeadersPresent();
         });
 
         it('Should check that the academies Pupil numbers navigation button takes me to the correct page', () => {

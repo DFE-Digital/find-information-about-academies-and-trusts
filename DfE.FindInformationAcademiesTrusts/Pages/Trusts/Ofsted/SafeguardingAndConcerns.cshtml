@@ -55,7 +55,7 @@
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.CurrentOfstedRating.CategoryOfConcern.ToDataSortValue()" data-testid="category-of-concern" data-testid="ofsted-safeguarding-and-concerns-category-of-concern">
             @academy.CurrentOfstedRating.CategoryOfConcern.ToDisplayString()
           </td>
-          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.WhenDidCurrentInspectionHappen" data-testid="ofsted-previous-ratings-before-or-after-joining ">
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.WhenDidCurrentInspectionHappen" data-testid="ofsted-safeguarding-before-or-after-joining">
             @await Html.PartialAsync("_BeforeOrAfterTag", academy.WhenDidCurrentInspectionHappen)
           </td>
         </tr>

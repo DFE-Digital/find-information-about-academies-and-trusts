@@ -7,7 +7,6 @@ class AcademiesPage {
             academyCountLabel: () => cy.get('[data-testid="academies-nav"]'),
         },
         DetailsPage: this.createDetailsPageElements(),
-        OfstedPage: this.createOfstedPageElements(),
         PupilNumbersPage: this.createPupilNumbersPageElements(),
         FreeSchoolMeals: this.createFreeSchoolMealsElements(),
     };
@@ -28,20 +27,7 @@ class AcademiesPage {
         };
     }
 
-    private createOfstedPageElements() {
-        const table = () => cy.get('[aria-describedby="ofsted-ratings-link"]');
-        return {
-            table,
-            schoolName: () => table().find('[data-testid="school-name"]'),
-            schoolNameHeader: () => table().find("th:contains('School name')"),
-            dateJoined: () => table().find('[data-testid="date-joined"]'),
-            dateJoinedHeader: () => table().find("th:contains('Date joined')"),
-            previousOfstedRating: () => cy.get('[data-testid="previous-ofsted-rating"]'),
-            previousOfstedRatingHeader: () => table().find("th:contains('Previous Ofsted rating')"),
-            currentOfstedRating: () => cy.get('[data-testid="current-ofsted-rating"]'),
-            currentOfstedRatingHeader: () => table().find("th:contains('Current Ofsted rating')"),
-        };
-    }
+
 
     private createPupilNumbersPageElements() {
         const table = () => cy.get('[aria-describedby="academies-pupil-numbers-link"]');
@@ -83,15 +69,6 @@ class AcademiesPage {
         return this;
     }
 
-    public checkOfstedHeadersPresent(): this {
-        const { OfstedPage } = this.elements;
-        OfstedPage.table().should('contain', 'School name')
-            .and('contain', 'Date joined')
-            .and('contain', 'Previous Ofsted rating')
-            .and('contain', 'Current Ofsted rating');
-        return this;
-    }
-
     public checkPupilNumbersHeadersPresent(): this {
         const { PupilNumbersPage } = this.elements;
         PupilNumbersPage.table().should('contain', 'School name')
@@ -117,40 +94,12 @@ class AcademiesPage {
         });
     }
 
-    public checkPreviousOfstedTypesOnOfstedTable(): this {
-        this.elements.OfstedPage.previousOfstedRating().should(($elements) => {
-            $elements.each((index, element) => {
-                const text = Cypress.$(element).text().trim();
-                expect(text).to.match(/Good|Inadequate|Not yet inspected|Outstanding|Requires improvement/);
-            });
-        });
-        return this;
-    }
-
-    public checkCurrentOfstedTypesOnOfstedTable(): this {
-        this.elements.OfstedPage.currentOfstedRating().should(($elements) => {
-            $elements.each((index, element) => {
-                const text = Cypress.$(element).text().trim();
-                expect(text).to.match(/Good|Inadequate|Not yet inspected|Outstanding|Requires improvement/);
-            });
-        });
-        return this;
-    }
-
     public checkTrustDetailsSorting() {
         const { DetailsPage } = this.elements;
         TableUtility.checkStringSorting(DetailsPage.schoolName, DetailsPage.schoolNameHeader);
         TableUtility.checkStringSorting(DetailsPage.localAuthority, DetailsPage.localAuthorityHeader);
         TableUtility.checkStringSorting(DetailsPage.schoolType, DetailsPage.schoolTypeHeader);
         TableUtility.checkStringSorting(DetailsPage.ruralOrUrban, DetailsPage.ruralOrUrbanHeader);
-    }
-
-    public checkOfstedSorting() {
-        const { OfstedPage } = this.elements;
-        TableUtility.checkStringSorting(OfstedPage.schoolName, OfstedPage.schoolNameHeader);
-        TableUtility.checkStringSorting(OfstedPage.dateJoined, OfstedPage.dateJoinedHeader);
-        TableUtility.checkStringSorting(OfstedPage.previousOfstedRating, OfstedPage.previousOfstedRatingHeader);
-        TableUtility.checkStringSorting(OfstedPage.currentOfstedRating, OfstedPage.currentOfstedRatingHeader);
     }
 
     public checkPupilNumbersSorting() {
