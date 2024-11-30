@@ -40,29 +40,49 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         SetupMockDbContext(_applicationEvents, context => context.ApplicationEvents);
         SetupMockDbContext(_applicationSettings, context => context.ApplicationSettings);
 
-        //Set up some unused data
+        //Set up some unused data to ensure we are actually retrieving the right data in our tests
+        var otherTrust = AddGiasGroup(groupName: "Some other trust");
         for (var i = 0; i < 15; i++)
         {
+            //Completely unused
             AddGiasGroup(groupName: $"Unused {i}");
+            AddMstrTrust(region: $"S{i}shire");
+            AddGiasEstablishment(establishmentName: $"Unused {i}");
+
+            //Entities linked to some other trust
+            var otherAcademy = AddGiasEstablishment(establishmentName: $"Some other academy {i}");
+            AddGiasGroupLink(otherAcademy, otherTrust);
+            AddGiasGovernance(new GiasGovernance
+                { Gid = $"{i}", Uid = otherTrust.GroupUid!, Forename1 = $"Governor {i}" });
+            AddTadTrustGovernance(new TadTrustGovernance { Gid = $"{i}", Email = $"governor{i}@othertrust.com" });
         }
-
-        AddGiasEstablishments(15);
-        AddMstrTrusts(15);
-
-        var otherTrust = AddGiasGroup(groupName: "Some other trust");
-        AddGovernancesLinkedToTrust(20, otherTrust.GroupUid!);
-        LinkGiasEstablishmentsToGiasGroup(AddGiasEstablishments(5), otherTrust);
     }
 
-    public MstrTrust AddMstrTrust(string groupUid, string? region = "North East")
+    private void SetupMockDbContext<T>(List<T> items, Expression<Func<IAcademiesDbContext, DbSet<T>>> dbContextTable)
+        where T : class
+    {
+        Setup(dbContextTable).Returns(new MockDbSet<T>(items).Object);
+    }
+
+    public MstrTrust AddMstrTrust(string? groupUid = null, string? region = "North East")
     {
         var mstrTrust = new MstrTrust
         {
-            GroupUid = groupUid,
+            GroupUid = groupUid ?? (_mstrTrusts.Count + 1).ToString(),
             GORregion = region
         };
         _mstrTrusts.Add(mstrTrust);
         return mstrTrust;
+    }
+
+    public void AddGiasGroupLink(GiasEstablishment giasEstablishment, GiasGroup giasGroup)
+    {
+        AddGiasGroupLink(new GiasGroupLink
+        {
+            GroupUid = giasGroup.GroupUid,
+            Urn = giasEstablishment.Urn.ToString(),
+            GroupType = giasGroup.GroupType
+        });
     }
 
     public void AddGiasGroupLink(GiasGroupLink giasGroupLink)
@@ -78,14 +98,10 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     public void AddGiasGroupLinksForGiasEstablishmentsToGiasGroup(IEnumerable<GiasEstablishment> giasEstablishments,
         GiasGroup giasGroup)
     {
-        var newGroupLinks = giasEstablishments
-            .Select(giasEstablishment => new GiasGroupLink
-            {
-                GroupUid = giasGroup.GroupUid,
-                Urn = giasEstablishment.Urn.ToString(),
-                GroupType = giasGroup.GroupType
-            }).ToArray();
-        _giasGroupLinks.AddRange(newGroupLinks);
+        foreach (var giasEstablishment in giasEstablishments)
+        {
+            AddGiasGroupLink(giasEstablishment, giasGroup);
+        }
     }
 
     public void AddMisEstablishment(MisEstablishment misEstablishment)
@@ -118,15 +134,20 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         _misFurtherEducationEstablishments.AddRange(misFurtherEducationEstablishments);
     }
 
-    public GiasEstablishment AddGiasEstablishment(int urn, string? establishmentName = "my academy")
+    public void AddGiasEstablishment(GiasEstablishment giasEstablishment)
+    {
+        _giasEstablishments.Add(giasEstablishment);
+    }
+
+    public GiasEstablishment AddGiasEstablishment(int? urn = null, string? establishmentName = null)
     {
         var giasEstablishment = new GiasEstablishment
         {
-            Urn = urn,
-            EstablishmentName = establishmentName
+            Urn = _giasEstablishments.GetNextId(e => e.Urn, urn),
+            EstablishmentName = establishmentName ?? $"Academy {_giasEstablishments.Count + 1}"
         };
+        AddGiasEstablishment(giasEstablishment);
 
-        _giasEstablishments.Add(giasEstablishment);
         return giasEstablishment;
     }
 
@@ -139,11 +160,9 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         DateTime? dateTime,
         string? message = "Finished", char? eventType = 'I')
     {
-        var applicationEventId = _applicationEvents.Count;
-
         _applicationEvents.Add(new ApplicationEvent
         {
-            Id = applicationEventId,
+            Id = _applicationEvents.GetNextId(e => e.Id),
             DateTime = dateTime,
             Source = "source",
             UserName = "Test User",
@@ -176,18 +195,13 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     public GiasGroup AddGiasGroup(string? groupUid = null, string? groupName = null, string? groupId = null,
         string? groupType = null)
     {
-        var nextTrustNumber = _giasGroups.Count + 1;
-        groupUid ??= nextTrustNumber.ToString();
-
-        //Don't allow duplicate UIDs
-        if (_giasGroups.Any(g => g.GroupUid == groupUid))
-            _giasGroups.Remove(_giasGroups.Single(g => g.GroupUid == groupUid));
+        var nextGroupUid = _giasGroups.GetNextId(g => g.GroupUid!, groupUid);
 
         var giasGroup = new GiasGroup
         {
-            GroupId = groupId ?? $"TR0{nextTrustNumber}",
-            GroupName = groupName ?? $"Trust {nextTrustNumber}",
-            GroupUid = groupUid,
+            GroupId = groupId ?? $"TR0{nextGroupUid}",
+            GroupName = groupName ?? $"Trust {nextGroupUid}",
+            GroupUid = nextGroupUid,
             GroupType = groupType ?? "Multi-academy trust"
         };
         AddGiasGroup(giasGroup);
@@ -195,120 +209,38 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         return giasGroup;
     }
 
-    public List<MstrTrust> AddMstrTrusts(int num)
-    {
-        var numExisting = _mstrTrusts.Count;
-        var newItems = new List<MstrTrust>();
-        for (var i = 0; i < num; i++)
-        {
-            newItems.Add(new MstrTrust
-            {
-                GroupUid = $"{i + numExisting}",
-                GORregion = "North East"
-            });
-        }
-
-        _mstrTrusts.AddRange(newItems);
-
-        return newItems;
-    }
-
-    public List<GiasEstablishment> AddGiasEstablishments(int num)
-    {
-        var numExisting = _giasEstablishments.Count;
-        var newItems = new List<GiasEstablishment>();
-        for (var i = 0; i < num; i++)
-        {
-            newItems.Add(new GiasEstablishment
-            {
-                Urn = i + numExisting,
-                EstablishmentName = $"Academy {i + numExisting}"
-            });
-        }
-
-        _giasEstablishments.AddRange(newItems);
-
-        return newItems;
-    }
-
     public void AddGiasGovernance(GiasGovernance governance)
     {
-        var existing = _giasGovernances.FirstOrDefault(g => g.Gid == governance.Gid);
-        if (existing is not null)
-        {
-            var index = _giasGovernances.IndexOf(existing);
-            _giasGovernances[index] = governance;
-            return;
-        }
-
         _giasGovernances.Add(governance);
     }
 
     public void AddTadTrustGovernance(TadTrustGovernance tadTrustGovernance)
     {
-        var existing = _tadTrustGovernances.FirstOrDefault(m => m.Gid == tadTrustGovernance.Gid);
-        if (existing is not null)
-        {
-            var index = _tadTrustGovernances.IndexOf(existing);
-            _tadTrustGovernances[index] = tadTrustGovernance;
-            return;
-        }
-
         _tadTrustGovernances.Add(tadTrustGovernance);
     }
+}
 
-    public List<(GiasGovernance, TadTrustGovernance)> AddGovernancesLinkedToTrust(int num, string groupUid)
+file static class MockDbSetExtensions
+{
+    public static int GetNextId<T>(this List<T> entities, Func<T, int> identifier, int? specifiedId = null)
     {
-        var numExistingGovernances = _giasGovernances.Count;
-        var addedItems = new List<(GiasGovernance, TadTrustGovernance)>();
+        var nextId = specifiedId ?? entities.Count + 1;
 
-        for (var i = 0; i < num; i++)
-        {
-            var gid = (i + numExistingGovernances).ToString();
-            var giasGovernance = new GiasGovernance
-            {
-                Gid = gid,
-                Uid = groupUid,
-                Forename1 = $"Governor {i}"
-            };
-            var tadTrustGovernance = new TadTrustGovernance
-            {
-                Gid = gid,
-                Email = $"governor{i}@trust{groupUid}.com"
-            };
+        //Don't allow duplicate IDs
+        if (entities.Any(entity => identifier(entity) == nextId))
+            entities.Remove(entities.Single(entity => identifier(entity) == nextId));
 
-            _giasGovernances.Add(giasGovernance);
-            _tadTrustGovernances.Add(tadTrustGovernance);
-
-            addedItems.Add((giasGovernance, tadTrustGovernance));
-        }
-
-        return addedItems;
+        return nextId;
     }
 
-    private void SetupMockDbContext<T>(List<T> items, Expression<Func<IAcademiesDbContext, DbSet<T>>> dbContextTable)
-        where T : class
+    public static string GetNextId<T>(this List<T> entities, Func<T, string> identifier, string? specifiedId = null)
     {
-        Setup(dbContextTable).Returns(new MockDbSet<T>(items).Object);
-    }
+        var nextId = specifiedId ?? (entities.Count + 1).ToString();
 
-    public List<(GiasEstablishment giasEstablishment, GiasGroupLink groupLink)> LinkGiasEstablishmentsToGiasGroup(
-        IEnumerable<GiasEstablishment> giasEstablishments, GiasGroup giasGroup)
-    {
-        var establishmentGroupLinks = new List<(GiasEstablishment, GiasGroupLink)>();
-        foreach (var giasEstablishment in giasEstablishments)
-        {
-            var giasGroupLink = new GiasGroupLink
-            {
-                GroupUid = giasGroup.GroupUid,
-                Urn = giasEstablishment.Urn.ToString(),
-                GroupType = giasGroup.GroupType
-            };
+        //Don't allow duplicate IDs
+        if (entities.Any(entity => identifier(entity) == nextId))
+            entities.Remove(entities.Single(entity => identifier(entity) == nextId));
 
-            establishmentGroupLinks.Add((giasEstablishment, giasGroupLink));
-            _giasGroupLinks.Add(giasGroupLink);
-        }
-
-        return establishmentGroupLinks;
+        return nextId;
     }
 }
