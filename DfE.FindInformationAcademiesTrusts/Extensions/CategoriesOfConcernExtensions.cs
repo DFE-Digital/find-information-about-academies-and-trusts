@@ -13,10 +13,12 @@ public static class CategoriesOfConcernExtensions
     {
         return rating switch
         {
-            CategoriesOfConcern.None => "None",
+            CategoriesOfConcern.NoConcerns => "None",
             CategoriesOfConcern.SpecialMeasures => "Special measures",
             CategoriesOfConcern.SeriousWeakness => "Serious weakness",
             CategoriesOfConcern.NoticeToImprove => "Notice to improve",
+            CategoriesOfConcern.NotInspected => "Not yet inspected",
+            CategoriesOfConcern.DoesNotApply => "Does not apply",
             _ => "Unknown"
         };
     }

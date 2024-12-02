@@ -3,84 +3,55 @@ namespace DfE.FindInformationAcademiesTrusts.Data;
 public record OfstedRating(
     OfstedRatingScore OverallEffectiveness,
     OfstedRatingScore QualityOfEducation,
-    OfstedRatingScore BehaviourAndAttitudues,
+    OfstedRatingScore BehaviourAndAttitudes,
     OfstedRatingScore PersonalDevelopment,
     OfstedRatingScore EffectivenessOfLeadershipAndManagement,
     OfstedRatingScore EarlyYearsProvision,
     OfstedRatingScore SixthFormProvision,
     CategoriesOfConcern CategoryOfConcern,
-    SafeguardingScore SafeguradingIsEffective,
+    SafeguardingScore SafeguardingIsEffective,
     DateTime? InspectionDate)
 {
-    public static readonly OfstedRating None = new(OfstedRatingScore.None, OfstedRatingScore.None,
-        OfstedRatingScore.None, OfstedRatingScore.None,
-        OfstedRatingScore.None, OfstedRatingScore.None, OfstedRatingScore.None, CategoriesOfConcern.None,
-        SafeguardingScore.None, null);
+    public static readonly OfstedRating NotInspected = new(OfstedRatingScore.NotInspected,
+        OfstedRatingScore.NotInspected, OfstedRatingScore.NotInspected, OfstedRatingScore.NotInspected,
+        OfstedRatingScore.NotInspected, OfstedRatingScore.NotInspected, OfstedRatingScore.NotInspected,
+        CategoriesOfConcern.NotInspected, SafeguardingScore.NotInspected, null);
+
+    public static readonly OfstedRating Unknown = new(OfstedRatingScore.Unknown, OfstedRatingScore.Unknown,
+        OfstedRatingScore.Unknown, OfstedRatingScore.Unknown, OfstedRatingScore.Unknown, OfstedRatingScore.Unknown,
+        OfstedRatingScore.Unknown, CategoriesOfConcern.Unknown, SafeguardingScore.Unknown, null);
 
     public OfstedRating(int? overallEffectiveness, DateTime? inspectionDate)
         : this(
-            (OfstedRatingScore?)overallEffectiveness ?? OfstedRatingScore.None,
-            OfstedRatingScore.None,
-            OfstedRatingScore.None,
-            OfstedRatingScore.None,
-            OfstedRatingScore.None,
-            OfstedRatingScore.None,
-            OfstedRatingScore.None,
-            CategoriesOfConcern.None,
-            SafeguardingScore.None,
+            (OfstedRatingScore?)overallEffectiveness ?? OfstedRatingScore.NotInspected,
+            OfstedRatingScore.NotInspected,
+            OfstedRatingScore.NotInspected,
+            OfstedRatingScore.NotInspected,
+            OfstedRatingScore.NotInspected,
+            OfstedRatingScore.NotInspected,
+            OfstedRatingScore.NotInspected,
+            CategoriesOfConcern.NotInspected,
+            SafeguardingScore.NotInspected,
             inspectionDate
         )
     {
     }
 
-    public static SafeguardingScore ConvertStringToSafeguardingScore(string? input)
-    {
-        switch (input)
-        {
-            case SafeguardingScoreString.Yes:
-                return SafeguardingScore.Yes;
-            case SafeguardingScoreString.No:
-                return SafeguardingScore.No;
-            case SafeguardingScoreString.Nine:
-                return SafeguardingScore.NotRecorded;
-            default:
-                return SafeguardingScore.None;
-        }
-    }
-
-    public static CategoriesOfConcern ConvertStringToCategoriesOfConcern(string? input)
-    {
-        switch (input)
-        {
-            case CategoriesOfConcernString.SpecialMeasures:
-                return CategoriesOfConcern.SpecialMeasures;
-            case CategoriesOfConcernString.SeriousWeakness:
-                return CategoriesOfConcern.SeriousWeakness;
-            case CategoriesOfConcernString.NoticeToImprove:
-                return CategoriesOfConcern.NoticeToImprove;
-            default:
-                return CategoriesOfConcern.None;
-        }
-    }
-}
-
-public static class SafeguardingScoreString
-{
-    public const string Yes = "Yes";
-    public const string No = "No";
-    public const string Nine = "9";
-}
-
-public static class CategoriesOfConcernString
-{
-    public const string SpecialMeasures = "SM";
-    public const string SeriousWeakness = "SWK";
-    public const string NoticeToImprove = "NTI";
+    public bool HasAnyUnknownRating => OverallEffectiveness == OfstedRatingScore.Unknown
+                                       || QualityOfEducation == OfstedRatingScore.Unknown
+                                       || BehaviourAndAttitudes == OfstedRatingScore.Unknown
+                                       || PersonalDevelopment == OfstedRatingScore.Unknown
+                                       || EffectivenessOfLeadershipAndManagement == OfstedRatingScore.Unknown
+                                       || EarlyYearsProvision == OfstedRatingScore.Unknown
+                                       || SixthFormProvision == OfstedRatingScore.Unknown
+                                       || CategoryOfConcern == CategoriesOfConcern.Unknown
+                                       || SafeguardingIsEffective == SafeguardingScore.Unknown;
 }
 
 public enum OfstedRatingScore
 {
-    None = -1,
+    Unknown = -99,
+    NotInspected = -1,
     InsufficientEvidence = 0,
     Outstanding = 1,
     Good = 2,
@@ -92,7 +63,8 @@ public enum OfstedRatingScore
 
 public enum SafeguardingScore
 {
-    None = -1,
+    Unknown = -99,
+    NotInspected = -1,
     Yes,
     No,
     NotRecorded = 9
@@ -100,7 +72,10 @@ public enum SafeguardingScore
 
 public enum CategoriesOfConcern
 {
-    None = -1,
+    Unknown = -99,
+    NotInspected = -1,
+    DoesNotApply,
+    NoConcerns,
     SpecialMeasures,
     SeriousWeakness,
     NoticeToImprove
