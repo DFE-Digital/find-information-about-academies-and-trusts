@@ -2,8 +2,8 @@ import { TableUtility } from "../tableUtility";
 
 class OfstedPage {
     elements = {
+        subpageHeader: () => cy.get('[data-testid="subpage-header"]'),
         currentRatings: {
-            pageName: () => cy.get('[data-testid="page-name"]'),
             Section: () => cy.get('[data-testid="ofsted-current-ratings-table"]'),
             SchoolName: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-school-name"]'),
             SchoolNameHeader: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-school-name-header"]'),
@@ -24,7 +24,6 @@ class OfstedPage {
             beforeOrAfterJoining: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-before-or-after-joining"]'),
         },
         previousRatings: {
-            pageName: () => cy.get('[data-testid="page-name"]'),
             Section: () => cy.get('[data-testid="ofsted-previous-ratings-table"]'),
             SchoolName: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-school-name"]'),
             SchoolNameHeader: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-school-name-header"]'),
@@ -54,8 +53,7 @@ class OfstedPage {
 
 
     public checkOfstedCurrentRatingsPageHeaderPresent(): this {
-        this.elements.currentRatings.pageName().should('contain', 'Current ratings');
-
+        this.elements.subpageHeader().should('contain', 'Current ratings');
         return this;
     }
 
@@ -170,6 +168,11 @@ class OfstedPage {
     }
 
     ///previous ratings///
+
+    public checkOfstedPreviousRatingsPageHeaderPresent(): this {
+        this.elements.subpageHeader().should('contain', 'Previous ratings');
+        return this;
+    }
 
     public checkOfstedPreviousRatingsTableHeadersPresent(): this {
         this.elements.previousRatings.SchoolNameHeader().should('be.visible');

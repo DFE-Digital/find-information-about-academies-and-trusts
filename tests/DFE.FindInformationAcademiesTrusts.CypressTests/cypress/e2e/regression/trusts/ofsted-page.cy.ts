@@ -8,7 +8,7 @@ describe("Testing the Ofsted page and its subpages ", () => {
             cy.visit('/trusts/ofsted/current-ratings?uid=5143');
         });
 
-        it("Checks the correct Ofsted current ratings page header is present", () => {
+        it("Checks the correct Ofsted current ratings subpage header is present", () => {
             ofstedPage
                 .checkOfstedCurrentRatingsPageHeaderPresent();
         });
@@ -52,6 +52,11 @@ describe("Testing the Ofsted page and its subpages ", () => {
         beforeEach(() => {
             cy.login();
             cy.visit('/trusts/ofsted/previous-ratings?uid=5143');
+        });
+
+        it("Checks the correct Ofsted Previous ratings subpage header is present", () => {
+            ofstedPage
+                .checkOfstedPreviousRatingsPageHeaderPresent();
         });
 
         it("Checks the correct Ofsted previous ratings headers are present", () => {
