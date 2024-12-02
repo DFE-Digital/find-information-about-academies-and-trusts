@@ -94,7 +94,7 @@ describe("Testing the Ofsted page and its subpages ", () => {
 
     });
 
-    describe("Testing the Ofsted Safeguarding and concerns page ", () => {
+    describe("Testing the Ofsted Safeguarding and concerns page", () => {
         beforeEach(() => {
             cy.login();
             cy.visit('/trusts/ofsted/safeguarding-and-concerns?uid=5143');
