@@ -17,7 +17,7 @@ export class TableUtility {
         }
 
         // Otherwise
-        expect(cellContent).to.equal("No Data", "Cell should have no data");
+        expect(cellContent).to.equal("No data", "Cell should have no data");
     }
 
     public static checkCellDateIsOnOrAfterTodayOrHasNoData(cellElement: JQuery<HTMLElement>) {
@@ -31,7 +31,7 @@ export class TableUtility {
         }
 
         // Otherwise
-        expect(cellContent).to.equal("No Data", "Cell should have no data");
+        expect(cellContent).to.equal("No data", "Cell should have no data");
     }
 
     public static checkStringSorting(

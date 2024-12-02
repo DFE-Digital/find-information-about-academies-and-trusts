@@ -80,6 +80,8 @@ public class TrustsAreaModel(
                 "contacts-nav"),
             new TrustNavigationLinkModel($"Academies ({TrustSummary.NumberOfAcademies})", "/Trusts/Academies/Details",
                 Uid, PageName == "Academies in this trust", "academies-nav"),
+            new TrustNavigationLinkModel("Ofsted", "/Trusts/Ofsted/CurrentRatings",
+                Uid, PageName == "Ofsted", "ofsted-nav"),
             new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", Uid,
                 PageName == "Governance",
                 "governance-nav")

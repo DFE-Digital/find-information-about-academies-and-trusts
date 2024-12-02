@@ -104,6 +104,7 @@ public class FreeSchoolMealsModelTests
             new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", "1234", false, "contacts-nav"),
             new TrustNavigationLinkModel("Academies (1)", "/Trusts/Academies/Details",
                 "1234", true, "academies-nav"),
+            new TrustNavigationLinkModel("Ofsted", "/Trusts/Ofsted/CurrentRatings", "1234", false, "ofsted-nav"),
             new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", "1234", false,
                 "governance-nav")
         ]);

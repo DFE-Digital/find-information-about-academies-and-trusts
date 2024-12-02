@@ -201,7 +201,7 @@ public class ExportServiceTests
     public void IsOfstedRatingBeforeOrAfterJoining_ShouldReturnEmptyString_WhenOfstedRatingScoreIsNone()
     {
         // Arrange
-        var ofstedRatingScore = OfstedRatingScore.None;
+        var ofstedRatingScore = OfstedRatingScore.NotInspected;
         var dateJoinedTrust = _mockDateTimeProvider.Object.Now;
         DateTime? inspectionEndDate = dateJoinedTrust.AddDays(-1);
 
@@ -277,6 +277,7 @@ public class ExportServiceTests
         // Assert
         Assert.Equal(expected, result);
     }
+
     [Fact]
     public async Task ExportAcademiesToSpreadsheet_ShouldHandleNullTrustSummaryAsync()
     {
@@ -307,7 +308,7 @@ public class ExportServiceTests
         _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustDetailsAsync(trustSummary.Uid))
             .ReturnsAsync(new AcademyDetails[]
             {
-            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban"),
+                new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
             });
         _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustOfstedAsync(trustSummary.Uid))
             .ReturnsAsync(Array.Empty<AcademyOfsted>());
@@ -338,7 +339,7 @@ public class ExportServiceTests
         _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustDetailsAsync(trustSummary.Uid))
             .ReturnsAsync(new AcademyDetails[]
             {
-            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban"),
+                new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
             });
         _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustPupilNumbersAsync(trustSummary.Uid))
             .ReturnsAsync(Array.Empty<AcademyPupilNumbers>());
@@ -366,12 +367,12 @@ public class ExportServiceTests
         _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustDetailsAsync(trustSummary.Uid))
             .ReturnsAsync(new AcademyDetails[]
             {
-            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban"),
+                new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
             });
         _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustPupilNumbersAsync(trustSummary.Uid))
             .ReturnsAsync(new AcademyPupilNumbers[]
             {
-            new(academyUrn, "Academy 1", "Primary", new AgeRange(5,11), 0, 300)
+                new(academyUrn, "Academy 1", "Primary", new AgeRange(5, 11), 0, 300)
             });
 
         // Act
@@ -395,7 +396,7 @@ public class ExportServiceTests
         _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustDetailsAsync(trustSummary.Uid))
             .ReturnsAsync(new AcademyDetails[]
             {
-            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban"),
+                new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
             });
         _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid))
             .ReturnsAsync(Array.Empty<AcademyFreeSchoolMeals>());
@@ -418,7 +419,8 @@ public class ExportServiceTests
         DateTime? inspectionEndDate = dateJoinedTrust;
 
         // Act
-        var result = ExportService.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, inspectionEndDate);
+        var result =
+            ExportService.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, inspectionEndDate);
 
         // Assert
         result.Should().Be("After Joining");

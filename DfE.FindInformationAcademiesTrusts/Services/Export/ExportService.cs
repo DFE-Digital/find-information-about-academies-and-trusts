@@ -48,7 +48,7 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
     public static string IsOfstedRatingBeforeOrAfterJoining(OfstedRatingScore ofstedRatingScore,
         DateTime dateAcademyJoinedTrust, DateTime? inspectionEndDate)
     {
-        if (ofstedRatingScore == OfstedRatingScore.None || !inspectionEndDate.HasValue)
+        if (ofstedRatingScore == OfstedRatingScore.NotInspected || !inspectionEndDate.HasValue)
         {
             return string.Empty;
         }
@@ -87,8 +87,8 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
             var urn = academyDetails.Urn;
 
             var ofstedData = academiesOfstedRatings.SingleOrDefault(x => x.Urn == urn);
-            var previousRating = ofstedData?.PreviousOfstedRating ?? OfstedRating.None;
-            var currentRating = ofstedData?.CurrentOfstedRating ?? OfstedRating.None;
+            var previousRating = ofstedData?.PreviousOfstedRating ?? OfstedRating.NotInspected;
+            var currentRating = ofstedData?.CurrentOfstedRating ?? OfstedRating.NotInspected;
 
             var pupilNumbersData = academiesPupilNumbers.SingleOrDefault(x => x.Urn == urn);
             var freeSchoolMealsData = academiesFreeSchoolMeals.SingleOrDefault(x => x.Urn == urn);
