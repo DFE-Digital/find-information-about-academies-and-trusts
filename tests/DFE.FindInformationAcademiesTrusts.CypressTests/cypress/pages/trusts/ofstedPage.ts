@@ -2,7 +2,8 @@ import { TableUtility } from "../tableUtility";
 
 class OfstedPage {
     // Resolves to a date ({2 digits} {month} {4 digits}) or "No data" string
-    dateRegex = /^\d{1,2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sept|Oct|Nov|Dec) \d{4}$|^No data$/;
+    // Tech debt - We are allowing Sep and Sept due to different cultures set on remote vs local builds
+    dateRegex = /^\d{1,2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec) \d{4}$|^No data$/;
 
     elements = {
         subpageHeader: () => cy.get('[data-testid="subpage-header"]'),
