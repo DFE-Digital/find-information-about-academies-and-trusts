@@ -4,6 +4,7 @@ class OfstedPage {
     // Resolves to a date ({2 digits} {month} {4 digits}) or "No data" string
     // Tech debt - We are allowing Sep and Sept due to different cultures set on remote vs local builds
     dateRegex = /^\d{1,2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec) \d{4}$|^No data$/;
+    previousAndCurrentRatingsMatch = /Good|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Insufficient evidence/;
 
     elements = {
         subpageHeader: () => cy.get('[data-testid="subpage-header"]'),
@@ -45,6 +46,17 @@ class OfstedPage {
             sixthFormProvision: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-sixth-form-provision"]'),
             beforeOrAfterJoiningHeader: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-before-or-after-joining-header"]'),
             beforeOrAfterJoining: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-before-or-after-joining"]'),
+        },
+        safeguardingAndConcerns: {
+            Section: () => cy.get('[data-testid="ofsted-safeguarding-and-concerns-name-table"]'),
+            SchoolNameHeader: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-name-header"]'),
+            SchoolName: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-school-name"]'),
+            effectiveSafeguardingHeader: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-effective-safeguarding-header"]'),
+            effectiveSafeguarding: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-effective-safeguarding"]'),
+            categoryOfConcernHeader: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-category-of-concern-header"]'),
+            categoryOfConcern: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="category-of-concern"]'),
+            beforeOrAfterJoiningHeader: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-before-or-after-joining-header"]'),
+            beforeOrAfterJoining: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-before-or-after-joining"]'),
         },
         importantDates: {
             Section: () => cy.get('[data-testid="ofsted-important-dates-school-name-table"]'),
@@ -119,7 +131,7 @@ class OfstedPage {
     public checkCurrentRatingsQualityOfEducationJudgementsPresent(): this {
         this.elements.currentRatings.qualityOfEducation().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -127,7 +139,7 @@ class OfstedPage {
     public checkCurrentRatingsBehaviourAndAttitudesJudgementsPresent(): this {
         this.elements.currentRatings.behaviourAndAttitudes().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -135,7 +147,7 @@ class OfstedPage {
     public checkCurrentRatingsPesronalDevelopmentJudgementsPresent(): this {
         this.elements.currentRatings.personalDevelopment().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -143,7 +155,7 @@ class OfstedPage {
     public checkCurrentRatingsLeadershipAndManagementJudgementsPresent(): this {
         this.elements.currentRatings.leadershipAndManagement().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -151,7 +163,7 @@ class OfstedPage {
     public checkCurrentRatingsEarlyYearsProvisionJudgementsPresent(): this {
         this.elements.currentRatings.earlyYearsProvision().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -159,7 +171,7 @@ class OfstedPage {
     public checkCurrentRatingsSixthFormProvisionJudgementsPresent(): this {
         this.elements.currentRatings.sixthFormProvision().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -235,7 +247,7 @@ class OfstedPage {
     public checkPreviousRatingsQualityOfEducationJudgementsPresent(): this {
         this.elements.previousRatings.qualityOfEducation().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -243,7 +255,7 @@ class OfstedPage {
     public checkPreviousRatingsBehaviourAndAttitudesJudgementsPresent(): this {
         this.elements.previousRatings.behaviourAndAttitudes().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -251,7 +263,7 @@ class OfstedPage {
     public checkPreviousRatingsPesronalDevelopmentJudgementsPresent(): this {
         this.elements.previousRatings.personalDevelopment().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -259,7 +271,7 @@ class OfstedPage {
     public checkPreviousRatingsLeadershipAndManagementJudgementsPresent(): this {
         this.elements.previousRatings.leadershipAndManagement().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -267,7 +279,7 @@ class OfstedPage {
     public checkPreviousRatingsEarlyYearsProvisionJudgementsPresent(): this {
         this.elements.previousRatings.earlyYearsProvision().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -275,13 +287,72 @@ class OfstedPage {
     public checkPreviousRatingsSixthFormProvisionJudgementsPresent(): this {
         this.elements.previousRatings.sixthFormProvision().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
 
     public checkPreviousRatingsBeforeOrAfterJoiningJudgementsPresent(): this {
         this.elements.previousRatings.beforeOrAfterJoining().each((element) => {
+            const text = element.text();
+            expect(text).to.match(/Before|After|Not yet inspected/);
+        });
+        return this;
+    }
+
+    //Safeguarding and Concerns///
+
+    public checkOfstedSafeguardingConcernsPageHeaderPresent(): this {
+        this.elements.subpageHeader().should('contain', 'Safeguarding and concerns');
+        return this;
+    }
+
+    public checkOfstedSafeguardingConcernsTableHeadersPresent(): this {
+        this.elements.safeguardingAndConcerns.SchoolNameHeader().should('be.visible');
+        this.elements.safeguardingAndConcerns.effectiveSafeguardingHeader().should('be.visible');
+        this.elements.safeguardingAndConcerns.categoryOfConcern().should('be.visible');
+        this.elements.safeguardingAndConcerns.beforeOrAfterJoining().should('be.visible');
+        return this;
+    }
+
+    public checkOfstedSafeguardingConcernsSorting(): this {
+        TableUtility.checkStringSorting(
+            this.elements.safeguardingAndConcerns.SchoolName,
+            this.elements.safeguardingAndConcerns.SchoolNameHeader
+        );
+        TableUtility.checkStringSorting(
+            this.elements.safeguardingAndConcerns.effectiveSafeguarding,
+            this.elements.safeguardingAndConcerns.effectiveSafeguardingHeader
+        );
+        TableUtility.checkStringSorting(
+            this.elements.safeguardingAndConcerns.categoryOfConcern,
+            this.elements.safeguardingAndConcerns.categoryOfConcernHeader
+        );
+        TableUtility.checkStringSorting(
+            this.elements.safeguardingAndConcerns.beforeOrAfterJoining,
+            this.elements.safeguardingAndConcerns.beforeOrAfterJoiningHeader
+        );
+        return this;
+    }
+
+    public checkSafeguardingConcernsEffectiveSafeguardingJudgementsPresent(): this {
+        this.elements.safeguardingAndConcerns.effectiveSafeguarding().each((element) => {
+            const text = element.text();
+            expect(text).to.match(/Yes|No|Not recorded/);
+        });
+        return this;
+    }
+
+    public checkSafeguardingConcernsCategoryOfConcernJudgementsPresent(): this {
+        this.elements.safeguardingAndConcerns.categoryOfConcern().each((element) => {
+            const text = element.text();
+            expect(text).to.match(/Not yet inspected|Special measures|Serious weakness|Notice to improve|Not yet inspected|Does not apply/);
+        });
+        return this;
+    }
+
+    public checkSafeguardingConcernsBeforeOrAfterJoiningJudgementsPresent(): this {
+        this.elements.safeguardingAndConcerns.beforeOrAfterJoining().each((element) => {
             const text = element.text();
             expect(text).to.match(/Before|After|Not yet inspected/);
         });
