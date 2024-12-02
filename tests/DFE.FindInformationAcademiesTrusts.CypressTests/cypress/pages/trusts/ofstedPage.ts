@@ -1,6 +1,8 @@
 import { TableUtility } from "../tableUtility";
 
 class OfstedPage {
+    dateRegex = /^\d{1,2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sept|Oct|Nov|Dec) \d{4}$|^No data$/;
+
     elements = {
         subpageHeader: () => cy.get('[data-testid="subpage-header"]'),
         currentRatings: {
@@ -43,9 +45,15 @@ class OfstedPage {
             beforeOrAfterJoining: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-before-or-after-joining"]'),
         },
         importantDates: {
-            DateJoined: () => this.elements.currentRatings.Section().find('[data-testid="date-joined"]'),
-            DateJoinedHeader: () => this.elements.currentRatings.Section().find("th:contains('Date joined')"),
-
+            Section: () => cy.get('[data-testid="ofsted-important-dates-school-name-table"]'),
+            SchoolName: () => this.elements.importantDates.Section().find('[data-testid="ofsted-important-dates-school-name"]'),
+            SchoolNameHeader: () => this.elements.importantDates.Section().find('[data-testid="ofsted-important-dates-school-name-header"]'),
+            DateJoined: () => this.elements.importantDates.Section().find('[data-testid="ofsted-important-dates-date-joined"]'),
+            DateJoinedHeader: () => this.elements.importantDates.Section().find('[data-testid="ofsted-important-dates-date-joined-header"]'),
+            DateOfCurrentInspection: () => this.elements.importantDates.Section().find('[data-testid="ofsted-important-dates-date-of-current-inspection"]'),
+            DateOfCurrentInspectionHeader: () => this.elements.importantDates.Section().find('[data-testid="ofsted-important-dates-date-of-current-inspection-header"]'),
+            DateOfPreviousInspection: () => this.elements.importantDates.Section().find('[data-testid="ofsted-important-dates-date-of-previous-inspection"]'),
+            DateOfPreviousInspectionHeader: () => this.elements.importantDates.Section().find('[data-testid="ofsted-important-dates-date-of-previous-inspection-header"]'),
         }
     };
 
@@ -222,7 +230,6 @@ class OfstedPage {
         );
         return this;
     }
-
     public checkPreviousRatingsQualityOfEducationJudgementsPresent(): this {
         this.elements.previousRatings.qualityOfEducation().each((element) => {
             const text = element.text();
@@ -275,6 +282,67 @@ class OfstedPage {
         this.elements.previousRatings.beforeOrAfterJoining().each((element) => {
             const text = element.text();
             expect(text).to.match(/Before|After|Not yet inspected/);
+        });
+        return this;
+    }
+
+    // Important Dates
+
+    public checkOfstedImportantDatesPageHeaderPresent(): this {
+        this.elements.subpageHeader().should('contain', 'Important dates');
+        return this;
+    }
+
+    public checkOfstedImportantDatesTableHeadersPresent(): this {
+        this.elements.importantDates.SchoolNameHeader().should('be.visible');
+        this.elements.importantDates.DateJoinedHeader().should('be.visible');
+        this.elements.importantDates.DateOfCurrentInspectionHeader().should('be.visible');
+        this.elements.importantDates.DateOfPreviousInspectionHeader().should('be.visible');
+        return this;
+    }
+
+    public checkOfstedImportantDatesSorting(): this {
+        TableUtility.checkStringSorting(
+            this.elements.importantDates.SchoolName,
+            this.elements.importantDates.SchoolNameHeader
+        );
+        TableUtility.checkStringSorting(
+            this.elements.importantDates.DateJoined,
+            this.elements.importantDates.DateJoinedHeader
+        );
+        TableUtility.checkStringSorting(
+            this.elements.importantDates.DateOfCurrentInspection,
+            this.elements.importantDates.DateOfCurrentInspectionHeader
+        );
+        TableUtility.checkStringSorting(
+            this.elements.importantDates.DateOfPreviousInspection,
+            this.elements.importantDates.DateOfPreviousInspectionHeader
+        );
+        return this;
+    }
+
+
+    public checkDateJoinedPresent(): this {
+        this.elements.importantDates.DateJoined().each((element) => {
+            const text = element.text().trim();
+            expect(text).to.match(this.dateRegex);
+        });
+        return this;
+    }
+
+    public checkDateOfCurrentInspectionPresent(): this {
+        this.elements.importantDates.DateOfCurrentInspection().each((element) => {
+            const text = element.text().trim();
+            expect(text).to.match(this.dateRegex);
+        });
+        return this;
+    }
+
+
+    public checkDateOfPreviousInspectionPresent(): this {
+        this.elements.importantDates.DateOfPreviousInspection().each((element) => {
+            const text = element.text().trim();
+            expect(text).to.match(this.dateRegex);
         });
         return this;
     }
