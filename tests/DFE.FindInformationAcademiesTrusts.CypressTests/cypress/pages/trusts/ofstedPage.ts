@@ -4,6 +4,7 @@ class OfstedPage {
     // Resolves to a date ({2 digits} {month} {4 digits}) or "No data" string
     // Tech debt - We are allowing Sep and Sept due to different cultures set on remote vs local builds
     dateRegex = /^\d{1,2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec) \d{4}$|^No data$/;
+    previousAndCurrentRatingsMatch = /Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Insufficient evidence/;
 
     elements = {
         subpageHeader: () => cy.get('[data-testid="subpage-header"]'),
@@ -130,7 +131,7 @@ class OfstedPage {
     public checkCurrentRatingsQualityOfEducationJudgementsPresent(): this {
         this.elements.currentRatings.qualityOfEducation().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Insufficient evidence/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -138,7 +139,7 @@ class OfstedPage {
     public checkCurrentRatingsBehaviourAndAttitudesJudgementsPresent(): this {
         this.elements.currentRatings.behaviourAndAttitudes().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Insufficient evidence/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -146,7 +147,7 @@ class OfstedPage {
     public checkCurrentRatingsPesronalDevelopmentJudgementsPresent(): this {
         this.elements.currentRatings.personalDevelopment().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Insufficient evidence/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -154,7 +155,7 @@ class OfstedPage {
     public checkCurrentRatingsLeadershipAndManagementJudgementsPresent(): this {
         this.elements.currentRatings.leadershipAndManagement().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply|Insufficient evidence/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -162,7 +163,7 @@ class OfstedPage {
     public checkCurrentRatingsEarlyYearsProvisionJudgementsPresent(): this {
         this.elements.currentRatings.earlyYearsProvision().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply|Insufficient evidence/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -170,7 +171,7 @@ class OfstedPage {
     public checkCurrentRatingsSixthFormProvisionJudgementsPresent(): this {
         this.elements.currentRatings.sixthFormProvision().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply|Insufficient evidence/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -246,7 +247,7 @@ class OfstedPage {
     public checkPreviousRatingsQualityOfEducationJudgementsPresent(): this {
         this.elements.previousRatings.qualityOfEducation().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Insufficient evidence/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -254,7 +255,7 @@ class OfstedPage {
     public checkPreviousRatingsBehaviourAndAttitudesJudgementsPresent(): this {
         this.elements.previousRatings.behaviourAndAttitudes().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Insufficient evidence/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -262,7 +263,7 @@ class OfstedPage {
     public checkPreviousRatingsPesronalDevelopmentJudgementsPresent(): this {
         this.elements.previousRatings.personalDevelopment().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Insufficient evidence/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -270,7 +271,7 @@ class OfstedPage {
     public checkPreviousRatingsLeadershipAndManagementJudgementsPresent(): this {
         this.elements.previousRatings.leadershipAndManagement().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply|Insufficient evidence/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -278,7 +279,7 @@ class OfstedPage {
     public checkPreviousRatingsEarlyYearsProvisionJudgementsPresent(): this {
         this.elements.previousRatings.earlyYearsProvision().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply|Insufficient evidence/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
@@ -286,7 +287,7 @@ class OfstedPage {
     public checkPreviousRatingsSixthFormProvisionJudgementsPresent(): this {
         this.elements.previousRatings.sixthFormProvision().each((element) => {
             const text = element.text();
-            expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply|Insufficient evidence/);
+            expect(text).to.match(this.previousAndCurrentRatingsMatch);
         });
         return this;
     }
