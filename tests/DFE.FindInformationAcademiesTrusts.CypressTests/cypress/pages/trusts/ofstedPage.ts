@@ -1,6 +1,7 @@
 import { TableUtility } from "../tableUtility";
 
 class OfstedPage {
+    // Resolves to a date ({2 digits} {month} {4 digits}) or "No data" string
     dateRegex = /^\d{1,2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sept|Oct|Nov|Dec) \d{4}$|^No data$/;
 
     elements = {
