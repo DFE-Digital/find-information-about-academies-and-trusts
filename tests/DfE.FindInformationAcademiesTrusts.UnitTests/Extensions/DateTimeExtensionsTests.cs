@@ -18,6 +18,6 @@ public class DateTimeExtensionsTests
     {
         DateTime? testTime = null;
         var result = testTime.ShowDateStringOrReplaceWithText();
-        result.Should().BeEquivalentTo("No Data");
+        result.Should().Be("No data");
     }
 }

@@ -93,4 +93,43 @@ describe("Testing the Ofsted page and its subpages ", () => {
         });
 
     });
+
+    describe("Testing the Ofsted important dates page ", () => {
+        beforeEach(() => {
+            cy.login();
+            cy.visit('/trusts/ofsted/important-dates?uid=5143');
+        });
+
+
+        it("Checks the correct Ofsted important dates sub page header is present", () => {
+            ofstedPage
+                .checkOfstedImportantDatesPageHeaderPresent();
+        })
+
+        it("Checks the correct Ofsted important dates table headers are present", () => {
+            ofstedPage
+                .checkOfstedImportantDatesTableHeadersPresent();
+        });
+
+        it("Checks that a trusts important dates fields are present ", () => {
+            ofstedPage
+                .checkDateJoinedPresent()
+                .checkDateOfCurrentInspectionPresent()
+                .checkDateOfPreviousInspectionPresent();
+        });
+
+        it("Checks that a trusts important dates sorting is working", () => {
+            ofstedPage
+                .checkOfstedImportantDatesSorting();
+        });
+
+        it("Checks that a different trusts important dates fields are present", () => {
+            cy.visit('/trusts/ofsted/important-dates?uid=5712');
+            ofstedPage
+                .checkDateJoinedPresent()
+                .checkDateOfCurrentInspectionPresent()
+                .checkDateOfPreviousInspectionPresent();
+        });
+
+    });
 });
