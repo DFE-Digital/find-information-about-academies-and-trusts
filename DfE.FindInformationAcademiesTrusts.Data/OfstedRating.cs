@@ -17,6 +17,10 @@ public record OfstedRating(
         OfstedRatingScore.NotInspected, OfstedRatingScore.NotInspected, OfstedRatingScore.NotInspected,
         CategoriesOfConcern.NotInspected, SafeguardingScore.NotInspected, null);
 
+    public static readonly OfstedRating Unknown = new(OfstedRatingScore.Unknown, OfstedRatingScore.Unknown,
+        OfstedRatingScore.Unknown, OfstedRatingScore.Unknown, OfstedRatingScore.Unknown, OfstedRatingScore.Unknown,
+        OfstedRatingScore.Unknown, CategoriesOfConcern.Unknown, SafeguardingScore.Unknown, null);
+
     public OfstedRating(int? overallEffectiveness, DateTime? inspectionDate)
         : this(
             (OfstedRatingScore?)overallEffectiveness ?? OfstedRatingScore.NotInspected,
@@ -33,31 +37,20 @@ public record OfstedRating(
     {
     }
 
-    public static SafeguardingScore ConvertStringToSafeguardingScore(string? input)
-    {
-        switch (input)
-        {
-            case SafeguardingScoreString.Yes:
-                return SafeguardingScore.Yes;
-            case SafeguardingScoreString.No:
-                return SafeguardingScore.No;
-            case SafeguardingScoreString.Nine:
-                return SafeguardingScore.NotRecorded;
-            default:
-                return SafeguardingScore.NotInspected;
-        }
-    }
-}
-
-public static class SafeguardingScoreString
-{
-    public const string Yes = "Yes";
-    public const string No = "No";
-    public const string Nine = "9";
+    public bool HasAnyUnknownRating => OverallEffectiveness == OfstedRatingScore.Unknown
+                                       || QualityOfEducation == OfstedRatingScore.Unknown
+                                       || BehaviourAndAttitudes == OfstedRatingScore.Unknown
+                                       || PersonalDevelopment == OfstedRatingScore.Unknown
+                                       || EffectivenessOfLeadershipAndManagement == OfstedRatingScore.Unknown
+                                       || EarlyYearsProvision == OfstedRatingScore.Unknown
+                                       || SixthFormProvision == OfstedRatingScore.Unknown
+                                       || CategoryOfConcern == CategoriesOfConcern.Unknown
+                                       || SafeguardingIsEffective == SafeguardingScore.Unknown;
 }
 
 public enum OfstedRatingScore
 {
+    Unknown = -99,
     NotInspected = -1,
     InsufficientEvidence = 0,
     Outstanding = 1,
@@ -70,6 +63,7 @@ public enum OfstedRatingScore
 
 public enum SafeguardingScore
 {
+    Unknown = -99,
     NotInspected = -1,
     Yes,
     No,
@@ -78,6 +72,7 @@ public enum SafeguardingScore
 
 public enum CategoriesOfConcern
 {
+    Unknown = -99,
     NotInspected = -1,
     DoesNotApply,
     NoConcerns,

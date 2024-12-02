@@ -117,17 +117,90 @@ public class AcademyRepositoryOfstedTests
     }
 
     [Fact]
-    public async Task GetAcademiesInTrustOfstedAsync_should_log_error_on_unknown_CategoryOfConcern()
+    public async Task GetAcademiesInTrustOfstedAsync_should_log_error_for_each_urn_with_unknown_judgement()
     {
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
-            { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddMisEstablishment(new MisEstablishment
-            { Urn = 987654, CategoryOfConcern = "some unknown value" });
+        //---Arrange---
+        // Add each type of invalid current rating
+        var invalidMisEstablishments = new List<MisEstablishment>
+        {
+            new() { Urn = 111111, OverallEffectiveness = "some unknown value" },
+            new() { Urn = 222222, QualityOfEducation = 212 },
+            new() { Urn = 333333, BehaviourAndAttitudes = 212 },
+            new() { Urn = 444444, PersonalDevelopment = 212 },
+            new() { Urn = 555555, EffectivenessOfLeadershipAndManagement = 212 },
+            new() { Urn = 666666, EarlyYearsProvisionWhereApplicable = 212 },
+            new() { Urn = 777777, SixthFormProvisionWhereApplicable = 212 },
+            new() { Urn = 888888, CategoryOfConcern = "some unknown value" },
+            new() { Urn = 999999, SafeguardingIsEffective = "some unknown value" }
+        };
+        var invalidMisFurtherEducationEstablishments = new List<MisFurtherEducationEstablishment>
+        {
+            new() { ProviderUrn = 101111, OverallEffectiveness = 212 },
+            new() { ProviderUrn = 102222, QualityOfEducation = 212 },
+            new() { ProviderUrn = 103333, BehaviourAndAttitudes = 212 },
+            new() { ProviderUrn = 104444, PersonalDevelopment = 212 },
+            new() { ProviderUrn = 105555, EffectivenessOfLeadershipAndManagement = 212 },
+            new() { ProviderUrn = 106666, IsSafeguardingEffective = "some unknown value" }
+        };
 
+        // Add each type of invalid previous rating
+        invalidMisEstablishments.AddRange(new MisEstablishment[]
+        {
+            new() { Urn = 111109, PreviousFullInspectionOverallEffectiveness = "some unknown value" },
+            new() { Urn = 222209, PreviousQualityOfEducation = 212 },
+            new() { Urn = 333309, PreviousBehaviourAndAttitudes = 212 },
+            new() { Urn = 444409, PreviousPersonalDevelopment = 212 },
+            new() { Urn = 555509, PreviousEffectivenessOfLeadershipAndManagement = 212 },
+            new() { Urn = 666609, PreviousEarlyYearsProvisionWhereApplicable = 212 },
+            new() { Urn = 777709, PreviousSixthFormProvisionWhereApplicable = "some unknown value" },
+            new() { Urn = 888809, PreviousCategoryOfConcern = "some unknown value" },
+            new() { Urn = 999909, PreviousSafeguardingIsEffective = "some unknown value" }
+        });
+        invalidMisFurtherEducationEstablishments.AddRange(new MisFurtherEducationEstablishment[]
+        {
+            new() { ProviderUrn = 101109, PreviousOverallEffectiveness = 212 },
+            new() { ProviderUrn = 102209, PreviousQualityOfEducation = 212 },
+            new() { ProviderUrn = 103309, PreviousBehaviourAndAttitudes = 212 },
+            new() { ProviderUrn = 104409, PreviousPersonalDevelopment = 212 },
+            new() { ProviderUrn = 105509, PreviousEffectivenessOfLeadershipAndManagement = 212 },
+            new() { ProviderUrn = 106609, PreviousSafeguarding = "some unknown value" }
+        });
+
+        //Add invalid establishments to mock db
+        _mockAcademiesDbContext.AddMisEstablishments(invalidMisEstablishments);
+        _mockAcademiesDbContext.AddMisFurtherEducationEstablishments(invalidMisFurtherEducationEstablishments);
+
+        //Get urns of invalid entries added
+        var invalidEstablishmentUrns = invalidMisEstablishments.Select(e => e.Urn!.Value)
+            .Concat(invalidMisFurtherEducationEstablishments.Select(e => e.ProviderUrn))
+            .ToArray();
+
+        //Add some valid establishments to ensure we're not just logging everything
+        int[] validEstablishmentUrns = [123, 456];
+        _mockAcademiesDbContext.AddMisEstablishment(new MisEstablishment { Urn = validEstablishmentUrns[0] });
+        _mockAcademiesDbContext.AddMisFurtherEducationEstablishment(new MisFurtherEducationEstablishment
+            { ProviderUrn = validEstablishmentUrns[1] });
+
+        //Create group links
+        foreach (var urn in validEstablishmentUrns.Concat(invalidEstablishmentUrns))
+        {
+            _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+                { GroupUid = GroupUid, Urn = urn.ToString(), JoinedDate = "01/01/2022" });
+        }
+
+        //---Act---
         _ = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
-        _mockLogger.VerifyLogError(
-            "Category of concern some unknown value was not recognised. This could be a data integrity issue with the Ofsted data in Academies Db.");
+        //---Assert--
+        //Check we got a log error for each invalid establishment
+        foreach (var urn in invalidEstablishmentUrns)
+        {
+            _mockLogger.VerifyLogError(
+                $"URN {urn} has some unrecognised ofsted ratings. This could be a data integrity issue with the Ofsted data in Academies Db.");
+        }
+
+        //Ensure that we didn't get a log error for the valid ones
+        _mockLogger.VerifyNoOtherCalls();
     }
 
     [Theory]
@@ -338,7 +411,8 @@ public class AcademyRepositoryOfstedTests
     }
 
     [Fact]
-    public async Task GetAcademiesInTrustOfstedAsync_should_log_error_and_return_ofsted_none_when_urn_not_found_in_mis()
+    public async Task
+        GetAcademiesInTrustOfstedAsync_should_log_error_and_return_ofsted_unknown_when_urn_not_found_in_mis()
     {
         var giasGroupLink = AddGiasGroupLinksToMockDb(1).Single();
 
@@ -346,15 +420,15 @@ public class AcademyRepositoryOfstedTests
 
         var academyOfsted = result.Should().ContainSingle().Which;
         academyOfsted.Urn.Should().Be(giasGroupLink.Urn);
-        academyOfsted.CurrentOfstedRating.Should().Be(OfstedRating.NotInspected);
-        academyOfsted.PreviousOfstedRating.Should().Be(OfstedRating.NotInspected);
+        academyOfsted.CurrentOfstedRating.Should().Be(OfstedRating.Unknown);
+        academyOfsted.PreviousOfstedRating.Should().Be(OfstedRating.Unknown);
 
         _mockLogger.VerifyLogError(
             $"URN {giasGroupLink.Urn} was not found in Mis.Establishments or Mis.FurtherEducationEstablishments. This indicates a data integrity issue with the Ofsted data in Academies Db.");
     }
 
     [Fact]
-    public async Task GetAcademiesInTrustOfstedAsync_should_not_log_error_when_urns_are_all_found_in_mis()
+    public async Task GetAcademiesInTrustOfstedAsync_should_not_log_error_when_all_establishments_exist_and_are_valid()
     {
         var giasGroupLinks = AddGiasGroupLinksToMockDb(2);
         var urns = giasGroupLinks.Select(gl => int.Parse(gl.Urn!)).ToArray();
@@ -381,14 +455,11 @@ public class AcademyRepositoryOfstedTests
         _mockLogger.VerifyNoOtherCalls();
     }
 
-    [Theory]
-    [InlineData("")]
-    [InlineData("   ")]
-    public void ConvertOverallEffectivenessToOfstedRatingScore_Should_Return_None_When_Rating_Is_NullOrWhitespace(
-        string rating)
+    [Fact]
+    public void ConvertOverallEffectivenessToOfstedRatingScore_Should_Return_NotInspected_When_Rating_Is_Null()
     {
         // Act
-        var result = AcademyRepository.ConvertOverallEffectivenessToOfstedRatingScore(rating);
+        var result = AcademyRepository.ConvertOverallEffectivenessToOfstedRatingScore(null);
 
         // Assert
         result.Should().Be(OfstedRatingScore.NotInspected);
@@ -435,14 +506,14 @@ public class AcademyRepositoryOfstedTests
     [InlineData("10")]
     [InlineData("-2")]
     public void
-        ConvertOverallEffectivenessToOfstedRatingScore_Should_Return_None_When_Rating_Is_Integer_Not_Defined_In_Enum(
+        ConvertOverallEffectivenessToOfstedRatingScore_Should_Return_Unknown_When_Rating_Is_Integer_Not_Defined_In_Enum(
             string rating)
     {
         // Act
         var result = AcademyRepository.ConvertOverallEffectivenessToOfstedRatingScore(rating);
 
         // Assert
-        result.Should().Be(OfstedRatingScore.NotInspected);
+        result.Should().Be(OfstedRatingScore.Unknown);
     }
 
     [Theory]
@@ -453,26 +524,27 @@ public class AcademyRepositoryOfstedTests
     [InlineData("Inadequate")]
     [InlineData("N/A")]
     [InlineData("Unknown")]
-    public void ConvertOverallEffectivenessToOfstedRatingScore_Should_Return_None_When_Rating_Is_Invalid_String(
+    public void ConvertOverallEffectivenessToOfstedRatingScore_Should_Return_Unknown_When_Rating_Is_Invalid_String(
         string rating)
     {
         // Act
         var result = AcademyRepository.ConvertOverallEffectivenessToOfstedRatingScore(rating);
 
         // Assert
-        result.Should().Be(OfstedRatingScore.NotInspected);
+        result.Should().Be(OfstedRatingScore.Unknown);
     }
 
     [Theory]
     [InlineData("1", "2", OfstedRatingScore.Outstanding, OfstedRatingScore.Good)]
     [InlineData("Not judged", "Not judged", OfstedRatingScore.NoJudgement, OfstedRatingScore.NoJudgement)]
-    [InlineData("abc", "def", OfstedRatingScore.NotInspected, OfstedRatingScore.NotInspected)]
+    [InlineData(null, null, OfstedRatingScore.NotInspected, OfstedRatingScore.NotInspected)]
+    [InlineData("abc", "def", OfstedRatingScore.Unknown, OfstedRatingScore.Unknown)]
     [InlineData("2", "Not judged", OfstedRatingScore.Good, OfstedRatingScore.NoJudgement)]
     [InlineData("Not judged", "1", OfstedRatingScore.NoJudgement, OfstedRatingScore.Outstanding)]
     public async Task
         GetAcademiesInTrustOfstedAsync_should_correctly_convert_OverallEffectiveness_and_PreviousFullInspectionOverallEffectiveness(
-            string overallEffectiveness,
-            string previousOverallEffectiveness,
+            string? overallEffectiveness,
+            string? previousOverallEffectiveness,
             OfstedRatingScore expectedCurrentScore,
             OfstedRatingScore expectedPreviousScore)
     {
