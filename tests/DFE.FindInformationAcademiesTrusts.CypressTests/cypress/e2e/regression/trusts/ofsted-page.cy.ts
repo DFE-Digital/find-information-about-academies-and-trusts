@@ -94,6 +94,46 @@ describe("Testing the Ofsted page and its subpages ", () => {
 
     });
 
+    describe("Testing the Ofsted Safeguarding and concerns page ", () => {
+        beforeEach(() => {
+            cy.login();
+            cy.visit('/trusts/ofsted/safeguarding-and-concerns?uid=5143');
+        });
+
+        it("Checks the correct Ofsted safeguarding and concerns subpage header is present", () => {
+            ofstedPage
+                .checkOfstedSafeguardingConcernsPageHeaderPresent();
+        });
+
+        it("Checks the correct Ofsted safeguarding and concerns headers are present", () => {
+            ofstedPage
+                .checkOfstedSafeguardingConcernsTableHeadersPresent();
+        });
+
+        it("Checks the Ofsted page safeguarding and concerns sorting", () => {
+            ofstedPage
+                .checkOfstedSafeguardingConcernsSorting();
+        });
+
+        it("Checks that a trusts safeguarding and concerns correct judgement types are present", () => {
+            ofstedPage
+                .checkSafeguardingConcernsEffectiveSafeguardingJudgementsPresent()
+                .checkSafeguardingConcernsCategoryOfConcernJudgementsPresent()
+                .checkSafeguardingConcernsCategoryOfConcernJudgementsPresent()
+                .checkSafeguardingConcernsBeforeOrAfterJoiningJudgementsPresent();
+        });
+
+        it("Checks that a different trusts safeguarding and concerns correct judgement types are present", () => {
+            cy.visit('/trusts/ofsted/safeguarding-and-concerns?uid=5712');
+            ofstedPage
+                .checkSafeguardingConcernsEffectiveSafeguardingJudgementsPresent()
+                .checkSafeguardingConcernsCategoryOfConcernJudgementsPresent()
+                .checkSafeguardingConcernsCategoryOfConcernJudgementsPresent()
+                .checkSafeguardingConcernsBeforeOrAfterJoiningJudgementsPresent();
+        });
+
+    });
+
     describe("Testing the Ofsted important dates page ", () => {
         beforeEach(() => {
             cy.login();
@@ -104,7 +144,7 @@ describe("Testing the Ofsted page and its subpages ", () => {
         it("Checks the correct Ofsted important dates sub page header is present", () => {
             ofstedPage
                 .checkOfstedImportantDatesPageHeaderPresent();
-        })
+        });
 
         it("Checks the correct Ofsted important dates table headers are present", () => {
             ofstedPage

@@ -46,6 +46,17 @@ class OfstedPage {
             beforeOrAfterJoiningHeader: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-before-or-after-joining-header"]'),
             beforeOrAfterJoining: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-before-or-after-joining"]'),
         },
+        safeguardingAndConcerns: {
+            Section: () => cy.get('[data-testid="ofsted-safeguarding-and-concerns-name-table"]'),
+            SchoolNameHeader: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-name-header"]'),
+            SchoolName: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-school-name"]'),
+            effectiveSafeguardingHeader: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-effective-safeguarding-header"]'),
+            effectiveSafeguarding: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-effective-safeguarding"]'),
+            categoryOfConcernHeader: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-category-of-concern-header"]'),
+            categoryOfConcern: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="category-of-concern"]'),
+            beforeOrAfterJoiningHeader: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-before-or-after-joining-header"]'),
+            beforeOrAfterJoining: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-before-or-after-joining"]'),
+        },
         importantDates: {
             Section: () => cy.get('[data-testid="ofsted-important-dates-school-name-table"]'),
             SchoolName: () => this.elements.importantDates.Section().find('[data-testid="ofsted-important-dates-school-name"]'),
@@ -282,6 +293,65 @@ class OfstedPage {
 
     public checkPreviousRatingsBeforeOrAfterJoiningJudgementsPresent(): this {
         this.elements.previousRatings.beforeOrAfterJoining().each((element) => {
+            const text = element.text();
+            expect(text).to.match(/Before|After|Not yet inspected/);
+        });
+        return this;
+    }
+
+    //Safeguarding and Concerns///
+
+    public checkOfstedSafeguardingConcernsPageHeaderPresent(): this {
+        this.elements.subpageHeader().should('contain', 'Safeguarding and concerns');
+        return this;
+    }
+
+    public checkOfstedSafeguardingConcernsTableHeadersPresent(): this {
+        this.elements.safeguardingAndConcerns.SchoolNameHeader().should('be.visible');
+        this.elements.safeguardingAndConcerns.effectiveSafeguardingHeader().should('be.visible');
+        this.elements.safeguardingAndConcerns.categoryOfConcern().should('be.visible');
+        this.elements.safeguardingAndConcerns.beforeOrAfterJoining().should('be.visible');
+        return this;
+    }
+
+    public checkOfstedSafeguardingConcernsSorting(): this {
+        TableUtility.checkStringSorting(
+            this.elements.safeguardingAndConcerns.SchoolName,
+            this.elements.safeguardingAndConcerns.SchoolNameHeader
+        );
+        TableUtility.checkStringSorting(
+            this.elements.safeguardingAndConcerns.effectiveSafeguarding,
+            this.elements.safeguardingAndConcerns.effectiveSafeguardingHeader
+        );
+        TableUtility.checkStringSorting(
+            this.elements.safeguardingAndConcerns.categoryOfConcern,
+            this.elements.safeguardingAndConcerns.categoryOfConcernHeader
+        );
+        TableUtility.checkStringSorting(
+            this.elements.safeguardingAndConcerns.beforeOrAfterJoining,
+            this.elements.safeguardingAndConcerns.beforeOrAfterJoiningHeader
+        );
+        return this;
+    }
+
+    public checkSafeguardingConcernsEffectiveSafeguardingJudgementsPresent(): this {
+        this.elements.safeguardingAndConcerns.effectiveSafeguarding().each((element) => {
+            const text = element.text();
+            expect(text).to.match(/Yes|No|Not recorded/);
+        });
+        return this;
+    }
+
+    public checkSafeguardingConcernsCategoryOfConcernJudgementsPresent(): this {
+        this.elements.safeguardingAndConcerns.categoryOfConcern().each((element) => {
+            const text = element.text();
+            expect(text).to.match(/None|Special measures|Serious weakness|Notice to improve|Not yet inspected|Does not apply/);
+        });
+        return this;
+    }
+
+    public checkSafeguardingConcernsBeforeOrAfterJoiningJudgementsPresent(): this {
+        this.elements.safeguardingAndConcerns.beforeOrAfterJoining().each((element) => {
             const text = element.text();
             expect(text).to.match(/Before|After|Not yet inspected/);
         });
