@@ -14,7 +14,7 @@ public static class OfstedRatingScoreExtensions
             OfstedRatingScore.Inadequate => 4,
             OfstedRatingScore.DoesNotApply => 5,
             OfstedRatingScore.NoJudgement => 6,
-            OfstedRatingScore.None => 7,
+            OfstedRatingScore.NotInspected => 7,
             _ => -1
         };
     }
@@ -27,7 +27,7 @@ public static class OfstedRatingScoreExtensions
             OfstedRatingScore.Good => "Good",
             OfstedRatingScore.RequiresImprovement => "Requires improvement",
             OfstedRatingScore.Inadequate => "Inadequate",
-            OfstedRatingScore.None => "Not yet inspected",
+            OfstedRatingScore.NotInspected => "Not yet inspected",
             OfstedRatingScore.NoJudgement => "No judgement",
             OfstedRatingScore.DoesNotApply => "Does not apply",
             _ => "Unknown"

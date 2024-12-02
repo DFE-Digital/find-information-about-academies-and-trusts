@@ -13,7 +13,7 @@ public static class SafeguardingScoreExtensions
     {
         return score switch
         {
-            SafeguardingScore.None => "None",
+            SafeguardingScore.NotInspected => "None",
             SafeguardingScore.Yes => "Yes",
             SafeguardingScore.No => "No",
             SafeguardingScore.NotRecorded => "Not recorded",

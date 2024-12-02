@@ -196,8 +196,8 @@ public class AcademyRepositoryOfstedTests
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
         var actual = result.Should().ContainSingle().Subject;
-        actual.CurrentOfstedRating.Should().Be(OfstedRating.None);
-        actual.PreviousOfstedRating.Should().Be(OfstedRating.None);
+        actual.CurrentOfstedRating.Should().Be(OfstedRating.NotInspected);
+        actual.PreviousOfstedRating.Should().Be(OfstedRating.NotInspected);
     }
 
     [Fact]
@@ -212,9 +212,9 @@ public class AcademyRepositoryOfstedTests
 
         var actual = result.Should().ContainSingle().Subject;
         actual.CurrentOfstedRating.Should()
-            .Be(OfstedRating.None with { CategoryOfConcern = CategoriesOfConcern.DoesNotApply });
+            .Be(OfstedRating.NotInspected with { CategoryOfConcern = CategoriesOfConcern.DoesNotApply });
         actual.PreviousOfstedRating.Should()
-            .Be(OfstedRating.None with { CategoryOfConcern = CategoriesOfConcern.DoesNotApply });
+            .Be(OfstedRating.NotInspected with { CategoryOfConcern = CategoriesOfConcern.DoesNotApply });
     }
 
     [Fact]
@@ -334,7 +334,7 @@ public class AcademyRepositoryOfstedTests
         var fromFurther = results.Except(fromNonFurther).ToArray();
         fromFurther.Should().HaveCount(4);
         fromFurther.Should().AllSatisfy(o =>
-            o.CurrentOfstedRating.EarlyYearsProvision.Should().Be(OfstedRatingScore.None));
+            o.CurrentOfstedRating.EarlyYearsProvision.Should().Be(OfstedRatingScore.NotInspected));
     }
 
     [Fact]
@@ -346,8 +346,8 @@ public class AcademyRepositoryOfstedTests
 
         var academyOfsted = result.Should().ContainSingle().Which;
         academyOfsted.Urn.Should().Be(giasGroupLink.Urn);
-        academyOfsted.CurrentOfstedRating.Should().Be(OfstedRating.None);
-        academyOfsted.PreviousOfstedRating.Should().Be(OfstedRating.None);
+        academyOfsted.CurrentOfstedRating.Should().Be(OfstedRating.NotInspected);
+        academyOfsted.PreviousOfstedRating.Should().Be(OfstedRating.NotInspected);
 
         _mockLogger.VerifyLogError(
             $"URN {giasGroupLink.Urn} was not found in Mis.Establishments or Mis.FurtherEducationEstablishments. This indicates a data integrity issue with the Ofsted data in Academies Db.");
@@ -391,7 +391,7 @@ public class AcademyRepositoryOfstedTests
         var result = AcademyRepository.ConvertOverallEffectivenessToOfstedRatingScore(rating);
 
         // Assert
-        result.Should().Be(OfstedRatingScore.None);
+        result.Should().Be(OfstedRatingScore.NotInspected);
     }
 
     [Theory]
@@ -418,7 +418,7 @@ public class AcademyRepositoryOfstedTests
     [InlineData("8", OfstedRatingScore.DoesNotApply)]
     [InlineData("9", OfstedRatingScore.NoJudgement)]
     [InlineData("0", OfstedRatingScore.InsufficientEvidence)]
-    [InlineData("-1", OfstedRatingScore.None)]
+    [InlineData("-1", OfstedRatingScore.NotInspected)]
     public void
         ConvertOverallEffectivenessToOfstedRatingScore_Should_Return_Correct_OfstedRatingScore_When_Rating_Is_Valid_Integer_String(
             string rating, OfstedRatingScore expected)
@@ -442,7 +442,7 @@ public class AcademyRepositoryOfstedTests
         var result = AcademyRepository.ConvertOverallEffectivenessToOfstedRatingScore(rating);
 
         // Assert
-        result.Should().Be(OfstedRatingScore.None);
+        result.Should().Be(OfstedRatingScore.NotInspected);
     }
 
     [Theory]
@@ -460,13 +460,13 @@ public class AcademyRepositoryOfstedTests
         var result = AcademyRepository.ConvertOverallEffectivenessToOfstedRatingScore(rating);
 
         // Assert
-        result.Should().Be(OfstedRatingScore.None);
+        result.Should().Be(OfstedRatingScore.NotInspected);
     }
 
     [Theory]
     [InlineData("1", "2", OfstedRatingScore.Outstanding, OfstedRatingScore.Good)]
     [InlineData("Not judged", "Not judged", OfstedRatingScore.NoJudgement, OfstedRatingScore.NoJudgement)]
-    [InlineData("abc", "def", OfstedRatingScore.None, OfstedRatingScore.None)]
+    [InlineData("abc", "def", OfstedRatingScore.NotInspected, OfstedRatingScore.NotInspected)]
     [InlineData("2", "Not judged", OfstedRatingScore.Good, OfstedRatingScore.NoJudgement)]
     [InlineData("Not judged", "1", OfstedRatingScore.NoJudgement, OfstedRatingScore.Outstanding)]
     public async Task

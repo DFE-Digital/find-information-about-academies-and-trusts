@@ -6,7 +6,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Extensions;
 public class SafeguardingScoreExtensionsTests
 {
     [Theory]
-    [InlineData(SafeguardingScore.None, "None")]
+    [InlineData(SafeguardingScore.NotInspected, "None")]
     [InlineData(SafeguardingScore.Yes, "Yes")]
     [InlineData(SafeguardingScore.No, "No")]
     [InlineData(SafeguardingScore.NotRecorded, "Not recorded")]
@@ -21,7 +21,7 @@ public class SafeguardingScoreExtensionsTests
     }
 
     [Theory]
-    [InlineData(SafeguardingScore.None, "none")]
+    [InlineData(SafeguardingScore.NotInspected, "none")]
     [InlineData(SafeguardingScore.Yes, "yes")]
     [InlineData(SafeguardingScore.No, "no")]
     [InlineData(SafeguardingScore.NotRecorded, "not recorded")]

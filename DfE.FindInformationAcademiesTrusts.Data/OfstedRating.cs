@@ -12,21 +12,22 @@ public record OfstedRating(
     SafeguardingScore SafeguardingIsEffective,
     DateTime? InspectionDate)
 {
-    public static readonly OfstedRating None = new(OfstedRatingScore.None, OfstedRatingScore.None,
-        OfstedRatingScore.None, OfstedRatingScore.None, OfstedRatingScore.None, OfstedRatingScore.None,
-        OfstedRatingScore.None, CategoriesOfConcern.NotInspected, SafeguardingScore.None, null);
+    public static readonly OfstedRating NotInspected = new(OfstedRatingScore.NotInspected,
+        OfstedRatingScore.NotInspected, OfstedRatingScore.NotInspected, OfstedRatingScore.NotInspected,
+        OfstedRatingScore.NotInspected, OfstedRatingScore.NotInspected, OfstedRatingScore.NotInspected,
+        CategoriesOfConcern.NotInspected, SafeguardingScore.NotInspected, null);
 
     public OfstedRating(int? overallEffectiveness, DateTime? inspectionDate)
         : this(
-            (OfstedRatingScore?)overallEffectiveness ?? OfstedRatingScore.None,
-            OfstedRatingScore.None,
-            OfstedRatingScore.None,
-            OfstedRatingScore.None,
-            OfstedRatingScore.None,
-            OfstedRatingScore.None,
-            OfstedRatingScore.None,
+            (OfstedRatingScore?)overallEffectiveness ?? OfstedRatingScore.NotInspected,
+            OfstedRatingScore.NotInspected,
+            OfstedRatingScore.NotInspected,
+            OfstedRatingScore.NotInspected,
+            OfstedRatingScore.NotInspected,
+            OfstedRatingScore.NotInspected,
+            OfstedRatingScore.NotInspected,
             CategoriesOfConcern.NotInspected,
-            SafeguardingScore.None,
+            SafeguardingScore.NotInspected,
             inspectionDate
         )
     {
@@ -43,7 +44,7 @@ public record OfstedRating(
             case SafeguardingScoreString.Nine:
                 return SafeguardingScore.NotRecorded;
             default:
-                return SafeguardingScore.None;
+                return SafeguardingScore.NotInspected;
         }
     }
 }
@@ -57,7 +58,7 @@ public static class SafeguardingScoreString
 
 public enum OfstedRatingScore
 {
-    None = -1,
+    NotInspected = -1,
     InsufficientEvidence = 0,
     Outstanding = 1,
     Good = 2,
@@ -69,7 +70,7 @@ public enum OfstedRatingScore
 
 public enum SafeguardingScore
 {
-    None = -1,
+    NotInspected = -1,
     Yes,
     No,
     NotRecorded = 9
