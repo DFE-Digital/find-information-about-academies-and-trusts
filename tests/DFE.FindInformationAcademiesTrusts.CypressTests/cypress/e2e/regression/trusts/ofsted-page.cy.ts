@@ -127,6 +127,12 @@ describe("Testing the Ofsted page and its subpages ", () => {
         beforeEach(() => {
             cy.login();
             cy.visit('/trusts/ofsted/safeguarding-and-concerns?uid=5143');
+
+            cy.task('checkForFiles', 'cypress/downloads').then((files) => {
+                if (files) {
+                    cy.task('clearDownloads', 'cypress/downloads');
+                }
+            });
         });
 
         it("Checks the correct Ofsted safeguarding and concerns subpage header is present", () => {
@@ -161,6 +167,14 @@ describe("Testing the Ofsted page and its subpages ", () => {
                 .checkSafeguardingConcernsBeforeOrAfterJoiningJudgementsPresent();
         });
 
+        it('should export academies data as an xlsx and verify it has downloaded and has content', () => {
+            ofstedPage
+                .clickDownloadButton();
+            dataDownload
+                .checkFileDownloaded()
+                .checkFileHasContent()
+                .deleteDownloadedFile();
+        });
     });
 
     describe("Testing the Ofsted important dates page ", () => {
