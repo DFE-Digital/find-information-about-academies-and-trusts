@@ -8,6 +8,7 @@ class OfstedPage {
 
     elements = {
         subpageHeader: () => cy.get('[data-testid="subpage-header"]'),
+        downloadButton: () => cy.get('[data-testid="download-all-ofsted-data-button"]'),
         currentRatings: {
             Section: () => cy.get('[data-testid="ofsted-current-ratings-table"]'),
             SchoolName: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-school-name"]'),
@@ -420,6 +421,10 @@ class OfstedPage {
         return this;
     }
 
+    public clickDownloadButton(): this {
+        this.elements.downloadButton().click();
+        return this;
+    }
 }
 
 const ofstedPage = new OfstedPage();
