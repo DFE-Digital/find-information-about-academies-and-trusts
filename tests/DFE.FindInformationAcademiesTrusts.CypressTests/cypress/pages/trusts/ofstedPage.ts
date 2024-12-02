@@ -108,7 +108,7 @@ class OfstedPage {
 
     public checkCurrentRatingsQualityOfEducationJudgementsPresent(): this {
         this.elements.currentRatings.qualityOfEducation().each((element) => {
-            const text = element.text().trim();
+            const text = element.text();
             expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
         });
         return this;
@@ -116,7 +116,7 @@ class OfstedPage {
 
     public checkCurrentRatingsBehaviourAndAttitudesJudgementsPresent(): this {
         this.elements.currentRatings.behaviourAndAttitudes().each((element) => {
-            const text = element.text().trim();
+            const text = element.text();
             expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
         });
         return this;
@@ -124,7 +124,7 @@ class OfstedPage {
 
     public checkCurrentRatingsPesronalDevelopmentJudgementsPresent(): this {
         this.elements.currentRatings.personalDevelopment().each((element) => {
-            const text = element.text().trim();
+            const text = element.text();
             expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
         });
         return this;
@@ -132,7 +132,7 @@ class OfstedPage {
 
     public checkCurrentRatingsLeadershipAndManagementJudgementsPresent(): this {
         this.elements.currentRatings.leadershipAndManagement().each((element) => {
-            const text = element.text().trim();
+            const text = element.text();
             expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply/);
         });
         return this;
@@ -140,7 +140,7 @@ class OfstedPage {
 
     public checkCurrentRatingsEarlyYearsProvisionJudgementsPresent(): this {
         this.elements.currentRatings.earlyYearsProvision().each((element) => {
-            const text = element.text().trim();
+            const text = element.text();
             expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply/);
         });
         return this;
@@ -148,7 +148,7 @@ class OfstedPage {
 
     public checkCurrentRatingsSixthFormProvisionJudgementsPresent(): this {
         this.elements.currentRatings.sixthFormProvision().each((element) => {
-            const text = element.text().trim();
+            const text = element.text();
             expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply/);
         });
         return this;
@@ -156,7 +156,7 @@ class OfstedPage {
 
     public checkCurrentRatingsBeforeOrAfterJoiningJudgementsPresent(): this {
         this.elements.currentRatings.beforeOrAfterJoining().each((element) => {
-            const text = element.text().trim();
+            const text = element.text();
             expect(text).to.match(/Before|After|Not yet inspected/);
         });
         return this;
@@ -225,7 +225,7 @@ class OfstedPage {
 
     public checkPreviousRatingsQualityOfEducationJudgementsPresent(): this {
         this.elements.previousRatings.qualityOfEducation().each((element) => {
-            const text = element.text().trim();
+            const text = element.text();
             expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
         });
         return this;
@@ -233,7 +233,7 @@ class OfstedPage {
 
     public checkPreviousRatingsBehaviourAndAttitudesJudgementsPresent(): this {
         this.elements.previousRatings.behaviourAndAttitudes().each((element) => {
-            const text = element.text().trim();
+            const text = element.text();
             expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
         });
         return this;
@@ -241,7 +241,7 @@ class OfstedPage {
 
     public checkPreviousRatingsPesronalDevelopmentJudgementsPresent(): this {
         this.elements.previousRatings.personalDevelopment().each((element) => {
-            const text = element.text().trim();
+            const text = element.text();
             expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected/);
         });
         return this;
@@ -249,7 +249,7 @@ class OfstedPage {
 
     public checkPreviousRatingsLeadershipAndManagementJudgementsPresent(): this {
         this.elements.previousRatings.leadershipAndManagement().each((element) => {
-            const text = element.text().trim();
+            const text = element.text();
             expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply/);
         });
         return this;
@@ -257,7 +257,7 @@ class OfstedPage {
 
     public checkPreviousRatingsEarlyYearsProvisionJudgementsPresent(): this {
         this.elements.previousRatings.earlyYearsProvision().each((element) => {
-            const text = element.text().trim();
+            const text = element.text();
             expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply/);
         });
         return this;
@@ -265,7 +265,7 @@ class OfstedPage {
 
     public checkPreviousRatingsSixthFormProvisionJudgementsPresent(): this {
         this.elements.previousRatings.sixthFormProvision().each((element) => {
-            const text = element.text().trim();
+            const text = element.text();
             expect(text).to.match(/Good|Outstanding|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Does not apply/);
         });
         return this;
@@ -273,7 +273,7 @@ class OfstedPage {
 
     public checkPreviousRatingsBeforeOrAfterJoiningJudgementsPresent(): this {
         this.elements.previousRatings.beforeOrAfterJoining().each((element) => {
-            const text = element.text().trim();
+            const text = element.text();
             expect(text).to.match(/Before|After|Not yet inspected/);
         });
         return this;
