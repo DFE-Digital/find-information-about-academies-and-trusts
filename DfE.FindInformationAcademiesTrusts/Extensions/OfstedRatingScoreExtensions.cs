@@ -12,9 +12,10 @@ public static class OfstedRatingScoreExtensions
             OfstedRatingScore.Good => 2,
             OfstedRatingScore.RequiresImprovement => 3,
             OfstedRatingScore.Inadequate => 4,
-            OfstedRatingScore.DoesNotApply => 5,
+            OfstedRatingScore.InsufficientEvidence => 5,
             OfstedRatingScore.NoJudgement => 6,
-            OfstedRatingScore.NotInspected => 7,
+            OfstedRatingScore.DoesNotApply => 7,
+            OfstedRatingScore.NotInspected => 8,
             _ => -1
         };
     }
@@ -27,9 +28,10 @@ public static class OfstedRatingScoreExtensions
             OfstedRatingScore.Good => "Good",
             OfstedRatingScore.RequiresImprovement => "Requires improvement",
             OfstedRatingScore.Inadequate => "Inadequate",
-            OfstedRatingScore.NotInspected => "Not yet inspected",
+            OfstedRatingScore.InsufficientEvidence => "Insufficient evidence",
             OfstedRatingScore.NoJudgement => "No judgement",
             OfstedRatingScore.DoesNotApply => "Does not apply",
+            OfstedRatingScore.NotInspected => "Not yet inspected",
             _ => "Unknown"
         };
     }

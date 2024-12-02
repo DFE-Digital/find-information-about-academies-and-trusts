@@ -10,9 +10,10 @@ public class OfstedRatingScoreExtensionsTests
     [InlineData(OfstedRatingScore.Good, "Good")]
     [InlineData(OfstedRatingScore.RequiresImprovement, "Requires improvement")]
     [InlineData(OfstedRatingScore.Inadequate, "Inadequate")]
-    [InlineData(OfstedRatingScore.NotInspected, "Not yet inspected")]
+    [InlineData(OfstedRatingScore.InsufficientEvidence, "Insufficient evidence")]
     [InlineData(OfstedRatingScore.NoJudgement, "No judgement")]
     [InlineData(OfstedRatingScore.DoesNotApply, "Does not apply")]
+    [InlineData(OfstedRatingScore.NotInspected, "Not yet inspected")]
     public void ToDisplayString_ReturnsCorrectString_ForDefinedEnumValues(OfstedRatingScore rating, string expected)
     {
         // Act
@@ -41,9 +42,10 @@ public class OfstedRatingScoreExtensionsTests
     [InlineData(OfstedRatingScore.Good, 2)]
     [InlineData(OfstedRatingScore.RequiresImprovement, 3)]
     [InlineData(OfstedRatingScore.Inadequate, 4)]
-    [InlineData(OfstedRatingScore.DoesNotApply, 5)]
+    [InlineData(OfstedRatingScore.InsufficientEvidence, 5)]
     [InlineData(OfstedRatingScore.NoJudgement, 6)]
-    [InlineData(OfstedRatingScore.NotInspected, 7)]
+    [InlineData(OfstedRatingScore.DoesNotApply, 7)]
+    [InlineData(OfstedRatingScore.NotInspected, 8)]
     public void ToDataSortValue_ReturnsCorrectValue_ForDefinedEnumValues(OfstedRatingScore rating, int expected)
     {
         // Act
