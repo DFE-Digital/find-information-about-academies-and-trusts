@@ -210,7 +210,8 @@ public class AcademyRepositoryOfstedTests
     [InlineData("SM", CategoriesOfConcern.SpecialMeasures)]
     [InlineData("SWK", CategoriesOfConcern.SeriousWeakness)]
     public async Task
-        GetAcademiesInTrustOfstedAsync_should_set_concern_on_current_Ofsted_from_db_when_not_further_ed(string? dbData,
+        GetAcademiesInTrustOfstedAsync_should_set_CategoryOfConcern_on_current_Ofsted_from_db_when_not_further_ed(
+            string? dbData,
             CategoriesOfConcern expected)
     {
         _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
@@ -230,7 +231,8 @@ public class AcademyRepositoryOfstedTests
     [InlineData("SM", CategoriesOfConcern.SpecialMeasures)]
     [InlineData("SWK", CategoriesOfConcern.SeriousWeakness)]
     public async Task
-        GetAcademiesInTrustOfstedAsync_should_set_concern_on_previous_Ofsted_from_db_when_not_further_ed(string? dbData,
+        GetAcademiesInTrustOfstedAsync_should_set_CategoryOfConcern_on_previous_Ofsted_from_db_when_not_further_ed(
+            string? dbData,
             CategoriesOfConcern expected)
     {
         _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
@@ -245,7 +247,7 @@ public class AcademyRepositoryOfstedTests
     }
 
     [Fact]
-    public async Task GetAcademiesInTrustOfstedAsync_should_be_does_not_apply_when_further_ed()
+    public async Task GetAcademiesInTrustOfstedAsync_should_set_CategoryOfConcern_to_DoesNotApply_when_further_ed()
     {
         _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
@@ -257,6 +259,92 @@ public class AcademyRepositoryOfstedTests
         var actual = result.Should().ContainSingle().Subject;
         actual.CurrentOfstedRating.CategoryOfConcern.Should().Be(CategoriesOfConcern.DoesNotApply);
         actual.PreviousOfstedRating.CategoryOfConcern.Should().Be(CategoriesOfConcern.DoesNotApply);
+    }
+
+    [Theory]
+    [InlineData(null, SafeguardingScore.NotInspected)]
+    [InlineData("NULL", SafeguardingScore.NotInspected)]
+    [InlineData("Yes", SafeguardingScore.Yes)]
+    [InlineData("No", SafeguardingScore.No)]
+    [InlineData("9", SafeguardingScore.NotRecorded)]
+    public async Task
+        GetAcademiesInTrustOfstedAsync_should_set_SafeguardingScore_on_current_Ofsted_when_non_further_ed(
+            string? dbData,
+            SafeguardingScore expected)
+    {
+        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+            { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
+        _mockAcademiesDbContext.AddMisEstablishment(
+            new MisEstablishment { Urn = 987654, SafeguardingIsEffective = dbData });
+
+        var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
+
+        var actual = result.Should().ContainSingle().Subject;
+        actual.CurrentOfstedRating.SafeguardingIsEffective.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData(null, SafeguardingScore.NotInspected)]
+    [InlineData("NULL", SafeguardingScore.NotInspected)]
+    [InlineData("Yes", SafeguardingScore.Yes)]
+    [InlineData("No", SafeguardingScore.No)]
+    [InlineData("9", SafeguardingScore.NotRecorded)]
+    public async Task
+        GetAcademiesInTrustOfstedAsync_should_set_SafeguardingScore_on_current_Ofsted_when_further_ed(string? dbData,
+            SafeguardingScore expected)
+    {
+        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+            { GroupUid = GroupUid, Urn = "876543", JoinedDate = "01/01/2022" });
+        _mockAcademiesDbContext.AddMisFurtherEducationEstablishment(
+            new MisFurtherEducationEstablishment { ProviderUrn = 876543, IsSafeguardingEffective = dbData });
+
+        var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
+
+        var actual = result.Should().ContainSingle().Subject;
+        actual.CurrentOfstedRating.SafeguardingIsEffective.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData(null, SafeguardingScore.NotInspected)]
+    [InlineData("NULL", SafeguardingScore.NotInspected)]
+    [InlineData("Yes", SafeguardingScore.Yes)]
+    [InlineData("No", SafeguardingScore.No)]
+    [InlineData("9", SafeguardingScore.NotRecorded)]
+    public async Task
+        GetAcademiesInTrustOfstedAsync_should_set_SafeguardingScore_on_previous_Ofsted_when_not_further_ed(
+            string? dbData,
+            SafeguardingScore expected)
+    {
+        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+            { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
+        _mockAcademiesDbContext.AddMisEstablishment(new MisEstablishment
+            { Urn = 987654, PreviousSafeguardingIsEffective = dbData });
+
+        var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
+
+        var actual = result.Should().ContainSingle().Subject;
+        actual.PreviousOfstedRating.SafeguardingIsEffective.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData(null, SafeguardingScore.NotInspected)]
+    [InlineData("NULL", SafeguardingScore.NotInspected)]
+    [InlineData("Yes", SafeguardingScore.Yes)]
+    [InlineData("No", SafeguardingScore.No)]
+    [InlineData("9", SafeguardingScore.NotRecorded)]
+    public async Task
+        GetAcademiesInTrustOfstedAsync_should_set_SafeguardingScore_on_previous_Ofsted_when_further_ed(string? dbData,
+            SafeguardingScore expected)
+    {
+        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+            { GroupUid = GroupUid, Urn = "876543", JoinedDate = "01/01/2022" });
+        _mockAcademiesDbContext.AddMisFurtherEducationEstablishment(
+            new MisFurtherEducationEstablishment { ProviderUrn = 876543, PreviousSafeguarding = dbData });
+
+        var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
+
+        var actual = result.Should().ContainSingle().Subject;
+        actual.PreviousOfstedRating.SafeguardingIsEffective.Should().Be(expected);
     }
 
     [Fact]
