@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Changed
+
+- Acadmies pages are now tabs instead of using sub nav
+
 ## [Release-15][release-15] (production-2024-12-02.4279)
 
 ### Added
