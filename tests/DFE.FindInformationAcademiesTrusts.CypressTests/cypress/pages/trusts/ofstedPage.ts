@@ -70,7 +70,7 @@ class OfstedPage {
 
     private readonly checkValueIsValidOfstedRating = (element: JQuery<HTMLElement>) => {
         const text = element.text().trim();
-        expect(text).to.match(/Good|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Insufficient evidence/);
+        expect(text).to.match(/^(Good|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Insufficient evidence|Does not apply)$/);
     };
 
     private readonly checkValueIsValidDate = (element: JQuery<HTMLElement>) => {
@@ -83,7 +83,7 @@ class OfstedPage {
 
     private readonly checkValueIsValidBeforeOrAfterJoiningTag = (element: JQuery<HTMLElement>) => {
         const text = element.text().trim();
-        expect(text).to.match(/Before|After|Not yet inspected/);
+        expect(text).to.match(/^(Before|After|Not yet inspected)$/);
     };
 
     ///Current ratings///
@@ -310,16 +310,16 @@ class OfstedPage {
 
     public checkSafeguardingConcernsEffectiveSafeguardingJudgementsPresent(): this {
         this.elements.safeguardingAndConcerns.effectiveSafeguarding().each((element) => {
-            const text = element.text();
-            expect(text).to.match(/Yes|No|Not recorded/);
+            const text = element.text().trim();
+            expect(text).to.match(/^(Yes|No|Not recorded|Not yet inspected)$/);
         });
         return this;
     }
 
     public checkSafeguardingConcernsCategoryOfConcernJudgementsPresent(): this {
         this.elements.safeguardingAndConcerns.categoryOfConcern().each((element) => {
-            const text = element.text();
-            expect(text).to.match(/Not yet inspected|Special measures|Serious weakness|Notice to improve|Not yet inspected|Does not apply/);
+            const text = element.text().trim();
+            expect(text).to.match(/^(None|Special measures|Serious weakness|Notice to improve|Not yet inspected|Does not apply)$/);
         });
         return this;
     }
