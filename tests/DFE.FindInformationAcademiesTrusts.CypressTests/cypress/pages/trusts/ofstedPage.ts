@@ -51,7 +51,7 @@ class OfstedPage {
             effectiveSafeguardingHeader: () => this.elements.safeguardingAndConcerns.section().find('[data-testid="ofsted-safeguarding-and-concerns-effective-safeguarding-header"]'),
             effectiveSafeguarding: () => this.elements.safeguardingAndConcerns.section().find('[data-testid="ofsted-safeguarding-and-concerns-effective-safeguarding"]'),
             categoryOfConcernHeader: () => this.elements.safeguardingAndConcerns.section().find('[data-testid="ofsted-safeguarding-and-concerns-category-of-concern-header"]'),
-            categoryOfConcern: () => this.elements.safeguardingAndConcerns.section().find('[data-testid="category-of-concern"]'),
+            categoryOfConcern: () => this.elements.safeguardingAndConcerns.section().find('[data-testid="ofsted-safeguarding-and-concerns-category-of-concern"]'),
             beforeOrAfterJoiningHeader: () => this.elements.safeguardingAndConcerns.section().find('[data-testid="ofsted-safeguarding-and-concerns-before-or-after-joining-header"]'),
             beforeOrAfterJoining: () => this.elements.safeguardingAndConcerns.section().find('[data-testid="ofsted-safeguarding-before-or-after-joining"]'),
         },
