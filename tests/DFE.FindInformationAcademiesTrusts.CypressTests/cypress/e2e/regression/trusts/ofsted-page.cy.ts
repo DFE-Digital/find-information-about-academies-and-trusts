@@ -34,7 +34,7 @@ describe("Testing the Ofsted page and its subpages ", () => {
             ofstedPage
                 .checkCurrentRatingsQualityOfEducationJudgementsPresent()
                 .checkCurrentRatingsBehaviourAndAttitudesJudgementsPresent()
-                .checkCurrentRatingsPesronalDevelopmentJudgementsPresent()
+                .checkCurrentRatingsPersonalDevelopmentJudgementsPresent()
                 .checkCurrentRatingsLeadershipAndManagementJudgementsPresent()
                 .checkCurrentRatingsEarlyYearsProvisionJudgementsPresent()
                 .checkCurrentRatingsSixthFormProvisionJudgementsPresent()
@@ -46,7 +46,7 @@ describe("Testing the Ofsted page and its subpages ", () => {
             ofstedPage
                 .checkCurrentRatingsQualityOfEducationJudgementsPresent()
                 .checkCurrentRatingsBehaviourAndAttitudesJudgementsPresent()
-                .checkCurrentRatingsPesronalDevelopmentJudgementsPresent()
+                .checkCurrentRatingsPersonalDevelopmentJudgementsPresent()
                 .checkCurrentRatingsLeadershipAndManagementJudgementsPresent()
                 .checkCurrentRatingsEarlyYearsProvisionJudgementsPresent()
                 .checkCurrentRatingsSixthFormProvisionJudgementsPresent()
@@ -94,7 +94,7 @@ describe("Testing the Ofsted page and its subpages ", () => {
             ofstedPage
                 .checkPreviousRatingsQualityOfEducationJudgementsPresent()
                 .checkPreviousRatingsBehaviourAndAttitudesJudgementsPresent()
-                .checkPreviousRatingsPesronalDevelopmentJudgementsPresent()
+                .checkPreviousRatingsPersonalDevelopmentJudgementsPresent()
                 .checkPreviousRatingsLeadershipAndManagementJudgementsPresent()
                 .checkPreviousRatingsEarlyYearsProvisionJudgementsPresent()
                 .checkPreviousRatingsSixthFormProvisionJudgementsPresent()
@@ -106,7 +106,7 @@ describe("Testing the Ofsted page and its subpages ", () => {
             ofstedPage
                 .checkPreviousRatingsQualityOfEducationJudgementsPresent()
                 .checkPreviousRatingsBehaviourAndAttitudesJudgementsPresent()
-                .checkPreviousRatingsPesronalDevelopmentJudgementsPresent()
+                .checkPreviousRatingsPersonalDevelopmentJudgementsPresent()
                 .checkPreviousRatingsLeadershipAndManagementJudgementsPresent()
                 .checkPreviousRatingsEarlyYearsProvisionJudgementsPresent()
                 .checkPreviousRatingsSixthFormProvisionJudgementsPresent()
@@ -154,7 +154,6 @@ describe("Testing the Ofsted page and its subpages ", () => {
             ofstedPage
                 .checkSafeguardingConcernsEffectiveSafeguardingJudgementsPresent()
                 .checkSafeguardingConcernsCategoryOfConcernJudgementsPresent()
-                .checkSafeguardingConcernsCategoryOfConcernJudgementsPresent()
                 .checkSafeguardingConcernsBeforeOrAfterJoiningJudgementsPresent();
         });
 
@@ -162,7 +161,6 @@ describe("Testing the Ofsted page and its subpages ", () => {
             cy.visit('/trusts/ofsted/safeguarding-and-concerns?uid=5712');
             ofstedPage
                 .checkSafeguardingConcernsEffectiveSafeguardingJudgementsPresent()
-                .checkSafeguardingConcernsCategoryOfConcernJudgementsPresent()
                 .checkSafeguardingConcernsCategoryOfConcernJudgementsPresent()
                 .checkSafeguardingConcernsBeforeOrAfterJoiningJudgementsPresent();
         });

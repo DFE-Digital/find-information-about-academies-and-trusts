@@ -6,65 +6,65 @@ class OfstedPage {
         subpageHeader: () => cy.get('[data-testid="subpage-header"]'),
         downloadButton: () => cy.get('[data-testid="download-all-ofsted-data-button"]'),
         currentRatings: {
-            Section: () => cy.get('[data-testid="ofsted-current-ratings-table"]'),
-            SchoolName: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-school-name"]'),
-            SchoolNameHeader: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-school-name-header"]'),
-            NoDataMessage: () => this.elements.currentRatings.Section().contains('No data available'),
-            qualityOfEducationHeader: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-quality-of-education-header"]'),
-            qualityOfEducation: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-quality-of-education"]'),
-            behaviourAndAttitudesHeader: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-behaviour-and-attitudes-header"]'),
-            behaviourAndAttitudes: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-behaviour-and-attitudes"]'),
-            personalDevelopmentHeader: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-personal-development-header"]'),
-            personalDevelopment: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-personal-development"]'),
-            leadershipAndManagementHeader: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-leadership-and-management-header"]'),
-            leadershipAndManagement: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-leadership-and-management"]'),
-            earlyYearsProvisionHeader: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-early-years-provision-header"]'),
-            earlyYearsProvision: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-early-years-provision"]'),
-            sixthFormProvisionHeader: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-sixth-form-provision-header"]'),
-            sixthFormProvision: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-sixth-form-provision"]'),
-            beforeOrAfterJoiningHeader: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-before-or-after-joining-header"]'),
-            beforeOrAfterJoining: () => this.elements.currentRatings.Section().find('[data-testid="ofsted-current-ratings-before-or-after-joining"]'),
+            section: () => cy.get('[data-testid="ofsted-current-ratings-table"]'),
+            schoolName: () => this.elements.currentRatings.section().find('[data-testid="ofsted-current-ratings-school-name"]'),
+            schoolNameHeader: () => this.elements.currentRatings.section().find('[data-testid="ofsted-current-ratings-school-name-header"]'),
+            noDataMessage: () => this.elements.currentRatings.section().contains('No data available'),
+            qualityOfEducationHeader: () => this.elements.currentRatings.section().find('[data-testid="ofsted-current-ratings-quality-of-education-header"]'),
+            qualityOfEducation: () => this.elements.currentRatings.section().find('[data-testid="ofsted-current-ratings-quality-of-education"]'),
+            behaviourAndAttitudesHeader: () => this.elements.currentRatings.section().find('[data-testid="ofsted-current-ratings-behaviour-and-attitudes-header"]'),
+            behaviourAndAttitudes: () => this.elements.currentRatings.section().find('[data-testid="ofsted-current-ratings-behaviour-and-attitudes"]'),
+            personalDevelopmentHeader: () => this.elements.currentRatings.section().find('[data-testid="ofsted-current-ratings-personal-development-header"]'),
+            personalDevelopment: () => this.elements.currentRatings.section().find('[data-testid="ofsted-current-ratings-personal-development"]'),
+            leadershipAndManagementHeader: () => this.elements.currentRatings.section().find('[data-testid="ofsted-current-ratings-leadership-and-management-header"]'),
+            leadershipAndManagement: () => this.elements.currentRatings.section().find('[data-testid="ofsted-current-ratings-leadership-and-management"]'),
+            earlyYearsProvisionHeader: () => this.elements.currentRatings.section().find('[data-testid="ofsted-current-ratings-early-years-provision-header"]'),
+            earlyYearsProvision: () => this.elements.currentRatings.section().find('[data-testid="ofsted-current-ratings-early-years-provision"]'),
+            sixthFormProvisionHeader: () => this.elements.currentRatings.section().find('[data-testid="ofsted-current-ratings-sixth-form-provision-header"]'),
+            sixthFormProvision: () => this.elements.currentRatings.section().find('[data-testid="ofsted-current-ratings-sixth-form-provision"]'),
+            beforeOrAfterJoiningHeader: () => this.elements.currentRatings.section().find('[data-testid="ofsted-current-ratings-before-or-after-joining-header"]'),
+            beforeOrAfterJoining: () => this.elements.currentRatings.section().find('[data-testid="ofsted-current-ratings-before-or-after-joining"]'),
         },
         previousRatings: {
-            Section: () => cy.get('[data-testid="ofsted-previous-ratings-table"]'),
-            SchoolName: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-school-name"]'),
-            SchoolNameHeader: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-school-name-header"]'),
-            qualityOfEducationHeader: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-quality-of-education-header"]'),
-            qualityOfEducation: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-quality-of-education"]'),
-            behaviourAndAttitudesHeader: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-behaviour-and-attitudes-header"]'),
-            behaviourAndAttitudes: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-behaviour-and-attitudes"]'),
-            personalDevelopmentHeader: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-personal-development-header"]'),
-            personalDevelopment: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-personal-development"]'),
-            leadershipAndManagementHeader: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-leadership-and-management-header"]'),
-            leadershipAndManagement: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-leadership-and-management"]'),
-            earlyYearsProvisionHeader: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-early-years-provision-header"]'),
-            earlyYearsProvision: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-early-years-provision"]'),
-            sixthFormProvisionHeader: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-sixth-form-provision-header"]'),
-            sixthFormProvision: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-sixth-form-provision"]'),
-            beforeOrAfterJoiningHeader: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-before-or-after-joining-header"]'),
-            beforeOrAfterJoining: () => this.elements.previousRatings.Section().find('[data-testid="ofsted-previous-ratings-before-or-after-joining"]'),
+            section: () => cy.get('[data-testid="ofsted-previous-ratings-table"]'),
+            schoolName: () => this.elements.previousRatings.section().find('[data-testid="ofsted-previous-ratings-school-name"]'),
+            schoolNameHeader: () => this.elements.previousRatings.section().find('[data-testid="ofsted-previous-ratings-school-name-header"]'),
+            qualityOfEducationHeader: () => this.elements.previousRatings.section().find('[data-testid="ofsted-previous-ratings-quality-of-education-header"]'),
+            qualityOfEducation: () => this.elements.previousRatings.section().find('[data-testid="ofsted-previous-ratings-quality-of-education"]'),
+            behaviourAndAttitudesHeader: () => this.elements.previousRatings.section().find('[data-testid="ofsted-previous-ratings-behaviour-and-attitudes-header"]'),
+            behaviourAndAttitudes: () => this.elements.previousRatings.section().find('[data-testid="ofsted-previous-ratings-behaviour-and-attitudes"]'),
+            personalDevelopmentHeader: () => this.elements.previousRatings.section().find('[data-testid="ofsted-previous-ratings-personal-development-header"]'),
+            personalDevelopment: () => this.elements.previousRatings.section().find('[data-testid="ofsted-previous-ratings-personal-development"]'),
+            leadershipAndManagementHeader: () => this.elements.previousRatings.section().find('[data-testid="ofsted-previous-ratings-leadership-and-management-header"]'),
+            leadershipAndManagement: () => this.elements.previousRatings.section().find('[data-testid="ofsted-previous-ratings-leadership-and-management"]'),
+            earlyYearsProvisionHeader: () => this.elements.previousRatings.section().find('[data-testid="ofsted-previous-ratings-early-years-provision-header"]'),
+            earlyYearsProvision: () => this.elements.previousRatings.section().find('[data-testid="ofsted-previous-ratings-early-years-provision"]'),
+            sixthFormProvisionHeader: () => this.elements.previousRatings.section().find('[data-testid="ofsted-previous-ratings-sixth-form-provision-header"]'),
+            sixthFormProvision: () => this.elements.previousRatings.section().find('[data-testid="ofsted-previous-ratings-sixth-form-provision"]'),
+            beforeOrAfterJoiningHeader: () => this.elements.previousRatings.section().find('[data-testid="ofsted-previous-ratings-before-or-after-joining-header"]'),
+            beforeOrAfterJoining: () => this.elements.previousRatings.section().find('[data-testid="ofsted-previous-ratings-before-or-after-joining"]'),
         },
         safeguardingAndConcerns: {
-            Section: () => cy.get('[data-testid="ofsted-safeguarding-and-concerns-name-table"]'),
-            SchoolNameHeader: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-name-header"]'),
-            SchoolName: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-school-name"]'),
-            effectiveSafeguardingHeader: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-effective-safeguarding-header"]'),
-            effectiveSafeguarding: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-effective-safeguarding"]'),
-            categoryOfConcernHeader: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-category-of-concern-header"]'),
-            categoryOfConcern: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="category-of-concern"]'),
-            beforeOrAfterJoiningHeader: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-and-concerns-before-or-after-joining-header"]'),
-            beforeOrAfterJoining: () => this.elements.safeguardingAndConcerns.Section().find('[data-testid="ofsted-safeguarding-before-or-after-joining"]'),
+            section: () => cy.get('[data-testid="ofsted-safeguarding-and-concerns-name-table"]'),
+            schoolNameHeader: () => this.elements.safeguardingAndConcerns.section().find('[data-testid="ofsted-safeguarding-and-concerns-name-header"]'),
+            schoolName: () => this.elements.safeguardingAndConcerns.section().find('[data-testid="ofsted-safeguarding-and-concerns-school-name"]'),
+            effectiveSafeguardingHeader: () => this.elements.safeguardingAndConcerns.section().find('[data-testid="ofsted-safeguarding-and-concerns-effective-safeguarding-header"]'),
+            effectiveSafeguarding: () => this.elements.safeguardingAndConcerns.section().find('[data-testid="ofsted-safeguarding-and-concerns-effective-safeguarding"]'),
+            categoryOfConcernHeader: () => this.elements.safeguardingAndConcerns.section().find('[data-testid="ofsted-safeguarding-and-concerns-category-of-concern-header"]'),
+            categoryOfConcern: () => this.elements.safeguardingAndConcerns.section().find('[data-testid="category-of-concern"]'),
+            beforeOrAfterJoiningHeader: () => this.elements.safeguardingAndConcerns.section().find('[data-testid="ofsted-safeguarding-and-concerns-before-or-after-joining-header"]'),
+            beforeOrAfterJoining: () => this.elements.safeguardingAndConcerns.section().find('[data-testid="ofsted-safeguarding-before-or-after-joining"]'),
         },
         importantDates: {
-            Section: () => cy.get('[data-testid="ofsted-important-dates-school-name-table"]'),
-            SchoolName: () => this.elements.importantDates.Section().find('[data-testid="ofsted-important-dates-school-name"]'),
-            SchoolNameHeader: () => this.elements.importantDates.Section().find('[data-testid="ofsted-important-dates-school-name-header"]'),
-            DateJoined: () => this.elements.importantDates.Section().find('[data-testid="ofsted-important-dates-date-joined"]'),
-            DateJoinedHeader: () => this.elements.importantDates.Section().find('[data-testid="ofsted-important-dates-date-joined-header"]'),
-            DateOfCurrentInspection: () => this.elements.importantDates.Section().find('[data-testid="ofsted-important-dates-date-of-current-inspection"]'),
-            DateOfCurrentInspectionHeader: () => this.elements.importantDates.Section().find('[data-testid="ofsted-important-dates-date-of-current-inspection-header"]'),
-            DateOfPreviousInspection: () => this.elements.importantDates.Section().find('[data-testid="ofsted-important-dates-date-of-previous-inspection"]'),
-            DateOfPreviousInspectionHeader: () => this.elements.importantDates.Section().find('[data-testid="ofsted-important-dates-date-of-previous-inspection-header"]'),
+            section: () => cy.get('[data-testid="ofsted-important-dates-school-name-table"]'),
+            schoolName: () => this.elements.importantDates.section().find('[data-testid="ofsted-important-dates-school-name"]'),
+            schoolNameHeader: () => this.elements.importantDates.section().find('[data-testid="ofsted-important-dates-school-name-header"]'),
+            dateJoined: () => this.elements.importantDates.section().find('[data-testid="ofsted-important-dates-date-joined"]'),
+            dateJoinedHeader: () => this.elements.importantDates.section().find('[data-testid="ofsted-important-dates-date-joined-header"]'),
+            dateOfCurrentInspection: () => this.elements.importantDates.section().find('[data-testid="ofsted-important-dates-date-of-current-inspection"]'),
+            dateOfCurrentInspectionHeader: () => this.elements.importantDates.section().find('[data-testid="ofsted-important-dates-date-of-current-inspection-header"]'),
+            dateOfPreviousInspection: () => this.elements.importantDates.section().find('[data-testid="ofsted-important-dates-date-of-previous-inspection"]'),
+            dateOfPreviousInspectionHeader: () => this.elements.importantDates.section().find('[data-testid="ofsted-important-dates-date-of-previous-inspection-header"]'),
         }
     };
 
@@ -94,7 +94,7 @@ class OfstedPage {
     }
 
     public checkOfstedCurrentRatingsTableHeadersPresent(): this {
-        this.elements.currentRatings.SchoolNameHeader().should('be.visible');
+        this.elements.currentRatings.schoolNameHeader().should('be.visible');
         this.elements.currentRatings.qualityOfEducationHeader().should('be.visible');
         this.elements.currentRatings.behaviourAndAttitudesHeader().should('be.visible');
         this.elements.currentRatings.personalDevelopmentHeader().should('be.visible');
@@ -108,8 +108,8 @@ class OfstedPage {
 
     public checkOfstedCurrentRatingsSorting(): this {
         TableUtility.checkStringSorting(
-            this.elements.currentRatings.SchoolName,
-            this.elements.currentRatings.SchoolNameHeader
+            this.elements.currentRatings.schoolName,
+            this.elements.currentRatings.schoolNameHeader
         );
         TableUtility.checkStringSorting(
             this.elements.currentRatings.qualityOfEducation,
@@ -152,7 +152,7 @@ class OfstedPage {
         return this;
     }
 
-    public checkCurrentRatingsPesronalDevelopmentJudgementsPresent(): this {
+    public checkCurrentRatingsPersonalDevelopmentJudgementsPresent(): this {
         this.elements.currentRatings.personalDevelopment().each(this.checkValueIsValidOfstedRating);
         return this;
     }
@@ -178,7 +178,7 @@ class OfstedPage {
     }
 
     public checkNoDataMessageIsVisible(): this {
-        this.elements.currentRatings.NoDataMessage().should('be.visible');
+        this.elements.currentRatings.noDataMessage().should('be.visible');
         return this;
     }
 
@@ -190,7 +190,7 @@ class OfstedPage {
     }
 
     public checkOfstedPreviousRatingsTableHeadersPresent(): this {
-        this.elements.previousRatings.SchoolNameHeader().should('be.visible');
+        this.elements.previousRatings.schoolNameHeader().should('be.visible');
         this.elements.previousRatings.qualityOfEducationHeader().should('be.visible');
         this.elements.previousRatings.behaviourAndAttitudesHeader().should('be.visible');
         this.elements.previousRatings.personalDevelopmentHeader().should('be.visible');
@@ -204,8 +204,8 @@ class OfstedPage {
 
     public checkOfstedPreviousRatingsSorting(): this {
         TableUtility.checkStringSorting(
-            this.elements.previousRatings.SchoolName,
-            this.elements.previousRatings.SchoolNameHeader
+            this.elements.previousRatings.schoolName,
+            this.elements.previousRatings.schoolNameHeader
         );
         TableUtility.checkStringSorting(
             this.elements.previousRatings.qualityOfEducation,
@@ -248,7 +248,7 @@ class OfstedPage {
         return this;
     }
 
-    public checkPreviousRatingsPesronalDevelopmentJudgementsPresent(): this {
+    public checkPreviousRatingsPersonalDevelopmentJudgementsPresent(): this {
         this.elements.previousRatings.personalDevelopment().each(this.checkValueIsValidOfstedRating);
         return this;
     }
@@ -281,7 +281,7 @@ class OfstedPage {
     }
 
     public checkOfstedSafeguardingConcernsTableHeadersPresent(): this {
-        this.elements.safeguardingAndConcerns.SchoolNameHeader().should('be.visible');
+        this.elements.safeguardingAndConcerns.schoolNameHeader().should('be.visible');
         this.elements.safeguardingAndConcerns.effectiveSafeguardingHeader().should('be.visible');
         this.elements.safeguardingAndConcerns.categoryOfConcern().should('be.visible');
         this.elements.safeguardingAndConcerns.beforeOrAfterJoining().should('be.visible');
@@ -290,8 +290,8 @@ class OfstedPage {
 
     public checkOfstedSafeguardingConcernsSorting(): this {
         TableUtility.checkStringSorting(
-            this.elements.safeguardingAndConcerns.SchoolName,
-            this.elements.safeguardingAndConcerns.SchoolNameHeader
+            this.elements.safeguardingAndConcerns.schoolName,
+            this.elements.safeguardingAndConcerns.schoolNameHeader
         );
         TableUtility.checkStringSorting(
             this.elements.safeguardingAndConcerns.effectiveSafeguarding,
@@ -337,47 +337,47 @@ class OfstedPage {
     }
 
     public checkOfstedImportantDatesTableHeadersPresent(): this {
-        this.elements.importantDates.SchoolNameHeader().should('be.visible');
-        this.elements.importantDates.DateJoinedHeader().should('be.visible');
-        this.elements.importantDates.DateOfCurrentInspectionHeader().should('be.visible');
-        this.elements.importantDates.DateOfPreviousInspectionHeader().should('be.visible');
+        this.elements.importantDates.schoolNameHeader().should('be.visible');
+        this.elements.importantDates.dateJoinedHeader().should('be.visible');
+        this.elements.importantDates.dateOfCurrentInspectionHeader().should('be.visible');
+        this.elements.importantDates.dateOfPreviousInspectionHeader().should('be.visible');
         return this;
     }
 
     public checkOfstedImportantDatesSorting(): this {
         TableUtility.checkStringSorting(
-            this.elements.importantDates.SchoolName,
-            this.elements.importantDates.SchoolNameHeader
+            this.elements.importantDates.schoolName,
+            this.elements.importantDates.schoolNameHeader
         );
         TableUtility.checkStringSorting(
-            this.elements.importantDates.DateJoined,
-            this.elements.importantDates.DateJoinedHeader
+            this.elements.importantDates.dateJoined,
+            this.elements.importantDates.dateJoinedHeader
         );
         TableUtility.checkStringSorting(
-            this.elements.importantDates.DateOfCurrentInspection,
-            this.elements.importantDates.DateOfCurrentInspectionHeader
+            this.elements.importantDates.dateOfCurrentInspection,
+            this.elements.importantDates.dateOfCurrentInspectionHeader
         );
         TableUtility.checkStringSorting(
-            this.elements.importantDates.DateOfPreviousInspection,
-            this.elements.importantDates.DateOfPreviousInspectionHeader
+            this.elements.importantDates.dateOfPreviousInspection,
+            this.elements.importantDates.dateOfPreviousInspectionHeader
         );
         return this;
     }
 
 
     public checkDateJoinedPresent(): this {
-        this.elements.importantDates.DateJoined().each(this.checkValueIsValidDate);
+        this.elements.importantDates.dateJoined().each(this.checkValueIsValidDate);
         return this;
     }
 
     public checkDateOfCurrentInspectionPresent(): this {
-        this.elements.importantDates.DateOfCurrentInspection().each(this.checkValueIsValidDate);
+        this.elements.importantDates.dateOfCurrentInspection().each(this.checkValueIsValidDate);
         return this;
     }
 
 
     public checkDateOfPreviousInspectionPresent(): this {
-        this.elements.importantDates.DateOfPreviousInspection().each(this.checkValueIsValidDate);
+        this.elements.importantDates.dateOfPreviousInspection().each(this.checkValueIsValidDate);
         return this;
     }
 
