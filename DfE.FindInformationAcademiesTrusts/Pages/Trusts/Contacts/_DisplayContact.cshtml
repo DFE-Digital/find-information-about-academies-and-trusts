@@ -6,7 +6,7 @@
       <dt class="govuk-summary-list__key">
         Name
       </dt>
-      @if (!string.IsNullOrWhiteSpace(Model.FullName))
+            @if (Model != null && !string.IsNullOrWhiteSpace(Model.FullName))
       {
         <dd class="govuk-summary-list__value" data-testid="contact-name">@Model.FullName</dd>
       }
@@ -19,7 +19,7 @@
       <dt class="govuk-summary-list__key">
         Email address
       </dt>
-      @if (!string.IsNullOrWhiteSpace(Model.Email))
+            @if (Model != null && !string.IsNullOrWhiteSpace(Model.Email))
       {
         <dd class="govuk-summary-list__value">
           <a class="govuk-link" href="mailto:@Model.Email" rel="noopener" target="_blank" data-testid="contact-email">@Model.Email</a>
