@@ -12,7 +12,7 @@ class AcademiesPage {
     };
 
     private createDetailsPageElements() {
-        const table = () => cy.get('[aria-describedby="academies-details-link"]');
+        const table = () => cy.get('[aria-describedby="details-caption"]');
         return {
             table,
             tableRows: () => table().find('tbody tr'),
@@ -32,7 +32,7 @@ class AcademiesPage {
 
 
     private createPupilNumbersPageElements() {
-        const table = () => cy.get('[aria-describedby="academies-pupil-numbers-link"]');
+        const table = () => cy.get('[aria-describedby="pupil-numbers-caption"]');
         return {
             table,
             tableRows: () => table().find('tbody tr'),
@@ -50,7 +50,7 @@ class AcademiesPage {
     }
 
     private createFreeSchoolMealsElements() {
-        const table = () => cy.get('[aria-describedby="free-school-meals-link"]');
+        const table = () => cy.get('[aria-describedby="free-school-meals-caption"]');
         return {
             table,
             tableRows: () => table().find('tbody tr'),
