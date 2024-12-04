@@ -132,7 +132,7 @@ public class ExportServiceTests
         var worksheet = workbook.Worksheet("Academies");
 
         // Assert
-        worksheet.LastRowUsed().RowNumber().Should()
+        worksheet.LastRowUsed()!.RowNumber().Should()
             .Be(3); // Last row should be headers as there is no data for the next row
     }
 
