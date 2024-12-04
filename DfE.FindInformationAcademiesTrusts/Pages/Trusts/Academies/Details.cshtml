@@ -6,9 +6,12 @@
 }
 
 <section class="app-table-container">
-  <h3 class="govuk-heading-m">Details</h3>
-  <p class="govuk-body-s">The following links open in a new tab</p>
-  <table class="govuk-table" data-module="moj-sortable-table" aria-describedby="academies-details-link">
+  <table class="govuk-table" data-module="moj-sortable-table" aria-describedby="details-caption">
+    <caption class="govuk-table__caption govuk-table__caption--m" id="details-caption" data-testid="subpage-header">
+      Details <br/>
+      <span class="govuk-body-s">The following links open in a new tab</span>
+    </caption>
+
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-body govuk-table__header" aria-sort="ascending">School name</th>
