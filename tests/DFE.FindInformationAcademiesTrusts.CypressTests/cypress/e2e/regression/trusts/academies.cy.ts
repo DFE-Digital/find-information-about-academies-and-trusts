@@ -57,6 +57,30 @@ describe("Testing the components of the Academies page", () => {
                 .checkPupilNumbersHeadersPresent();
         });
 
+        it("Checks the Pupil numbers page sorting", () => {
+            academiesPage
+                .checkPupilNumbersSorting();
+        });
+
+        it('should match the academy count in the sidebar with the actual table row count on the Pupil numbers page', () => {
+            academiesPage.getAcademyCountFromSidebar().then(expectedCount => {
+                academiesPage.getTableRowCountOnPupilNumbersPage().should('eq', expectedCount);
+            });
+        });
+
+        it('should match the academy count in the sidebar with the actual table row count on the Pupil numbers page after visiting', () => {
+            cy.visit('/trusts/academies/pupil-numbers?uid=5143');
+            academiesPage.getAcademyCountFromSidebar().then(expectedCount => {
+                academiesPage.getTableRowCountOnPupilNumbersPage().should('eq', expectedCount);
+            });
+        });
+
+        it("Checks the Pupil numbers page sorting on a larger trust", () => {
+            cy.visit('/trusts/academies/pupil-numbers?uid=5143');
+            academiesPage
+                .checkPupilNumbersSorting();
+        });
+
     });
 
     describe("Free school meals", () => {
@@ -68,6 +92,30 @@ describe("Testing the components of the Academies page", () => {
         it("Checks the correct Free school meals page headers are present", () => {
             academiesPage
                 .checkFreeSchoolMealsHeadersPresent();
+        });
+
+        it("Checks the Free school meals page sorting", () => {
+            academiesPage
+                .checkFreeSchoolMealsSorting();
+        });
+
+        it('should match the academy count in the sidebar with the actual table row count on the Free school meals page', () => {
+            academiesPage.getAcademyCountFromSidebar().then(expectedCount => {
+                academiesPage.getTableRowCountOnFreeSchoolMealsPage().should('eq', expectedCount);
+            });
+        });
+
+        it('should match the academy count in the sidebar with the actual table row count on the Free school meals page after visiting', () => {
+            cy.visit('/trusts/academies/free-school-meals?uid=5143');
+            academiesPage.getAcademyCountFromSidebar().then(expectedCount => {
+                academiesPage.getTableRowCountOnFreeSchoolMealsPage().should('eq', expectedCount);
+            });
+        });
+
+        it("Checks the Free school meals page sorting on a larger trust", () => {
+            cy.visit('/trusts/academies/free-school-meals?uid=5143');
+            academiesPage
+                .checkFreeSchoolMealsSorting();
         });
 
     });
