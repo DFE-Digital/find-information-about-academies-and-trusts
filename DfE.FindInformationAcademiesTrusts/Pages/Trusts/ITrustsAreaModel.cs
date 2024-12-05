@@ -19,11 +19,6 @@ public interface ITrustsAreaModel
     /// </summary>
     string? PageTitle { get; set; }
 
-    /// <summary>
-    /// The name of the section the page sits under in side navigation
-    /// </summary>
-    string Section { get; }
-
     string MapDataSourceToName(DataSourceServiceModel dataSource);
     string MapDataSourceToTestId(DataSourceListEntry source);
 
