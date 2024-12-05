@@ -22,7 +22,6 @@ internal static class Program
             ConfigurationVariables.BindConfigurationVariables(builder);
 
             builder.Services.AddRazorPages();
-            builder.Services.AddHealthChecks();
             builder.Services.AddApplicationInsightsTelemetry();
             SecurityServicesSetup.AddSecurityServices(builder);
 
@@ -33,6 +32,7 @@ internal static class Program
             });
 
             Dependencies.AddDependenciesTo(builder);
+            HealthCheckSetup.AddHealthChecks(builder);
 
             var app = builder.Build();
             PostBuildSetup.ConfigureApp(app);
