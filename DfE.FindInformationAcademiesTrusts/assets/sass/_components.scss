@@ -5,6 +5,7 @@
 @import "components/export-button";
 @import "components/sourceList";
 @import "components/contactsSummaryCard";
+@import "components/footer";
 
 .app-banner {
   @include govuk-responsive-padding(3, "top");
@@ -20,8 +21,8 @@
   }
 
   &.app-banner--l {
-    @include govuk-responsive-padding(9, "top");
-    @include govuk-responsive-padding(8, "bottom");
+    @include govuk-responsive-padding(7, "top");
+    @include govuk-responsive-padding(5, "bottom");
   }
 
   &.app-banner--s {
