@@ -62,4 +62,14 @@ public class StringExtensionsTest
     {
         linkText.Kebabify().Should().Be(expected);
     }
+
+    [Theory]
+    [InlineData("test", "Test")]
+    [InlineData("my test input", "My Test Input")]
+    [InlineData("thIS is A LONG tESt inpUT", "This Is A Long Test Input")]
+    [InlineData("tHIS iNPuT'S 'pOinT' IS to <TESt> PUnctuAtion;", "This Input's 'Point' Is To <Test> Punctuation;")]
+    public void ToTitleText_should_return_correct_string(string inputText, string expected)
+    {
+        inputText.ToTitleCase().Should().Be(expected);
+    }
 }
