@@ -1,14 +1,14 @@
 import { TableUtility } from "../tableUtility";
 
 class AcademiesPage {
-    // Elements for each page section
+
     elements = {
-        PageTabs: {
+        pageTabs: {
             academyCountLabel: () => cy.get('[data-testid="academies-nav"]'),
         },
-        DetailsPage: this.createDetailsPageElements(),
-        PupilNumbersPage: this.createPupilNumbersPageElements(),
-        FreeSchoolMeals: this.createFreeSchoolMealsElements(),
+        detailsPage: this.createDetailsPageElements(),
+        pupilNumbersPage: this.createPupilNumbersPageElements(),
+        freeSchoolMeals: this.createFreeSchoolMealsElements(),
     };
 
     private createDetailsPageElements() {
@@ -28,8 +28,6 @@ class AcademiesPage {
             ruralOrUrbanHeader: () => table().find("th:contains('Rural or urban')"),
         };
     }
-
-
 
     private createPupilNumbersPageElements() {
         const table = () => cy.get('[aria-describedby="pupil-numbers-caption"]');
@@ -66,27 +64,28 @@ class AcademiesPage {
             nationalAverageHeader: () => table().find("th:contains('National average')"),
         };
     }
+
     public getAcademyCountFromSidebar(): Cypress.Chainable<number> {
-        return this.elements.PageTabs.academyCountLabel()
+        return this.elements.pageTabs.academyCountLabel()
             .invoke('text')
             .then(text => parseInt(text.match(/\d+/)[0]));
     }
 
     public getTableRowCountOnDetailsPage(): Cypress.Chainable<number> {
-        return this.elements.DetailsPage.tableRows().its('length');
+        return this.elements.detailsPage.tableRows().its('length');
     }
 
     public getTableRowCountOnPupilNumbersPage(): Cypress.Chainable<number> {
-        return this.elements.PupilNumbersPage.tableRows().its('length');
+        return this.elements.pupilNumbersPage.tableRows().its('length');
     }
 
     public getTableRowCountOnFreeSchoolMealsPage(): Cypress.Chainable<number> {
-        return this.elements.FreeSchoolMeals.tableRows().its('length');
+        return this.elements.freeSchoolMeals.tableRows().its('length');
     }
 
     public checkDetailsHeadersPresent(): this {
-        const { DetailsPage } = this.elements;
-        DetailsPage.table().should('contain', 'School name')
+        const { detailsPage } = this.elements;
+        detailsPage.table().should('contain', 'School name')
             .and('contain', 'URN')
             .and('contain', 'Local authority')
             .and('contain', 'Type')
@@ -96,8 +95,8 @@ class AcademiesPage {
     }
 
     public checkPupilNumbersHeadersPresent(): this {
-        const { PupilNumbersPage } = this.elements;
-        PupilNumbersPage.table().should('contain', 'School name')
+        const { pupilNumbersPage } = this.elements;
+        pupilNumbersPage.table().should('contain', 'School name')
             .and('contain', 'URN')
             .and('contain', 'Phase and age range')
             .and('contain', 'Pupil numbers')
@@ -107,8 +106,8 @@ class AcademiesPage {
     }
 
     public checkFreeSchoolMealsHeadersPresent(): this {
-        const { FreeSchoolMeals } = this.elements;
-        FreeSchoolMeals.table().should('contain', 'School name')
+        const { freeSchoolMeals } = this.elements;
+        freeSchoolMeals.table().should('contain', 'School name')
             .and('contain', 'URN')
             .and('contain', 'Pupils eligible for free school meals')
             .and('contain', 'Local authority average')
@@ -117,36 +116,36 @@ class AcademiesPage {
     }
 
     public checkSchoolTypesOnDetailsTable() {
-        this.elements.DetailsPage.schoolType().each(element => {
+        this.elements.detailsPage.schoolType().each(element => {
             expect(element.text().trim()).to.be.oneOf(["Academy sponsor led", "Academy converter", "University technical college", "Free schools"]);
         });
     }
 
     public checkTrustDetailsSorting() {
-        const { DetailsPage } = this.elements;
-        TableUtility.checkStringSorting(DetailsPage.schoolName, DetailsPage.schoolNameHeader);
-        TableUtility.checkStringSorting(DetailsPage.urn, DetailsPage.urnHeader);
-        TableUtility.checkStringSorting(DetailsPage.localAuthority, DetailsPage.localAuthorityHeader);
-        TableUtility.checkStringSorting(DetailsPage.schoolType, DetailsPage.schoolTypeHeader);
-        TableUtility.checkStringSorting(DetailsPage.ruralOrUrban, DetailsPage.ruralOrUrbanHeader);
+        const { detailsPage } = this.elements;
+        TableUtility.checkStringSorting(detailsPage.schoolName, detailsPage.schoolNameHeader);
+        TableUtility.checkStringSorting(detailsPage.urn, detailsPage.urnHeader);
+        TableUtility.checkStringSorting(detailsPage.localAuthority, detailsPage.localAuthorityHeader);
+        TableUtility.checkStringSorting(detailsPage.schoolType, detailsPage.schoolTypeHeader);
+        TableUtility.checkStringSorting(detailsPage.ruralOrUrban, detailsPage.ruralOrUrbanHeader);
     }
 
     public checkPupilNumbersSorting() {
-        const { PupilNumbersPage } = this.elements;
-        TableUtility.checkStringSorting(PupilNumbersPage.schoolName, PupilNumbersPage.schoolNameHeader);
-        TableUtility.checkStringSorting(PupilNumbersPage.urn, PupilNumbersPage.urnHeader);
-        TableUtility.checkStringSorting(PupilNumbersPage.phaseAndAge, PupilNumbersPage.phaseAndAgeHeader);
-        TableUtility.checkNumericSorting(PupilNumbersPage.pupilNumbers, PupilNumbersPage.pupilNumbersHeader);
-        TableUtility.checkNumericSorting(PupilNumbersPage.pupilCapacity, PupilNumbersPage.pupilCapacityHeader);
+        const { pupilNumbersPage } = this.elements;
+        TableUtility.checkStringSorting(pupilNumbersPage.schoolName, pupilNumbersPage.schoolNameHeader);
+        TableUtility.checkStringSorting(pupilNumbersPage.urn, pupilNumbersPage.urnHeader);
+        TableUtility.checkStringSorting(pupilNumbersPage.phaseAndAge, pupilNumbersPage.phaseAndAgeHeader);
+        TableUtility.checkNumericSorting(pupilNumbersPage.pupilNumbers, pupilNumbersPage.pupilNumbersHeader);
+        TableUtility.checkNumericSorting(pupilNumbersPage.pupilCapacity, pupilNumbersPage.pupilCapacityHeader);
     }
 
     public checkFreeSchoolMealsSorting() {
-        const { FreeSchoolMeals } = this.elements;
-        TableUtility.checkStringSorting(FreeSchoolMeals.schoolName, FreeSchoolMeals.schoolNameHeader);
-        TableUtility.checkStringSorting(FreeSchoolMeals.urn, FreeSchoolMeals.urnHeader);
-        TableUtility.checkNumericSorting(FreeSchoolMeals.pupilsEligible, FreeSchoolMeals.pupilsEligibleHeader);
-        TableUtility.checkNumericSorting(FreeSchoolMeals.localAuthorityAverage, FreeSchoolMeals.localAuthorityAverageHeader);
-        TableUtility.checkNumericSorting(FreeSchoolMeals.nationalAverage, FreeSchoolMeals.nationalAverageHeader);
+        const { freeSchoolMeals } = this.elements;
+        TableUtility.checkStringSorting(freeSchoolMeals.schoolName, freeSchoolMeals.schoolNameHeader);
+        TableUtility.checkStringSorting(freeSchoolMeals.urn, freeSchoolMeals.urnHeader);
+        TableUtility.checkNumericSorting(freeSchoolMeals.pupilsEligible, freeSchoolMeals.pupilsEligibleHeader);
+        TableUtility.checkNumericSorting(freeSchoolMeals.localAuthorityAverage, freeSchoolMeals.localAuthorityAverageHeader);
+        TableUtility.checkNumericSorting(freeSchoolMeals.nationalAverage, freeSchoolMeals.nationalAverageHeader);
     }
 }
 

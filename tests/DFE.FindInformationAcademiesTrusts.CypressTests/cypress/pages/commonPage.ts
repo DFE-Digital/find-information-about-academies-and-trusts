@@ -1,35 +1,35 @@
 class CommonPage {
 
     elements = {
-        SuccessPopup: {
-            Section: () => cy.get('.govuk-notification-banner'),
-            Message: () => this.elements.SuccessPopup.Section().find('.govuk-notification-banner__content')
+        successPopup: {
+            section: () => cy.get('.govuk-notification-banner'),
+            message: () => this.elements.successPopup.section().find('.govuk-notification-banner__content')
         },
 
-        ErrorPopup: {
-            Section: () => cy.get('.govuk-error-summary'),
-            Message: () => this.elements.ErrorPopup.Section().find('[data-testid="error-summary"]')
+        errorPopup: {
+            section: () => cy.get('.govuk-error-summary'),
+            message: () => this.elements.errorPopup.section().find('[data-testid="error-summary"]')
         },
 
     };
 
     public checkSuccessPopup(expectedMessage: string): this {
-        const { SuccessPopup } = this.elements;
-        SuccessPopup.Section().should('be.visible');
-        SuccessPopup.Message().should('contain.text', expectedMessage);
+        const { successPopup } = this.elements;
+        successPopup.section().should('be.visible');
+        successPopup.message().should('contain.text', expectedMessage);
         return this;
     }
 
     public checkErrorPopup(expectedMessage: string): this {
-        const { ErrorPopup } = this.elements;
-        ErrorPopup.Section().should('be.visible');
-        ErrorPopup.Message().should('contain.text', expectedMessage);
+        const { errorPopup } = this.elements;
+        errorPopup.section().should('be.visible');
+        errorPopup.message().should('contain.text', expectedMessage);
         return this;
     }
 
     public checkErrorPopupNotPresent(): this {
-        const { ErrorPopup } = this.elements;
-        ErrorPopup.Section().should('not.exist');
+        const { errorPopup } = this.elements;
+        errorPopup.section().should('not.exist');
         return this;
     }
 
