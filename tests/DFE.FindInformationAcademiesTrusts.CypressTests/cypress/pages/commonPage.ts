@@ -32,6 +32,21 @@ class CommonPage {
         ErrorPopup.Section().should('not.exist');
         return this;
     }
+
+    public checkPageLoad(): void {
+        cy.window().then((win) => {
+            expect(win.document.readyState).to.eq('complete');
+        });
+    }
+
+    public checkNo500Errors(): void {
+        cy.intercept('**', (req) => {
+            req.on('response', (res) => {
+                expect(res.statusCode).to.not.eq(500);
+            });
+        }).as('allRequests');
+    }
+
 }
 
 const commonPage = new CommonPage();
