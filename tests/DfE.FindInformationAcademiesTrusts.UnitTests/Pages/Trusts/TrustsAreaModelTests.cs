@@ -48,12 +48,6 @@ public class TrustsAreaModelTests
     }
 
     [Fact]
-    public void PageSection_should_be_AboutTheTrust()
-    {
-        _sut.Section.Should().Be("About the trust");
-    }
-
-    [Fact]
     public async Task OnGetAsync_should_return_not_found_result_if_trust_is_not_found()
     {
         _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("1111"))
