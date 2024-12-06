@@ -196,5 +196,18 @@ describe("Testing the components of the Trust contacts page", () => {
             contactsPage
                 .checkSubNavNotPresent();
         });
+
+        describe("Testing a trust that has no contacts within it to ensure the issue of a 500 page appearing does not happen", () => {
+            beforeEach(() => {
+                cy.login();
+                commonPage.interceptAndVerfiyNo500Errors();
+            });
+
+            ['/trusts/contacts/in-dfe?uid=17728', '/trusts/contacts/in-the-trust?uid=17728'].forEach((url) => {
+                it(`Should have no 500 error on ${url}`, () => {
+                    cy.visit(url);
+                });
+            });
+        });
     });
 });

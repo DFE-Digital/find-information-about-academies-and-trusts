@@ -1,5 +1,6 @@
 import academiesPage from "../../../pages/trusts/academiesPage";
 import navigation from "../../../pages/navigation";
+import commonPage from "../../../pages/commonPage";
 
 describe("Testing the components of the Academies page", () => {
 
@@ -161,6 +162,19 @@ describe("Testing the components of the Academies page", () => {
             cy.visit('/trusts/overview/trust-details?uid=5527');
             navigation
                 .checkAcademiesSubNavNotPresent();
+        });
+    });
+
+    describe("Testing a trust that has no academies within it to ensure the issue of a 500 page appearing does not happen", () => {
+        beforeEach(() => {
+            cy.login();
+            commonPage.interceptAndVerfiyNo500Errors();
+        });
+
+        ['/trusts/academies/details?uid=17728', '/trusts/academies/pupil-numbers?uid=17728', '/trusts/academies/free-school-meals?uid=17728'].forEach((url) => {
+            it(`Should have no 500 error on ${url}`, () => {
+                cy.visit(url);
+            });
         });
     });
 });

@@ -1,5 +1,6 @@
 import ofstedPage from "../../../pages/trusts/ofstedPage";
 import dataDownload from "../../../pages/trusts/dataDownload";
+import commonPage from "../../../pages/commonPage";
 
 describe("Testing the Ofsted page and its subpages ", () => {
 
@@ -225,6 +226,19 @@ describe("Testing the Ofsted page and its subpages ", () => {
                 .checkFileDownloaded()
                 .checkFileHasContent()
                 .deleteDownloadedFile();
+        });
+    });
+
+    describe("Testing a trust that has no ofsted data within it to ensure the issue of a 500 page appearing does not happen", () => {
+        beforeEach(() => {
+            cy.login();
+            commonPage.interceptAndVerfiyNo500Errors();
+        });
+
+        ['/trusts/ofsted/current-ratings?uid=17728', '/trusts/ofsted/previous-ratings?uid=17728', '/trusts/ofsted/important-dates?uid=17728', '/trusts/ofsted/safeguarding-and-concerns?uid=17728'].forEach((url) => {
+            it(`Should have no 500 error on ${url}`, () => {
+                cy.visit(url);
+            });
         });
     });
 });
