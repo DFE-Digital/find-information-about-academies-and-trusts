@@ -200,7 +200,7 @@ describe("Testing the components of the Trust contacts page", () => {
         describe("Testing a trust that has no contacts within it to ensure the issue of a 500 page appearing does not happen", () => {
             beforeEach(() => {
                 cy.login();
-                commonPage.checkNo500Errors();
+                commonPage.interceptAndVerfiyNo500Errors();
             });
 
             ['/trusts/contacts/in-dfe?uid=17728', '/trusts/contacts/in-the-trust?uid=17728'].forEach((url) => {

@@ -39,7 +39,7 @@ class CommonPage {
         });
     }
 
-    public checkNo500Errors(): void {
+    public interceptAndVerfiyNo500Errors(): void {
         cy.intercept('**', (req) => {
             req.on('response', (res) => {
                 expect(res.statusCode).to.not.eq(500);
