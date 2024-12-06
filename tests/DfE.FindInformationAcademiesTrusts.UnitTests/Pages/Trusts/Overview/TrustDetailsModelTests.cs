@@ -92,24 +92,22 @@ public class TrustDetailsModelTests
     public async Task SchoolsFinancialBenchmarkingLink_is_null_if_link_builder_returns_null()
     {
         _mockLinksToOtherServices
-            .Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(BaseTrustOverviewServiceModel.Type,
-                BaseTrustOverviewServiceModel.SingleAcademyTrustAcademyUrn,
+            .Setup(l => l.FinancialBenchmarkingInsightsToolListingLink(
                 BaseTrustOverviewServiceModel.CompaniesHouseNumber))
             .Returns((string?)null);
         await _sut.OnGetAsync();
-        _sut.SchoolsFinancialBenchmarkingLink.Should().BeNull();
+        _sut.FinancialBenchmarkingInsightsToolLink.Should().BeNull();
     }
 
     [Fact]
     public async Task SchoolsFinancialBenchmarkingLink_is_string_if_link_builder_returns_string()
     {
         _mockLinksToOtherServices
-            .Setup(l => l.SchoolFinancialBenchmarkingServiceListingLink(BaseTrustOverviewServiceModel.Type,
-                BaseTrustOverviewServiceModel.SingleAcademyTrustAcademyUrn,
+            .Setup(l => l.FinancialBenchmarkingInsightsToolListingLink(
                 BaseTrustOverviewServiceModel.CompaniesHouseNumber))
             .Returns("url");
         await _sut.OnGetAsync();
-        _sut.SchoolsFinancialBenchmarkingLink.Should().Be("url");
+        _sut.FinancialBenchmarkingInsightsToolLink.Should().Be("url");
     }
 
     [Fact]

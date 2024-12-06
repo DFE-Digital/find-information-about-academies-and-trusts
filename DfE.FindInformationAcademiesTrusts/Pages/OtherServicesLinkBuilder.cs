@@ -9,8 +9,7 @@ public interface IOtherServicesLinkBuilder
     string GetInformationAboutSchoolsListingLinkForTrust(string trustUid);
     string GetInformationAboutSchoolsListingLinkForAcademy(string urn);
 
-    string? SchoolFinancialBenchmarkingServiceListingLink(TrustType trustType, string? satAcademyUrn,
-        string? companiesHouseNumber);
+    string? FinancialBenchmarkingInsightsToolListingLink(string? companiesHouseNumber);
 }
 
 public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
@@ -20,8 +19,8 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
     private const string CompaniesHouseBaseUrl =
         "https://find-and-update.company-information.service.gov.uk";
 
-    private const string SchoolFinancialBenchmarkingServiceBaseUrl =
-        "https://schools-financial-benchmarking.service.gov.uk";
+    private const string FinancialBenchmarkingInsightsToolBaseUrl =
+        "https://financial-benchmarking-and-insights-tool.education.gov.uk";
 
     private const string FindSchoolPerformanceDataBaseUrl =
         "https://www.find-school-performance-data.service.gov.uk";
@@ -43,17 +42,11 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
             : $"{CompaniesHouseBaseUrl}/company/{companiesHouseNumber}";
     }
 
-    public string? SchoolFinancialBenchmarkingServiceListingLink(TrustType trustType, string? satAcademyUrn,
-        string? companiesHouseNumber)
+    public string? FinancialBenchmarkingInsightsToolListingLink(string? companiesHouseNumber)
     {
-        return trustType switch
-        {
-            TrustType.MultiAcademyTrust when companiesHouseNumber is not null =>
-                $"{SchoolFinancialBenchmarkingServiceBaseUrl}/Trust?companyNo={companiesHouseNumber}",
-            TrustType.SingleAcademyTrust when satAcademyUrn is not null =>
-                $"{SchoolFinancialBenchmarkingServiceBaseUrl}/school?urn={satAcademyUrn}",
-            _ => null
-        };
+        return string.IsNullOrEmpty(companiesHouseNumber)
+            ? null
+            : $"{FinancialBenchmarkingInsightsToolBaseUrl}/trust/{companiesHouseNumber}";
     }
 
     public string? FindSchoolPerformanceDataListingLink(string uid, TrustType trustType, string? satAcademyUrn)
