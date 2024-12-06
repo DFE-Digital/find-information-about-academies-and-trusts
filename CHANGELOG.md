@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Academies pages are now tabs instead of using sub nav
 - Move phase banner from header to footer
+- Change from schools benchmarking tool to financial benchmarking and insights tool
 
 ### Removed
 
