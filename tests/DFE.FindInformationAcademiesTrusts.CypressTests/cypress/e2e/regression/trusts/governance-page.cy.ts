@@ -33,6 +33,9 @@ describe("Testing the components of the Governance page", () => {
                 // "No Trust Leadership" message is hidden
                 governancePage
                     .checkNoTrustLeadershipMessageIsHidden();
+
+                navigation
+                    .checkPageNameBreadcrumbPresent("Governance");
             });
 
             it("The trustees page loads with the correct headings and data", () => {
@@ -47,6 +50,9 @@ describe("Testing the components of the Governance page", () => {
                 // "No Trustees" message is hidden
                 governancePage
                     .checkNoTrusteesMessageIsHidden();
+
+                navigation
+                    .checkPageNameBreadcrumbPresent("Governance");
             });
 
             it("The members page loads with the correct headings and data", () => {
@@ -61,6 +67,9 @@ describe("Testing the components of the Governance page", () => {
                 // "No Members" message is hidden
                 governancePage
                     .checkNoMembersMessageIsHidden();
+
+                navigation
+                    .checkPageNameBreadcrumbPresent("Governance");
             });
 
             it("The historic members page loads with the correct headings and data", () => {
@@ -75,6 +84,9 @@ describe("Testing the components of the Governance page", () => {
                 // "No Historic Members" message is hidden
                 governancePage
                     .checkNoHistoricMembersMessageIsHidden();
+
+                navigation
+                    .checkPageNameBreadcrumbPresent("Governance");
             });
 
             it("Table sorting is working", () => {

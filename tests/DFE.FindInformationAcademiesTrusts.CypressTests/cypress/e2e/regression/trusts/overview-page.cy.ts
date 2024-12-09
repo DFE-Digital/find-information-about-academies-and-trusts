@@ -14,6 +14,8 @@ describe("Testing the components of the Trust overview page", () => {
                 .checkTrustDetailsSubHeaderPresent()
                 .checkTrustDetailsCardPresent()
                 .checkTrustDetailsCardItemsPresent();
+            navigation
+                .checkPageNameBreadcrumbPresent("Overview");
         });
     });
 
@@ -29,6 +31,8 @@ describe("Testing the components of the Trust overview page", () => {
                 .checkOverviewHeaderPresent()
                 .checkTrustSummaryCardPresent()
                 .checkTrustSummaryCardItemsPresent();
+            navigation
+                .checkPageNameBreadcrumbPresent("Overview");
         });
     });
 
@@ -43,7 +47,8 @@ describe("Testing the components of the Trust overview page", () => {
                 .checkReferenceNumversSubHeaderPresent()
                 .checkReferenceNumbersCardPresent()
                 .checkReferenceNumbersCardItemsPresent();
-
+            navigation
+                .checkPageNameBreadcrumbPresent("Overview");
         });
     });
 

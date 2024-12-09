@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace DfE.FindInformationAcademiesTrusts.Extensions;
@@ -25,5 +26,12 @@ public static partial class StringExtensions
         transformedText = transformedText.ToLowerInvariant();
 
         return transformedText;
+    }
+
+    public static string ToTitleCase(this string text)
+    {
+        var textInfo = CultureInfo.CurrentCulture.TextInfo;
+
+        return textInfo.ToTitleCase(textInfo.ToLower(text));
     }
 }

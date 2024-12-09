@@ -1,4 +1,5 @@
 import ofstedPage from "../../../pages/trusts/ofstedPage";
+import navigation from "../../../pages/navigation";
 import dataDownload from "../../../pages/trusts/dataDownload";
 import commonPage from "../../../pages/commonPage";
 
@@ -20,6 +21,11 @@ describe("Testing the Ofsted page and its subpages ", () => {
             ofstedPage
                 .checkOfstedCurrentRatingsPageHeaderPresent();
         });
+
+        it("Checks the breadcrumb shows the correct page name", () => {
+            navigation
+                .checkPageNameBreadcrumbPresent("Ofsted");
+        })
 
         it("Checks the correct Ofsted current ratings headers are present", () => {
             ofstedPage
@@ -81,6 +87,11 @@ describe("Testing the Ofsted page and its subpages ", () => {
                 .checkOfstedPreviousRatingsPageHeaderPresent();
         });
 
+        it("Checks the breadcrumb shows the correct page name", () => {
+            navigation
+                .checkPageNameBreadcrumbPresent("Ofsted");
+        })
+
         it("Checks the correct Ofsted previous ratings headers are present", () => {
             ofstedPage
                 .checkOfstedPreviousRatingsTableHeadersPresent();
@@ -140,6 +151,11 @@ describe("Testing the Ofsted page and its subpages ", () => {
             ofstedPage
                 .checkOfstedSafeguardingConcernsPageHeaderPresent();
         });
+
+        it("Checks the breadcrumb shows the correct page name", () => {
+            navigation
+                .checkPageNameBreadcrumbPresent("Ofsted");
+        })
 
         it("Checks the correct Ofsted safeguarding and concerns headers are present", () => {
             ofstedPage

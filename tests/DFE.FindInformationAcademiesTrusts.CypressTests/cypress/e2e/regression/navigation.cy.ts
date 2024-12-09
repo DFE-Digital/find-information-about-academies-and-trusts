@@ -73,7 +73,7 @@ describe('Testing Navigation', () => {
             cy.visit('/trusts/overview/trust-details?uid=5712');
 
             navigation
-                .checkTrustNameBreadcrumbPresent('ASPIRE NORTH EAST MULTI ACADEMY TRUST')
+                .checkTrustNameBreadcrumbPresent('Aspire North East Multi Academy Trust')
                 .clickHomeBreadcrumbButton()
                 .checkBrowserPageTitleContains('Home page');
         });
@@ -82,7 +82,7 @@ describe('Testing Navigation', () => {
             cy.visit('/trusts/overview/trust-details?uid=5527');
 
             navigation
-                .checkTrustNameBreadcrumbPresent('ASHTON WEST END PRIMARY ACADEMY')
+                .checkTrustNameBreadcrumbPresent('Ashton West End Primary Academy')
                 .clickHomeBreadcrumbButton()
                 .checkBrowserPageTitleContains('Home page');
         });
