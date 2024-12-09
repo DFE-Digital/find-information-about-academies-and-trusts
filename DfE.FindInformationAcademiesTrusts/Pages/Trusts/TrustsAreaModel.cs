@@ -78,7 +78,7 @@ public class TrustsAreaModel(
             new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", Uid, PageName == "Contacts",
                 "contacts-nav"),
             new TrustNavigationLinkModel($"Academies ({TrustSummary.NumberOfAcademies})", "/Trusts/Academies/Details",
-                Uid, PageName == "Academies in this trust", "academies-nav"),
+                Uid, PageName == "Academies", "academies-nav"),
             new TrustNavigationLinkModel("Ofsted", "/Trusts/Ofsted/CurrentRatings",
                 Uid, PageName == "Ofsted", "ofsted-nav"),
             new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", Uid,
