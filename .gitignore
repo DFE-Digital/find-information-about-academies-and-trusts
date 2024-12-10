@@ -35,6 +35,7 @@ cypress.*.env.json
 **/cypress/screenshots/**
 **/cypress/downloads/**
 **/cypress/reports/**
+mochareports/
 
 ### Visual Studio and VSCode config
 .vs
