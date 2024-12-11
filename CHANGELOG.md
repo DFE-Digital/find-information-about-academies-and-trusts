@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Change from schools benchmarking tool to financial benchmarking and insights tool
 - Update dependencies
 - Update breadcrumbs to add page name
+- Change `span` to `strong` to highlight text emphasis to screen readers on the Ofsted Safeguarding page
 
 ### Removed
 
@@ -194,7 +195,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Release-1][release-1] (production-2024-07-18.2517)
 
-### Changed 
+### Changed
 
 - Migrated the application to LTS .NET 8. (FIAT was on .NET 7 which Microsoft ended support for in May).
 - Updated text on "404 - Not Found" page to adhere to DfE design pattern and added the not found url to the support email template.
