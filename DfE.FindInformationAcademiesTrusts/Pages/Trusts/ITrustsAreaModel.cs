@@ -17,6 +17,8 @@ public interface ITrustsAreaModel
     /// <summary>
     /// The name of the page as displayed in the browser title
     /// </summary>
+    TrustPageMetadata TrustPageMetadata { get; }
+
     string? PageTitle { get; set; }
 
     string MapDataSourceToName(DataSourceServiceModel dataSource);

@@ -12,21 +12,17 @@ public class TrustsAreaModelTests
     private readonly Mock<IDataSourceService> _mockDataSourceProvider = new();
     private readonly TrustsAreaModel _sut;
     private readonly MockLogger<TrustsAreaModel> _logger = new();
-    private readonly Mock<ITrustService> _mockTrustRepository = new();
+    private readonly Mock<ITrustService> _mockTrustService = new();
 
     public TrustsAreaModelTests()
     {
-        _sut = new TrustsAreaModel(_mockDataSourceProvider.Object,
-            _mockTrustRepository.Object, _logger.Object, "Details");
+        _sut = new TrustsAreaModel(_mockDataSourceProvider.Object, _mockTrustService.Object, _logger.Object, "Details");
     }
 
     [Fact]
     public async Task OnGetAsync_should_fetch_a_trustsummary_by_uid()
     {
-        var dummyTrustSummary = new TrustSummaryServiceModel("1234", "My Trust", "Multi-academy trust", 3);
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrustSummary.Uid))
-            .ReturnsAsync(dummyTrustSummary);
-        _sut.Uid = dummyTrustSummary.Uid;
+        var dummyTrustSummary = SetupSutToUseDummyTrustSummary();
 
         await _sut.OnGetAsync();
         _sut.TrustSummary.Should().Be(dummyTrustSummary);
@@ -43,14 +39,14 @@ public class TrustsAreaModelTests
     public void PageName_should_be_set_at_initialisation()
     {
         var sut = new TrustsAreaModel(_mockDataSourceProvider.Object,
-            _mockTrustRepository.Object, _logger.Object, "Contacts");
+            _mockTrustService.Object, _logger.Object, "Contacts");
         sut.PageName.Should().Be("Contacts");
     }
 
     [Fact]
     public async Task OnGetAsync_should_return_not_found_result_if_trust_is_not_found()
     {
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("1111"))
+        _mockTrustService.Setup(t => t.GetTrustSummaryAsync("1111"))
             .ReturnsAsync((TrustSummaryServiceModel?)null);
 
         _sut.Uid = "1111";
@@ -68,10 +64,7 @@ public class TrustsAreaModelTests
     [Fact]
     public async Task OnGetAsync_should_populate_NavigationLinks()
     {
-        var dummyTrustSummary = new TrustSummaryServiceModel("1234", "My Trust", "Multi-academy trust", 3);
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(dummyTrustSummary.Uid))
-            .ReturnsAsync(dummyTrustSummary);
-        _sut.Uid = dummyTrustSummary.Uid;
+        _ = SetupSutToUseDummyTrustSummary();
 
         await _sut.OnGetAsync();
         _sut.NavigationLinks.Should().BeEquivalentTo([
@@ -83,6 +76,27 @@ public class TrustsAreaModelTests
             new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", "1234", false,
                 "governance-nav")
         ]);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_set_TrustPageTitle_to_trust_name()
+    {
+        _ = SetupSutToUseDummyTrustSummary(trustName: "My Trust");
+
+        _ = await _sut.OnGetAsync();
+
+        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
+    }
+
+    private TrustSummaryServiceModel SetupSutToUseDummyTrustSummary(string uid = "1234", string trustName = "My Trust",
+        string trustType = "Multi-academy trust", int numberOfAcademies = 3)
+    {
+        var dummyTrustSummary = new TrustSummaryServiceModel(uid, trustName, trustType, numberOfAcademies);
+        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(dummyTrustSummary.Uid))
+            .ReturnsAsync(dummyTrustSummary);
+        _sut.Uid = dummyTrustSummary.Uid;
+
+        return dummyTrustSummary;
     }
 
     [Fact]
