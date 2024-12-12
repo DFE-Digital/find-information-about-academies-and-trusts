@@ -11,6 +11,9 @@ public class TrustDetailsModel(
     IOtherServicesLinkBuilder otherServicesLinkBuilder)
     : OverviewAreaModel(dataSourceService, trustService, logger)
 {
+    public override TrustPageMetadata TrustPageMetadata =>
+        base.TrustPageMetadata with { SubPageName = "Trust details" };
+
     public string? CompaniesHouseLink { get; set; }
     public string? GetInformationAboutSchoolsLink { get; set; }
     public string? FinancialBenchmarkingInsightsToolLink { get; set; }

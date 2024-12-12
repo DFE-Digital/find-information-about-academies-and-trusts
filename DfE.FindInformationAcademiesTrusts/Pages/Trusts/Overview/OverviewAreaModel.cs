@@ -11,6 +11,7 @@ public class OverviewAreaModel(
     ILogger<OverviewAreaModel> logger)
     : TrustsAreaModel(dataSourceService, trustService, logger, "Overview")
 {
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = "Overview" };
     public TrustOverviewServiceModel TrustOverview { get; set; } = default!;
 
     public override async Task<IActionResult> OnGetAsync()

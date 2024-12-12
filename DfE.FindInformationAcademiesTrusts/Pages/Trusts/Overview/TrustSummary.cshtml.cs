@@ -9,6 +9,9 @@ public class TrustSummaryModel(
     ITrustService trustService)
     : OverviewAreaModel(dataSourceService, trustService, logger)
 {
+    public override TrustPageMetadata TrustPageMetadata =>
+        base.TrustPageMetadata with { SubPageName = "Trust summary" };
+
     public IEnumerable<(string Authority, int Total)> AcademiesInEachLocalAuthority =>
         TrustOverview.AcademiesByLocalAuthority
             .OrderByDescending(kv => kv.Value)

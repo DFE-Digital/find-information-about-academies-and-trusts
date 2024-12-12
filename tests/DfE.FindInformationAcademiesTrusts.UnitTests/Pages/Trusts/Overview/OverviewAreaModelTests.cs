@@ -80,4 +80,13 @@ public class OverviewAreaModelTests
             new TrustSubNavigationLinkModel("Reference numbers", "./ReferenceNumbers", "1234", "Overview", false)
         ]);
     }
+
+    [Fact]
+    public async Task OnGetAsync_should_configure_TrustPageMetadata()
+    {
+        _ = await _sut.OnGetAsync();
+
+        _sut.TrustPageMetadata.PageName.Should().Be("Overview");
+        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
+    }
 }

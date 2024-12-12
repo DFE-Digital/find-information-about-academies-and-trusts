@@ -7,4 +7,8 @@ public class ReferenceNumbersModel(
     IDataSourceService dataSourceService,
     ILogger<ReferenceNumbersModel> logger,
     ITrustService trustService)
-    : OverviewAreaModel(dataSourceService, trustService, logger);
+    : OverviewAreaModel(dataSourceService, trustService, logger)
+{
+    public override TrustPageMetadata TrustPageMetadata =>
+        base.TrustPageMetadata with { SubPageName = "Reference numbers" };
+}

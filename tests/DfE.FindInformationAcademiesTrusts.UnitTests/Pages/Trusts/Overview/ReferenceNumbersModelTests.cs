@@ -80,4 +80,14 @@ public class ReferenceNumbersModelTests
             new TrustSubNavigationLinkModel("Reference numbers", "./ReferenceNumbers", "1234", "Overview", true)
         ]);
     }
+
+    [Fact]
+    public async Task OnGetAsync_should_configure_TrustPageMetadata()
+    {
+        _ = await _sut.OnGetAsync();
+
+        _sut.TrustPageMetadata.SubPageName.Should().Be("Reference numbers");
+        _sut.TrustPageMetadata.PageName.Should().Be("Overview");
+        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
+    }
 }
