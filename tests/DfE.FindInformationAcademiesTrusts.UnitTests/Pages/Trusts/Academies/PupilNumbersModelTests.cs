@@ -57,7 +57,7 @@ public class PupilNumbersModelTests
     [Fact]
     public void PageName_should_be_AcademiesInThisTrust()
     {
-        _sut.PageName.Should().Be("Academies in this trust");
+        _sut.PageName.Should().Be("Academies");
     }
 
     [Theory]
