@@ -187,4 +187,14 @@ public class SafeguardingAndConcernsModelTests
         var containsInvalidChars = fileDownloadName.Any(c => invalidFileNameChars.Contains(c));
         containsInvalidChars.Should().BeFalse("the file name should not contain any illegal characters");
     }
+
+    [Fact]
+    public async Task OnGetAsync_should_configure_TrustPageMetadata()
+    {
+        _ = await _sut.OnGetAsync();
+
+        _sut.TrustPageMetadata.SubPageName.Should().Be("Safeguarding and concerns");
+        _sut.TrustPageMetadata.PageName.Should().Be("Ofsted");
+        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
+    }
 }

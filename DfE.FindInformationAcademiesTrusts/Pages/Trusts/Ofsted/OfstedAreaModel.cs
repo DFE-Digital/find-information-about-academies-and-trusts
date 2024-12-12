@@ -17,6 +17,7 @@ public class OfstedAreaModel(
     ILogger<OfstedAreaModel> logger)
     : TrustsAreaModel(dataSourceService, trustService, logger, "Ofsted")
 {
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = "Ofsted" };
     public AcademyOfstedServiceModel[] Academies { get; set; } = default!;
     private IAcademyService AcademyService { get; } = academyService;
     protected IExportService ExportService { get; } = exportService;
