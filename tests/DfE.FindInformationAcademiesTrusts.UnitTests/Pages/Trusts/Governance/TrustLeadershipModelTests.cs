@@ -142,4 +142,14 @@ public class TrustLeadershipModelTests
             new TrustSubNavigationLinkModel("Historic members (1)", "./HistoricMembers", "1234", "Governance", false)
         ]);
     }
+
+    [Fact]
+    public async Task OnGetAsync_should_configure_TrustPageMetadata()
+    {
+        _ = await _sut.OnGetAsync();
+
+        _sut.TrustPageMetadata.SubPageName.Should().Be("Trust leadership");
+        _sut.TrustPageMetadata.PageName.Should().Be("Governance");
+        _sut.TrustPageMetadata.TrustName.Should().Be("My trust");
+    }
 }

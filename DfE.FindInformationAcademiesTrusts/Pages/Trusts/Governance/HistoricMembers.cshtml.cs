@@ -7,4 +7,8 @@ public class HistoricMembersModel(
     IDataSourceService dataSourceService,
     ILogger<HistoricMembersModel> logger,
     ITrustService trustService)
-    : GovernanceAreaModel(dataSourceService, trustService, logger);
+    : GovernanceAreaModel(dataSourceService, trustService, logger)
+{
+    public override TrustPageMetadata TrustPageMetadata =>
+        base.TrustPageMetadata with { SubPageName = "Historic members" };
+}

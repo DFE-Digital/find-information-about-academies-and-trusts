@@ -11,6 +11,9 @@ public class GovernanceAreaModel(
     ILogger<GovernanceAreaModel> logger)
     : TrustsAreaModel(dataSourceService, trustService, logger, "Governance")
 {
+    public override TrustPageMetadata TrustPageMetadata =>
+        base.TrustPageMetadata with { PageName = "Governance" };
+
     public TrustGovernanceServiceModel TrustGovernance { get; set; } = default!;
 
     public override async Task<IActionResult> OnGetAsync()
