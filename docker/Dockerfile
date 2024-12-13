@@ -1,39 +1,40 @@
-ARG ASPNET_IMAGE_TAG=8.0-bookworm-slim-amd64
-ARG NODEJS_IMAGE_TAG=22-bullseye-slim
-ARG DOTNET_SDK=8.0
+# Set the major version of dotnet
+ARG DOTNET_VERSION=8.0
+# Set the major version of nodejs
+ARG NODEJS_VERSION_MAJOR=22
 
-# Stage 1 - Build frontend assets
-FROM node:${NODEJS_IMAGE_TAG} AS assets
-COPY . /repo
-WORKDIR /repo/DfE.FindInformationAcademiesTrusts
+# Build frontend assets using node js
+FROM "node:${NODEJS_VERSION_MAJOR}-bullseye-slim" AS assets
+WORKDIR /app
+COPY ./DfE.FindInformationAcademiesTrusts/ /app
 RUN npm install
 RUN npm run build
 
-# Stage 2 - Build and publish dotnet application
-FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_SDK} AS publish
-COPY --from=assets /repo /repo
-WORKDIR /repo
-RUN dotnet restore DfE.FindInformationAcademiesTrusts
-RUN dotnet build DfE.FindInformationAcademiesTrusts -c Release
-RUN dotnet publish DfE.FindInformationAcademiesTrusts -c Release -o /app --no-build
+# Build the app using the dotnet SDK
+FROM "mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}-azurelinux3.0" AS build
+WORKDIR /build
+COPY . /build
+RUN ["dotnet", "restore", "DfE.FindInformationAcademiesTrusts"]
+RUN ["dotnet", "build", "DfE.FindInformationAcademiesTrusts", "--no-restore", "-c", "Release"]
+RUN ["dotnet", "publish", "DfE.FindInformationAcademiesTrusts", "--no-build", "-o", "/app"]
 
+# Install SQL tools to allow migrations to be run
+FROM "mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION}-azurelinux3.0" AS base
+RUN curl "https://packages.microsoft.com/config/rhel/9/prod.repo" | tee /etc/yum.repos.d/mssql-release.repo
+ENV ACCEPT_EULA=Y
+RUN ["tdnf", "update"]
+RUN ["tdnf", "install", "-y", "mssql-tools18"]
+RUN ["tdnf", "clean", "all"]
+
+# Build a runtime environment
+FROM base AS runtime
+WORKDIR /app
+LABEL org.opencontainers.image.source="https://github.com/DFE-Digital/find-information-about-academies-and-trusts"
+COPY --from=build /app /app
+COPY --from=assets /app/wwwroot /app/wwwroot
 COPY ./DfE.FindInformationAcademiesTrusts.Data.FiatDb/Migrations/FiatDbMigrationScript.sql /app/sql/FiatDbMigrationScript.sql
 COPY ./docker/web-docker-entrypoint.sh /app/docker-entrypoint.sh
-
-# Stage 3 - Put into Docker container that will actually be run
-FROM mcr.microsoft.com/dotnet/aspnet:${ASPNET_IMAGE_TAG} AS final
-LABEL org.opencontainers.image.source=https://github.com/DFE-Digital/find-information-about-academies-and-trusts
-COPY --from=publish /app /app
-WORKDIR /app
-RUN chmod +x ./docker-entrypoint.sh
-
-EXPOSE 8080/tcp
-
-# Stage 4 - Install SQL tools to allow migrations to be run
-RUN apt-get update
-RUN apt-get install unixodbc curl gnupg jq -y
-RUN curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc
-RUN curl https://packages.microsoft.com/config/debian/12/prod.list | tee /etc/apt/sources.list.d/mssql-release.list
-RUN apt-get update
-RUN ACCEPT_EULA=Y apt-get install msodbcsql18 mssql-tools18 -y
+RUN ["chmod", "+x", "/app/docker-entrypoint.sh"]
+RUN ["touch", "/app/sql/FiatDbMigrationScriptOutput.txt"]
+RUN chown "$APP_UID" "/app/sql" -R
+USER $APP_UID

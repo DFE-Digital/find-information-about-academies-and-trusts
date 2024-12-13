@@ -14,14 +14,12 @@
         <main id="main-content">
           @await RenderSectionAsync("TrustPageMessage", false)
           <header>
-            <span class="govuk-caption-m">@Model.Section</span>
             <h1 class="govuk-heading-l" data-testid="page-name">@Model.PageName</h1>
           </header>
           <partial name="_TrustSubNavigation" model="@Model"/>
           @RenderBody()
         </main>
         <partial name="_SourceList"/>
-        <partial name="_ReportProblemLink"/>
       </div>
     </div>
   </div>

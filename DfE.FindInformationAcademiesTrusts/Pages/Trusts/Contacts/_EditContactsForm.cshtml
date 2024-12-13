@@ -10,7 +10,6 @@
           <form method="post">
             <fieldset class="govuk-fieldset">
               <div>
-                <span class="govuk-caption-m">@Model.Section</span>
                 <legend class="govuk-!-padding-0">
                   <h1 class="govuk-heading-l">@Model.PageName</h1>
                 </legend>
@@ -47,13 +46,12 @@
                 <button type="submit" class="govuk-button" data-module="govuk-button" formnovalidate>
                   Save and continue
                 </button>
-                <a class="govuk-link" asp-page="/Trusts/Contacts" asp-route-uid="@Model.Uid">
+                <a class="govuk-link" asp-page="/Trusts/Contacts/InDfE" asp-route-uid="@Model.Uid">
                   Cancel
                 </a>
               </div>
             </fieldset>
           </form>
-          <partial name="_ReportProblemLink"/>
         </main>
       </div>
     </div>

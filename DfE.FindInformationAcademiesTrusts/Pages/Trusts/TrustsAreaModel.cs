@@ -22,7 +22,6 @@ public class TrustsAreaModel(
     public List<DataSourceListEntry> DataSources { get; set; } = [];
     public string PageName { get; init; } = pageName;
     public string? PageTitle { get; set; }
-    public string Section => ViewConstants.AboutTheTrustSectionName;
 
     public string MapDataSourceToName(DataSourceServiceModel dataSource)
     {
@@ -79,7 +78,7 @@ public class TrustsAreaModel(
             new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", Uid, PageName == "Contacts",
                 "contacts-nav"),
             new TrustNavigationLinkModel($"Academies ({TrustSummary.NumberOfAcademies})", "/Trusts/Academies/Details",
-                Uid, PageName == "Academies in this trust", "academies-nav"),
+                Uid, PageName == "Academies", "academies-nav"),
             new TrustNavigationLinkModel("Ofsted", "/Trusts/Ofsted/CurrentRatings",
                 Uid, PageName == "Ofsted", "ofsted-nav"),
             new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", Uid,

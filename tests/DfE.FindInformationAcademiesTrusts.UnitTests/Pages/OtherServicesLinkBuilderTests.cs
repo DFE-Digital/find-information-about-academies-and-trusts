@@ -42,27 +42,16 @@ public class OtherServicesLinkBuilderTests
     }
 
     [Fact]
-    public void
-        SchoolFinancialBenchmarkingListingLink_should_be_to_a_trust_page_if_multiacademy_trust()
+    public void FinancialBenchmarkingInsightsToolListingLink_should_be_to_the_correct_link()
     {
-        var result =
-            _sut.SchoolFinancialBenchmarkingServiceListingLink(TrustType.MultiAcademyTrust, null, "2345");
-        result.Should()
-            .Be("https://schools-financial-benchmarking.service.gov.uk/Trust?companyNo=2345");
+        var result = _sut.FinancialBenchmarkingInsightsToolListingLink("1111");
+        result.Should().Be("https://financial-benchmarking-and-insights-tool.education.gov.uk/trust/1111");
     }
 
     [Fact]
-    public void SchoolFinancialBenchmarkingListingLink_should_be_to_school_page_if_single_academy_trust_with_academies()
+    public void FinancialBenchmarkingInsightsToolListingLink_should_be_null_companies_house_is_null()
     {
-        var result = _sut.SchoolFinancialBenchmarkingServiceListingLink(TrustType.SingleAcademyTrust, "1111", "2345");
-        result.Should().Be("https://schools-financial-benchmarking.service.gov.uk/school?urn=1111");
-    }
-
-    [Fact]
-    public void SchoolFinancialBenchmarkingListingLink_should_be_null_if_single_academy_type_with_no_academies()
-    {
-        var result = _sut.SchoolFinancialBenchmarkingServiceListingLink(TrustType.SingleAcademyTrust,
-            null, "2345");
+        var result = _sut.FinancialBenchmarkingInsightsToolListingLink(null);
         result.Should().BeNull();
     }
 

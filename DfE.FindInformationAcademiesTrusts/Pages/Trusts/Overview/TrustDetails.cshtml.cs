@@ -13,7 +13,7 @@ public class TrustDetailsModel(
 {
     public string? CompaniesHouseLink { get; set; }
     public string? GetInformationAboutSchoolsLink { get; set; }
-    public string? SchoolsFinancialBenchmarkingLink { get; set; }
+    public string? FinancialBenchmarkingInsightsToolLink { get; set; }
     public string? FindSchoolPerformanceLink { get; set; }
 
     public override async Task<IActionResult> OnGetAsync()
@@ -25,9 +25,8 @@ public class TrustDetailsModel(
         CompaniesHouseLink = otherServicesLinkBuilder.CompaniesHouseListingLink(TrustOverview.CompaniesHouseNumber);
         GetInformationAboutSchoolsLink =
             otherServicesLinkBuilder.GetInformationAboutSchoolsListingLinkForTrust(TrustOverview.Uid);
-        SchoolsFinancialBenchmarkingLink =
-            otherServicesLinkBuilder.SchoolFinancialBenchmarkingServiceListingLink(TrustOverview.Type,
-                TrustOverview.SingleAcademyTrustAcademyUrn, TrustOverview.CompaniesHouseNumber);
+        FinancialBenchmarkingInsightsToolLink =
+            otherServicesLinkBuilder.FinancialBenchmarkingInsightsToolListingLink(TrustOverview.CompaniesHouseNumber);
         FindSchoolPerformanceLink =
             otherServicesLinkBuilder.FindSchoolPerformanceDataListingLink(TrustOverview.Uid, TrustOverview.Type,
                 TrustOverview.SingleAcademyTrustAcademyUrn);
