@@ -36,7 +36,6 @@ internal static class Program
 
             var app = builder.Build();
             PostBuildSetup.ConfigureApp(app);
-            app.UseAzureAppConfiguration();
             app.Run();
         }
         catch (Exception ex)
