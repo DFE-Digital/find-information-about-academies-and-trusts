@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Contacts;
 
-public class ContactAreaModelTests
+public class ContactsAreaModelTests
 {
-    private readonly ContactAreaModel _sut;
+    private readonly ContactsAreaModel _sut;
 
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustService = new();
@@ -27,7 +27,7 @@ public class ContactAreaModelTests
     private readonly InternalContact _trustRelationshipManager =
         new("Trust Relationship Manager", "trm@test.com", DateTime.Today, "test@email.com");
 
-    public ContactAreaModelTests()
+    public ContactsAreaModelTests()
     {
         _mockTrustService.Setup(tp => tp.GetTrustContactsAsync(TestUid)).ReturnsAsync(
             new TrustContactsServiceModel(_trustRelationshipManager, _sfsoLead, _accountingOfficer, _chairOfTrustees,
@@ -35,8 +35,8 @@ public class ContactAreaModelTests
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
             .ReturnsAsync(_fakeTrust);
 
-        _sut = new ContactAreaModel(_mockDataSourceService.Object, _mockTrustService.Object,
-                new MockLogger<ContactAreaModel>().Object)
+        _sut = new ContactsAreaModel(_mockDataSourceService.Object, _mockTrustService.Object,
+                new MockLogger<ContactsAreaModel>().Object)
             { Uid = TestUid };
     }
 
@@ -166,5 +166,14 @@ public class ContactAreaModelTests
             new TrustSubNavigationLinkModel("In DfE", "./InDfE", TestUid, "Contacts", false),
             new TrustSubNavigationLinkModel("In the trust", "./InTrust", TestUid, "Contacts", false)
         ]);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_configure_TrustPageMetadata()
+    {
+        _ = await _sut.OnGetAsync();
+
+        _sut.TrustPageMetadata.PageName.Should().Be("Contacts");
+        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
     }
 }

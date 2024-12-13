@@ -3,7 +3,7 @@
 
 @{
   Layout = "_Layout";
-  ViewData["Title"] = Model.GeneratePageTitle();
+  ViewData["Title"] = Model.TrustPageMetadata.BrowserTitle;
 }
 
 <partial name="_EditContactsForm" model="@Model"/>

@@ -7,13 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 
-public class ContactAreaModel(
+public class ContactsAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
-    ILogger<ContactAreaModel> logger
+    ILogger<ContactsAreaModel> logger
 )
     : TrustsAreaModel(dataSourceService, trustService, logger, "Contacts")
 {
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = "Contacts" };
     public Person? ChairOfTrustees { get; set; }
     public Person? AccountingOfficer { get; set; }
     public Person? ChiefFinancialOfficer { get; set; }

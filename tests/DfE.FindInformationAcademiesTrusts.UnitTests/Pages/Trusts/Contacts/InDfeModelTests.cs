@@ -166,4 +166,14 @@ public class InDfeModelTests
             new TrustSubNavigationLinkModel("In the trust", "./InTrust", "1234", "Contacts", false)
         ]);
     }
+
+    [Fact]
+    public async Task OnGetAsync_should_configure_TrustPageMetadata()
+    {
+        _ = await _sut.OnGetAsync();
+
+        _sut.TrustPageMetadata.SubPageName.Should().Be("In DfE");
+        _sut.TrustPageMetadata.PageName.Should().Be("Contacts");
+        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
+    }
 }
