@@ -35,10 +35,10 @@
                 <td class="govuk-body govuk-table__cell" data-sort-value="@governor.Role" data-testid="trust-leadership-role">
                   @governor.Role
                 </td>
-                <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfAppointment?.ToString(StringFormatConstants.SortDate)" data-testid="trust-leadership-from">
+                <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfAppointment?.ToString(StringFormatConstants.SortableDateFormat)" data-testid="trust-leadership-from">
                   @governor.DateOfAppointment.ShowDateStringOrReplaceWithText()
                 </td>
-                <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfTermEnd?.ToString(StringFormatConstants.SortDate)" data-testid="trust-leadership-to">
+                <td class="govuk-body govuk-table__cell" data-sort-value="@governor.DateOfTermEnd?.ToString(StringFormatConstants.SortableDateFormat)" data-testid="trust-leadership-to">
                   @governor.DateOfTermEnd.ShowDateStringOrReplaceWithText()
                 </td>
               </tr>

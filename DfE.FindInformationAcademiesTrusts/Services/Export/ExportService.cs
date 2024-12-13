@@ -10,6 +10,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export;
 public interface IExportService
 {
     Task<byte[]> ExportAcademiesToSpreadsheetAsync(string uid);
+    Task<byte[]> ExportOfstedDataToSpreadsheetAsync(string uid);
 }
 
 public class ExportService(IAcademyRepository academyRepository, ITrustRepository trustRepository) : IExportService
@@ -31,7 +32,7 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
         var academiesPupilNumbers = await academyRepository.GetAcademiesInTrustPupilNumbersAsync(uid);
         var academiesFreeSchoolMeals = await academyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(uid);
 
-        return GenerateSpreadsheet(trustSummary, academiesDetails, headers, academiesOfstedRatings,
+        return GenerateAcademiesSpreadsheet(trustSummary, academiesDetails, headers, academiesOfstedRatings,
             academiesPupilNumbers, academiesFreeSchoolMeals);
     }
 
@@ -46,7 +47,7 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
     }
 
     public static string IsOfstedRatingBeforeOrAfterJoining(OfstedRatingScore ofstedRatingScore,
-        DateTime dateAcademyJoinedTrust, DateTime? inspectionEndDate)
+        DateTime? dateAcademyJoinedTrust, DateTime? inspectionEndDate)
     {
         if (ofstedRatingScore == OfstedRatingScore.NotInspected || !inspectionEndDate.HasValue)
         {
@@ -56,7 +57,7 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
         return inspectionEndDate < dateAcademyJoinedTrust ? "Before Joining" : "After Joining";
     }
 
-    private static byte[] GenerateSpreadsheet(
+    private static byte[] GenerateAcademiesSpreadsheet(
         TrustSummary? trustSummary,
         AcademyDetails[] academies,
         List<string> headers,
@@ -67,20 +68,9 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
         using var workbook = new XLWorkbook();
         var worksheet = workbook.Worksheets.Add("Academies");
 
-        // Adding Trust name and type 
-        worksheet.Cell(1, 1).Value = trustSummary?.Name ?? string.Empty;
-        worksheet.Row(1).Style.Font.Bold = true;
-        worksheet.Cell(2, 1).Value = trustSummary?.Type ?? string.Empty;
+        WriteTrustInformation(worksheet, trustSummary);
+        WriteHeaders(worksheet, headers, 3);
 
-        // Adding Excel headers for the data points for academies
-        for (var i = 0; i < headers.Count; i++)
-        {
-            worksheet.Cell(3, i + 1).Value = headers[i];
-        }
-
-        worksheet.Row(3).Style.Font.Bold = true;
-
-        // Adding Excel data beneath relevant headers
         for (var i = 0; i < academies.Length; i++)
         {
             var academyDetails = academies[i];
@@ -96,44 +86,200 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
             var percentageFull =
                 CalculatePercentageFull(pupilNumbersData?.NumberOfPupils, pupilNumbersData?.SchoolCapacity);
 
-            var rowData = new[]
-            {
-                academyDetails.EstablishmentName ?? string.Empty,
-                urn,
-                academyDetails.LocalAuthority ?? string.Empty,
-                academyDetails.TypeOfEstablishment ?? string.Empty,
-                academyDetails.UrbanRural ?? string.Empty,
-                ofstedData?.DateAcademyJoinedTrust.ToString(StringFormatConstants.ViewDate) ?? string.Empty,
-                previousRating.OverallEffectiveness.ToDisplayString() ?? string.Empty,
-                IsOfstedRatingBeforeOrAfterJoining(previousRating.OverallEffectiveness,
-                    ofstedData?.DateAcademyJoinedTrust ?? DateTime.MinValue, previousRating.InspectionDate),
-                previousRating.InspectionDate?.ToString(StringFormatConstants.ViewDate) ?? string.Empty,
-                currentRating.OverallEffectiveness.ToDisplayString() ?? string.Empty,
-                IsOfstedRatingBeforeOrAfterJoining(currentRating.OverallEffectiveness,
-                    ofstedData?.DateAcademyJoinedTrust ?? DateTime.MinValue, currentRating.InspectionDate),
-                currentRating.InspectionDate?.ToString(StringFormatConstants.ViewDate) ?? string.Empty,
-                pupilNumbersData?.PhaseOfEducation ?? string.Empty,
+            SetTextCell(worksheet, i + 4, 1, academyDetails.EstablishmentName ?? string.Empty);
+            SetTextCell(worksheet, i + 4, 2, urn);
+            SetTextCell(worksheet, i + 4, 3, academyDetails.LocalAuthority ?? string.Empty);
+            SetTextCell(worksheet, i + 4, 4, academyDetails.TypeOfEstablishment ?? string.Empty);
+            SetTextCell(worksheet, i + 4, 5, academyDetails.UrbanRural ?? string.Empty);
+
+            // Date joined 
+            SetDateCell(worksheet, i + 4, 6, ofstedData?.DateAcademyJoinedTrust);
+
+            SetTextCell(worksheet, i + 4, 7, previousRating.OverallEffectiveness.ToDisplayString() ?? string.Empty);
+            SetTextCell(worksheet, i + 4, 8,
+                IsOfstedRatingBeforeOrAfterJoining(
+                    previousRating.OverallEffectiveness,
+                    ofstedData?.DateAcademyJoinedTrust ?? DateTime.MinValue,
+                    previousRating.InspectionDate
+                )
+            );
+
+            // Date of Previous Ofsted 
+            SetDateCell(worksheet, i + 4, 9, previousRating.InspectionDate);
+
+            SetTextCell(worksheet, i + 4, 10, currentRating.OverallEffectiveness.ToDisplayString() ?? string.Empty);
+            SetTextCell(worksheet, i + 4, 11,
+                IsOfstedRatingBeforeOrAfterJoining(
+                    currentRating.OverallEffectiveness,
+                    ofstedData?.DateAcademyJoinedTrust ?? DateTime.MinValue,
+                    currentRating.InspectionDate
+                )
+            );
+
+            // Date of Current Ofsted
+            SetDateCell(worksheet, i + 4, 12, currentRating.InspectionDate);
+
+            SetTextCell(worksheet, i + 4, 13, pupilNumbersData?.PhaseOfEducation ?? string.Empty);
+            SetTextCell(worksheet, i + 4, 14,
                 pupilNumbersData != null
                     ? $"{pupilNumbersData.AgeRange.Minimum} - {pupilNumbersData.AgeRange.Maximum}"
-                    : string.Empty,
-                pupilNumbersData?.NumberOfPupils?.ToString() ?? string.Empty,
-                pupilNumbersData?.SchoolCapacity?.ToString() ?? string.Empty,
-                percentageFull > 0 ? $"{percentageFull}%" : string.Empty,
+                    : string.Empty
+            );
+            SetTextCell(worksheet, i + 4, 15, pupilNumbersData?.NumberOfPupils?.ToString() ?? string.Empty);
+            SetTextCell(worksheet, i + 4, 16, pupilNumbersData?.SchoolCapacity?.ToString() ?? string.Empty);
+
+            SetTextCell(worksheet, i + 4, 17, percentageFull > 0 ? $"{percentageFull}%" : string.Empty);
+            SetTextCell(worksheet, i + 4, 18,
                 freeSchoolMealsData?.PercentageFreeSchoolMeals.HasValue == true
                     ? $"{freeSchoolMealsData.PercentageFreeSchoolMeals}%"
                     : string.Empty
-            };
-
-            for (var j = 0; j < rowData.Length; j++)
-            {
-                worksheet.Cell(i + 4, j + 1).SetValue(rowData[j]);
-            }
+            );
         }
 
-        // Auto-size columns based on content
         worksheet.Columns().AdjustToContents();
+        return SaveWorkbookToByteArray(workbook);
+    }
 
-        // Save to a memory stream and return as byte array
+    public async Task<byte[]> ExportOfstedDataToSpreadsheetAsync(string uid)
+    {
+        var headers = new List<string>
+        {
+            "School Name",
+            "Date Joined",
+            "Date of Current Inspection",
+            "Before/After Joining",
+            "Quality of Education",
+            "Behaviour and Attitudes",
+            "Personal Development",
+            "Leadership and Management",
+            "Early Years Provision",
+            "Sixth Form Provision",
+            "Date of Previous Inspection",
+            "Previous Quality of Education",
+            "Previous Behaviour and Attitudes",
+            "Previous Personal Development",
+            "Previous Leadership and Management",
+            "Previous Early Years Provision",
+            "Previous Sixth Form Provision",
+            "Before/After Joining",
+            "Effective Safeguarding",
+            "Category of Concern"
+        };
+
+        var trustSummary = await trustRepository.GetTrustSummaryAsync(uid);
+        var academiesDetails = await academyRepository.GetAcademiesInTrustDetailsAsync(uid);
+        var academiesOfstedRatings = await academyRepository.GetAcademiesInTrustOfstedAsync(uid);
+
+        return GenerateOfstedSpreadsheet(trustSummary, academiesDetails, headers, academiesOfstedRatings);
+    }
+
+    private static byte[] GenerateOfstedSpreadsheet(
+       TrustSummary? trustSummary,
+       AcademyDetails[] academies,
+       List<string> headers,
+       AcademyOfsted[] academiesOfstedRatings)
+    {
+        using var workbook = new XLWorkbook();
+        var worksheet = workbook.Worksheets.Add("Ofsted");
+
+        WriteTrustInformation(worksheet, trustSummary);
+        WriteHeaders(worksheet, headers, 3);
+
+        for (var i = 0; i < academies.Length; i++)
+        {
+            var academyDetails = academies[i];
+            var urn = academyDetails.Urn;
+            var ofstedData = academiesOfstedRatings.SingleOrDefault(x => x.Urn == urn);
+
+            var previousRating = ofstedData?.PreviousOfstedRating ?? OfstedRating.NotInspected;
+            var currentRating = ofstedData?.CurrentOfstedRating ?? OfstedRating.NotInspected;
+
+            // School Name
+            SetTextCell(worksheet, i + 4, 1, academyDetails.EstablishmentName ?? string.Empty);
+
+            // Date Joined Trust
+            SetDateCell(worksheet, i + 4, 2, ofstedData?.DateAcademyJoinedTrust);
+
+            // Current Inspection Date
+            SetDateCell(worksheet, i + 4, 3, currentRating.InspectionDate);
+
+            // Before/After Joining
+            SetTextCell(worksheet, i + 4, 4,
+                IsOfstedRatingBeforeOrAfterJoining(currentRating.OverallEffectiveness,
+                    ofstedData?.DateAcademyJoinedTrust, currentRating.InspectionDate));
+
+            // Current Ratings
+            SetTextCell(worksheet, i + 4, 5, currentRating.QualityOfEducation.ToDisplayString());
+            SetTextCell(worksheet, i + 4, 6, currentRating.BehaviourAndAttitudes.ToDisplayString());
+            SetTextCell(worksheet, i + 4, 7, currentRating.PersonalDevelopment.ToDisplayString());
+            SetTextCell(worksheet, i + 4, 8, currentRating.EffectivenessOfLeadershipAndManagement.ToDisplayString());
+            SetTextCell(worksheet, i + 4, 9, currentRating.EarlyYearsProvision.ToDisplayString());
+            SetTextCell(worksheet, i + 4, 10, currentRating.SixthFormProvision.ToDisplayString());
+
+            // Previous Inspection Date
+            SetDateCell(worksheet, i + 4, 11, previousRating.InspectionDate);
+
+            // Previous Ratings
+            SetTextCell(worksheet, i + 4, 12, previousRating.QualityOfEducation.ToDisplayString());
+            SetTextCell(worksheet, i + 4, 13, previousRating.BehaviourAndAttitudes.ToDisplayString());
+            SetTextCell(worksheet, i + 4, 14, previousRating.PersonalDevelopment.ToDisplayString());
+            SetTextCell(worksheet, i + 4, 15, previousRating.EffectivenessOfLeadershipAndManagement.ToDisplayString());
+            SetTextCell(worksheet, i + 4, 16, previousRating.EarlyYearsProvision.ToDisplayString());
+            SetTextCell(worksheet, i + 4, 17, previousRating.SixthFormProvision.ToDisplayString());
+
+            // Before/After Joining 
+            SetTextCell(worksheet, i + 4, 18,
+                IsOfstedRatingBeforeOrAfterJoining(previousRating.OverallEffectiveness,
+                    ofstedData?.DateAcademyJoinedTrust, previousRating.InspectionDate));
+
+            // Safeguarding Effective
+            SetTextCell(worksheet, i + 4, 19, currentRating.SafeguardingIsEffective.ToDisplayString());
+
+            // Category of Concern
+            SetTextCell(worksheet, i + 4, 20, currentRating.CategoryOfConcern.ToDisplayString());
+        }
+
+        worksheet.Columns().AdjustToContents();
+        return SaveWorkbookToByteArray(workbook);
+    }
+
+    private static void SetDateCell(IXLWorksheet worksheet, int row, int column, DateTime? dateValue)
+    {
+        var cell = worksheet.Cell(row, column);
+        if (dateValue.HasValue)
+        {
+            cell.Value = dateValue.Value;
+            cell.Style.NumberFormat.SetFormat(StringFormatConstants.FullDateFormat);
+        }
+        else
+        {
+            cell.Value = string.Empty;
+        }
+    }
+
+    private static void SetTextCell(IXLWorksheet worksheet, int row, int column, string value)
+    {
+        worksheet.Cell(row, column).SetValue(value);
+    }
+
+    private static void WriteTrustInformation(IXLWorksheet worksheet, TrustSummary? trustSummary)
+    {
+        worksheet.Cell(1, 1).Value = trustSummary?.Name ?? string.Empty;
+        worksheet.Row(1).Style.Font.Bold = true;
+        worksheet.Cell(2, 1).Value = trustSummary?.Type ?? string.Empty;
+    }
+
+    private static void WriteHeaders(IXLWorksheet worksheet, List<string> headers, int headerRow = 3)
+    {
+        for (var i = 0; i < headers.Count; i++)
+        {
+            worksheet.Cell(headerRow, i + 1).Value = headers[i];
+        }
+        worksheet.Row(headerRow).Style.Font.Bold = true;
+    }
+
+    private static byte[] SaveWorkbookToByteArray(XLWorkbook workbook)
+    {
         using var stream = new MemoryStream();
         workbook.SaveAs(stream);
         return stream.ToArray();

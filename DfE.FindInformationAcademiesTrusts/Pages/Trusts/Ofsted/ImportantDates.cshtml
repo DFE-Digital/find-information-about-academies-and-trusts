@@ -32,13 +32,13 @@
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.EstablishmentName" data-testid="ofsted-important-dates-school-name">
             @academy.EstablishmentName<br/>
           </td>
-          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.SortDate)" data-testid="ofsted-important-dates-date-joined">
-            @academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.ViewDate)
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.SortableDateFormat)" data-testid="ofsted-important-dates-date-joined">
+            @academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.FullDateFormat)
           </td>
-          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.CurrentOfstedRating.InspectionDate?.ToString(StringFormatConstants.SortDate)" data-testid="ofsted-important-dates-date-of-current-inspection">
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.CurrentOfstedRating.InspectionDate?.ToString(StringFormatConstants.SortableDateFormat)" data-testid="ofsted-important-dates-date-of-current-inspection">
             @academy.CurrentOfstedRating.InspectionDate.ShowDateStringOrReplaceWithText()
           </td>
-          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.InspectionDate?.ToString(StringFormatConstants.SortDate)" data-testid="ofsted-important-dates-date-of-previous-inspection">
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.InspectionDate?.ToString(StringFormatConstants.SortableDateFormat)" data-testid="ofsted-important-dates-date-of-previous-inspection">
             @academy.PreviousOfstedRating.InspectionDate.ShowDateStringOrReplaceWithText()
           </td>
         </tr>

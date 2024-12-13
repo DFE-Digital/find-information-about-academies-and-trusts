@@ -10,7 +10,7 @@ public class DateTimeExtensionsTests
     {
         DateTime? testTime = DateTime.Today;
         var result = testTime.ShowDateStringOrReplaceWithText();
-        result.Should().BeEquivalentTo(DateTime.Today.ToString(StringFormatConstants.ViewDate));
+        result.Should().BeEquivalentTo(DateTime.Today.ToString(StringFormatConstants.FullDateFormat));
     }
 
     [Fact]

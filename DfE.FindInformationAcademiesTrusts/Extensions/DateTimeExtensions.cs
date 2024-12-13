@@ -8,7 +8,7 @@ public static class DateTimeExtensions
     {
         if (date.HasValue)
         {
-            return date.Value.ToString(StringFormatConstants.ViewDate);
+            return date.Value.ToString(StringFormatConstants.FullDateFormat);
         }
 
         return ViewConstants.NoDataText;
