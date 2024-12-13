@@ -8,7 +8,7 @@ public class TrustPageMetadataTests
     public void TrustPageMetadata_can_be_composed_in_parts()
     {
         //This is similar to how it is being used in the page object models
-        var sut = new TrustPageMetadata("MY TRUST");
+        var sut = new TrustPageMetadata("MY TRUST", true);
         sut.BrowserTitle.Should().Be("MY TRUST");
 
         sut = sut with { PageName = "Page" };
@@ -22,17 +22,28 @@ public class TrustPageMetadataTests
     }
 
     [Theory]
-    [InlineData("MY TRUST", "Page", "Sub page", "The tab", "The tab - Sub page - Page - MY TRUST")]
-    [InlineData("OTHER TRUST", "Page", "Sub page", null, "Sub page - Page - OTHER TRUST")]
-    [InlineData("OTHER TRUST", "Page", null, null, "Page - OTHER TRUST")]
-    [InlineData("OTHER TRUST", null, null, null, "OTHER TRUST")]
-    [InlineData("MY TRUST", null, null, "The tab", "The tab - MY TRUST")]
-    [InlineData("MY TRUST", null, "Sub page", "The tab", "The tab - Sub page - MY TRUST")]
-    [InlineData("MY TRUST", "Page", null, "The tab", "The tab - Page - MY TRUST")]
-    public void BrowserTitle_only_uses_present_strings(string trustName, string? pageName, string? subPageName,
+    [InlineData("MY TRUST", true, "Page", "Sub page", "The tab", "The tab - Sub page - Page - MY TRUST")]
+    [InlineData("MY TRUST", false, "Page", "Sub page", "The tab", "Error: The tab - Sub page - Page - MY TRUST")]
+    [InlineData("OTHER TRUST", true, "Page", "Sub page", null, "Sub page - Page - OTHER TRUST")]
+    [InlineData("OTHER TRUST", false, "Page", "Sub page", null, "Error: Sub page - Page - OTHER TRUST")]
+    [InlineData("OTHER TRUST", true, "Page", null, null, "Page - OTHER TRUST")]
+    [InlineData("OTHER TRUST", false, "Page", null, null, "Error: Page - OTHER TRUST")]
+    [InlineData("OTHER TRUST", true, null, null, null, "OTHER TRUST")]
+    [InlineData("OTHER TRUST", false, null, null, null, "Error: OTHER TRUST")]
+    [InlineData("MY TRUST", true, null, null, "The tab", "The tab - MY TRUST")]
+    [InlineData("MY TRUST", false, null, null, "The tab", "Error: The tab - MY TRUST")]
+    [InlineData("MY TRUST", true, null, "Sub page", "The tab", "The tab - Sub page - MY TRUST")]
+    [InlineData("MY TRUST", false, null, "Sub page", "The tab", "Error: The tab - Sub page - MY TRUST")]
+    [InlineData("MY TRUST", true, "Page", null, "The tab", "The tab - Page - MY TRUST")]
+    [InlineData("MY TRUST", false, "Page", null, "The tab", "Error: The tab - Page - MY TRUST")]
+    public void BrowserTitle_should_be_constructed_from_properties_and_modelstate(
+        string trustName,
+        bool modelStateIsValid,
+        string? pageName,
+        string? subPageName,
         string? tabName, string expected)
     {
-        var sut = new TrustPageMetadata(trustName, pageName, subPageName, tabName);
+        var sut = new TrustPageMetadata(trustName, modelStateIsValid, pageName, subPageName, tabName);
 
         sut.BrowserTitle.Should().Be(expected);
     }
