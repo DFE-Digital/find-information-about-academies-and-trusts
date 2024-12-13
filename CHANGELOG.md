@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Update dependencies
 - Update breadcrumbs to add page name
 - Change `span` to `strong` to highlight text emphasis to screen readers on the Ofsted Safeguarding page
+- Fix page on the cancel button on the edit contacts form
 
 ### Removed
 
