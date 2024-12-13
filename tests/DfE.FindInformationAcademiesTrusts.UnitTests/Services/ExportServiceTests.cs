@@ -125,9 +125,8 @@ public class ExportServiceTests
         using var workbook = new XLWorkbook(new MemoryStream(result));
         var worksheet = workbook.Worksheet("Academies");
 
-        // Assert
-        worksheet.LastRowUsed()!.RowNumber().Should()
-            .Be(3); // Last row should be headers as there is no data for the next row
+        var lastUsedRow = worksheet.LastRowUsed()?.RowNumber() ?? 0;
+        lastUsedRow.Should().Be(3); // If no data rows are present, we expect the last used row to be the headers row (3)
     }
 
     [Fact]
@@ -389,9 +388,6 @@ public class ExportServiceTests
         result.Should().Be("After Joining");
     }
 
-
-    // NEW TESTS FOR ExportOfstedDataToSpreadsheetAsync BELOW
-
     [Fact]
     public async Task ExportOfstedDataToSpreadsheet_ShouldGenerateCorrectHeadersAsync()
     {
@@ -451,8 +447,8 @@ public class ExportServiceTests
         using var workbook = new XLWorkbook(new MemoryStream(result));
         var worksheet = workbook.Worksheet("Ofsted");
 
-        // Only headers and trust info
-        worksheet.LastRowUsed().RowNumber().Should().Be(3);
+        var lastUsedRow = worksheet.LastRowUsed()?.RowNumber() ?? 0;
+        lastUsedRow.Should().Be(3); // If no data rows are present, we expect the last used row to be the headers row (3)
     }
 
     [Fact]

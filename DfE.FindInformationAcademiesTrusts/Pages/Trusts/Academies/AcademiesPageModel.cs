@@ -30,7 +30,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies
             string sanitizedTrustName = string.Concat(trustSummary.Name.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
 
             var fileContents = await ExportService.ExportAcademiesToSpreadsheetAsync(uid);
-            string fileName = $"{sanitizedTrustName}-{DateTimeProvider.Now:yyyy-MM-dd}.xlsx";
+            string fileName = $"Ofsted-{sanitizedTrustName}-{DateTimeProvider.Now:yyyy-MM-dd}.xlsx";
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
             return File(fileContents, contentType, fileName);

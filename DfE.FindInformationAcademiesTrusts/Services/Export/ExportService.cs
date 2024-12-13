@@ -15,14 +15,29 @@ public interface IExportService
 
 public class ExportService(IAcademyRepository academyRepository, ITrustRepository trustRepository) : IExportService
 {
+    private const string BeforeOrAfterJoiningHeader = "Before/After Joining";
+
     public async Task<byte[]> ExportAcademiesToSpreadsheetAsync(string uid)
     {
         var headers = new List<string>
         {
-            "School Name", "URN", "Local Authority", "Type", "Rural or Urban", "Date joined",
-            "Previous Ofsted Rating", "Before/After Joining", "Date of Previous Ofsted",
-            "Current Ofsted Rating", "Before/After Joining", "Date of Current Ofsted",
-            "Phase of Education", "Age Range", "Pupil Numbers", "Capacity", "% Full",
+            "School Name",
+            "URN",
+            "Local Authority",
+            "Type",
+            "Rural or Urban",
+            "Date joined",
+            "Previous Ofsted Rating",
+            BeforeOrAfterJoiningHeader,
+            "Date of Previous Ofsted",
+            "Current Ofsted Rating",
+            BeforeOrAfterJoiningHeader,
+            "Date of Current Ofsted",
+            "Phase of Education",
+            "Age Range",
+            "Pupil Numbers",
+            "Capacity",
+            "% Full",
             "Pupils eligible for Free School Meals"
         };
 
@@ -147,7 +162,7 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
             "School Name",
             "Date Joined",
             "Date of Current Inspection",
-            "Before/After Joining",
+            BeforeOrAfterJoiningHeader,
             "Quality of Education",
             "Behaviour and Attitudes",
             "Personal Development",
@@ -161,7 +176,7 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
             "Previous Leadership and Management",
             "Previous Early Years Provision",
             "Previous Sixth Form Provision",
-            "Before/After Joining",
+            BeforeOrAfterJoiningHeader,
             "Effective Safeguarding",
             "Category of Concern"
         };
