@@ -34,4 +34,4 @@ jobs:
 
     # - name: Analyse Cypress tests
     #   run: |
-    #     cd tests/\DFE.FindInformationAcademiesTrusts.CypressTests && npm run lint
+    #     cd tests/\DfE.FIAT.CypressTests && npm run lint

@@ -1,0 +1,88 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34902.65
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FIAT.Web", "DfE.FIAT.Web\DfE.FIAT.Web.csproj", "{F9568CDF-A026-492C-96B2-A8E51ABA3B07}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FIAT.Web.UnitTests", "tests\DfE.FIAT.Web.UnitTests\DfE.FIAT.Web.UnitTests.csproj", "{0A3416F9-33DB-4870-97EA-7CFF8D828031}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FIAT.Data.AcademiesDb", "DfE.FIAT.Data.AcademiesDb\DfE.FIAT.Data.AcademiesDb.csproj", "{5E03FD8B-A86F-4E66-A67A-BC53B3032B44}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FIAT.Data.AcademiesDb.UnitTests", "tests\DfE.FIAT.Data.AcademiesDb.UnitTests\DfE.FIAT.Data.AcademiesDb.UnitTests.csproj", "{E20D30CB-8EB1-453B-8C49-77CAFBF16A13}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FIAT.Data", "DfE.FIAT.Data\DfE.FIAT.Data.csproj", "{DC3BD883-B6DA-4C54-85CB-2CD5D261E8FE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FIAT.Data.UnitTests", "tests\DfE.FIAT.Data.UnitTests\DfE.FIAT.Data.UnitTests.csproj", "{90AA9D53-B5B0-489F-AEC1-23551EA04BC5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FIAT.Data.Hardcoded", "DfE.FIAT.Data.Hardcoded\DfE.FIAT.Data.Hardcoded.csproj", "{01247163-9E65-48FB-9ACE-1A8BE995D1AC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FIAT.Data.Hardcoded.UnitTests", "tests\DfE.FIAT.Data.Hardcoded.UnitTests\DfE.FIAT.Data.Hardcoded.UnitTests.csproj", "{1DF57DAB-F9BA-4810-BD35-BB59996FF7BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FIAT.Data.FiatDb", "DfE.FIAT.Data.FiatDb\DfE.FIAT.Data.FiatDb.csproj", "{70A05478-BB89-4051-A38E-F18A4DD5DF64}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DfE.FIAT.Data.FiatDb.UnitTests", "tests\DfE.FIAT.Data.FiatDb.UnitTests\DfE.FIAT.Data.FiatDb.UnitTests.csproj", "{187B33C1-628B-4FF4-9A7E-C775F23F6699}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F9568CDF-A026-492C-96B2-A8E51ABA3B07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9568CDF-A026-492C-96B2-A8E51ABA3B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9568CDF-A026-492C-96B2-A8E51ABA3B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9568CDF-A026-492C-96B2-A8E51ABA3B07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A3416F9-33DB-4870-97EA-7CFF8D828031}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A3416F9-33DB-4870-97EA-7CFF8D828031}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A3416F9-33DB-4870-97EA-7CFF8D828031}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A3416F9-33DB-4870-97EA-7CFF8D828031}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E03FD8B-A86F-4E66-A67A-BC53B3032B44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E03FD8B-A86F-4E66-A67A-BC53B3032B44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E03FD8B-A86F-4E66-A67A-BC53B3032B44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E03FD8B-A86F-4E66-A67A-BC53B3032B44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E20D30CB-8EB1-453B-8C49-77CAFBF16A13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E20D30CB-8EB1-453B-8C49-77CAFBF16A13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E20D30CB-8EB1-453B-8C49-77CAFBF16A13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E20D30CB-8EB1-453B-8C49-77CAFBF16A13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC3BD883-B6DA-4C54-85CB-2CD5D261E8FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC3BD883-B6DA-4C54-85CB-2CD5D261E8FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC3BD883-B6DA-4C54-85CB-2CD5D261E8FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC3BD883-B6DA-4C54-85CB-2CD5D261E8FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90AA9D53-B5B0-489F-AEC1-23551EA04BC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90AA9D53-B5B0-489F-AEC1-23551EA04BC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90AA9D53-B5B0-489F-AEC1-23551EA04BC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90AA9D53-B5B0-489F-AEC1-23551EA04BC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01247163-9E65-48FB-9ACE-1A8BE995D1AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01247163-9E65-48FB-9ACE-1A8BE995D1AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01247163-9E65-48FB-9ACE-1A8BE995D1AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01247163-9E65-48FB-9ACE-1A8BE995D1AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DF57DAB-F9BA-4810-BD35-BB59996FF7BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DF57DAB-F9BA-4810-BD35-BB59996FF7BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DF57DAB-F9BA-4810-BD35-BB59996FF7BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DF57DAB-F9BA-4810-BD35-BB59996FF7BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70A05478-BB89-4051-A38E-F18A4DD5DF64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70A05478-BB89-4051-A38E-F18A4DD5DF64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70A05478-BB89-4051-A38E-F18A4DD5DF64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70A05478-BB89-4051-A38E-F18A4DD5DF64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{187B33C1-628B-4FF4-9A7E-C775F23F6699}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{187B33C1-628B-4FF4-9A7E-C775F23F6699}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{187B33C1-628B-4FF4-9A7E-C775F23F6699}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{187B33C1-628B-4FF4-9A7E-C775F23F6699}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0A3416F9-33DB-4870-97EA-7CFF8D828031} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
+		{E20D30CB-8EB1-453B-8C49-77CAFBF16A13} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
+		{90AA9D53-B5B0-489F-AEC1-23551EA04BC5} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
+		{1DF57DAB-F9BA-4810-BD35-BB59996FF7BB} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
+		{187B33C1-628B-4FF4-9A7E-C775F23F6699} = {E22DC2DA-4EB5-41C6-A41D-349692BCCDBE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CEE3F8EE-1688-4C85-8749-E2B3FCB9A5FE}
+	EndGlobalSection
+EndGlobal

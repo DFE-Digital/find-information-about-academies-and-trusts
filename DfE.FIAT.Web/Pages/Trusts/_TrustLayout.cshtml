@@ -1,0 +1,31 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ITrustsAreaModel
+
+@{
+  Layout = "_Layout";
+  ViewData["Title"] = $"{Model.PageTitle ?? Model.PageName} - {Model.TrustSummary.Name}";
+}
+
+<partial name="_TrustBanner" model="@Model"/>
+<partial name="_TrustNavigation" model="@Model"/>
+<div class="govuk-main-wrapper govuk-!-padding-top-6">
+  <div class="dfe-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <main id="main-content">
+          @await RenderSectionAsync("TrustPageMessage", false)
+          <header>
+            <h1 class="govuk-heading-l" data-testid="page-name">@Model.PageName</h1>
+          </header>
+          <partial name="_TrustSubNavigation" model="@Model"/>
+          @RenderBody()
+        </main>
+        <partial name="_SourceList"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+  @await RenderSectionAsync("Scripts", false)
+}

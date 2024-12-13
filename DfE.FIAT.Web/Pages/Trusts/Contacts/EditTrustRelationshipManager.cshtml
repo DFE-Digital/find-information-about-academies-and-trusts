@@ -1,0 +1,10 @@
+@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model EditTrustRelationshipManagerModel
+
+@{
+  Layout = "_Layout";
+  ViewData["Title"] = Model.GeneratePageTitle();
+}
+
+<partial name="_EditContactsForm" model="@Model"/>

@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model TrustSubNavigationLinkModel
+@if (Model.LinkIsActive)
+{
+  <li class="moj-sub-navigation__item">
+    <a class="moj-sub-navigation__link" aria-current="page" asp-page="@Model.Page" asp-route-uid="@Model.Uid" data-testid="@Model.TestId">
+      <span class="govuk-visually-hidden">@Model.ServiceName </span>@Model.LinkText
+    </a>
+  </li>
+}
+else
+{
+  <li class="moj-sub-navigation__item">
+    <a class="moj-sub-navigation__link" asp-page="@Model.Page" asp-route-uid="@Model.Uid" data-testid="@Model.TestId">
+      <span class="govuk-visually-hidden">@Model.ServiceName </span>@Model.LinkText
+    </a>
+  </li>
+}
