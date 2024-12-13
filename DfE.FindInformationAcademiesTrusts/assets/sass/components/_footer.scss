@@ -1,0 +1,20 @@
+.rsd-footer-phase {
+  border-bottom: 0;
+}
+
+.rsd-footer-phase .govuk-phase-banner__content {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+@media (min-width: 40.0625em) {
+  .rsd-footer-phase .govuk-phase-banner__content {
+    font-size: 1.1875rem;
+    line-height: 1.3158;
+  }
+}
+@media print {
+  .rsd-footer-phase .govuk-phase-banner__content {
+    font-size: 14pt;
+    line-height: 1.15;
+  }
+}

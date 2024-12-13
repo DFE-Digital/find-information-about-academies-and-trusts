@@ -1,7 +1,7 @@
 import { TableUtility } from "../tableUtility";
 
 class OfstedPage {
-
+    // #region Common stuffs
     elements = {
         subpageHeader: () => cy.get('[data-testid="subpage-header"]'),
         downloadButton: () => cy.get('[data-testid="download-all-ofsted-data-button"]'),
@@ -86,7 +86,8 @@ class OfstedPage {
         expect(text).to.match(/^(Before|After|Not yet inspected)$/);
     };
 
-    ///Current ratings///
+    // #endregion
+    // #region Current ratings
 
     public checkOfstedCurrentRatingsPageHeaderPresent(): this {
         this.elements.subpageHeader().should('contain', 'Current ratings');
@@ -182,7 +183,8 @@ class OfstedPage {
         return this;
     }
 
-    ///previous ratings///
+    // #endregion
+    // #region previous ratings
 
     public checkOfstedPreviousRatingsPageHeaderPresent(): this {
         this.elements.subpageHeader().should('contain', 'Previous ratings');
@@ -273,7 +275,8 @@ class OfstedPage {
         return this;
     }
 
-    //Safeguarding and Concerns///
+    // #endregion
+    // #region Safeguarding and Concerns
 
     public checkOfstedSafeguardingConcernsPageHeaderPresent(): this {
         this.elements.subpageHeader().should('contain', 'Safeguarding and concerns');
@@ -329,7 +332,8 @@ class OfstedPage {
         return this;
     }
 
-    // Important Dates
+    // #endregion
+    // #region Important Dates
 
     public checkOfstedImportantDatesPageHeaderPresent(): this {
         this.elements.subpageHeader().should('contain', 'Important dates');
@@ -385,6 +389,7 @@ class OfstedPage {
         this.elements.downloadButton().click();
         return this;
     }
+    // #endregion
 }
 
 const ofstedPage = new OfstedPage();

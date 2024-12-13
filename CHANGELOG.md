@@ -9,6 +9,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - Academies pages are now tabs instead of using sub nav
+- Move phase banner from header to footer
+- Change from schools benchmarking tool to financial benchmarking and insights tool
+- Update dependencies
+- Update breadcrumbs to add page name
+- Change `span` to `strong` to highlight text emphasis to screen readers on the Ofsted Safeguarding page
+- Fix page on the cancel button on the edit contacts form
+
+### Removed
+
+- Removed the "Report a problem" link from most pages
 
 ## [Release-15][release-15] (production-2024-12-02.4279)
 
@@ -186,7 +196,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Release-1][release-1] (production-2024-07-18.2517)
 
-### Changed 
+### Changed
 
 - Migrated the application to LTS .NET 8. (FIAT was on .NET 7 which Microsoft ended support for in May).
 - Updated text on "404 - Not Found" page to adhere to DfE design pattern and added the not found url to the support email template.

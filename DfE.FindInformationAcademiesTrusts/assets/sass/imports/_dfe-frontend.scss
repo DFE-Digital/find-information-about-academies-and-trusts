@@ -7,3 +7,10 @@
     color: unset;
   }
 }
+
+// Fix dfe frontend overriding govuk breadcrumb font sizing
+.govuk-breadcrumbs > ol,
+.govuk-breadcrumbs > ul,
+.govuk-breadcrumbs > li {
+  @include govuk-font-size(16);
+}

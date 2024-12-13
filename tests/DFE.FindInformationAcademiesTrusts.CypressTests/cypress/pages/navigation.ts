@@ -4,9 +4,7 @@ class Navigation {
         privacyFooterButton: () => cy.contains('Privacy'),
         cookiesFooterButton: () => cy.get('[data-testid="cookies-footer-link"]'),
         accessibilityFooterButton: () => cy.contains('Accessibility'),
-        breadcrumb: () => cy.get('[aria-label="Breadcrumb"]'),
-        homeBreadcrumbButton: () => this.elements.breadcrumb().contains('Home'),
-        trustBreadcrumbLabel: (trustname: string) => this.elements.breadcrumb().contains(trustname),
+
 
         serviceNav: {
             academiesServiceNavButton: () => cy.get('[data-testid="academies-nav"]'),
@@ -21,6 +19,12 @@ class Navigation {
             freeSchoolMealsAcadmiesTrustButton: () => cy.get('#free-school-meals-link'),
             detailsAcadmiesTrustButton: () => cy.get('#academies-details-link'),
         },
+        breadcrumbs: {
+            breadcrumbParent: () => cy.get('[aria-label="Breadcrumb"]'),
+            homeBreadcrumbButton: () => this.elements.breadcrumbs.breadcrumbParent().contains('Home'),
+            trustBreadcrumbLabel: (trustname: string) => this.elements.breadcrumbs.breadcrumbParent().contains(trustname),
+            pageNameBreadcrumbLabel: () => this.elements.breadcrumbs.breadcrumbParent().find('[data-testid="breadcrumb-page-name"]')
+        }
     };
 
     public checkBrowserPageTitleContains(pageTitle: string): this {
@@ -64,23 +68,28 @@ class Navigation {
     }
 
     public checkHomeBreadcrumbPresent(): this {
-        this.elements.homeBreadcrumbButton().should('be.visible',);
-        this.elements.homeBreadcrumbButton().should('not.be.disabled',);
+        this.elements.breadcrumbs.homeBreadcrumbButton().should('be.visible',);
+        this.elements.breadcrumbs.homeBreadcrumbButton().should('not.be.disabled',);
         return this;
     }
 
     public checkTrustNameBreadcrumbPresent(trustname: string): this {
-        this.elements.trustBreadcrumbLabel(trustname).should('be.visible');
+        this.elements.breadcrumbs.trustBreadcrumbLabel(trustname).should('be.visible');
+        return this;
+    }
+
+    public checkPageNameBreadcrumbPresent(pageName: string): this {
+        this.elements.breadcrumbs.pageNameBreadcrumbLabel().should('contain.text', pageName);
         return this;
     }
 
     public checkBreadcrumbNotPresent(): this {
-        this.elements.breadcrumb().should('not.exist');
+        this.elements.breadcrumbs.breadcrumbParent().should('not.exist');
         return this;
     }
 
     public clickHomeBreadcrumbButton(): this {
-        this.elements.homeBreadcrumbButton().click();
+        this.elements.breadcrumbs.homeBreadcrumbButton().click();
         return this;
     }
 

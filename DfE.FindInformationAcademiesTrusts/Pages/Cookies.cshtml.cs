@@ -1,6 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
@@ -26,7 +25,7 @@ public class CookiesModel : ContentPageModel
 
         ApplyCookieConsent();
 
-        if (ReturnPath.IsNullOrEmpty() || Consent is null)
+        if (string.IsNullOrWhiteSpace(ReturnPath) || Consent is null)
         {
             if (CookiesPreferencesHaveBeenSet())
             {
@@ -110,7 +109,7 @@ public class CookiesModel : ContentPageModel
         // Expect to be a path eg starts with a slash
         // If its not a path it didn't come from us
         // Treat it as incorrect and remove it
-        if (ReturnPath.IsNullOrEmpty() || !Url.IsLocalUrl(ReturnPath))
+        if (string.IsNullOrWhiteSpace(ReturnPath) || !Url.IsLocalUrl(ReturnPath))
         {
             ReturnPath = "/";
         }

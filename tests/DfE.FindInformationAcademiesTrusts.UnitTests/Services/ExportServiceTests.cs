@@ -125,7 +125,9 @@ public class ExportServiceTests
         using var workbook = new XLWorkbook(new MemoryStream(result));
         var worksheet = workbook.Worksheet("Academies");
 
-        worksheet.LastRowUsed().RowNumber().Should().Be(3);
+        // Assert
+        worksheet.LastRowUsed()!.RowNumber().Should()
+            .Be(3); // Last row should be headers as there is no data for the next row
     }
 
     [Fact]

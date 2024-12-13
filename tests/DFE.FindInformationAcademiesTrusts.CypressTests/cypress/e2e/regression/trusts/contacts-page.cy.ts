@@ -29,6 +29,11 @@ describe("Testing the components of the Trust contacts page", () => {
                 cy.visit(`/trusts/contacts/in-dfe?uid=${uid}`);
             });
 
+            it("Checks the breadcrumb shows the correct page name", () => {
+                navigation
+                    .checkPageNameBreadcrumbPresent("Contacts");
+            });
+
             it(`Can change Trust relationship manager contact details`, () => {
                 const { name, email } = generateNameAndEmail();
 
@@ -60,6 +65,11 @@ describe("Testing the components of the Trust contacts page", () => {
             beforeEach(() => {
                 cy.login();
                 cy.visit(`/trusts/contacts/in-the-trust?uid=${uid}`);
+            });
+
+            it("Checks the breadcrumb shows the correct page name", () => {
+                navigation
+                    .checkPageNameBreadcrumbPresent("Contacts");
             });
 
             it(`Checks a trusts external contact details are present`, () => {
@@ -195,6 +205,19 @@ describe("Testing the components of the Trust contacts page", () => {
 
             contactsPage
                 .checkSubNavNotPresent();
+        });
+
+        describe("Testing a trust that has no contacts within it to ensure the issue of a 500 page appearing does not happen", () => {
+            beforeEach(() => {
+                cy.login();
+                commonPage.interceptAndVerfiyNo500Errors();
+            });
+
+            ['/trusts/contacts/in-dfe?uid=17728', '/trusts/contacts/in-the-trust?uid=17728'].forEach((url) => {
+                it(`Should have no 500 error on ${url}`, () => {
+                    cy.visit(url);
+                });
+            });
         });
     });
 });
