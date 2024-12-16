@@ -33,7 +33,7 @@
             @academy.EstablishmentName<br/>
           </td>
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.SortableDateFormat)" data-testid="ofsted-important-dates-date-joined">
-            @academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.FullDateFormat)
+            @academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.DisplayDateFormat)
           </td>
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.CurrentOfstedRating.InspectionDate?.ToString(StringFormatConstants.SortableDateFormat)" data-testid="ofsted-important-dates-date-of-current-inspection">
             @academy.CurrentOfstedRating.InspectionDate.ShowDateStringOrReplaceWithText()
