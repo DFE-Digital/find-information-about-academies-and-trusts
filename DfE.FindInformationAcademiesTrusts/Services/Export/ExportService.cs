@@ -264,7 +264,7 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
         if (dateValue.HasValue)
         {
             cell.Value = dateValue.Value;
-            cell.Style.NumberFormat.SetFormat(StringFormatConstants.FullDateFormat);
+            cell.Style.NumberFormat.SetFormat(StringFormatConstants.DisplayDateFormat);
         }
         else
         {
