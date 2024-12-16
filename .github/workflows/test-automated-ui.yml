@@ -10,15 +10,33 @@ on:
       branch-name:
         required: true
         type: string
-env:
-  NODE_VERSION: 22.11.0
-  LAST_COMMIT_SHA: default
+    secrets:
+      BASE_URL:
+        required: true
+      TEST_OVERRIDE_CYPRESS_TEST_SECRET:
+        required: true
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run tests against'
+        required: true
+        type: environment
+
+concurrency:
+  group: ${{ github.workflow }}
 
 jobs:
   cypress-tests:
-    name: Run automated UI tests
-    runs-on: ubuntu-22.04
+    name: Run Cypress Tests
+    runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    strategy:
+      matrix:
+        browser: [
+          "edge"
+        ]
+    container:
+      image: cypress/browsers:22.12.0
     defaults:
       run:
         working-directory: tests/DFE.FindInformationAcademiesTrusts.CypressTests
@@ -27,34 +45,23 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      - name: Set SHA environment variable
-        run: |
-          echo "LAST_COMMIT_SHA=${GITHUB_SHA:(-7)}" >> $GITHUB_ENV
-
-      - uses: actions/setup-node@v4
-        name: Set up Node.js
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-          cache-dependency-path: |
-            tests/DFE.FindInformationAcademiesTrusts.CypressTests/package-lock.json
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run the cypress tests
+      - name: Run
+        uses: cypress-io/github-action@v6
         env:
           CYPRESS_URL: ${{ secrets.BASE_URL }}
           CYPRESS_AUTH_KEY: ${{ secrets.TEST_OVERRIDE_CYPRESS_TEST_SECRET }}
-        run: npm run cy:run
+        with:
+          browser: ${{ matrix.browser }}
+          working-directory: tests/DFE.FindInformationAcademiesTrusts.CypressTests
+          wait-on: ${{ secrets.BASE_URL }}
 
       - name: Upload screenshots
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
-          name: screenshots-${{ inputs.environment }}
+          name: screenshots-${{ inputs.environment }}-${{ matrix.browser }}
           path: tests/DFE.FindInformationAcademiesTrusts.CypressTests/cypress/screenshots
-          
+
       - name: Generate report
         if: ${{ failure() }}
         run: |
@@ -65,5 +72,5 @@ jobs:
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
-          name: reports-${{ inputs.environment }}
+          name: reports-${{ inputs.environment }}-${{ matrix.browser }}
           path: tests/DFE.FindInformationAcademiesTrusts.CypressTests/mochareports
