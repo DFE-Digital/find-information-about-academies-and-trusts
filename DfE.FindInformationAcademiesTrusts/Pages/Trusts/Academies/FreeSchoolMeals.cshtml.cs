@@ -10,6 +10,9 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
 public class FreeSchoolMealsModel : AcademiesPageModel
 {
+    public override TrustPageMetadata TrustPageMetadata =>
+        base.TrustPageMetadata with { TabName = "Free school meals" };
+
     public IAcademyService AcademyService { get; }
     public AcademyFreeSchoolMealsServiceModel[] Academies { get; set; } = default!;
 

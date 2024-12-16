@@ -10,11 +10,15 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
 public class PupilNumbersModel : AcademiesPageModel
 {
+    public override TrustPageMetadata TrustPageMetadata =>
+        base.TrustPageMetadata with { TabName = "Pupil numbers" };
+
     public IAcademyService AcademyService { get; }
     public AcademyPupilNumbersServiceModel[] Academies { get; set; } = default!;
 
     public PupilNumbersModel(IDataSourceService dataSourceService,
-        ILogger<PupilNumbersModel> logger, ITrustService trustService, IAcademyService academyService, IExportService exportService, IDateTimeProvider dateTimeProvider)
+        ILogger<PupilNumbersModel> logger, ITrustService trustService, IAcademyService academyService,
+        IExportService exportService, IDateTimeProvider dateTimeProvider)
         : base(dataSourceService, trustService, exportService, logger, dateTimeProvider)
     {
         AcademyService = academyService;

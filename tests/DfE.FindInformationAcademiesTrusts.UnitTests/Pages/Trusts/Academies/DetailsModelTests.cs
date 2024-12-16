@@ -15,7 +15,7 @@ public class AcademiesDetailsModelTests
 {
     private readonly AcademiesDetailsModel _sut;
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinkBuilder = new();
-    private readonly Mock<ITrustService> _mockTrustRepository = new();
+    private readonly Mock<ITrustService> _mockTrustService = new();
     private readonly Mock<IAcademyService> _mockAcademyService = new();
     private readonly Mock<IExportService> _mockExportService = new();
     private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
@@ -26,11 +26,11 @@ public class AcademiesDetailsModelTests
 
     public AcademiesDetailsModelTests()
     {
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
+        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
             .ReturnsAsync(_fakeTrust);
 
         _sut = new AcademiesDetailsModel(_mockDataSourceService.Object,
-                _mockLinkBuilder.Object, _mockLogger.Object, _mockTrustRepository.Object, _mockAcademyService.Object,
+                _mockLinkBuilder.Object, _mockLogger.Object, _mockTrustService.Object, _mockAcademyService.Object,
                 _mockExportService.Object, _mockDateTimeProvider.Object)
             { Uid = _fakeTrust.Uid };
     }
@@ -62,7 +62,7 @@ public class AcademiesDetailsModelTests
     [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(_sut.Uid)).ReturnsAsync((TrustSummaryServiceModel?)null);
+        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_sut.Uid)).ReturnsAsync((TrustSummaryServiceModel?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
@@ -112,6 +112,16 @@ public class AcademiesDetailsModelTests
     public async Task OnGetAsync_sets_SubNavigationLinks_toEmptyArray()
     {
         _ = await _sut.OnGetAsync();
-        _sut.SubNavigationLinks.Should().Equal([]);
+        _sut.SubNavigationLinks.Should().Equal();
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_configure_TrustPageMetadata()
+    {
+        _ = await _sut.OnGetAsync();
+
+        _sut.TrustPageMetadata.TabName.Should().Be("Details");
+        _sut.TrustPageMetadata.PageName.Should().Be("Academies");
+        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
     }
 }

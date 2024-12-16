@@ -117,6 +117,16 @@ public class PupilNumbersModelTests
     public async Task OnGetAsync_sets_SubNavigationLinks_toEmptyArray()
     {
         _ = await _sut.OnGetAsync();
-        _sut.SubNavigationLinks.Should().Equal([]);
+        _sut.SubNavigationLinks.Should().Equal();
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_configure_TrustPageMetadata()
+    {
+        _ = await _sut.OnGetAsync();
+
+        _sut.TrustPageMetadata.TabName.Should().Be("Pupil numbers");
+        _sut.TrustPageMetadata.PageName.Should().Be("Academies");
+        _sut.TrustPageMetadata.TrustName.Should().Be("Test Trust");
     }
 }
