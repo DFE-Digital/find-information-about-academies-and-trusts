@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Added download for Ofsted specific data to Ofsted pages
 
+### Changed
+
+- Fixed browser titles so they include the name of the sub page and are all formatted in a consistent way
+
 ## [Release-16][release-16] (production-2024-12-13.4477)
 
 ### Changed
