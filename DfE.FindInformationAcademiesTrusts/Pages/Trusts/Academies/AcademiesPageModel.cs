@@ -12,7 +12,7 @@ public abstract class AcademiesPageModel(
     IExportService exportService,
     ILogger<AcademiesPageModel> logger,
     IDateTimeProvider dateTimeProvider
-) : TrustsAreaModel(dataSourceService, trustService, logger, "Academies")
+) : TrustsAreaModel(dataSourceService, trustService, logger)
 {
     public override TrustPageMetadata TrustPageMetadata =>
         base.TrustPageMetadata with { PageName = "Academies" };

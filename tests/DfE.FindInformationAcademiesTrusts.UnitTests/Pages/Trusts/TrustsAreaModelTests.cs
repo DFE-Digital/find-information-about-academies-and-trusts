@@ -16,7 +16,7 @@ public class TrustsAreaModelTests
 
     public TrustsAreaModelTests()
     {
-        _sut = new TrustsAreaModel(_mockDataSourceProvider.Object, _mockTrustService.Object, _logger.Object, "Details");
+        _sut = new TrustsAreaModel(_mockDataSourceProvider.Object, _mockTrustService.Object, _logger.Object);
     }
 
     [Fact]
@@ -33,14 +33,6 @@ public class TrustsAreaModelTests
     {
         await _sut.OnGetAsync();
         _sut.Uid.Should().BeEquivalentTo(string.Empty);
-    }
-
-    [Fact]
-    public void PageName_should_be_set_at_initialisation()
-    {
-        var sut = new TrustsAreaModel(_mockDataSourceProvider.Object,
-            _mockTrustService.Object, _logger.Object, "Contacts");
-        sut.PageName.Should().Be("Contacts");
     }
 
     [Fact]
@@ -103,7 +95,7 @@ public class TrustsAreaModelTests
     public async Task OnGetAsync_sets_SubNavigationLinks_toEmptyArray()
     {
         _ = await _sut.OnGetAsync();
-        _sut.SubNavigationLinks.Should().Equal([]);
+        _sut.SubNavigationLinks.Should().BeEmpty();
     }
 
     [Theory]

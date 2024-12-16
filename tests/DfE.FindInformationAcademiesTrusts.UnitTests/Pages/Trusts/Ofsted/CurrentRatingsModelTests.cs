@@ -37,12 +37,6 @@ public class CurrentRatingsModelTests
     }
 
     [Fact]
-    public void PageName_should_be_Ofsted()
-    {
-        _sut.PageName.Should().Be("Ofsted");
-    }
-
-    [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);

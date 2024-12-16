@@ -80,12 +80,6 @@ public class GovernanceAreaModelTests
     }
 
     [Fact]
-    public void PageName_should_be_Governance()
-    {
-        _sut.PageName.Should().Be("Governance");
-    }
-
-    [Fact]
     public void ShowHeaderSearch_should_be_true()
     {
         _sut.ShowHeaderSearch.Should().Be(true);

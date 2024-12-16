@@ -33,12 +33,6 @@ public class EditSfsoLeadModelTests
     }
 
     [Fact]
-    public void PageName_should_be_correct()
-    {
-        _sut.PageName.Should().Be("Edit SFSO (Schools financial support and oversight) lead details");
-    }
-
-    [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
         _mockTrustService.Setup(r => r.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);

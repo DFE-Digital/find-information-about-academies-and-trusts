@@ -47,12 +47,6 @@ public class PupilNumbersModelTests
         _sut.TabName.Should().Be("Pupil numbers");
     }
 
-    [Fact]
-    public void PageName_should_be_AcademiesInThisTrust()
-    {
-        _sut.PageName.Should().Be("Academies");
-    }
-
     [Theory]
     [InlineData("Primary", 5, 11, "Primary0511")]
     [InlineData("Primary", 5, 9, "Primary0509")]

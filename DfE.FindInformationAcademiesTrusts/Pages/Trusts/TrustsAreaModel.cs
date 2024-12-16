@@ -1,6 +1,11 @@
 using System.Text.RegularExpressions;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Governance;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Ofsted;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
@@ -10,8 +15,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 public class TrustsAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
-    ILogger<TrustsAreaModel> logger,
-    string pageName)
+    ILogger<TrustsAreaModel> logger)
     : BasePageModel, ITrustsAreaModel
 {
     protected readonly IDataSourceService DataSourceService = dataSourceService;
@@ -20,7 +24,6 @@ public class TrustsAreaModel(
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = "";
     public TrustSummaryServiceModel TrustSummary { get; set; } = default!;
     public List<DataSourceListEntry> DataSources { get; set; } = [];
-    public string PageName { get; init; } = pageName;
     public virtual TrustPageMetadata TrustPageMetadata => new(TrustSummary.Name, ModelState.IsValid);
 
     public string MapDataSourceToName(DataSourceServiceModel dataSource)
@@ -73,17 +76,16 @@ public class TrustsAreaModel(
     {
         NavigationLinks =
         [
-            new TrustNavigationLinkModel("Overview", "/Trusts/Overview/TrustDetails", Uid, PageName == "Overview",
+            new TrustNavigationLinkModel("Overview", "/Trusts/Overview/TrustDetails", Uid, this is OverviewAreaModel,
                 "overview-nav"),
-            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", Uid, PageName == "Contacts",
+            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", Uid, this is ContactsAreaModel,
                 "contacts-nav"),
             new TrustNavigationLinkModel($"Academies ({TrustSummary.NumberOfAcademies})", "/Trusts/Academies/Details",
-                Uid, PageName == "Academies", "academies-nav"),
-            new TrustNavigationLinkModel("Ofsted", "/Trusts/Ofsted/CurrentRatings",
-                Uid, PageName == "Ofsted", "ofsted-nav"),
+                Uid, this is AcademiesPageModel, "academies-nav"),
+            new TrustNavigationLinkModel("Ofsted", "/Trusts/Ofsted/CurrentRatings", Uid, this is OfstedAreaModel,
+                "ofsted-nav"),
             new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", Uid,
-                PageName == "Governance",
-                "governance-nav")
+                this is GovernanceAreaModel, "governance-nav")
         ];
     }
 

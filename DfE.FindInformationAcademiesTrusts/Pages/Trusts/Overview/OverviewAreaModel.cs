@@ -9,7 +9,7 @@ public class OverviewAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
     ILogger<OverviewAreaModel> logger)
-    : TrustsAreaModel(dataSourceService, trustService, logger, "Overview")
+    : TrustsAreaModel(dataSourceService, trustService, logger)
 {
     public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = "Overview" };
     public TrustOverviewServiceModel TrustOverview { get; set; } = default!;
@@ -21,11 +21,11 @@ public class OverviewAreaModel(
 
         SubNavigationLinks =
         [
-            new TrustSubNavigationLinkModel("Trust details", "./TrustDetails", Uid, PageName,
+            new TrustSubNavigationLinkModel("Trust details", "./TrustDetails", Uid, TrustPageMetadata.PageName!,
                 this is TrustDetailsModel),
-            new TrustSubNavigationLinkModel("Trust summary", "./TrustSummary", Uid, PageName,
+            new TrustSubNavigationLinkModel("Trust summary", "./TrustSummary", Uid, TrustPageMetadata.PageName!,
                 this is TrustSummaryModel),
-            new TrustSubNavigationLinkModel("Reference numbers", "./ReferenceNumbers", Uid, PageName,
+            new TrustSubNavigationLinkModel("Reference numbers", "./ReferenceNumbers", Uid, TrustPageMetadata.PageName!,
                 this is ReferenceNumbersModel)
         ];
 

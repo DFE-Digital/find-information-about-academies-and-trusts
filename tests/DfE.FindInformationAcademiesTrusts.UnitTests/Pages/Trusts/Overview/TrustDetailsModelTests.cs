@@ -35,12 +35,6 @@ public class TrustDetailsModelTests
     }
 
     [Fact]
-    public void PageName_should_be_Overview()
-    {
-        _sut.PageName.Should().Be("Overview");
-    }
-
-    [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(TrustUid)).ReturnsAsync((TrustSummaryServiceModel?)null);

@@ -54,12 +54,6 @@ public class ContactsAreaModelTests
     }
 
     [Fact]
-    public void PageName_should_be_Contacts()
-    {
-        _sut.PageName.Should().Be("Contacts");
-    }
-
-    [Fact]
     public async Task OnGetAsync_sets_chair_of_trustees_to_be_current_chair()
     {
         await _sut.OnGetAsync();

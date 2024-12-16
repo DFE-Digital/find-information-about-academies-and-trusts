@@ -15,7 +15,7 @@ public abstract class EditContactModel(
     ILogger<EditContactModel> logger,
     ContactRole role)
     : TrustsAreaModel(dataSourceService, trustService,
-        logger, $"Edit {role.MapRoleToViewString()} details")
+        logger)
 {
     public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with
     {

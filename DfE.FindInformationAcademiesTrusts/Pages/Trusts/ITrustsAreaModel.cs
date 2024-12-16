@@ -9,14 +9,6 @@ public interface ITrustsAreaModel
 
     List<DataSourceListEntry> DataSources { get; }
 
-    /// <summary>
-    /// The name of the page as displayed in the page h1
-    /// </summary>
-    string PageName { get; }
-
-    /// <summary>
-    /// The name of the page as displayed in the browser title
-    /// </summary>
     TrustPageMetadata TrustPageMetadata { get; }
 
     string MapDataSourceToName(DataSourceServiceModel dataSource);

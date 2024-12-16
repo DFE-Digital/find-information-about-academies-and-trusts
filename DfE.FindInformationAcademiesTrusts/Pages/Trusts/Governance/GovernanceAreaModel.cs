@@ -9,7 +9,7 @@ public class GovernanceAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
     ILogger<GovernanceAreaModel> logger)
-    : TrustsAreaModel(dataSourceService, trustService, logger, "Governance")
+    : TrustsAreaModel(dataSourceService, trustService, logger)
 {
     public override TrustPageMetadata TrustPageMetadata =>
         base.TrustPageMetadata with { PageName = "Governance" };
@@ -27,13 +27,13 @@ public class GovernanceAreaModel(
         SubNavigationLinks =
         [
             new TrustSubNavigationLinkModel($"Trust leadership ({TrustGovernance.CurrentTrustLeadership.Length})",
-                "./TrustLeadership", Uid, PageName, this is TrustLeadershipModel),
+                "./TrustLeadership", Uid, TrustPageMetadata.PageName!, this is TrustLeadershipModel),
             new TrustSubNavigationLinkModel($"Trustees ({TrustGovernance.CurrentTrustees.Length})", "./Trustees", Uid,
-                PageName, this is TrusteesModel),
+                TrustPageMetadata.PageName!, this is TrusteesModel),
             new TrustSubNavigationLinkModel($"Members ({TrustGovernance.CurrentMembers.Length})", "./Members", Uid,
-                PageName, this is MembersModel),
+                TrustPageMetadata.PageName!, this is MembersModel),
             new TrustSubNavigationLinkModel($"Historic members ({TrustGovernance.HistoricMembers.Length})",
-                "./HistoricMembers", Uid, PageName, this is HistoricMembersModel)
+                "./HistoricMembers", Uid, TrustPageMetadata.PageName!, this is HistoricMembersModel)
         ];
 
         DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),

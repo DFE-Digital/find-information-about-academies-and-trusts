@@ -43,12 +43,6 @@ public class FreeSchoolMealsModelTests
     }
 
     [Fact]
-    public void PageName_should_be_AcademiesInThisTrust()
-    {
-        _sut.PageName.Should().Be("Academies");
-    }
-
-    [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);

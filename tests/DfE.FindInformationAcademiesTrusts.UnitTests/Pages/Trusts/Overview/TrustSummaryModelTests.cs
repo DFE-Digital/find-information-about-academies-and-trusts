@@ -32,12 +32,6 @@ public class TrustSummaryModelTests
     }
 
     [Fact]
-    public void PageName_should_be_Overview()
-    {
-        _sut.PageName.Should().Be("Overview");
-    }
-
-    [Fact]
     public async Task OnGetAsync_sets_list_of_local_authorities()
     {
         var overviewWithLocalAuthorities = BaseTrustOverviewServiceModel with
