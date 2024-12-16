@@ -37,12 +37,6 @@ public class FreeSchoolMealsModelTests
     }
 
     [Fact]
-    public void TabName_should_be_Details()
-    {
-        _sut.TabName.Should().Be("Free school meals");
-    }
-
-    [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);

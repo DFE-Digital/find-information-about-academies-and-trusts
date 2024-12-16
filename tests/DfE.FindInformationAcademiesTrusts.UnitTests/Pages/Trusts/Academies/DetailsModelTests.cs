@@ -36,12 +36,6 @@ public class AcademiesDetailsModelTests
     }
 
     [Fact]
-    public void TabName_should_be_Details()
-    {
-        _sut.TabName.Should().Be("Details");
-    }
-
-    [Fact]
     public void OtherServicesLinkBuilder_should_be_injected()
     {
         _sut.LinkBuilder.Should().Be(_mockLinkBuilder.Object);

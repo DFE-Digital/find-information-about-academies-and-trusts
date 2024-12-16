@@ -41,12 +41,6 @@ public class PupilNumbersModelTests
             { Uid = "1234" };
     }
 
-    [Fact]
-    public void TabName_should_be_PupilNumbers()
-    {
-        _sut.TabName.Should().Be("Pupil numbers");
-    }
-
     [Theory]
     [InlineData("Primary", 5, 11, "Primary0511")]
     [InlineData("Primary", 5, 9, "Primary0509")]

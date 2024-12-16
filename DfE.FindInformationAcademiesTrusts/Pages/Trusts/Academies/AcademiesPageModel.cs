@@ -14,12 +14,9 @@ public abstract class AcademiesPageModel(
     IDateTimeProvider dateTimeProvider
 ) : TrustsAreaModel(dataSourceService, trustService, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { PageName = "Academies" };
-
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = "Academies" };
     protected IExportService ExportService { get; } = exportService;
     public IDateTimeProvider DateTimeProvider { get; } = dateTimeProvider;
-    public string? TabName { get; init; }
 
     public virtual async Task<IActionResult> OnGetExportAsync(string uid)
     {

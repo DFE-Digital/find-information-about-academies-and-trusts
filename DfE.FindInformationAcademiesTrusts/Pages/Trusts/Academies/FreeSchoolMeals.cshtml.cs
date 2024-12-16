@@ -8,22 +8,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
-public class FreeSchoolMealsModel : AcademiesPageModel
+public class FreeSchoolMealsModel(
+    IDataSourceService dataSourceService,
+    ILogger<FreeSchoolMealsModel> logger,
+    ITrustService trustService,
+    IAcademyService academyService,
+    IExportService exportService,
+    IDateTimeProvider dateTimeProvider)
+    : AcademiesPageModel(dataSourceService, trustService, exportService, logger, dateTimeProvider)
 {
     public override TrustPageMetadata TrustPageMetadata =>
         base.TrustPageMetadata with { TabName = "Free school meals" };
 
-    public IAcademyService AcademyService { get; }
     public AcademyFreeSchoolMealsServiceModel[] Academies { get; set; } = default!;
-
-    public FreeSchoolMealsModel(IDataSourceService dataSourceService,
-        ILogger<FreeSchoolMealsModel> logger, ITrustService trustService, IAcademyService academyService,
-        IExportService exportService, IDateTimeProvider dateTimeProvider) :
-        base(dataSourceService, trustService, exportService, logger, dateTimeProvider)
-    {
-        TabName = "Free school meals";
-        AcademyService = academyService;
-    }
 
     public override async Task<IActionResult> OnGetAsync()
     {
@@ -31,19 +28,13 @@ public class FreeSchoolMealsModel : AcademiesPageModel
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        Academies = await AcademyService.GetAcademiesInTrustFreeSchoolMealsAsync(Uid);
+        Academies = await academyService.GetAcademiesInTrustFreeSchoolMealsAsync(Uid);
 
         DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),
-            new[]
-            {
-                "Pupils eligible for free school meals"
-            }));
+            ["Pupils eligible for free school meals"]));
 
         DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.ExploreEducationStatistics),
-            new[]
-            {
-                "Local authority average 2023/24", "National average 2023/24"
-            }));
+            ["Local authority average 2023/24", "National average 2023/24"]));
 
         return pageResult;
     }
