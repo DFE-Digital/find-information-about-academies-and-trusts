@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
-public class TrustsAreaModel(
+public abstract class TrustsAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
     ILogger<TrustsAreaModel> logger)

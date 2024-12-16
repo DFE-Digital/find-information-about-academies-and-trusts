@@ -4,6 +4,7 @@ using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 
@@ -14,9 +15,14 @@ public class TrustsAreaModelTests
     private readonly MockLogger<TrustsAreaModel> _logger = new();
     private readonly Mock<ITrustService> _mockTrustService = new();
 
+    private class TrustsAreaModelImpl(
+        IDataSourceService dataSourceService,
+        ITrustService trustService,
+        ILogger<TrustsAreaModel> logger) : TrustsAreaModel(dataSourceService, trustService, logger);
+
     public TrustsAreaModelTests()
     {
-        _sut = new TrustsAreaModel(_mockDataSourceProvider.Object, _mockTrustService.Object, _logger.Object);
+        _sut = new TrustsAreaModelImpl(_mockDataSourceProvider.Object, _mockTrustService.Object, _logger.Object);
     }
 
     [Fact]
