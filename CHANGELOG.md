@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Changed
+
+- Updated the autocomplete so that searching clears the selected trust
+
 ## [Release-17][release-17] (production-2024-12-18.4551)
 
 ### Added
