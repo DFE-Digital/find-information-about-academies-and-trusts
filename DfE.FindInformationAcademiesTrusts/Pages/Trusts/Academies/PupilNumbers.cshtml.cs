@@ -22,7 +22,6 @@ public class PupilNumbersModel : AcademiesPageModel
         : base(dataSourceService, trustService, exportService, logger, dateTimeProvider)
     {
         AcademyService = academyService;
-        PageTitle = "Academies pupil numbers";
         TabName = "Pupil numbers";
     }
 

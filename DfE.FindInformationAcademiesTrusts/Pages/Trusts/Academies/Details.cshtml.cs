@@ -23,7 +23,6 @@ public class AcademiesDetailsModel : AcademiesPageModel
         IDateTimeProvider dateTimeProvider) : base(dataSourceService, trustService, exportService, logger,
         dateTimeProvider)
     {
-        PageTitle = "Academies details";
         TabName = "Details";
         LinkBuilder = linkBuilder;
         AcademyService = academyService;

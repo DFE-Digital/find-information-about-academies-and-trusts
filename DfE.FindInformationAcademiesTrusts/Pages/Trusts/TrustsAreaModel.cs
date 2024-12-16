@@ -21,7 +21,6 @@ public class TrustsAreaModel(
     public TrustSummaryServiceModel TrustSummary { get; set; } = default!;
     public List<DataSourceListEntry> DataSources { get; set; } = [];
     public string PageName { get; init; } = pageName;
-    public string? PageTitle { get; set; }
     public virtual TrustPageMetadata TrustPageMetadata => new(TrustSummary.Name, ModelState.IsValid);
 
     public string MapDataSourceToName(DataSourceServiceModel dataSource)

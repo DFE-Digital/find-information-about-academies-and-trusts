@@ -42,13 +42,6 @@ public class PupilNumbersModelTests
     }
 
     [Fact]
-    public void PageTitle_should_be_AcademiesPupilNumbers()
-    {
-        _sut.PageTitle.Should().Be("Academies pupil numbers");
-    }
-
-
-    [Fact]
     public void TabName_should_be_PupilNumbers()
     {
         _sut.TabName.Should().Be("Pupil numbers");

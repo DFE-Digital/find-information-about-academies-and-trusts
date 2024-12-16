@@ -36,12 +36,6 @@ public class AcademiesDetailsModelTests
     }
 
     [Fact]
-    public void PageTitle_should_be_AcademiesDetails()
-    {
-        _sut.PageTitle.Should().Be("Academies details");
-    }
-
-    [Fact]
     public void TabName_should_be_Details()
     {
         _sut.TabName.Should().Be("Details");

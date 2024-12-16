@@ -19,8 +19,6 @@ public interface ITrustsAreaModel
     /// </summary>
     TrustPageMetadata TrustPageMetadata { get; }
 
-    string? PageTitle { get; set; }
-
     string MapDataSourceToName(DataSourceServiceModel dataSource);
     string MapDataSourceToTestId(DataSourceListEntry source);
 

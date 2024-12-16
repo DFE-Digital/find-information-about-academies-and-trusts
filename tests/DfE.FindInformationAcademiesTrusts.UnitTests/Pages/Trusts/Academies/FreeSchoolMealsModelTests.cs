@@ -37,12 +37,6 @@ public class FreeSchoolMealsModelTests
     }
 
     [Fact]
-    public void PageTitle_should_be_AcademiesDetails()
-    {
-        _sut.PageTitle.Should().Be("Academies free school meals");
-    }
-
-    [Fact]
     public void TabName_should_be_Details()
     {
         _sut.TabName.Should().Be("Free school meals");

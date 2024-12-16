@@ -21,7 +21,6 @@ public class FreeSchoolMealsModel : AcademiesPageModel
         IExportService exportService, IDateTimeProvider dateTimeProvider) :
         base(dataSourceService, trustService, exportService, logger, dateTimeProvider)
     {
-        PageTitle = "Academies free school meals";
         TabName = "Free school meals";
         AcademyService = academyService;
     }
