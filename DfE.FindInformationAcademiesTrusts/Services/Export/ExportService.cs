@@ -90,7 +90,7 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
         var worksheet = workbook.Worksheets.Add("Academies");
 
         WriteTrustInformation(worksheet, trustSummary);
-        WriteHeaders(worksheet, headers, 3);
+        WriteHeaders(worksheet, headers);
 
         var startRow = 4;
         for (var i = 0; i < academies.Length; i++)
