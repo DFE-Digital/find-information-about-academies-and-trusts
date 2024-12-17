@@ -139,7 +139,7 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
 
         SetDateCell(worksheet, rowNumber, 9, previousRating.InspectionDate);
 
-        SetTextCell(worksheet, rowNumber, 10, currentRating.OverallEffectiveness.ToDisplayString() ?? string.Empty);
+        SetTextCell(worksheet, rowNumber, 10, currentRating.OverallEffectiveness.ToDisplayString());
         SetTextCell(worksheet, rowNumber, 11,
             IsOfstedRatingBeforeOrAfterJoining(
                 currentRating.OverallEffectiveness,
@@ -214,7 +214,7 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
         var worksheet = workbook.Worksheets.Add("Ofsted");
 
         WriteTrustInformation(worksheet, trustSummary);
-        WriteHeaders(worksheet, headers, 3);
+        WriteHeaders(worksheet, headers);
 
         var startRow = 4;
         for (var i = 0; i < academies.Length; i++)
