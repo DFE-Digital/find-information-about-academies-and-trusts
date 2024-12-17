@@ -6,7 +6,7 @@ public record DataSourceListEntry(DataSourceServiceModel DataSource, IEnumerable
 {
     public string LastUpdatedText => DataSource.LastUpdated is null
         ? "Unknown"
-        : DataSource.LastUpdated.Value.ToString(StringFormatConstants.FullDateFormat);
+        : DataSource.LastUpdated.Value.ToString(StringFormatConstants.DisplayDateFormat);
 
     public string? UpdatedByText => DataSource.UpdatedBy == "TRAMs Migration"
         ? "TRAMS Migration"
