@@ -125,7 +125,7 @@ class OverviewPage {
         return this;
     }
 
-    public checkReferenceNumversSubHeaderPresent(): this {
+    public checkReferenceNumbersSubHeaderPresent(): this {
         this.elements.subHeaders.subHeader().should('be.visible');
         this.elements.subHeaders.subHeader().should('contain', 'Reference numbers');
         return this;

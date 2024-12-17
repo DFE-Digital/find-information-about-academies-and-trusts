@@ -44,7 +44,7 @@ describe("Testing the components of the Trust overview page", () => {
 
         it("The page loads with the correct headings and data in the reference numbers card", () => {
             overviewPage
-                .checkReferenceNumversSubHeaderPresent()
+                .checkReferenceNumbersSubHeaderPresent()
                 .checkReferenceNumbersCardPresent()
                 .checkReferenceNumbersCardItemsPresent();
             navigation
