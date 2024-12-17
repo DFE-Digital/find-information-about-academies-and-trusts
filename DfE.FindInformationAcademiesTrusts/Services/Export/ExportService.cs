@@ -128,7 +128,7 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
 
         SetDateCell(worksheet, rowNumber, 6, ofstedData?.DateAcademyJoinedTrust);
 
-        SetTextCell(worksheet, rowNumber, 7, previousRating.OverallEffectiveness.ToDisplayString() ?? string.Empty);
+        SetTextCell(worksheet, rowNumber, 7, previousRating.OverallEffectiveness.ToDisplayString());
         SetTextCell(worksheet, rowNumber, 8,
             IsOfstedRatingBeforeOrAfterJoining(
                 previousRating.OverallEffectiveness,
