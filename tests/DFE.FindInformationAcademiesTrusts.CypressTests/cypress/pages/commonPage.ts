@@ -11,7 +11,26 @@ class CommonPage {
             message: () => this.elements.errorPopup.section().find('[data-testid="error-summary"]')
         },
 
+        trustName: () => cy.get('[data-testid="trust-name-heading"]'),
     };
+
+    /**
+     * Checks that the browser title for a trust page is correct
+     * 
+     * @pageTitle should contain `{trustName}` which will be replaced with the name of the trust retrieved from the header
+     */
+    public checkThatBrowserTitleForTrustPageMatches(pageTitle: string): this {
+
+        this.elements.trustName()
+            .invoke('text')
+            .then(trustName => {
+                const expectedBrowserTitle = pageTitle.replace('{trustName}', trustName);
+
+                cy.title().should('equal', expectedBrowserTitle);
+            });
+
+        return this;
+    }
 
     public checkSuccessPopup(expectedMessage: string): this {
         const { successPopup } = this.elements;
