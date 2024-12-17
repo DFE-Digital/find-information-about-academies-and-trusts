@@ -47,13 +47,19 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
         var academiesPupilNumbers = await academyRepository.GetAcademiesInTrustPupilNumbersAsync(uid);
         var academiesFreeSchoolMeals = await academyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(uid);
 
-        return GenerateAcademiesSpreadsheet(trustSummary, academiesDetails, headers, academiesOfstedRatings,
-            academiesPupilNumbers, academiesFreeSchoolMeals);
+        return GenerateAcademiesSpreadsheet(
+            trustSummary,
+            academiesDetails,
+            headers,
+            academiesOfstedRatings,
+            academiesPupilNumbers,
+            academiesFreeSchoolMeals
+        );
     }
 
     public static float CalculatePercentageFull(int? numberOfPupils, int? schoolCapacity)
     {
-        if (numberOfPupils.HasValue && schoolCapacity.HasValue && schoolCapacity != 0)
+        if (numberOfPupils.HasValue && schoolCapacity.HasValue && schoolCapacity.Value != 0)
         {
             return (float)Math.Round((double)numberOfPupils.Value / schoolCapacity.Value * 100);
         }
@@ -86,56 +92,44 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
         WriteTrustInformation(worksheet, trustSummary);
         WriteHeaders(worksheet, headers, 3);
 
+        var startRow = 4;
         for (var i = 0; i < academies.Length; i++)
         {
-            GenerateAcademiesRows(academies, academiesOfstedRatings, academiesPupilNumbers, academiesFreeSchoolMeals, worksheet, i, out OfstedRating currentRating, out AcademyPupilNumbers? pupilNumbersData, out AcademyFreeSchoolMeals? freeSchoolMealsData, out float percentageFull);
+            var currentRow = startRow + i;
+            var academy = academies[i];
+            var ofstedData = academiesOfstedRatings.SingleOrDefault(x => x.Urn == academy.Urn);
+            var pupilData = academiesPupilNumbers.SingleOrDefault(x => x.Urn == academy.Urn);
+            var freeMealsData = academiesFreeSchoolMeals.SingleOrDefault(x => x.Urn == academy.Urn);
 
-            // Date of Current Ofsted
-            SetDateCell(worksheet, i + 4, 12, currentRating.InspectionDate);
-
-            SetTextCell(worksheet, i + 4, 13, pupilNumbersData?.PhaseOfEducation ?? string.Empty);
-            SetTextCell(worksheet, i + 4, 14,
-                pupilNumbersData != null
-                    ? $"{pupilNumbersData.AgeRange.Minimum} - {pupilNumbersData.AgeRange.Maximum}"
-                    : string.Empty
-            );
-            SetTextCell(worksheet, i + 4, 15, pupilNumbersData?.NumberOfPupils?.ToString() ?? string.Empty);
-            SetTextCell(worksheet, i + 4, 16, pupilNumbersData?.SchoolCapacity?.ToString() ?? string.Empty);
-
-            SetTextCell(worksheet, i + 4, 17, percentageFull > 0 ? $"{percentageFull}%" : string.Empty);
-            SetTextCell(worksheet, i + 4, 18,
-                freeSchoolMealsData?.PercentageFreeSchoolMeals.HasValue == true
-                    ? $"{freeSchoolMealsData.PercentageFreeSchoolMeals}%"
-                    : string.Empty
-            );
+            GenerateAcademyRow(worksheet, currentRow, academy, ofstedData, pupilData, freeMealsData);
         }
 
         worksheet.Columns().AdjustToContents();
         return SaveWorkbookToByteArray(workbook);
     }
 
-    private static void GenerateAcademiesRows(AcademyDetails[] academies, AcademyOfsted[] academiesOfstedRatings, AcademyPupilNumbers[] academiesPupilNumbers, AcademyFreeSchoolMeals[] academiesFreeSchoolMeals, IXLWorksheet worksheet, int i, out OfstedRating currentRating, out AcademyPupilNumbers? pupilNumbersData, out AcademyFreeSchoolMeals? freeSchoolMealsData, out float percentageFull)
+    private static void GenerateAcademyRow(
+        IXLWorksheet worksheet,
+        int rowNumber,
+        AcademyDetails academy,
+        AcademyOfsted? ofstedData,
+        AcademyPupilNumbers? pupilNumbersData,
+        AcademyFreeSchoolMeals? freeSchoolMealsData)
     {
-        var academyDetails = academies[i];
-        var urn = academyDetails.Urn;
-
-        var ofstedData = academiesOfstedRatings.SingleOrDefault(x => x.Urn == urn);
         var previousRating = ofstedData?.PreviousOfstedRating ?? OfstedRating.NotInspected;
-        currentRating = ofstedData?.CurrentOfstedRating ?? OfstedRating.NotInspected;
-        pupilNumbersData = academiesPupilNumbers.SingleOrDefault(x => x.Urn == urn);
-        freeSchoolMealsData = academiesFreeSchoolMeals.SingleOrDefault(x => x.Urn == urn);
-        percentageFull = CalculatePercentageFull(pupilNumbersData?.NumberOfPupils, pupilNumbersData?.SchoolCapacity);
-        SetTextCell(worksheet, i + 4, 1, academyDetails.EstablishmentName ?? string.Empty);
-        SetTextCell(worksheet, i + 4, 2, urn);
-        SetTextCell(worksheet, i + 4, 3, academyDetails.LocalAuthority ?? string.Empty);
-        SetTextCell(worksheet, i + 4, 4, academyDetails.TypeOfEstablishment ?? string.Empty);
-        SetTextCell(worksheet, i + 4, 5, academyDetails.UrbanRural ?? string.Empty);
+        var currentRating = ofstedData?.CurrentOfstedRating ?? OfstedRating.NotInspected;
+        var percentageFull = CalculatePercentageFull(pupilNumbersData?.NumberOfPupils, pupilNumbersData?.SchoolCapacity);
 
-        // Date joined 
-        SetDateCell(worksheet, i + 4, 6, ofstedData?.DateAcademyJoinedTrust);
+        SetTextCell(worksheet, rowNumber, 1, academy.EstablishmentName ?? string.Empty);
+        SetTextCell(worksheet, rowNumber, 2, academy.Urn);
+        SetTextCell(worksheet, rowNumber, 3, academy.LocalAuthority ?? string.Empty);
+        SetTextCell(worksheet, rowNumber, 4, academy.TypeOfEstablishment ?? string.Empty);
+        SetTextCell(worksheet, rowNumber, 5, academy.UrbanRural ?? string.Empty);
 
-        SetTextCell(worksheet, i + 4, 7, previousRating.OverallEffectiveness.ToDisplayString() ?? string.Empty);
-        SetTextCell(worksheet, i + 4, 8,
+        SetDateCell(worksheet, rowNumber, 6, ofstedData?.DateAcademyJoinedTrust);
+
+        SetTextCell(worksheet, rowNumber, 7, previousRating.OverallEffectiveness.ToDisplayString() ?? string.Empty);
+        SetTextCell(worksheet, rowNumber, 8,
             IsOfstedRatingBeforeOrAfterJoining(
                 previousRating.OverallEffectiveness,
                 ofstedData?.DateAcademyJoinedTrust ?? DateTime.MinValue,
@@ -143,16 +137,37 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
             )
         );
 
-        // Date of Previous Ofsted 
-        SetDateCell(worksheet, i + 4, 9, previousRating.InspectionDate);
+        SetDateCell(worksheet, rowNumber, 9, previousRating.InspectionDate);
 
-        SetTextCell(worksheet, i + 4, 10, currentRating.OverallEffectiveness.ToDisplayString() ?? string.Empty);
-        SetTextCell(worksheet, i + 4, 11,
+        SetTextCell(worksheet, rowNumber, 10, currentRating.OverallEffectiveness.ToDisplayString() ?? string.Empty);
+        SetTextCell(worksheet, rowNumber, 11,
             IsOfstedRatingBeforeOrAfterJoining(
                 currentRating.OverallEffectiveness,
                 ofstedData?.DateAcademyJoinedTrust ?? DateTime.MinValue,
                 currentRating.InspectionDate
             )
+        );
+
+        SetDateCell(worksheet, rowNumber, 12, currentRating.InspectionDate);
+
+        SetTextCell(worksheet, rowNumber, 13, pupilNumbersData?.PhaseOfEducation ?? string.Empty);
+
+        SetTextCell(worksheet, rowNumber, 14,
+            pupilNumbersData != null
+                ? $"{pupilNumbersData.AgeRange.Minimum} - {pupilNumbersData.AgeRange.Maximum}"
+                : string.Empty
+        );
+
+        SetTextCell(worksheet, rowNumber, 15, pupilNumbersData?.NumberOfPupils?.ToString() ?? string.Empty);
+        SetTextCell(worksheet, rowNumber, 16, pupilNumbersData?.SchoolCapacity?.ToString() ?? string.Empty);
+        SetTextCell(worksheet, rowNumber, 17, percentageFull > 0 ? $"{percentageFull}%" : string.Empty);
+        SetTextCell(
+            worksheet,
+            rowNumber,
+            18,
+            freeSchoolMealsData?.PercentageFreeSchoolMeals.HasValue == true
+                ? $"{freeSchoolMealsData.PercentageFreeSchoolMeals}%"
+                : string.Empty
         );
     }
 
@@ -201,67 +216,79 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
         WriteTrustInformation(worksheet, trustSummary);
         WriteHeaders(worksheet, headers, 3);
 
+        var startRow = 4;
         for (var i = 0; i < academies.Length; i++)
         {
-            GenerateOfstedRows(academies, academiesOfstedRatings, worksheet, i);
+            var currentRow = startRow + i;
+            var academy = academies[i];
+            var ofstedData = academiesOfstedRatings.SingleOrDefault(x => x.Urn == academy.Urn);
+            GenerateOfstedRow(worksheet, currentRow, academy, ofstedData);
         }
 
         worksheet.Columns().AdjustToContents();
         return SaveWorkbookToByteArray(workbook);
     }
 
-    private static void GenerateOfstedRows(AcademyDetails[] academies, AcademyOfsted[] academiesOfstedRatings, IXLWorksheet worksheet, int i)
+    private static void GenerateOfstedRow(
+        IXLWorksheet worksheet,
+        int rowNumber,
+        AcademyDetails academy,
+        AcademyOfsted? ofstedData)
     {
-        var academyDetails = academies[i];
-        var urn = academyDetails.Urn;
-        var ofstedData = academiesOfstedRatings.SingleOrDefault(x => x.Urn == urn);
-
         var previousRating = ofstedData?.PreviousOfstedRating ?? OfstedRating.NotInspected;
         var currentRating = ofstedData?.CurrentOfstedRating ?? OfstedRating.NotInspected;
 
         // School Name
-        SetTextCell(worksheet, i + 4, 1, academyDetails.EstablishmentName ?? string.Empty);
+        SetTextCell(worksheet, rowNumber, 1, academy.EstablishmentName ?? string.Empty);
 
         // Date Joined Trust
-        SetDateCell(worksheet, i + 4, 2, ofstedData?.DateAcademyJoinedTrust);
+        SetDateCell(worksheet, rowNumber, 2, ofstedData?.DateAcademyJoinedTrust);
 
         // Current Inspection Date
-        SetDateCell(worksheet, i + 4, 3, currentRating.InspectionDate);
+        SetDateCell(worksheet, rowNumber, 3, currentRating.InspectionDate);
 
-        // Before/After Joining
-        SetTextCell(worksheet, i + 4, 4,
-            IsOfstedRatingBeforeOrAfterJoining(currentRating.OverallEffectiveness,
-                ofstedData?.DateAcademyJoinedTrust, currentRating.InspectionDate));
+        // Before/After Joining (Current)
+        SetTextCell(worksheet, rowNumber, 4,
+            IsOfstedRatingBeforeOrAfterJoining(
+                currentRating.OverallEffectiveness,
+                ofstedData?.DateAcademyJoinedTrust,
+                currentRating.InspectionDate
+            )
+        );
 
         // Current Ratings
-        SetTextCell(worksheet, i + 4, 5, currentRating.QualityOfEducation.ToDisplayString());
-        SetTextCell(worksheet, i + 4, 6, currentRating.BehaviourAndAttitudes.ToDisplayString());
-        SetTextCell(worksheet, i + 4, 7, currentRating.PersonalDevelopment.ToDisplayString());
-        SetTextCell(worksheet, i + 4, 8, currentRating.EffectivenessOfLeadershipAndManagement.ToDisplayString());
-        SetTextCell(worksheet, i + 4, 9, currentRating.EarlyYearsProvision.ToDisplayString());
-        SetTextCell(worksheet, i + 4, 10, currentRating.SixthFormProvision.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 5, currentRating.QualityOfEducation.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 6, currentRating.BehaviourAndAttitudes.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 7, currentRating.PersonalDevelopment.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 8, currentRating.EffectivenessOfLeadershipAndManagement.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 9, currentRating.EarlyYearsProvision.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 10, currentRating.SixthFormProvision.ToDisplayString());
 
         // Previous Inspection Date
-        SetDateCell(worksheet, i + 4, 11, previousRating.InspectionDate);
+        SetDateCell(worksheet, rowNumber, 11, previousRating.InspectionDate);
 
         // Previous Ratings
-        SetTextCell(worksheet, i + 4, 12, previousRating.QualityOfEducation.ToDisplayString());
-        SetTextCell(worksheet, i + 4, 13, previousRating.BehaviourAndAttitudes.ToDisplayString());
-        SetTextCell(worksheet, i + 4, 14, previousRating.PersonalDevelopment.ToDisplayString());
-        SetTextCell(worksheet, i + 4, 15, previousRating.EffectivenessOfLeadershipAndManagement.ToDisplayString());
-        SetTextCell(worksheet, i + 4, 16, previousRating.EarlyYearsProvision.ToDisplayString());
-        SetTextCell(worksheet, i + 4, 17, previousRating.SixthFormProvision.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 12, previousRating.QualityOfEducation.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 13, previousRating.BehaviourAndAttitudes.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 14, previousRating.PersonalDevelopment.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 15, previousRating.EffectivenessOfLeadershipAndManagement.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 16, previousRating.EarlyYearsProvision.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 17, previousRating.SixthFormProvision.ToDisplayString());
 
-        // Before/After Joining 
-        SetTextCell(worksheet, i + 4, 18,
-            IsOfstedRatingBeforeOrAfterJoining(previousRating.OverallEffectiveness,
-                ofstedData?.DateAcademyJoinedTrust, previousRating.InspectionDate));
+        // Before/After Joining (Previous)
+        SetTextCell(worksheet, rowNumber, 18,
+            IsOfstedRatingBeforeOrAfterJoining(
+                previousRating.OverallEffectiveness,
+                ofstedData?.DateAcademyJoinedTrust,
+                previousRating.InspectionDate
+            )
+        );
 
         // Safeguarding Effective
-        SetTextCell(worksheet, i + 4, 19, currentRating.SafeguardingIsEffective.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 19, currentRating.SafeguardingIsEffective.ToDisplayString());
 
         // Category of Concern
-        SetTextCell(worksheet, i + 4, 20, currentRating.CategoryOfConcern.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 20, currentRating.CategoryOfConcern.ToDisplayString());
     }
 
     private static void SetDateCell(IXLWorksheet worksheet, int row, int column, DateTime? dateValue)
