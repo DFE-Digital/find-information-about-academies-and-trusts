@@ -10,14 +10,14 @@
       "rollForward": false
     },
     "dotnet-stryker": {
-      "version": "4.2.0",
+      "version": "4.4.1",
       "commands": [
         "dotnet-stryker"
       ],
       "rollForward": false
     },
     "dotnet-coverage": {
-      "version": "17.12.6",
+      "version": "17.13.1",
       "commands": [
         "dotnet-coverage"
       ],

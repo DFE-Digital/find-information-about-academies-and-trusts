@@ -8,7 +8,6 @@ on:
       - '!.gitignore'
       - '!**.DotSettings'
       - '!**.md'
-      - '!.config/**'
       - '!.github/**'
       - '!terraform/**'
   pull_request:
@@ -19,7 +18,6 @@ on:
       - '!.gitignore'
       - '!**.DotSettings'
       - '!**.md'
-      - '!.config/**'
       - '!.github/**'
       - '!terraform/**'
 
