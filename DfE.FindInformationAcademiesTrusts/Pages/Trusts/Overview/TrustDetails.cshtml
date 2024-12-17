@@ -30,7 +30,7 @@
             <dd class="govuk-summary-list__value" data-testid="opened-on">
               @if (Model.TrustOverview.OpenedDate is not null)
               {
-                @Model.TrustOverview.OpenedDate.Value.ToString(StringFormatConstants.ViewDate)
+                @Model.TrustOverview.OpenedDate.Value.ToString(StringFormatConstants.DisplayDateFormat)
               }
             </dd>
           </div>

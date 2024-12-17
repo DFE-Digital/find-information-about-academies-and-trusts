@@ -33,7 +33,7 @@ public class SafeguardingAndConcernsModelTests
                 _mockDateTimeProvider.Object,
                 new MockLogger<SafeguardingAndConcernsModel>().Object
             )
-            { Uid = "1234" };
+        { Uid = "1234" };
     }
 
     [Fact]
@@ -130,7 +130,7 @@ public class SafeguardingAndConcernsModelTests
         byte[] expectedBytes = [1, 2, 3];
 
         _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid)).ReturnsAsync(trustSummary);
-        _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(uid)).ReturnsAsync(expectedBytes);
+        _mockExportService.Setup(x => x.ExportOfstedDataToSpreadsheetAsync(uid)).ReturnsAsync(expectedBytes);
 
 
         // Act
@@ -167,7 +167,7 @@ public class SafeguardingAndConcernsModelTests
         var expectedBytes = new byte[] { 1, 2, 3 };
 
         _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid)).ReturnsAsync(trustSummary);
-        _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(uid)).ReturnsAsync(expectedBytes);
+        _mockExportService.Setup(x => x.ExportOfstedDataToSpreadsheetAsync(uid)).ReturnsAsync(expectedBytes);
 
         // Act
         var result = await _sut.OnGetExportAsync(uid);
