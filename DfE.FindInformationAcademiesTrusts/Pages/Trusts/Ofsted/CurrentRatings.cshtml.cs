@@ -13,4 +13,8 @@ public class CurrentRatingsModel(
     IExportService exportService,
     IDateTimeProvider dateTimeProvider,
     ILogger<CurrentRatingsModel> logger) : OfstedAreaModel(dataSourceService, trustService,
-    academyService, exportService, dateTimeProvider, logger);
+    academyService, exportService, dateTimeProvider, logger)
+{
+    public override TrustPageMetadata TrustPageMetadata =>
+        base.TrustPageMetadata with { SubPageName = "Current ratings" };
+}

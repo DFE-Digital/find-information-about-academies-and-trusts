@@ -22,12 +22,17 @@ describe("Testing the Ofsted page and its subpages ", () => {
                 .checkOfstedCurrentRatingsPageHeaderPresent();
         });
 
+        it("Checks the browser title is correct", () => {
+            commonPage
+                .checkThatBrowserTitleForTrustPageMatches('Current ratings - Ofsted - {trustName} - Find information about academies and trusts');
+        });
+
         it("Checks the breadcrumb shows the correct page name", () => {
             navigation
                 .checkPageNameBreadcrumbPresent("Ofsted");
-        })
+        });
 
-        it("Checks the correct Ofsted current ratings headers are present", () => {
+        it("Checks the correct Ofsted current ratings table headers are present", () => {
             ofstedPage
                 .checkOfstedCurrentRatingsTableHeadersPresent();
         });
@@ -87,10 +92,15 @@ describe("Testing the Ofsted page and its subpages ", () => {
                 .checkOfstedPreviousRatingsPageHeaderPresent();
         });
 
+        it("Checks the browser title is correct", () => {
+            commonPage
+                .checkThatBrowserTitleForTrustPageMatches('Previous ratings - Ofsted - {trustName} - Find information about academies and trusts');
+        });
+
         it("Checks the breadcrumb shows the correct page name", () => {
             navigation
                 .checkPageNameBreadcrumbPresent("Ofsted");
-        })
+        });
 
         it("Checks the correct Ofsted previous ratings headers are present", () => {
             ofstedPage
@@ -152,10 +162,15 @@ describe("Testing the Ofsted page and its subpages ", () => {
                 .checkOfstedSafeguardingConcernsPageHeaderPresent();
         });
 
+        it("Checks the browser title is correct", () => {
+            commonPage
+                .checkThatBrowserTitleForTrustPageMatches('Safeguarding and concerns - Ofsted - {trustName} - Find information about academies and trusts');
+        });
+
         it("Checks the breadcrumb shows the correct page name", () => {
             navigation
                 .checkPageNameBreadcrumbPresent("Ofsted");
-        })
+        });
 
         it("Checks the correct Ofsted safeguarding and concerns headers are present", () => {
             ofstedPage
@@ -208,6 +223,16 @@ describe("Testing the Ofsted page and its subpages ", () => {
         it("Checks the correct Ofsted important dates sub page header is present", () => {
             ofstedPage
                 .checkOfstedImportantDatesPageHeaderPresent();
+        });
+
+        it("Checks the browser title is correct", () => {
+            commonPage
+                .checkThatBrowserTitleForTrustPageMatches('Important dates - Ofsted - {trustName} - Find information about academies and trusts');
+        });
+
+        it("Checks the breadcrumb shows the correct page name", () => {
+            navigation
+                .checkPageNameBreadcrumbPresent("Ofsted");
         });
 
         it("Checks the correct Ofsted important dates table headers are present", () => {

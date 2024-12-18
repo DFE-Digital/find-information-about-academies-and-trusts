@@ -13,4 +13,8 @@ public class SafeguardingAndConcernsModel(
     IExportService exportService,
     IDateTimeProvider dateTimeProvider,
     ILogger<SafeguardingAndConcernsModel> logger) : OfstedAreaModel(dataSourceService, trustService,
-    academyService, exportService, dateTimeProvider, logger);
+    academyService, exportService, dateTimeProvider, logger)
+{
+    public override TrustPageMetadata TrustPageMetadata =>
+        base.TrustPageMetadata with { SubPageName = "Safeguarding and concerns" };
+}

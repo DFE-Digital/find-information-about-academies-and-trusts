@@ -4,7 +4,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public record TrustSubNavigationLinkModel(
     string LinkText,
-    string Page,
+    string SubPageLink,
     string Uid,
     string ServiceName,
     bool LinkIsActive)

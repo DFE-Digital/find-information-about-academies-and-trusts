@@ -13,4 +13,8 @@ public class PreviousRatingsModel(
     IExportService exportService,
     IDateTimeProvider dateTimeProvider,
     ILogger<PreviousRatingsModel> logger) : OfstedAreaModel(dataSourceService, trustService,
-    academyService, exportService, dateTimeProvider, logger);
+    academyService, exportService, dateTimeProvider, logger)
+{
+    public override TrustPageMetadata TrustPageMetadata =>
+        base.TrustPageMetadata with { SubPageName = "Previous ratings" };
+}

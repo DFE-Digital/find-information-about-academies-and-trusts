@@ -1,7 +1,5 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
-using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -13,19 +11,24 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 public class AcademiesPageModelTests
 {
     private readonly Mock<ITrustService> _mockTrustService = new();
-    private readonly Mock<IAcademyService> _mockAcademyService = new();
     private readonly Mock<IExportService> _mockExportService = new();
-    private readonly Mock<IOtherServicesLinkBuilder> _mockOtherServicesLinkBuilder = new();
     private readonly Mock<IDataSourceService> _mockDataSourceService = new();
     private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
-    private readonly Mock<ILogger<AcademiesDetailsModel>> _mockLogger = new();
+    private readonly Mock<ILogger<AcademiesPageModel>> _mockLogger = new();
     private readonly AcademiesPageModel _sut;
+
+    private class AcademiesPageModelImpl(
+        IDataSourceService dataSourceService,
+        ITrustService trustService,
+        IExportService exportService,
+        ILogger<AcademiesPageModel> logger,
+        IDateTimeProvider dateTimeProvider)
+        : AcademiesPageModel(dataSourceService, trustService, exportService, logger, dateTimeProvider);
 
     public AcademiesPageModelTests()
     {
-        _sut = new AcademiesDetailsModel(_mockDataSourceService.Object, _mockOtherServicesLinkBuilder.Object,
-            _mockLogger.Object, _mockTrustService.Object, _mockAcademyService.Object, _mockExportService.Object,
-            _mockDateTimeProvider.Object);
+        _sut = new AcademiesPageModelImpl(_mockDataSourceService.Object, _mockTrustService.Object,
+            _mockExportService.Object, _mockLogger.Object, _mockDateTimeProvider.Object);
     }
 
     [Fact]
@@ -94,5 +97,19 @@ public class AcademiesPageModelTests
         // Check that the file name doesn't contain any invalid characters
         var containsInvalidChars = fileDownloadName.Any(c => invalidFileNameChars.Contains(c));
         containsInvalidChars.Should().BeFalse("the file name should not contain any illegal characters");
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_configure_TrustPageMetadata()
+    {
+        TrustSummaryServiceModel fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
+
+        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(fakeTrust.Uid)).ReturnsAsync(fakeTrust);
+        _sut.Uid = fakeTrust.Uid;
+
+        _ = await _sut.OnGetAsync();
+
+        _sut.TrustPageMetadata.PageName.Should().Be("Academies");
+        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
     }
 }

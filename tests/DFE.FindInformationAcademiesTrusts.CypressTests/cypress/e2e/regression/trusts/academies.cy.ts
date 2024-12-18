@@ -10,6 +10,11 @@ describe("Testing the components of the Academies page", () => {
             cy.visit('/trusts/academies/details?uid=5712');
         });
 
+        it("Checks the browser title is correct", () => {
+            commonPage
+                .checkThatBrowserTitleForTrustPageMatches('Details - Academies - {trustName} - Find information about academies and trusts');
+        });
+
         it("Checks the correct details page headers are present", () => {
             academiesPage
                 .checkDetailsHeadersPresent();
@@ -53,6 +58,11 @@ describe("Testing the components of the Academies page", () => {
             cy.visit('/trusts/academies/pupil-numbers?uid=5712');
         });
 
+        it("Checks the browser title is correct", () => {
+            commonPage
+                .checkThatBrowserTitleForTrustPageMatches('Pupil numbers - Academies - {trustName} - Find information about academies and trusts');
+        });
+
         it("Checks the correct Pupil numbers page headers are present", () => {
             academiesPage
                 .checkPupilNumbersHeadersPresent();
@@ -88,6 +98,11 @@ describe("Testing the components of the Academies page", () => {
         beforeEach(() => {
             cy.login();
             cy.visit('/trusts/academies/free-school-meals?uid=5712');
+        });
+
+        it("Checks the browser title is correct", () => {
+            commonPage
+                .checkThatBrowserTitleForTrustPageMatches('Free school meals - Academies - {trustName} - Find information about academies and trusts');
         });
 
         it("Checks the correct Free school meals page headers are present", () => {

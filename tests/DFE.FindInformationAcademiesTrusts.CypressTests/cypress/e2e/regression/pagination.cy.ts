@@ -1,3 +1,4 @@
+import commonPage from "../../pages/commonPage";
 import navigation from "../../pages/navigation";
 import paginationPage from "../../pages/paginationPage";
 
@@ -5,8 +6,8 @@ describe('Pagination Tests', () => {
 
 
     beforeEach(() => {
-        cy.login()
-        cy.visit('/search?keywords=west')
+        cy.login();
+        cy.visit('/search?keywords=west');
     });
 
     it('Should display multiple pagination buttons', () => {
@@ -16,76 +17,82 @@ describe('Pagination Tests', () => {
 
     it('Should navigate to a specific page when a page number is clicked on a large result page', () => {
 
-        cy.visit('/search?keywords=tru')
+        cy.visit('/search?keywords=tru');
         paginationPage
-            .clickPageNumber(2)
+            .clickPageNumber(2);
         navigation
-            .checkCurrentURLIsCorrect('pagenumber=2')
-
-        paginationPage
-            .clickPageNumber(72)
-
-        navigation
-            .checkCurrentURLIsCorrect('pagenumber=72')
+            .checkCurrentURLIsCorrect('pagenumber=2');
+        commonPage
+            .checkThatBrowserTitleMatches('Search (page 2 of 72) - tru - Find information about academies and trusts');
 
         paginationPage
-            .clickPageNumber(71)
+            .clickPageNumber(72);
 
         navigation
-            .checkCurrentURLIsCorrect('pagenumber=71')
+            .checkCurrentURLIsCorrect('pagenumber=72');
+        commonPage
+            .checkThatBrowserTitleMatches('Search (page 72 of 72) - tru - Find information about academies and trusts');
+
+        paginationPage
+            .clickPageNumber(71);
+
+        navigation
+            .checkCurrentURLIsCorrect('pagenumber=71');
+        commonPage
+            .checkThatBrowserTitleMatches('Search (page 71 of 72) - tru - Find information about academies and trusts');
     });
 
     it('Should navigate to the next page on next button click', () => {
         paginationPage
-            .clickNext()
+            .clickNext();
 
         navigation
-            .checkCurrentURLIsCorrect('pagenumber=2')
+            .checkCurrentURLIsCorrect('pagenumber=2');
 
         paginationPage
-            .clickNext()
+            .clickNext();
 
         navigation
-            .checkCurrentURLIsCorrect('pagenumber=3')
+            .checkCurrentURLIsCorrect('pagenumber=3');
 
     });
 
     it('Should navigate to the previous page on previous button click', () => {
         paginationPage
-            .clickNext()
+            .clickNext();
 
         navigation
-            .checkCurrentURLIsCorrect('pagenumber=2')
+            .checkCurrentURLIsCorrect('pagenumber=2');
 
         paginationPage
-            .clickPrevious()
+            .clickPrevious();
 
         navigation
-            .checkCurrentURLIsCorrect('pagenumber=1')
+            .checkCurrentURLIsCorrect('pagenumber=1');
 
     });
 
     it('Checks that the previous page button is not present on the first page of results', () => {
         paginationPage
-            .checkPreviousButtonNotPresent()
+            .checkPreviousButtonNotPresent();
     });
 
     it('Checks that the next page button is not present on the first page of results', () => {
         paginationPage
             .clickPageNumber(3)
-            .checkNextButtonNotPresent()
+            .checkNextButtonNotPresent();
     });
 
     it('Checks that the previous and next page buttons are not present on the no results found page', () => {
-        cy.visit('/search?keywords=knowhere')
+        cy.visit('/search?keywords=knowhere');
 
         paginationPage
             .checkPreviousButtonNotPresent()
-            .checkNextButtonNotPresent()
+            .checkNextButtonNotPresent();
     });
 
     it('Checks that I see the pages I would expect mid pagination and dont see the ones that should be hidden', () => {
-        cy.visit('/search?keywords=tru&pagenumber=30')
+        cy.visit('/search?keywords=tru&pagenumber=30');
 
         paginationPage
             .checkExpectedPageNumberInPaginationBar(1)
@@ -96,37 +103,39 @@ describe('Pagination Tests', () => {
             .checkExpectedPageNumberInPaginationBar(31)
             .checkResultIsNotInPaginationBar(32)
             .checkResultIsNotInPaginationBar(71)
-            .checkExpectedPageNumberInPaginationBar(72)
+            .checkExpectedPageNumberInPaginationBar(72);
     });
 
     it('Checks that on a single result page only the page number is present', () => {
-        cy.visit('/search?keywords=henley-in-arden')
+        cy.visit('/search?keywords=henley-in-arden');
 
         paginationPage
             .checkPreviousButtonNotPresent()
             .checkNextButtonNotPresent()
-            .checkSingleResultOnlyHasOnePage(1)
+            .checkSingleResultOnlyHasOnePage(1);
+
+        commonPage
+            .checkThatBrowserTitleMatches('Search - henley-in-arden - Find information about academies and trusts');
     });
 
     it('Should navigate to the previous page on previous button click', () => {
         paginationPage
-            .clickNext()
+            .clickNext();
 
         navigation
-            .checkCurrentURLIsCorrect('pagenumber=2')
+            .checkCurrentURLIsCorrect('pagenumber=2');
 
         paginationPage.getResults().then(secondPageResults => {
             const secondPageFirstResultText = secondPageResults.first().text();
 
-            paginationPage.clickPrevious()
+            paginationPage.clickPrevious();
 
             navigation
-                .checkCurrentURLIsCorrect('pagenumber=1')
+                .checkCurrentURLIsCorrect('pagenumber=1');
 
             paginationPage.getResults().first().should('not.have.text', secondPageFirstResultText);
         });
     });
-
 
     it('Should iterate through all pagination pages and verify results are different', () => {
         paginationPage.getTotalPaginationButtons().then(totalPages => {

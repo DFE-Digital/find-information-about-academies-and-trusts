@@ -15,8 +15,9 @@ public class OfstedAreaModel(
     IExportService exportService,
     IDateTimeProvider dateTimeProvider,
     ILogger<OfstedAreaModel> logger)
-    : TrustsAreaModel(dataSourceService, trustService, logger, "Ofsted")
+    : TrustsAreaModel(dataSourceService, trustService, logger)
 {
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = "Ofsted" };
     public AcademyOfstedServiceModel[] Academies { get; set; } = default!;
     private IAcademyService AcademyService { get; } = academyService;
     protected IExportService ExportService { get; } = exportService;
@@ -32,14 +33,14 @@ public class OfstedAreaModel(
 
         SubNavigationLinks =
         [
-            new TrustSubNavigationLinkModel("Current ratings", "./CurrentRatings", Uid, PageName,
+            new TrustSubNavigationLinkModel("Current ratings", "./CurrentRatings", Uid, TrustPageMetadata.PageName!,
                 this is CurrentRatingsModel),
-            new TrustSubNavigationLinkModel("Previous ratings", "./PreviousRatings", Uid,
-                PageName, this is PreviousRatingsModel),
-            new TrustSubNavigationLinkModel("Important dates", "./ImportantDates", Uid, PageName,
+            new TrustSubNavigationLinkModel("Previous ratings", "./PreviousRatings", Uid, TrustPageMetadata.PageName!,
+                this is PreviousRatingsModel),
+            new TrustSubNavigationLinkModel("Important dates", "./ImportantDates", Uid, TrustPageMetadata.PageName!,
                 this is ImportantDatesModel),
             new TrustSubNavigationLinkModel("Safeguarding and concerns", "./SafeguardingAndConcerns", Uid,
-                PageName, this is SafeguardingAndConcernsModel)
+                TrustPageMetadata.PageName!, this is SafeguardingAndConcernsModel)
         ];
 
         DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),

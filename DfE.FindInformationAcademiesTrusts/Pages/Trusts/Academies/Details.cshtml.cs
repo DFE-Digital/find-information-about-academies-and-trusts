@@ -8,21 +8,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
-public class AcademiesDetailsModel : AcademiesPageModel
+public class AcademiesDetailsModel(
+    IDataSourceService dataSourceService,
+    IOtherServicesLinkBuilder linkBuilder,
+    ILogger<AcademiesDetailsModel> logger,
+    ITrustService trustService,
+    IAcademyService academyService,
+    IExportService exportService,
+    IDateTimeProvider dateTimeProvider)
+    : AcademiesPageModel(dataSourceService, trustService, exportService, logger,
+        dateTimeProvider)
 {
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { TabName = "Details" };
     public AcademyDetailsServiceModel[] Academies { get; set; } = default!;
-    public IOtherServicesLinkBuilder LinkBuilder { get; }
-    private IAcademyService AcademyService { get; }
-
-    public AcademiesDetailsModel(IDataSourceService dataSourceService,
-        IOtherServicesLinkBuilder linkBuilder, ILogger<AcademiesDetailsModel> logger,
-        ITrustService trustService, IAcademyService academyService, IExportService exportService, IDateTimeProvider dateTimeProvider) : base(dataSourceService, trustService, exportService, logger, dateTimeProvider)
-    {
-        PageTitle = "Academies details";
-        TabName = "Details";
-        LinkBuilder = linkBuilder;
-        AcademyService = academyService;
-    }
+    public IOtherServicesLinkBuilder LinkBuilder { get; } = linkBuilder;
 
     public override async Task<IActionResult> OnGetAsync()
     {
@@ -30,12 +29,10 @@ public class AcademiesDetailsModel : AcademiesPageModel
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        Academies = await AcademyService.GetAcademiesInTrustDetailsAsync(Uid);
+        Academies = await academyService.GetAcademiesInTrustDetailsAsync(Uid);
 
-        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),
-            new List<string> { "Details" }));
+        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias), ["Details"]));
 
         return pageResult;
     }
-
 }

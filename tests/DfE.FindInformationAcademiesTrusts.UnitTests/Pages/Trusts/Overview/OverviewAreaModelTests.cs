@@ -32,12 +32,6 @@ public class OverviewAreaModelTests
     }
 
     [Fact]
-    public void PageName_should_be_Overview()
-    {
-        _sut.PageName.Should().Be("Overview");
-    }
-
-    [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(TrustUid)).ReturnsAsync((TrustSummaryServiceModel?)null);
@@ -79,5 +73,14 @@ public class OverviewAreaModelTests
             new TrustSubNavigationLinkModel("Trust summary", "./TrustSummary", "1234", "Overview", false),
             new TrustSubNavigationLinkModel("Reference numbers", "./ReferenceNumbers", "1234", "Overview", false)
         ]);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_configure_TrustPageMetadata()
+    {
+        _ = await _sut.OnGetAsync();
+
+        _sut.TrustPageMetadata.PageName.Should().Be("Overview");
+        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
     }
 }

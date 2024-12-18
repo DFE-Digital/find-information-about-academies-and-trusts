@@ -1,3 +1,4 @@
+import commonPage from "../../../pages/commonPage";
 import navigation from "../../../pages/navigation";
 import governancePage from "../../../pages/trusts/governancePage";
 
@@ -23,6 +24,9 @@ describe("Testing the components of the Governance page", () => {
             it("The trust leadership page loads with the correct headings and data", () => {
                 cy.visit(`/trusts/governance/trust-leadership?uid=${uid}`);
 
+                commonPage
+                    .checkThatBrowserTitleForTrustPageMatches('Trust leadership - Governance - {trustName} - Find information about academies and trusts');
+
                 // Trust leadership table is visible and working
                 governancePage
                     .checkTrustLeadershipSubHeaderPresent()
@@ -41,6 +45,9 @@ describe("Testing the components of the Governance page", () => {
             it("The trustees page loads with the correct headings and data", () => {
                 cy.visit(`/trusts/governance/trustees?uid=${uid}`);
 
+                commonPage
+                    .checkThatBrowserTitleForTrustPageMatches('Trustees - Governance - {trustName} - Find information about academies and trusts');
+
                 // Trustee table is visible and working
                 governancePage
                     .checkTrusteesSubHeaderPresent()
@@ -58,6 +65,9 @@ describe("Testing the components of the Governance page", () => {
             it("The members page loads with the correct headings and data", () => {
                 cy.visit(`/trusts/governance/members?uid=${uid}`);
 
+                commonPage
+                    .checkThatBrowserTitleForTrustPageMatches('Members - Governance - {trustName} - Find information about academies and trusts');
+
                 // Members table is visible and working
                 governancePage
                     .checkMembersSubHeaderPresent()
@@ -74,6 +84,9 @@ describe("Testing the components of the Governance page", () => {
 
             it("The historic members page loads with the correct headings and data", () => {
                 cy.visit(`/trusts/governance/historic-members?uid=${uid}`);
+
+                commonPage
+                    .checkThatBrowserTitleForTrustPageMatches('Historic members - Governance - {trustName} - Find information about academies and trusts');
 
                 // Historic members table is visible and working
                 governancePage

@@ -9,7 +9,7 @@
   private string GetCurrentlySelectedClassIf(string linkName)
   {
     var selectedClass = "govuk-tabs__list-item--selected";
-    return Model.TabName == linkName ? selectedClass : string.Empty;
+    return Model.TrustPageMetadata.TabName == linkName ? selectedClass : string.Empty;
   }
 
 }

@@ -37,24 +37,6 @@ public class FreeSchoolMealsModelTests
     }
 
     [Fact]
-    public void PageTitle_should_be_AcademiesDetails()
-    {
-        _sut.PageTitle.Should().Be("Academies free school meals");
-    }
-
-    [Fact]
-    public void TabName_should_be_Details()
-    {
-        _sut.TabName.Should().Be("Free school meals");
-    }
-
-    [Fact]
-    public void PageName_should_be_AcademiesInThisTrust()
-    {
-        _sut.PageName.Should().Be("Academies");
-    }
-
-    [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
@@ -114,6 +96,16 @@ public class FreeSchoolMealsModelTests
     public async Task OnGetAsync_sets_SubNavigationLinks_toEmptyArray()
     {
         _ = await _sut.OnGetAsync();
-        _sut.SubNavigationLinks.Should().Equal([]);
+        _sut.SubNavigationLinks.Should().Equal();
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_configure_TrustPageMetadata()
+    {
+        _ = await _sut.OnGetAsync();
+
+        _sut.TrustPageMetadata.TabName.Should().Be("Free school meals");
+        _sut.TrustPageMetadata.PageName.Should().Be("Academies");
+        _sut.TrustPageMetadata.TrustName.Should().Be("Test Trust");
     }
 }

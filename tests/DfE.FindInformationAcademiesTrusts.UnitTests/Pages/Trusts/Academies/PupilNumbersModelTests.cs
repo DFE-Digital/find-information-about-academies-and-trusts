@@ -41,25 +41,6 @@ public class PupilNumbersModelTests
             { Uid = "1234" };
     }
 
-    [Fact]
-    public void PageTitle_should_be_AcademiesPupilNumbers()
-    {
-        _sut.PageTitle.Should().Be("Academies pupil numbers");
-    }
-
-
-    [Fact]
-    public void TabName_should_be_PupilNumbers()
-    {
-        _sut.TabName.Should().Be("Pupil numbers");
-    }
-
-    [Fact]
-    public void PageName_should_be_AcademiesInThisTrust()
-    {
-        _sut.PageName.Should().Be("Academies");
-    }
-
     [Theory]
     [InlineData("Primary", 5, 11, "Primary0511")]
     [InlineData("Primary", 5, 9, "Primary0509")]
@@ -117,6 +98,16 @@ public class PupilNumbersModelTests
     public async Task OnGetAsync_sets_SubNavigationLinks_toEmptyArray()
     {
         _ = await _sut.OnGetAsync();
-        _sut.SubNavigationLinks.Should().Equal([]);
+        _sut.SubNavigationLinks.Should().Equal();
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_configure_TrustPageMetadata()
+    {
+        _ = await _sut.OnGetAsync();
+
+        _sut.TrustPageMetadata.TabName.Should().Be("Pupil numbers");
+        _sut.TrustPageMetadata.PageName.Should().Be("Academies");
+        _sut.TrustPageMetadata.TrustName.Should().Be("Test Trust");
     }
 }

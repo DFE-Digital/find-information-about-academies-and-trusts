@@ -7,13 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 
-public class ContactAreaModel(
+public class ContactsAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
-    ILogger<ContactAreaModel> logger
+    ILogger<ContactsAreaModel> logger
 )
-    : TrustsAreaModel(dataSourceService, trustService, logger, "Contacts")
+    : TrustsAreaModel(dataSourceService, trustService, logger)
 {
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = "Contacts" };
     public Person? ChairOfTrustees { get; set; }
     public Person? AccountingOfficer { get; set; }
     public Person? ChiefFinancialOfficer { get; set; }
@@ -28,8 +29,9 @@ public class ContactAreaModel(
 
         SubNavigationLinks =
         [
-            new TrustSubNavigationLinkModel("In DfE", "./InDfE", Uid, PageName, this is InDfeModel),
-            new TrustSubNavigationLinkModel("In the trust", "./InTrust", Uid, PageName, this is InTrustModel)
+            new TrustSubNavigationLinkModel("In DfE", "./InDfE", Uid, TrustPageMetadata.PageName!, this is InDfeModel),
+            new TrustSubNavigationLinkModel("In the trust", "./InTrust", Uid, TrustPageMetadata.PageName!,
+                this is InTrustModel)
         ];
 
         (TrustRelationshipManager, SfsoLead, AccountingOfficer, ChairOfTrustees, ChiefFinancialOfficer) =

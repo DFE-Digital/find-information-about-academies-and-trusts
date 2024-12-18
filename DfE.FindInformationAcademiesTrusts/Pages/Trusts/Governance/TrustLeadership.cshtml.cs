@@ -7,4 +7,8 @@ public class TrustLeadershipModel(
     IDataSourceService dataSourceService,
     ILogger<TrustLeadershipModel> logger,
     ITrustService trustService)
-    : GovernanceAreaModel(dataSourceService, trustService, logger);
+    : GovernanceAreaModel(dataSourceService, trustService, logger)
+{
+    public override TrustPageMetadata TrustPageMetadata =>
+        base.TrustPageMetadata with { SubPageName = "Trust leadership" };
+}

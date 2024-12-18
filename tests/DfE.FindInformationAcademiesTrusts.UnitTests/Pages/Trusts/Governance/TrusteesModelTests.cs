@@ -80,12 +80,6 @@ public class TrusteesModelTests
     }
 
     [Fact]
-    public void PageName_should_be_Governance()
-    {
-        _sut.PageName.Should().Be("Governance");
-    }
-
-    [Fact]
     public void ShowHeaderSearch_should_be_true()
     {
         _sut.ShowHeaderSearch.Should().Be(true);
@@ -141,5 +135,15 @@ public class TrusteesModelTests
             new TrustSubNavigationLinkModel("Members (1)", "./Members", "1234", "Governance", false),
             new TrustSubNavigationLinkModel("Historic members (1)", "./HistoricMembers", "1234", "Governance", false)
         ]);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_configure_TrustPageMetadata()
+    {
+        _ = await _sut.OnGetAsync();
+
+        _sut.TrustPageMetadata.SubPageName.Should().Be("Trustees");
+        _sut.TrustPageMetadata.PageName.Should().Be("Governance");
+        _sut.TrustPageMetadata.TrustName.Should().Be("My trust");
     }
 }

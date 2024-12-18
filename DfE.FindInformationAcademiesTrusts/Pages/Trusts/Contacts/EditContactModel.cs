@@ -15,8 +15,14 @@ public abstract class EditContactModel(
     ILogger<EditContactModel> logger,
     ContactRole role)
     : TrustsAreaModel(dataSourceService, trustService,
-        logger, $"Edit {role.MapRoleToViewString()} details")
+        logger)
 {
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with
+    {
+        SubPageName = $"Edit {role.MapRoleToViewString()} details",
+        PageName = "Contacts"
+    };
+
     public const string NameField = "Name";
     public const string EmailField = "Email";
 
@@ -93,10 +99,5 @@ public abstract class EditContactModel(
         }
 
         return [];
-    }
-
-    public string GeneratePageTitle()
-    {
-        return $"{(ModelState.IsValid ? string.Empty : "Error: ")}{PageTitle ?? PageName} - {TrustSummary.Name}";
     }
 }

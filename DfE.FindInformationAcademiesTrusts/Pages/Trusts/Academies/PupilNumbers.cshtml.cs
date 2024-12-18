@@ -8,19 +8,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
-public class PupilNumbersModel : AcademiesPageModel
+public class PupilNumbersModel(
+    IDataSourceService dataSourceService,
+    ILogger<PupilNumbersModel> logger,
+    ITrustService trustService,
+    IAcademyService academyService,
+    IExportService exportService,
+    IDateTimeProvider dateTimeProvider)
+    : AcademiesPageModel(dataSourceService, trustService, exportService, logger, dateTimeProvider)
 {
-    public IAcademyService AcademyService { get; }
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { TabName = "Pupil numbers" };
     public AcademyPupilNumbersServiceModel[] Academies { get; set; } = default!;
-
-    public PupilNumbersModel(IDataSourceService dataSourceService,
-        ILogger<PupilNumbersModel> logger, ITrustService trustService, IAcademyService academyService, IExportService exportService, IDateTimeProvider dateTimeProvider)
-        : base(dataSourceService, trustService, exportService, logger, dateTimeProvider)
-    {
-        AcademyService = academyService;
-        PageTitle = "Academies pupil numbers";
-        TabName = "Pupil numbers";
-    }
 
     public override async Task<IActionResult> OnGetAsync()
     {
@@ -28,10 +26,9 @@ public class PupilNumbersModel : AcademiesPageModel
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        Academies = await AcademyService.GetAcademiesInTrustPupilNumbersAsync(Uid);
+        Academies = await academyService.GetAcademiesInTrustPupilNumbersAsync(Uid);
 
-        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),
-            new List<string> { "Pupil numbers" }));
+        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias), ["Pupil numbers"]));
 
         return pageResult;
     }

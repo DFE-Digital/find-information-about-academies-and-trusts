@@ -34,12 +34,6 @@ public class EditTrustRelationshipManagerModelTests
     }
 
     [Fact]
-    public void PageName_should_be_correct()
-    {
-        _sut.PageName.Should().Be($"Edit {TrustRelationShipManagerDisplayName} details");
-    }
-
-    [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
         _mockTrustService.Setup(r => r.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
@@ -76,20 +70,57 @@ public class EditTrustRelationshipManagerModelTests
         var result = await _sut.OnPostAsync();
 
         _sut.ContactUpdatedMessage.Should().Be(expectedMessage);
-        _sut.GeneratePageTitle().Should().NotContain("Error: ");
 
-        result.Should().BeOfType<RedirectToPageResult>();
-        var redirect = result as RedirectToPageResult;
-        redirect!.PageName.Should().Be("/Trusts/Contacts/InDfe");
+        result.Should().BeOfType<RedirectToPageResult>()
+            .Which.PageName.Should().Be("/Trusts/Contacts/InDfe");
     }
 
     [Fact]
     public async Task OnPostAsync_sets_ContactUpdated_to_false_when_validation_is_incorrect()
     {
         _sut.ModelState.AddModelError("Test", "Test");
+
         var result = await _sut.OnPostAsync();
+
         result.Should().BeOfType<PageResult>();
-        _sut.GeneratePageTitle().Should().Contain("Error: ");
         _sut.ContactUpdatedMessage.Should().Be(string.Empty);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_configure_TrustPageMetadata()
+    {
+        _ = await _sut.OnGetAsync();
+
+        _sut.TrustPageMetadata.SubPageName.Should().Be("Edit Trust relationship manager details");
+        _sut.TrustPageMetadata.PageName.Should().Be("Contacts");
+        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
+    }
+
+    [Fact]
+    public async Task OnPostAsync_should_configure_TrustPageMetadata_when_model_is_valid()
+    {
+        _sut.TrustSummary = _fakeTrust;
+        _mockTrustService
+            .Setup(r => r.UpdateContactAsync(1234, It.IsAny<string>(), It.IsAny<string>(),
+                ContactRole.TrustRelationshipManager))
+            .ReturnsAsync(new TrustContactUpdatedServiceModel(true, true));
+        _ = await _sut.OnPostAsync();
+
+        _sut.TrustPageMetadata.SubPageName.Should().Be("Edit Trust relationship manager details");
+        _sut.TrustPageMetadata.PageName.Should().Be("Contacts");
+        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
+        _sut.TrustPageMetadata.ModelStateIsValid.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task OnPostAsync_should_configure_TrustPageMetadata_when_model_is_not_valid()
+    {
+        _sut.ModelState.AddModelError("Test", "Test");
+        _ = await _sut.OnPostAsync();
+
+        _sut.TrustPageMetadata.SubPageName.Should().Be("Edit Trust relationship manager details");
+        _sut.TrustPageMetadata.PageName.Should().Be("Contacts");
+        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
+        _sut.TrustPageMetadata.ModelStateIsValid.Should().BeFalse();
     }
 }

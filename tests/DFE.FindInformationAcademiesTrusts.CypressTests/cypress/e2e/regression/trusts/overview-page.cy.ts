@@ -1,5 +1,6 @@
 import navigation from "../../../pages/navigation";
 import overviewPage from "../../../pages/trusts/overviewPage";
+import commonPage from "../../../pages/commonPage";
 
 describe("Testing the components of the Trust overview page", () => {
 
@@ -9,11 +10,15 @@ describe("Testing the components of the Trust overview page", () => {
             cy.visit('/trusts/overview/trust-details?uid=5712');
         });
 
-        it("The page loads with the correct headings and data in the Trust details card", () => {
+        it("The page loads with the correct headings and data", () => {
+            commonPage
+                .checkThatBrowserTitleForTrustPageMatches('Trust details - Overview - {trustName} - Find information about academies and trusts');
+
             overviewPage
                 .checkTrustDetailsSubHeaderPresent()
                 .checkTrustDetailsCardPresent()
                 .checkTrustDetailsCardItemsPresent();
+
             navigation
                 .checkPageNameBreadcrumbPresent("Overview");
         });
@@ -25,12 +30,16 @@ describe("Testing the components of the Trust overview page", () => {
             cy.visit('/trusts/overview/trust-summary?uid=5712');
         });
 
-        it("The page loads with the correct headings and data in the Trust summary card", () => {
+        it("The page loads with the correct headings and data", () => {
+            commonPage
+                .checkThatBrowserTitleForTrustPageMatches('Trust summary - Overview - {trustName} - Find information about academies and trusts');
+
             overviewPage
                 .checkTrustSummarySubHeaderPresent()
                 .checkOverviewHeaderPresent()
                 .checkTrustSummaryCardPresent()
                 .checkTrustSummaryCardItemsPresent();
+
             navigation
                 .checkPageNameBreadcrumbPresent("Overview");
         });
@@ -42,11 +51,15 @@ describe("Testing the components of the Trust overview page", () => {
             cy.visit('/trusts/overview/reference-numbers?uid=5712');
         });
 
-        it("The page loads with the correct headings and data in the reference numbers card", () => {
+        it("The page loads with the correct headings and data", () => {
+            commonPage
+                .checkThatBrowserTitleForTrustPageMatches('Reference numbers - Overview - {trustName} - Find information about academies and trusts');
+
             overviewPage
-                .checkReferenceNumversSubHeaderPresent()
+                .checkReferenceNumbersSubHeaderPresent()
                 .checkReferenceNumbersCardPresent()
                 .checkReferenceNumbersCardItemsPresent();
+
             navigation
                 .checkPageNameBreadcrumbPresent("Overview");
         });

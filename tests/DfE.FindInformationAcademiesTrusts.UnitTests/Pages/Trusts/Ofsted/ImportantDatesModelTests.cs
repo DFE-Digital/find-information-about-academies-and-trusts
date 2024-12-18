@@ -37,12 +37,6 @@ public class ImportantDatesModelTests
     }
 
     [Fact]
-    public void PageName_should_be_Ofsted()
-    {
-        _sut.PageName.Should().Be("Ofsted");
-    }
-
-    [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
@@ -186,5 +180,15 @@ public class ImportantDatesModelTests
         // Check that the file name doesn't contain any invalid characters
         var containsInvalidChars = fileDownloadName.Any(c => invalidFileNameChars.Contains(c));
         containsInvalidChars.Should().BeFalse("the file name should not contain any illegal characters");
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_configure_TrustPageMetadata()
+    {
+        _ = await _sut.OnGetAsync();
+
+        _sut.TrustPageMetadata.SubPageName.Should().Be("Important dates");
+        _sut.TrustPageMetadata.PageName.Should().Be("Ofsted");
+        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
     }
 }

@@ -7,4 +7,8 @@ public class InDfeModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
     ILogger<InDfeModel> logger)
-    : ContactAreaModel(dataSourceService, trustService, logger);
+    : ContactsAreaModel(dataSourceService, trustService, logger)
+{
+    public override TrustPageMetadata TrustPageMetadata =>
+        base.TrustPageMetadata with { SubPageName = "In DfE" };
+}
