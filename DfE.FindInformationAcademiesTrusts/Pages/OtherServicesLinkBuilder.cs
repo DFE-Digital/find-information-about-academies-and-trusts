@@ -8,7 +8,7 @@ public interface IOtherServicesLinkBuilder
     string? FindSchoolPerformanceDataListingLink(string uid, TrustType trustType, string? satAcademyUrn);
     string GetInformationAboutSchoolsListingLinkForTrust(string trustUid);
     string GetInformationAboutSchoolsListingLinkForAcademy(string urn);
-    string? SharepointFolderLink(string groupId);
+    string SharepointFolderLink(string groupId);
 
     string? FinancialBenchmarkingInsightsToolListingLink(string? companiesHouseNumber);
 }

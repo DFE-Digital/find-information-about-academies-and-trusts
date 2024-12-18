@@ -18,7 +18,7 @@ public class TrustDetailsModel(
     public string? GetInformationAboutSchoolsLink { get; set; }
     public string? FinancialBenchmarkingInsightsToolLink { get; set; }
     public string? FindSchoolPerformanceLink { get; set; }
-    public string? SharepointLink { get; set; }
+    public string SharepointLink { get; set; } = string.Empty;
 
     public override async Task<IActionResult> OnGetAsync()
     {
