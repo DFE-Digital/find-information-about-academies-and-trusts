@@ -6,16 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Added
+- Added SharePoint folder link to details page
+
 ### Changed
 
 - Updated the autocomplete so that searching clears the selected trust
+- Added support for Azure App Configuration
 
 ## [Release-17][release-17] (production-2024-12-18.4551)
 
 ### Added
 
 - Added download for Ofsted specific data to Ofsted pages
-- Added SharePoint folder link to details page
 
 ### Changed
 
