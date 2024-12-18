@@ -186,13 +186,13 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
             "Early Years Provision",
             "Sixth Form Provision",
             "Date of Previous Inspection",
+            BeforeOrAfterJoiningHeader,
             "Previous Quality of Education",
             "Previous Behaviour and Attitudes",
             "Previous Personal Development",
             "Previous Leadership and Management",
             "Previous Early Years Provision",
             "Previous Sixth Form Provision",
-            BeforeOrAfterJoiningHeader,
             "Effective Safeguarding",
             "Category of Concern"
         };
@@ -267,22 +267,23 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
         // Previous Inspection Date
         SetDateCell(worksheet, rowNumber, 11, previousRating.InspectionDate);
 
-        // Previous Ratings
-        SetTextCell(worksheet, rowNumber, 12, previousRating.QualityOfEducation.ToDisplayString());
-        SetTextCell(worksheet, rowNumber, 13, previousRating.BehaviourAndAttitudes.ToDisplayString());
-        SetTextCell(worksheet, rowNumber, 14, previousRating.PersonalDevelopment.ToDisplayString());
-        SetTextCell(worksheet, rowNumber, 15, previousRating.EffectivenessOfLeadershipAndManagement.ToDisplayString());
-        SetTextCell(worksheet, rowNumber, 16, previousRating.EarlyYearsProvision.ToDisplayString());
-        SetTextCell(worksheet, rowNumber, 17, previousRating.SixthFormProvision.ToDisplayString());
-
         // Before/After Joining (Previous)
-        SetTextCell(worksheet, rowNumber, 18,
+        SetTextCell(worksheet, rowNumber, 12,
             IsOfstedRatingBeforeOrAfterJoining(
                 previousRating.OverallEffectiveness,
                 ofstedData?.DateAcademyJoinedTrust,
                 previousRating.InspectionDate
             )
         );
+
+        // Previous Ratings
+        SetTextCell(worksheet, rowNumber, 13, previousRating.QualityOfEducation.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 14, previousRating.BehaviourAndAttitudes.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 15, previousRating.PersonalDevelopment.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 16, previousRating.EffectivenessOfLeadershipAndManagement.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 17, previousRating.EarlyYearsProvision.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 18, previousRating.SixthFormProvision.ToDisplayString());
+
 
         // Safeguarding Effective
         SetTextCell(worksheet, rowNumber, 19, currentRating.SafeguardingIsEffective.ToDisplayString());
