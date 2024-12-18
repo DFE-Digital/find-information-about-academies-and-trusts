@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis_Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
@@ -13,8 +13,8 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 {
     private readonly List<GiasGroupLink> _giasGroupLinks = [];
-    private readonly List<MisEstablishment> _misEstablishments = [];
-    private readonly List<MisFurtherEducationEstablishment> _misFurtherEducationEstablishments = [];
+    private readonly List<EstablishmentFiat> _misEstablishments = [];
+    private readonly List<FurtherEducationEstablishmentFiat> _misFurtherEducationEstablishments = [];
     private readonly List<CdmSystemuser> _cdmSystemusers = [];
     private readonly List<CdmAccount> _cdmAccounts = [];
     private readonly List<GiasGroup> _giasGroups = [];
@@ -28,8 +28,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     public MockAcademiesDbContext()
     {
         SetupMockDbContext(_giasGroupLinks, context => context.GiasGroupLinks);
-        SetupMockDbContext(_misEstablishments, context => context.MisEstablishments);
-        SetupMockDbContext(_misFurtherEducationEstablishments, context => context.MisFurtherEducationEstablishments);
+        SetupMockDbContext(_misEstablishments, context => context.EstablishmentsFiat);
+        SetupMockDbContext(_misFurtherEducationEstablishments, context => context.FurtherEducationEstablishmentsFiat);
         SetupMockDbContext(_cdmSystemusers, context => context.CdmSystemusers);
         SetupMockDbContext(_cdmAccounts, context => context.CdmAccounts);
         SetupMockDbContext(_giasGroups, context => context.Groups);
@@ -104,34 +104,35 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         }
     }
 
-    public void AddMisEstablishment(MisEstablishment misEstablishment)
+    public void AddEstablishmentFiat(EstablishmentFiat establishmentFiat)
     {
-        _misEstablishments.Add(misEstablishment);
+        _misEstablishments.Add(establishmentFiat);
     }
 
-    public void AddMisEstablishment(int? urn, string? inspectionStartDate = null)
+    public void AddEstablishmentFiat(int urn, string? inspectionStartDate = null)
     {
-        AddMisEstablishment(new MisEstablishment
+        AddEstablishmentFiat(new EstablishmentFiat
         {
             Urn = urn,
             InspectionStartDate = inspectionStartDate
         });
     }
 
-    public void AddMisEstablishments(IEnumerable<MisEstablishment> misEstablishments)
+    public void AddEstablishmentsFiat(IEnumerable<EstablishmentFiat> establishmentsFiat)
     {
-        _misEstablishments.AddRange(misEstablishments);
+        _misEstablishments.AddRange(establishmentsFiat);
     }
 
-    public void AddMisFurtherEducationEstablishment(MisFurtherEducationEstablishment misFurtherEducationEstablishment)
+    public void AddFurtherEducationEstablishmentFiat(
+        FurtherEducationEstablishmentFiat furtherEducationEstablishmentFiat)
     {
-        _misFurtherEducationEstablishments.Add(misFurtherEducationEstablishment);
+        _misFurtherEducationEstablishments.Add(furtherEducationEstablishmentFiat);
     }
 
-    public void AddMisFurtherEducationEstablishments(
-        IEnumerable<MisFurtherEducationEstablishment> misFurtherEducationEstablishments)
+    public void AddFurtherEducationEstablishmentsFiat(
+        IEnumerable<FurtherEducationEstablishmentFiat> furtherEducationEstablishmentsFiat)
     {
-        _misFurtherEducationEstablishments.AddRange(misFurtherEducationEstablishments);
+        _misFurtherEducationEstablishments.AddRange(furtherEducationEstablishmentsFiat);
     }
 
     public void AddGiasEstablishment(GiasEstablishment giasEstablishment)
