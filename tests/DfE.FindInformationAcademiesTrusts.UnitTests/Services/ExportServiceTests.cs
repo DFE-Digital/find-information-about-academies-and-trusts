@@ -410,13 +410,13 @@ public class ExportServiceTests
         worksheet.Cell(3, 9).Value.ToString().Should().Be("Early Years Provision");
         worksheet.Cell(3, 10).Value.ToString().Should().Be("Sixth Form Provision");
         worksheet.Cell(3, 11).Value.ToString().Should().Be("Date of Previous Inspection");
-        worksheet.Cell(3, 12).Value.ToString().Should().Be("Previous Quality of Education");
-        worksheet.Cell(3, 13).Value.ToString().Should().Be("Previous Behaviour and Attitudes");
-        worksheet.Cell(3, 14).Value.ToString().Should().Be("Previous Personal Development");
-        worksheet.Cell(3, 15).Value.ToString().Should().Be("Previous Leadership and Management");
-        worksheet.Cell(3, 16).Value.ToString().Should().Be("Previous Early Years Provision");
-        worksheet.Cell(3, 17).Value.ToString().Should().Be("Previous Sixth Form Provision");
-        worksheet.Cell(3, 18).Value.ToString().Should().Be("Before/After Joining");
+        worksheet.Cell(3, 12).Value.ToString().Should().Be("Before/After Joining");
+        worksheet.Cell(3, 13).Value.ToString().Should().Be("Previous Quality of Education");
+        worksheet.Cell(3, 14).Value.ToString().Should().Be("Previous Behaviour and Attitudes");
+        worksheet.Cell(3, 15).Value.ToString().Should().Be("Previous Personal Development");
+        worksheet.Cell(3, 16).Value.ToString().Should().Be("Previous Leadership and Management");
+        worksheet.Cell(3, 17).Value.ToString().Should().Be("Previous Early Years Provision");
+        worksheet.Cell(3, 18).Value.ToString().Should().Be("Previous Sixth Form Provision");
         worksheet.Cell(3, 19).Value.ToString().Should().Be("Effective Safeguarding");
         worksheet.Cell(3, 20).Value.ToString().Should().Be("Category of Concern");
     }
