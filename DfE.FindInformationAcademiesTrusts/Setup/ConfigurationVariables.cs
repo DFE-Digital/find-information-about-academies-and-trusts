@@ -3,6 +3,7 @@ using System.Reflection;
 using Azure.Identity;
 using DfE.FindInformationAcademiesTrusts.Options;
 using Microsoft.FeatureManagement;
+using Serilog;
 
 namespace DfE.FindInformationAcademiesTrusts.Setup;
 
@@ -31,6 +32,10 @@ public static class ConfigurationVariables
                     ).UseFeatureFlags(),
                 true
             );
+        }
+        else
+        {
+            Log.Warning("AppConfig not found in configuration, will not add Azure App Config");
         }
 
         builder.Services.AddOptions<TestOverrideOptions>()

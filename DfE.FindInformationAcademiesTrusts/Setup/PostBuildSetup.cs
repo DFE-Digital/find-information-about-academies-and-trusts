@@ -50,5 +50,9 @@ public static class PostBuildSetup
         {
             app.UseAzureAppConfiguration();
         }
+        else
+        {
+            Log.Warning("AppConfig not found in configuration, will not add Azure App Config");
+        }
     }
 }
