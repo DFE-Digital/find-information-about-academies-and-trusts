@@ -9,6 +9,11 @@ describe('Cookie page and consent tests', () => {
         cy.visit('/cookies');
     });
 
+    it("Checks the browser title is correct", () => {
+        commonPage
+            .checkThatBrowserTitleMatches('Cookies - Find information about academies and trusts');
+    });
+
     it('should check that both mandatory and optional cookies both exist after accepting optional cookies', () => {
         cookiesPage
             .acceptCookies()

@@ -2,11 +2,17 @@ import paginationPage from "../../pages/paginationPage";
 import homePage from "../../pages/homePage";
 import searchPage from "../../pages/searchPage";
 import navigation from "../../pages/navigation";
+import commonPage from "../../pages/commonPage";
 
 describe("Testing the components of the home page", () => {
 
     beforeEach(() => {
         cy.login();
+    });
+
+    it("Checks the browser title is correct", () => {
+        commonPage
+            .checkThatBrowserTitleMatches('Home page - Find information about academies and trusts');
     });
 
     it("Should check that the home pages search bar and autocomplete is present and functional", () => {

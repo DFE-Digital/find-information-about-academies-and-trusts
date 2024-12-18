@@ -32,6 +32,11 @@ class CommonPage {
         return this;
     }
 
+    public checkThatBrowserTitleMatches(pageTitle: string): this {
+        cy.title().should('equal', pageTitle);
+        return this;
+    }
+
     public checkSuccessPopup(expectedMessage: string): this {
         const { successPopup } = this.elements;
         successPopup.section().should('be.visible');
