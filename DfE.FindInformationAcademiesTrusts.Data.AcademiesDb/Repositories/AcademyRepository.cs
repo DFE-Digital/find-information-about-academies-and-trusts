@@ -55,10 +55,10 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
     {
         // Ofsted data is held in MisEstablishments for most academies
         var ofstedRatings =
-            await academiesDbContext.MisEstablishments
-                .Where(me => urns.Contains(me.Urn!.Value))
+            await academiesDbContext.EstablishmentsFiat
+                .Where(me => urns.Contains(me.Urn))
                 .Select(me => new AcademyOfstedRatings(
-                    me.Urn!.Value,
+                    me.Urn,
                     new OfstedRating(
                         ConvertOverallEffectivenessToOfstedRatingScore(me.OverallEffectiveness),
                         ConvertNullableIntToOfstedRatingScore(me.QualityOfEducation),
@@ -89,13 +89,13 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
         if (urnsNotInMisEstablishments.Length > 0)
         {
             ofstedRatings.AddRange(
-                await academiesDbContext.MisFurtherEducationEstablishments
+                await academiesDbContext.FurtherEducationEstablishmentsFiat
                     .Where(mfe => urnsNotInMisEstablishments.Contains(mfe.ProviderUrn))
                     .Select(mfe =>
                         new AcademyOfstedRatings(
                             mfe.ProviderUrn,
                             new OfstedRating(
-                                ConvertNullableIntToOfstedRatingScore(mfe.OverallEffectiveness),
+                                ConvertNullableIntToOfstedRatingScore(mfe.OverallEffectiveness.ParseAsNullableInt()),
                                 ConvertNullableIntToOfstedRatingScore(mfe.QualityOfEducation),
                                 ConvertNullableIntToOfstedRatingScore(mfe.BehaviourAndAttitudes),
                                 ConvertNullableIntToOfstedRatingScore(mfe.PersonalDevelopment),
@@ -106,7 +106,8 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
                                 ConvertStringToSafeguardingScore(mfe.IsSafeguardingEffective),
                                 mfe.LastDayOfInspection.ParseAsNullableDate()),
                             new OfstedRating(
-                                ConvertNullableIntToOfstedRatingScore(mfe.PreviousOverallEffectiveness),
+                                ConvertNullableIntToOfstedRatingScore(mfe.PreviousOverallEffectiveness
+                                    .ParseAsNullableInt()),
                                 ConvertNullableIntToOfstedRatingScore(mfe.PreviousQualityOfEducation),
                                 ConvertNullableIntToOfstedRatingScore(mfe.PreviousBehaviourAndAttitudes),
                                 ConvertNullableIntToOfstedRatingScore(mfe.PreviousPersonalDevelopment),
