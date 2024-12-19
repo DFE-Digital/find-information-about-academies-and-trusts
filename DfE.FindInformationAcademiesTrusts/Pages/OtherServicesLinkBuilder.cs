@@ -8,6 +8,7 @@ public interface IOtherServicesLinkBuilder
     string? FindSchoolPerformanceDataListingLink(string uid, TrustType trustType, string? satAcademyUrn);
     string GetInformationAboutSchoolsListingLinkForTrust(string trustUid);
     string GetInformationAboutSchoolsListingLinkForAcademy(string urn);
+    string SharepointFolderLink(string groupId);
 
     string? FinancialBenchmarkingInsightsToolListingLink(string? companiesHouseNumber);
 }
@@ -24,6 +25,8 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
 
     private const string FindSchoolPerformanceDataBaseUrl =
         "https://www.find-school-performance-data.service.gov.uk";
+
+    private const string SharepointBaseUrl = "https://educationgovuk.sharepoint.com";
 
     public string GetInformationAboutSchoolsListingLinkForTrust(string trustUid)
     {
@@ -58,5 +61,11 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
                 $"{FindSchoolPerformanceDataBaseUrl}/school/{satAcademyUrn}",
             _ => null
         };
+    }
+
+    public string SharepointFolderLink(string groupId)
+    {
+        return
+            $"{SharepointBaseUrl}/_layouts/15/sharepoint.aspx?oobRefiners=%7B%22FileType%22%3A%5B%22other%22%5D%7D&q={groupId}&v=%2Fsearch";
     }
 }

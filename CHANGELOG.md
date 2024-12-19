@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - Added download for Ofsted specific data to Ofsted pages
+- Added SharePoint folder link to details page
 
 ### Changed
 
