@@ -43,5 +43,16 @@ public static class PostBuildSetup
         app.MapRazorPages();
         app.UseMiddleware<ResponseHeadersMiddleware>();
         app.MapHealthChecks("/health").AllowAnonymous();
+
+        // Only setup Azure App Configuration if the Connection string is present 
+        var appConfigString = app.Configuration["AppConfig"];
+        if (!string.IsNullOrWhiteSpace(appConfigString))
+        {
+            app.UseAzureAppConfiguration();
+        }
+        else
+        {
+            Log.Warning("AppConfig not found in configuration, will not add Azure App Config");
+        }
     }
 }

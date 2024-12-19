@@ -479,3 +479,15 @@ variable "cdn_frontdoor_vdp_destination_hostname" {
   type        = string
   default     = "vdp.security.education.gov.uk"
 }
+
+variable "enable_app_configuration" {
+  description = "Deploy an Azure App Configuration resource"
+  type        = bool
+  default     = false
+}
+
+variable "app_configuration_sku" {
+  description = "The SKU name of the App Configuration. Possible values are free and standard. Defaults to free."
+  type        = string
+  default     = "free"
+}
