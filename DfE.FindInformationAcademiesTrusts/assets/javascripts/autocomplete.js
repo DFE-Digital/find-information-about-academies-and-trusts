@@ -1,7 +1,14 @@
 import accessibleAutocomplete from 'accessible-autocomplete'
 
 export class Autocomplete {
-  suggest = async (query, populateResults) => {
+  suggest = async (query, populateResults, inputId) => {
+    // Clear selected trust if we then search for new trust
+    // Avoids the uid turning up in the url
+    const searchInput = document.getElementById(`${inputId}-selected-trust`)
+    if (searchInput.hasAttribute('value')) {
+      searchInput.removeAttribute('value')
+    }
+
     if (query) {
       const response = await fetch(`/search?handler=populateautocomplete&keywords=${query}`)
       const results = await response.json()
@@ -35,7 +42,7 @@ export class Autocomplete {
       element: document.getElementById(`${inputId}-autocomplete-container`),
       id: inputId,
       name: 'keywords',
-      source: this.suggest,
+      source: async (query, populateResults) => this.suggest(query, populateResults, inputId),
       autoselect: false,
       confirmOnBlur: false,
       displayMenu: 'overlay',
