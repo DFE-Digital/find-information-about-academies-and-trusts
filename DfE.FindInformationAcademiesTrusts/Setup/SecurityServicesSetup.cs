@@ -2,6 +2,8 @@
 using System.Diagnostics.CodeAnalysis;
 using Azure.Identity;
 using DfE.FindInformationAcademiesTrusts.Authorization;
+using DfE.FindInformationAcademiesTrusts.Configuration;
+using DfE.FindInformationAcademiesTrusts.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
@@ -52,7 +54,7 @@ public static class SecurityServicesSetup
             CookieAuthenticationDefaults.AuthenticationScheme,
             options =>
             {
-                options.Cookie.Name = ".FindInformationAcademiesTrusts.Login";
+                options.Cookie.Name = FiatCookies.Login;
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
                 options.Cookie.SameSite = SameSiteMode.None;
@@ -62,7 +64,7 @@ public static class SecurityServicesSetup
 
     private static void AddAntiForgeryCookies(WebApplicationBuilder builder)
     {
-        builder.Services.AddAntiforgery(opts => { opts.Cookie.Name = ".FindInformationAcademiesTrusts.Antiforgery"; });
+        builder.Services.AddAntiforgery(opts => { opts.Cookie.Name = FiatCookies.Antiforgery; });
     }
 
     private static void AddDataProtectionServices(WebApplicationBuilder builder)
