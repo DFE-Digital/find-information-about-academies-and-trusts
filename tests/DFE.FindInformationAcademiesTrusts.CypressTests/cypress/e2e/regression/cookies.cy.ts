@@ -31,7 +31,7 @@ describe('Cookie page and consent tests', () => {
         cy.getCookie('_ga').should('exist');
 
         //check mandatory cookies exist after saving
-        cy.getCookie('.FindInformationAcademiesTrust.CookieConsent').should('exist');
+        cy.getCookie('.FindInformationAcademiesTrusts.CookieConsent').should('exist');
         cy.getCookie('ASLBSA').should('exist');
         cy.getCookie('ASLBSACORS').should('exist');
         cy.getCookie('.FindInformationAcademiesTrusts.Antiforgery').should('exist');
@@ -55,7 +55,7 @@ describe('Cookie page and consent tests', () => {
         cy.getCookie('_ga').should('not.exist');
 
         //check mandatory cookies do not exist after saving
-        cy.getCookie('.FindInformationAcademiesTrust.CookieConsent').should('exist');
+        cy.getCookie('.FindInformationAcademiesTrusts.CookieConsent').should('exist');
         cy.getCookie('ASLBSA').should('exist');
         cy.getCookie('ASLBSACORS').should('exist');
         cy.getCookie('.FindInformationAcademiesTrusts.Antiforgery').should('exist');
