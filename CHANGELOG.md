@@ -15,6 +15,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - Updated the autocomplete so that searching clears the selected trust
+- Fix Privacy page having incorrect width
+- Update name of cookie consent cookie to be consistent with application name and what is displayed in the Cookie UI
 
 ## [Release-17][release-17] (production-2024-12-18.4551)
 

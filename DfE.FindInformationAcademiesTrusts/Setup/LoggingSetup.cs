@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using DfE.FindInformationAcademiesTrusts.Extensions;
 using Microsoft.ApplicationInsights.Extensibility;
 using Serilog;
 using Serilog.Extensions.Hosting;
