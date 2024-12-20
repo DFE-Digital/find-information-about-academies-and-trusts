@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis_Mstr;
 
+[ExcludeFromCodeCoverage]
 public class FurtherEducationEstablishmentFiat
 {
     public int ProviderUrn { get; set; }
