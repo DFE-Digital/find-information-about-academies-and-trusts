@@ -45,9 +45,7 @@ public partial class AcademiesDbContext : DbContext, IAcademiesDbContext
         OnModelCreatingGiasGroupLink(modelBuilder);
         OnModelCreatingGiasGroup(modelBuilder);
         OnModelCreatingCdmAccounts(modelBuilder);
-        // OnModelCreatingMisEstablishment(modelBuilder);
         OnModelCreatingCdmSystemusers(modelBuilder);
-        // OnModelCreatingMisFurtherEducationEstablishments(modelBuilder);
         OnModelCreatingTadTrustGovernances(modelBuilder);
         OnModelCreatingMstrTrusts(modelBuilder);
         OnModelCreatingApplicationSettings(modelBuilder);
