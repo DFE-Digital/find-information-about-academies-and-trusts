@@ -7,8 +7,8 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 public class MockHttpContext : Mock<HttpContext>
 {
-    private readonly Mock<IResponseCookies> _mockResponseCookies = new();
-    private readonly Mock<IRequestCookieCollection> _mockRequestCookies = new();
+    public MockResponseCookies MockResponseCookies { get; } = new();
+    public MockRequestCookies MockRequestCookies { get; } = new();
     private readonly Mock<HttpRequest> _mockRequest = new();
     private readonly Mock<IFeatureCollection> _mockFeatureCollection = new();
     private readonly ClaimsIdentity _claimsIdentity = new();
@@ -16,18 +16,13 @@ public class MockHttpContext : Mock<HttpContext>
     public MockHttpContext()
     {
         Mock<HttpResponse> mockResponse = new();
-        mockResponse.Setup(m => m.Cookies).Returns(_mockResponseCookies.Object);
+        mockResponse.Setup(m => m.Cookies).Returns(MockResponseCookies.Object);
 
         ClaimsPrincipal user = new();
         user.AddIdentity(_claimsIdentity);
 
-        _mockRequest.Setup(m => m.Cookies).Returns(_mockRequestCookies.Object);
+        _mockRequest.Setup(m => m.Cookies).Returns(MockRequestCookies.Object);
         _mockRequest.Setup(m => m.Query[It.IsAny<string>()]).Returns("");
-
-        _mockRequestCookies.Setup(m => m[It.IsAny<string>()]).Returns("False");
-        _mockRequestCookies.Setup(m => m.ContainsKey(".FindInformationAcademiesTrusts.Login")).Returns(true);
-        _mockRequestCookies.Setup(m => m[".FindInformationAcademiesTrusts.Login"]).Returns("You are logged in");
-        _mockRequestCookies.Setup(m => m.Keys).Returns(new List<string>());
 
         Setup(m => m.Request).Returns(_mockRequest.Object);
         Setup(m => m.Response).Returns(mockResponse.Object);
@@ -38,42 +33,6 @@ public class MockHttpContext : Mock<HttpContext>
     public void AddUserClaim(string type, string value)
     {
         _claimsIdentity.AddClaim(new Claim(type, value));
-    }
-
-    public void SetupConsentCookie(bool? accepted)
-    {
-        if (accepted is true)
-        {
-            SetupAcceptedCookie();
-        }
-        else if (accepted is false)
-        {
-            SetupRejectedCookie();
-        }
-    }
-
-    public void SetupAcceptedCookie()
-    {
-        _mockRequestCookies.Setup(m => m.Keys).Returns(new List<string> { CookiesHelper.ConsentCookieName });
-        _mockRequestCookies.Setup(m => m.ContainsKey(CookiesHelper.ConsentCookieName)).Returns(true);
-        _mockRequestCookies.Setup(m => m[CookiesHelper.ConsentCookieName]).Returns("True");
-    }
-
-    public void SetupRejectedCookie()
-    {
-        _mockRequestCookies.Setup(m => m.Keys).Returns(new List<string>());
-        _mockRequestCookies.Setup(m => m.ContainsKey(CookiesHelper.ConsentCookieName)).Returns(true);
-        _mockRequestCookies.Setup(m => m[CookiesHelper.ConsentCookieName]).Returns("False");
-    }
-
-    public void SetupOptionalCookies()
-    {
-        _mockRequestCookies.Setup(m => m.Keys).Returns(new List<string> { "ai_user", "ai_session", "_gid", "_ga" });
-
-        _mockRequestCookies.Setup(m => m.ContainsKey("ai_user")).Returns(true);
-        _mockRequestCookies.Setup(m => m["ai_user"]).Returns("True");
-        _mockRequestCookies.Setup(m => m.ContainsKey("ai_session")).Returns(true);
-        _mockRequestCookies.Setup(m => m["ai_session"]).Returns("True");
     }
 
     public void SetQueryReturnPath(string path)
@@ -109,24 +68,5 @@ public class MockHttpContext : Mock<HttpContext>
                 && m.OriginalQueryString == query));
 
         _mockRequest.Setup(m => m.Host).Returns(new HostString(host));
-    }
-
-    public void VerifySecureCookieAdded(string key, string value)
-    {
-        _mockResponseCookies.Verify(
-            m => m.Append(key, value,
-                It.Is<CookieOptions>(c => c.Secure == true && c.HttpOnly == true)), Times.Once);
-    }
-
-    public void VerifyCookieDeleted(string key)
-    {
-        _mockResponseCookies.Verify(
-            m => m.Delete(key), Times.Once);
-    }
-
-    public void VerifyNoCookiesDeleted()
-    {
-        _mockResponseCookies.Verify(
-            m => m.Delete(It.IsAny<string>()), Times.Exactly(0));
     }
 }
