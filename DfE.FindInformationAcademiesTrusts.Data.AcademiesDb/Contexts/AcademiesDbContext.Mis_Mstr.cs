@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis_Mstr;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +9,8 @@ public partial class AcademiesDbContext
     public DbSet<EstablishmentFiat> EstablishmentsFiat { get; set; }
 
     public DbSet<FurtherEducationEstablishmentFiat> FurtherEducationEstablishmentsFiat { get; set; }
-
+    
+    [ExcludeFromCodeCoverage]
     protected static void OnModelCreatingMis_Mstr(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<EstablishmentFiat>(entity =>
