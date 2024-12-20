@@ -82,12 +82,11 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
                         ConvertStringToSafeguardingScore(me.PreviousSafeguardingIsEffective),
                         me.PreviousInspectionStartDate.ParseAsNullableDate())))
                 .ToListAsync();
-
-        // Look in MisFurtherEducationEstablishments for academies not found in MisEstablishments
+        // Check to see if all ratings have been found in MisEstablishments, if not search in MisFurtherEducationEstablishments
         // Note: if an entry is in MisEstablishments then it will not be in MisFurtherEducationEstablishments, even if it has no ofsted data
-        var urnsNotInMisEstablishments = urns.Except(ofstedRatings.Select(a => a.Urn)).ToArray();
-        if (urnsNotInMisEstablishments.Length > 0)
+        if (urns.Length != ofstedRatings.Count)
         {
+            var urnsNotInMisEstablishments = urns.Except(ofstedRatings.Select(a => a.Urn)).ToArray();
             ofstedRatings.AddRange(
                 await academiesDbContext.FurtherEducationEstablishmentsFiat
                     .Where(mfe => urnsNotInMisEstablishments.Contains(mfe.ProviderUrn))
