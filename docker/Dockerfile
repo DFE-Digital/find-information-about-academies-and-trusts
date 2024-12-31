@@ -3,6 +3,8 @@ ARG DOTNET_VERSION=8.0
 # Set the major version of nodejs
 ARG NODEJS_VERSION_MAJOR=22
 
+# Note: For optimal Docker caching, ensure all steps within a build stage are arranged in order of "least likely to be impacted by changes"
+
 ### Build frontend assets using node js ###
 FROM "node:${NODEJS_VERSION_MAJOR}-bullseye-slim" AS assets
 WORKDIR /app
@@ -51,11 +53,20 @@ RUN ["tdnf", "clean", "all"]
 FROM base AS runtime
 WORKDIR /app
 LABEL org.opencontainers.image.source="https://github.com/DFE-Digital/find-information-about-academies-and-trusts"
-COPY --from=build /app /app
-COPY --from=assets /app/wwwroot /app/wwwroot
-COPY ./DfE.FindInformationAcademiesTrusts.Data.FiatDb/Migrations/FiatDbMigrationScript.sql /app/sql/FiatDbMigrationScript.sql
+
+# - Copy and configure docker entrypoint script
 COPY ./docker/web-docker-entrypoint.sh /app/docker-entrypoint.sh
 RUN ["chmod", "+x", "/app/docker-entrypoint.sh"]
+
+# - Copy and configure sql migration script
+COPY ./DfE.FindInformationAcademiesTrusts.Data.FiatDb/Migrations/FiatDbMigrationScript.sql /app/sql/FiatDbMigrationScript.sql
 RUN ["touch", "/app/sql/FiatDbMigrationScriptOutput.txt"]
 RUN chown "$APP_UID" "/app/sql" -R
+
+# - Copy frontend assets
+COPY --from=assets /app/wwwroot /app/wwwroot
+
+# - Copy dotnet app
+COPY --from=build /app /app
+
 USER $APP_UID
