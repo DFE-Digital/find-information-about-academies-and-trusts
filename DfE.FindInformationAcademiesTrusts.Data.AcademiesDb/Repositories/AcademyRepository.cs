@@ -94,7 +94,7 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
                         new AcademyOfstedRatings(
                             mfe.ProviderUrn,
                             new OfstedRating(
-                                ConvertNullableIntToOfstedRatingScore(mfe.OverallEffectiveness.ParseAsNullableInt()),
+                                ConvertOverallEffectivenessToOfstedRatingScore(mfe.OverallEffectiveness),
                                 ConvertNullableIntToOfstedRatingScore(mfe.QualityOfEducation),
                                 ConvertNullableIntToOfstedRatingScore(mfe.BehaviourAndAttitudes),
                                 ConvertNullableIntToOfstedRatingScore(mfe.PersonalDevelopment),
@@ -105,8 +105,7 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
                                 ConvertStringToSafeguardingScore(mfe.IsSafeguardingEffective),
                                 mfe.LastDayOfInspection.ParseAsNullableDate()),
                             new OfstedRating(
-                                ConvertNullableIntToOfstedRatingScore(mfe.PreviousOverallEffectiveness
-                                    .ParseAsNullableInt()),
+                                ConvertOverallEffectivenessToOfstedRatingScore(mfe.PreviousOverallEffectiveness),
                                 ConvertNullableIntToOfstedRatingScore(mfe.PreviousQualityOfEducation),
                                 ConvertNullableIntToOfstedRatingScore(mfe.PreviousBehaviourAndAttitudes),
                                 ConvertNullableIntToOfstedRatingScore(mfe.PreviousPersonalDevelopment),
