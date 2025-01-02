@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis_Mstr;
 
 [ExcludeFromCodeCoverage]
-public class EstablishmentFiat
+public class MisMstrEstablishmentFiat
 {
     public string? WebLink { get; set; }
     public int Urn { get; set; }

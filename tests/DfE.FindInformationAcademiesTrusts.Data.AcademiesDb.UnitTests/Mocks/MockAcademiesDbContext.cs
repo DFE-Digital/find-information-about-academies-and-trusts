@@ -13,8 +13,8 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 {
     private readonly List<GiasGroupLink> _giasGroupLinks = [];
-    private readonly List<EstablishmentFiat> _misEstablishments = [];
-    private readonly List<FurtherEducationEstablishmentFiat> _misFurtherEducationEstablishments = [];
+    private readonly List<MisMstrEstablishmentFiat> _misMstrEstablishmentFiat = [];
+    private readonly List<MisMstrFurtherEducationEstablishmentFiat> _misMstrFurtherEducationEstablishmentFiat = [];
     private readonly List<CdmSystemuser> _cdmSystemusers = [];
     private readonly List<CdmAccount> _cdmAccounts = [];
     private readonly List<GiasGroup> _giasGroups = [];
@@ -28,8 +28,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     public MockAcademiesDbContext()
     {
         SetupMockDbContext(_giasGroupLinks, context => context.GiasGroupLinks);
-        SetupMockDbContext(_misEstablishments, context => context.EstablishmentsFiat);
-        SetupMockDbContext(_misFurtherEducationEstablishments, context => context.FurtherEducationEstablishmentsFiat);
+        SetupMockDbContext(_misMstrEstablishmentFiat, context => context.MisMstrEstablishmentsFiat);
+        SetupMockDbContext(_misMstrFurtherEducationEstablishmentFiat, context => context.MisMstrFurtherEducationEstablishmentsFiat);
         SetupMockDbContext(_cdmSystemusers, context => context.CdmSystemusers);
         SetupMockDbContext(_cdmAccounts, context => context.CdmAccounts);
         SetupMockDbContext(_giasGroups, context => context.Groups);
@@ -104,35 +104,35 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         }
     }
 
-    public void AddEstablishmentFiat(EstablishmentFiat establishmentFiat)
+    public void AddEstablishmentFiat(MisMstrEstablishmentFiat misMstrEstablishmentFiat)
     {
-        _misEstablishments.Add(establishmentFiat);
+        _misMstrEstablishmentFiat.Add(misMstrEstablishmentFiat);
     }
 
     public void AddEstablishmentFiat(int urn, string? inspectionStartDate = null)
     {
-        AddEstablishmentFiat(new EstablishmentFiat
+        AddEstablishmentFiat(new MisMstrEstablishmentFiat
         {
             Urn = urn,
             InspectionStartDate = inspectionStartDate
         });
     }
 
-    public void AddEstablishmentsFiat(IEnumerable<EstablishmentFiat> establishmentsFiat)
+    public void AddEstablishmentsFiat(IEnumerable<MisMstrEstablishmentFiat> establishmentsFiat)
     {
-        _misEstablishments.AddRange(establishmentsFiat);
+        _misMstrEstablishmentFiat.AddRange(establishmentsFiat);
     }
 
     public void AddFurtherEducationEstablishmentFiat(
-        FurtherEducationEstablishmentFiat furtherEducationEstablishmentFiat)
+        MisMstrFurtherEducationEstablishmentFiat misMstrFurtherEducationEstablishmentFiat)
     {
-        _misFurtherEducationEstablishments.Add(furtherEducationEstablishmentFiat);
+        _misMstrFurtherEducationEstablishmentFiat.Add(misMstrFurtherEducationEstablishmentFiat);
     }
 
     public void AddFurtherEducationEstablishmentsFiat(
-        IEnumerable<FurtherEducationEstablishmentFiat> furtherEducationEstablishmentsFiat)
+        IEnumerable<MisMstrFurtherEducationEstablishmentFiat> furtherEducationEstablishmentsFiat)
     {
-        _misFurtherEducationEstablishments.AddRange(furtherEducationEstablishmentsFiat);
+        _misMstrFurtherEducationEstablishmentFiat.AddRange(furtherEducationEstablishmentsFiat);
     }
 
     public void AddGiasEstablishment(GiasEstablishment giasEstablishment)

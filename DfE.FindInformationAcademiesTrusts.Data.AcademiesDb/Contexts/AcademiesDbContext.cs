@@ -22,8 +22,8 @@ public interface IAcademiesDbContext
     DbSet<TadTrustGovernance> TadTrustGovernances { get; }
     DbSet<ApplicationEvent> ApplicationEvents { get; }
     DbSet<ApplicationSetting> ApplicationSettings { get; }
-    DbSet<EstablishmentFiat> EstablishmentsFiat { get; }
-    DbSet<FurtherEducationEstablishmentFiat> FurtherEducationEstablishmentsFiat { get; }
+    DbSet<MisMstrEstablishmentFiat> MisMstrEstablishmentsFiat { get; }
+    DbSet<MisMstrFurtherEducationEstablishmentFiat> MisMstrFurtherEducationEstablishmentsFiat { get; }
 }
 
 [ExcludeFromCodeCoverage]

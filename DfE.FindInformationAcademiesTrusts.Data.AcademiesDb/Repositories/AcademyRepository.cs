@@ -55,7 +55,7 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
     {
         // Ofsted data is held in MisEstablishments for most academies
         var ofstedRatings =
-            await academiesDbContext.EstablishmentsFiat
+            await academiesDbContext.MisMstrEstablishmentsFiat
                 .Where(me => urns.Contains(me.Urn))
                 .Select(me => new AcademyOfstedRatings(
                     me.Urn,
@@ -88,7 +88,7 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
         {
             var urnsNotInMisEstablishments = urns.Except(ofstedRatings.Select(a => a.Urn)).ToArray();
             ofstedRatings.AddRange(
-                await academiesDbContext.FurtherEducationEstablishmentsFiat
+                await academiesDbContext.MisMstrFurtherEducationEstablishmentsFiat
                     .Where(mfe => urnsNotInMisEstablishments.Contains(mfe.ProviderUrn))
                     .Select(mfe =>
                         new AcademyOfstedRatings(

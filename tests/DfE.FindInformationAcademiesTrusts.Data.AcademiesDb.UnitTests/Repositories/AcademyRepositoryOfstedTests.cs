@@ -106,7 +106,7 @@ public class AcademyRepositoryOfstedTests
     {
         _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(new FurtherEducationEstablishmentFiat
+        _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(new MisMstrFurtherEducationEstablishmentFiat
             { ProviderUrn = 987654, LastDayOfInspection = "15/05/2023", PreviousLastDayOfInspection = "01/02/2013" });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
@@ -121,7 +121,7 @@ public class AcademyRepositoryOfstedTests
     {
         //---Arrange---
         // Add each type of invalid current rating
-        var invalidEstablishmentsFiat = new List<EstablishmentFiat>
+        var invalidEstablishmentsFiat = new List<MisMstrEstablishmentFiat>
         {
             new() { Urn = 111111, OverallEffectiveness = "some unknown value" },
             new() { Urn = 222222, QualityOfEducation = 212 },
@@ -133,7 +133,7 @@ public class AcademyRepositoryOfstedTests
             new() { Urn = 888888, CategoryOfConcern = "some unknown value" },
             new() { Urn = 999999, SafeguardingIsEffective = "some unknown value" }
         };
-        var invalidFurtherEducationEstablishmentsFiat = new List<FurtherEducationEstablishmentFiat>
+        var invalidFurtherEducationEstablishmentsFiat = new List<MisMstrFurtherEducationEstablishmentFiat>
         {
             new() { ProviderUrn = 101111, OverallEffectiveness = "212" },
             new() { ProviderUrn = 102222, QualityOfEducation = 212 },
@@ -144,7 +144,7 @@ public class AcademyRepositoryOfstedTests
         };
 
         // Add each type of invalid previous rating
-        invalidEstablishmentsFiat.AddRange(new EstablishmentFiat[]
+        invalidEstablishmentsFiat.AddRange(new MisMstrEstablishmentFiat[]
         {
             new() { Urn = 111109, PreviousFullInspectionOverallEffectiveness = "some unknown value" },
             new() { Urn = 222209, PreviousQualityOfEducation = 212 },
@@ -156,7 +156,7 @@ public class AcademyRepositoryOfstedTests
             new() { Urn = 888809, PreviousCategoryOfConcern = "some unknown value" },
             new() { Urn = 999909, PreviousSafeguardingIsEffective = "some unknown value" }
         });
-        invalidFurtherEducationEstablishmentsFiat.AddRange(new FurtherEducationEstablishmentFiat[]
+        invalidFurtherEducationEstablishmentsFiat.AddRange(new MisMstrFurtherEducationEstablishmentFiat[]
         {
             new() { ProviderUrn = 101109, PreviousOverallEffectiveness = "212" },
             new() { ProviderUrn = 102209, PreviousQualityOfEducation = 212 },
@@ -177,8 +177,8 @@ public class AcademyRepositoryOfstedTests
 
         //Add some valid establishments to ensure we're not just logging everything
         int[] validEstablishmentUrns = [123, 456];
-        _mockAcademiesDbContext.AddEstablishmentFiat(new EstablishmentFiat { Urn = validEstablishmentUrns[0] });
-        _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(new FurtherEducationEstablishmentFiat
+        _mockAcademiesDbContext.AddEstablishmentFiat(new MisMstrEstablishmentFiat { Urn = validEstablishmentUrns[0] });
+        _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(new MisMstrFurtherEducationEstablishmentFiat
             { ProviderUrn = validEstablishmentUrns[1] });
 
         //Create group links
@@ -216,7 +216,7 @@ public class AcademyRepositoryOfstedTests
     {
         _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddEstablishmentFiat(new EstablishmentFiat
+        _mockAcademiesDbContext.AddEstablishmentFiat(new MisMstrEstablishmentFiat
             { Urn = 987654, CategoryOfConcern = dbData });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
@@ -238,7 +238,7 @@ public class AcademyRepositoryOfstedTests
     {
         _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddEstablishmentFiat(new EstablishmentFiat
+        _mockAcademiesDbContext.AddEstablishmentFiat(new MisMstrEstablishmentFiat
             { Urn = 987654, PreviousCategoryOfConcern = dbData });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
@@ -252,7 +252,7 @@ public class AcademyRepositoryOfstedTests
     {
         _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(new FurtherEducationEstablishmentFiat
+        _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(new MisMstrFurtherEducationEstablishmentFiat
             { ProviderUrn = 987654 });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
@@ -276,7 +276,7 @@ public class AcademyRepositoryOfstedTests
         _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
         _mockAcademiesDbContext.AddEstablishmentFiat(
-            new EstablishmentFiat { Urn = 987654, SafeguardingIsEffective = dbData });
+            new MisMstrEstablishmentFiat { Urn = 987654, SafeguardingIsEffective = dbData });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
@@ -297,7 +297,7 @@ public class AcademyRepositoryOfstedTests
         _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "876543", JoinedDate = "01/01/2022" });
         _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(
-            new FurtherEducationEstablishmentFiat { ProviderUrn = 876543, IsSafeguardingEffective = dbData });
+            new MisMstrFurtherEducationEstablishmentFiat { ProviderUrn = 876543, IsSafeguardingEffective = dbData });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
@@ -318,7 +318,7 @@ public class AcademyRepositoryOfstedTests
     {
         _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddEstablishmentFiat(new EstablishmentFiat
+        _mockAcademiesDbContext.AddEstablishmentFiat(new MisMstrEstablishmentFiat
             { Urn = 987654, PreviousSafeguardingIsEffective = dbData });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
@@ -340,7 +340,7 @@ public class AcademyRepositoryOfstedTests
         _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "876543", JoinedDate = "01/01/2022" });
         _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(
-            new FurtherEducationEstablishmentFiat { ProviderUrn = 876543, PreviousSafeguarding = dbData });
+            new MisMstrFurtherEducationEstablishmentFiat { ProviderUrn = 876543, PreviousSafeguarding = dbData });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
@@ -353,7 +353,7 @@ public class AcademyRepositoryOfstedTests
     {
         _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddEstablishmentFiat(new EstablishmentFiat { Urn = 987654 });
+        _mockAcademiesDbContext.AddEstablishmentFiat(new MisMstrEstablishmentFiat { Urn = 987654 });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
@@ -367,7 +367,7 @@ public class AcademyRepositoryOfstedTests
     {
         _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(new FurtherEducationEstablishmentFiat
+        _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(new MisMstrFurtherEducationEstablishmentFiat
             { ProviderUrn = 987654 });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
@@ -386,7 +386,7 @@ public class AcademyRepositoryOfstedTests
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
 
         _mockAcademiesDbContext.AddEstablishmentFiat(
-            new EstablishmentFiat
+            new MisMstrEstablishmentFiat
             {
                 Urn = 987654,
 
@@ -432,7 +432,7 @@ public class AcademyRepositoryOfstedTests
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
 
         _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(
-            new FurtherEducationEstablishmentFiat
+            new MisMstrFurtherEducationEstablishmentFiat
             {
                 ProviderUrn = 987654,
 
@@ -476,11 +476,11 @@ public class AcademyRepositoryOfstedTests
         // The first three urns are set up in non-further establishments with a non-further only property
         var nonFurtherUrns = allUrns.Take(3).ToArray();
         _mockAcademiesDbContext.AddEstablishmentsFiat(
-            nonFurtherUrns.Select(urn => new EstablishmentFiat { Urn = urn, EarlyYearsProvisionWhereApplicable = 1 }));
+            nonFurtherUrns.Select(urn => new MisMstrEstablishmentFiat { Urn = urn, EarlyYearsProvisionWhereApplicable = 1 }));
 
         // All urns are set up in further (note that this wouldn't occur in the actual db)
         _mockAcademiesDbContext.AddFurtherEducationEstablishmentsFiat(
-            allUrns.Select(urn => new FurtherEducationEstablishmentFiat { ProviderUrn = urn }));
+            allUrns.Select(urn => new MisMstrFurtherEducationEstablishmentFiat { ProviderUrn = urn }));
 
         //--Act--
         var results = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
@@ -523,7 +523,7 @@ public class AcademyRepositoryOfstedTests
         var urns = giasGroupLinks.Select(gl => int.Parse(gl.Urn!)).ToArray();
 
         _mockAcademiesDbContext.AddEstablishmentFiat(
-            new EstablishmentFiat
+            new MisMstrEstablishmentFiat
             {
                 Urn = urns[0],
                 PreviousFullInspectionOverallEffectiveness = "1",
@@ -531,7 +531,7 @@ public class AcademyRepositoryOfstedTests
             }
         );
         _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(
-            new FurtherEducationEstablishmentFiat
+            new MisMstrFurtherEducationEstablishmentFiat
             {
                 ProviderUrn = urns[1],
                 PreviousOverallEffectiveness = "1",
@@ -641,7 +641,7 @@ public class AcademyRepositoryOfstedTests
         var giasGroupLink = AddGiasGroupLinksToMockDb(1).Single();
         var urn = int.Parse(giasGroupLink.Urn!);
 
-        _mockAcademiesDbContext.AddEstablishmentFiat(new EstablishmentFiat
+        _mockAcademiesDbContext.AddEstablishmentFiat(new MisMstrEstablishmentFiat
         {
             Urn = urn,
             OverallEffectiveness = overallEffectiveness,

@@ -6,14 +6,14 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 
 public partial class AcademiesDbContext
 {
-    public DbSet<EstablishmentFiat> EstablishmentsFiat { get; set; }
+    public DbSet<MisMstrEstablishmentFiat> MisMstrEstablishmentsFiat { get; set; }
 
-    public DbSet<FurtherEducationEstablishmentFiat> FurtherEducationEstablishmentsFiat { get; set; }
+    public DbSet<MisMstrFurtherEducationEstablishmentFiat> MisMstrFurtherEducationEstablishmentsFiat { get; set; }
     
     [ExcludeFromCodeCoverage]
     protected static void OnModelCreatingMis_Mstr(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<EstablishmentFiat>(entity =>
+        modelBuilder.Entity<MisMstrEstablishmentFiat>(entity =>
         {
             entity.ToTable("Establishments_FIAT", "mis_mstr");
 
@@ -166,7 +166,7 @@ public partial class AcademiesDbContext
                 .HasColumnName("meta_source_filename");
         });
 
-        modelBuilder.Entity<FurtherEducationEstablishmentFiat>(entity =>
+        modelBuilder.Entity<MisMstrFurtherEducationEstablishmentFiat>(entity =>
         {
             entity.ToTable("FurtherEducationEstablishments_FIAT", "mis_mstr");
 
