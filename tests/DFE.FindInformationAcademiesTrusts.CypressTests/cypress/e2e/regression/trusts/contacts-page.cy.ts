@@ -64,6 +64,26 @@ describe("Testing the components of the Trust contacts page", () => {
                     .checkSuccessPopup('Changes made to the SFSO (Schools financial support and oversight) lead name and email were updated')
                     .checkErrorPopupNotPresent();
             });
+
+            it(`Checks that when cancelling the edit of a TRM contact that I am taken back to the previous page and that entered data is not saved`, () => {
+                contactsPage
+                    .editTrustRelationshipManagerWithoutSaving("Should Notbe Seen", "exittest@education.gov.uk")
+                    .clickContactUpdateCancelButton()
+                    .checkTrustRelationshipManagerIsNotUpdated("Should Notbe Seen", "exittest@education.gov.uk");
+
+                navigation
+                    .checkCurrentURLIsCorrect(`/trusts/contacts/in-dfe?uid=${uid}`);
+            });
+
+            it(`Checks that when cancelling the edit of a SFSO contact that I am taken back to the previous page and that entered data is not saved`, () => {
+                contactsPage
+                    .editSfsoLeadWithoutSaving("Should Notbe Seen", "exittest@education.gov.uk")
+                    .clickContactUpdateCancelButton()
+                    .checkSfsoLeadIsNotUpdated("Should Notbe Seen", "exittest@education.gov.uk");
+
+                navigation
+                    .checkCurrentURLIsCorrect(`/trusts/contacts/in-dfe?uid=${uid}`);
+            });
         });
 
         describe(`On the edit Trust relationship manager contact details page for a ${typeOfTrust}`, () => {

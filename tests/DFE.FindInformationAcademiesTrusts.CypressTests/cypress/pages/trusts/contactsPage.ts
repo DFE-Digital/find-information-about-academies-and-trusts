@@ -20,7 +20,8 @@ class ContactsPage {
         editContacts: {
             nameInput: () => cy.get('[name="Name"]'),
             emailInput: () => cy.get('[name="Email"]'),
-            saveButton: () => cy.contains('Save and continue')
+            saveButton: () => cy.contains('Save and continue'),
+            cancelButton: () => cy.contains('Cancel')
         },
 
         accountingOfficer: {
@@ -59,6 +60,12 @@ class ContactsPage {
         },
     };
 
+
+    public clickContactUpdateCancelButton(): this {
+        this.elements.editContacts.cancelButton().click();
+        return this;
+    }
+
     public editTrustRelationshipManager(name: string, email: string): this {
         const { trustRelationshipManager, editContacts } = this.elements;
         trustRelationshipManager.editLink().click();
@@ -68,18 +75,46 @@ class ContactsPage {
         return this;
     }
 
+    public editTrustRelationshipManagerWithoutSaving(name: string, email: string): this {
+        const { trustRelationshipManager, editContacts } = this.elements;
+        trustRelationshipManager.editLink().click();
+        editContacts.nameInput().clear().type(name);
+        editContacts.emailInput().clear().type(email);
+        return this;
+    }
+
     public checkTrustRelationshipManagerIsSuccessfullyUpdated(name: string, email: string): this {
         this.elements.trustRelationshipManager.name().should('contain.text', name);
         this.elements.trustRelationshipManager.email().should('contain.text', email);
         return this;
     }
 
+    public checkTrustRelationshipManagerIsNotUpdated(dontDisplayName: string, dontDisplayEmail: string): this {
+        this.elements.trustRelationshipManager.name().should('not.contain.text', dontDisplayName);
+        this.elements.trustRelationshipManager.email().should('not.contain.text', dontDisplayEmail);
+        return this;
+    }
+
+    public checkSfsoLeadIsNotUpdated(dontDisplayName: string, dontDisplayEmail: string): this {
+        this.elements.schoolsFinancialSupportOversight.name().should('not.contain.text', dontDisplayName);
+        this.elements.schoolsFinancialSupportOversight.email().should('not.contain.text', dontDisplayEmail);
+        return this;
+    }
+
     public editSfsoLead(name: string, email: string): this {
-        const { schoolsFinancialSupportOversight, editContacts: EditContacts } = this.elements;
+        const { schoolsFinancialSupportOversight, editContacts } = this.elements;
         schoolsFinancialSupportOversight.editLink().click();
-        EditContacts.nameInput().clear().type(name);
-        EditContacts.emailInput().clear().type(email);
-        EditContacts.saveButton().click();
+        editContacts.nameInput().clear().type(name);
+        editContacts.emailInput().clear().type(email);
+        editContacts.saveButton().click();
+        return this;
+    }
+
+    public editSfsoLeadWithoutSaving(name: string, email: string): this {
+        const { schoolsFinancialSupportOversight, editContacts } = this.elements;
+        schoolsFinancialSupportOversight.editLink().click();
+        editContacts.nameInput().clear().type(name);
+        editContacts.emailInput().clear().type(email);
         return this;
     }
 
