@@ -17,7 +17,7 @@ public class DataSourceListEntryTest
     {
         var date = DateTime.Today;
         var sut = new DataSourceListEntry(new DataSourceServiceModel(Source.Cdm, date, null), []);
-        sut.LastUpdatedText.Should().Be(date.ToString("d MMM yyyy"));
+        sut.LastUpdatedText.Should().Be(date.ToString("dd MMM yyyy"));
     }
 
     [Fact]

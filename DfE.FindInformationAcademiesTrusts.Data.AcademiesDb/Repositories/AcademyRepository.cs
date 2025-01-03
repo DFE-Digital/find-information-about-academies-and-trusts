@@ -55,10 +55,10 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
     {
         // Ofsted data is held in MisEstablishments for most academies
         var ofstedRatings =
-            await academiesDbContext.MisEstablishments
-                .Where(me => urns.Contains(me.Urn!.Value))
+            await academiesDbContext.MisMstrEstablishmentsFiat
+                .Where(me => urns.Contains(me.Urn))
                 .Select(me => new AcademyOfstedRatings(
-                    me.Urn!.Value,
+                    me.Urn,
                     new OfstedRating(
                         ConvertOverallEffectivenessToOfstedRatingScore(me.OverallEffectiveness),
                         ConvertNullableIntToOfstedRatingScore(me.QualityOfEducation),
@@ -82,20 +82,19 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
                         ConvertStringToSafeguardingScore(me.PreviousSafeguardingIsEffective),
                         me.PreviousInspectionStartDate.ParseAsNullableDate())))
                 .ToListAsync();
-
-        // Look in MisFurtherEducationEstablishments for academies not found in MisEstablishments
+        // Check to see if all ratings have been found in MisEstablishments, if not search in MisFurtherEducationEstablishments
         // Note: if an entry is in MisEstablishments then it will not be in MisFurtherEducationEstablishments, even if it has no ofsted data
-        var urnsNotInMisEstablishments = urns.Except(ofstedRatings.Select(a => a.Urn)).ToArray();
-        if (urnsNotInMisEstablishments.Length > 0)
+        if (urns.Length != ofstedRatings.Count)
         {
+            var urnsNotInMisEstablishments = urns.Except(ofstedRatings.Select(a => a.Urn)).ToArray();
             ofstedRatings.AddRange(
-                await academiesDbContext.MisFurtherEducationEstablishments
+                await academiesDbContext.MisMstrFurtherEducationEstablishmentsFiat
                     .Where(mfe => urnsNotInMisEstablishments.Contains(mfe.ProviderUrn))
                     .Select(mfe =>
                         new AcademyOfstedRatings(
                             mfe.ProviderUrn,
                             new OfstedRating(
-                                ConvertNullableIntToOfstedRatingScore(mfe.OverallEffectiveness),
+                                ConvertOverallEffectivenessToOfstedRatingScore(mfe.OverallEffectiveness),
                                 ConvertNullableIntToOfstedRatingScore(mfe.QualityOfEducation),
                                 ConvertNullableIntToOfstedRatingScore(mfe.BehaviourAndAttitudes),
                                 ConvertNullableIntToOfstedRatingScore(mfe.PersonalDevelopment),
@@ -106,7 +105,7 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
                                 ConvertStringToSafeguardingScore(mfe.IsSafeguardingEffective),
                                 mfe.LastDayOfInspection.ParseAsNullableDate()),
                             new OfstedRating(
-                                ConvertNullableIntToOfstedRatingScore(mfe.PreviousOverallEffectiveness),
+                                ConvertOverallEffectivenessToOfstedRatingScore(mfe.PreviousOverallEffectiveness),
                                 ConvertNullableIntToOfstedRatingScore(mfe.PreviousQualityOfEducation),
                                 ConvertNullableIntToOfstedRatingScore(mfe.PreviousBehaviourAndAttitudes),
                                 ConvertNullableIntToOfstedRatingScore(mfe.PreviousPersonalDevelopment),

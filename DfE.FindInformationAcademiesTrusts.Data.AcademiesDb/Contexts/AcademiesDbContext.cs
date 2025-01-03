@@ -1,11 +1,11 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
+﻿using System.Diagnostics.CodeAnalysis;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis_Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 
@@ -16,13 +16,14 @@ public interface IAcademiesDbContext
     DbSet<GiasGroupLink> GiasGroupLinks { get; }
     DbSet<GiasGroup> Groups { get; }
     DbSet<MstrTrust> MstrTrusts { get; }
+
     DbSet<CdmAccount> CdmAccounts { get; }
-    DbSet<MisEstablishment> MisEstablishments { get; }
-    DbSet<MisFurtherEducationEstablishment> MisFurtherEducationEstablishments { get; }
     DbSet<CdmSystemuser> CdmSystemusers { get; }
     DbSet<TadTrustGovernance> TadTrustGovernances { get; }
     DbSet<ApplicationEvent> ApplicationEvents { get; }
     DbSet<ApplicationSetting> ApplicationSettings { get; }
+    DbSet<MisMstrEstablishmentFiat> MisMstrEstablishmentsFiat { get; }
+    DbSet<MisMstrFurtherEducationEstablishmentFiat> MisMstrFurtherEducationEstablishmentsFiat { get; }
 }
 
 [ExcludeFromCodeCoverage]
@@ -44,13 +45,12 @@ public partial class AcademiesDbContext : DbContext, IAcademiesDbContext
         OnModelCreatingGiasGroupLink(modelBuilder);
         OnModelCreatingGiasGroup(modelBuilder);
         OnModelCreatingCdmAccounts(modelBuilder);
-        OnModelCreatingMisEstablishment(modelBuilder);
         OnModelCreatingCdmSystemusers(modelBuilder);
-        OnModelCreatingMisFurtherEducationEstablishments(modelBuilder);
         OnModelCreatingTadTrustGovernances(modelBuilder);
         OnModelCreatingMstrTrusts(modelBuilder);
         OnModelCreatingApplicationSettings(modelBuilder);
         OnModelCreatingApplicationEvents(modelBuilder);
         OnModelCreatingAddFilters(modelBuilder);
+        OnModelCreatingMis_Mstr(modelBuilder);
     }
 }
