@@ -7,7 +7,7 @@ public interface ITrustsAreaModel
 {
     TrustSummaryServiceModel TrustSummary { get; }
 
-    List<DataSourceListEntry> DataSources { get; }
+    List<DataSourcePageListEntry> DataSourcesPerPage { get; }
 
     TrustPageMetadata TrustPageMetadata { get; }
 
