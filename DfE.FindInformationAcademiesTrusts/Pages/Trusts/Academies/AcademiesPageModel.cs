@@ -27,13 +27,15 @@ public abstract class AcademiesPageModel(
         var giasDataSource = await DataSourceService.GetAsync(Source.Gias);
         var eesDataSource = await DataSourceService.GetAsync(Source.ExploreEducationStatistics);
 
-        DataSourcesPerPage.Add(new DataSourcePageListEntry("Details", [new DataSourceListEntry(giasDataSource)]));
-        DataSourcesPerPage.Add(new DataSourcePageListEntry("Pupil numbers", [new DataSourceListEntry(giasDataSource)]));
-        DataSourcesPerPage.Add(new DataSourcePageListEntry("Free school meals", [
-            new DataSourceListEntry(giasDataSource, "Pupils eligible for free school meals"),
-            new DataSourceListEntry(eesDataSource, "Local authority average 2023/24"),
-            new DataSourceListEntry(eesDataSource, "National average 2023/24")
-        ]));
+        DataSourcesPerPage.AddRange([
+            new DataSourcePageListEntry("Details", [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry("Pupil numbers", [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry("Free school meals", [
+                new DataSourceListEntry(giasDataSource, "Pupils eligible for free school meals"),
+                new DataSourceListEntry(eesDataSource, "Local authority average 2023/24"),
+                new DataSourceListEntry(eesDataSource, "National average 2023/24")
+            ])
+        ]);
 
         return pageResult;
     }

@@ -3,6 +3,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Ofsted;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
+using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -21,10 +22,19 @@ public class OfstedAreaModelTests
 
     private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
 
+    private readonly DataSourceServiceModel _giasDataSource =
+        new(Source.Gias, new DateTime(2025, 1, 1), UpdateFrequency.Daily);
+
+    private readonly DataSourceServiceModel _misDataSource =
+        new(Source.Mis, new DateTime(2025, 1, 1), UpdateFrequency.Daily);
+
     public OfstedAreaModelTests()
     {
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
             .ReturnsAsync(_fakeTrust);
+        _mockDataSourceService.Setup(s => s.GetAsync(Source.Gias)).ReturnsAsync(_giasDataSource);
+        _mockDataSourceService.Setup(s => s.GetAsync(Source.Mis)).ReturnsAsync(_misDataSource);
+
 
         _sut = new OfstedAreaModel(_mockDataSourceService.Object,
                 _mockTrustService.Object,
@@ -33,7 +43,7 @@ public class OfstedAreaModelTests
                 _mockDateTimeProvider.Object,
                 new MockLogger<OfstedAreaModel>().Object
             )
-        { Uid = "1234" };
+            { Uid = "1234" };
     }
 
     [Fact]
@@ -50,13 +60,37 @@ public class OfstedAreaModelTests
         await _sut.OnGetAsync();
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Mis), Times.Once);
-        _sut.DataSources.Count.Should().Be(2);
-        _sut.DataSources[0].Fields.Should().Contain(new List<string>
-            { "Date joined trust" });
-        _sut.DataSources[1].Fields.Should().Contain(new List<string>
-        {
-            "Current Ofsted rating", "Date of last inspection", "Previous Ofsted rating", "Date of previous inspection"
-        });
+        _sut.DataSourcesPerPage.Count.Should().Be(4);
+        _sut.DataSourcesPerPage.Should().BeEquivalentTo([
+            new DataSourcePageListEntry("Current ratings", [
+                    new DataSourceListEntry(_giasDataSource, "Date joined trust"),
+                    new DataSourceListEntry(_misDataSource, "Current Ofsted rating"),
+                    new DataSourceListEntry(_misDataSource, "Date of current inspection")
+                ]
+            ),
+            new DataSourcePageListEntry("Previous ratings", [
+                    new DataSourceListEntry(_giasDataSource, "Date joined trust"),
+                    new DataSourceListEntry(_misDataSource, "Previous Ofsted rating"),
+                    new DataSourceListEntry(_misDataSource, "Date of previous inspection")
+                ]
+            ),
+            new DataSourcePageListEntry("Important dates", [
+                    new DataSourceListEntry(_giasDataSource, "Date joined trust"),
+                    new DataSourceListEntry(_misDataSource, "Date of current inspection"),
+                    new DataSourceListEntry(_misDataSource, "Date of previous inspection")
+                ]
+            ),
+            new DataSourcePageListEntry("Safeguarding and concerns", [
+                    new DataSourceListEntry(_giasDataSource, "Date joined trust"),
+                    new DataSourceListEntry(_misDataSource,
+                        "Effective safeguarding"),
+                    new DataSourceListEntry(_misDataSource,
+                        "Category of concern and date of current inspection"),
+                    new DataSourceListEntry(_misDataSource,
+                        "Date of current inspection")
+                ]
+            )
+        ]);
     }
 
 

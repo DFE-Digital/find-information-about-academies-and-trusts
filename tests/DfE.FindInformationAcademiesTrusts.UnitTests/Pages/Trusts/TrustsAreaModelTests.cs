@@ -127,17 +127,16 @@ public class TrustsAreaModelTests
     }
 
     [Fact]
-    public void MapDataSourceToTestId_ShouldMapSourceAndFieldsCorrectly()
+    public void MapDataSourceToTestId_ShouldMapSourceAndDataFieldCorrectly()
     {
         // Arrange
         var source = new DataSourceServiceModel(Source.Cdm, null, null);
-        var fields = new List<string> { "Field One", "FieldTwo" };
 
         // Act
-        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, fields));
+        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source));
 
         // Assert
-        Assert.Equal("data-source-cdm-field-one-fieldtwo", result);
+        Assert.Equal("data-source-cdm-all-information", result);
     }
 
     [Fact]
@@ -147,10 +146,10 @@ public class TrustsAreaModelTests
         var source = new DataSourceServiceModel(Source.Gias, null, null);
 
         // Act
-        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, new List<string>()));
+        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, ""));
 
         // Assert
-        Assert.Equal("data-source-gias-", result); // Fields are empty, but source should still be present
+        Assert.Equal("data-source-gias-", result); // Field is empty, but source should still be present
     }
 
     [Fact]
@@ -158,27 +157,12 @@ public class TrustsAreaModelTests
     {
         // Arrange
         var source = new DataSourceServiceModel(Source.Mis, null, null);
-        var fields = new List<string> { "  Field  Three", " FieldFour " };
 
         // Act
-        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, fields));
+        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, "fields"));
 
         // Assert
-        Assert.Equal("data-source-mis-field-three-fieldfour", result);
-    }
-
-    [Fact]
-    public void MapDataSourceToTestId_ShouldHandleSingleFieldCorrectly()
-    {
-        // Arrange
-        var source = new DataSourceServiceModel(Source.Mstr, null, null);
-        var fields = new List<string> { "FieldOne" };
-
-        // Act
-        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, fields));
-
-        // Assert
-        Assert.Equal("data-source-mstr-fieldone", result);
+        Assert.Equal("data-source-mis-fields", result);
     }
 
     [Fact]
@@ -186,10 +170,22 @@ public class TrustsAreaModelTests
     {
         // Arrange
         var source = new DataSourceServiceModel(Source.FiatDb, null, null);
-        var fields = new List<string> { "FiElDOne", "FiELDTwo" };
 
         // Act
-        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, fields));
+        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, "FiElDOne FiELDTwo"));
+
+        // Assert
+        Assert.Equal("data-source-fiatdb-fieldone-fieldtwo", result);
+    }
+
+    [Fact]
+    public void MapDataSourceToTestId_ShouldRemovePunctuation_and_PreseveWordsAndNumbers()
+    {
+        // Arrange
+        var source = new DataSourceServiceModel(Source.FiatDb, null, null);
+
+        // Act
+        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, "#FiElDOne @FiELDTwo!"));
 
         // Assert
         Assert.Equal("data-source-fiatdb-fieldone-fieldtwo", result);

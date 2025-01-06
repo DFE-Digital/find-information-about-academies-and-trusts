@@ -2,6 +2,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Governance;
+using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
@@ -65,6 +66,9 @@ public class GovernanceAreaModelTests
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustService = new();
 
+    private readonly DataSourceServiceModel _giasDataSource =
+        new(Source.Gias, new DateTime(2025, 1, 1), UpdateFrequency.Daily);
+
     private static readonly string TestUid = "1234";
 
     public GovernanceAreaModelTests()
@@ -73,6 +77,7 @@ public class GovernanceAreaModelTests
             .ReturnsAsync(DummyTrustGovernanceServiceModel);
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(TestUid))
             .ReturnsAsync(new TrustSummaryServiceModel(TestUid, "My trust", "", 0));
+        _mockDataSourceService.Setup(s => s.GetAsync(Source.Gias)).ReturnsAsync(_giasDataSource);
 
         _sut = new GovernanceAreaModel(_mockDataSourceService.Object, _mockTrustService.Object,
                 new MockLogger<GovernanceAreaModel>().Object)
@@ -98,8 +103,13 @@ public class GovernanceAreaModelTests
     {
         await _sut.OnGetAsync();
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
-        _sut.DataSources.Should().ContainSingle();
-        _sut.DataSources[0].Fields.Should().Contain(new List<string> { "Governance" });
+        _sut.DataSourcesPerPage.Count.Should().Be(4);
+        _sut.DataSourcesPerPage.Should().BeEquivalentTo([
+            new DataSourcePageListEntry("Trust leadership", [new DataSourceListEntry(_giasDataSource)]),
+            new DataSourcePageListEntry("Trustees", [new DataSourceListEntry(_giasDataSource)]),
+            new DataSourcePageListEntry("Members", [new DataSourceListEntry(_giasDataSource)]),
+            new DataSourcePageListEntry("Historic members", [new DataSourceListEntry(_giasDataSource)])
+        ]);
     }
 
     [Fact]

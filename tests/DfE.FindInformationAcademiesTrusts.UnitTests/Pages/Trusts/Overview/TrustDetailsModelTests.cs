@@ -17,7 +17,8 @@ public class TrustDetailsModelTests
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinksToOtherServices = new();
 
     private static readonly TrustOverviewServiceModel BaseTrustOverviewServiceModel =
-        new(TrustUid, "", "", "", TrustType.MultiAcademyTrust, "", "", null, null, 0, new Dictionary<string, int>(), 0,
+        new(TrustUid, "GroupID", "", "", TrustType.MultiAcademyTrust, "", "", null, null, 0,
+            new Dictionary<string, int>(), 0,
             0);
 
     public TrustDetailsModelTests()
@@ -40,16 +41,6 @@ public class TrustDetailsModelTests
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(TrustUid)).ReturnsAsync((TrustSummaryServiceModel?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
-    }
-
-    [Fact]
-    public async Task OnGetAsync_sets_correct_data_source_list()
-    {
-        _ = await _sut.OnGetAsync();
-        _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
-        _sut.DataSources.Should().ContainSingle();
-        _sut.DataSources[0].Fields.Should().Contain(new List<string>
-            { "Trust details", "Reference numbers", "Trust summary" });
     }
 
     [Fact]
@@ -158,5 +149,22 @@ public class TrustDetailsModelTests
         _sut.TrustPageMetadata.SubPageName.Should().Be("Trust details");
         _sut.TrustPageMetadata.PageName.Should().Be("Overview");
         _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
+    }
+
+    [Fact]
+    public void SharepointLink_should_have_correct_default_value()
+    {
+        _sut.SharepointLink.Should().Be("");
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_Set_correct_SharepointLink()
+    {
+        _mockLinksToOtherServices.Setup(l =>
+                l.SharepointFolderLink(BaseTrustOverviewServiceModel.GroupId))
+            .Returns("url/groupID");
+        await _sut.OnGetAsync();
+
+        _sut.SharepointLink.Should().Be("url/groupID");
     }
 }

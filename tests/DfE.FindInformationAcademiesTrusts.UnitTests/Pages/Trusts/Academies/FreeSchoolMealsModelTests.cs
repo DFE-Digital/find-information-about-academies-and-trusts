@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
@@ -42,22 +41,6 @@ public class FreeSchoolMealsModelTests
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
-    }
-
-    [Fact]
-    public async Task OnGetAsync_sets_correct_data_source_list()
-    {
-        await _sut.OnGetAsync();
-        _mockDataSourceService.Verify(d => d.GetAsync(Source.ExploreEducationStatistics), Times.Once);
-        _sut.DataSources.Count.Should().Be(2);
-        _sut.DataSources[0].Fields.Should().Contain(new[]
-        {
-            "Pupils eligible for free school meals"
-        });
-        _sut.DataSources[1].Fields.Should().Contain(new[]
-        {
-            "Local authority average 2023/24", "National average 2023/24"
-        });
     }
 
     [Fact]
