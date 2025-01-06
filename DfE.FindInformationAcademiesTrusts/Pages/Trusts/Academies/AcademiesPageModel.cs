@@ -1,4 +1,5 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -17,6 +18,25 @@ public abstract class AcademiesPageModel(
     public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = "Academies" };
     protected IExportService ExportService { get; } = exportService;
     public IDateTimeProvider DateTimeProvider { get; } = dateTimeProvider;
+
+    public override async Task<IActionResult> OnGetAsync()
+    {
+        var pageResult = await base.OnGetAsync();
+        if (pageResult is NotFoundResult) return pageResult;
+
+        var giasDataSource = await DataSourceService.GetAsync(Source.Gias);
+        var eesDataSource = await DataSourceService.GetAsync(Source.ExploreEducationStatistics);
+
+        DataSourcesPerPage.Add(new DataSourcePageListEntry("Details", [new DataSourceListEntry(giasDataSource)]));
+        DataSourcesPerPage.Add(new DataSourcePageListEntry("Pupil numbers", [new DataSourceListEntry(giasDataSource)]));
+        DataSourcesPerPage.Add(new DataSourcePageListEntry("Free school meals", [
+            new DataSourceListEntry(giasDataSource, "Pupils eligible for free school meals"),
+            new DataSourceListEntry(eesDataSource, "Local authority average 2023/24"),
+            new DataSourceListEntry(eesDataSource, "National average 2023/24")
+        ]));
+
+        return pageResult;
+    }
 
     public virtual async Task<IActionResult> OnGetExportAsync(string uid)
     {

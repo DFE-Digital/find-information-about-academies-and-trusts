@@ -36,8 +36,15 @@ public class GovernanceAreaModel(
                 "./HistoricMembers", Uid, TrustPageMetadata.PageName!, this is HistoricMembersModel)
         ];
 
-        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),
-            new List<string> { "Governance" }));
+        // Add data sources
+        var giasDataSource = await DataSourceService.GetAsync(Source.Gias);
+
+        DataSourcesPerPage.AddRange([
+            new DataSourcePageListEntry("Trust leadership", [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry("Trustees", [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry("Members", [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry("Historic members", [new DataSourceListEntry(giasDataSource)])
+        ]);
 
         return pageResult;
     }

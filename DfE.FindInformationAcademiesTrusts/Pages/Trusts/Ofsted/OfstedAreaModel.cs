@@ -43,16 +43,39 @@ public class OfstedAreaModel(
                 TrustPageMetadata.PageName!, this is SafeguardingAndConcernsModel)
         ];
 
-        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),
-            ["Date joined trust"]));
+        // Add data sources
+        var giasDataSource = await DataSourceService.GetAsync(Source.Gias);
+        var misDataSource = await DataSourceService.GetAsync(Source.Mis);
 
-        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Mis),
-        [
-            "Current Ofsted rating",
-            "Date of last inspection",
-            "Previous Ofsted rating",
-            "Date of previous inspection"
-        ]));
+        var dateJoinedTrust = new DataSourceListEntry(giasDataSource, "Date joined trust");
+
+        DataSourcesPerPage.AddRange([
+            new DataSourcePageListEntry("Current ratings", [
+                    dateJoinedTrust,
+                    new DataSourceListEntry(misDataSource, "Current Ofsted rating"),
+                    new DataSourceListEntry(misDataSource, "Date of current inspection")
+                ]
+            ),
+            new DataSourcePageListEntry("Previous ratings", [
+                    dateJoinedTrust,
+                    new DataSourceListEntry(misDataSource, "Previous Ofsted rating"),
+                    new DataSourceListEntry(misDataSource, "Date of previous inspection")
+                ]
+            ),
+            new DataSourcePageListEntry("Important dates", [
+                    dateJoinedTrust,
+                    new DataSourceListEntry(misDataSource, "Date of current inspection"),
+                    new DataSourceListEntry(misDataSource, "Date of previous inspection")
+                ]
+            ),
+            new DataSourcePageListEntry("Safeguarding and concerns", [
+                    dateJoinedTrust,
+                    new DataSourceListEntry(misDataSource, "Effective safeguarding"),
+                    new DataSourceListEntry(misDataSource, "Category of concern and date of current inspection"),
+                    new DataSourceListEntry(misDataSource, "Date of current inspection")
+                ]
+            )
+        ]);
 
         return pageResult;
     }

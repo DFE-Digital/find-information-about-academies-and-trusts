@@ -33,9 +33,12 @@ public class OverviewAreaModel(
         TrustOverview = await TrustService.GetTrustOverviewAsync(Uid);
 
         // Add data sources
-        DataSources.Add(new DataSourceListEntry(
-            await DataSourceService.GetAsync(Source.Gias),
-            new List<string> { "Trust details", "Trust summary", "Reference numbers" }));
+        var giasDataSource = await DataSourceService.GetAsync(Source.Gias);
+        DataSourcesPerPage.AddRange([
+            new DataSourcePageListEntry("Trust details", [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry("Trust summary", [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry("Reference numbers", [new DataSourceListEntry(giasDataSource)])
+        ]);
 
         return Page();
     }
