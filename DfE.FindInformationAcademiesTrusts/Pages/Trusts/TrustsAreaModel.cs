@@ -23,7 +23,7 @@ public abstract class TrustsAreaModel(
 
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = "";
     public TrustSummaryServiceModel TrustSummary { get; set; } = default!;
-    public List<DataSourceListEntry> DataSources { get; set; } = [];
+    public List<DataSourcePageListEntry> DataSourcesPerPage { get; set; } = [];
     public virtual TrustPageMetadata TrustPageMetadata => new(TrustSummary.Name, ModelState.IsValid);
 
     public string MapDataSourceToName(DataSourceServiceModel dataSource)
@@ -51,7 +51,7 @@ public abstract class TrustsAreaModel(
     public string MapDataSourceToTestId(DataSourceListEntry source)
     {
         return
-            $@"data-source-{source.DataSource.Source.ToString().ToLowerInvariant()}-{string.Join("-", source.Fields.Select(s => Regex.Replace(s.ToLowerInvariant().Trim(), @"\s+", "-", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500))))}";
+            $"data-source-{source.DataSource.Source.ToString().ToLowerInvariant()}-{string.Join("-", source.DataField.ToLowerInvariant().Trim(), @"\s+", "-", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500))}";
     }
 
     public TrustNavigationLinkModel[] NavigationLinks { get; set; } = [];
