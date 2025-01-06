@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
@@ -25,16 +24,10 @@ public class FreeSchoolMealsModel(
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();
-
-        if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
+        if (pageResult is NotFoundResult) return pageResult;
 
         Academies = await academyService.GetAcademiesInTrustFreeSchoolMealsAsync(Uid);
 
-        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),
-            ["Pupils eligible for free school meals"]));
-
-        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.ExploreEducationStatistics),
-            ["Local authority average 2023/24", "National average 2023/24"]));
 
         return pageResult;
     }

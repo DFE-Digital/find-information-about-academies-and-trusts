@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
@@ -23,12 +22,9 @@ public class PupilNumbersModel(
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();
-
-        if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
+        if (pageResult is NotFoundResult) return pageResult;
 
         Academies = await academyService.GetAcademiesInTrustPupilNumbersAsync(Uid);
-
-        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias), ["Pupil numbers"]));
 
         return pageResult;
     }
