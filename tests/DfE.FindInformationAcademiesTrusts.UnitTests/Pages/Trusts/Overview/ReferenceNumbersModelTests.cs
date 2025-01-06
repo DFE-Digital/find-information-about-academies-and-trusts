@@ -40,16 +40,6 @@ public class ReferenceNumbersModelTests
     }
 
     [Fact]
-    public async Task OnGetAsync_sets_correct_data_source_list()
-    {
-        _ = await _sut.OnGetAsync();
-        _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
-        _sut.DataSources.Should().ContainSingle();
-        _sut.DataSources[0].Fields.Should().Contain(new List<string>
-            { "Trust details", "Reference numbers", "Trust summary" });
-    }
-
-    [Fact]
     public async Task OnGetAsync_sets_correct_NavigationLinks()
     {
         _ = await _sut.OnGetAsync();

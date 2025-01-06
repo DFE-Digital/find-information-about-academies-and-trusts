@@ -50,8 +50,20 @@ public abstract class TrustsAreaModel(
 
     public string MapDataSourceToTestId(DataSourceListEntry source)
     {
+        string RemovePunctuation(string input)
+        {
+            return Regex.Replace(input.Trim().ToLowerInvariant(), @"[^\s\d\w]+", "", RegexOptions.Compiled,
+                TimeSpan.FromMilliseconds(500));
+        }
+
+        string ReplaceWhitespaces(string input)
+        {
+            return Regex.Replace(input.Trim().ToLowerInvariant(), @"\s+", "-", RegexOptions.Compiled,
+                TimeSpan.FromMilliseconds(500));
+        }
+
         return
-            $"data-source-{source.DataSource.Source.ToString().ToLowerInvariant()}-{string.Join("-", source.DataField.ToLowerInvariant().Trim(), @"\s+", "-", RegexOptions.Compiled, TimeSpan.FromMilliseconds(500))}";
+            $"data-source-{source.DataSource.Source.ToString().ToLowerInvariant()}-{ReplaceWhitespaces(RemovePunctuation(source.DataField))}";
     }
 
     public TrustNavigationLinkModel[] NavigationLinks { get; set; } = [];

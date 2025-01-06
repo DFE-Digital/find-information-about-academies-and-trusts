@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -117,23 +116,6 @@ public class InTrustModelTests
         _mockTrustService.Setup(r => r.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
-    }
-
-    [Fact]
-    public async Task OnGetAsync_sets_correct_data_source_list()
-    {
-        await _sut.OnGetAsync();
-        _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
-        _mockDataSourceService.Verify(e => e.GetAsync(Source.Mstr), Times.Once);
-        _sut.DataSources.Count.Should().Be(4);
-        _sut.DataSources[0].Fields.Should().Contain(new List<string>
-            { "Trust relationship manager" });
-        _sut.DataSources[1].Fields.Should().Contain(new List<string>
-            { "SFSO (Schools financial support and oversight) lead" });
-        _sut.DataSources[2].Fields.Should().Contain(new List<string>
-            { "Accounting officer name", "Chief financial officer name", "Chair of trustees name" });
-        _sut.DataSources[3].Fields.Should().Contain(new List<string>
-            { "Accounting officer email", "Chief financial officer email", "Chair of trustees email" });
     }
 
     [Fact]

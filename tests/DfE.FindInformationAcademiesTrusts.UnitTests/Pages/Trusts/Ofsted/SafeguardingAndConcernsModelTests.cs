@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Ofsted;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
@@ -33,7 +32,7 @@ public class SafeguardingAndConcernsModelTests
                 _mockDateTimeProvider.Object,
                 new MockLogger<SafeguardingAndConcernsModel>().Object
             )
-        { Uid = "1234" };
+            { Uid = "1234" };
     }
 
     [Fact]
@@ -43,22 +42,6 @@ public class SafeguardingAndConcernsModelTests
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
-
-    [Fact]
-    public async Task OnGetAsync_sets_correct_data_source_list()
-    {
-        await _sut.OnGetAsync();
-        _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
-        _mockDataSourceService.Verify(e => e.GetAsync(Source.Mis), Times.Once);
-        _sut.DataSources.Count.Should().Be(2);
-        _sut.DataSources[0].Fields.Should().Contain(new List<string>
-            { "Date joined trust" });
-        _sut.DataSources[1].Fields.Should().Contain(new List<string>
-        {
-            "Current Ofsted rating", "Date of last inspection", "Previous Ofsted rating", "Date of previous inspection"
-        });
-    }
-
 
     [Fact]
     public async Task OnGetAsync_sets_academies_from_academyService()

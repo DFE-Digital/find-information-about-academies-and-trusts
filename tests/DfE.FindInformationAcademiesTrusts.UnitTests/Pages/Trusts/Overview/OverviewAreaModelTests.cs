@@ -1,6 +1,7 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
+using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +19,15 @@ public class OverviewAreaModelTests
         new(TrustUid, "", "", "", TrustType.MultiAcademyTrust, "", "", null, null, 0, new Dictionary<string, int>(), 0,
             0);
 
+    private readonly DataSourceServiceModel _giasDataSource =
+        new(Source.Gias, new DateTime(2025, 1, 1), UpdateFrequency.Daily);
+
     public OverviewAreaModelTests()
     {
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(TrustUid))
             .ReturnsAsync(new TrustSummaryServiceModel(TrustUid, "My Trust", "Multi-academy trust", 3));
         _mockTrustService.Setup(t => t.GetTrustOverviewAsync(TrustUid)).ReturnsAsync(BaseTrustOverviewServiceModel);
+        _mockDataSourceService.Setup(s => s.GetAsync(Source.Gias)).ReturnsAsync(_giasDataSource);
 
         _sut = new OverviewAreaModel(
                 _mockDataSourceService.Object,
@@ -44,9 +49,12 @@ public class OverviewAreaModelTests
     {
         _ = await _sut.OnGetAsync();
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
-        _sut.DataSources.Should().ContainSingle();
-        _sut.DataSources[0].Fields.Should().Contain(new List<string>
-            { "Trust details", "Reference numbers", "Trust summary" });
+        _sut.DataSourcesPerPage.Count.Should().Be(3);
+        _sut.DataSourcesPerPage.Should().BeEquivalentTo([
+            new DataSourcePageListEntry("Trust details", [new DataSourceListEntry(_giasDataSource)]),
+            new DataSourcePageListEntry("Trust summary", [new DataSourceListEntry(_giasDataSource)]),
+            new DataSourcePageListEntry("Reference numbers", [new DataSourceListEntry(_giasDataSource)])
+        ]);
     }
 
     [Fact]
