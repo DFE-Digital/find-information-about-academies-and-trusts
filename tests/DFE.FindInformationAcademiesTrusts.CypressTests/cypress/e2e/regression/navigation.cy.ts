@@ -1,5 +1,5 @@
 import navigation from "../../pages/navigation";
-import academiesPage from "../../pages/trusts/academiesPage";
+import academiesInTrustPage from "../../pages/trusts/academiesInTrustPage";
 import governancePage from "../../pages/trusts/governancePage";
 import contactsPage from "../../pages/trusts/contactsPage";
 import overviewPage from "../../pages/trusts/overviewPage";
@@ -131,7 +131,7 @@ describe('Testing Navigation', () => {
                 .checkAcademiesServiceNavButtonIsHighlighted()
                 .checkCurrentURLIsCorrect('/trusts/academies/details?uid=5527')
                 .checkAllServiceNavItemsPresent();
-            academiesPage
+            academiesInTrustPage
                 .checkDetailsHeadersPresent();
         });
 
