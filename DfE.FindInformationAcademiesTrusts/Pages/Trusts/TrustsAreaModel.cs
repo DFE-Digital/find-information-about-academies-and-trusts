@@ -1,5 +1,5 @@
-using System.Text.RegularExpressions;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Extensions;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
@@ -50,20 +50,8 @@ public abstract class TrustsAreaModel(
 
     public string MapDataSourceToTestId(DataSourceListEntry source)
     {
-        string RemovePunctuation(string input)
-        {
-            return Regex.Replace(input.Trim().ToLowerInvariant(), @"[^\s\d\w]+", "", RegexOptions.Compiled,
-                TimeSpan.FromMilliseconds(500));
-        }
-
-        string ReplaceWhitespaces(string input)
-        {
-            return Regex.Replace(input.Trim().ToLowerInvariant(), @"\s+", "-", RegexOptions.Compiled,
-                TimeSpan.FromMilliseconds(500));
-        }
-
         return
-            $"data-source-{source.DataSource.Source.ToString().ToLowerInvariant()}-{ReplaceWhitespaces(RemovePunctuation(source.DataField))}";
+            $"data-source-{source.DataSource.Source.ToString().ToLowerInvariant()}-{source.DataField.RemovePunctuation().ReplaceWhitespaces("-")}";
     }
 
     public TrustNavigationLinkModel[] NavigationLinks { get; set; } = [];
