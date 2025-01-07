@@ -152,7 +152,7 @@ public class TrustDetailsModelTests
     }
 
     [Fact]
-    public void SharepointLink_should_have_correct_default_value()
+    public void SharepointLink_should_be_empty_string_by_default()
     {
         _sut.SharepointLink.Should().Be("");
     }
