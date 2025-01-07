@@ -1,6 +1,6 @@
-using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Setup;
 using Serilog;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DfE.FindInformationAcademiesTrusts;
 
@@ -11,7 +11,6 @@ internal static class Program
     {
         //Create logging mechanism before anything else to catch bootstrap errors
         Log.Logger = LoggingSetup.CreateInitialLogger();
-
         try
         {
             var builder = WebApplication.CreateBuilder(args);

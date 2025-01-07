@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
@@ -7,6 +6,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 
@@ -19,6 +19,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     private readonly List<CdmAccount> _cdmAccounts = [];
     private readonly List<GiasGroup> _giasGroups = [];
     private readonly List<MstrTrust> _mstrTrusts = [];
+    private readonly List<MstrFreeSchoolProject> _mstrFreeSchoolProjects = [];
     private readonly List<GiasEstablishment> _giasEstablishments = [];
     private readonly List<GiasGovernance> _giasGovernances = [];
     private readonly List<TadTrustGovernance> _tadTrustGovernances = [];
@@ -34,6 +35,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         SetupMockDbContext(_cdmAccounts, context => context.CdmAccounts);
         SetupMockDbContext(_giasGroups, context => context.Groups);
         SetupMockDbContext(_mstrTrusts, context => context.MstrTrusts);
+        SetupMockDbContext(_mstrFreeSchoolProjects, context => context.MstrFreeSchoolProjects);
         SetupMockDbContext(_giasEstablishments, context => context.GiasEstablishments);
         SetupMockDbContext(_giasGovernances, context => context.GiasGovernances);
         SetupMockDbContext(_tadTrustGovernances, context => context.TadTrustGovernances);
@@ -53,7 +55,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             var otherAcademy = AddGiasEstablishment(establishmentName: $"Some other academy {i}");
             AddGiasGroupLink(otherAcademy, otherTrust);
             AddGiasGovernance(new GiasGovernance
-                { Gid = $"{i}", Uid = otherTrust.GroupUid!, Forename1 = $"Governor {i}" });
+            { Gid = $"{i}", Uid = otherTrust.GroupUid!, Forename1 = $"Governor {i}" });
             AddTadTrustGovernance(new TadTrustGovernance { Gid = $"{i}", Email = $"governor{i}@othertrust.com" });
         }
     }
@@ -213,6 +215,11 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     public void AddGiasGovernance(GiasGovernance governance)
     {
         _giasGovernances.Add(governance);
+    }
+
+    public void AddMstrFreeSchoolProject(MstrFreeSchoolProject mstrFreeSchoolProject)
+    {
+        _mstrFreeSchoolProjects.Add(mstrFreeSchoolProject);
     }
 
     public void AddTadTrustGovernance(TadTrustGovernance tadTrustGovernance)
