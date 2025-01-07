@@ -41,27 +41,35 @@ RUN ["dotnet", "build", "DfE.FindInformationAcademiesTrusts", "--no-restore", "-
 
 RUN ["dotnet", "publish", "DfE.FindInformationAcademiesTrusts", "--no-build", "-o", "/app"]
 
-### Install SQL tools to allow migrations to be run ###
-FROM "mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION}-azurelinux3.0" AS base
-RUN curl "https://packages.microsoft.com/config/rhel/9/prod.repo" | tee /etc/yum.repos.d/mssql-release.repo
-ENV ACCEPT_EULA=Y
-RUN ["tdnf", "update"]
-RUN ["tdnf", "install", "-y", "mssql-tools18"]
-RUN ["tdnf", "clean", "all"]
+### Entity Framework: Migration Builder ###
+FROM build AS efbuilder
+WORKDIR /build
+ENV PATH=$PATH:/root/.dotnet/tools
+RUN ["mkdir", "/sql"]
+RUN ["dotnet", "tool", "install", "--global", "dotnet-ef"]
+RUN ["dotnet", "ef", "migrations", "bundle", "-r", "linux-x64", "-p", "DfE.FindInformationAcademiesTrusts", "--context", "DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts.AcademiesDbContext", "--configuration", "Release", "--no-build", "-o", "/sql/migrateacademiesdb"]
+RUN ["dotnet", "ef", "migrations", "bundle", "-r", "linux-x64", "-p", "DfE.FindInformationAcademiesTrusts", "--context", "DfE.FindInformationAcademiesTrusts.Data.FiatDb.Contexts.FiatDbContext", "--configuration", "Release", "--no-build", "-o", "/sql/migratefiatdb"]
+COPY ./docker/init-docker-entrypoint.sh /sql/entrypoint.sh
+RUN ["chmod", "+x", "/sql/entrypoint.sh"]
+
+### Entity Framework: Migration Runner ###
+FROM "mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION}-azurelinux3.0" AS initcontainer
+WORKDIR /sql
+COPY --from=efbuilder /sql /sql
+COPY --from=build /app/appsettings* /Dfe.FindInformationAcademiesTrusts/
+RUN chown "$APP_UID" "/sql" -R
+RUN chown "$APP_UID" "/Dfe.FindInformationAcademiesTrusts" -R
+USER $APP_UID
 
 ### Build a runtime environment ###
-FROM base AS runtime
+FROM "mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION}-azurelinux3.0" AS final
 WORKDIR /app
 LABEL org.opencontainers.image.source="https://github.com/DFE-Digital/find-information-about-academies-and-trusts"
+LABEL org.opencontainers.image.description="Find Information about Academies and Trusts"
 
 # - Copy and configure docker entrypoint script
 COPY ./docker/web-docker-entrypoint.sh /app/docker-entrypoint.sh
 RUN ["chmod", "+x", "/app/docker-entrypoint.sh"]
-
-# - Copy and configure sql migration script
-COPY ./DfE.FindInformationAcademiesTrusts.Data.FiatDb/Migrations/FiatDbMigrationScript.sql /app/sql/FiatDbMigrationScript.sql
-RUN ["touch", "/app/sql/FiatDbMigrationScriptOutput.txt"]
-RUN chown "$APP_UID" "/app/sql" -R
 
 # - Copy frontend assets
 COPY --from=assets /app/wwwroot /app/wwwroot
