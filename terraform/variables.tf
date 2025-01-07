@@ -479,3 +479,21 @@ variable "cdn_frontdoor_vdp_destination_hostname" {
   type        = string
   default     = "vdp.security.education.gov.uk"
 }
+
+variable "enable_init_container" {
+  description = "Deploy an Init Container. Init containers run before the primary app container and are used to perform initialization tasks such as downloading data or preparing the environment"
+  type        = bool
+  default     = false
+}
+
+variable "init_container_image" {
+  description = "Image name for the Init Container. Leave blank to use the same Container image from the primary app"
+  type        = string
+  default     = ""
+}
+
+variable "init_container_command" {
+  description = "Container command for the Init Container"
+  type        = list(any)
+  default     = []
+}
