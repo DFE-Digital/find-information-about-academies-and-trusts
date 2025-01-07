@@ -10,13 +10,13 @@ FROM "node:${NODEJS_VERSION_MAJOR}-bullseye-slim" AS assets
 WORKDIR /app
 
 # - Copy over and restore npm packages separately so they can be cached by Docker
-COPY ./DfE.FindInformationAcademiesTrusts/package.json /app
+COPY ./DfE.FindInformationAcademiesTrusts/package.json      /app
 COPY ./DfE.FindInformationAcademiesTrusts/package-lock.json /app
 RUN npm ci
 
 # - Only copy over frontend assets so this can be cached independently to other app changes
 COPY ./DfE.FindInformationAcademiesTrusts/webpack.config.js /app
-COPY ./DfE.FindInformationAcademiesTrusts/assets/ /app/assets/
+COPY ./DfE.FindInformationAcademiesTrusts/assets/           /app/assets/
 RUN npm run build
 
 ### Build the app using the dotnet SDK ###
@@ -24,19 +24,19 @@ FROM "mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}-azurelinux3.0" AS build
 WORKDIR /build
 
 # - Copy over csprojs and restore nuget packages separately so they can be cached by Docker
-COPY ./DfE.FindInformationAcademiesTrusts.Data.Hardcoded/DfE.FindInformationAcademiesTrusts.Data.Hardcoded.csproj /build/DfE.FindInformationAcademiesTrusts.Data.Hardcoded/
-COPY ./DfE.FindInformationAcademiesTrusts.Data.FiatDb/DfE.FindInformationAcademiesTrusts.Data.FiatDb.csproj /build/DfE.FindInformationAcademiesTrusts.Data.FiatDb/
-COPY ./DfE.FindInformationAcademiesTrusts.Data/DfE.FindInformationAcademiesTrusts.Data.csproj /build/DfE.FindInformationAcademiesTrusts.Data/
-COPY ./DfE.FindInformationAcademiesTrusts.Data.AcademiesDb/DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.csproj /build/DfE.FindInformationAcademiesTrusts.Data.AcademiesDb/
-COPY ./DfE.FindInformationAcademiesTrusts/DfE.FindInformationAcademiesTrusts.csproj /build/DfE.FindInformationAcademiesTrusts/
+COPY ./DfE.FindInformationAcademiesTrusts.Data.Hardcoded/DfE.FindInformationAcademiesTrusts.Data.Hardcoded.csproj       /build/DfE.FindInformationAcademiesTrusts.Data.Hardcoded/
+COPY ./DfE.FindInformationAcademiesTrusts.Data.FiatDb/DfE.FindInformationAcademiesTrusts.Data.FiatDb.csproj             /build/DfE.FindInformationAcademiesTrusts.Data.FiatDb/
+COPY ./DfE.FindInformationAcademiesTrusts.Data/DfE.FindInformationAcademiesTrusts.Data.csproj                           /build/DfE.FindInformationAcademiesTrusts.Data/
+COPY ./DfE.FindInformationAcademiesTrusts.Data.AcademiesDb/DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.csproj   /build/DfE.FindInformationAcademiesTrusts.Data.AcademiesDb/
+COPY ./DfE.FindInformationAcademiesTrusts/DfE.FindInformationAcademiesTrusts.csproj                                     /build/DfE.FindInformationAcademiesTrusts/
 RUN ["dotnet", "restore", "DfE.FindInformationAcademiesTrusts"]
 
 # - Only copy over relevant C# code so this can be cached independently to other app changes
-COPY ./DfE.FindInformationAcademiesTrusts.Data.Hardcoded/ /build/DfE.FindInformationAcademiesTrusts.Data.Hardcoded/
-COPY ./DfE.FindInformationAcademiesTrusts.Data.FiatDb/ /build/DfE.FindInformationAcademiesTrusts.Data.FiatDb/
-COPY ./DfE.FindInformationAcademiesTrusts.Data/ /build/DfE.FindInformationAcademiesTrusts.Data/
+COPY ./DfE.FindInformationAcademiesTrusts.Data.Hardcoded/   /build/DfE.FindInformationAcademiesTrusts.Data.Hardcoded/
+COPY ./DfE.FindInformationAcademiesTrusts.Data.FiatDb/      /build/DfE.FindInformationAcademiesTrusts.Data.FiatDb/
+COPY ./DfE.FindInformationAcademiesTrusts.Data/             /build/DfE.FindInformationAcademiesTrusts.Data/
 COPY ./DfE.FindInformationAcademiesTrusts.Data.AcademiesDb/ /build/DfE.FindInformationAcademiesTrusts.Data.AcademiesDb/
-COPY ./DfE.FindInformationAcademiesTrusts/ /build/DfE.FindInformationAcademiesTrusts/
+COPY ./DfE.FindInformationAcademiesTrusts/                  /build/DfE.FindInformationAcademiesTrusts/
 RUN ["dotnet", "build", "DfE.FindInformationAcademiesTrusts", "--no-restore", "-c", "Release"]
 
 RUN ["dotnet", "publish", "DfE.FindInformationAcademiesTrusts", "--no-build", "-o", "/app"]
