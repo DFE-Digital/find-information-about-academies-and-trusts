@@ -75,4 +75,38 @@ public class StringExtensionsTest
     {
         inputText!.ToTitleCase().Should().Be(expected);
     }
+
+    [Theory]
+    [InlineData("hello world", "_", "hello_world")]
+    [InlineData("  hello   world  ", "-", "hello-world")]
+    [InlineData("hello\tworld", "*", "hello*world")]
+    [InlineData("hello\nworld", "_", "hello_world")]
+    [InlineData("hello\r\nworld", "_", "hello_world")]
+    [InlineData("", "_", "")]
+    public void ReplaceWhitespaces_Should_Replace_All_Whitespace_Characters_With_Replacement(string input,
+        string replacement, string expected)
+    {
+        // Act
+        var result = input.ReplaceWhitespaces(replacement);
+
+        // Assert
+        result.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("hello, world!", "hello world")]
+    [InlineData("goodbye: cruel; world...", "goodbye cruel world")]
+    [InlineData("@hello#$%^&*()_+= world", "hello world")]
+    [InlineData("he\tllo!\nworld?", "he\tllo\nworld")]
+    [InlineData("\"quoted\" 'text'", "quoted text")]
+    [InlineData("   hello, world!  ", "hello world")]
+    [InlineData("", "")]
+    public void RemovePunctuation_Should_Remove_All_Punctuation_Characters(string input, string expected)
+    {
+        // Act
+        var result = input.RemovePunctuation();
+
+        // Assert
+        result.Should().Be(expected);
+    }
 }
