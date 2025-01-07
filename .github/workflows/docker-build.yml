@@ -9,6 +9,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        stage: [
+          "initcontainer",
+          "final"
+        ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,5 +28,6 @@ jobs:
           file: './docker/Dockerfile'
           secrets: github_token=${{ secrets.GITHUB_TOKEN }}
           cache-from: type=gha
+          target: ${{ matrix.stage }}
           cache-to: type=gha
           push: false
