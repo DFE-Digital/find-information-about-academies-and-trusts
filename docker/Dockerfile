@@ -53,7 +53,7 @@ RUN ["dotnet", "ef", "migrations", "bundle", "-r", "linux-x64", "-p", "DfE.FindI
 FROM "mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION}-azurelinux3.0" AS initcontainer
 WORKDIR /sql
 COPY --from=efbuilder /sql /sql
-COPY --from=build /app/appsettings* /Dfe.FindInformationAcademiesTrusts/
+COPY ./DfE.FindInformationAcademiesTrusts/appsettings*.json /Dfe.FindInformationAcademiesTrusts/
 RUN chown "$APP_UID" "/sql" -R
 RUN chown "$APP_UID" "/Dfe.FindInformationAcademiesTrusts" -R
 USER $APP_UID
