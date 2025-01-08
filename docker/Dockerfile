@@ -47,7 +47,6 @@ WORKDIR /build
 ENV PATH=$PATH:/root/.dotnet/tools
 RUN ["mkdir", "/sql"]
 RUN ["dotnet", "tool", "install", "--global", "dotnet-ef"]
-RUN ["dotnet", "ef", "migrations", "bundle", "-r", "linux-x64", "-p", "DfE.FindInformationAcademiesTrusts", "--context", "DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts.AcademiesDbContext", "--configuration", "Release", "--no-build", "-o", "/sql/migrateacademiesdb"]
 RUN ["dotnet", "ef", "migrations", "bundle", "-r", "linux-x64", "-p", "DfE.FindInformationAcademiesTrusts", "--context", "DfE.FindInformationAcademiesTrusts.Data.FiatDb.Contexts.FiatDbContext", "--configuration", "Release", "--no-build", "-o", "/sql/migratefiatdb"]
 COPY ./docker/init-docker-entrypoint.sh /sql/entrypoint.sh
 RUN ["chmod", "+x", "/sql/entrypoint.sh"]
