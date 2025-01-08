@@ -16,7 +16,11 @@ public class PupilNumbersModel(
     IDateTimeProvider dateTimeProvider)
     : AcademiesPageModel(dataSourceService, trustService, exportService, logger, dateTimeProvider)
 {
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { TabName = "Pupil numbers" };
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with
+    {
+        TabName = ViewConstants.AcademiesPupilNumbersPageName
+    };
+
     public AcademyPupilNumbersServiceModel[] Academies { get; set; } = default!;
 
     public override async Task<IActionResult> OnGetAsync()

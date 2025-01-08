@@ -10,7 +10,7 @@ public class TrustSummaryModel(
     : OverviewAreaModel(dataSourceService, trustService, logger)
 {
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = "Trust summary" };
+        base.TrustPageMetadata with { SubPageName = ViewConstants.OverviewTrustSummaryPageName };
 
     public IEnumerable<(string Authority, int Total)> AcademiesInEachLocalAuthority =>
         TrustOverview.AcademiesByLocalAuthority

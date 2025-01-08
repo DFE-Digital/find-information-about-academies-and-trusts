@@ -20,7 +20,7 @@ public abstract class EditContactModel(
     public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with
     {
         SubPageName = $"Edit {role.MapRoleToViewString()} details",
-        PageName = "Contacts"
+        PageName = ViewConstants.ContactsPageName
     };
 
     public const string NameField = "Name";

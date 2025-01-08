@@ -10,5 +10,5 @@ public class InDfeModel(
     : ContactsAreaModel(dataSourceService, trustService, logger)
 {
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = "In DfE" };
+        base.TrustPageMetadata with { SubPageName = ViewConstants.ContactsInDfePageName };
 }

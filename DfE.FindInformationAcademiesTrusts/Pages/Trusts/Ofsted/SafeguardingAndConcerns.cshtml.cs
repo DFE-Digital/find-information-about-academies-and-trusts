@@ -16,5 +16,5 @@ public class SafeguardingAndConcernsModel(
     academyService, exportService, dateTimeProvider, logger)
 {
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = "Safeguarding and concerns" };
+        base.TrustPageMetadata with { SubPageName = ViewConstants.OfstedSafeguardingAndConcernsPageName };
 }

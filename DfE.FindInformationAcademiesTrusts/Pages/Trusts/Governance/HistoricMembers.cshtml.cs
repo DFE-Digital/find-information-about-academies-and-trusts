@@ -10,5 +10,5 @@ public class HistoricMembersModel(
     : GovernanceAreaModel(dataSourceService, trustService, logger)
 {
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = "Historic members" };
+        base.TrustPageMetadata with { SubPageName = ViewConstants.GovernanceHistoricMembersPageName };
 }

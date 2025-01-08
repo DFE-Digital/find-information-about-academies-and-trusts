@@ -14,7 +14,9 @@ public class ContactsAreaModel(
 )
     : TrustsAreaModel(dataSourceService, trustService, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = "Contacts" };
+    public override TrustPageMetadata TrustPageMetadata =>
+        base.TrustPageMetadata with { PageName = ViewConstants.ContactsPageName };
+
     public Person? ChairOfTrustees { get; set; }
     public Person? AccountingOfficer { get; set; }
     public Person? ChiefFinancialOfficer { get; set; }
@@ -29,7 +31,8 @@ public class ContactsAreaModel(
 
         SubNavigationLinks =
         [
-            new TrustSubNavigationLinkModel("In DfE", "./InDfE", Uid, TrustPageMetadata.PageName!, this is InDfeModel),
+            new TrustSubNavigationLinkModel(ViewConstants.ContactsInDfePageName, "./InDfE", Uid,
+                TrustPageMetadata.PageName!, this is InDfeModel),
             new TrustSubNavigationLinkModel("In the trust", "./InTrust", Uid, TrustPageMetadata.PageName!,
                 this is InTrustModel)
         ];
@@ -42,7 +45,7 @@ public class ContactsAreaModel(
         var mstrDataSource = await DataSourceService.GetAsync(Source.Mstr);
 
         DataSourcesPerPage.AddRange([
-            new DataSourcePageListEntry("In DfE", [
+            new DataSourcePageListEntry(ViewConstants.ContactsInDfePageName, [
                     new DataSourceListEntry(new DataSourceServiceModel(Source.FiatDb,
                             TrustRelationshipManager?.LastModifiedAtTime, null,
                             TrustRelationshipManager?.LastModifiedByEmail),
@@ -59,7 +62,6 @@ public class ContactsAreaModel(
                     new DataSourceListEntry(mstrDataSource, "Accounting officer email"),
                     new DataSourceListEntry(mstrDataSource, "Chief financial officer email"),
                     new DataSourceListEntry(mstrDataSource, "Chair of trustees email")
-
                 ]
             )
         ]);

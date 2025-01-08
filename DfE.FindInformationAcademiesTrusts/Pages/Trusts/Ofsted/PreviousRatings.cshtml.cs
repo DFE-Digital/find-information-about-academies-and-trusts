@@ -16,5 +16,5 @@ public class PreviousRatingsModel(
     academyService, exportService, dateTimeProvider, logger)
 {
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = "Previous ratings" };
+        base.TrustPageMetadata with { SubPageName = ViewConstants.OfstedPreviousRatingsPageName };
 }
