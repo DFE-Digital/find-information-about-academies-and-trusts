@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Ofsted;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
@@ -71,12 +72,16 @@ public class SafeguardingAndConcernsModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.NavigationLinks.Should().BeEquivalentTo([
-            new TrustNavigationLinkModel("Overview", "/Trusts/Overview/TrustDetails", "1234", false, "overview-nav"),
-            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", "1234", false, "contacts-nav"),
+            new TrustNavigationLinkModel(ViewConstants.OverviewPageName, "/Trusts/Overview/TrustDetails", "1234",
+                false, "overview-nav"),
+            new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", "1234", false,
+                "contacts-nav"),
             new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
                 "1234", false, "academies-nav"),
-            new TrustNavigationLinkModel("Ofsted", "/Trusts/Ofsted/CurrentRatings", "1234", true, "ofsted-nav"),
-            new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", "1234", false,
+            new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", "1234", true,
+                "ofsted-nav"),
+            new TrustNavigationLinkModel(ViewConstants.GovernancePageName, "/Trusts/Governance/TrustLeadership",
+                "1234", false,
                 "governance-nav")
         ]);
     }
@@ -86,14 +91,17 @@ public class SafeguardingAndConcernsModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.SubNavigationLinks.Should().BeEquivalentTo([
-            new TrustSubNavigationLinkModel("Current ratings", "./CurrentRatings", "1234", "Ofsted",
+            new TrustSubNavigationLinkModel(ViewConstants.OfstedCurrentRatingsPageName, "./CurrentRatings", "1234",
+                ViewConstants.OfstedPageName,
                 false),
-            new TrustSubNavigationLinkModel("Previous ratings", "./PreviousRatings", "1234",
-                "Ofsted", false),
-            new TrustSubNavigationLinkModel("Important dates", "./ImportantDates", "1234", "Ofsted",
+            new TrustSubNavigationLinkModel(ViewConstants.OfstedPreviousRatingsPageName, "./PreviousRatings", "1234",
+                ViewConstants.OfstedPageName, false),
+            new TrustSubNavigationLinkModel(ViewConstants.OfstedImportantDatesPageName, "./ImportantDates", "1234",
+                ViewConstants.OfstedPageName,
                 false),
-            new TrustSubNavigationLinkModel("Safeguarding and concerns", "./SafeguardingAndConcerns", "1234",
-                "Ofsted", true)
+            new TrustSubNavigationLinkModel(ViewConstants.OfstedSafeguardingAndConcernsPageName,
+                "./SafeguardingAndConcerns", "1234",
+                ViewConstants.OfstedPageName, true)
         ]);
     }
 
@@ -170,8 +178,8 @@ public class SafeguardingAndConcernsModelTests
     {
         _ = await _sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.SubPageName.Should().Be("Safeguarding and concerns");
-        _sut.TrustPageMetadata.PageName.Should().Be("Ofsted");
+        _sut.TrustPageMetadata.SubPageName.Should().Be(ViewConstants.OfstedSafeguardingAndConcernsPageName);
+        _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.OfstedPageName);
         _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
     }
 }

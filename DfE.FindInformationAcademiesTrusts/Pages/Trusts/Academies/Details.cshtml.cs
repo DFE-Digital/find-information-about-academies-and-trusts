@@ -18,7 +18,9 @@ public class AcademiesDetailsModel(
     : AcademiesPageModel(dataSourceService, trustService, exportService, logger,
         dateTimeProvider)
 {
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { TabName = "Details" };
+    public override TrustPageMetadata TrustPageMetadata =>
+        base.TrustPageMetadata with { TabName = ViewConstants.AcademiesDetailsPageName };
+
     public AcademyDetailsServiceModel[] Academies { get; set; } = default!;
     public IOtherServicesLinkBuilder LinkBuilder { get; } = linkBuilder;
 

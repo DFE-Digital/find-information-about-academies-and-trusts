@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -123,12 +124,16 @@ public class InDfeModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.NavigationLinks.Should().BeEquivalentTo([
-            new TrustNavigationLinkModel("Overview", "/Trusts/Overview/TrustDetails", "1234", false, "overview-nav"),
-            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", "1234", true, "contacts-nav"),
+            new TrustNavigationLinkModel(ViewConstants.OverviewPageName, "/Trusts/Overview/TrustDetails", "1234",
+                false, "overview-nav"),
+            new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", "1234", true,
+                "contacts-nav"),
             new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
                 "1234", false, "academies-nav"),
-            new TrustNavigationLinkModel("Ofsted", "/Trusts/Ofsted/CurrentRatings", "1234", false, "ofsted-nav"),
-            new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", "1234", false,
+            new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", "1234", false,
+                "ofsted-nav"),
+            new TrustNavigationLinkModel(ViewConstants.GovernancePageName, "/Trusts/Governance/TrustLeadership",
+                "1234", false,
                 "governance-nav")
         ]);
     }
@@ -138,8 +143,10 @@ public class InDfeModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.SubNavigationLinks.Should().BeEquivalentTo([
-            new TrustSubNavigationLinkModel("In DfE", "./InDfE", "1234", "Contacts", true),
-            new TrustSubNavigationLinkModel("In the trust", "./InTrust", "1234", "Contacts", false)
+            new TrustSubNavigationLinkModel(ViewConstants.ContactsInDfePageName, "./InDfE", "1234",
+                ViewConstants.ContactsPageName, true),
+            new TrustSubNavigationLinkModel(ViewConstants.ContactsInTrustPageName, "./InTrust", "1234",
+                ViewConstants.ContactsPageName, false)
         ]);
     }
 
@@ -148,8 +155,8 @@ public class InDfeModelTests
     {
         _ = await _sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.SubPageName.Should().Be("In DfE");
-        _sut.TrustPageMetadata.PageName.Should().Be("Contacts");
+        _sut.TrustPageMetadata.SubPageName.Should().Be(ViewConstants.ContactsInDfePageName);
+        _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.ContactsPageName);
         _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
     }
 }

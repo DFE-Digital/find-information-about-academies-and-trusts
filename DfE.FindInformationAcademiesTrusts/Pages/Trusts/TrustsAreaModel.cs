@@ -76,15 +76,19 @@ public abstract class TrustsAreaModel(
     {
         NavigationLinks =
         [
-            new TrustNavigationLinkModel("Overview", "/Trusts/Overview/TrustDetails", Uid, this is OverviewAreaModel,
+            new TrustNavigationLinkModel(ViewConstants.OverviewPageName, "/Trusts/Overview/TrustDetails", Uid,
+                this is OverviewAreaModel,
                 "overview-nav"),
-            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", Uid, this is ContactsAreaModel,
+            new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", Uid,
+                this is ContactsAreaModel,
                 "contacts-nav"),
-            new TrustNavigationLinkModel($"Academies ({TrustSummary.NumberOfAcademies})", "/Trusts/Academies/Details",
+            new TrustNavigationLinkModel($"{ViewConstants.AcademiesPageName} ({TrustSummary.NumberOfAcademies})",
+                "/Trusts/Academies/Details",
                 Uid, this is AcademiesPageModel, "academies-nav"),
-            new TrustNavigationLinkModel("Ofsted", "/Trusts/Ofsted/CurrentRatings", Uid, this is OfstedAreaModel,
+            new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", Uid,
+                this is OfstedAreaModel,
                 "ofsted-nav"),
-            new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", Uid,
+            new TrustNavigationLinkModel(ViewConstants.GovernancePageName, "/Trusts/Governance/TrustLeadership", Uid,
                 this is GovernanceAreaModel, "governance-nav")
         ];
     }

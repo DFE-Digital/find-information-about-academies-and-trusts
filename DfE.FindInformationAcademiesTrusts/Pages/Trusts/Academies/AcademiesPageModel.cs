@@ -15,7 +15,9 @@ public abstract class AcademiesPageModel(
     IDateTimeProvider dateTimeProvider
 ) : TrustsAreaModel(dataSourceService, trustService, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = "Academies" };
+    public override TrustPageMetadata TrustPageMetadata =>
+        base.TrustPageMetadata with { PageName = ViewConstants.AcademiesPageName };
+
     protected IExportService ExportService { get; } = exportService;
     public IDateTimeProvider DateTimeProvider { get; } = dateTimeProvider;
 
@@ -28,9 +30,11 @@ public abstract class AcademiesPageModel(
         var eesDataSource = await DataSourceService.GetAsync(Source.ExploreEducationStatistics);
 
         DataSourcesPerPage.AddRange([
-            new DataSourcePageListEntry("Details", [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry("Pupil numbers", [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry("Free school meals", [
+            new DataSourcePageListEntry(ViewConstants.AcademiesDetailsPageName,
+                [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(ViewConstants.AcademiesPupilNumbersPageName,
+                [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(ViewConstants.AcademiesFreeSchoolMealsPageName, [
                 new DataSourceListEntry(giasDataSource, "Pupils eligible for free school meals"),
                 new DataSourceListEntry(eesDataSource, "Local authority average 2023/24"),
                 new DataSourceListEntry(eesDataSource, "National average 2023/24")

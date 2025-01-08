@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
@@ -137,7 +138,7 @@ public class ContactsAreaModelTests
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Mstr), Times.Once);
         _sut.DataSourcesPerPage.Count.Should().Be(2);
         _sut.DataSourcesPerPage.Should().BeEquivalentTo([
-            new DataSourcePageListEntry("In DfE", [
+            new DataSourcePageListEntry(ViewConstants.ContactsInDfePageName, [
                     new DataSourceListEntry(new DataSourceServiceModel(Source.FiatDb,
                         _trustRelationshipManager.LastModifiedAtTime, null,
                         _trustRelationshipManager.LastModifiedByEmail), "Trust relationship manager"),
@@ -146,7 +147,7 @@ public class ContactsAreaModelTests
                         _sfsoLead.LastModifiedByEmail), "SFSO (Schools financial support and oversight) lead")
                 ]
             ),
-            new DataSourcePageListEntry("In the trust", [
+            new DataSourcePageListEntry(ViewConstants.ContactsInTrustPageName, [
                     new DataSourceListEntry(_giasDataSource, "Accounting officer name"),
                     new DataSourceListEntry(_giasDataSource, "Chief financial officer name"),
                     new DataSourceListEntry(_giasDataSource, "Chair of trustees name"),
@@ -163,12 +164,16 @@ public class ContactsAreaModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.NavigationLinks.Should().BeEquivalentTo([
-            new TrustNavigationLinkModel("Overview", "/Trusts/Overview/TrustDetails", TestUid, false, "overview-nav"),
-            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", TestUid, true, "contacts-nav"),
+            new TrustNavigationLinkModel(ViewConstants.OverviewPageName, "/Trusts/Overview/TrustDetails", TestUid,
+                false, "overview-nav"),
+            new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", TestUid, true,
+                "contacts-nav"),
             new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
                 TestUid, false, "academies-nav"),
-            new TrustNavigationLinkModel("Ofsted", "/Trusts/Ofsted/CurrentRatings", "1234", false, "ofsted-nav"),
-            new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", TestUid, false,
+            new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", "1234", false,
+                "ofsted-nav"),
+            new TrustNavigationLinkModel(ViewConstants.GovernancePageName, "/Trusts/Governance/TrustLeadership",
+                TestUid, false,
                 "governance-nav")
         ]);
     }
@@ -178,8 +183,10 @@ public class ContactsAreaModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.SubNavigationLinks.Should().BeEquivalentTo([
-            new TrustSubNavigationLinkModel("In DfE", "./InDfE", TestUid, "Contacts", false),
-            new TrustSubNavigationLinkModel("In the trust", "./InTrust", TestUid, "Contacts", false)
+            new TrustSubNavigationLinkModel(ViewConstants.ContactsInDfePageName, "./InDfE", TestUid,
+                ViewConstants.ContactsPageName, false),
+            new TrustSubNavigationLinkModel(ViewConstants.ContactsInTrustPageName, "./InTrust", TestUid,
+                ViewConstants.ContactsPageName, false)
         ]);
     }
 
@@ -188,7 +195,7 @@ public class ContactsAreaModelTests
     {
         _ = await _sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.PageName.Should().Be("Contacts");
+        _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.ContactsPageName);
         _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
     }
 }

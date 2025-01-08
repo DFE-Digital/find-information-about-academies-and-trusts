@@ -1,5 +1,6 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
@@ -119,7 +120,7 @@ public class AcademiesPageModelTests
 
         _ = await _sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.PageName.Should().Be("Academies");
+        _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.AcademiesPageName);
         _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
     }
 
@@ -129,14 +130,16 @@ public class AcademiesPageModelTests
         TrustSummaryServiceModel fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(fakeTrust.Uid)).ReturnsAsync(fakeTrust);
         _sut.Uid = fakeTrust.Uid;
-        
+
         _ = await _sut.OnGetAsync();
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
         _mockDataSourceService.Verify(e => e.GetAsync(Source.ExploreEducationStatistics), Times.Once);
         _sut.DataSourcesPerPage.Should().BeEquivalentTo([
-            new DataSourcePageListEntry("Details", [new DataSourceListEntry(_giasDataSource)]),
-            new DataSourcePageListEntry("Pupil numbers", [new DataSourceListEntry(_giasDataSource)]),
-            new DataSourcePageListEntry("Free school meals", [
+            new DataSourcePageListEntry(ViewConstants.AcademiesDetailsPageName,
+                [new DataSourceListEntry(_giasDataSource)]),
+            new DataSourcePageListEntry(ViewConstants.AcademiesPupilNumbersPageName,
+                [new DataSourceListEntry(_giasDataSource)]),
+            new DataSourcePageListEntry(ViewConstants.AcademiesFreeSchoolMealsPageName, [
                 new DataSourceListEntry(_giasDataSource, "Pupils eligible for free school meals"),
                 new DataSourceListEntry(_eesDataSource, "Local authority average 2023/24"),
                 new DataSourceListEntry(_eesDataSource, "National average 2023/24")
