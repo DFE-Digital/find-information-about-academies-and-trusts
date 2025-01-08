@@ -14,6 +14,7 @@ public class TrustDetailsModelTests
     private const string TrustUid = "1234";
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustService = new();
+    private readonly Mock<IPipelineEstablishmentService> _test = new();
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinksToOtherServices = new();
 
     private static readonly TrustOverviewServiceModel BaseTrustOverviewServiceModel =
@@ -30,8 +31,9 @@ public class TrustDetailsModelTests
                 _mockDataSourceService.Object,
                 new MockLogger<TrustDetailsModel>().Object,
                 _mockTrustService.Object,
+                _test.Object,
                 _mockLinksToOtherServices.Object)
-            { Uid = TrustUid };
+        { Uid = TrustUid };
     }
 
     [Fact]

@@ -8,6 +8,7 @@ public class TrustDetailsModel(
     IDataSourceService dataSourceService,
     ILogger<TrustDetailsModel> logger,
     ITrustService trustService,
+    IPipelineEstablishmentService pipelineEstablishmentService,
     IOtherServicesLinkBuilder otherServicesLinkBuilder)
     : OverviewAreaModel(dataSourceService, trustService, logger)
 {
@@ -24,7 +25,7 @@ public class TrustDetailsModel(
     {
         var pageResult = await base.OnGetAsync();
         if (pageResult is NotFoundResult) return pageResult;
-
+        var test = pipelineEstablishmentService.GetTrustGovernanceAsync(Uid);
         // Setup external links
         CompaniesHouseLink = otherServicesLinkBuilder.CompaniesHouseListingLink(TrustOverview.CompaniesHouseNumber);
         GetInformationAboutSchoolsLink =

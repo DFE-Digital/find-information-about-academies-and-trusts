@@ -12,6 +12,8 @@ public partial class AcademiesDbContext
     {
         modelBuilder.Entity<MstrFreeSchoolProject>(entity =>
         {
+            entity
+                .HasKey(e => e.TrustID);
             entity.ToTable("FreeSchoolProjects", "mstr");
         });
     }
