@@ -82,11 +82,9 @@ public abstract class TrustsAreaModel(
                 this is ContactsAreaModel,
                 "contacts-nav"),
             new TrustNavigationLinkModel($"{ViewConstants.AcademiesPageName} ({TrustSummary.NumberOfAcademies})",
-                "/Trusts/Academies/Details",
-                Uid, this is AcademiesPageModel, "academies-nav"),
+                "/Trusts/Academies/Current/Details", Uid, this is AcademiesAreaModel, "academies-nav"),
             new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", Uid,
-                this is OfstedAreaModel,
-                "ofsted-nav"),
+                this is OfstedAreaModel, "ofsted-nav"),
             new TrustNavigationLinkModel(ViewConstants.GovernancePageName, "/Trusts/Governance/TrustLeadership", Uid,
                 this is GovernanceAreaModel, "governance-nav")
         ];

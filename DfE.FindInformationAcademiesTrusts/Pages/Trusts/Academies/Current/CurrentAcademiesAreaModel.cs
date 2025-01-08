@@ -5,21 +5,24 @@ using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Current;
 
-public abstract class AcademiesPageModel(
+public abstract class CurrentAcademiesAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
     IExportService exportService,
-    ILogger<AcademiesPageModel> logger,
+    ILogger<CurrentAcademiesAreaModel> logger,
     IDateTimeProvider dateTimeProvider
-) : TrustsAreaModel(dataSourceService, trustService, logger)
+) : AcademiesAreaModel(
+    dataSourceService,
+    trustService,
+    exportService,
+    logger,
+    dateTimeProvider
+)
 {
     public override TrustPageMetadata TrustPageMetadata =>
         base.TrustPageMetadata with { PageName = ViewConstants.AcademiesPageName };
-
-    protected IExportService ExportService { get; } = exportService;
-    public IDateTimeProvider DateTimeProvider { get; } = dateTimeProvider;
 
     public override async Task<IActionResult> OnGetAsync()
     {
@@ -28,6 +31,16 @@ public abstract class AcademiesPageModel(
 
         var giasDataSource = await DataSourceService.GetAsync(Source.Gias);
         var eesDataSource = await DataSourceService.GetAsync(Source.ExploreEducationStatistics);
+
+        TabList =
+        [
+            new TrustSubNavigationLinkModel("Details", "./Details", Uid, "Current",
+                this is CurrentAcademiesDetailsModel),
+            new TrustSubNavigationLinkModel("Pupil numbers", "./PupilNumbers", Uid, "Current",
+                this is PupilNumbersModel),
+            new TrustSubNavigationLinkModel("Free school meals", "./FreeSchoolMeals", Uid, "Current",
+                this is FreeSchoolMealsModel)
+        ];
 
         DataSourcesPerPage.AddRange([
             new DataSourcePageListEntry(ViewConstants.AcademiesDetailsPageName,

@@ -1,4 +1,4 @@
-@page "/trusts/academies/free-school-meals"
+@page "/trusts/academies/current/free-school-meals"
 @model FreeSchoolMealsModel
 
 @{
@@ -42,3 +42,8 @@
     </tbody>
   </table>
 </section>
+
+@section Export
+{
+  <partial name="_CurrentAcademiesExportButton" model="@Model"/>
+}

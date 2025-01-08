@@ -5,7 +5,7 @@ using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Current;
 
 public class PupilNumbersModel(
     IDataSourceService dataSourceService,
@@ -14,7 +14,7 @@ public class PupilNumbersModel(
     IAcademyService academyService,
     IExportService exportService,
     IDateTimeProvider dateTimeProvider)
-    : AcademiesPageModel(dataSourceService, trustService, exportService, logger, dateTimeProvider)
+    : CurrentAcademiesAreaModel(dataSourceService, trustService, exportService, logger, dateTimeProvider)
 {
     public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with
     {

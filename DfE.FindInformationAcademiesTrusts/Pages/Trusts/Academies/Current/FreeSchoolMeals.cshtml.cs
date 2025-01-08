@@ -5,31 +5,29 @@ using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Current;
 
-public class AcademiesDetailsModel(
+public class FreeSchoolMealsModel(
     IDataSourceService dataSourceService,
-    IOtherServicesLinkBuilder linkBuilder,
-    ILogger<AcademiesDetailsModel> logger,
+    ILogger<FreeSchoolMealsModel> logger,
     ITrustService trustService,
     IAcademyService academyService,
     IExportService exportService,
     IDateTimeProvider dateTimeProvider)
-    : AcademiesPageModel(dataSourceService, trustService, exportService, logger,
-        dateTimeProvider)
+    : CurrentAcademiesAreaModel(dataSourceService, trustService, exportService, logger, dateTimeProvider)
 {
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { TabName = ViewConstants.AcademiesDetailsPageName };
+        base.TrustPageMetadata with { TabName = ViewConstants.AcademiesFreeSchoolMealsPageName };
 
-    public AcademyDetailsServiceModel[] Academies { get; set; } = default!;
-    public IOtherServicesLinkBuilder LinkBuilder { get; } = linkBuilder;
+    public AcademyFreeSchoolMealsServiceModel[] Academies { get; set; } = default!;
 
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();
         if (pageResult is NotFoundResult) return pageResult;
 
-        Academies = await academyService.GetAcademiesInTrustDetailsAsync(Uid);
+        Academies = await academyService.GetAcademiesInTrustFreeSchoolMealsAsync(Uid);
+
 
         return pageResult;
     }

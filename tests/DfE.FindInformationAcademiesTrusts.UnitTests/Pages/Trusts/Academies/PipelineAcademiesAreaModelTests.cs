@@ -1,7 +1,7 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages;
-using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Current;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -10,14 +10,14 @@ using Microsoft.Extensions.Logging;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 
-public class AcademiesPageModelTests
+public class PipelineAcademiesAreaModelTests
 {
     private readonly Mock<ITrustService> _mockTrustService = new();
     private readonly Mock<IExportService> _mockExportService = new();
     private readonly Mock<IDataSourceService> _mockDataSourceService = new();
     private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
-    private readonly Mock<ILogger<AcademiesPageModel>> _mockLogger = new();
-    private readonly AcademiesPageModel _sut;
+    private readonly Mock<ILogger<CurrentAcademiesAreaModel>> _mockLogger = new();
+    private readonly CurrentAcademiesAreaModel _sut;
 
     private readonly DataSourceServiceModel _giasDataSource =
         new(Source.Gias, new DateTime(2025, 1, 1), UpdateFrequency.Daily);
@@ -26,19 +26,19 @@ public class AcademiesPageModelTests
         new DateTime(2025, 1, 1),
         UpdateFrequency.Annually);
 
-    private class AcademiesPageModelImpl(
+    private class CurrentAcademiesAreaModelImpl(
         IDataSourceService dataSourceService,
         ITrustService trustService,
         IExportService exportService,
-        ILogger<AcademiesPageModel> logger,
+        ILogger<CurrentAcademiesAreaModel> logger,
         IDateTimeProvider dateTimeProvider)
-        : AcademiesPageModel(dataSourceService, trustService, exportService, logger, dateTimeProvider);
+        : CurrentAcademiesAreaModel(dataSourceService, trustService, exportService, logger, dateTimeProvider);
 
-    public AcademiesPageModelTests()
+    public PipelineAcademiesAreaModelTests()
     {
         _mockDataSourceService.Setup(s => s.GetAsync(Source.Gias)).ReturnsAsync(_giasDataSource);
         _mockDataSourceService.Setup(s => s.GetAsync(Source.ExploreEducationStatistics)).ReturnsAsync(_eesDataSource);
-        _sut = new AcademiesPageModelImpl(_mockDataSourceService.Object, _mockTrustService.Object,
+        _sut = new CurrentAcademiesAreaModelImpl(_mockDataSourceService.Object, _mockTrustService.Object,
             _mockExportService.Object, _mockLogger.Object, _mockDateTimeProvider.Object);
     }
 

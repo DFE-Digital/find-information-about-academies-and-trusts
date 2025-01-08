@@ -1,0 +1,48 @@
+@* Add the route to use hyphenation between words *@
+@page "/trusts/academies/pipeline/pre-advisory-board"
+@model PreAdvisoryBoardModel
+
+@{
+  Layout = "Academies/_AcademiesLayout";
+}
+
+<section class="app-table-container">
+  <table class="govuk-table" data-module="moj-sortable-table" aria-describedby="pupil-numbers-caption">
+    <caption class="govuk-table__caption govuk-table__caption--m" id="pupil-numbers-caption" data-testid="subpage-header">Pupil numbers</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-body govuk-table__header" aria-sort="ascending">School name</th>
+        <th scope="col" class="govuk-body govuk-table__header" aria-sort="none">URN</th>
+        <th scope="col" class="govuk-body govuk-table__header" aria-sort="none">Age range</th>
+        <th scope="col" class="govuk-body govuk-table__header" aria-sort="none">Local authority</th>
+        <th scope="col" class="govuk-body govuk-table__header" aria-sort="none">Project type</th>
+        <th scope="col" class="govuk-body govuk-table__header" aria-sort="none">Proposed conversion or transfer date</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      @foreach (var academy in Model.Academies)
+      {
+        <tr class="govuk-table__row" data-testid="academy-row">
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.EstablishmentName" data-testid="school-name">
+            @academy.EstablishmentName.
+          </td>
+          <td class="govuk-body govuk-table__cell" data-testid="urn">@academy.Urn</td>
+          <td class="govuk-body govuk-table__cell" data-sort-value="@PipelineAcademiesAreaModel.AgeRangeSortValue(academy)" data-testid="phase-and-age-range">
+            @academy.AgeRange?.Minimum - @academy.AgeRange?.Maximum
+          </td>
+
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.LocalAuthority" data-testid="pupil-numbers">@academy.LocalAuthority</td>
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ProjectType" data-testid="pupil-capacity">@academy.ProjectType</td>
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ChangeDate" data-testid="percentage-full">
+            @academy.ChangeDate
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>
+
+@section Export
+{
+  <partial name="Trusts/Academies/Current/_CurrentAcademiesExportButton" model="@Model"/>
+}

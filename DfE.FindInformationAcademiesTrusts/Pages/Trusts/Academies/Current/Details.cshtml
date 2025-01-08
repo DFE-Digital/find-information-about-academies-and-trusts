@@ -1,5 +1,5 @@
 @page
-@model AcademiesDetailsModel
+@model CurrentAcademiesDetailsModel
 
 @{
   Layout = "Academies/_AcademiesLayout";
@@ -43,3 +43,8 @@
     </tbody>
   </table>
 </section>
+
+@section Export
+{
+  <partial name="_CurrentAcademiesExportButton" model="@Model"/>
+}
