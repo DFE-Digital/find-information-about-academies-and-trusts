@@ -77,23 +77,6 @@ public class StringExtensionsTest
     }
 
     [Theory]
-    [InlineData("hello world", "_", "hello_world")]
-    [InlineData("  hello   world  ", "-", "hello-world")]
-    [InlineData("hello\tworld", "*", "hello*world")]
-    [InlineData("hello\nworld", "_", "hello_world")]
-    [InlineData("hello\r\nworld", "_", "hello_world")]
-    [InlineData("", "_", "")]
-    public void ReplaceWhitespaces_Should_Replace_All_Whitespace_Characters_With_Replacement(string input,
-        string replacement, string expected)
-    {
-        // Act
-        var result = input.ReplaceWhitespaces(replacement);
-
-        // Assert
-        result.Should().Be(expected);
-    }
-
-    [Theory]
     [InlineData("hello, world!", "hello world")]
     [InlineData("goodbye: cruel; world...", "goodbye cruel world")]
     [InlineData("@hello#$%^&*()_+= world", "hello world")]

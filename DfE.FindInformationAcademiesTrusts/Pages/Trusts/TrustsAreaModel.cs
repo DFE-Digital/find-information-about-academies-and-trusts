@@ -51,7 +51,7 @@ public abstract class TrustsAreaModel(
     public string MapDataSourceToTestId(DataSourceListEntry source)
     {
         return
-            $"data-source-{source.DataSource.Source.ToString().ToLowerInvariant()}-{source.DataField.RemovePunctuation().ReplaceWhitespaces("-")}";
+            $"data-source-{source.DataSource.Source.ToString().ToLowerInvariant()}-{source.DataField.RemovePunctuation().Kebabify()}";
     }
 
     public TrustNavigationLinkModel[] NavigationLinks { get; set; } = [];

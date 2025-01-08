@@ -37,12 +37,6 @@ public static partial class StringExtensions
         return textInfo.ToTitleCase(textInfo.ToLower(text));
     }
 
-    public static string ReplaceWhitespaces(this string input, string replacement)
-    {
-        return Regex.Replace(input.Trim().ToLowerInvariant(), @"\s+", replacement, RegexOptions.Compiled,
-            TimeSpan.FromMilliseconds(500));
-    }
-
     public static string RemovePunctuation(this string input)
     {
         return Regex.Replace(input.Trim().ToLowerInvariant(), @"[^\s\w]|_+", "", RegexOptions.Compiled,
