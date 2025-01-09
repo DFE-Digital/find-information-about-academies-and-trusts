@@ -154,7 +154,7 @@ public class TrustsAreaModelTests
         var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, ""));
 
         // Assert
-        Assert.Equal("data-source-gias-", result); // Field is empty, but source should still be present
+        Assert.Equal("data-source-gias", result); // Field is empty, but source should still be present
     }
 
     [Fact]

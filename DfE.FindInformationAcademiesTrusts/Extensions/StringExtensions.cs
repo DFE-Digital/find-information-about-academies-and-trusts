@@ -14,12 +14,16 @@ public static partial class StringExtensions
     [GeneratedRegex("-+", RegexOptions.Compiled)]
     private static partial Regex DashesRegex();
 
+    [GeneratedRegex(@"[^-\w]|_+", RegexOptions.Compiled)]
+    private static partial Regex NonDashPunctuationRegex();
+
     public static string Kebabify(this string text)
     {
         var transformedText = text.Trim();
 
         transformedText = BracketedDigitsRegex().Replace(transformedText, "-");
         transformedText = SpacesRegex().Replace(transformedText, "-");
+        transformedText = NonDashPunctuationRegex().Replace(transformedText, "");
         transformedText = DashesRegex().Replace(transformedText, "-");
 
         transformedText = transformedText.Trim('-');
@@ -35,11 +39,5 @@ public static partial class StringExtensions
         if (string.IsNullOrWhiteSpace(text)) return string.Empty;
 
         return textInfo.ToTitleCase(textInfo.ToLower(text));
-    }
-
-    public static string RemovePunctuation(this string input)
-    {
-        return Regex.Replace(input.Trim().ToLowerInvariant(), @"[^\s\w]|_+", "", RegexOptions.Compiled,
-            TimeSpan.FromMilliseconds(500));
     }
 }
