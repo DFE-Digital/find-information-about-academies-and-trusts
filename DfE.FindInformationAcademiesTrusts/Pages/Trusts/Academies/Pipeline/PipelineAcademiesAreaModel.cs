@@ -1,5 +1,4 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Current;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
@@ -13,7 +12,7 @@ public abstract class PipelineAcademiesAreaModel(
     ITrustService trustService,
     IAcademyService academyService,
     IExportService exportService,
-    ILogger<CurrentAcademiesAreaModel> logger,
+    ILogger<PipelineAcademiesAreaModel> logger,
     IDateTimeProvider dateTimeProvider
 ) : AcademiesAreaModel(
     dataSourceService,

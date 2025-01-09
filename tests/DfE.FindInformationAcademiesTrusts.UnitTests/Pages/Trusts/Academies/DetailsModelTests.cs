@@ -1,7 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
-using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Current;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -10,25 +10,25 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 
-public class CurrentAcademiesDetailsModelTests
+public class AcademiesInTrustDetailsModelTests
 {
-    private readonly CurrentAcademiesDetailsModel _sut;
+    private readonly AcademiesInTrustDetailsModel _sut;
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinkBuilder = new();
     private readonly Mock<ITrustService> _mockTrustService = new();
     private readonly Mock<IAcademyService> _mockAcademyService = new();
     private readonly Mock<IExportService> _mockExportService = new();
     private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
     private readonly MockDataSourceService _mockDataSourceService = new();
-    private readonly MockLogger<CurrentAcademiesDetailsModel> _mockLogger = new();
+    private readonly MockLogger<AcademiesInTrustDetailsModel> _mockLogger = new();
 
     private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
 
-    public CurrentAcademiesDetailsModelTests()
+    public AcademiesInTrustDetailsModelTests()
     {
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
             .ReturnsAsync(_fakeTrust);
 
-        _sut = new CurrentAcademiesDetailsModel(_mockDataSourceService.Object,
+        _sut = new AcademiesInTrustDetailsModel(_mockDataSourceService.Object,
                 _mockLinkBuilder.Object, _mockLogger.Object, _mockTrustService.Object, _mockAcademyService.Object,
                 _mockExportService.Object, _mockDateTimeProvider.Object)
             { Uid = _fakeTrust.Uid };

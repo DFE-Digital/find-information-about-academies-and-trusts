@@ -1,5 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Current;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Pipeline;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
@@ -40,8 +40,8 @@ public abstract class AcademiesAreaModel(
         SubNavigationLinks =
         [
             new TrustSubNavigationLinkModel($"In the trust ({TrustSummary.NumberOfAcademies})",
-                "/Trusts/Academies/Current/Details", Uid,
-                TrustPageMetadata.PageName!, this is CurrentAcademiesAreaModel),
+                "/Trusts/Academies/InTrust/Details", Uid,
+                TrustPageMetadata.PageName!, this is AcademiesInTrustAreaModel),
             new TrustSubNavigationLinkModel($"Pipeline academies ({PipelineSummary.Total})",
                 "/Trusts/Academies/Pipeline/PreAdvisoryBoard", Uid,
                 TrustPageMetadata.PageName!, this is PipelineAcademiesAreaModel)

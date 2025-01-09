@@ -6,14 +6,14 @@ using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Current;
+namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 
-public abstract class CurrentAcademiesAreaModel(
+public abstract class AcademiesInTrustAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
     IAcademyService academyService,
     IExportService exportService,
-    ILogger<CurrentAcademiesAreaModel> logger,
+    ILogger<AcademiesInTrustAreaModel> logger,
     IDateTimeProvider dateTimeProvider
 ) : AcademiesAreaModel(
     dataSourceService,
@@ -38,7 +38,7 @@ public abstract class CurrentAcademiesAreaModel(
         TabList =
         [
             new TrustSubNavigationLinkModel("Details", "./Details", Uid, "Current",
-                this is CurrentAcademiesDetailsModel),
+                this is AcademiesInTrustDetailsModel),
             new TrustSubNavigationLinkModel("Pupil numbers", "./PupilNumbers", Uid, "Current",
                 this is PupilNumbersModel),
             new TrustSubNavigationLinkModel("Free school meals", "./FreeSchoolMeals", Uid, "Current",

@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Current;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
@@ -10,7 +9,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Pipeline;
 
 public class PreAdvisoryBoardModel(
     IDataSourceService dataSourceService,
-    ILogger<PupilNumbersModel> logger,
+    ILogger<PreAdvisoryBoardModel> logger,
     ITrustService trustService,
     IAcademyService academyService,
     IExportService exportService,
