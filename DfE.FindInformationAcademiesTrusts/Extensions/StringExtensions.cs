@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
+using DfE.FindInformationAcademiesTrusts.Pages;
 
 namespace DfE.FindInformationAcademiesTrusts.Extensions;
 
@@ -39,5 +40,10 @@ public static partial class StringExtensions
         if (string.IsNullOrWhiteSpace(text)) return string.Empty;
 
         return textInfo.ToTitleCase(textInfo.ToLower(text));
+    }
+
+    public static string DefaultIfNull(this string? input, string defaultValue = ViewConstants.NoDataText)
+    {
+        return string.IsNullOrWhiteSpace(input) ? defaultValue : input;
     }
 }
