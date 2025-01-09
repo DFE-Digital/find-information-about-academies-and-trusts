@@ -1,5 +1,6 @@
 @* Add the route to use hyphenation between words *@
 @page "/trusts/academies/pipeline/pre-advisory-board"
+@using DfE.FindInformationAcademiesTrusts.Extensions
 @model PreAdvisoryBoardModel
 
 @{
@@ -24,17 +25,16 @@
       {
         <tr class="govuk-table__row" data-testid="academy-row">
           <td class="govuk-body govuk-table__cell" data-sort-value="@academy.EstablishmentName" data-testid="school-name">
-            @academy.EstablishmentName.
+            @academy.EstablishmentName.DefaultIfNull(ViewConstants.UnconfirmedDateText)
           </td>
-          <td class="govuk-body govuk-table__cell" data-testid="urn">@academy.Urn</td>
-          <td class="govuk-body govuk-table__cell" data-sort-value="@PipelineAcademiesAreaModel.AgeRangeSortValue(academy)" data-testid="phase-and-age-range">
-            @academy.AgeRange?.Minimum - @academy.AgeRange?.Maximum
+          <td class="govuk-body govuk-table__cell" data-testid="urn">@academy.Urn.DefaultIfNull(ViewConstants.UnconfirmedDateText)</td>
+          <td class="govuk-body govuk-table__cell" data-sort-value="@PipelineAcademiesAreaModel.AgeRangeSortValue(academy)" data-testid="age-range">
+            @(academy.AgeRange is null ? ViewConstants.UnconfirmedDateText : $"{academy.AgeRange.Minimum} - {academy.AgeRange.Maximum}")
           </td>
-
-          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.LocalAuthority" data-testid="pupil-numbers">@academy.LocalAuthority</td>
-          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ProjectType" data-testid="pupil-capacity">@academy.ProjectType</td>
-          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ChangeDate" data-testid="percentage-full">
-            @academy.ChangeDate
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.LocalAuthority" data-testid="local-authority">@academy.LocalAuthority.DefaultIfNull(ViewConstants.UnconfirmedDateText)</td>
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ProjectType" data-testid="project-type">@academy.ProjectType.DefaultIfNull(ViewConstants.UnconfirmedDateText)</td>
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ChangeDate" data-testid="change-date">
+            @academy.ChangeDate.ShowDateStringOrReplaceWithText(ViewConstants.UnconfirmedDateText)
           </td>
         </tr>
       }
