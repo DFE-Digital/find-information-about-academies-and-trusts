@@ -9,6 +9,7 @@ public interface IAcademyService
     Task<AcademyOfstedServiceModel[]> GetAcademiesInTrustOfstedAsync(string uid);
     Task<AcademyPupilNumbersServiceModel[]> GetAcademiesInTrustPupilNumbersAsync(string uid);
     Task<AcademyFreeSchoolMealsServiceModel[]> GetAcademiesInTrustFreeSchoolMealsAsync(string uid);
+    AcademyPipelineSummaryServiceModel GetAcademiesPipelineSummary();
     AcademyPipelineServiceModel[] GetAcademiesPipelinePreAdvisory();
 }
 
@@ -57,6 +58,11 @@ public class AcademyService(
                         a.TypeOfEstablishment),
                     freeSchoolMealsAverageProvider.GetNationalAverage(a.PhaseOfEducation, a.TypeOfEstablishment)))
             .ToArray();
+    }
+
+    public AcademyPipelineSummaryServiceModel GetAcademiesPipelineSummary()
+    {
+        return new AcademyPipelineSummaryServiceModel(4, 4, 4);
     }
 
     public AcademyPipelineServiceModel[] GetAcademiesPipelinePreAdvisory()

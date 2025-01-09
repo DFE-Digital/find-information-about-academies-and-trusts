@@ -15,7 +15,7 @@ public class CurrentAcademiesDetailsModel(
     IAcademyService academyService,
     IExportService exportService,
     IDateTimeProvider dateTimeProvider)
-    : CurrentAcademiesAreaModel(dataSourceService, trustService, exportService, logger,
+    : CurrentAcademiesAreaModel(dataSourceService, trustService, academyService, exportService, logger,
         dateTimeProvider)
 {
     public override TrustPageMetadata TrustPageMetadata =>
@@ -29,7 +29,7 @@ public class CurrentAcademiesDetailsModel(
         var pageResult = await base.OnGetAsync();
         if (pageResult is NotFoundResult) return pageResult;
 
-        Academies = await academyService.GetAcademiesInTrustDetailsAsync(Uid);
+        Academies = await AcademyService.GetAcademiesInTrustDetailsAsync(Uid);
 
         return pageResult;
     }

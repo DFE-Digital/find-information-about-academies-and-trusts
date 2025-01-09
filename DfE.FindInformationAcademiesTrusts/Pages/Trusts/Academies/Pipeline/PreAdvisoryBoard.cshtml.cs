@@ -15,7 +15,8 @@ public class PreAdvisoryBoardModel(
     IAcademyService academyService,
     IExportService exportService,
     IDateTimeProvider dateTimeProvider)
-    : PipelineAcademiesAreaModel(dataSourceService, trustService, exportService, logger, dateTimeProvider)
+    : PipelineAcademiesAreaModel(dataSourceService, trustService, academyService, exportService, logger,
+        dateTimeProvider)
 {
     public override TrustPageMetadata TrustPageMetadata =>
         base.TrustPageMetadata with { TabName = "Pre advisory board" };
@@ -27,7 +28,7 @@ public class PreAdvisoryBoardModel(
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        Academies = academyService.GetAcademiesPipelinePreAdvisory();
+        Academies = AcademyService.GetAcademiesPipelinePreAdvisory();
 
 
         return pageResult;

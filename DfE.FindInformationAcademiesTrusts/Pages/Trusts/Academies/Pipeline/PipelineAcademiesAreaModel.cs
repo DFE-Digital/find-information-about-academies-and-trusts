@@ -11,12 +11,14 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Pipeline;
 public abstract class PipelineAcademiesAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
+    IAcademyService academyService,
     IExportService exportService,
     ILogger<CurrentAcademiesAreaModel> logger,
     IDateTimeProvider dateTimeProvider
 ) : AcademiesAreaModel(
     dataSourceService,
     trustService,
+    academyService,
     exportService,
     logger,
     dateTimeProvider
@@ -34,11 +36,14 @@ public abstract class PipelineAcademiesAreaModel(
 
         TabList =
         [
-            new TrustSubNavigationLinkModel("Pre advisory board", "./PreAdvisoryBoard", Uid, "Pipeline",
+            new TrustSubNavigationLinkModel($"Pre advisory board ({PipelineSummary.PreAdvisoryCount})",
+                "./PreAdvisoryBoard", Uid, "Pipeline",
                 this is PreAdvisoryBoardModel),
-            new TrustSubNavigationLinkModel("Post advisory board", "./PostAdvisoryBoard", Uid, "Pipeline",
+            new TrustSubNavigationLinkModel($"Post advisory board ({PipelineSummary.PostAdvisoryCount})",
+                "./PostAdvisoryBoard", Uid, "Pipeline",
                 this is PostAdvisoryBoardModel),
-            new TrustSubNavigationLinkModel("Free schools", "./FreeSchools", Uid, "Pipeline",
+            new TrustSubNavigationLinkModel($"Free schools ({PipelineSummary.FreeSchoolsCount})", "./FreeSchools", Uid,
+                "Pipeline",
                 this is FreeSchoolsModel)
         ];
 

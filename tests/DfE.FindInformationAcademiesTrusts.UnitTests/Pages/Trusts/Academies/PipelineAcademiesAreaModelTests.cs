@@ -2,6 +2,7 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Current;
+using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -13,6 +14,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 public class PipelineAcademiesAreaModelTests
 {
     private readonly Mock<ITrustService> _mockTrustService = new();
+    private readonly Mock<IAcademyService> _mockAcademyService = new();
     private readonly Mock<IExportService> _mockExportService = new();
     private readonly Mock<IDataSourceService> _mockDataSourceService = new();
     private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
@@ -29,16 +31,19 @@ public class PipelineAcademiesAreaModelTests
     private class CurrentAcademiesAreaModelImpl(
         IDataSourceService dataSourceService,
         ITrustService trustService,
+        IAcademyService academyService,
         IExportService exportService,
         ILogger<CurrentAcademiesAreaModel> logger,
         IDateTimeProvider dateTimeProvider)
-        : CurrentAcademiesAreaModel(dataSourceService, trustService, exportService, logger, dateTimeProvider);
+        : CurrentAcademiesAreaModel(dataSourceService, trustService, academyService, exportService, logger,
+            dateTimeProvider);
 
     public PipelineAcademiesAreaModelTests()
     {
         _mockDataSourceService.Setup(s => s.GetAsync(Source.Gias)).ReturnsAsync(_giasDataSource);
         _mockDataSourceService.Setup(s => s.GetAsync(Source.ExploreEducationStatistics)).ReturnsAsync(_eesDataSource);
         _sut = new CurrentAcademiesAreaModelImpl(_mockDataSourceService.Object, _mockTrustService.Object,
+            _mockAcademyService.Object,
             _mockExportService.Object, _mockLogger.Object, _mockDateTimeProvider.Object);
     }
 

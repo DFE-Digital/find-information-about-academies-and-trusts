@@ -14,7 +14,8 @@ public class FreeSchoolMealsModel(
     IAcademyService academyService,
     IExportService exportService,
     IDateTimeProvider dateTimeProvider)
-    : CurrentAcademiesAreaModel(dataSourceService, trustService, exportService, logger, dateTimeProvider)
+    : CurrentAcademiesAreaModel(dataSourceService, trustService, academyService, exportService, logger,
+        dateTimeProvider)
 {
     public override TrustPageMetadata TrustPageMetadata =>
         base.TrustPageMetadata with { TabName = ViewConstants.AcademiesFreeSchoolMealsPageName };
@@ -26,7 +27,7 @@ public class FreeSchoolMealsModel(
         var pageResult = await base.OnGetAsync();
         if (pageResult is NotFoundResult) return pageResult;
 
-        Academies = await academyService.GetAcademiesInTrustFreeSchoolMealsAsync(Uid);
+        Academies = await AcademyService.GetAcademiesInTrustFreeSchoolMealsAsync(Uid);
 
 
         return pageResult;
