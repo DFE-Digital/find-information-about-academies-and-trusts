@@ -21,13 +21,16 @@ public class AcademiesInTrustDetailsModelTests
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly MockLogger<AcademiesInTrustDetailsModel> _mockLogger = new();
 
-    private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
+    private const string Uid = "1234";
+
+    private readonly TrustSummaryServiceModel _fakeTrust = new(Uid, "My Trust", "Multi-academy trust", 3);
 
     public AcademiesInTrustDetailsModelTests()
     {
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
             .ReturnsAsync(_fakeTrust);
-
+        _mockAcademyService.Setup(t => t.GetAcademiesPipelineSummary())
+            .Returns(new AcademyPipelineSummaryServiceModel(1, 2, 3));
         _sut = new AcademiesInTrustDetailsModel(_mockDataSourceService.Object,
                 _mockLinkBuilder.Object, _mockLogger.Object, _mockTrustService.Object, _mockAcademyService.Object,
                 _mockExportService.Object, _mockDateTimeProvider.Object)
@@ -70,16 +73,16 @@ public class AcademiesInTrustDetailsModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.NavigationLinks.Should().BeEquivalentTo([
-            new TrustNavigationLinkModel(ViewConstants.OverviewPageName, "/Trusts/Overview/TrustDetails", "1234",
+            new TrustNavigationLinkModel(ViewConstants.OverviewPageName, "/Trusts/Overview/TrustDetails", Uid,
                 false, "overview-nav"),
-            new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", "1234", false,
+            new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", Uid, false,
                 "contacts-nav"),
-            new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
-                "1234", true, "academies-nav"),
-            new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", "1234", false,
+            new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/InTrust/Details",
+                Uid, true, "academies-nav"),
+            new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", Uid, false,
                 "ofsted-nav"),
             new TrustNavigationLinkModel(ViewConstants.GovernancePageName, "/Trusts/Governance/TrustLeadership",
-                "1234", false,
+                Uid, false,
                 "governance-nav")
         ]);
     }
@@ -88,7 +91,14 @@ public class AcademiesInTrustDetailsModelTests
     public async Task OnGetAsync_sets_SubNavigationLinks_toEmptyArray()
     {
         _ = await _sut.OnGetAsync();
-        _sut.SubNavigationLinks.Should().Equal();
+        _sut.SubNavigationLinks.Should().Equal([
+            new TrustSubNavigationLinkModel("In the trust (3)",
+                "/Trusts/Academies/InTrust/Details", Uid,
+                "Academies", true),
+            new TrustSubNavigationLinkModel("Pipeline academies (6)",
+                "/Trusts/Academies/Pipeline/PreAdvisoryBoard", Uid,
+                "Academies", false)
+        ]);
     }
 
     [Fact]

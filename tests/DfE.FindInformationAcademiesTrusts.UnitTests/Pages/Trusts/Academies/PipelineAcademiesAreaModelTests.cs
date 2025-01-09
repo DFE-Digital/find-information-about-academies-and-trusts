@@ -42,6 +42,8 @@ public class PipelineAcademiesAreaModelTests
     {
         _mockDataSourceService.Setup(s => s.GetAsync(Source.Gias)).ReturnsAsync(_giasDataSource);
         _mockDataSourceService.Setup(s => s.GetAsync(Source.ExploreEducationStatistics)).ReturnsAsync(_eesDataSource);
+        _mockAcademyService.Setup(t => t.GetAcademiesPipelineSummary())
+            .Returns(new AcademyPipelineSummaryServiceModel(1, 2, 3));
         _sut = new AcademiesInTrustAreaModelImpl(_mockDataSourceService.Object, _mockTrustService.Object,
             _mockAcademyService.Object,
             _mockExportService.Object, _mockLogger.Object, _mockDateTimeProvider.Object);

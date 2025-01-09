@@ -81,7 +81,7 @@ public class TrustSummaryModelTests
                 "overview-nav"),
             new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", "1234", false,
                 "contacts-nav"),
-            new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
+            new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/InTrust/Details",
                 "1234", false, "academies-nav"),
             new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", "1234", false,
                 "ofsted-nav"),
@@ -96,11 +96,14 @@ public class TrustSummaryModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.SubNavigationLinks.Should().BeEquivalentTo([
-            new TrustSubNavigationLinkModel(ViewConstants.OverviewTrustDetailsPageName, "./TrustDetails", "1234", ViewConstants.OverviewPageName,
+            new TrustSubNavigationLinkModel(ViewConstants.OverviewTrustDetailsPageName, "./TrustDetails", "1234",
+                ViewConstants.OverviewPageName,
                 false),
-            new TrustSubNavigationLinkModel(ViewConstants.OverviewTrustSummaryPageName, "./TrustSummary", "1234", ViewConstants.OverviewPageName,
+            new TrustSubNavigationLinkModel(ViewConstants.OverviewTrustSummaryPageName, "./TrustSummary", "1234",
+                ViewConstants.OverviewPageName,
                 true),
-            new TrustSubNavigationLinkModel(ViewConstants.OverviewReferenceNumbersPageName, "./ReferenceNumbers", "1234",
+            new TrustSubNavigationLinkModel(ViewConstants.OverviewReferenceNumbersPageName, "./ReferenceNumbers",
+                "1234",
                 ViewConstants.OverviewPageName, false)
         ]);
     }

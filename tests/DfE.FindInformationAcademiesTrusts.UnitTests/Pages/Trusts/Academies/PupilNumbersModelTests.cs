@@ -18,27 +18,29 @@ public class PupilNumbersModelTests
     private readonly Mock<IExportService> _mockExportService = new();
     private readonly Mock<DateTimeProvider> _mockDateTimeProvider = new();
     private readonly Mock<IAcademyService> _mockAcademyService = new();
+    private const string Uid = "1234";
 
     public PupilNumbersModelTests()
     {
         MockLogger<PupilNumbersModel> logger = new();
-        var testTrustUid = "1234";
         var testTrustName = "Test Trust";
         var testTrustType = "SAT";
 
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(testTrustUid))
-            .ReturnsAsync(new TrustSummaryServiceModel(testTrustUid, testTrustName, testTrustType,
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(Uid))
+            .ReturnsAsync(new TrustSummaryServiceModel(Uid, testTrustName, testTrustType,
                 1));
-        _mockAcademyService.Setup(t => t.GetAcademiesInTrustPupilNumbersAsync(testTrustUid))
+        _mockAcademyService.Setup(t => t.GetAcademiesInTrustPupilNumbersAsync(Uid))
             .ReturnsAsync([
-                new AcademyPupilNumbersServiceModel(testTrustUid, testTrustName, "Phase",
+                new AcademyPupilNumbersServiceModel(Uid, testTrustName, "Phase",
                     new AgeRange("11", "16"), 100, 200)
             ]);
+        _mockAcademyService.Setup(t => t.GetAcademiesPipelineSummary())
+            .Returns(new AcademyPipelineSummaryServiceModel(1, 2, 3));
 
         _sut = new PupilNumbersModel(_mockDataSourceService.Object, logger.Object,
                 _mockTrustRepository.Object, _mockAcademyService.Object, _mockExportService.Object,
                 _mockDateTimeProvider.Object)
-            { Uid = "1234" };
+            { Uid = Uid };
     }
 
     [Theory]
@@ -51,7 +53,7 @@ public class PupilNumbersModelTests
         int minAge, int maxAge, string expected)
     {
         var ageRange = new AgeRange(minAge, maxAge);
-        var testAcademyUrn = "1234";
+        var testAcademyUrn = Uid;
         var testAcademyName = "Test Academy";
         var testAcademyNumberOfPupils = 100;
         var testAcademySchoolCapacity = 100;
@@ -65,7 +67,7 @@ public class PupilNumbersModelTests
     [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
+        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(Uid)).ReturnsAsync((TrustSummaryServiceModel?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
@@ -82,16 +84,16 @@ public class PupilNumbersModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.NavigationLinks.Should().BeEquivalentTo([
-            new TrustNavigationLinkModel(ViewConstants.OverviewPageName, "/Trusts/Overview/TrustDetails", "1234",
+            new TrustNavigationLinkModel(ViewConstants.OverviewPageName, "/Trusts/Overview/TrustDetails", Uid,
                 false, "overview-nav"),
-            new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", "1234", false,
+            new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", Uid, false,
                 "contacts-nav"),
-            new TrustNavigationLinkModel("Academies (1)", "/Trusts/Academies/Details",
-                "1234", true, "academies-nav"),
-            new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", "1234", false,
+            new TrustNavigationLinkModel("Academies (1)", "/Trusts/Academies/InTrust/Details",
+                Uid, true, "academies-nav"),
+            new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", Uid, false,
                 "ofsted-nav"),
             new TrustNavigationLinkModel(ViewConstants.GovernancePageName, "/Trusts/Governance/TrustLeadership",
-                "1234", false,
+                Uid, false,
                 "governance-nav")
         ]);
     }
@@ -100,7 +102,14 @@ public class PupilNumbersModelTests
     public async Task OnGetAsync_sets_SubNavigationLinks_toEmptyArray()
     {
         _ = await _sut.OnGetAsync();
-        _sut.SubNavigationLinks.Should().Equal();
+        _sut.SubNavigationLinks.Should().Equal([
+            new TrustSubNavigationLinkModel("In the trust (1)",
+                "/Trusts/Academies/InTrust/Details", Uid,
+                "Academies", true),
+            new TrustSubNavigationLinkModel("Pipeline academies (6)",
+                "/Trusts/Academies/Pipeline/PreAdvisoryBoard", Uid,
+                "Academies", false)
+        ]);
     }
 
     [Fact]

@@ -110,7 +110,7 @@ public class MembersModelTests
                 false, "overview-nav"),
             new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", "1234", false,
                 "contacts-nav"),
-            new TrustNavigationLinkModel("Academies (0)", "/Trusts/Academies/Details",
+            new TrustNavigationLinkModel("Academies (0)", "/Trusts/Academies/InTrust/Details",
                 "1234", false, "academies-nav"),
             new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", "1234", false,
                 "ofsted-nav"),

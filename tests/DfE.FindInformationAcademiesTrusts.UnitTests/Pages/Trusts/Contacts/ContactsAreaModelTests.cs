@@ -168,7 +168,7 @@ public class ContactsAreaModelTests
                 false, "overview-nav"),
             new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", TestUid, true,
                 "contacts-nav"),
-            new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
+            new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/InTrust/Details",
                 TestUid, false, "academies-nav"),
             new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", "1234", false,
                 "ofsted-nav"),

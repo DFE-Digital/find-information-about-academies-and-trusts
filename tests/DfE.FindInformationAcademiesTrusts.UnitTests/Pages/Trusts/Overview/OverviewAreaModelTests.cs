@@ -52,9 +52,12 @@ public class OverviewAreaModelTests
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
         _sut.DataSourcesPerPage.Count.Should().Be(3);
         _sut.DataSourcesPerPage.Should().BeEquivalentTo([
-            new DataSourcePageListEntry(ViewConstants.OverviewTrustDetailsPageName, [new DataSourceListEntry(_giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.OverviewTrustSummaryPageName, [new DataSourceListEntry(_giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.OverviewReferenceNumbersPageName, [new DataSourceListEntry(_giasDataSource)])
+            new DataSourcePageListEntry(ViewConstants.OverviewTrustDetailsPageName,
+                [new DataSourceListEntry(_giasDataSource)]),
+            new DataSourcePageListEntry(ViewConstants.OverviewTrustSummaryPageName,
+                [new DataSourceListEntry(_giasDataSource)]),
+            new DataSourcePageListEntry(ViewConstants.OverviewReferenceNumbersPageName,
+                [new DataSourceListEntry(_giasDataSource)])
         ]);
     }
 
@@ -67,7 +70,7 @@ public class OverviewAreaModelTests
                 "overview-nav"),
             new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", "1234", false,
                 "contacts-nav"),
-            new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
+            new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/InTrust/Details",
                 "1234", false, "academies-nav"),
             new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", "1234", false,
                 "ofsted-nav"),
@@ -82,11 +85,14 @@ public class OverviewAreaModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.SubNavigationLinks.Should().BeEquivalentTo([
-            new TrustSubNavigationLinkModel(ViewConstants.OverviewTrustDetailsPageName, "./TrustDetails", "1234", ViewConstants.OverviewPageName,
+            new TrustSubNavigationLinkModel(ViewConstants.OverviewTrustDetailsPageName, "./TrustDetails", "1234",
+                ViewConstants.OverviewPageName,
                 false),
-            new TrustSubNavigationLinkModel(ViewConstants.OverviewTrustSummaryPageName, "./TrustSummary", "1234", ViewConstants.OverviewPageName,
+            new TrustSubNavigationLinkModel(ViewConstants.OverviewTrustSummaryPageName, "./TrustSummary", "1234",
+                ViewConstants.OverviewPageName,
                 false),
-            new TrustSubNavigationLinkModel(ViewConstants.OverviewReferenceNumbersPageName, "./ReferenceNumbers", "1234",
+            new TrustSubNavigationLinkModel(ViewConstants.OverviewReferenceNumbersPageName, "./ReferenceNumbers",
+                "1234",
                 ViewConstants.OverviewPageName, false)
         ]);
     }
