@@ -64,6 +64,19 @@ public class StringExtensionsTest
     }
 
     [Theory]
+    [InlineData("hello, world!", "hello-world")]
+    [InlineData("hel-lo, world!", "hel-lo-world")]
+    [InlineData("goodbye: cruel; world...", "goodbye-cruel-world")]
+    [InlineData("@hello#$%^&*()_+= world", "hello-world")]
+    [InlineData("he\tllo!\nworld?", "helloworld")]
+    [InlineData("\"quoted\" 'text'", "quoted-text")]
+    [InlineData("   hello, world!  ", "hello-world")]
+    public void Kebabify_should_remove_all_punctuation_characters(string input, string expected)
+    {
+        input.Kebabify().Should().Be(expected);
+    }
+
+    [Theory]
     [InlineData("test", "Test")]
     [InlineData("", "")]
     [InlineData(" ", "")]
@@ -74,22 +87,5 @@ public class StringExtensionsTest
     public void ToTitleText_should_return_correct_string(string? inputText, string expected)
     {
         inputText!.ToTitleCase().Should().Be(expected);
-    }
-
-    [Theory]
-    [InlineData("hello, world!", "hello world")]
-    [InlineData("goodbye: cruel; world...", "goodbye cruel world")]
-    [InlineData("@hello#$%^&*()_+= world", "hello world")]
-    [InlineData("he\tllo!\nworld?", "he\tllo\nworld")]
-    [InlineData("\"quoted\" 'text'", "quoted text")]
-    [InlineData("   hello, world!  ", "hello world")]
-    [InlineData("", "")]
-    public void RemovePunctuation_Should_Remove_All_Punctuation_Characters(string input, string expected)
-    {
-        // Act
-        var result = input.RemovePunctuation();
-
-        // Assert
-        result.Should().Be(expected);
     }
 }
