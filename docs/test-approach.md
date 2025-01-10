@@ -111,7 +111,7 @@ All .NET code is unit tested where possible. Where it is deemed not possible to 
 
 #### UI
 
-UI tests verify that the UI behaves as it should under both happy and unhappy path conditions. These tests are are run in an isolated environment with external dependencies (such as APIs and databases) mocked.
+UI tests verify that the UI behaves as it should under both happy and unhappy path conditions.
 
 ### Security testing
 
