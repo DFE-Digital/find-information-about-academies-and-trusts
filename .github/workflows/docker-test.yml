@@ -9,6 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       image: ${{ steps.build.outputs.imageid }}
+    strategy:
+      matrix:
+        stage: [
+          "initcontainer",
+          "final"
+        ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -24,16 +30,17 @@ jobs:
           secrets: github_token=${{ secrets.GITHUB_TOKEN }}
           load: true
           cache-from: type=gha
+          target: ${{ matrix.stage }}
           cache-to: type=gha
           push: false
 
       - name: Export docker image as tar
-        run: docker save -o ${{ github.ref_name }}.tar ${{ steps.build.outputs.imageid }}
+        run: docker save -o ${{ github.ref_name }}-${{ matrix.stage }}.tar ${{ steps.build.outputs.imageid }}
 
       - name: Scan Docker image for CVEs
         uses: aquasecurity/trivy-action@0.29.0
         with:
-          input: ${{ github.ref_name }}.tar
+          input: ${{ github.ref_name }}-${{ matrix.stage }}.tar
           format: 'sarif'
           output: 'trivy-results.sarif'
           limit-severities-for-sarif: true
