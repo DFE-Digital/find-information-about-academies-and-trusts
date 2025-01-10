@@ -4,6 +4,7 @@
 .env
 .idea
 .git
+.gitattributes
 .gitignore
 .github
 .vs
@@ -17,6 +18,8 @@ docker/
 
 ### Docs
 docs
+*.md
+CODEOWNERS
 
 ### .NET
 **/bin/
@@ -32,4 +35,7 @@ docs
 terraform
 
 ### Tests
-test
+tests/
+StrykerOutput/
+stryker-config.json
+renovate.json
