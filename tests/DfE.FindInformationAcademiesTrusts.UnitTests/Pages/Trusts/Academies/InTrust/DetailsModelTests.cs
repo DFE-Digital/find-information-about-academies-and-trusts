@@ -8,7 +8,7 @@ using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
 
 public class AcademiesInTrustDetailsModelTests
 {
@@ -88,16 +88,32 @@ public class AcademiesInTrustDetailsModelTests
     }
 
     [Fact]
-    public async Task OnGetAsync_sets_SubNavigationLinks_toEmptyArray()
+    public async Task OnGetAsync_sets_SubNavigationLinks_CorrectList()
     {
         _ = await _sut.OnGetAsync();
         _sut.SubNavigationLinks.Should().Equal([
             new TrustSubNavigationLinkModel("In the trust (3)",
                 "/Trusts/Academies/InTrust/Details", Uid,
-                "Academies", true),
+                ViewConstants.AcademiesPageName, true),
             new TrustSubNavigationLinkModel("Pipeline academies (6)",
                 "/Trusts/Academies/Pipeline/PreAdvisoryBoard", Uid,
-                "Academies", false)
+                ViewConstants.AcademiesPageName, false)
+        ]);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_TabList_to_CorrectList()
+    {
+        _ = await _sut.OnGetAsync();
+        _sut.TabList.Should().BeEquivalentTo([
+            new TrustTabNavigationLinkModel("Details", "./Details", Uid, ViewConstants.AcademiesInTrustSubNavName,
+                true),
+            new TrustTabNavigationLinkModel("Pupil numbers", "./PupilNumbers", Uid,
+                ViewConstants.AcademiesInTrustSubNavName,
+                false),
+            new TrustTabNavigationLinkModel("Free school meals", "./FreeSchoolMeals", Uid,
+                ViewConstants.AcademiesInTrustSubNavName,
+                false)
         ]);
     }
 
@@ -106,8 +122,9 @@ public class AcademiesInTrustDetailsModelTests
     {
         _ = await _sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.TabName.Should().Be(ViewConstants.AcademiesDetailsPageName);
-        _sut.TrustPageMetadata.PageName.Should().Be("Academies");
+        _sut.TrustPageMetadata.TabName.Should().Be(ViewConstants.AcademiesInTrustDetailsPageName);
+        _sut.TrustPageMetadata.SubPageName.Should().Be(ViewConstants.AcademiesInTrustSubNavName);
+        _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.AcademiesPageName);
         _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
     }
 }

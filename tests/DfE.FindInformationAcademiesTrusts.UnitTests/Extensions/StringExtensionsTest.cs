@@ -88,4 +88,18 @@ public class StringExtensionsTest
     {
         inputText!.ToTitleCase().Should().Be(expected);
     }
+
+    [Fact]
+    public void DefaultIfNull_should_return_the_string_if_not_null()
+    {
+        const string? text = "Test string";
+        text.DefaultIfNull("Fallback string").Should().Be("Test string");
+    }
+
+    [Fact]
+    public void DefaultIfNull_should_return_the_default_string_if_null()
+    {
+        const string? text = null;
+        text.DefaultIfNull("Fallback string").Should().Be("Fallback string");
+    }
 }

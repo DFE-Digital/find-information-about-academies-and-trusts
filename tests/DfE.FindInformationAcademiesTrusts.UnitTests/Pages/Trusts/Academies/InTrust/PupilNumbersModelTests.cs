@@ -8,13 +8,13 @@ using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
 
 public class PupilNumbersModelTests
 {
     private readonly PupilNumbersModel _sut;
     private readonly MockDataSourceService _mockDataSourceService = new();
-    private readonly Mock<ITrustService> _mockTrustRepository = new();
+    private readonly Mock<ITrustService> _mockTrustService = new();
     private readonly Mock<IExportService> _mockExportService = new();
     private readonly Mock<DateTimeProvider> _mockDateTimeProvider = new();
     private readonly Mock<IAcademyService> _mockAcademyService = new();
@@ -26,7 +26,7 @@ public class PupilNumbersModelTests
         var testTrustName = "Test Trust";
         var testTrustType = "SAT";
 
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(Uid))
+        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(Uid))
             .ReturnsAsync(new TrustSummaryServiceModel(Uid, testTrustName, testTrustType,
                 1));
         _mockAcademyService.Setup(t => t.GetAcademiesInTrustPupilNumbersAsync(Uid))
@@ -38,7 +38,7 @@ public class PupilNumbersModelTests
             .Returns(new AcademyPipelineSummaryServiceModel(1, 2, 3));
 
         _sut = new PupilNumbersModel(_mockDataSourceService.Object, logger.Object,
-                _mockTrustRepository.Object, _mockAcademyService.Object, _mockExportService.Object,
+                _mockTrustService.Object, _mockAcademyService.Object, _mockExportService.Object,
                 _mockDateTimeProvider.Object)
             { Uid = Uid };
     }
@@ -67,16 +67,10 @@ public class PupilNumbersModelTests
     [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustRepository.Setup(t => t.GetTrustSummaryAsync(Uid)).ReturnsAsync((TrustSummaryServiceModel?)null);
+        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(Uid)).ReturnsAsync((TrustSummaryServiceModel?)null);
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
-    }
-
-    [Fact]
-    public async Task OnGetAsync_returns_RegularPageResult_if_Trust_is_found()
-    {
-        var result = await _sut.OnGetAsync();
-        result.Should().NotBeOfType<NotFoundResult>();
+        _mockAcademyService.Verify(e => e.GetAcademiesInTrustPupilNumbersAsync(Uid), Times.Never);
     }
 
     [Fact]
@@ -105,10 +99,10 @@ public class PupilNumbersModelTests
         _sut.SubNavigationLinks.Should().Equal([
             new TrustSubNavigationLinkModel("In the trust (1)",
                 "/Trusts/Academies/InTrust/Details", Uid,
-                "Academies", true),
+                ViewConstants.AcademiesPageName, true),
             new TrustSubNavigationLinkModel("Pipeline academies (6)",
                 "/Trusts/Academies/Pipeline/PreAdvisoryBoard", Uid,
-                "Academies", false)
+                ViewConstants.AcademiesPageName, false)
         ]);
     }
 
@@ -117,8 +111,8 @@ public class PupilNumbersModelTests
     {
         _ = await _sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.TabName.Should().Be(ViewConstants.AcademiesPupilNumbersPageName);
-        _sut.TrustPageMetadata.PageName.Should().Be("Academies");
+        _sut.TrustPageMetadata.TabName.Should().Be(ViewConstants.AcademiesInTrustPupilNumbersPageName);
+        _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.AcademiesPageName);
         _sut.TrustPageMetadata.TrustName.Should().Be("Test Trust");
     }
 }

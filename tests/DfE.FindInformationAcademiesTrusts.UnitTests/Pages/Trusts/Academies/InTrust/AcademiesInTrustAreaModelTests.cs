@@ -9,9 +9,9 @@ using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
 
-public class PipelineAcademiesAreaModelTests
+public class AcademiesInTrustAreaModelTests
 {
     private readonly Mock<ITrustService> _mockTrustService = new();
     private readonly Mock<IAcademyService> _mockAcademyService = new();
@@ -38,7 +38,7 @@ public class PipelineAcademiesAreaModelTests
         : AcademiesInTrustAreaModel(dataSourceService, trustService, academyService, exportService, logger,
             dateTimeProvider);
 
-    public PipelineAcademiesAreaModelTests()
+    public AcademiesInTrustAreaModelTests()
     {
         _mockDataSourceService.Setup(s => s.GetAsync(Source.Gias)).ReturnsAsync(_giasDataSource);
         _mockDataSourceService.Setup(s => s.GetAsync(Source.ExploreEducationStatistics)).ReturnsAsync(_eesDataSource);
@@ -128,6 +128,7 @@ public class PipelineAcademiesAreaModelTests
         _ = await _sut.OnGetAsync();
 
         _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.AcademiesPageName);
+        _sut.TrustPageMetadata.SubPageName.Should().Be(ViewConstants.AcademiesInTrustSubNavName);
         _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
     }
 
@@ -142,11 +143,11 @@ public class PipelineAcademiesAreaModelTests
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
         _mockDataSourceService.Verify(e => e.GetAsync(Source.ExploreEducationStatistics), Times.Once);
         _sut.DataSourcesPerPage.Should().BeEquivalentTo([
-            new DataSourcePageListEntry(ViewConstants.AcademiesDetailsPageName,
+            new DataSourcePageListEntry(ViewConstants.AcademiesInTrustDetailsPageName,
                 [new DataSourceListEntry(_giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.AcademiesPupilNumbersPageName,
+            new DataSourcePageListEntry(ViewConstants.AcademiesInTrustPupilNumbersPageName,
                 [new DataSourceListEntry(_giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.AcademiesFreeSchoolMealsPageName, [
+            new DataSourcePageListEntry(ViewConstants.AcademiesInTrustFreeSchoolMealsPageName, [
                 new DataSourceListEntry(_giasDataSource, "Pupils eligible for free school meals"),
                 new DataSourceListEntry(_eesDataSource, "Local authority average 2023/24"),
                 new DataSourceListEntry(_eesDataSource, "National average 2023/24")

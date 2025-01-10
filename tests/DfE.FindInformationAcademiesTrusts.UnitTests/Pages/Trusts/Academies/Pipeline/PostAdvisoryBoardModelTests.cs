@@ -1,18 +1,18 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
-using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Pipeline;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.Pipeline;
 
-public class FreeSchoolMealsModelTests
+public class PostAdvisoryBoardModelTests
 {
-    private readonly FreeSchoolMealsModel _sut;
+    private readonly PostAdvisoryBoardModel _sut;
     private readonly Mock<ITrustService> _mockTrustService = new();
     private readonly Mock<IAcademyService> _mockAcademyService = new();
     private readonly Mock<IExportService> _mockExportService = new();
@@ -20,7 +20,7 @@ public class FreeSchoolMealsModelTests
     private readonly MockDataSourceService _mockDataSourceService = new();
     private const string Uid = "1234";
 
-    public FreeSchoolMealsModelTests()
+    public PostAdvisoryBoardModelTests()
     {
         var testTrustName = "Test Trust";
         var testTrustType = "SAT";
@@ -30,8 +30,8 @@ public class FreeSchoolMealsModelTests
                 1));
         _mockAcademyService.Setup(t => t.GetAcademiesPipelineSummary())
             .Returns(new AcademyPipelineSummaryServiceModel(1, 2, 3));
-        _sut = new FreeSchoolMealsModel(
-                _mockDataSourceService.Object, new MockLogger<FreeSchoolMealsModel>().Object,
+        _sut = new PostAdvisoryBoardModel(
+                _mockDataSourceService.Object, new MockLogger<PostAdvisoryBoardModel>().Object,
                 _mockTrustService.Object, _mockAcademyService.Object, _mockExportService.Object,
                 _mockDateTimeProvider.Object)
             { Uid = Uid };
@@ -48,14 +48,19 @@ public class FreeSchoolMealsModelTests
     [Fact]
     public async Task OnGetAsync_sets_academies_from_academyService()
     {
-        var academies = new[]
-        {
-            new AcademyFreeSchoolMealsServiceModel("1", "Academy 1", 12.5, 13.5, 14.5),
-            new AcademyFreeSchoolMealsServiceModel("2", "Academy 2", null, 70.1, 64.1),
-            new AcademyFreeSchoolMealsServiceModel("3", "Academy 3", 8.2, 4, 10)
-        };
-        _mockAcademyService.Setup(a => a.GetAcademiesInTrustFreeSchoolMealsAsync(_sut.Uid))
-            .ReturnsAsync(academies);
+        AcademyPipelineServiceModel[] academies =
+        [
+            new AcademyPipelineServiceModel("1234", "Baking academy", new AgeRange(4, 16), "Bristol", "Conversion",
+                new DateTime(2025, 3, 3)),
+            new AcademyPipelineServiceModel("1234", "Chocolate academy", new AgeRange(11, 18), "Birmingham",
+                "Conversion",
+                new DateTime(2025, 5, 3)),
+            new AcademyPipelineServiceModel("1234", "Fruity academy", new AgeRange(9, 16), "Sheffield", "Transfer",
+                new DateTime(2025, 9, 3)),
+            new AcademyPipelineServiceModel(null, null, null, null, null, null)
+        ];
+        _mockAcademyService.Setup(a => a.GetAcademiesPipelinePreAdvisory())
+            .Returns(academies);
 
         _ = await _sut.OnGetAsync();
 
@@ -82,16 +87,24 @@ public class FreeSchoolMealsModelTests
     }
 
     [Fact]
-    public async Task OnGetAsync_sets_SubNavigationLinks_toEmptyArray()
+    public async Task OnGetAsync_sets_SubNavigationLinks_and_TabList_to_correct_value()
     {
         _ = await _sut.OnGetAsync();
         _sut.SubNavigationLinks.Should().Equal([
             new TrustSubNavigationLinkModel("In the trust (1)",
                 "/Trusts/Academies/InTrust/Details", Uid,
-                "Academies", true),
+                ViewConstants.AcademiesPageName, false),
             new TrustSubNavigationLinkModel("Pipeline academies (6)",
                 "/Trusts/Academies/Pipeline/PreAdvisoryBoard", Uid,
-                "Academies", false)
+                ViewConstants.AcademiesPageName, true)
+        ]);
+        _sut.TabList.Should().BeEquivalentTo([
+            new TrustTabNavigationLinkModel("Pre advisory board (1)",
+                "./PreAdvisoryBoard", Uid, "Pipeline", false),
+            new TrustTabNavigationLinkModel("Post advisory board (2)",
+                "./PostAdvisoryBoard", Uid, "Pipeline", true),
+            new TrustTabNavigationLinkModel("Free schools (3)", "./FreeSchools", Uid,
+                "Pipeline", false)
         ]);
     }
 
@@ -100,8 +113,8 @@ public class FreeSchoolMealsModelTests
     {
         _ = await _sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.TabName.Should().Be(ViewConstants.AcademiesFreeSchoolMealsPageName);
-        _sut.TrustPageMetadata.PageName.Should().Be("Academies");
+        _sut.TrustPageMetadata.TabName.Should().Be(ViewConstants.PipelineAcademiesPostAdvisoryBoardPageName);
+        _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.AcademiesPageName);
         _sut.TrustPageMetadata.TrustName.Should().Be("Test Trust");
     }
 }
