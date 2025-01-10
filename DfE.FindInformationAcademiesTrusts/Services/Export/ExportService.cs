@@ -211,7 +211,7 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
        AcademyOfsted[] academiesOfstedRatings)
     {
         using var workbook = new XLWorkbook();
-        var worksheet = workbook.Worksheets.Add("Ofsted");
+        var worksheet = workbook.Worksheets.Add(ViewConstants.OfstedPageName);
 
         WriteTrustInformation(worksheet, trustSummary);
         WriteHeaders(worksheet, headers);

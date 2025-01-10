@@ -14,7 +14,9 @@ public class ContactsAreaModel(
 )
     : TrustsAreaModel(dataSourceService, trustService, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = "Contacts" };
+    public override TrustPageMetadata TrustPageMetadata =>
+        base.TrustPageMetadata with { PageName = ViewConstants.ContactsPageName };
+
     public Person? ChairOfTrustees { get; set; }
     public Person? AccountingOfficer { get; set; }
     public Person? ChiefFinancialOfficer { get; set; }
@@ -29,7 +31,8 @@ public class ContactsAreaModel(
 
         SubNavigationLinks =
         [
-            new TrustSubNavigationLinkModel("In DfE", "./InDfE", Uid, TrustPageMetadata.PageName!, this is InDfeModel),
+            new TrustSubNavigationLinkModel(ViewConstants.ContactsInDfePageName, "./InDfE", Uid,
+                TrustPageMetadata.PageName!, this is InDfeModel),
             new TrustSubNavigationLinkModel("In the trust", "./InTrust", Uid, TrustPageMetadata.PageName!,
                 this is InTrustModel)
         ];
@@ -37,24 +40,31 @@ public class ContactsAreaModel(
         (TrustRelationshipManager, SfsoLead, AccountingOfficer, ChairOfTrustees, ChiefFinancialOfficer) =
             await TrustService.GetTrustContactsAsync(Uid);
 
-        DataSources.Add(new DataSourceListEntry(
-            new DataSourceServiceModel(Source.FiatDb, TrustRelationshipManager?.LastModifiedAtTime, null,
-                TrustRelationshipManager?.LastModifiedByEmail),
-            new List<string>
-                { ContactRole.TrustRelationshipManager.MapRoleToViewString() }));
+        // Add data sources
+        var giasDataSource = await DataSourceService.GetAsync(Source.Gias);
+        var mstrDataSource = await DataSourceService.GetAsync(Source.Mstr);
 
-        DataSources.Add(new DataSourceListEntry(
-            new DataSourceServiceModel(Source.FiatDb, SfsoLead?.LastModifiedAtTime, null,
-                SfsoLead?.LastModifiedByEmail),
-            new List<string>
-                { ContactRole.SfsoLead.MapRoleToViewString() }));
-
-        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias), new List<string>
-            { "Accounting officer name", "Chief financial officer name", "Chair of trustees name" }));
-
-        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Mstr),
-            new List<string>
-                { "Accounting officer email", "Chief financial officer email", "Chair of trustees email" }));
+        DataSourcesPerPage.AddRange([
+            new DataSourcePageListEntry(ViewConstants.ContactsInDfePageName, [
+                    new DataSourceListEntry(new DataSourceServiceModel(Source.FiatDb,
+                            TrustRelationshipManager?.LastModifiedAtTime, null,
+                            TrustRelationshipManager?.LastModifiedByEmail),
+                        ContactRole.TrustRelationshipManager.MapRoleToViewString()),
+                    new DataSourceListEntry(new DataSourceServiceModel(Source.FiatDb, SfsoLead?.LastModifiedAtTime,
+                        null,
+                        SfsoLead?.LastModifiedByEmail), ContactRole.SfsoLead.MapRoleToViewString())
+                ]
+            ),
+            new DataSourcePageListEntry("In the trust", [
+                    new DataSourceListEntry(giasDataSource, "Accounting officer name"),
+                    new DataSourceListEntry(giasDataSource, "Chief financial officer name"),
+                    new DataSourceListEntry(giasDataSource, "Chair of trustees name"),
+                    new DataSourceListEntry(mstrDataSource, "Accounting officer email"),
+                    new DataSourceListEntry(mstrDataSource, "Chief financial officer email"),
+                    new DataSourceListEntry(mstrDataSource, "Chair of trustees email")
+                ]
+            )
+        ]);
 
         return pageResult;
     }

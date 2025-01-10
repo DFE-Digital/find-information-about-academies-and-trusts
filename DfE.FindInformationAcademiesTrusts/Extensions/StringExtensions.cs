@@ -14,12 +14,16 @@ public static partial class StringExtensions
     [GeneratedRegex("-+", RegexOptions.Compiled)]
     private static partial Regex DashesRegex();
 
+    [GeneratedRegex(@"[^-\w]|_+", RegexOptions.Compiled)]
+    private static partial Regex NonDashPunctuationRegex();
+
     public static string Kebabify(this string text)
     {
         var transformedText = text.Trim();
 
         transformedText = BracketedDigitsRegex().Replace(transformedText, "-");
         transformedText = SpacesRegex().Replace(transformedText, "-");
+        transformedText = NonDashPunctuationRegex().Replace(transformedText, "");
         transformedText = DashesRegex().Replace(transformedText, "-");
 
         transformedText = transformedText.Trim('-');
@@ -31,7 +35,7 @@ public static partial class StringExtensions
     public static string ToTitleCase(this string text)
     {
         var textInfo = CultureInfo.CurrentCulture.TextInfo;
-        
+
         if (string.IsNullOrWhiteSpace(text)) return string.Empty;
 
         return textInfo.ToTitleCase(textInfo.ToLower(text));

@@ -1,7 +1,9 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
+using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +29,12 @@ public class ContactsAreaModelTests
     private readonly InternalContact _trustRelationshipManager =
         new("Trust Relationship Manager", "trm@test.com", DateTime.Today, "test@email.com");
 
+    private readonly DataSourceServiceModel _giasDataSource =
+        new(Source.Gias, new DateTime(2025, 1, 1), UpdateFrequency.Daily);
+
+    private readonly DataSourceServiceModel _mstrDataSource = new(Source.Mstr,
+        new DateTime(2025, 1, 1), UpdateFrequency.Monthly);
+
     public ContactsAreaModelTests()
     {
         _mockTrustService.Setup(tp => tp.GetTrustContactsAsync(TestUid)).ReturnsAsync(
@@ -34,6 +42,8 @@ public class ContactsAreaModelTests
                 _chiefFinancialOfficer));
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
             .ReturnsAsync(_fakeTrust);
+        _mockDataSourceService.Setup(s => s.GetAsync(Source.Gias)).ReturnsAsync(_giasDataSource);
+        _mockDataSourceService.Setup(s => s.GetAsync(Source.Mstr)).ReturnsAsync(_mstrDataSource);
 
         _sut = new ContactsAreaModel(_mockDataSourceService.Object, _mockTrustService.Object,
                 new MockLogger<ContactsAreaModel>().Object)
@@ -126,15 +136,27 @@ public class ContactsAreaModelTests
         await _sut.OnGetAsync();
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Mstr), Times.Once);
-        _sut.DataSources.Count.Should().Be(4);
-        _sut.DataSources[0].Fields.Should().Contain(new List<string>
-            { "Trust relationship manager" });
-        _sut.DataSources[1].Fields.Should().Contain(new List<string>
-            { "SFSO (Schools financial support and oversight) lead" });
-        _sut.DataSources[2].Fields.Should().Contain(new List<string>
-            { "Accounting officer name", "Chief financial officer name", "Chair of trustees name" });
-        _sut.DataSources[3].Fields.Should().Contain(new List<string>
-            { "Accounting officer email", "Chief financial officer email", "Chair of trustees email" });
+        _sut.DataSourcesPerPage.Count.Should().Be(2);
+        _sut.DataSourcesPerPage.Should().BeEquivalentTo([
+            new DataSourcePageListEntry(ViewConstants.ContactsInDfePageName, [
+                    new DataSourceListEntry(new DataSourceServiceModel(Source.FiatDb,
+                        _trustRelationshipManager.LastModifiedAtTime, null,
+                        _trustRelationshipManager.LastModifiedByEmail), "Trust relationship manager"),
+                    new DataSourceListEntry(new DataSourceServiceModel(Source.FiatDb, _sfsoLead.LastModifiedAtTime,
+                        null,
+                        _sfsoLead.LastModifiedByEmail), "SFSO (Schools financial support and oversight) lead")
+                ]
+            ),
+            new DataSourcePageListEntry(ViewConstants.ContactsInTrustPageName, [
+                    new DataSourceListEntry(_giasDataSource, "Accounting officer name"),
+                    new DataSourceListEntry(_giasDataSource, "Chief financial officer name"),
+                    new DataSourceListEntry(_giasDataSource, "Chair of trustees name"),
+                    new DataSourceListEntry(_mstrDataSource, "Accounting officer email"),
+                    new DataSourceListEntry(_mstrDataSource, "Chief financial officer email"),
+                    new DataSourceListEntry(_mstrDataSource, "Chair of trustees email")
+                ]
+            )
+        ]);
     }
 
     [Fact]
@@ -142,12 +164,16 @@ public class ContactsAreaModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.NavigationLinks.Should().BeEquivalentTo([
-            new TrustNavigationLinkModel("Overview", "/Trusts/Overview/TrustDetails", TestUid, false, "overview-nav"),
-            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", TestUid, true, "contacts-nav"),
+            new TrustNavigationLinkModel(ViewConstants.OverviewPageName, "/Trusts/Overview/TrustDetails", TestUid,
+                false, "overview-nav"),
+            new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", TestUid, true,
+                "contacts-nav"),
             new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
                 TestUid, false, "academies-nav"),
-            new TrustNavigationLinkModel("Ofsted", "/Trusts/Ofsted/CurrentRatings", "1234", false, "ofsted-nav"),
-            new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", TestUid, false,
+            new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", "1234", false,
+                "ofsted-nav"),
+            new TrustNavigationLinkModel(ViewConstants.GovernancePageName, "/Trusts/Governance/TrustLeadership",
+                TestUid, false,
                 "governance-nav")
         ]);
     }
@@ -157,8 +183,10 @@ public class ContactsAreaModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.SubNavigationLinks.Should().BeEquivalentTo([
-            new TrustSubNavigationLinkModel("In DfE", "./InDfE", TestUid, "Contacts", false),
-            new TrustSubNavigationLinkModel("In the trust", "./InTrust", TestUid, "Contacts", false)
+            new TrustSubNavigationLinkModel(ViewConstants.ContactsInDfePageName, "./InDfE", TestUid,
+                ViewConstants.ContactsPageName, false),
+            new TrustSubNavigationLinkModel(ViewConstants.ContactsInTrustPageName, "./InTrust", TestUid,
+                ViewConstants.ContactsPageName, false)
         ]);
     }
 
@@ -167,7 +195,7 @@ public class ContactsAreaModelTests
     {
         _ = await _sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.PageName.Should().Be("Contacts");
+        _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.ContactsPageName);
         _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
     }
 }

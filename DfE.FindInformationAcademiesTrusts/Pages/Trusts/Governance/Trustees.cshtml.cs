@@ -10,5 +10,5 @@ public class TrusteesModel(
     : GovernanceAreaModel(dataSourceService, trustService, logger)
 {
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = "Trustees" };
+        base.TrustPageMetadata with { SubPageName = ViewConstants.GovernanceTrusteesPageName };
 }

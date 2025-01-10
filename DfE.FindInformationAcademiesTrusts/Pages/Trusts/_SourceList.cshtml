@@ -1,34 +1,31 @@
-﻿@using DfE.FindInformationAcademiesTrusts.Data.Enums
-@model ITrustsAreaModel
+﻿@model ITrustsAreaModel
 <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details" data-testid="data-source-and-updates">
   <summary class="govuk-details__summary">
     <span class="govuk-details__summary-text">
-      <span>Source and updates</span>
+      <span>Where this information came from</span>
     </span>
   </summary>
-  <ul class="govuk-list govuk-details__text">
-    @foreach (var source in Model.DataSources)
+  <div class="govuk-details__text">
+    @foreach (var pageSource in Model.DataSourcesPerPage)
     {
-      <li class="source-list-item govuk-!-margin-bottom-5" data-testid="@Model.MapDataSourceToTestId(source)">
-        <span class="govuk-!-font-weight-bold margin-right-class">@string.Join(", ", source.Fields)</span>
-
-        <span>Last updated: @(source.LastUpdatedText)</span>
-
-        @if (source.DataSource.NextUpdated is not null)
+      <p class="govuk-heading-s">
+        @pageSource.PageName
+      </p>
+      <ul class="govuk-list govuk-list--bullet">
+        @foreach (var source in pageSource.DataSources)
         {
-          <span>Next scheduled update: @source.DataSource.NextUpdated</span>
+          <li data-testid="@Model.MapDataSourceToTestId(source)">
+            @if (source.DataSource.UpdatedBy is not null)
+            {
+              <span>@source.DataField was updated by @source.UpdatedByText on @source.LastUpdatedText</span>
+            }
+            else
+            {
+              <span>@source.DataField taken from @Model.MapDataSourceToName(source.DataSource) on @source.LastUpdatedText</span>
+            }
+          </li>
         }
-
-        @if (source.DataSource.UpdatedBy is not null)
-        {
-          <span>Updated by: @source.UpdatedByText</span>
-        }
-
-        @if (source.DataSource.Source != Source.FiatDb)
-        {
-          <span>Data taken from: @Model.MapDataSourceToName(source.DataSource)</span>
-        }
-      </li>
+      </ul>
     }
-  </ul>
+  </div>
 </details>

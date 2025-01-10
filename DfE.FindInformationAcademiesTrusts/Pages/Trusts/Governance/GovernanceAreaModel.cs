@@ -12,7 +12,7 @@ public class GovernanceAreaModel(
     : TrustsAreaModel(dataSourceService, trustService, logger)
 {
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { PageName = "Governance" };
+        base.TrustPageMetadata with { PageName = ViewConstants.GovernancePageName };
 
     public TrustGovernanceServiceModel TrustGovernance { get; set; } = default!;
 
@@ -26,18 +26,35 @@ public class GovernanceAreaModel(
 
         SubNavigationLinks =
         [
-            new TrustSubNavigationLinkModel($"Trust leadership ({TrustGovernance.CurrentTrustLeadership.Length})",
+            new TrustSubNavigationLinkModel(
+                $"{ViewConstants.GovernanceTrustLeadershipPageName} ({TrustGovernance.CurrentTrustLeadership.Length})",
                 "./TrustLeadership", Uid, TrustPageMetadata.PageName!, this is TrustLeadershipModel),
-            new TrustSubNavigationLinkModel($"Trustees ({TrustGovernance.CurrentTrustees.Length})", "./Trustees", Uid,
+            new TrustSubNavigationLinkModel(
+                $"{ViewConstants.GovernanceTrusteesPageName} ({TrustGovernance.CurrentTrustees.Length})", "./Trustees",
+                Uid,
                 TrustPageMetadata.PageName!, this is TrusteesModel),
-            new TrustSubNavigationLinkModel($"Members ({TrustGovernance.CurrentMembers.Length})", "./Members", Uid,
+            new TrustSubNavigationLinkModel(
+                $"{ViewConstants.GovernanceMembersPageName} ({TrustGovernance.CurrentMembers.Length})", "./Members",
+                Uid,
                 TrustPageMetadata.PageName!, this is MembersModel),
-            new TrustSubNavigationLinkModel($"Historic members ({TrustGovernance.HistoricMembers.Length})",
+            new TrustSubNavigationLinkModel(
+                $"{ViewConstants.GovernanceHistoricMembersPageName} ({TrustGovernance.HistoricMembers.Length})",
                 "./HistoricMembers", Uid, TrustPageMetadata.PageName!, this is HistoricMembersModel)
         ];
 
-        DataSources.Add(new DataSourceListEntry(await DataSourceService.GetAsync(Source.Gias),
-            new List<string> { "Governance" }));
+        // Add data sources
+        var giasDataSource = await DataSourceService.GetAsync(Source.Gias);
+
+        DataSourcesPerPage.AddRange([
+            new DataSourcePageListEntry(ViewConstants.GovernanceTrustLeadershipPageName,
+                [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(ViewConstants.GovernanceTrusteesPageName,
+                [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(ViewConstants.GovernanceMembersPageName,
+                [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(ViewConstants.GovernanceHistoricMembersPageName,
+                [new DataSourceListEntry(giasDataSource)])
+        ]);
 
         return pageResult;
     }

@@ -19,17 +19,17 @@
     Contents
   </h2>
   <ul class="govuk-tabs__list">
-    <li class="govuk-tabs__list-item @GetCurrentlySelectedClassIf("Details")">
+    <li class="govuk-tabs__list-item @GetCurrentlySelectedClassIf(ViewConstants.AcademiesDetailsPageName)">
       <a id="academies-details-link" class="govuk-tabs__tab" asp-page="./Details" asp-route-uid="@Model.TrustSummary.Uid">
         <span class="govuk-visually-hidden">Academies </span>Details
       </a>
     </li>
-    <li class="govuk-tabs__list-item @GetCurrentlySelectedClassIf("Pupil numbers")">
+    <li class="govuk-tabs__list-item @GetCurrentlySelectedClassIf(ViewConstants.AcademiesPupilNumbersPageName)">
       <a id="academies-pupil-numbers-link" class="govuk-tabs__tab" asp-page="./PupilNumbers" asp-route-uid="@Model.TrustSummary.Uid">
         <span class="govuk-visually-hidden">Academies </span>Pupil numbers
       </a>
     </li>
-    <li class="govuk-tabs__list-item @GetCurrentlySelectedClassIf("Free school meals")">
+    <li class="govuk-tabs__list-item @GetCurrentlySelectedClassIf(ViewConstants.AcademiesFreeSchoolMealsPageName)">
       <a id="free-school-meals-link" class="govuk-tabs__tab" asp-page="./FreeSchoolMeals" asp-route-uid="@Model.TrustSummary.Uid">
         <span class="govuk-visually-hidden">Academies </span>Free school meals
       </a>

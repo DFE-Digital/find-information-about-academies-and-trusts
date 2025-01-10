@@ -11,7 +11,7 @@ public class OverviewAreaModel(
     ILogger<OverviewAreaModel> logger)
     : TrustsAreaModel(dataSourceService, trustService, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = "Overview" };
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = ViewConstants.OverviewPageName };
     public TrustOverviewServiceModel TrustOverview { get; set; } = default!;
 
     public override async Task<IActionResult> OnGetAsync()
@@ -21,11 +21,11 @@ public class OverviewAreaModel(
 
         SubNavigationLinks =
         [
-            new TrustSubNavigationLinkModel("Trust details", "./TrustDetails", Uid, TrustPageMetadata.PageName!,
+            new TrustSubNavigationLinkModel(ViewConstants.OverviewTrustDetailsPageName, "./TrustDetails", Uid, TrustPageMetadata.PageName!,
                 this is TrustDetailsModel),
-            new TrustSubNavigationLinkModel("Trust summary", "./TrustSummary", Uid, TrustPageMetadata.PageName!,
+            new TrustSubNavigationLinkModel(ViewConstants.OverviewTrustSummaryPageName, "./TrustSummary", Uid, TrustPageMetadata.PageName!,
                 this is TrustSummaryModel),
-            new TrustSubNavigationLinkModel("Reference numbers", "./ReferenceNumbers", Uid, TrustPageMetadata.PageName!,
+            new TrustSubNavigationLinkModel(ViewConstants.OverviewReferenceNumbersPageName, "./ReferenceNumbers", Uid, TrustPageMetadata.PageName!,
                 this is ReferenceNumbersModel)
         ];
 
@@ -33,9 +33,12 @@ public class OverviewAreaModel(
         TrustOverview = await TrustService.GetTrustOverviewAsync(Uid);
 
         // Add data sources
-        DataSources.Add(new DataSourceListEntry(
-            await DataSourceService.GetAsync(Source.Gias),
-            new List<string> { "Trust details", "Trust summary", "Reference numbers" }));
+        var giasDataSource = await DataSourceService.GetAsync(Source.Gias);
+        DataSourcesPerPage.AddRange([
+            new DataSourcePageListEntry(ViewConstants.OverviewTrustDetailsPageName, [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(ViewConstants.OverviewTrustSummaryPageName, [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(ViewConstants.OverviewReferenceNumbersPageName, [new DataSourceListEntry(giasDataSource)])
+        ]);
 
         return Page();
     }

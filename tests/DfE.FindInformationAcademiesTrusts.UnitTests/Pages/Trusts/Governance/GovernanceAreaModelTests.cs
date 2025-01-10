@@ -1,7 +1,9 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Governance;
+using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
@@ -65,6 +67,9 @@ public class GovernanceAreaModelTests
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly Mock<ITrustService> _mockTrustService = new();
 
+    private readonly DataSourceServiceModel _giasDataSource =
+        new(Source.Gias, new DateTime(2025, 1, 1), UpdateFrequency.Daily);
+
     private static readonly string TestUid = "1234";
 
     public GovernanceAreaModelTests()
@@ -73,6 +78,7 @@ public class GovernanceAreaModelTests
             .ReturnsAsync(DummyTrustGovernanceServiceModel);
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(TestUid))
             .ReturnsAsync(new TrustSummaryServiceModel(TestUid, "My trust", "", 0));
+        _mockDataSourceService.Setup(s => s.GetAsync(Source.Gias)).ReturnsAsync(_giasDataSource);
 
         _sut = new GovernanceAreaModel(_mockDataSourceService.Object, _mockTrustService.Object,
                 new MockLogger<GovernanceAreaModel>().Object)
@@ -98,8 +104,17 @@ public class GovernanceAreaModelTests
     {
         await _sut.OnGetAsync();
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
-        _sut.DataSources.Should().ContainSingle();
-        _sut.DataSources[0].Fields.Should().Contain(new List<string> { "Governance" });
+        _sut.DataSourcesPerPage.Count.Should().Be(4);
+        _sut.DataSourcesPerPage.Should().BeEquivalentTo([
+            new DataSourcePageListEntry(ViewConstants.GovernanceTrustLeadershipPageName,
+                [new DataSourceListEntry(_giasDataSource)]),
+            new DataSourcePageListEntry(ViewConstants.GovernanceTrusteesPageName,
+                [new DataSourceListEntry(_giasDataSource)]),
+            new DataSourcePageListEntry(ViewConstants.GovernanceMembersPageName,
+                [new DataSourceListEntry(_giasDataSource)]),
+            new DataSourcePageListEntry(ViewConstants.GovernanceHistoricMembersPageName,
+                [new DataSourceListEntry(_giasDataSource)])
+        ]);
     }
 
     [Fact]
@@ -115,12 +130,16 @@ public class GovernanceAreaModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.NavigationLinks.Should().BeEquivalentTo([
-            new TrustNavigationLinkModel("Overview", "/Trusts/Overview/TrustDetails", "1234", false, "overview-nav"),
-            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", "1234", false, "contacts-nav"),
+            new TrustNavigationLinkModel(ViewConstants.OverviewPageName, "/Trusts/Overview/TrustDetails", "1234",
+                false, "overview-nav"),
+            new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", "1234", false,
+                "contacts-nav"),
             new TrustNavigationLinkModel("Academies (0)", "/Trusts/Academies/Details",
                 "1234", false, "academies-nav"),
-            new TrustNavigationLinkModel("Ofsted", "/Trusts/Ofsted/CurrentRatings", "1234", false, "ofsted-nav"),
-            new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", "1234", true,
+            new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", "1234", false,
+                "ofsted-nav"),
+            new TrustNavigationLinkModel(ViewConstants.GovernancePageName, "/Trusts/Governance/TrustLeadership",
+                "1234", true,
                 "governance-nav")
         ]);
     }
@@ -130,10 +149,14 @@ public class GovernanceAreaModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.SubNavigationLinks.Should().BeEquivalentTo([
-            new TrustSubNavigationLinkModel("Trust leadership (1)", "./TrustLeadership", "1234", "Governance", false),
-            new TrustSubNavigationLinkModel("Trustees (1)", "./Trustees", "1234", "Governance", false),
-            new TrustSubNavigationLinkModel("Members (1)", "./Members", "1234", "Governance", false),
-            new TrustSubNavigationLinkModel("Historic members (1)", "./HistoricMembers", "1234", "Governance", false)
+            new TrustSubNavigationLinkModel("Trust leadership (1)", "./TrustLeadership", "1234",
+                ViewConstants.GovernancePageName, false),
+            new TrustSubNavigationLinkModel("Trustees (1)", "./Trustees", "1234", ViewConstants.GovernancePageName,
+                false),
+            new TrustSubNavigationLinkModel("Members (1)", "./Members", "1234", ViewConstants.GovernancePageName,
+                false),
+            new TrustSubNavigationLinkModel("Historic members (1)", "./HistoricMembers", "1234",
+                ViewConstants.GovernancePageName, false)
         ]);
     }
 
@@ -142,7 +165,7 @@ public class GovernanceAreaModelTests
     {
         _ = await _sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.PageName.Should().Be("Governance");
+        _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.GovernancePageName);
         _sut.TrustPageMetadata.TrustName.Should().Be("My trust");
     }
 }
