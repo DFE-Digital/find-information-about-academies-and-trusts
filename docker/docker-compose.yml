@@ -5,6 +5,10 @@ services:
       context: ..
       dockerfile: docker/Dockerfile
     command: /bin/bash -c "./docker-entrypoint.sh dotnet DfE.FindInformationAcademiesTrusts.dll"
+    develop:
+      watch: 
+        - path: ..
+          action: rebuild
     ports:
       - "80:8080/tcp"
     env_file:
