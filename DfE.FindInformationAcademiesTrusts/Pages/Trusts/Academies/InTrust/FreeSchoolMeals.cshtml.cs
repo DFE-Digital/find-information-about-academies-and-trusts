@@ -18,7 +18,7 @@ public class FreeSchoolMealsModel(
         dateTimeProvider)
 {
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { TabName = ViewConstants.AcademiesFreeSchoolMealsPageName };
+        base.TrustPageMetadata with { TabName = ViewConstants.AcademiesInTrustFreeSchoolMealsPageName };
 
     public AcademyFreeSchoolMealsServiceModel[] Academies { get; set; } = default!;
 
@@ -28,7 +28,6 @@ public class FreeSchoolMealsModel(
         if (pageResult is NotFoundResult) return pageResult;
 
         Academies = await AcademyService.GetAcademiesInTrustFreeSchoolMealsAsync(Uid);
-
 
         return pageResult;
     }

@@ -42,6 +42,12 @@ public abstract class TrustsAreaModel(
                 return "Explore education statistics";
             case Source.FiatDb:
                 return "Find information about academies and trusts";
+            case Source.Prepare:
+                return "Prepare";
+            case Source.Complete:
+                return "Complete";
+            case Source.ManageFreeSchoolProjects:
+                return "Manage free school projects";
             default:
                 logger.LogError("Data source {source} does not map to known type", dataSource);
                 return "Unknown";

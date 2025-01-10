@@ -19,7 +19,7 @@ public class PupilNumbersModel(
 {
     public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with
     {
-        TabName = ViewConstants.AcademiesPupilNumbersPageName
+        TabName = ViewConstants.AcademiesInTrustPupilNumbersPageName
     };
 
     public AcademyPupilNumbersServiceModel[] Academies { get; set; } = default!;

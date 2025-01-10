@@ -21,23 +21,23 @@
       </tr>
     </thead>
     <tbody class="govuk-table__body">
-    @foreach (var academy in Model.Academies)
-    {
-    <tr class="govuk-table__row" data-testid="academy-row">
-      <td class="govuk-body govuk-table__cell" data-sort-value="@academy.EstablishmentName" data-testid="school-name">
-        @academy.EstablishmentName.DefaultIfNull(ViewConstants.UnconfirmedDateText)
-      </td>
-      <td class="govuk-body govuk-table__cell" data-testid="urn">@academy.Urn.DefaultIfNull(ViewConstants.UnconfirmedDateText)</td>
-      <td class="govuk-body govuk-table__cell" data-sort-value="@PipelineAcademiesAreaModel.AgeRangeSortValue(academy)" data-testid="age-range">
-        @(academy.AgeRange is null ? ViewConstants.UnconfirmedDateText : $"{academy.AgeRange.Minimum} - {academy.AgeRange.Maximum}")
-      </td>
-      <td class="govuk-body govuk-table__cell" data-sort-value="@academy.LocalAuthority" data-testid="local-authority">@academy.LocalAuthority.DefaultIfNull(ViewConstants.UnconfirmedDateText)</td>
-      <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ProjectType" data-testid="project-type">@academy.ProjectType.DefaultIfNull(ViewConstants.UnconfirmedDateText)</td>
-      <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ChangeDate" data-testid="change-date">
-        @academy.ChangeDate.ShowDateStringOrReplaceWithText(ViewConstants.UnconfirmedDateText)
-      </td>
-    </tr>
-    }
+      @foreach (var academy in Model.Academies)
+      {
+        <tr class="govuk-table__row" data-testid="academy-row">
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.EstablishmentName" data-testid="school-name">
+            @academy.EstablishmentName.DefaultIfNull(ViewConstants.UnconfirmedDateText)
+          </td>
+          <td class="govuk-body govuk-table__cell" data-testid="urn">@academy.Urn.DefaultIfNull(ViewConstants.UnconfirmedDateText)</td>
+          <td class="govuk-body govuk-table__cell" data-sort-value="@PipelineAcademiesAreaModel.AgeRangeSortValue(academy)" data-testid="age-range">
+            @(academy.AgeRange is null ? ViewConstants.UnconfirmedDateText : $"{academy.AgeRange.Minimum} - {academy.AgeRange.Maximum}")
+          </td>
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.LocalAuthority" data-testid="local-authority">@academy.LocalAuthority.DefaultIfNull(ViewConstants.UnconfirmedDateText)</td>
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ProjectType" data-testid="project-type">@academy.ProjectType.DefaultIfNull(ViewConstants.UnconfirmedDateText)</td>
+          <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ChangeDate" data-testid="change-date">
+            @academy.ChangeDate.ShowDateStringOrReplaceWithText(ViewConstants.UnconfirmedDateText)
+          </td>
+        </tr>
+      }
     </tbody>
   </table>
 </section>

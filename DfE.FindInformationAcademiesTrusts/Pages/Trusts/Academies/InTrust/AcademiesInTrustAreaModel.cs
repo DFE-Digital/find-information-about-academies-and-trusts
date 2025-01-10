@@ -25,7 +25,10 @@ public abstract class AcademiesInTrustAreaModel(
 )
 {
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { PageName = ViewConstants.AcademiesPageName };
+        base.TrustPageMetadata with
+        {
+            PageName = ViewConstants.AcademiesPageName, SubPageName = ViewConstants.AcademiesInTrustSubNavName
+        };
 
     public override async Task<IActionResult> OnGetAsync()
     {
@@ -37,20 +40,20 @@ public abstract class AcademiesInTrustAreaModel(
 
         TabList =
         [
-            new TrustSubNavigationLinkModel("Details", "./Details", Uid, "Current",
+            new TrustTabNavigationLinkModel("Details", "./Details", Uid, "In the trust",
                 this is AcademiesInTrustDetailsModel),
-            new TrustSubNavigationLinkModel("Pupil numbers", "./PupilNumbers", Uid, "Current",
+            new TrustTabNavigationLinkModel("Pupil numbers", "./PupilNumbers", Uid, "In the trust",
                 this is PupilNumbersModel),
-            new TrustSubNavigationLinkModel("Free school meals", "./FreeSchoolMeals", Uid, "Current",
+            new TrustTabNavigationLinkModel("Free school meals", "./FreeSchoolMeals", Uid, "In the trust",
                 this is FreeSchoolMealsModel)
         ];
 
         DataSourcesPerPage.AddRange([
-            new DataSourcePageListEntry(ViewConstants.AcademiesDetailsPageName,
+            new DataSourcePageListEntry(ViewConstants.AcademiesInTrustDetailsPageName,
                 [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.AcademiesPupilNumbersPageName,
+            new DataSourcePageListEntry(ViewConstants.AcademiesInTrustPupilNumbersPageName,
                 [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.AcademiesFreeSchoolMealsPageName, [
+            new DataSourcePageListEntry(ViewConstants.AcademiesInTrustFreeSchoolMealsPageName, [
                 new DataSourceListEntry(giasDataSource, "Pupils eligible for free school meals"),
                 new DataSourceListEntry(eesDataSource, "Local authority average 2023/24"),
                 new DataSourceListEntry(eesDataSource, "National average 2023/24")

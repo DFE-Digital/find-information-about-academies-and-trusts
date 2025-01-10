@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 
@@ -60,11 +61,17 @@ public class AcademyService(
             .ToArray();
     }
 
+    // MOCK METHOD
+    // Replace with real code later
+    [ExcludeFromCodeCoverage]
     public AcademyPipelineSummaryServiceModel GetAcademiesPipelineSummary()
     {
         return new AcademyPipelineSummaryServiceModel(4, 4, 4);
     }
 
+    // MOCK METHOD
+    // Replace with real code later
+    [ExcludeFromCodeCoverage]
     public AcademyPipelineServiceModel[] GetAcademiesPipelinePreAdvisory()
     {
         return

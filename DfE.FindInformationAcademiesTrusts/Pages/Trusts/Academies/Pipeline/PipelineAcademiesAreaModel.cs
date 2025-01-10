@@ -1,4 +1,5 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
@@ -35,16 +36,24 @@ public abstract class PipelineAcademiesAreaModel(
 
         TabList =
         [
-            new TrustSubNavigationLinkModel($"Pre advisory board ({PipelineSummary.PreAdvisoryCount})",
-                "./PreAdvisoryBoard", Uid, "Pipeline",
-                this is PreAdvisoryBoardModel),
-            new TrustSubNavigationLinkModel($"Post advisory board ({PipelineSummary.PostAdvisoryCount})",
-                "./PostAdvisoryBoard", Uid, "Pipeline",
-                this is PostAdvisoryBoardModel),
-            new TrustSubNavigationLinkModel($"Free schools ({PipelineSummary.FreeSchoolsCount})", "./FreeSchools", Uid,
-                "Pipeline",
-                this is FreeSchoolsModel)
+            new TrustTabNavigationLinkModel($"Pre advisory board ({PipelineSummary.PreAdvisoryCount})",
+                "./PreAdvisoryBoard", Uid, "Pipeline", this is PreAdvisoryBoardModel),
+            new TrustTabNavigationLinkModel($"Post advisory board ({PipelineSummary.PostAdvisoryCount})",
+                "./PostAdvisoryBoard", Uid, "Pipeline", this is PostAdvisoryBoardModel),
+            new TrustTabNavigationLinkModel($"Free schools ({PipelineSummary.FreeSchoolsCount})", "./FreeSchools", Uid,
+                "Pipeline", this is FreeSchoolsModel)
         ];
+        var prepareSource = await DataSourceService.GetAsync(Source.Prepare);
+        var completeSource = await DataSourceService.GetAsync(Source.Complete);
+        var manageFreeSchoolSource = await DataSourceService.GetAsync(Source.ManageFreeSchoolProjects);
+        DataSourcesPerPage.AddRange([
+            new DataSourcePageListEntry(ViewConstants.PipelineAcademiesPreAdvisoryBoardPageName,
+                [new DataSourceListEntry(prepareSource)]),
+            new DataSourcePageListEntry(ViewConstants.PipelineAcademiesPostAdvisoryBoardPageName,
+                [new DataSourceListEntry(completeSource)]),
+            new DataSourcePageListEntry(ViewConstants.PipelineAcademiesFreeSchoolsPageName,
+                [new DataSourceListEntry(manageFreeSchoolSource)])
+        ]);
 
         return pageResult;
     }

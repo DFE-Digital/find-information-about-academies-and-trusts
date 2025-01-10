@@ -19,7 +19,7 @@ public class AcademiesInTrustDetailsModel(
         dateTimeProvider)
 {
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { TabName = ViewConstants.AcademiesDetailsPageName };
+        base.TrustPageMetadata with { TabName = ViewConstants.AcademiesInTrustDetailsPageName };
 
     public AcademyDetailsServiceModel[] Academies { get; set; } = default!;
     public IOtherServicesLinkBuilder LinkBuilder { get; } = linkBuilder;

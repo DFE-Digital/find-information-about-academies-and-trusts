@@ -18,7 +18,9 @@ public abstract class AcademiesAreaModel(
     IDateTimeProvider dateTimeProvider
 ) : TrustsAreaModel(dataSourceService, trustService, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = "Academies" };
+    public override TrustPageMetadata TrustPageMetadata =>
+        base.TrustPageMetadata with { PageName = ViewConstants.AcademiesPageName };
+
     internal readonly IAcademyService AcademyService = academyService;
 
     protected IExportService ExportService { get; } = exportService;
@@ -26,7 +28,7 @@ public abstract class AcademiesAreaModel(
 
     public AcademyPipelineSummaryServiceModel PipelineSummary { get; set; } = default!;
 
-    public List<TrustSubNavigationLinkModel> TabList { get; set; } = [];
+    public List<TrustTabNavigationLinkModel> TabList { get; set; } = [];
 
     public override async Task<IActionResult> OnGetAsync()
     {
