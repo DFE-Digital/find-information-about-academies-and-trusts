@@ -2,11 +2,18 @@
 
 ## On Windows
 
-There can be some issues with running Docker on Windows. If your container doesn't start or you see an error like this `/bin/bash^M: bad interpreter: No such file or directory` it may be caused by line endings in the bash shell script. To solve this you can run this command in git bash (or another shell of your choice) from the playwright directory:
+There can be some issues with running Docker on Windows. If your container doesn't start or you see an error like this `/bin/bash^M: bad interpreter: No such file or directory` it may be caused by line ending differences in the bash shell script (which we've been unable to fix in the remote repository).
 
- `sed -i -e 's/\r$//' ../../docker/web-docker-entrypoint.sh`
+1. Open git bash
+2. Navigate to the docker directory
+3. Rewrite your line endings by running:
 
-This will re write your line endings. The repo will ignore this so checking in the updated file will not fix it unfortunately.
+   ```bash
+   sed -i -e 's/\r$//' web-docker-entrypoint.sh
+   ```
+
+4. Stage your changes (they will disappear after being staged)
+5. Rebuild and run the Docker container - it should now work
 
 ## On Macs
 
