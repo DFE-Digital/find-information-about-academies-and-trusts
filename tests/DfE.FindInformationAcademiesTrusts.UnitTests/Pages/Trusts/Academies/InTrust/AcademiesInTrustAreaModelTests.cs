@@ -1,4 +1,5 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data;
+﻿using DfE.FindInformationAcademiesTrusts.Configuration;
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
@@ -8,6 +9,7 @@ using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.FeatureManagement;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
 
@@ -19,6 +21,8 @@ public class AcademiesInTrustAreaModelTests
     private readonly Mock<IDataSourceService> _mockDataSourceService = new();
     private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
     private readonly Mock<ILogger<AcademiesInTrustAreaModel>> _mockLogger = new();
+    private readonly Mock<IFeatureManager> _mockFeatureManager = new();
+
     private readonly AcademiesInTrustAreaModel _sut;
 
     private readonly DataSourceServiceModel _giasDataSource =
@@ -34,9 +38,10 @@ public class AcademiesInTrustAreaModelTests
         IAcademyService academyService,
         IExportService exportService,
         ILogger<AcademiesInTrustAreaModel> logger,
-        IDateTimeProvider dateTimeProvider)
+        IDateTimeProvider dateTimeProvider,
+        IFeatureManager featureManager)
         : AcademiesInTrustAreaModel(dataSourceService, trustService, academyService, exportService, logger,
-            dateTimeProvider);
+            dateTimeProvider, featureManager);
 
     public AcademiesInTrustAreaModelTests()
     {
@@ -44,9 +49,10 @@ public class AcademiesInTrustAreaModelTests
         _mockDataSourceService.Setup(s => s.GetAsync(Source.ExploreEducationStatistics)).ReturnsAsync(_eesDataSource);
         _mockAcademyService.Setup(t => t.GetAcademiesPipelineSummary())
             .Returns(new AcademyPipelineSummaryServiceModel(1, 2, 3));
+        _mockFeatureManager.Setup(s => s.IsEnabledAsync(FeatureFlags.PipelineAcademies)).ReturnsAsync(true);
         _sut = new AcademiesInTrustAreaModelImpl(_mockDataSourceService.Object, _mockTrustService.Object,
             _mockAcademyService.Object,
-            _mockExportService.Object, _mockLogger.Object, _mockDateTimeProvider.Object);
+            _mockExportService.Object, _mockLogger.Object, _mockDateTimeProvider.Object, _mockFeatureManager.Object);
     }
 
     [Fact]

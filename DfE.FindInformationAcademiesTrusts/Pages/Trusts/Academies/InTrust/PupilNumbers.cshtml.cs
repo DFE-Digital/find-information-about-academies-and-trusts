@@ -4,6 +4,7 @@ using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 
@@ -13,9 +14,17 @@ public class PupilNumbersModel(
     ITrustService trustService,
     IAcademyService academyService,
     IExportService exportService,
-    IDateTimeProvider dateTimeProvider)
-    : AcademiesInTrustAreaModel(dataSourceService, trustService, academyService, exportService, logger,
-        dateTimeProvider)
+    IDateTimeProvider dateTimeProvider,
+    IFeatureManager featureManager
+) : AcademiesInTrustAreaModel(
+    dataSourceService,
+    trustService,
+    academyService,
+    exportService,
+    logger,
+    dateTimeProvider,
+    featureManager
+)
 {
     public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with
     {

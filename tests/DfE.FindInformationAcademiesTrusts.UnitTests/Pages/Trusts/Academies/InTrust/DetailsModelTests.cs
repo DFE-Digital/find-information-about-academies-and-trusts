@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Configuration;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
@@ -7,6 +8,7 @@ using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
 
@@ -20,6 +22,7 @@ public class AcademiesInTrustDetailsModelTests
     private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
     private readonly MockDataSourceService _mockDataSourceService = new();
     private readonly MockLogger<AcademiesInTrustDetailsModel> _mockLogger = new();
+    private readonly Mock<IFeatureManager> _mockFeatureManager = new();
 
     private const string Uid = "1234";
 
@@ -31,9 +34,10 @@ public class AcademiesInTrustDetailsModelTests
             .ReturnsAsync(_fakeTrust);
         _mockAcademyService.Setup(t => t.GetAcademiesPipelineSummary())
             .Returns(new AcademyPipelineSummaryServiceModel(1, 2, 3));
+        _mockFeatureManager.Setup(s => s.IsEnabledAsync(FeatureFlags.PipelineAcademies)).ReturnsAsync(true);
         _sut = new AcademiesInTrustDetailsModel(_mockDataSourceService.Object,
                 _mockLinkBuilder.Object, _mockLogger.Object, _mockTrustService.Object, _mockAcademyService.Object,
-                _mockExportService.Object, _mockDateTimeProvider.Object)
+                _mockExportService.Object, _mockDateTimeProvider.Object, _mockFeatureManager.Object)
             { Uid = _fakeTrust.Uid };
     }
 

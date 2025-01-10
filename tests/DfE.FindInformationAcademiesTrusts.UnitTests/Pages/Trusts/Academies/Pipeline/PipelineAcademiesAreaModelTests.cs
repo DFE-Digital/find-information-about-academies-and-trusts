@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Configuration;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages;
@@ -8,6 +9,7 @@ using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.FeatureManagement;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.Pipeline;
 
@@ -19,6 +21,8 @@ public class PipelineAcademiesAreaModelTests
     private readonly Mock<IDataSourceService> _mockDataSourceService = new();
     private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
     private readonly Mock<ILogger<PipelineAcademiesAreaModel>> _mockLogger = new();
+    private readonly Mock<IFeatureManager> _mockFeatureManager = new();
+
     private readonly PipelineAcademiesAreaModel _sut;
 
     private readonly DataSourceServiceModel _prepareDataSource =
@@ -36,9 +40,10 @@ public class PipelineAcademiesAreaModelTests
         IAcademyService academyService,
         IExportService exportService,
         ILogger<PipelineAcademiesAreaModel> logger,
-        IDateTimeProvider dateTimeProvider)
+        IDateTimeProvider dateTimeProvider,
+        IFeatureManager featureManager)
         : PipelineAcademiesAreaModel(dataSourceService, trustService, academyService, exportService, logger,
-            dateTimeProvider);
+            dateTimeProvider, featureManager);
 
     public PipelineAcademiesAreaModelTests()
     {
@@ -48,9 +53,10 @@ public class PipelineAcademiesAreaModelTests
             .ReturnsAsync(_manageFreeSchoolDataSource);
         _mockAcademyService.Setup(t => t.GetAcademiesPipelineSummary())
             .Returns(new AcademyPipelineSummaryServiceModel(1, 2, 3));
+        _mockFeatureManager.Setup(s => s.IsEnabledAsync(FeatureFlags.PipelineAcademies)).ReturnsAsync(true);
         _sut = new PipelineAcademiesAreaModelImpl(_mockDataSourceService.Object, _mockTrustService.Object,
             _mockAcademyService.Object,
-            _mockExportService.Object, _mockLogger.Object, _mockDateTimeProvider.Object);
+            _mockExportService.Object, _mockLogger.Object, _mockDateTimeProvider.Object, _mockFeatureManager.Object);
     }
 
     [Fact]

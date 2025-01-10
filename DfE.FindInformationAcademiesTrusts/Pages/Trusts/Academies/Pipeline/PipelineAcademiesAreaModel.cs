@@ -1,27 +1,33 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data;
+﻿using DfE.FindInformationAcademiesTrusts.Configuration;
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Pipeline;
 
+[FeatureGate(FeatureFlags.PipelineAcademies)]
 public abstract class PipelineAcademiesAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
     IAcademyService academyService,
     IExportService exportService,
     ILogger<PipelineAcademiesAreaModel> logger,
-    IDateTimeProvider dateTimeProvider
+    IDateTimeProvider dateTimeProvider,
+    IFeatureManager featureManager
 ) : AcademiesAreaModel(
     dataSourceService,
     trustService,
     academyService,
     exportService,
     logger,
-    dateTimeProvider
+    dateTimeProvider,
+    featureManager
 )
 {
     public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = "Pipeline" };
