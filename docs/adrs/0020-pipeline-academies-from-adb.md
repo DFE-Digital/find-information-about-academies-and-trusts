@@ -99,14 +99,14 @@ While our analysis is ongoing, the following data fields are identified as neces
 
 ### Manage Free School Projects (MFSP API)  
 
-| Column Name                     | Field Name                      | ADB Table Name         | Column Name                     |  
-|---------------------------------|---------------------------------|-----------------------|---------------------------------|  
-| Name                            | Name                           | [mis].[Establishment] | [EstablishmentName]            |  
-| URN                             | Academy URN                    | [complete].[projects] | [academy_urn]                  |  
-| Project Type                    | Type                           | [complete].[projects] | [type]                         |  
-| Age Range                       | Age Range                      | [mis].[Establishment] | [StatutoryLowAge], [StatutoryHighAge] |  
-| Conversion Date                 | Conversion Date                | [complete].[projects] | [completed_at]                 |  
-| Local Authority                 | Local Authority                | [complete].[projects] | [local_authority]              |  
+| Column Name                   | Field Name                          | ADB Table Name   | Column Name                                                      |
+|-------------------------------|--------------------------------------|------------------|------------------------------------------------------------------|
+| Name                          | Current free school name            | [mfsp].[KPI]     | [Project Status.Current free school name]                       |
+| Project Type                  | Project type                        | [mfsp].[KPI]     | [Project Status.Free school application wave]                   |
+| Age Range                     | Age range                           | [mfsp].[KPI]     | [School Details.Age range]                                      |
+| Local Authority               | Local authority                     | [mfsp].[KPI]     | [School Details.Local authority]                                |
+| URN                           | URN                                 | [mfsp].[KPI]     | [Project Status.URN (when given one)]                           |
+| Provisional Opening Date      | Provisional opening date            | [mfsp].[KPI]     | [Project Status.Provisional opening date agreed with trust]     |
 
 ## Future Considerations  
 
