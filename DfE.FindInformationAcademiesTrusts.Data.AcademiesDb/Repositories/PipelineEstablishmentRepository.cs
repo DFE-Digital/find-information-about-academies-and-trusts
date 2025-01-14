@@ -2,19 +2,13 @@
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineEstablishments;
 using Microsoft.EntityFrameworkCore;
 
-public class PipelineEstablishmentRepository : IPipelineEstablishmentRepository
+public class PipelineEstablishmentRepository(IAcademiesDbContext academiesDbContext) : IPipelineEstablishmentRepository
 {
-    private readonly IAcademiesDbContext academiesDbContext;
-
-    public PipelineEstablishmentRepository(IAcademiesDbContext academiesDbContext)
-    {
-        this.academiesDbContext = academiesDbContext;
-    }
-
-    public async Task<FreeSchoolProject[]> GetPipelineFreeSchoolProjects(string uid)
+    public async Task<FreeSchoolProject[]?> GetPipelineFreeSchoolProjects(string uid)
     {
         var freeSchoolProjects = await academiesDbContext.MstrFreeSchoolProjects
-            //.Where(m => m.TrustID == uid)
+            .Where(trust => trust.TrustID == uid)
+            .Where(trust => trust.ProjectStatus == FreeSchoolProjectStatuses.Pipeline)
             .Select(m => new FreeSchoolProject
             {
                 SK = m.SK,
@@ -37,7 +31,8 @@ public class PipelineEstablishmentRepository : IPipelineEstablishmentRepository
                 TrustName = m.TrustName,
                 TrustType = m.TrustType,
                 CompaniesHouseNumber = m.CompaniesHouseNumber,
-                DateSource = m.DateSource
+                DateSource = m.DateSource,
+                LastDataRefresh = m.LastDataRefresh,
             })
             .ToArrayAsync();
 

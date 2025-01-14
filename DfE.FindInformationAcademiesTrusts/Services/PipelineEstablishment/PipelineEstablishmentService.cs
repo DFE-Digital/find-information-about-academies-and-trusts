@@ -4,18 +4,18 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 public interface IPipelineEstablishmentService
 {
-    Task<dynamic> GetTrustGovernanceAsync(string uid);
+    Task<FreeSchoolProject[]?> GetPipelineFreeSchools(string uid);
 }
 
 public class PipelineEstablishmentService(
     IPipelineEstablishmentRepository pipelineEstablishmentRepository)
     : IPipelineEstablishmentService
 {
-    public async Task<dynamic> GetTrustGovernanceAsync(string uid)
+    public async Task<FreeSchoolProject[]?> GetPipelineFreeSchools(string uid)
     {
-        dynamic test = await pipelineEstablishmentRepository.GetPipelineFreeSchoolProjects(uid);
+        FreeSchoolProject[]? freeSchools = await pipelineEstablishmentRepository.GetPipelineFreeSchoolProjects(uid);
 
         return
-            test;
+            freeSchools;
     }
 }

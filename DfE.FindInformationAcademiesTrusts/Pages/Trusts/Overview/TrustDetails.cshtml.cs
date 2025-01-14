@@ -1,4 +1,5 @@
-﻿using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+﻿using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineEstablishments;
+using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,12 +21,14 @@ public class TrustDetailsModel(
     public string? FinancialBenchmarkingInsightsToolLink { get; set; }
     public string? FindSchoolPerformanceLink { get; set; }
     public string SharepointLink { get; set; } = string.Empty;
+    public FreeSchoolProject[]? FSS { get; set; }
 
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();
         if (pageResult is NotFoundResult) return pageResult;
-        var test = pipelineEstablishmentService.GetTrustGovernanceAsync(Uid);
+
+        FSS = await pipelineEstablishmentService.GetPipelineFreeSchools(TrustOverview.GroupId);
         // Setup external links
         CompaniesHouseLink = otherServicesLinkBuilder.CompaniesHouseListingLink(TrustOverview.CompaniesHouseNumber);
         GetInformationAboutSchoolsLink =

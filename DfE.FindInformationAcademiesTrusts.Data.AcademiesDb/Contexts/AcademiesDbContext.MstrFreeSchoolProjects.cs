@@ -13,8 +13,67 @@ public partial class AcademiesDbContext
         modelBuilder.Entity<MstrFreeSchoolProject>(entity =>
         {
             entity
-                .HasKey(e => e.TrustID);
+                .HasKey(e => e.SK);
+
             entity.ToTable("FreeSchoolProjects", "mstr");
+
+            entity.Property(e => e.ProjectID)
+                .HasColumnName("Project ID");
+
+            entity.Property(e => e.ProjectName)
+                .HasColumnName("Project Name");
+
+            entity.Property(e => e.ProjectApplicationType)
+                .HasColumnName("Project Application Type");
+
+            entity.Property(e => e.LocalAuthority)
+                .HasColumnName("Local Authority");
+
+            entity.Property(e => e.SchoolPhase)
+                .HasColumnName("School Phase");
+
+            entity.Property(e => e.SchoolType)
+                .HasColumnName("School Type");
+
+            entity.Property(e => e.ProjectStatus)
+                .HasColumnName("Project Status");
+
+            entity.Property(e => e.RouteOfProject)
+                .HasColumnName("Route of Project");
+
+            entity.Property(e => e.StatutoryLowestAge)
+                .HasColumnName("Statutory Lowest Age");
+
+            entity.Property(e => e.StatutoryHighestAge)
+                .HasColumnName("Statutory Highest Age");
+
+            entity.Property(e => e.EstablishmentName)
+                .HasColumnName("Establishment Name");
+
+            entity.Property(e => e.ActualDateOpened)
+                .HasColumnName("Actual Date Opened");
+
+            entity.Property(e => e.TrustID)
+                .HasColumnName("Trust ID");
+
+            entity.Property(e => e.TrustName)
+                .HasColumnName("Trust Name");
+
+            entity.Property(e => e.TrustType)
+                .HasColumnName("Trust Type");
+
+            entity.Property(e => e.CompaniesHouseNumber)
+                .HasColumnName("Companies House Number");
+
+            entity.Property(e => e.NewURN)
+                .HasColumnName("New URN");
+
+            entity.Property(e => e.DateSource)
+                .HasColumnName("Datasource");
+
+            entity.Property(e => e.LastDataRefresh)
+                .HasColumnName("Last Data Refresh");
         });
+
     }
 }

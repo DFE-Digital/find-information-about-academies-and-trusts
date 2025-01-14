@@ -2,6 +2,6 @@
 {
     public interface IPipelineEstablishmentRepository
     {
-        Task<FreeSchoolProject[]> GetPipelineFreeSchoolProjects(string uid);
+        Task<FreeSchoolProject[]?> GetPipelineFreeSchoolProjects(string uid);
     }
 }
