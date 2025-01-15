@@ -77,7 +77,7 @@ public class OfstedAreaModel(
             new DataSourcePageListEntry(ViewConstants.OfstedSafeguardingAndConcernsPageName, [
                     dateJoinedTrust,
                     new DataSourceListEntry(misDataSource, "Effective safeguarding"),
-                    new DataSourceListEntry(misDataSource, "Category of concern and date of current inspection"),
+                    new DataSourceListEntry(misDataSource, "Category of concern"),
                     new DataSourceListEntry(misDataSource, "Date of current inspection")
                 ]
             )

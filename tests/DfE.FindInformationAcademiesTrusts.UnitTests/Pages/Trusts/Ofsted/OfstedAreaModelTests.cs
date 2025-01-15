@@ -83,12 +83,9 @@ public class OfstedAreaModelTests
             ),
             new DataSourcePageListEntry(ViewConstants.OfstedSafeguardingAndConcernsPageName, [
                     new DataSourceListEntry(_giasDataSource, "Date joined trust"),
-                    new DataSourceListEntry(_misDataSource,
-                        "Effective safeguarding"),
-                    new DataSourceListEntry(_misDataSource,
-                        "Category of concern and date of current inspection"),
-                    new DataSourceListEntry(_misDataSource,
-                        "Date of current inspection")
+                    new DataSourceListEntry(_misDataSource, "Effective safeguarding"),
+                    new DataSourceListEntry(_misDataSource, "Category of concern"),
+                    new DataSourceListEntry(_misDataSource, "Date of current inspection")
                 ]
             )
         ]);
