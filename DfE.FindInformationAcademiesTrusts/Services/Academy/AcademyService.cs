@@ -1,6 +1,7 @@
-using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.Academy;
 
@@ -12,10 +13,14 @@ public interface IAcademyService
     Task<AcademyFreeSchoolMealsServiceModel[]> GetAcademiesInTrustFreeSchoolMealsAsync(string uid);
     AcademyPipelineSummaryServiceModel GetAcademiesPipelineSummary();
     AcademyPipelineServiceModel[] GetAcademiesPipelinePreAdvisory();
+    AcademyPipelineServiceModel[] GetAcademiesPipelinePostAdvisory();
+    Task<AcademyPipelineServiceModel[]> GetAcademiesPipelineFreeSchoolsAsync(string uid);
+    Task<string> GetAcademyTrustTrustReferenceNumberAsync(string uid);
 }
 
 public class AcademyService(
     IAcademyRepository academyRepository,
+    IPipelineEstablishmentRepository pipelineEstablishmentRepository,
     IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider) : IAcademyService
 {
     public async Task<AcademyDetailsServiceModel[]> GetAcademiesInTrustDetailsAsync(string uid)
@@ -61,6 +66,11 @@ public class AcademyService(
             .ToArray();
     }
 
+    public async Task<string> GetAcademyTrustTrustReferenceNumberAsync(string uid)
+    {
+        return await academyRepository.GetAcademyTrustTrustReferenceNumberAsync(uid) ?? string.Empty;
+    }
+
     // MOCK METHOD
     // Replace with real code later
     [ExcludeFromCodeCoverage]
@@ -85,5 +95,43 @@ public class AcademyService(
                 new DateTime(2025, 9, 3)),
             new AcademyPipelineServiceModel(null, null, null, null, null, null)
         ];
+    }
+
+    // MOCK METHOD
+    // Replace with real code later
+    [ExcludeFromCodeCoverage]
+    public AcademyPipelineServiceModel[] GetAcademiesPipelinePostAdvisory()
+    {
+        return
+        [
+            new AcademyPipelineServiceModel("1234", "Baking academy", new AgeRange(4, 16), "Bristol", "Conversion",
+                new DateTime(2025, 3, 3)),
+            new AcademyPipelineServiceModel("1234", "Chocolate academy", new AgeRange(11, 18), "Birmingham",
+                "Conversion",
+                new DateTime(2025, 5, 3)),
+            new AcademyPipelineServiceModel("1234", "Fruity academy", new AgeRange(9, 16), "Sheffield", "Transfer",
+                new DateTime(2025, 9, 3)),
+            new AcademyPipelineServiceModel(null, null, null, null, null, null)
+        ];
+    }
+
+    [ExcludeFromCodeCoverage]
+    public async Task<AcademyPipelineServiceModel[]> GetAcademiesPipelineFreeSchoolsAsync(string trustReferenceNumber)
+    {
+        PipelineEstablishment[]? freeSchools = await pipelineEstablishmentRepository.GetPipelineFreeSchoolProjects(trustReferenceNumber);
+
+        if (freeSchools is null || freeSchools.Length == 0)
+        {
+            return Array.Empty<AcademyPipelineServiceModel>();
+        }
+
+        return freeSchools.Select(fs => new AcademyPipelineServiceModel(
+            fs.Urn,
+            fs.EstablishmentName,
+            fs.AgeRange,
+            fs.LocalAuthority,
+            fs.ProjectType,
+            fs.ChangeDate
+        )).ToArray();
     }
 }

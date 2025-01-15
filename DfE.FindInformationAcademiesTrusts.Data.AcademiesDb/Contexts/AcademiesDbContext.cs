@@ -1,11 +1,11 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
+﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis_Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 
@@ -16,6 +16,7 @@ public interface IAcademiesDbContext
     DbSet<GiasGroupLink> GiasGroupLinks { get; }
     DbSet<GiasGroup> Groups { get; }
     DbSet<MstrTrust> MstrTrusts { get; }
+    DbSet<MstrFreeSchoolProject> MstrFreeSchoolProjects { get; }
 
     DbSet<CdmAccount> CdmAccounts { get; }
     DbSet<CdmSystemuser> CdmSystemusers { get; }
@@ -48,6 +49,7 @@ public partial class AcademiesDbContext : DbContext, IAcademiesDbContext
         OnModelCreatingCdmSystemusers(modelBuilder);
         OnModelCreatingTadTrustGovernances(modelBuilder);
         OnModelCreatingMstrTrusts(modelBuilder);
+        OnModelCreatingMstrFreeSchoolProjects(modelBuilder);
         OnModelCreatingApplicationSettings(modelBuilder);
         OnModelCreatingApplicationEvents(modelBuilder);
         OnModelCreatingAddFilters(modelBuilder);

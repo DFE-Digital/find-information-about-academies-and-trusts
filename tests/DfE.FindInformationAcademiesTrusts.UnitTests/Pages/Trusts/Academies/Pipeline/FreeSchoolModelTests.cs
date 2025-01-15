@@ -69,7 +69,7 @@ public class FreeSchoolModelTests
 
         _ = await _sut.OnGetAsync();
 
-        _sut.Academies.Should().BeEquivalentTo(academies);
+        _sut.PipelineFreeSchools.Should().BeEquivalentTo(academies);
     }
 
     [Fact]

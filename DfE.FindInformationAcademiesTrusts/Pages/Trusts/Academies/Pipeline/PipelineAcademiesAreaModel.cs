@@ -33,12 +33,15 @@ public abstract class PipelineAcademiesAreaModel(
     public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = "Pipeline" };
 
     public AcademyPipelineServiceModel[] Academies { get; set; } = default!;
+    public string TrustReferenceNumber { get; set; } = default!;
 
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
+
+        TrustReferenceNumber = await AcademyService.GetAcademyTrustTrustReferenceNumberAsync(Uid);
 
         TabList =
         [

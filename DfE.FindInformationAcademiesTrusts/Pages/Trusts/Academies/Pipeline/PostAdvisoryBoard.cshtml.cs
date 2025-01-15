@@ -31,7 +31,7 @@ public class PostAdvisoryBoardModel(
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        Academies = AcademyService.GetAcademiesPipelinePreAdvisory();
+        Academies = AcademyService.GetAcademiesPipelinePostAdvisory();
 
         return pageResult;
     }

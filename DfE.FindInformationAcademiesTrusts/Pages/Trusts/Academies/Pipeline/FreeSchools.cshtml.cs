@@ -25,13 +25,15 @@ public class FreeSchoolsModel(
     public override TrustPageMetadata TrustPageMetadata =>
         base.TrustPageMetadata with { TabName = "Free schools" };
 
+    public AcademyPipelineServiceModel[] PipelineFreeSchools { get; set; } = default!;
+
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        Academies = AcademyService.GetAcademiesPipelinePreAdvisory();
+        PipelineFreeSchools = await AcademyService.GetAcademiesPipelineFreeSchoolsAsync(TrustReferenceNumber);
 
         return pageResult;
     }
