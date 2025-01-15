@@ -47,8 +47,8 @@ class ContactsPage {
 
         datasource: {
             section: () => cy.get('[data-testid="data-source-and-updates"]'),
-            trmLatestUpdatedBy: () => cy.get('[data-testid="data-source-fiatdb-trust-relationship-manager"] > :nth-child(3)'),
-            sfsoOLatestUpdatedBy: () => cy.get('[data-testid="data-source-fiatdb-sfso-(schools-financial-support-and-oversight)-lead"] > :nth-child(3)')
+            trmLatestUpdatedBy: () => cy.get('[data-testid="data-source-fiatdb-trust-relationship-manager"]'),
+            sfsoLatestUpdatedBy: () => cy.get('[data-testid="data-source-fiatdb-sfso-lead"]')
         },
 
         subNav: {
@@ -171,7 +171,7 @@ class ContactsPage {
         const { datasource } = this.elements;
         datasource.section().click();
         datasource.section().should('be.visible');
-        datasource.sfsoOLatestUpdatedBy().should('contain.text', expectedUser);
+        datasource.sfsoLatestUpdatedBy().should('contain.text', expectedUser);
         return this;
     }
 
