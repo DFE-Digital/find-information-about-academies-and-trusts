@@ -183,7 +183,7 @@ describe("Testing the components of the Academies page", () => {
     describe("Testing a trust that has no academies within it to ensure the issue of a 500 page appearing does not happen", () => {
         beforeEach(() => {
             cy.login();
-            commonPage.interceptAndVerfiyNo500Errors();
+            commonPage.interceptAndVerifyNo500Errors();
         });
 
         ['/trusts/academies/details?uid=17728', '/trusts/academies/pupil-numbers?uid=17728', '/trusts/academies/free-school-meals?uid=17728'].forEach((url) => {
