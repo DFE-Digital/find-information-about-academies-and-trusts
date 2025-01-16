@@ -9,4 +9,24 @@ Cypress.Commands.add("login", (params) => {
 	new AuthenticationInterceptor().register(params);
 
 	cy.visit("/");
-}); 
+});
+
+Cypress.Commands.add("expandDetailsElement", { prevSubject: 'element', }, (subject) => {
+
+	// Open the details element (disable logging so we can add a nice log below)
+	cy.wrap(subject, { log: false })
+		.find('summary', { log: false })
+		.click({ log: false });
+
+	//Add a nice log
+	Cypress.log({
+		name: 'expandDetailsElement',
+		displayName: 'open',
+		message: `${subject.selector}`,
+		consoleProps: () => {			// print to dev tools console on click
+			return {
+				AppliedTo: subject
+			};
+		},
+	});
+});
