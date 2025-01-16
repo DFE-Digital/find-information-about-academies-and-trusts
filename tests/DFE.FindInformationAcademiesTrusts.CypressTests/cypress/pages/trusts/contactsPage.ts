@@ -161,16 +161,16 @@ class ContactsPage {
 
     public checkTrustRelationshipManagerDatasourceLastUpdatedByUser(expectedUser: string): this {
         const { datasource } = this.elements;
-        datasource.section().click();
-        datasource.section().should('be.visible');
+        datasource.section().expandDetailsElement();
+        datasource.section().should('have.attr', 'open');
         datasource.trmLatestUpdatedBy().should('contain.text', 'Trust relationship manager was updated by ' + expectedUser + ' on ');
         return this;
     }
 
     public checkSfsoLeadDatasourceLastUpdatedByUser(expectedUser: string): this {
         const { datasource } = this.elements;
-        datasource.section().click();
-        datasource.section().should('be.visible');
+        datasource.section().expandDetailsElement();
+        datasource.section().should('have.attr', 'open');
         datasource.sfsoLatestUpdatedBy().should('contain.text', 'SFSO (Schools financial support and oversight) lead was updated by ' + expectedUser + ' on ');
         return this;
     }
