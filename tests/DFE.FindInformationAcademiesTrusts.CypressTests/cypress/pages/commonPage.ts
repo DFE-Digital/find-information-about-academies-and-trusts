@@ -17,7 +17,8 @@ class CommonPage {
         elementPresentOnEveryPage: () => navigation.elements.accessibilityFooterButton().as('elementPresentOnEveryPage'),
 
         dataSources: {
-            section: () => cy.get('[data-testid="data-source-and-updates"]')
+            section: () => cy.get('[data-testid="data-source-and-updates"]'),
+            subpageHeaders: () => this.elements.dataSources.section().find('.govuk-heading-s')
         }
     };
 
@@ -67,6 +68,28 @@ class CommonPage {
     public checkDoesNotHaveDataSourcesComponent(): this {
         const { dataSources } = this.elements;
         dataSources.section().should('not.exist');
+        return this;
+    }
+
+    public checkHasDataSourcesComponent(): this {
+        const { dataSources } = this.elements;
+        dataSources.section().should('be.visible');
+        return this;
+    }
+
+    public checkDataSourcesComponentHasSubpageHeadings(expectedSubpageHeadings: string[]): this {
+        const { dataSources } = this.elements;
+
+        //Expand the details element so we can see its contents on any screenshots if this fails
+        dataSources.section().expandDetailsElement();
+
+        dataSources.subpageHeaders().should(($dataSourceHeadingElements) => {
+            const actualDataSourceHeadings = $dataSourceHeadingElements
+                .map((_, headingElement) => Cypress.$(headingElement).text().trim())
+                .get();
+            expect(actualDataSourceHeadings).to.deep.eq(expectedSubpageHeadings);
+        });
+
         return this;
     }
 
