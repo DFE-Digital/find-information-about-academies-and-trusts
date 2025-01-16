@@ -163,7 +163,7 @@ class ContactsPage {
         const { datasource } = this.elements;
         datasource.section().click();
         datasource.section().should('be.visible');
-        datasource.trmLatestUpdatedBy().should('contain.text', expectedUser);
+        datasource.trmLatestUpdatedBy().should('contain.text', 'Trust relationship manager was updated by ' + expectedUser + ' on ');
         return this;
     }
 
@@ -171,7 +171,7 @@ class ContactsPage {
         const { datasource } = this.elements;
         datasource.section().click();
         datasource.section().should('be.visible');
-        datasource.sfsoLatestUpdatedBy().should('contain.text', expectedUser);
+        datasource.sfsoLatestUpdatedBy().should('contain.text', 'SFSO (Schools financial support and oversight) lead was updated by ' + expectedUser + ' on ');
         return this;
     }
 
