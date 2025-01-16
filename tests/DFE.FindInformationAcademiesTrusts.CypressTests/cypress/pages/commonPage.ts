@@ -1,5 +1,6 @@
-class CommonPage {
+import navigation from "./navigation";
 
+class CommonPage {
     elements = {
         successPopup: {
             section: () => cy.get('.govuk-notification-banner'),
@@ -12,6 +13,12 @@ class CommonPage {
         },
 
         trustName: () => cy.get('[data-testid="trust-name-heading"]'),
+
+        elementPresentOnEveryPage: () => navigation.elements.accessibilityFooterButton().as('elementPresentOnEveryPage'),
+
+        dataSources: {
+            section: () => cy.get('[data-testid="data-source-and-updates"]')
+        }
     };
 
     /**
@@ -57,10 +64,19 @@ class CommonPage {
         return this;
     }
 
-    public checkPageLoad(): void {
-        cy.window().then((win) => {
-            expect(win.document.readyState).to.eq('complete');
-        });
+    public checkDoesNotHaveDataSourcesComponent(): this {
+        const { dataSources } = this.elements;
+        dataSources.section().should('not.exist');
+        return this;
+    }
+
+    public checkPageContentHasLoaded(): this {
+        const { elementPresentOnEveryPage } = this.elements;
+
+        elementPresentOnEveryPage().scrollIntoView();
+        elementPresentOnEveryPage().should('be.visible');
+
+        return this;
     }
 
     public interceptAndVerifyNo500Errors(): void {
