@@ -1,4 +1,5 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -40,26 +41,20 @@ public class ReferenceNumbersModelTests
     }
 
     [Fact]
-    public async Task OnGetAsync_sets_correct_data_source_list()
-    {
-        _ = await _sut.OnGetAsync();
-        _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
-        _sut.DataSources.Should().ContainSingle();
-        _sut.DataSources[0].Fields.Should().Contain(new List<string>
-            { "Trust details", "Reference numbers", "Trust summary" });
-    }
-
-    [Fact]
     public async Task OnGetAsync_sets_correct_NavigationLinks()
     {
         _ = await _sut.OnGetAsync();
         _sut.NavigationLinks.Should().BeEquivalentTo([
-            new TrustNavigationLinkModel("Overview", "/Trusts/Overview/TrustDetails", "1234", true, "overview-nav"),
-            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", "1234", false, "contacts-nav"),
+            new TrustNavigationLinkModel(ViewConstants.OverviewPageName, "/Trusts/Overview/TrustDetails", "1234", true,
+                "overview-nav"),
+            new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", "1234", false,
+                "contacts-nav"),
             new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
                 "1234", false, "academies-nav"),
-            new TrustNavigationLinkModel("Ofsted", "/Trusts/Ofsted/CurrentRatings", "1234", false, "ofsted-nav"),
-            new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", "1234", false,
+            new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", "1234", false,
+                "ofsted-nav"),
+            new TrustNavigationLinkModel(ViewConstants.GovernancePageName, "/Trusts/Governance/TrustLeadership",
+                "1234", false,
                 "governance-nav")
         ]);
     }
@@ -69,9 +64,12 @@ public class ReferenceNumbersModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.SubNavigationLinks.Should().BeEquivalentTo([
-            new TrustSubNavigationLinkModel("Trust details", "./TrustDetails", "1234", "Overview", false),
-            new TrustSubNavigationLinkModel("Trust summary", "./TrustSummary", "1234", "Overview", false),
-            new TrustSubNavigationLinkModel("Reference numbers", "./ReferenceNumbers", "1234", "Overview", true)
+            new TrustSubNavigationLinkModel(ViewConstants.OverviewTrustDetailsPageName, "./TrustDetails", "1234", ViewConstants.OverviewPageName,
+                false),
+            new TrustSubNavigationLinkModel(ViewConstants.OverviewTrustSummaryPageName, "./TrustSummary", "1234", ViewConstants.OverviewPageName,
+                false),
+            new TrustSubNavigationLinkModel(ViewConstants.OverviewReferenceNumbersPageName, "./ReferenceNumbers", "1234",
+                ViewConstants.OverviewPageName, true)
         ]);
     }
 
@@ -80,8 +78,8 @@ public class ReferenceNumbersModelTests
     {
         _ = await _sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.SubPageName.Should().Be("Reference numbers");
-        _sut.TrustPageMetadata.PageName.Should().Be("Overview");
+        _sut.TrustPageMetadata.SubPageName.Should().Be(ViewConstants.OverviewReferenceNumbersPageName);
+        _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.OverviewPageName);
         _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
     }
 }

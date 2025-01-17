@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fix Privacy page having incorrect width
 - Update name of cookie consent cookie to be consistent with application name and what is displayed in the Cookie UI
 - Switched to using the MIS tables to the MIS_MSTR tables
+- Updated the design of the source and updates panel
 
 ## [Release-18][release-18] (production-2024-12-19.4567)
 

@@ -13,6 +13,8 @@ class Navigation {
             overviewServiceNavButton: () => cy.get('[data-testid="overview-nav"]'),
         },
 
+        currentPageSubnavLinks: () => cy.get('.moj-sub-navigation__link'),
+
         acadmiesSubNav: {
             ofstedAcadmiesTrustButton: () => cy.get('[data-testid="ofsted-nav"]'),
             pupilNumbersAcadmiesTrustButton: () => cy.get('#academies-pupil-numbers-link'),
@@ -26,6 +28,21 @@ class Navigation {
             pageNameBreadcrumbLabel: () => this.elements.breadcrumbs.breadcrumbParent().find('[data-testid="breadcrumb-page-name"]')
         }
     };
+
+    public checkSubpageNavMatches(expectedSubpages: { subpageName: string, url: string; }[]): this {
+        //Get the actual subpage nav items currently on the screen
+        this.elements.currentPageSubnavLinks().should(($subpageNavElements) => {
+            //Get the name and url out of the subpageNavElement jquery objects
+            const actualSubpages = $subpageNavElements.map((_, subpageNavElement) => ({
+                subpageName: Cypress.$(subpageNavElement).contents().last().text().replace(/\(\d+\)/, '').trim(), // Get the visible subpage name (not the hidden a11y name) without any bracketed numbers
+                url: Cypress.$(subpageNavElement).attr('href')
+            })).get();
+
+            //Check that the actual subpages currently on the screen are the ones we are expecting to see
+            expect(actualSubpages).to.deep.equal(expectedSubpages);
+        });
+        return this;
+    }
 
     public checkBrowserPageTitleContains(pageTitle: string): this {
         cy.title().should('contain', pageTitle);

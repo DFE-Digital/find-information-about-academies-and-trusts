@@ -273,7 +273,7 @@ describe("Testing the Ofsted page and its subpages ", () => {
     describe("Testing a trust that has no ofsted data within it to ensure the issue of a 500 page appearing does not happen", () => {
         beforeEach(() => {
             cy.login();
-            commonPage.interceptAndVerfiyNo500Errors();
+            commonPage.interceptAndVerifyNo500Errors();
         });
 
         ['/trusts/ofsted/current-ratings?uid=17728', '/trusts/ofsted/previous-ratings?uid=17728', '/trusts/ofsted/important-dates?uid=17728', '/trusts/ofsted/safeguarding-and-concerns?uid=17728'].forEach((url) => {

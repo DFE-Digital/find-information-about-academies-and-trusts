@@ -64,6 +64,19 @@ public class StringExtensionsTest
     }
 
     [Theory]
+    [InlineData("hello, world!", "hello-world")]
+    [InlineData("hel-lo, world!", "hel-lo-world")]
+    [InlineData("goodbye: cruel; world...", "goodbye-cruel-world")]
+    [InlineData("@hello#$%^&*()_+= world", "hello-world")]
+    [InlineData("he\tllo!\nworld?", "helloworld")]
+    [InlineData("\"quoted\" 'text'", "quoted-text")]
+    [InlineData("   hello, world!  ", "hello-world")]
+    public void Kebabify_should_remove_all_punctuation_characters(string input, string expected)
+    {
+        input.Kebabify().Should().Be(expected);
+    }
+
+    [Theory]
     [InlineData("test", "Test")]
     [InlineData("", "")]
     [InlineData(" ", "")]

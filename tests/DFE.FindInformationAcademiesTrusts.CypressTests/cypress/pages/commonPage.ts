@@ -1,5 +1,6 @@
-class CommonPage {
+import navigation from "./navigation";
 
+class CommonPage {
     elements = {
         successPopup: {
             section: () => cy.get('.govuk-notification-banner'),
@@ -12,6 +13,13 @@ class CommonPage {
         },
 
         trustName: () => cy.get('[data-testid="trust-name-heading"]'),
+
+        elementPresentOnEveryPage: () => navigation.elements.accessibilityFooterButton().as('elementPresentOnEveryPage'),
+
+        dataSources: {
+            section: () => cy.get('[data-testid="data-source-and-updates"]'),
+            subpageHeaders: () => this.elements.dataSources.section().find('.govuk-heading-s')
+        }
     };
 
     /**
@@ -57,13 +65,44 @@ class CommonPage {
         return this;
     }
 
-    public checkPageLoad(): void {
-        cy.window().then((win) => {
-            expect(win.document.readyState).to.eq('complete');
-        });
+    public checkDoesNotHaveDataSourcesComponent(): this {
+        const { dataSources } = this.elements;
+        dataSources.section().should('not.exist');
+        return this;
     }
 
-    public interceptAndVerfiyNo500Errors(): void {
+    public checkHasDataSourcesComponent(): this {
+        const { dataSources } = this.elements;
+        dataSources.section().should('be.visible');
+        return this;
+    }
+
+    public checkDataSourcesComponentHasSubpageHeadings(expectedSubpageHeadings: string[]): this {
+        const { dataSources } = this.elements;
+
+        //Expand the details element so we can see its contents on any screenshots if this fails
+        dataSources.section().expandDetailsElement();
+
+        dataSources.subpageHeaders().should(($dataSourceHeadingElements) => {
+            const actualDataSourceHeadings = $dataSourceHeadingElements
+                .map((_, headingElement) => Cypress.$(headingElement).text().trim())
+                .get();
+            expect(actualDataSourceHeadings).to.deep.eq(expectedSubpageHeadings);
+        });
+
+        return this;
+    }
+
+    public checkPageContentHasLoaded(): this {
+        const { elementPresentOnEveryPage } = this.elements;
+
+        elementPresentOnEveryPage().scrollIntoView();
+        elementPresentOnEveryPage().should('be.visible');
+
+        return this;
+    }
+
+    public interceptAndVerifyNo500Errors(): void {
         cy.intercept('**', (req) => {
             req.on('response', (res) => {
                 expect(res.statusCode).to.not.eq(500);

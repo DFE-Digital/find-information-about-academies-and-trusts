@@ -12,7 +12,7 @@ public class TrustDetailsModel(
     : OverviewAreaModel(dataSourceService, trustService, logger)
 {
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = "Trust details" };
+        base.TrustPageMetadata with { SubPageName = ViewConstants.OverviewTrustDetailsPageName };
 
     public string? CompaniesHouseLink { get; set; }
     public string? GetInformationAboutSchoolsLink { get; set; }

@@ -16,5 +16,5 @@ public class ImportantDatesModel(
     academyService, exportService, dateTimeProvider, logger)
 {
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = "Important dates" };
+        base.TrustPageMetadata with { SubPageName = ViewConstants.OfstedImportantDatesPageName };
 }

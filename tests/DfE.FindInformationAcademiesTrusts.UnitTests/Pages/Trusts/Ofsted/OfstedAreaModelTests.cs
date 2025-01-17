@@ -1,8 +1,10 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Ofsted;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
+using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -21,10 +23,19 @@ public class OfstedAreaModelTests
 
     private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
 
+    private readonly DataSourceServiceModel _giasDataSource =
+        new(Source.Gias, new DateTime(2025, 1, 1), UpdateFrequency.Daily);
+
+    private readonly DataSourceServiceModel _misDataSource =
+        new(Source.Mis, new DateTime(2025, 1, 1), UpdateFrequency.Daily);
+
     public OfstedAreaModelTests()
     {
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
             .ReturnsAsync(_fakeTrust);
+        _mockDataSourceService.Setup(s => s.GetAsync(Source.Gias)).ReturnsAsync(_giasDataSource);
+        _mockDataSourceService.Setup(s => s.GetAsync(Source.Mis)).ReturnsAsync(_misDataSource);
+
 
         _sut = new OfstedAreaModel(_mockDataSourceService.Object,
                 _mockTrustService.Object,
@@ -33,7 +44,7 @@ public class OfstedAreaModelTests
                 _mockDateTimeProvider.Object,
                 new MockLogger<OfstedAreaModel>().Object
             )
-        { Uid = "1234" };
+            { Uid = "1234" };
     }
 
     [Fact]
@@ -50,13 +61,34 @@ public class OfstedAreaModelTests
         await _sut.OnGetAsync();
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
         _mockDataSourceService.Verify(e => e.GetAsync(Source.Mis), Times.Once);
-        _sut.DataSources.Count.Should().Be(2);
-        _sut.DataSources[0].Fields.Should().Contain(new List<string>
-            { "Date joined trust" });
-        _sut.DataSources[1].Fields.Should().Contain(new List<string>
-        {
-            "Current Ofsted rating", "Date of last inspection", "Previous Ofsted rating", "Date of previous inspection"
-        });
+        _sut.DataSourcesPerPage.Count.Should().Be(4);
+        _sut.DataSourcesPerPage.Should().BeEquivalentTo([
+            new DataSourcePageListEntry(ViewConstants.OfstedCurrentRatingsPageName, [
+                    new DataSourceListEntry(_giasDataSource, "Date joined trust"),
+                    new DataSourceListEntry(_misDataSource, "Current Ofsted rating"),
+                    new DataSourceListEntry(_misDataSource, "Date of current inspection")
+                ]
+            ),
+            new DataSourcePageListEntry(ViewConstants.OfstedPreviousRatingsPageName, [
+                    new DataSourceListEntry(_giasDataSource, "Date joined trust"),
+                    new DataSourceListEntry(_misDataSource, "Previous Ofsted rating"),
+                    new DataSourceListEntry(_misDataSource, "Date of previous inspection")
+                ]
+            ),
+            new DataSourcePageListEntry(ViewConstants.OfstedImportantDatesPageName, [
+                    new DataSourceListEntry(_giasDataSource, "Date joined trust"),
+                    new DataSourceListEntry(_misDataSource, "Date of current inspection"),
+                    new DataSourceListEntry(_misDataSource, "Date of previous inspection")
+                ]
+            ),
+            new DataSourcePageListEntry(ViewConstants.OfstedSafeguardingAndConcernsPageName, [
+                    new DataSourceListEntry(_giasDataSource, "Date joined trust"),
+                    new DataSourceListEntry(_misDataSource, "Effective safeguarding"),
+                    new DataSourceListEntry(_misDataSource, "Category of concern"),
+                    new DataSourceListEntry(_misDataSource, "Date of current inspection")
+                ]
+            )
+        ]);
     }
 
 
@@ -88,12 +120,16 @@ public class OfstedAreaModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.NavigationLinks.Should().BeEquivalentTo([
-            new TrustNavigationLinkModel("Overview", "/Trusts/Overview/TrustDetails", "1234", false, "overview-nav"),
-            new TrustNavigationLinkModel("Contacts", "/Trusts/Contacts/InDfe", "1234", false, "contacts-nav"),
+            new TrustNavigationLinkModel(ViewConstants.OverviewPageName, "/Trusts/Overview/TrustDetails", "1234",
+                false, "overview-nav"),
+            new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", "1234", false,
+                "contacts-nav"),
             new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
                 "1234", false, "academies-nav"),
-            new TrustNavigationLinkModel("Ofsted", "/Trusts/Ofsted/CurrentRatings", "1234", true, "ofsted-nav"),
-            new TrustNavigationLinkModel("Governance", "/Trusts/Governance/TrustLeadership", "1234", false,
+            new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", "1234", true,
+                "ofsted-nav"),
+            new TrustNavigationLinkModel(ViewConstants.GovernancePageName, "/Trusts/Governance/TrustLeadership",
+                "1234", false,
                 "governance-nav")
         ]);
     }
@@ -103,14 +139,17 @@ public class OfstedAreaModelTests
     {
         _ = await _sut.OnGetAsync();
         _sut.SubNavigationLinks.Should().BeEquivalentTo([
-            new TrustSubNavigationLinkModel("Current ratings", "./CurrentRatings", "1234", "Ofsted",
+            new TrustSubNavigationLinkModel(ViewConstants.OfstedCurrentRatingsPageName, "./CurrentRatings", "1234",
+                ViewConstants.OfstedPageName,
                 false),
-            new TrustSubNavigationLinkModel("Previous ratings", "./PreviousRatings", "1234",
-                "Ofsted", false),
-            new TrustSubNavigationLinkModel("Important dates", "./ImportantDates", "1234", "Ofsted",
+            new TrustSubNavigationLinkModel(ViewConstants.OfstedPreviousRatingsPageName, "./PreviousRatings", "1234",
+                ViewConstants.OfstedPageName, false),
+            new TrustSubNavigationLinkModel(ViewConstants.OfstedImportantDatesPageName, "./ImportantDates", "1234",
+                ViewConstants.OfstedPageName,
                 false),
-            new TrustSubNavigationLinkModel("Safeguarding and concerns", "./SafeguardingAndConcerns", "1234",
-                "Ofsted", false)
+            new TrustSubNavigationLinkModel(ViewConstants.OfstedSafeguardingAndConcernsPageName,
+                "./SafeguardingAndConcerns", "1234",
+                ViewConstants.OfstedPageName, false)
         ]);
     }
 
@@ -187,7 +226,7 @@ public class OfstedAreaModelTests
     {
         _ = await _sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.PageName.Should().Be("Ofsted");
+        _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.OfstedPageName);
         _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
     }
 }
