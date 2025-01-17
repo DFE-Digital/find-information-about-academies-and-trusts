@@ -112,7 +112,7 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
                 l =>
                 {
                     l.LinkText.Should().Be(ViewConstants.OfstedPageName);
-                    l.Page.Should().Be("/Trusts/Ofsted/CurrentRatings");
+                    l.Page.Should().Be("/Trusts/Ofsted/SingleHeadlineGrades");
                     l.DataTestId.Should().Be("ofsted-nav");
                 },
                 l =>

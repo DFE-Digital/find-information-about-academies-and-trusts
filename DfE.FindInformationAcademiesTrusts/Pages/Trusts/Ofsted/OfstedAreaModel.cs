@@ -35,18 +35,14 @@ public class OfstedAreaModel(
 
         SubNavigationLinks =
         [
+            new TrustSubNavigationLinkModel(ViewConstants.OfstedSingleHeadlineGradesPageName, "./SingleHeadlineGrades",
+                Uid, TrustPageMetadata.PageName!, this is SingleHeadlineGradesModel),
             new TrustSubNavigationLinkModel(ViewConstants.OfstedCurrentRatingsPageName, "./CurrentRatings", Uid,
-                TrustPageMetadata.PageName!,
-                this is CurrentRatingsModel),
+                TrustPageMetadata.PageName!, this is CurrentRatingsModel),
             new TrustSubNavigationLinkModel(ViewConstants.OfstedPreviousRatingsPageName, "./PreviousRatings", Uid,
-                TrustPageMetadata.PageName!,
-                this is PreviousRatingsModel),
-            new TrustSubNavigationLinkModel(ViewConstants.OfstedImportantDatesPageName, "./ImportantDates", Uid,
-                TrustPageMetadata.PageName!,
-                this is ImportantDatesModel),
+                TrustPageMetadata.PageName!, this is PreviousRatingsModel),
             new TrustSubNavigationLinkModel(ViewConstants.OfstedSafeguardingAndConcernsPageName,
-                "./SafeguardingAndConcerns", Uid,
-                TrustPageMetadata.PageName!, this is SafeguardingAndConcernsModel)
+                "./SafeguardingAndConcerns", Uid, TrustPageMetadata.PageName!, this is SafeguardingAndConcernsModel)
         ];
 
         // Add data sources
@@ -66,7 +62,7 @@ public class OfstedAreaModel(
                     new DataSourceListEntry(misDataSource, "Date of previous inspection")
                 ]
             ),
-            new DataSourcePageListEntry(ViewConstants.OfstedImportantDatesPageName, [
+            new DataSourcePageListEntry(ViewConstants.OfstedSingleHeadlineGradesPageName, [
                     dateJoinedTrust,
                     new DataSourceListEntry(misDataSource, "Date of current inspection"),
                     new DataSourceListEntry(misDataSource, "Date of previous inspection")
