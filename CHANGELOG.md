@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+- Updated accessibility statement text
+
 ## [Release-19][release-19] (production-2025-01-20.4730)
 
 ### Changed
@@ -14,7 +16,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Update name of cookie consent cookie to be consistent with application name and what is displayed in the Cookie UI
 - Switched to using the MIS tables to the MIS_MSTR tables
 - Updated the design of the source and updates panel
-- Updated accessibility statement text
 
 ## [Release-18][release-18] (production-2024-12-19.4567)
 
