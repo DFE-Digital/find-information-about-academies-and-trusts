@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+- Updated accessibility statement text
+
 ## [Release-19][release-19] (production-2025-01-20.4730)
 
 ### Changed
