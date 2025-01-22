@@ -64,13 +64,11 @@ public class OfstedAreaModelTests
         _sut.DataSourcesPerPage.Count.Should().Be(4);
         _sut.DataSourcesPerPage.Should().BeEquivalentTo([
             new DataSourcePageListEntry(ViewConstants.OfstedCurrentRatingsPageName, [
-                    new DataSourceListEntry(_giasDataSource, "Date joined trust"),
                     new DataSourceListEntry(_misDataSource, "Current Ofsted rating"),
                     new DataSourceListEntry(_misDataSource, "Date of current inspection")
                 ]
             ),
             new DataSourcePageListEntry(ViewConstants.OfstedPreviousRatingsPageName, [
-                    new DataSourceListEntry(_giasDataSource, "Date joined trust"),
                     new DataSourceListEntry(_misDataSource, "Previous Ofsted rating"),
                     new DataSourceListEntry(_misDataSource, "Date of previous inspection")
                 ]
@@ -82,7 +80,6 @@ public class OfstedAreaModelTests
                 ]
             ),
             new DataSourcePageListEntry(ViewConstants.OfstedSafeguardingAndConcernsPageName, [
-                    new DataSourceListEntry(_giasDataSource, "Date joined trust"),
                     new DataSourceListEntry(_misDataSource, "Effective safeguarding"),
                     new DataSourceListEntry(_misDataSource, "Category of concern"),
                     new DataSourceListEntry(_misDataSource, "Date of current inspection")
