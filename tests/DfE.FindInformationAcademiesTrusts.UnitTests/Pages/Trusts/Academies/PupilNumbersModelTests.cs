@@ -39,6 +39,24 @@ public class PupilNumbersModelTests : BaseAcademiesPageModelTests<PupilNumbersMo
     }
 
     [Fact]
+    public async Task OnGetAsync_sets_academies_from_academyService()
+    {
+        var academy = new AcademyPupilNumbersServiceModel("", null, null, new AgeRange(5, 11), null, null);
+        var academies = new[]
+        {
+            academy with { Urn = "1" },
+            academy with { Urn = "2" },
+            academy with { Urn = "3" }
+        };
+        _mockAcademyService.Setup(a => a.GetAcademiesInTrustPupilNumbersAsync(TrustUid))
+            .ReturnsAsync(academies);
+
+        _ = await Sut.OnGetAsync();
+
+        Sut.Academies.Should().BeEquivalentTo(academies);
+    }
+
+    [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_TabPageName()
     {
         _ = await Sut.OnGetAsync();
