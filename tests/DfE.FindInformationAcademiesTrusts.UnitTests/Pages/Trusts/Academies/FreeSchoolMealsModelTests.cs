@@ -10,10 +10,10 @@ public class FreeSchoolMealsModelTests : BaseAcademiesPageModelTests<FreeSchoolM
 
     public FreeSchoolMealsModelTests()
     {
-        _sut = new FreeSchoolMealsModel(
-                _mockDataSourceService.Object, new MockLogger<FreeSchoolMealsModel>().Object,
-                _mockTrustService.Object, _mockAcademyService.Object, _mockExportService.Object,
-                _mockDateTimeProvider.Object)
+        Sut = new FreeSchoolMealsModel(
+                MockDataSourceService.Object, new MockLogger<FreeSchoolMealsModel>().Object,
+                MockTrustService.Object, _mockAcademyService.Object, MockExportService.Object,
+                MockDateTimeProvider.Object)
             { Uid = TrustUid };
     }
 
@@ -26,19 +26,19 @@ public class FreeSchoolMealsModelTests : BaseAcademiesPageModelTests<FreeSchoolM
             new AcademyFreeSchoolMealsServiceModel("2", "Academy 2", null, 70.1, 64.1),
             new AcademyFreeSchoolMealsServiceModel("3", "Academy 3", 8.2, 4, 10)
         };
-        _mockAcademyService.Setup(a => a.GetAcademiesInTrustFreeSchoolMealsAsync(_sut.Uid))
+        _mockAcademyService.Setup(a => a.GetAcademiesInTrustFreeSchoolMealsAsync(Sut.Uid))
             .ReturnsAsync(academies);
 
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.Academies.Should().BeEquivalentTo(academies);
+        Sut.Academies.Should().BeEquivalentTo(academies);
     }
 
     [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_TabPageName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.TabName.Should().Be("Free school meals");
+        Sut.TrustPageMetadata.TabName.Should().Be("Free school meals");
     }
 }

@@ -4,7 +4,6 @@ using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Governance;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Contacts;
 
@@ -26,7 +25,7 @@ public abstract class BaseContactsAreaModelTests<T> : BaseTrustPageTests<T>, ITe
 
     protected BaseContactsAreaModelTests()
     {
-        _mockTrustService.Setup(tp => tp.GetTrustContactsAsync(It.IsAny<string>()))
+        MockTrustService.Setup(tp => tp.GetTrustContactsAsync(It.IsAny<string>()))
             .ReturnsAsync(_baseTrustContactsServiceModel);
     }
 
@@ -34,23 +33,23 @@ public abstract class BaseContactsAreaModelTests<T> : BaseTrustPageTests<T>, ITe
     public async Task OnGetAsync_sets_chair_of_trustees_to_be_current_chair()
     {
         var chairOfTrustees = new Person("Chair Of Trustees", "cot@test.com");
-        _mockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
+        MockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
             .ReturnsAsync(_baseTrustContactsServiceModel with { ChairOfTrustees = chairOfTrustees });
 
-        await _sut.OnGetAsync();
-        _sut.ChairOfTrustees.Should().Be(chairOfTrustees);
+        await Sut.OnGetAsync();
+        Sut.ChairOfTrustees.Should().Be(chairOfTrustees);
     }
 
     [Fact]
     public async Task OnGetAsync_sets_accounting_officer_to_be_current_officer()
     {
         var accountingOfficer = new Person("Accounting Officer", "ao@test.com");
-        _mockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
+        MockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
             .ReturnsAsync(_baseTrustContactsServiceModel with { AccountingOfficer = accountingOfficer });
 
-        await _sut.OnGetAsync();
+        await Sut.OnGetAsync();
 
-        _sut.AccountingOfficer.Should().Be(accountingOfficer);
+        Sut.AccountingOfficer.Should().Be(accountingOfficer);
     }
 
     [Fact]
@@ -58,72 +57,72 @@ public abstract class BaseContactsAreaModelTests<T> : BaseTrustPageTests<T>, ITe
     {
         var chiefFinancialOfficer = new Person("Chief Financial Officer", "cfo@test.com");
 
-        _mockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
+        MockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
             .ReturnsAsync(_baseTrustContactsServiceModel with { ChiefFinancialOfficer = chiefFinancialOfficer });
 
-        await _sut.OnGetAsync();
-        _sut.ChiefFinancialOfficer.Should().Be(chiefFinancialOfficer);
+        await Sut.OnGetAsync();
+        Sut.ChiefFinancialOfficer.Should().Be(chiefFinancialOfficer);
     }
 
     [Fact]
     public async Task OnGetAsync_sets_trust_relationship_manager()
     {
-        _mockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
+        MockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
             .ReturnsAsync(_baseTrustContactsServiceModel with { TrustRelationshipManager = _trustRelationshipManager });
 
-        await _sut.OnGetAsync();
-        _sut.TrustRelationshipManager?.Should().Be(_trustRelationshipManager);
+        await Sut.OnGetAsync();
+        Sut.TrustRelationshipManager?.Should().Be(_trustRelationshipManager);
     }
 
     [Fact]
     public async Task OnGetAsync_sets_trust_sfsolead()
     {
-        _mockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
+        MockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
             .ReturnsAsync(_baseTrustContactsServiceModel with { SfsoLead = _sfsoLead });
 
-        await _sut.OnGetAsync();
-        _sut.SfsoLead?.Should().Be(_sfsoLead);
+        await Sut.OnGetAsync();
+        Sut.SfsoLead?.Should().Be(_sfsoLead);
     }
 
     [Fact]
     public async Task OnGetAsync_sets_chair_of_trustees_to_null_when_trust_has_no_chair()
     {
-        _mockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
+        MockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
             .ReturnsAsync(_baseTrustContactsServiceModel with { ChairOfTrustees = null });
 
-        await _sut.OnGetAsync();
-        _sut.ChairOfTrustees?.Should().Be(null);
+        await Sut.OnGetAsync();
+        Sut.ChairOfTrustees?.Should().Be(null);
     }
 
     [Fact]
     public async Task OnGetAsync_sets_accounting_officer_to_null_be_when_trust_has_no_officer()
     {
-        _mockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
+        MockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
             .ReturnsAsync(_baseTrustContactsServiceModel with { AccountingOfficer = null });
 
-        await _sut.OnGetAsync();
-        _sut.AccountingOfficer?.Should().Be(null);
+        await Sut.OnGetAsync();
+        Sut.AccountingOfficer?.Should().Be(null);
     }
 
     [Fact]
     public async Task OnGetAsync_sets_chief_financial_officer_to_null_be_when_trust_has_no_officer()
     {
-        _mockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
+        MockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
             .ReturnsAsync(_baseTrustContactsServiceModel with { ChiefFinancialOfficer = null });
 
-        await _sut.OnGetAsync();
-        _sut.ChiefFinancialOfficer?.Should().Be(null);
+        await Sut.OnGetAsync();
+        Sut.ChiefFinancialOfficer?.Should().Be(null);
     }
 
     [Fact]
     public override async Task OnGetAsync_sets_correct_data_source_list()
     {
-        await _sut.OnGetAsync();
+        await Sut.OnGetAsync();
 
-        _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
-        _mockDataSourceService.Verify(e => e.GetAsync(Source.Mstr), Times.Once);
+        MockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
+        MockDataSourceService.Verify(e => e.GetAsync(Source.Mstr), Times.Once);
 
-        _sut.DataSourcesPerPage.Should().BeEquivalentTo([
+        Sut.DataSourcesPerPage.Should().BeEquivalentTo([
             new DataSourcePageListEntry(ViewConstants.ContactsInDfePageName, [
                     new DataSourceListEntry(new DataSourceServiceModel(Source.FiatDb, null, null),
                         "Trust relationship manager"),
@@ -132,12 +131,12 @@ public abstract class BaseContactsAreaModelTests<T> : BaseTrustPageTests<T>, ITe
                 ]
             ),
             new DataSourcePageListEntry(ViewConstants.ContactsInTrustPageName, [
-                    new DataSourceListEntry(_giasDataSource, "Accounting officer name"),
-                    new DataSourceListEntry(_giasDataSource, "Chief financial officer name"),
-                    new DataSourceListEntry(_giasDataSource, "Chair of trustees name"),
-                    new DataSourceListEntry(_mstrDataSource, "Accounting officer email"),
-                    new DataSourceListEntry(_mstrDataSource, "Chief financial officer email"),
-                    new DataSourceListEntry(_mstrDataSource, "Chair of trustees email")
+                    new DataSourceListEntry(GiasDataSource, "Accounting officer name"),
+                    new DataSourceListEntry(GiasDataSource, "Chief financial officer name"),
+                    new DataSourceListEntry(GiasDataSource, "Chair of trustees name"),
+                    new DataSourceListEntry(MstrDataSource, "Accounting officer email"),
+                    new DataSourceListEntry(MstrDataSource, "Chief financial officer email"),
+                    new DataSourceListEntry(MstrDataSource, "Chair of trustees email")
                 ]
             )
         ]);
@@ -146,12 +145,12 @@ public abstract class BaseContactsAreaModelTests<T> : BaseTrustPageTests<T>, ITe
     [Fact]
     public async Task OnGetAsync_sets_trustRelationshipManager_last_modified_details_in_data_source_list()
     {
-        _mockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
+        MockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
             .ReturnsAsync(_baseTrustContactsServiceModel with { TrustRelationshipManager = _trustRelationshipManager });
 
-        await _sut.OnGetAsync();
+        await Sut.OnGetAsync();
 
-        _sut.DataSourcesPerPage[0].DataSources[0].DataSource.Should().Be(
+        Sut.DataSourcesPerPage[0].DataSources[0].DataSource.Should().Be(
             new DataSourceServiceModel(Source.FiatDb,
                 _trustRelationshipManager.LastModifiedAtTime,
                 null,
@@ -162,12 +161,12 @@ public abstract class BaseContactsAreaModelTests<T> : BaseTrustPageTests<T>, ITe
     [Fact]
     public async Task OnGetAsync_sets__sfsoLead_last_modified_details_in_data_source_list()
     {
-        _mockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
+        MockTrustService.Setup(tp => tp.GetTrustContactsAsync(TrustUid))
             .ReturnsAsync(_baseTrustContactsServiceModel with { SfsoLead = _sfsoLead });
 
-        await _sut.OnGetAsync();
+        await Sut.OnGetAsync();
 
-        _sut.DataSourcesPerPage[0].DataSources[1].DataSource.Should().Be(
+        Sut.DataSourcesPerPage[0].DataSources[1].DataSource.Should().Be(
             new DataSourceServiceModel(Source.FiatDb,
                 _sfsoLead.LastModifiedAtTime,
                 null,
@@ -178,17 +177,17 @@ public abstract class BaseContactsAreaModelTests<T> : BaseTrustPageTests<T>, ITe
     [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_PageName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.PageName.Should().Be("Contacts");
+        Sut.TrustPageMetadata.PageName.Should().Be("Contacts");
     }
 
     [Fact]
     public override async Task OnGetAsync_should_set_active_NavigationLink_to_current_page()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.NavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
+        Sut.NavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
             .Which.LinkText.Should().Be("Contacts");
     }
 
@@ -198,9 +197,9 @@ public abstract class BaseContactsAreaModelTests<T> : BaseTrustPageTests<T>, ITe
     [Fact]
     public async Task OnGetAsync_should_populate_SubNavigationLinks_to_subpages()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.SubNavigationLinks.Should()
+        Sut.SubNavigationLinks.Should()
             .SatisfyRespectively(
                 l =>
                 {

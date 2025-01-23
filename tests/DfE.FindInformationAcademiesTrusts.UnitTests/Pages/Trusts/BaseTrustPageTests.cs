@@ -10,66 +10,66 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 
 public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
 {
-    protected T _sut = default!;
-    protected readonly Mock<ITrustService> _mockTrustService = new();
-    protected readonly MockDataSourceService _mockDataSourceService = new();
+    protected T Sut = default!;
+    protected readonly Mock<ITrustService> MockTrustService = new();
+    protected readonly MockDataSourceService MockDataSourceService = new();
 
-    protected readonly DataSourceServiceModel _giasDataSource =
+    protected readonly DataSourceServiceModel GiasDataSource =
         new(Source.Gias, new DateTime(2025, 1, 1), UpdateFrequency.Daily);
 
-    protected readonly DataSourceServiceModel _mstrDataSource =
+    protected readonly DataSourceServiceModel MstrDataSource =
         new(Source.Mstr, new DateTime(2025, 1, 1), UpdateFrequency.Monthly);
 
-    protected readonly DataSourceServiceModel _misDataSource =
+    protected readonly DataSourceServiceModel MisDataSource =
         new(Source.Mis, new DateTime(2025, 1, 1), UpdateFrequency.Daily);
 
-    protected readonly DataSourceServiceModel _eesDataSource = new(Source.ExploreEducationStatistics,
+    protected readonly DataSourceServiceModel EesDataSource = new(Source.ExploreEducationStatistics,
         new DateTime(2025, 1, 1), UpdateFrequency.Annually);
 
     protected const string TrustUid = "1234";
-    protected TrustSummaryServiceModel dummyTrustSummary = new(TrustUid, "My Trust", "Multi-academy trust", 3);
+    protected readonly TrustSummaryServiceModel DummyTrustSummary = new(TrustUid, "My Trust", "Multi-academy trust", 3);
 
     protected BaseTrustPageTests()
     {
-        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(TrustUid)).ReturnsAsync(dummyTrustSummary);
+        MockTrustService.Setup(t => t.GetTrustSummaryAsync(TrustUid)).ReturnsAsync(DummyTrustSummary);
 
-        _mockDataSourceService.Setup(s => s.GetAsync(Source.Gias)).ReturnsAsync(_giasDataSource);
-        _mockDataSourceService.Setup(s => s.GetAsync(Source.Mstr)).ReturnsAsync(_mstrDataSource);
-        _mockDataSourceService.Setup(s => s.GetAsync(Source.Mis)).ReturnsAsync(_misDataSource);
-        _mockDataSourceService.Setup(s => s.GetAsync(Source.ExploreEducationStatistics)).ReturnsAsync(_eesDataSource);
+        MockDataSourceService.Setup(s => s.GetAsync(Source.Gias)).ReturnsAsync(GiasDataSource);
+        MockDataSourceService.Setup(s => s.GetAsync(Source.Mstr)).ReturnsAsync(MstrDataSource);
+        MockDataSourceService.Setup(s => s.GetAsync(Source.Mis)).ReturnsAsync(MisDataSource);
+        MockDataSourceService.Setup(s => s.GetAsync(Source.ExploreEducationStatistics)).ReturnsAsync(EesDataSource);
     }
 
     [Fact]
     public void ShowHeaderSearch_should_be_true()
     {
-        _sut.ShowHeaderSearch.Should().Be(true);
+        Sut.ShowHeaderSearch.Should().Be(true);
     }
 
     [Fact]
     public async Task OnGetAsync_should_fetch_a_trustsummary_by_uid()
     {
-        _sut.Uid = dummyTrustSummary.Uid;
+        Sut.Uid = DummyTrustSummary.Uid;
 
-        await _sut.OnGetAsync();
-        _sut.TrustSummary.Should().Be(dummyTrustSummary);
+        await Sut.OnGetAsync();
+        Sut.TrustSummary.Should().Be(DummyTrustSummary);
     }
 
     [Fact]
     public async Task OnGetAsync_should_return_not_found_result_if_trust_is_not_found()
     {
-        _mockTrustService.Setup(t => t.GetTrustSummaryAsync("1111"))
+        MockTrustService.Setup(t => t.GetTrustSummaryAsync("1111"))
             .ReturnsAsync((TrustSummaryServiceModel?)null);
 
-        _sut.Uid = "1111";
-        var result = await _sut.OnGetAsync();
+        Sut.Uid = "1111";
+        var result = await Sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
 
     [Fact]
     public async Task OnGetAsync_should_return_not_found_result_if_Uid_is_not_provided()
     {
-        _sut.Uid = "";
-        var result = await _sut.OnGetAsync();
+        Sut.Uid = "";
+        var result = await Sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
 
@@ -79,9 +79,9 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
     [Fact]
     public async Task OnGetAsync_should_populate_NavigationLinks()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.NavigationLinks.Should()
+        Sut.NavigationLinks.Should()
             .SatisfyRespectively(
                 l =>
                 {
@@ -121,21 +121,21 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
     [InlineData("5678")]
     public async Task OnGetAsync_should_set_NavigationLinks_to_trust_uid(string trustUid)
     {
-        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(trustUid))
-            .ReturnsAsync(dummyTrustSummary with { Uid = trustUid });
-        _sut.Uid = trustUid;
+        MockTrustService.Setup(t => t.GetTrustSummaryAsync(trustUid))
+            .ReturnsAsync(DummyTrustSummary with { Uid = trustUid });
+        Sut.Uid = trustUid;
 
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.NavigationLinks.Should().AllSatisfy(l => l.Uid.Should().Be(trustUid));
+        Sut.NavigationLinks.Should().AllSatisfy(l => l.Uid.Should().Be(trustUid));
     }
 
     [Fact]
     public async Task OnGetAsync_should_configure_TrustPageMetadata_TrustName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
+        Sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
     }
 
     [Fact]
@@ -146,21 +146,21 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
     [InlineData("5678")]
     public async Task OnGetAsync_should_set_SubNavigationLinks_to_trust_uid(string trustUid)
     {
-        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(trustUid))
-            .ReturnsAsync(dummyTrustSummary with { Uid = trustUid });
+        MockTrustService.Setup(t => t.GetTrustSummaryAsync(trustUid))
+            .ReturnsAsync(DummyTrustSummary with { Uid = trustUid });
 
-        _sut.Uid = trustUid;
+        Sut.Uid = trustUid;
 
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
         // Sub nav links collection should either be empty or all be for current trust uid
-        if (_sut.SubNavigationLinks.Length == 0)
+        if (Sut.SubNavigationLinks.Length == 0)
         {
-            _sut.SubNavigationLinks.Should().BeEmpty();
+            Sut.SubNavigationLinks.Should().BeEmpty();
         }
         else
         {
-            _sut.SubNavigationLinks.Should().AllSatisfy(l => l.Uid.Should().Be(trustUid));
+            Sut.SubNavigationLinks.Should().AllSatisfy(l => l.Uid.Should().Be(trustUid));
         }
     }
 

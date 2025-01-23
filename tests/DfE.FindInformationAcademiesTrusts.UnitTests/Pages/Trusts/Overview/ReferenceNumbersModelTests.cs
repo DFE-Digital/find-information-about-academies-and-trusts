@@ -8,27 +8,27 @@ public class ReferenceNumbersModelTests : BaseOverviewAreaModelTests<ReferenceNu
 {
     public ReferenceNumbersModelTests()
     {
-        _sut = new ReferenceNumbersModel(
-                _mockDataSourceService.Object,
+        Sut = new ReferenceNumbersModel(
+                MockDataSourceService.Object,
                 new MockLogger<ReferenceNumbersModel>().Object,
-                _mockTrustService.Object)
+                MockTrustService.Object)
             { Uid = TrustUid };
     }
 
     [Fact]
     public override async Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
+        Sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
             .Which.SubPageLink.Should().Be("./ReferenceNumbers");
     }
 
     [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_SubPageName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.SubPageName.Should().Be(ViewConstants.OverviewReferenceNumbersPageName);
+        Sut.TrustPageMetadata.SubPageName.Should().Be(ViewConstants.OverviewReferenceNumbersPageName);
     }
 }

@@ -3,6 +3,7 @@
 Use this documentation to run tests locally.
 
 - [Unit tests](#unit-tests)
+  - [Analyse test coverage](#analyse-test-coverage)
 - [UI tests](#ui-tests)
   - [Installation](#installation)
   - [Running UI tests](#running-ui-tests)

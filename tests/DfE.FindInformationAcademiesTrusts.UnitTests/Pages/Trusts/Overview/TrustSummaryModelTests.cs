@@ -8,19 +8,19 @@ public class TrustSummaryModelTests : BaseOverviewAreaModelTests<TrustSummaryMod
 {
     public TrustSummaryModelTests()
     {
-        _sut = new TrustSummaryModel(
-                _mockDataSourceService.Object,
+        Sut = new TrustSummaryModel(
+                MockDataSourceService.Object,
                 new MockLogger<TrustSummaryModel>().Object,
-                _mockTrustService.Object)
+                MockTrustService.Object)
             { Uid = TrustUid };
     }
 
     [Fact]
     public override async Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
+        Sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
             .Which.SubPageLink.Should().Be("./TrustSummary");
     }
 
@@ -41,9 +41,9 @@ public class TrustSummaryModelTests : BaseOverviewAreaModelTests<TrustSummaryMod
         };
         SetupTrustOverview(overviewWithLocalAuthorities);
 
-        await _sut.OnGetAsync();
+        await Sut.OnGetAsync();
 
-        _sut.AcademiesInEachLocalAuthority
+        Sut.AcademiesInEachLocalAuthority
             .Should()
             .BeEquivalentTo(new (string Authority, int Total)[]
             {
@@ -59,8 +59,8 @@ public class TrustSummaryModelTests : BaseOverviewAreaModelTests<TrustSummaryMod
     [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_SubPageName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.SubPageName.Should().Be(ViewConstants.OverviewTrustSummaryPageName);
+        Sut.TrustPageMetadata.SubPageName.Should().Be(ViewConstants.OverviewTrustSummaryPageName);
     }
 }

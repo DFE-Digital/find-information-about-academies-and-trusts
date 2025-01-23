@@ -7,8 +7,8 @@ public class InDfeModelTests : BaseContactsAreaModelTests<InDfeModel>
 {
     public InDfeModelTests()
     {
-        _sut = new InDfeModel(_mockDataSourceService.Object,
-                _mockTrustService.Object,
+        Sut = new InDfeModel(MockDataSourceService.Object,
+                MockTrustService.Object,
                 new MockLogger<InDfeModel>().Object)
             { Uid = TrustUid };
     }
@@ -16,17 +16,17 @@ public class InDfeModelTests : BaseContactsAreaModelTests<InDfeModel>
     [Fact]
     public override async Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
+        Sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
             .Which.SubPageLink.Should().Be("./InDfE");
     }
 
     [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_SubPageName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.SubPageName.Should().Be("In DfE");
+        Sut.TrustPageMetadata.SubPageName.Should().Be("In DfE");
     }
 }

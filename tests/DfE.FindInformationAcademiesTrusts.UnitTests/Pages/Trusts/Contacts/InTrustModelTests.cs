@@ -7,8 +7,8 @@ public class InTrustModelTests : BaseContactsAreaModelTests<InTrustModel>
 {
     public InTrustModelTests()
     {
-        _sut = new InTrustModel(_mockDataSourceService.Object,
-                _mockTrustService.Object,
+        Sut = new InTrustModel(MockDataSourceService.Object,
+                MockTrustService.Object,
                 new MockLogger<InTrustModel>().Object)
             { Uid = TrustUid };
     }
@@ -16,17 +16,17 @@ public class InTrustModelTests : BaseContactsAreaModelTests<InTrustModel>
     [Fact]
     public override async Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
+        Sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
             .Which.SubPageLink.Should().Be("./InTrust");
     }
 
     [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_SubPageName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.SubPageName.Should().Be("In the trust");
+        Sut.TrustPageMetadata.SubPageName.Should().Be("In the trust");
     }
 }

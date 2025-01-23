@@ -12,16 +12,16 @@ public class AcademiesDetailsModelTests : BaseAcademiesPageModelTests<AcademiesD
 
     public AcademiesDetailsModelTests()
     {
-        _sut = new AcademiesDetailsModel(_mockDataSourceService.Object, _mockLinkBuilder.Object,
-                new MockLogger<AcademiesDetailsModel>().Object, _mockTrustService.Object, _mockAcademyService.Object,
-                _mockExportService.Object, _mockDateTimeProvider.Object)
+        Sut = new AcademiesDetailsModel(MockDataSourceService.Object, _mockLinkBuilder.Object,
+                new MockLogger<AcademiesDetailsModel>().Object, MockTrustService.Object, _mockAcademyService.Object,
+                MockExportService.Object, MockDateTimeProvider.Object)
             { Uid = TrustUid };
     }
 
     [Fact]
     public void OtherServicesLinkBuilder_should_be_injected()
     {
-        _sut.LinkBuilder.Should().Be(_mockLinkBuilder.Object);
+        Sut.LinkBuilder.Should().Be(_mockLinkBuilder.Object);
     }
 
     [Fact]
@@ -33,19 +33,19 @@ public class AcademiesDetailsModelTests : BaseAcademiesPageModelTests<AcademiesD
             new AcademyDetailsServiceModel("2", "", "", "", ""),
             new AcademyDetailsServiceModel("3", "", "", "", "")
         };
-        _mockAcademyService.Setup(a => a.GetAcademiesInTrustDetailsAsync(_sut.Uid))
+        _mockAcademyService.Setup(a => a.GetAcademiesInTrustDetailsAsync(Sut.Uid))
             .ReturnsAsync(academies);
 
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.Academies.Should().BeEquivalentTo(academies);
+        Sut.Academies.Should().BeEquivalentTo(academies);
     }
 
     [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_TabPageName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.TabName.Should().Be(ViewConstants.AcademiesDetailsPageName);
+        Sut.TrustPageMetadata.TabName.Should().Be(ViewConstants.AcademiesDetailsPageName);
     }
 }

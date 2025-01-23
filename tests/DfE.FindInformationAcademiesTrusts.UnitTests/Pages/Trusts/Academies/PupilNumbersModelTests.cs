@@ -11,9 +11,9 @@ public class PupilNumbersModelTests : BaseAcademiesPageModelTests<PupilNumbersMo
 
     public PupilNumbersModelTests()
     {
-        _sut = new PupilNumbersModel(_mockDataSourceService.Object, new MockLogger<PupilNumbersModel>().Object,
-                _mockTrustService.Object, _mockAcademyService.Object, _mockExportService.Object,
-                _mockDateTimeProvider.Object)
+        Sut = new PupilNumbersModel(MockDataSourceService.Object, new MockLogger<PupilNumbersModel>().Object,
+                MockTrustService.Object, _mockAcademyService.Object, MockExportService.Object,
+                MockDateTimeProvider.Object)
             { Uid = TrustUid };
     }
 
@@ -41,8 +41,8 @@ public class PupilNumbersModelTests : BaseAcademiesPageModelTests<PupilNumbersMo
     [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_TabPageName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.TabName.Should().Be("Pupil numbers");
+        Sut.TrustPageMetadata.TabName.Should().Be("Pupil numbers");
     }
 }

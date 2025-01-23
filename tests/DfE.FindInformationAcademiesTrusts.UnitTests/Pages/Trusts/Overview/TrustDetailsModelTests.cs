@@ -10,10 +10,10 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
 
     public TrustDetailsModelTests()
     {
-        _sut = new TrustDetailsModel(
-                _mockDataSourceService.Object,
+        Sut = new TrustDetailsModel(
+                MockDataSourceService.Object,
                 new MockLogger<TrustDetailsModel>().Object,
-                _mockTrustService.Object,
+                MockTrustService.Object,
                 _mockLinksToOtherServices.Object)
             { Uid = TrustUid };
     }
@@ -25,9 +25,9 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
         _mockLinksToOtherServices.Setup(l => l.CompaniesHouseListingLink("123456"))
             .Returns((string?)null);
 
-        await _sut.OnGetAsync();
+        await Sut.OnGetAsync();
 
-        _sut.CompaniesHouseLink.Should().BeNull();
+        Sut.CompaniesHouseLink.Should().BeNull();
     }
 
     [Fact]
@@ -37,9 +37,9 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
         _mockLinksToOtherServices.Setup(l => l.CompaniesHouseListingLink("123456"))
             .Returns("url");
 
-        await _sut.OnGetAsync();
+        await Sut.OnGetAsync();
 
-        _sut.CompaniesHouseLink.Should().Be("url");
+        Sut.CompaniesHouseLink.Should().Be("url");
     }
 
     [Fact]
@@ -48,9 +48,9 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
         _mockLinksToOtherServices.Setup(l => l.GetInformationAboutSchoolsListingLinkForTrust(TrustUid))
             .Returns("url");
 
-        await _sut.OnGetAsync();
+        await Sut.OnGetAsync();
 
-        _sut.GetInformationAboutSchoolsLink.Should().Be("url");
+        Sut.GetInformationAboutSchoolsLink.Should().Be("url");
     }
 
     [Fact]
@@ -61,8 +61,8 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
             .Setup(l => l.FinancialBenchmarkingInsightsToolListingLink(
                 BaseTrustOverviewServiceModel.CompaniesHouseNumber))
             .Returns((string?)null);
-        await _sut.OnGetAsync();
-        _sut.FinancialBenchmarkingInsightsToolLink.Should().BeNull();
+        await Sut.OnGetAsync();
+        Sut.FinancialBenchmarkingInsightsToolLink.Should().BeNull();
     }
 
     [Fact]
@@ -72,8 +72,8 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
             .Setup(l => l.FinancialBenchmarkingInsightsToolListingLink(
                 BaseTrustOverviewServiceModel.CompaniesHouseNumber))
             .Returns("url");
-        await _sut.OnGetAsync();
-        _sut.FinancialBenchmarkingInsightsToolLink.Should().Be("url");
+        await Sut.OnGetAsync();
+        Sut.FinancialBenchmarkingInsightsToolLink.Should().Be("url");
     }
 
     [Fact]
@@ -82,8 +82,8 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
         _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(BaseTrustOverviewServiceModel.Uid,
                 BaseTrustOverviewServiceModel.Type, BaseTrustOverviewServiceModel.SingleAcademyTrustAcademyUrn))
             .Returns((string?)null);
-        await _sut.OnGetAsync();
-        _sut.FindSchoolPerformanceLink.Should().BeNull();
+        await Sut.OnGetAsync();
+        Sut.FindSchoolPerformanceLink.Should().BeNull();
     }
 
     [Fact]
@@ -92,14 +92,14 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
         _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(BaseTrustOverviewServiceModel.Uid,
                 BaseTrustOverviewServiceModel.Type, BaseTrustOverviewServiceModel.SingleAcademyTrustAcademyUrn))
             .Returns("url");
-        await _sut.OnGetAsync();
-        _sut.FindSchoolPerformanceLink.Should().Be("url");
+        await Sut.OnGetAsync();
+        Sut.FindSchoolPerformanceLink.Should().Be("url");
     }
 
     [Fact]
     public void SharepointLink_should_be_empty_string_by_default()
     {
-        _sut.SharepointLink.Should().Be("");
+        Sut.SharepointLink.Should().Be("");
     }
 
     [Fact]
@@ -108,25 +108,25 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
         _mockLinksToOtherServices.Setup(l =>
                 l.SharepointFolderLink(BaseTrustOverviewServiceModel.GroupId))
             .Returns("url/groupID");
-        await _sut.OnGetAsync();
+        await Sut.OnGetAsync();
 
-        _sut.SharepointLink.Should().Be("url/groupID");
+        Sut.SharepointLink.Should().Be("url/groupID");
     }
 
     [Fact]
     public override async Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
+        Sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
             .Which.SubPageLink.Should().Be("./TrustDetails");
     }
 
     [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_SubPageName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.SubPageName.Should().Be(ViewConstants.OverviewTrustDetailsPageName);
+        Sut.TrustPageMetadata.SubPageName.Should().Be(ViewConstants.OverviewTrustDetailsPageName);
     }
 }

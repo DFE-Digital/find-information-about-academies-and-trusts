@@ -7,11 +7,11 @@ public class CurrentRatingsModelTests : BaseOfstedAreaModelTests<CurrentRatingsM
 {
     public CurrentRatingsModelTests()
     {
-        _sut = new CurrentRatingsModel(_mockDataSourceService.Object,
-                _mockTrustService.Object,
-                _mockAcademyService.Object,
-                _mockExportService.Object,
-                _mockDateTimeProvider.Object,
+        Sut = new CurrentRatingsModel(MockDataSourceService.Object,
+                MockTrustService.Object,
+                MockAcademyService.Object,
+                MockExportService.Object,
+                MockDateTimeProvider.Object,
                 new MockLogger<CurrentRatingsModel>().Object
             )
             { Uid = TrustUid };
@@ -20,17 +20,17 @@ public class CurrentRatingsModelTests : BaseOfstedAreaModelTests<CurrentRatingsM
     [Fact]
     public override async Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
+        Sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
             .Which.SubPageLink.Should().Be("./CurrentRatings");
     }
 
     [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_SubPageName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.SubPageName.Should().Be("Current ratings");
+        Sut.TrustPageMetadata.SubPageName.Should().Be("Current ratings");
     }
 }

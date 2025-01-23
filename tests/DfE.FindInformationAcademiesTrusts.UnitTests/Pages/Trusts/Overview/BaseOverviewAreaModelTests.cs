@@ -3,7 +3,6 @@ using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Governance;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Overview;
 
@@ -15,38 +14,38 @@ public abstract class BaseOverviewAreaModelTests<T> : BaseTrustPageTests<T>, ITe
 
     protected BaseOverviewAreaModelTests()
     {
-        _mockTrustService.Setup(t => t.GetTrustOverviewAsync(It.IsAny<string>()))
+        MockTrustService.Setup(t => t.GetTrustOverviewAsync(It.IsAny<string>()))
             .ReturnsAsync((string uid) => BaseTrustOverviewServiceModel with { Uid = uid });
     }
 
     protected void SetupTrustOverview(TrustOverviewServiceModel trustOverviewServiceModel)
     {
-        _mockTrustService.Setup(t => t.GetTrustOverviewAsync(trustOverviewServiceModel.Uid))
+        MockTrustService.Setup(t => t.GetTrustOverviewAsync(trustOverviewServiceModel.Uid))
             .ReturnsAsync(trustOverviewServiceModel);
     }
 
     [Fact]
     public override async Task OnGetAsync_sets_correct_data_source_list()
     {
-        _ = await _sut.OnGetAsync();
-        _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
+        _ = await Sut.OnGetAsync();
+        MockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
 
-        _sut.DataSourcesPerPage.Should().BeEquivalentTo([
+        Sut.DataSourcesPerPage.Should().BeEquivalentTo([
             new DataSourcePageListEntry(ViewConstants.OverviewTrustDetailsPageName,
-                [new DataSourceListEntry(_giasDataSource)]),
+                [new DataSourceListEntry(GiasDataSource)]),
             new DataSourcePageListEntry(ViewConstants.OverviewTrustSummaryPageName,
-                [new DataSourceListEntry(_giasDataSource)]),
+                [new DataSourceListEntry(GiasDataSource)]),
             new DataSourcePageListEntry(ViewConstants.OverviewReferenceNumbersPageName,
-                [new DataSourceListEntry(_giasDataSource)])
+                [new DataSourceListEntry(GiasDataSource)])
         ]);
     }
 
     [Fact]
     public override async Task OnGetAsync_should_set_active_NavigationLink_to_current_page()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.NavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
+        Sut.NavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
             .Which.LinkText.Should().Be(ViewConstants.OverviewPageName);
     }
 
@@ -56,9 +55,9 @@ public abstract class BaseOverviewAreaModelTests<T> : BaseTrustPageTests<T>, ITe
     [Fact]
     public async Task OnGetAsync_should_populate_SubNavigationLinks_to_subpages()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.SubNavigationLinks.Should()
+        Sut.SubNavigationLinks.Should()
             .SatisfyRespectively(
                 l =>
                 {
@@ -83,9 +82,9 @@ public abstract class BaseOverviewAreaModelTests<T> : BaseTrustPageTests<T>, ITe
     [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_PageName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.OverviewPageName);
+        Sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.OverviewPageName);
     }
 
     [Fact]

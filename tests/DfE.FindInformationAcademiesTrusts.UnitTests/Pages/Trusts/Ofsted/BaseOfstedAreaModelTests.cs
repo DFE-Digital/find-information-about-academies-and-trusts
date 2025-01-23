@@ -6,46 +6,45 @@ using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Governance;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Ofsted;
 
 public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITestSubpages where T : OfstedAreaModel
 {
-    protected readonly Mock<IAcademyService> _mockAcademyService = new();
-    protected readonly Mock<IExportService> _mockExportService = new();
-    protected readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
+    protected readonly Mock<IAcademyService> MockAcademyService = new();
+    protected readonly Mock<IExportService> MockExportService = new();
+    protected readonly Mock<IDateTimeProvider> MockDateTimeProvider = new();
 
     [Fact]
     public override async Task OnGetAsync_sets_correct_data_source_list()
     {
-        await _sut.OnGetAsync();
+        await Sut.OnGetAsync();
 
-        _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
-        _mockDataSourceService.Verify(e => e.GetAsync(Source.Mis), Times.Once);
+        MockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
+        MockDataSourceService.Verify(e => e.GetAsync(Source.Mis), Times.Once);
 
-        _sut.DataSourcesPerPage.Should().BeEquivalentTo([
+        Sut.DataSourcesPerPage.Should().BeEquivalentTo([
             new DataSourcePageListEntry(ViewConstants.OfstedCurrentRatingsPageName, [
-                    new DataSourceListEntry(_misDataSource, "Current Ofsted rating"),
-                    new DataSourceListEntry(_misDataSource, "Date of current inspection")
+                    new DataSourceListEntry(MisDataSource, "Current Ofsted rating"),
+                    new DataSourceListEntry(MisDataSource, "Date of current inspection")
                 ]
             ),
             new DataSourcePageListEntry(ViewConstants.OfstedPreviousRatingsPageName, [
-                    new DataSourceListEntry(_misDataSource, "Previous Ofsted rating"),
-                    new DataSourceListEntry(_misDataSource, "Date of previous inspection")
+                    new DataSourceListEntry(MisDataSource, "Previous Ofsted rating"),
+                    new DataSourceListEntry(MisDataSource, "Date of previous inspection")
                 ]
             ),
             new DataSourcePageListEntry(ViewConstants.OfstedImportantDatesPageName, [
-                    new DataSourceListEntry(_giasDataSource, "Date joined trust"),
-                    new DataSourceListEntry(_misDataSource, "Date of current inspection"),
-                    new DataSourceListEntry(_misDataSource, "Date of previous inspection")
+                    new DataSourceListEntry(GiasDataSource, "Date joined trust"),
+                    new DataSourceListEntry(MisDataSource, "Date of current inspection"),
+                    new DataSourceListEntry(MisDataSource, "Date of previous inspection")
                 ]
             ),
             new DataSourcePageListEntry(ViewConstants.OfstedSafeguardingAndConcernsPageName, [
-                    new DataSourceListEntry(_misDataSource, "Effective safeguarding"),
-                    new DataSourceListEntry(_misDataSource, "Category of concern"),
-                    new DataSourceListEntry(_misDataSource, "Date of current inspection")
+                    new DataSourceListEntry(MisDataSource, "Effective safeguarding"),
+                    new DataSourceListEntry(MisDataSource, "Category of concern"),
+                    new DataSourceListEntry(MisDataSource, "Date of current inspection")
                 ]
             )
         ]);
@@ -66,12 +65,12 @@ public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITest
                 new OfstedRating(2, new DateTime(2023, 1, 3)),
                 new OfstedRating(3, new DateTime(2023, 4, 1)))
         };
-        _mockAcademyService.Setup(a => a.GetAcademiesInTrustOfstedAsync(_sut.Uid))
+        MockAcademyService.Setup(a => a.GetAcademiesInTrustOfstedAsync(Sut.Uid))
             .ReturnsAsync(academies);
 
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.Academies.Should().BeEquivalentTo(academies);
+        Sut.Academies.Should().BeEquivalentTo(academies);
     }
 
     [Fact]
@@ -79,11 +78,11 @@ public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITest
     {
         // Arrange
         byte[] expectedBytes = [1, 2, 3];
-        _mockExportService.Setup(x => x.ExportOfstedDataToSpreadsheetAsync(TrustUid))
+        MockExportService.Setup(x => x.ExportOfstedDataToSpreadsheetAsync(TrustUid))
             .ReturnsAsync(expectedBytes);
 
         // Act
-        var result = await _sut.OnGetExportAsync(TrustUid);
+        var result = await Sut.OnGetExportAsync(TrustUid);
 
         // Assert
         result.Should().BeOfType<FileContentResult>();
@@ -98,11 +97,11 @@ public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITest
         // Arrange
         var uid = "invalid-uid";
 
-        _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid))
+        MockTrustService.Setup(x => x.GetTrustSummaryAsync(uid))
             .ReturnsAsync((TrustSummaryServiceModel?)null);
 
         // Act
-        var result = await _sut.OnGetExportAsync(uid);
+        var result = await Sut.OnGetExportAsync(uid);
 
         // Assert
         result.Should().BeOfType<NotFoundResult>();
@@ -115,13 +114,13 @@ public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITest
         var uid = TrustUid;
         var expectedBytes = new byte[] { 1, 2, 3 };
 
-        _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid))
-            .ReturnsAsync(dummyTrustSummary with { Name = "Sample/Trust:Name?" });
-        _mockExportService.Setup(x => x.ExportOfstedDataToSpreadsheetAsync(uid))
+        MockTrustService.Setup(x => x.GetTrustSummaryAsync(uid))
+            .ReturnsAsync(DummyTrustSummary with { Name = "Sample/Trust:Name?" });
+        MockExportService.Setup(x => x.ExportOfstedDataToSpreadsheetAsync(uid))
             .ReturnsAsync(expectedBytes);
 
         // Act
-        var result = await _sut.OnGetExportAsync(uid);
+        var result = await Sut.OnGetExportAsync(uid);
 
         // Assert
         result.Should().BeOfType<FileContentResult>();
@@ -142,9 +141,9 @@ public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITest
     [Fact]
     public override async Task OnGetAsync_should_set_active_NavigationLink_to_current_page()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.NavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
+        Sut.NavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
             .Which.LinkText.Should().Be("Ofsted");
     }
 
@@ -154,9 +153,9 @@ public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITest
     [Fact]
     public async Task OnGetAsync_should_populate_SubNavigationLinks_to_subpages()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.SubNavigationLinks.Should()
+        Sut.SubNavigationLinks.Should()
             .SatisfyRespectively(
                 l =>
                 {
@@ -187,9 +186,9 @@ public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITest
     [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_PageName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.PageName.Should().Be("Ofsted");
+        Sut.TrustPageMetadata.PageName.Should().Be("Ofsted");
     }
 
     [Fact]

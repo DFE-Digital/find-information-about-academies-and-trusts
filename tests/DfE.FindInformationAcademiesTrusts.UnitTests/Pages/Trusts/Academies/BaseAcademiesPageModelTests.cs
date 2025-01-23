@@ -11,8 +11,8 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 
 public abstract class BaseAcademiesPageModelTests<T> : BaseTrustPageTests<T>, ITestTabPages where T : AcademiesPageModel
 {
-    protected readonly Mock<IExportService> _mockExportService = new();
-    protected readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
+    protected readonly Mock<IExportService> MockExportService = new();
+    protected readonly Mock<IDateTimeProvider> MockDateTimeProvider = new();
 
     [Fact]
     public async Task OnGetExportAsync_ShouldReturnFileResult_WhenUidIsValid()
@@ -20,11 +20,11 @@ public abstract class BaseAcademiesPageModelTests<T> : BaseTrustPageTests<T>, IT
         // Arrange
         byte[] expectedBytes = [1, 2, 3];
 
-        _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(TrustUid))
+        MockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(TrustUid))
             .ReturnsAsync(expectedBytes);
 
         // Act
-        var result = await _sut.OnGetExportAsync(TrustUid);
+        var result = await Sut.OnGetExportAsync(TrustUid);
 
         // Assert
         result.Should().BeOfType<FileContentResult>();
@@ -39,11 +39,11 @@ public abstract class BaseAcademiesPageModelTests<T> : BaseTrustPageTests<T>, IT
         // Arrange
         var uid = "invalid-uid";
 
-        _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid))
+        MockTrustService.Setup(x => x.GetTrustSummaryAsync(uid))
             .ReturnsAsync((TrustSummaryServiceModel?)null);
 
         // Act
-        var result = await _sut.OnGetExportAsync(uid);
+        var result = await Sut.OnGetExportAsync(uid);
 
         // Assert
         result.Should().BeOfType<NotFoundResult>();
@@ -56,13 +56,13 @@ public abstract class BaseAcademiesPageModelTests<T> : BaseTrustPageTests<T>, IT
         var uid = TrustUid;
         var expectedBytes = new byte[] { 1, 2, 3 };
 
-        _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid))
-            .ReturnsAsync(dummyTrustSummary with { Name = "Sample/Trust:Name?" });
-        _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(uid))
+        MockTrustService.Setup(x => x.GetTrustSummaryAsync(uid))
+            .ReturnsAsync(DummyTrustSummary with { Name = "Sample/Trust:Name?" });
+        MockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(uid))
             .ReturnsAsync(expectedBytes);
 
         // Act
-        var result = await _sut.OnGetExportAsync(uid);
+        var result = await Sut.OnGetExportAsync(uid);
 
         // Assert
         result.Should().BeOfType<FileContentResult>();
@@ -84,21 +84,21 @@ public abstract class BaseAcademiesPageModelTests<T> : BaseTrustPageTests<T>, IT
     public override async Task OnGetAsync_sets_correct_data_source_list()
     {
         TrustSummaryServiceModel fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
-        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(fakeTrust.Uid)).ReturnsAsync(fakeTrust);
-        _sut.Uid = fakeTrust.Uid;
+        MockTrustService.Setup(t => t.GetTrustSummaryAsync(fakeTrust.Uid)).ReturnsAsync(fakeTrust);
+        Sut.Uid = fakeTrust.Uid;
 
-        _ = await _sut.OnGetAsync();
-        _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
-        _mockDataSourceService.Verify(e => e.GetAsync(Source.ExploreEducationStatistics), Times.Once);
-        _sut.DataSourcesPerPage.Should().BeEquivalentTo([
+        _ = await Sut.OnGetAsync();
+        MockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
+        MockDataSourceService.Verify(e => e.GetAsync(Source.ExploreEducationStatistics), Times.Once);
+        Sut.DataSourcesPerPage.Should().BeEquivalentTo([
             new DataSourcePageListEntry(ViewConstants.AcademiesDetailsPageName,
-                [new DataSourceListEntry(_giasDataSource)]),
+                [new DataSourceListEntry(GiasDataSource)]),
             new DataSourcePageListEntry(ViewConstants.AcademiesPupilNumbersPageName,
-                [new DataSourceListEntry(_giasDataSource)]),
+                [new DataSourceListEntry(GiasDataSource)]),
             new DataSourcePageListEntry(ViewConstants.AcademiesFreeSchoolMealsPageName, [
-                new DataSourceListEntry(_giasDataSource, "Pupils eligible for free school meals"),
-                new DataSourceListEntry(_eesDataSource, "Local authority average 2023/24"),
-                new DataSourceListEntry(_eesDataSource, "National average 2023/24")
+                new DataSourceListEntry(GiasDataSource, "Pupils eligible for free school meals"),
+                new DataSourceListEntry(EesDataSource, "Local authority average 2023/24"),
+                new DataSourceListEntry(EesDataSource, "National average 2023/24")
             ])
         ]);
     }
@@ -106,25 +106,25 @@ public abstract class BaseAcademiesPageModelTests<T> : BaseTrustPageTests<T>, IT
     [Fact]
     public override async Task OnGetAsync_should_set_active_NavigationLink_to_current_page()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.NavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
+        Sut.NavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
             .Which.LinkText.Should().Be("Academies (3)");
     }
 
     [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_PageName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.PageName.Should().Be("Academies");
+        Sut.TrustPageMetadata.PageName.Should().Be("Academies");
     }
 
     [Fact]
     public async Task OnGetAsync_sets_SubNavigationLinks_toEmptyArray()
     {
-        _ = await _sut.OnGetAsync();
-        _sut.SubNavigationLinks.Should().Equal();
+        _ = await Sut.OnGetAsync();
+        Sut.SubNavigationLinks.Should().Equal();
     }
 
     [Fact]

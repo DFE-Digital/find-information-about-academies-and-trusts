@@ -12,7 +12,7 @@ public abstract class BaseGovernanceAreaModelTests<T> : BaseTrustPageTests<T>, I
 {
     protected BaseGovernanceAreaModelTests()
     {
-        _mockTrustService.Setup(t => t.GetTrustGovernanceAsync(It.IsAny<string>()))
+        MockTrustService.Setup(t => t.GetTrustGovernanceAsync(It.IsAny<string>()))
             .ReturnsAsync(new TrustGovernanceServiceModel([], [], [], [], 0));
     }
 
@@ -33,18 +33,18 @@ public abstract class BaseGovernanceAreaModelTests<T> : BaseTrustPageTests<T>, I
     [Fact]
     public override async Task OnGetAsync_sets_correct_data_source_list()
     {
-        await _sut.OnGetAsync();
-        _mockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
+        await Sut.OnGetAsync();
+        MockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
 
-        _sut.DataSourcesPerPage.Should().BeEquivalentTo([
+        Sut.DataSourcesPerPage.Should().BeEquivalentTo([
             new DataSourcePageListEntry(ViewConstants.GovernanceTrustLeadershipPageName,
-                [new DataSourceListEntry(_giasDataSource)]),
+                [new DataSourceListEntry(GiasDataSource)]),
             new DataSourcePageListEntry(ViewConstants.GovernanceTrusteesPageName,
-                [new DataSourceListEntry(_giasDataSource)]),
+                [new DataSourceListEntry(GiasDataSource)]),
             new DataSourcePageListEntry(ViewConstants.GovernanceMembersPageName,
-                [new DataSourceListEntry(_giasDataSource)]),
+                [new DataSourceListEntry(GiasDataSource)]),
             new DataSourcePageListEntry(ViewConstants.GovernanceHistoricMembersPageName,
-                [new DataSourceListEntry(_giasDataSource)])
+                [new DataSourceListEntry(GiasDataSource)])
         ]);
     }
 
@@ -58,13 +58,13 @@ public abstract class BaseGovernanceAreaModelTests<T> : BaseTrustPageTests<T>, I
             GenerateGovernors(false, "Trustee", 1),
             10);
 
-        _mockTrustService.Setup(t => t.GetTrustGovernanceAsync(TrustUid))
+        MockTrustService.Setup(t => t.GetTrustGovernanceAsync(TrustUid))
             .ReturnsAsync(trustGovernanceServiceModelWithData);
 
-        await _sut.OnGetAsync();
+        await Sut.OnGetAsync();
 
-        _mockTrustService.Verify(e => e.GetTrustGovernanceAsync(TrustUid), Times.Once);
-        _sut.TrustGovernance.Should().BeEquivalentTo(trustGovernanceServiceModelWithData);
+        MockTrustService.Verify(e => e.GetTrustGovernanceAsync(TrustUid), Times.Once);
+        Sut.TrustGovernance.Should().BeEquivalentTo(trustGovernanceServiceModelWithData);
     }
 
     [Theory]
@@ -76,7 +76,7 @@ public abstract class BaseGovernanceAreaModelTests<T> : BaseTrustPageTests<T>, I
     public async Task OnGetAsync_should_include_numbers_of_governors_in_subpage_link_text(int numTrustLeaders,
         int numMembers, int numTrustees, int numHistoricMembers)
     {
-        _mockTrustService.Setup(t => t.GetTrustGovernanceAsync(TrustUid))
+        MockTrustService.Setup(t => t.GetTrustGovernanceAsync(TrustUid))
             .ReturnsAsync(new TrustGovernanceServiceModel(
                 GenerateGovernors(true, "Chair of Trustees", numTrustLeaders),
                 GenerateGovernors(true, "Member", numMembers),
@@ -84,9 +84,9 @@ public abstract class BaseGovernanceAreaModelTests<T> : BaseTrustPageTests<T>, I
                 GenerateGovernors(false, "Trustee", numHistoricMembers),
                 0));
 
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.SubNavigationLinks.Should()
+        Sut.SubNavigationLinks.Should()
             .SatisfyRespectively(
                 l => { l.LinkText.Should().Be($"Trust leadership ({numTrustLeaders})"); },
                 l => { l.LinkText.Should().Be($"Trustees ({numTrustees})"); },
@@ -97,17 +97,17 @@ public abstract class BaseGovernanceAreaModelTests<T> : BaseTrustPageTests<T>, I
     [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_PageName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.GovernancePageName);
+        Sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.GovernancePageName);
     }
 
     [Fact]
     public override async Task OnGetAsync_should_set_active_NavigationLink_to_current_page()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.NavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
+        Sut.NavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
             .Which.LinkText.Should().Be(ViewConstants.GovernancePageName);
     }
 
@@ -117,9 +117,9 @@ public abstract class BaseGovernanceAreaModelTests<T> : BaseTrustPageTests<T>, I
     [Fact]
     public async Task OnGetAsync_should_populate_SubNavigationLinks_to_subpages()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.SubNavigationLinks.Should()
+        Sut.SubNavigationLinks.Should()
             .SatisfyRespectively(
                 l =>
                 {

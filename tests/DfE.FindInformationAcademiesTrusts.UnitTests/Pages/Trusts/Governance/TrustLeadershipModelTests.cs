@@ -7,25 +7,25 @@ public class TrustLeadershipModelTests : BaseGovernanceAreaModelTests<TrustLeade
 {
     public TrustLeadershipModelTests()
     {
-        _sut = new TrustLeadershipModel(_mockDataSourceService.Object,
-                new MockLogger<TrustLeadershipModel>().Object, _mockTrustService.Object)
+        Sut = new TrustLeadershipModel(MockDataSourceService.Object,
+                new MockLogger<TrustLeadershipModel>().Object, MockTrustService.Object)
             { Uid = TrustUid };
     }
 
     [Fact]
     public override async Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
+        Sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
             .Which.SubPageLink.Should().Be("./TrustLeadership");
     }
 
     [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_SubPageName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.SubPageName.Should().Be("Trust leadership");
+        Sut.TrustPageMetadata.SubPageName.Should().Be("Trust leadership");
     }
 }

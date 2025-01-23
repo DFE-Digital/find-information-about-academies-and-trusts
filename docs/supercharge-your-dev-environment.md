@@ -2,13 +2,11 @@
 
 Use this documentation to help supercharge your dev environment. We recommend using Rider or Visual Studio with ReSharper.
 
-- [Supercharge your dev environment](#supercharge-your-dev-environment)
-  - [Set up continuous testing](#set-up-continuous-testing)
-  - [Analyse test coverage](#analyse-test-coverage)
-  - [Configure linting and code cleanup](#configure-linting-and-code-cleanup)
-    - [Linting markdown](#linting-markdown)
-    - [Linting cypress tests](#linting-cypress-tests)
-    - [Formatting cypress tests](#formatting-cypress-tests)
+- [Set up continuous testing](#set-up-continuous-testing)
+- [Configure linting and code cleanup](#configure-linting-and-code-cleanup)
+  - [Linting markdown](#linting-markdown)
+  - [Linting cypress tests](#linting-cypress-tests)
+  - [Formatting cypress tests](#formatting-cypress-tests)
 
 ## Set up continuous testing
 

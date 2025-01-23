@@ -7,11 +7,11 @@ public class ImportantDatesModelTests : BaseOfstedAreaModelTests<ImportantDatesM
 {
     public ImportantDatesModelTests()
     {
-        _sut = new ImportantDatesModel(_mockDataSourceService.Object,
-                _mockTrustService.Object,
-                _mockAcademyService.Object,
-                _mockExportService.Object,
-                _mockDateTimeProvider.Object,
+        Sut = new ImportantDatesModel(MockDataSourceService.Object,
+                MockTrustService.Object,
+                MockAcademyService.Object,
+                MockExportService.Object,
+                MockDateTimeProvider.Object,
                 new MockLogger<ImportantDatesModel>().Object
             )
             { Uid = TrustUid };
@@ -20,17 +20,17 @@ public class ImportantDatesModelTests : BaseOfstedAreaModelTests<ImportantDatesM
     [Fact]
     public override async Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
+        Sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
             .Which.SubPageLink.Should().Be("./ImportantDates");
     }
 
     [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_SubPageName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.SubPageName.Should().Be("Important dates");
+        Sut.TrustPageMetadata.SubPageName.Should().Be("Important dates");
     }
 }

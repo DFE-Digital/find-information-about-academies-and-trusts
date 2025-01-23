@@ -7,25 +7,25 @@ public class MembersModelTests : BaseGovernanceAreaModelTests<MembersModel>
 {
     public MembersModelTests()
     {
-        _sut = new MembersModel(_mockDataSourceService.Object,
-                new MockLogger<MembersModel>().Object, _mockTrustService.Object)
+        Sut = new MembersModel(MockDataSourceService.Object,
+                new MockLogger<MembersModel>().Object, MockTrustService.Object)
             { Uid = TrustUid };
     }
 
     [Fact]
     public override async Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
+        Sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
             .Which.SubPageLink.Should().Be("./Members");
     }
 
     [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_SubPageName()
     {
-        _ = await _sut.OnGetAsync();
+        _ = await Sut.OnGetAsync();
 
-        _sut.TrustPageMetadata.SubPageName.Should().Be("Members");
+        Sut.TrustPageMetadata.SubPageName.Should().Be("Members");
     }
 }
