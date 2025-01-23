@@ -23,6 +23,26 @@ dotnet test
 > [!NOTE]
 > The FIAT db tests will fail unless the Docker engine is running - see [ADR 15. Use Test Containers to unit test FIAT database configuration, usages and change tracking][adr-15] on why and how this works.
 
+### Analyse test coverage
+
+This project uses a mutation score to analyse effective test coverage when opening up a new pull request.
+[Stryker.Net][stryker-docs] is included in our dotnet-tools manifest for checking mutation score locally.
+
+Open a terminal at the root folder and type the following to run and open a Stryker report:
+
+```bash
+# Install stryker and other tools (only need to do this after a version update)
+dotnet tool restore
+
+# Analyse all unit tests and open a html report afterwards
+dotnet stryker -o --concurrency 6 
+
+# Only mutate one file
+dotnet stryker -o --project "DfE.FindInformationAcademiesTrusts.csproj" --mutate "**/TrustService.cs" --concurrency 6
+```
+
+You will be able to find all reports in the `StrykerOutput` folder in your project root.
+
 ## UI tests
 
 ### Installation
@@ -100,4 +120,5 @@ dotnet test
 
 [adr-15]: adrs/0015-use-test-containers-to-unit-test-fiat-database.md
 [docker-run]: ./docker.md#how
+[stryker-docs]: https://stryker-mutator.io/docs/
 [test-approach]: ./test-approach.md
