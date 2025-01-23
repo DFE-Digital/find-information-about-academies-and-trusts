@@ -5,6 +5,7 @@ using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 
@@ -71,6 +72,13 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
         Sut.Uid = "";
         var result = await Sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_return_page_result_if_uid_exists()
+    {
+        var result = await Sut.OnGetAsync();
+        result.Should().BeOfType<PageResult>();
     }
 
     [Fact]
