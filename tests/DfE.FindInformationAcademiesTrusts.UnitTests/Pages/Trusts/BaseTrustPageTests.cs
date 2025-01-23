@@ -23,6 +23,9 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
     protected readonly DataSourceServiceModel _misDataSource =
         new(Source.Mis, new DateTime(2025, 1, 1), UpdateFrequency.Daily);
 
+    protected readonly DataSourceServiceModel _eesDataSource = new(Source.ExploreEducationStatistics,
+        new DateTime(2025, 1, 1), UpdateFrequency.Annually);
+
     protected const string TrustUid = "1234";
     protected TrustSummaryServiceModel dummyTrustSummary = new(TrustUid, "My Trust", "Multi-academy trust", 3);
 
@@ -33,6 +36,7 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
         _mockDataSourceService.Setup(s => s.GetAsync(Source.Gias)).ReturnsAsync(_giasDataSource);
         _mockDataSourceService.Setup(s => s.GetAsync(Source.Mstr)).ReturnsAsync(_mstrDataSource);
         _mockDataSourceService.Setup(s => s.GetAsync(Source.Mis)).ReturnsAsync(_misDataSource);
+        _mockDataSourceService.Setup(s => s.GetAsync(Source.ExploreEducationStatistics)).ReturnsAsync(_eesDataSource);
     }
 
     [Fact]

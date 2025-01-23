@@ -6,57 +6,25 @@ using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 
-public class AcademiesPageModelTests
+public abstract class BaseAcademiesPageModelTests<T> : BaseTrustPageTests<T>, ITestTabPages where T : AcademiesPageModel
 {
-    private readonly Mock<ITrustService> _mockTrustService = new();
-    private readonly Mock<IExportService> _mockExportService = new();
-    private readonly Mock<IDataSourceService> _mockDataSourceService = new();
-    private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
-    private readonly Mock<ILogger<AcademiesPageModel>> _mockLogger = new();
-    private readonly AcademiesPageModel _sut;
-
-    private readonly DataSourceServiceModel _giasDataSource =
-        new(Source.Gias, new DateTime(2025, 1, 1), UpdateFrequency.Daily);
-
-    private readonly DataSourceServiceModel _eesDataSource = new(Source.ExploreEducationStatistics,
-        new DateTime(2025, 1, 1),
-        UpdateFrequency.Annually);
-
-    private class AcademiesPageModelImpl(
-        IDataSourceService dataSourceService,
-        ITrustService trustService,
-        IExportService exportService,
-        ILogger<AcademiesPageModel> logger,
-        IDateTimeProvider dateTimeProvider)
-        : AcademiesPageModel(dataSourceService, trustService, exportService, logger, dateTimeProvider);
-
-    public AcademiesPageModelTests()
-    {
-        _mockDataSourceService.Setup(s => s.GetAsync(Source.Gias)).ReturnsAsync(_giasDataSource);
-        _mockDataSourceService.Setup(s => s.GetAsync(Source.ExploreEducationStatistics)).ReturnsAsync(_eesDataSource);
-        _sut = new AcademiesPageModelImpl(_mockDataSourceService.Object, _mockTrustService.Object,
-            _mockExportService.Object, _mockLogger.Object, _mockDateTimeProvider.Object);
-    }
+    protected readonly Mock<IExportService> _mockExportService = new();
+    protected readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
 
     [Fact]
     public async Task OnGetExportAsync_ShouldReturnFileResult_WhenUidIsValid()
     {
         // Arrange
-        var uid = "1234";
-
-        var trustSummary = new TrustSummaryServiceModel(uid, "Sample Trust", "Multi-academy trust", 0);
         byte[] expectedBytes = [1, 2, 3];
 
-        _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid)).ReturnsAsync(trustSummary);
-        _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(uid)).ReturnsAsync(expectedBytes);
-
+        _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(TrustUid))
+            .ReturnsAsync(expectedBytes);
 
         // Act
-        var result = await _sut.OnGetExportAsync(uid);
+        var result = await _sut.OnGetExportAsync(TrustUid);
 
         // Assert
         result.Should().BeOfType<FileContentResult>();
@@ -71,7 +39,8 @@ public class AcademiesPageModelTests
         // Arrange
         var uid = "invalid-uid";
 
-        _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid)).ReturnsAsync((TrustSummaryServiceModel?)null);
+        _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid))
+            .ReturnsAsync((TrustSummaryServiceModel?)null);
 
         // Act
         var result = await _sut.OnGetExportAsync(uid);
@@ -84,12 +53,13 @@ public class AcademiesPageModelTests
     public async Task OnGetExportAsync_ShouldSanitizeTrustName_WhenTrustNameContainsIllegalCharacters()
     {
         // Arrange
-        var uid = "1234";
-        var trustSummary = new TrustSummaryServiceModel(uid, "Sample/Trust:Name?", "Multi-academy trust", 0);
+        var uid = TrustUid;
         var expectedBytes = new byte[] { 1, 2, 3 };
 
-        _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid)).ReturnsAsync(trustSummary);
-        _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(uid)).ReturnsAsync(expectedBytes);
+        _mockTrustService.Setup(x => x.GetTrustSummaryAsync(uid))
+            .ReturnsAsync(dummyTrustSummary with { Name = "Sample/Trust:Name?" });
+        _mockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(uid))
+            .ReturnsAsync(expectedBytes);
 
         // Act
         var result = await _sut.OnGetExportAsync(uid);
@@ -111,21 +81,7 @@ public class AcademiesPageModelTests
     }
 
     [Fact]
-    public async Task OnGetAsync_should_configure_TrustPageMetadata()
-    {
-        TrustSummaryServiceModel fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
-
-        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(fakeTrust.Uid)).ReturnsAsync(fakeTrust);
-        _sut.Uid = fakeTrust.Uid;
-
-        _ = await _sut.OnGetAsync();
-
-        _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.AcademiesPageName);
-        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
-    }
-
-    [Fact]
-    public async Task OnGetAsync_sets_correct_data_source_list()
+    public override async Task OnGetAsync_sets_correct_data_source_list()
     {
         TrustSummaryServiceModel fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(fakeTrust.Uid)).ReturnsAsync(fakeTrust);
@@ -146,4 +102,31 @@ public class AcademiesPageModelTests
             ])
         ]);
     }
+
+    [Fact]
+    public override async Task OnGetAsync_should_set_active_NavigationLink_to_current_page()
+    {
+        _ = await _sut.OnGetAsync();
+
+        _sut.NavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
+            .Which.LinkText.Should().Be("Academies (3)");
+    }
+
+    [Fact]
+    public override async Task OnGetAsync_should_configure_TrustPageMetadata_PageName()
+    {
+        _ = await _sut.OnGetAsync();
+
+        _sut.TrustPageMetadata.PageName.Should().Be("Academies");
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_SubNavigationLinks_toEmptyArray()
+    {
+        _ = await _sut.OnGetAsync();
+        _sut.SubNavigationLinks.Should().Equal();
+    }
+
+    [Fact]
+    public abstract Task OnGetAsync_should_configure_TrustPageMetadata_TabPageName();
 }
