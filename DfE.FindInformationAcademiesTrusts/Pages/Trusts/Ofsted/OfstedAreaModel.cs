@@ -57,13 +57,11 @@ public class OfstedAreaModel(
 
         DataSourcesPerPage.AddRange([
             new DataSourcePageListEntry(ViewConstants.OfstedCurrentRatingsPageName, [
-                    dateJoinedTrust,
                     new DataSourceListEntry(misDataSource, "Current Ofsted rating"),
                     new DataSourceListEntry(misDataSource, "Date of current inspection")
                 ]
             ),
             new DataSourcePageListEntry(ViewConstants.OfstedPreviousRatingsPageName, [
-                    dateJoinedTrust,
                     new DataSourceListEntry(misDataSource, "Previous Ofsted rating"),
                     new DataSourceListEntry(misDataSource, "Date of previous inspection")
                 ]
@@ -75,7 +73,6 @@ public class OfstedAreaModel(
                 ]
             ),
             new DataSourcePageListEntry(ViewConstants.OfstedSafeguardingAndConcernsPageName, [
-                    dateJoinedTrust,
                     new DataSourceListEntry(misDataSource, "Effective safeguarding"),
                     new DataSourceListEntry(misDataSource, "Category of concern"),
                     new DataSourceListEntry(misDataSource, "Date of current inspection")
