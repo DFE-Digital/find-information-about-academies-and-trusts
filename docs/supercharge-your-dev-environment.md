@@ -2,13 +2,11 @@
 
 Use this documentation to help supercharge your dev environment. We recommend using Rider or Visual Studio with ReSharper.
 
-- [Supercharge your dev environment](#supercharge-your-dev-environment)
-  - [Set up continuous testing](#set-up-continuous-testing)
-  - [Analyse test coverage](#analyse-test-coverage)
-  - [Configure linting and code cleanup](#configure-linting-and-code-cleanup)
-    - [Linting markdown](#linting-markdown)
-    - [Linting cypress tests](#linting-cypress-tests)
-    - [Formatting cypress tests](#formatting-cypress-tests)
+- [Set up continuous testing](#set-up-continuous-testing)
+- [Configure linting and code cleanup](#configure-linting-and-code-cleanup)
+  - [Linting markdown](#linting-markdown)
+  - [Linting cypress tests](#linting-cypress-tests)
+  - [Formatting cypress tests](#formatting-cypress-tests)
 
 ## Set up continuous testing
 
@@ -17,21 +15,6 @@ We recommend setting Rider to run unit tests on save, for fast feedback on chang
 - Go to Settings -> Plugins and check that `dotCover` is enabled
 - Go to Settings -> Build, Execution, Deployment -> Unit Testing -> Continuous Testing and select 'Automatically start tests in continuous testing sessions on **Save**'
 - Go to or open a Unit Tests session (Tests -> Create New Session), open the 'Continuous testing modes' menu and select 'Run all tests'
-
-## Analyse test coverage
-
-This project uses a [mutation score](https://stryker-mutator.io/docs/) to analyse effective test coverage when opening up a new pull request.
-Stryker.Net is included in our dotnet-tools manifest for checking mutation score locally.
-
-Install tools by running `dotnet tool restore`.
-
-Open a terminal at the root folder and type the following to run and open a Stryker report:
-
-```bash
-dotnet stryker -o
-```
-
-You will be able to find all reports in the `StrykerOutput` folder in your project root.
 
 ## Configure linting and code cleanup
 

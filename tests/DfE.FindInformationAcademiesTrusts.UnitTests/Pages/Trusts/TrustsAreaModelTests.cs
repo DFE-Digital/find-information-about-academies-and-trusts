@@ -1,20 +1,15 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 
-public class TrustsAreaModelTests
+public class TrustsAreaModelTests : BaseTrustPageTests<TrustsAreaModel>
 {
-    private readonly Mock<IDataSourceService> _mockDataSourceProvider = new();
-    private readonly TrustsAreaModel _sut;
     private readonly MockLogger<TrustsAreaModel> _logger = new();
-    private readonly Mock<ITrustService> _mockTrustService = new();
 
     private class TrustsAreaModelImpl(
         IDataSourceService dataSourceService,
@@ -23,90 +18,22 @@ public class TrustsAreaModelTests
 
     public TrustsAreaModelTests()
     {
-        _sut = new TrustsAreaModelImpl(_mockDataSourceProvider.Object, _mockTrustService.Object, _logger.Object);
+        Sut = new TrustsAreaModelImpl(MockDataSourceService.Object, MockTrustService.Object, _logger.Object)
+            { Uid = TrustUid };
     }
 
     [Fact]
-    public async Task OnGetAsync_should_fetch_a_trustsummary_by_uid()
+    public void GroupUid_should_be_empty_string_by_default()
     {
-        var dummyTrustSummary = SetupSutToUseDummyTrustSummary();
-
-        await _sut.OnGetAsync();
-        _sut.TrustSummary.Should().Be(dummyTrustSummary);
-    }
-
-    [Fact]
-    public async Task GroupUid_should_be_empty_string_by_default()
-    {
-        await _sut.OnGetAsync();
-        _sut.Uid.Should().BeEquivalentTo(string.Empty);
-    }
-
-    [Fact]
-    public async Task OnGetAsync_should_return_not_found_result_if_trust_is_not_found()
-    {
-        _mockTrustService.Setup(t => t.GetTrustSummaryAsync("1111"))
-            .ReturnsAsync((TrustSummaryServiceModel?)null);
-
-        _sut.Uid = "1111";
-        var result = await _sut.OnGetAsync();
-        result.Should().BeOfType<NotFoundResult>();
-    }
-
-    [Fact]
-    public async Task OnGetAsync_should_return_not_found_result_if_Uid_is_not_provided()
-    {
-        var result = await _sut.OnGetAsync();
-        result.Should().BeOfType<NotFoundResult>();
-    }
-
-    [Fact]
-    public async Task OnGetAsync_should_populate_NavigationLinks()
-    {
-        _ = SetupSutToUseDummyTrustSummary();
-
-        await _sut.OnGetAsync();
-        _sut.NavigationLinks.Should().BeEquivalentTo([
-            new TrustNavigationLinkModel(ViewConstants.OverviewPageName, "/Trusts/Overview/TrustDetails", "1234",
-                false, "overview-nav"),
-            new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", "1234", false,
-                "contacts-nav"),
-            new TrustNavigationLinkModel("Academies (3)", "/Trusts/Academies/Details",
-                "1234", false, "academies-nav"),
-            new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", "1234", false,
-                "ofsted-nav"),
-            new TrustNavigationLinkModel(ViewConstants.GovernancePageName, "/Trusts/Governance/TrustLeadership",
-                "1234", false,
-                "governance-nav")
-        ]);
-    }
-
-    [Fact]
-    public async Task OnGetAsync_should_set_TrustPageTitle_to_trust_name()
-    {
-        _ = SetupSutToUseDummyTrustSummary(trustName: "My Trust");
-
-        _ = await _sut.OnGetAsync();
-
-        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
-    }
-
-    private TrustSummaryServiceModel SetupSutToUseDummyTrustSummary(string uid = "1234", string trustName = "My Trust",
-        string trustType = "Multi-academy trust", int numberOfAcademies = 3)
-    {
-        var dummyTrustSummary = new TrustSummaryServiceModel(uid, trustName, trustType, numberOfAcademies);
-        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(dummyTrustSummary.Uid))
-            .ReturnsAsync(dummyTrustSummary);
-        _sut.Uid = dummyTrustSummary.Uid;
-
-        return dummyTrustSummary;
+        Sut = new TrustsAreaModelImpl(MockDataSourceService.Object, MockTrustService.Object, _logger.Object);
+        Sut.Uid.Should().BeEquivalentTo(string.Empty);
     }
 
     [Fact]
     public async Task OnGetAsync_sets_SubNavigationLinks_toEmptyArray()
     {
-        _ = await _sut.OnGetAsync();
-        _sut.SubNavigationLinks.Should().BeEmpty();
+        _ = await Sut.OnGetAsync();
+        Sut.SubNavigationLinks.Should().BeEmpty();
     }
 
     [Theory]
@@ -118,7 +45,7 @@ public class TrustsAreaModelTests
     [InlineData(Source.FiatDb, "Find information about academies and trusts")]
     public void MapDataSourceToName_should_return_the_correct_string_for_each_source(Source source, string expected)
     {
-        var result = _sut.MapDataSourceToName(new DataSourceServiceModel(source, null, UpdateFrequency.Daily));
+        var result = Sut.MapDataSourceToName(new DataSourceServiceModel(source, null, UpdateFrequency.Daily));
         result.Should().Be(expected);
     }
 
@@ -126,7 +53,7 @@ public class TrustsAreaModelTests
     public void MapDataSourceToName_should_return_Unknown_when_source_is_not_recognised()
     {
         var dataSource = new DataSourceServiceModel((Source)10, null, UpdateFrequency.Daily);
-        var result = _sut.MapDataSourceToName(dataSource);
+        var result = Sut.MapDataSourceToName(dataSource);
         _logger.VerifyLogError($"Data source {dataSource} does not map to known type");
         result.Should().Be("Unknown");
     }
@@ -138,7 +65,7 @@ public class TrustsAreaModelTests
         var source = new DataSourceServiceModel(Source.Cdm, null, null);
 
         // Act
-        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source));
+        var result = Sut.MapDataSourceToTestId(new DataSourceListEntry(source));
 
         // Assert
         Assert.Equal("data-source-cdm-all-information", result);
@@ -151,7 +78,7 @@ public class TrustsAreaModelTests
         var source = new DataSourceServiceModel(Source.Gias, null, null);
 
         // Act
-        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, ""));
+        var result = Sut.MapDataSourceToTestId(new DataSourceListEntry(source, ""));
 
         // Assert
         Assert.Equal("data-source-gias", result); // Field is empty, but source should still be present
@@ -164,7 +91,7 @@ public class TrustsAreaModelTests
         var source = new DataSourceServiceModel(Source.Mis, null, null);
 
         // Act
-        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, "fields"));
+        var result = Sut.MapDataSourceToTestId(new DataSourceListEntry(source, "fields"));
 
         // Assert
         Assert.Equal("data-source-mis-fields", result);
@@ -177,7 +104,7 @@ public class TrustsAreaModelTests
         var source = new DataSourceServiceModel(Source.FiatDb, null, null);
 
         // Act
-        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, "FiElDOne FiELDTwo"));
+        var result = Sut.MapDataSourceToTestId(new DataSourceListEntry(source, "FiElDOne FiELDTwo"));
 
         // Assert
         Assert.Equal("data-source-fiatdb-fieldone-fieldtwo", result);
@@ -190,9 +117,33 @@ public class TrustsAreaModelTests
         var source = new DataSourceServiceModel(Source.FiatDb, null, null);
 
         // Act
-        var result = _sut.MapDataSourceToTestId(new DataSourceListEntry(source, "#FiElDOne @FiELDTwo!"));
+        var result = Sut.MapDataSourceToTestId(new DataSourceListEntry(source, "#FiElDOne @FiELDTwo!"));
 
         // Assert
         Assert.Equal("data-source-fiatdb-fieldone-fieldtwo", result);
+    }
+
+    [Fact]
+    public override async Task OnGetAsync_should_set_active_NavigationLink_to_current_page()
+    {
+        _ = await Sut.OnGetAsync();
+
+        // Default is no current page
+        Sut.NavigationLinks.Should().AllSatisfy(l => l.LinkIsActive.Should().BeFalse());
+    }
+
+    [Fact]
+    public override async Task OnGetAsync_should_configure_TrustPageMetadata_PageName()
+    {
+        await Sut.OnGetAsync();
+        Sut.TrustPageMetadata.PageName.Should().BeNull();
+    }
+
+    public override async Task OnGetAsync_sets_correct_data_source_list()
+    {
+        await Sut.OnGetAsync();
+
+        //Default to empty
+        Sut.DataSourcesPerPage.Should().BeEmpty();
     }
 }
