@@ -1,5 +1,5 @@
 module "azure_container_apps_hosting" {
-  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v1.16.3"
+  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v1.16.5"
 
   environment    = local.environment
   project_name   = local.project_name
@@ -64,6 +64,7 @@ module "azure_container_apps_hosting" {
 
   enable_dns_zone      = local.enable_dns_zone
   dns_zone_domain_name = local.dns_zone_domain_name
+  dns_alias_records    = local.dns_alias_records
   dns_ns_records       = local.dns_ns_records
   dns_txt_records      = local.dns_txt_records
   dns_mx_records       = local.dns_mx_records
@@ -72,9 +73,10 @@ module "azure_container_apps_hosting" {
   enable_logstash_consumer                  = local.enable_logstash_consumer
   eventhub_export_log_analytics_table_names = local.eventhub_export_log_analytics_table_names
 
-  enable_monitoring            = local.enable_monitoring
-  monitor_email_receivers      = local.monitor_email_receivers
-  monitor_endpoint_healthcheck = local.monitor_endpoint_healthcheck
+  enable_monitoring              = local.enable_monitoring
+  monitor_email_receivers        = local.monitor_email_receivers
+  monitor_endpoint_healthcheck   = local.monitor_endpoint_healthcheck
+  monitor_http_availability_fqdn = local.monitor_http_availability_fqdn
 
   enable_container_app_file_share       = local.enable_container_app_file_share
   storage_account_ipv4_allow_list       = local.storage_account_ipv4_allow_list
