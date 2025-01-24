@@ -41,17 +41,15 @@
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.SortableDateFormat)" data-testid="ofsted-single-headline-grades-date-joined">
             @academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.DisplayDateFormat)
           </td>
-          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.CurrentOfstedRating.OverallEffectiveness.ToDataSortValue()" data-testid="ofsted-single-headline-grades-current-single-headline-grade">
+          <td class="govuk-table__cell govuk-body cell-ofsted-single-headline-grade" data-sort-value="@academy.CurrentOfstedRating.OverallEffectiveness.ToDataSortValue()" data-testid="ofsted-single-headline-grades-current-single-headline-grade">
             <span class="govuk-!-font-weight-bold">@academy.CurrentOfstedRating.OverallEffectiveness.ToDisplayString(true)</span>
-            <br/>
             <partial name="_BeforeOrAfterTag" model="new BeforeOrAfterTagModel(academy.WhenDidCurrentInspectionHappen, true)"/>
           </td>
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.CurrentOfstedRating.InspectionDate?.ToString(StringFormatConstants.SortableDateFormat)" data-testid="ofsted-single-headline-grades-date-of-current-inspection">
             @academy.CurrentOfstedRating.InspectionDate.ShowDateStringOrReplaceWithText()
           </td>
-          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.OverallEffectiveness.ToDataSortValue()" data-testid="ofsted-single-headline-grades-previous-single-headline-grade">
+          <td class="govuk-table__cell govuk-body cell-ofsted-single-headline-grade" data-sort-value="@academy.PreviousOfstedRating.OverallEffectiveness.ToDataSortValue()" data-testid="ofsted-single-headline-grades-previous-single-headline-grade">
             <span class="govuk-!-font-weight-bold">@academy.PreviousOfstedRating.OverallEffectiveness.ToDisplayString(false)</span>
-            <br/>
             <partial name="_BeforeOrAfterTag" model="new BeforeOrAfterTagModel(academy.WhenDidPreviousInspectionHappen, false)"/>
           </td>
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.InspectionDate?.ToString(StringFormatConstants.SortableDateFormat)" data-testid="ofsted-single-headline-grades-date-of-previous-inspection">
