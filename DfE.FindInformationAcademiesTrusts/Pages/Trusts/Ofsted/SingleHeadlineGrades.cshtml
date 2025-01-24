@@ -14,19 +14,19 @@
         <th scope="col" class="govuk-table__header govuk-body" aria-sort="ascending" data-testid="ofsted-single-headline-grades-school-name-header">
           School name
         </th>
-        <th scope="col" class="govuk-table__header govuk-body column-header-ofsted-date" aria-sort="none" data-testid="ofsted-single-headline-grades-date-joined-header">
+        <th scope="col" class="govuk-table__header govuk-body column-header-date" aria-sort="none" data-testid="ofsted-single-headline-grades-date-joined-header">
           Date joined
         </th>
-        <th scope="col" class="govuk-table__header govuk-body column-header-ofsted-date" aria-sort="none" data-testid="ofsted-single-headline-grades-current-single-headline-grade-header">
+        <th scope="col" class="govuk-table__header govuk-body column-header-date" aria-sort="none" data-testid="ofsted-single-headline-grades-current-single-headline-grade-header">
           Current single headline grade
         </th>
-        <th scope="col" class="govuk-table__header govuk-body column-header-ofsted-date" aria-sort="none" data-testid="ofsted-single-headline-grades-date-of-current-inspection-header">
+        <th scope="col" class="govuk-table__header govuk-body column-header-date" aria-sort="none" data-testid="ofsted-single-headline-grades-date-of-current-inspection-header">
           Date of current inspection
         </th>
-        <th scope="col" class="govuk-table__header govuk-body column-header-ofsted-date" aria-sort="none" data-testid="ofsted-single-headline-grades-previous-single-headline-grade-header">
+        <th scope="col" class="govuk-table__header govuk-body column-header-date" aria-sort="none" data-testid="ofsted-single-headline-grades-previous-single-headline-grade-header">
           Previous single headline grade
         </th>
-        <th scope="col" class="govuk-table__header govuk-body column-header-ofsted-date" aria-sort="none" data-testid="ofsted-single-headline-grades-date-of-previous-inspection-header">
+        <th scope="col" class="govuk-table__header govuk-body column-header-date" aria-sort="none" data-testid="ofsted-single-headline-grades-date-of-previous-inspection-header">
           Date of previous inspection
         </th>
       </tr>
@@ -42,17 +42,17 @@
             @academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.DisplayDateFormat)
           </td>
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.CurrentOfstedRating.OverallEffectiveness.ToDataSortValue()" data-testid="ofsted-single-headline-grades-current-single-headline-grade">
-            <span class="govuk-!-font-weight-bold">@academy.CurrentOfstedRating.OverallEffectiveness.ToDisplayString()</span>
+            <span class="govuk-!-font-weight-bold">@academy.CurrentOfstedRating.OverallEffectiveness.ToDisplayString(true)</span>
             <br/>
-            @await Html.PartialAsync("_BeforeOrAfterTag", academy.WhenDidCurrentInspectionHappen)
+            <partial name="_BeforeOrAfterTag" model="new BeforeOrAfterTagModel(academy.WhenDidCurrentInspectionHappen, true)"/>
           </td>
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.CurrentOfstedRating.InspectionDate?.ToString(StringFormatConstants.SortableDateFormat)" data-testid="ofsted-single-headline-grades-date-of-current-inspection">
             @academy.CurrentOfstedRating.InspectionDate.ShowDateStringOrReplaceWithText()
           </td>
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.OverallEffectiveness.ToDataSortValue()" data-testid="ofsted-single-headline-grades-previous-single-headline-grade">
-            <span class="govuk-!-font-weight-bold">@academy.PreviousOfstedRating.OverallEffectiveness.ToDisplayString()</span>
+            <span class="govuk-!-font-weight-bold">@academy.PreviousOfstedRating.OverallEffectiveness.ToDisplayString(false)</span>
             <br/>
-            @await Html.PartialAsync("_BeforeOrAfterTag", academy.WhenDidCurrentInspectionHappen)
+            <partial name="_BeforeOrAfterTag" model="new BeforeOrAfterTagModel(academy.WhenDidPreviousInspectionHappen, false)"/>
           </td>
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.InspectionDate?.ToString(StringFormatConstants.SortableDateFormat)" data-testid="ofsted-single-headline-grades-date-of-previous-inspection">
             @academy.PreviousOfstedRating.InspectionDate.ShowDateStringOrReplaceWithText()
