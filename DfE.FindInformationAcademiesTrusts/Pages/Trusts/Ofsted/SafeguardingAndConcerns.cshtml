@@ -56,7 +56,7 @@
             @academy.CurrentOfstedRating.CategoryOfConcern.ToDisplayString()
           </td>
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.WhenDidCurrentInspectionHappen" data-testid="ofsted-safeguarding-before-or-after-joining">
-            @await Html.PartialAsync("_BeforeOrAfterTag", academy.WhenDidCurrentInspectionHappen)
+            <partial name="_BeforeOrAfterTag" model="new BeforeOrAfterTagModel(academy.WhenDidCurrentInspectionHappen, true)"/>
           </td>
         </tr>
       }

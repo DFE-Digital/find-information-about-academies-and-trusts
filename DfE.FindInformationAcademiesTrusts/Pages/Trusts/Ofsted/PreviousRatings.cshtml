@@ -45,25 +45,25 @@
             @academy.EstablishmentName<br/>
           </td>
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.QualityOfEducation.ToDataSortValue()" data-testid="ofsted-previous-ratings-quality-of-education">
-            @academy.PreviousOfstedRating.QualityOfEducation.ToDisplayString()
+            @academy.PreviousOfstedRating.QualityOfEducation.ToDisplayString(false)
           </td>
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.BehaviourAndAttitudes.ToDataSortValue()" data-testid="ofsted-previous-ratings-behaviour-and-attitudes">
-            @academy.PreviousOfstedRating.BehaviourAndAttitudes.ToDisplayString()
+            @academy.PreviousOfstedRating.BehaviourAndAttitudes.ToDisplayString(false)
           </td>
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.PersonalDevelopment.ToDataSortValue()" data-testid="ofsted-previous-ratings-personal-development">
-            @academy.PreviousOfstedRating.PersonalDevelopment.ToDisplayString()
+            @academy.PreviousOfstedRating.PersonalDevelopment.ToDisplayString(false)
           </td>
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.EffectivenessOfLeadershipAndManagement.ToDataSortValue()" data-testid="ofsted-previous-ratings-leadership-and-management">
-            @academy.PreviousOfstedRating.EffectivenessOfLeadershipAndManagement.ToDisplayString()
+            @academy.PreviousOfstedRating.EffectivenessOfLeadershipAndManagement.ToDisplayString(false)
           </td>
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.EarlyYearsProvision.ToDataSortValue()" data-testid="ofsted-previous-ratings-early-years-provision">
-            @academy.PreviousOfstedRating.EarlyYearsProvision.ToDisplayString()
+            @academy.PreviousOfstedRating.EarlyYearsProvision.ToDisplayString(false)
           </td>
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.PreviousOfstedRating.SixthFormProvision.ToDataSortValue()" data-testid="ofsted-previous-ratings-sixth-form-provision">
-            @academy.PreviousOfstedRating.SixthFormProvision.ToDisplayString()
+            @academy.PreviousOfstedRating.SixthFormProvision.ToDisplayString(false)
           </td>
           <td class="govuk-table__cell govuk-body" data-sort-value="@academy.WhenDidPreviousInspectionHappen" data-testid="ofsted-previous-ratings-before-or-after-joining">
-            @await Html.PartialAsync("_BeforeOrAfterTag", academy.WhenDidPreviousInspectionHappen)
+            <partial name="_BeforeOrAfterTag" model="new BeforeOrAfterTagModel(academy.WhenDidPreviousInspectionHappen, false)"/>
           </td>
         </tr>
       }
