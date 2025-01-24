@@ -1,0 +1,24 @@
+@using DfE.FindInformationAcademiesTrusts.Data
+@using DfE.FindInformationAcademiesTrusts.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model SingleHeadlineGradeCellsModel
+
+@if (Model.SingleHeadlineGradeRating.OverallEffectiveness == OfstedRatingScore.NotInspected)
+{
+  <td class="govuk-table__cell govuk-body cell-ofsted-single-headline-grade" data-sort-value="@OfstedRatingScore.NotInspected.ToDataSortValue()">
+    @OfstedRatingScore.NotInspected.ToDisplayString(Model.IsCurrent)
+  </td>
+  <td class="govuk-table__cell govuk-body" data-sort-value="0">
+    @OfstedRatingScore.NotInspected.ToDisplayString(Model.IsCurrent)
+  </td>
+}
+else
+{
+  <td class="govuk-table__cell govuk-body cell-ofsted-single-headline-grade" data-sort-value="@Model.SingleHeadlineGradeRating.OverallEffectiveness.ToDataSortValue()">
+    <span class="govuk-!-font-weight-bold">@Model.SingleHeadlineGradeRating.OverallEffectiveness.ToDisplayString(Model.IsCurrent)</span>
+    <partial name="_BeforeOrAfterTag" for="BeforeOrAfterTagModel"/>
+  </td>
+  <td class="govuk-table__cell govuk-body" data-sort-value="@Model.SingleHeadlineGradeRating.InspectionDate?.ToString(StringFormatConstants.SortableDateFormat)">
+    @Model.SingleHeadlineGradeRating.InspectionDate.ShowDateStringOrReplaceWithText()
+  </td>
+}
