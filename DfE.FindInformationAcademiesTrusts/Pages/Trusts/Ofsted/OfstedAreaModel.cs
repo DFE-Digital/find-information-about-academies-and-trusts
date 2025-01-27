@@ -35,27 +35,27 @@ public class OfstedAreaModel(
 
         SubNavigationLinks =
         [
+            new TrustSubNavigationLinkModel(ViewConstants.OfstedSingleHeadlineGradesPageName, "./SingleHeadlineGrades",
+                Uid, TrustPageMetadata.PageName!, this is SingleHeadlineGradesModel),
             new TrustSubNavigationLinkModel(ViewConstants.OfstedCurrentRatingsPageName, "./CurrentRatings", Uid,
-                TrustPageMetadata.PageName!,
-                this is CurrentRatingsModel),
+                TrustPageMetadata.PageName!, this is CurrentRatingsModel),
             new TrustSubNavigationLinkModel(ViewConstants.OfstedPreviousRatingsPageName, "./PreviousRatings", Uid,
-                TrustPageMetadata.PageName!,
-                this is PreviousRatingsModel),
-            new TrustSubNavigationLinkModel(ViewConstants.OfstedImportantDatesPageName, "./ImportantDates", Uid,
-                TrustPageMetadata.PageName!,
-                this is ImportantDatesModel),
+                TrustPageMetadata.PageName!, this is PreviousRatingsModel),
             new TrustSubNavigationLinkModel(ViewConstants.OfstedSafeguardingAndConcernsPageName,
-                "./SafeguardingAndConcerns", Uid,
-                TrustPageMetadata.PageName!, this is SafeguardingAndConcernsModel)
+                "./SafeguardingAndConcerns", Uid, TrustPageMetadata.PageName!, this is SafeguardingAndConcernsModel)
         ];
 
         // Add data sources
         var giasDataSource = await DataSourceService.GetAsync(Source.Gias);
         var misDataSource = await DataSourceService.GetAsync(Source.Mis);
 
-        var dateJoinedTrust = new DataSourceListEntry(giasDataSource, "Date joined trust");
-
         DataSourcesPerPage.AddRange([
+            new DataSourcePageListEntry(ViewConstants.OfstedSingleHeadlineGradesPageName, [
+                    new DataSourceListEntry(giasDataSource, "Date joined trust"),
+                    new DataSourceListEntry(misDataSource, "All single headline grades"),
+                    new DataSourceListEntry(misDataSource, "All inspection dates")
+                ]
+            ),
             new DataSourcePageListEntry(ViewConstants.OfstedCurrentRatingsPageName, [
                     new DataSourceListEntry(misDataSource, "Current Ofsted rating"),
                     new DataSourceListEntry(misDataSource, "Date of current inspection")
@@ -63,12 +63,6 @@ public class OfstedAreaModel(
             ),
             new DataSourcePageListEntry(ViewConstants.OfstedPreviousRatingsPageName, [
                     new DataSourceListEntry(misDataSource, "Previous Ofsted rating"),
-                    new DataSourceListEntry(misDataSource, "Date of previous inspection")
-                ]
-            ),
-            new DataSourcePageListEntry(ViewConstants.OfstedImportantDatesPageName, [
-                    dateJoinedTrust,
-                    new DataSourceListEntry(misDataSource, "Date of current inspection"),
                     new DataSourceListEntry(misDataSource, "Date of previous inspection")
                 ]
             ),
