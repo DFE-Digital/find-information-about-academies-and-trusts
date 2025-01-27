@@ -1,15 +1,12 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Pages;
-using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
-using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
 
-public abstract class BaseAcademiesPageModelTests<T> : BaseTrustPageTests<T>, ITestTabPages where T : AcademiesPageModel
+public abstract class AcademiesInTrustAreaModelTests<T> : BaseTrustPageTests<T>, ITestTabPages where T : AcademiesInTrustAreaModel
 {
     protected readonly Mock<IExportService> MockExportService = new();
     protected readonly Mock<IDateTimeProvider> MockDateTimeProvider = new();
@@ -78,29 +75,6 @@ public abstract class BaseAcademiesPageModelTests<T> : BaseTrustPageTests<T>, IT
         // Check that the file name doesn't contain any invalid characters
         var containsInvalidChars = fileDownloadName.Any(c => invalidFileNameChars.Contains(c));
         containsInvalidChars.Should().BeFalse("the file name should not contain any illegal characters");
-    }
-
-    [Fact]
-    public override async Task OnGetAsync_sets_correct_data_source_list()
-    {
-        TrustSummaryServiceModel fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
-        MockTrustService.Setup(t => t.GetTrustSummaryAsync(fakeTrust.Uid)).ReturnsAsync(fakeTrust);
-        Sut.Uid = fakeTrust.Uid;
-
-        _ = await Sut.OnGetAsync();
-        MockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
-        MockDataSourceService.Verify(e => e.GetAsync(Source.ExploreEducationStatistics), Times.Once);
-        Sut.DataSourcesPerPage.Should().BeEquivalentTo([
-            new DataSourcePageListEntry(ViewConstants.AcademiesDetailsPageName,
-                [new DataSourceListEntry(GiasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.AcademiesPupilNumbersPageName,
-                [new DataSourceListEntry(GiasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.AcademiesFreeSchoolMealsPageName, [
-                new DataSourceListEntry(GiasDataSource, "Pupils eligible for free school meals"),
-                new DataSourceListEntry(EesDataSource, "Local authority average 2023/24"),
-                new DataSourceListEntry(EesDataSource, "National average 2023/24")
-            ])
-        ]);
     }
 
     [Fact]

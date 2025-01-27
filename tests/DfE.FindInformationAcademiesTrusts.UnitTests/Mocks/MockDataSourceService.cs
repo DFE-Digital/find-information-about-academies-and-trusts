@@ -16,6 +16,9 @@ public class MockDataSourceService : Mock<IDataSourceService>
                 Source.Cdm => UpdateFrequency.Daily,
                 Source.Mis => UpdateFrequency.Monthly,
                 Source.ExploreEducationStatistics => UpdateFrequency.Annually,
+                Source.Prepare => UpdateFrequency.Daily,
+                Source.Complete => UpdateFrequency.Daily,
+                Source.ManageFreeSchoolProjects => UpdateFrequency.Daily,
                 _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
             }));
     }

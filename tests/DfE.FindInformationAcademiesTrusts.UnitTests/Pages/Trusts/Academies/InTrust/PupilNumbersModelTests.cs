@@ -3,9 +3,9 @@ using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
 
-public class PupilNumbersModelTests : BaseAcademiesPageModelTests<PupilNumbersModel>
+public class PupilNumbersModelTests : AcademiesInTrustAreaModelTests<PupilNumbersModel>
 {
     private readonly Mock<IAcademyService> _mockAcademyService = new();
 
@@ -14,7 +14,7 @@ public class PupilNumbersModelTests : BaseAcademiesPageModelTests<PupilNumbersMo
         Sut = new PupilNumbersModel(MockDataSourceService.Object, new MockLogger<PupilNumbersModel>().Object,
                 MockTrustService.Object, _mockAcademyService.Object, MockExportService.Object,
                 MockDateTimeProvider.Object)
-            { Uid = TrustUid };
+        { Uid = TrustUid };
     }
 
     [Theory]
