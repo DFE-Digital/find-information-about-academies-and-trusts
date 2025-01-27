@@ -1,25 +1,38 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement;
 
-namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 
-public abstract class AcademiesPageModel(
+public abstract class AcademiesInTrustAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
+    IAcademyService academyService,
     IExportService exportService,
-    ILogger<AcademiesPageModel> logger,
-    IDateTimeProvider dateTimeProvider
-) : TrustsAreaModel(dataSourceService, trustService, logger)
+    ILogger<AcademiesInTrustAreaModel> logger,
+    IDateTimeProvider dateTimeProvider,
+    IFeatureManager featureManager
+) : AcademiesAreaModel(
+    dataSourceService,
+    trustService,
+    academyService,
+    exportService,
+    logger,
+    dateTimeProvider,
+    featureManager
+)
 {
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { PageName = ViewConstants.AcademiesPageName };
-
-    protected IExportService ExportService { get; } = exportService;
-    public IDateTimeProvider DateTimeProvider { get; } = dateTimeProvider;
+        base.TrustPageMetadata with
+        {
+            PageName = ViewConstants.AcademiesPageName,
+            SubPageName = ViewConstants.AcademiesInTrustSubNavName
+        };
 
     public override async Task<IActionResult> OnGetAsync()
     {
@@ -29,12 +42,22 @@ public abstract class AcademiesPageModel(
         var giasDataSource = await DataSourceService.GetAsync(Source.Gias);
         var eesDataSource = await DataSourceService.GetAsync(Source.ExploreEducationStatistics);
 
+        TabList =
+        [
+            new TrustTabNavigationLinkModel("Details", "./Details", Uid, "In the trust",
+                this is AcademiesInTrustDetailsModel),
+            new TrustTabNavigationLinkModel("Pupil numbers", "./PupilNumbers", Uid, "In the trust",
+                this is PupilNumbersModel),
+            new TrustTabNavigationLinkModel("Free school meals", "./FreeSchoolMeals", Uid, "In the trust",
+                this is FreeSchoolMealsModel)
+        ];
+
         DataSourcesPerPage.AddRange([
-            new DataSourcePageListEntry(ViewConstants.AcademiesDetailsPageName,
+            new DataSourcePageListEntry(ViewConstants.AcademiesInTrustDetailsPageName,
                 [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.AcademiesPupilNumbersPageName,
+            new DataSourcePageListEntry(ViewConstants.AcademiesInTrustPupilNumbersPageName,
                 [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.AcademiesFreeSchoolMealsPageName, [
+            new DataSourcePageListEntry(ViewConstants.AcademiesInTrustFreeSchoolMealsPageName, [
                 new DataSourceListEntry(giasDataSource, "Pupils eligible for free school meals"),
                 new DataSourceListEntry(eesDataSource, "Local authority average 2023/24"),
                 new DataSourceListEntry(eesDataSource, "National average 2023/24")

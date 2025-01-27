@@ -5,15 +5,15 @@ using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 
-public class AcademiesDetailsModelTests : BaseAcademiesPageModelTests<AcademiesDetailsModel>
+public class AcademiesDetailsModelTests : BaseAcademiesPageModelTests<AcademiesInTrustDetailsModel>
 {
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinkBuilder = new();
     private readonly Mock<IAcademyService> _mockAcademyService = new();
 
     public AcademiesDetailsModelTests()
     {
-        Sut = new AcademiesDetailsModel(MockDataSourceService.Object, _mockLinkBuilder.Object,
-                new MockLogger<AcademiesDetailsModel>().Object, MockTrustService.Object, _mockAcademyService.Object,
+        Sut = new AcademiesInTrustDetailsModel(MockDataSourceService.Object, _mockLinkBuilder.Object,
+                new MockLogger<AcademiesInTrustDetailsModel>().Object, MockTrustService.Object, _mockAcademyService.Object,
                 MockExportService.Object, MockDateTimeProvider.Object)
             { Uid = TrustUid };
     }

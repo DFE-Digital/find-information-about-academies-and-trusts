@@ -1,5 +1,5 @@
-@page
-@model AcademiesDetailsModel
+@page "/trusts/academies/in-trust/details"
+@model AcademiesInTrustDetailsModel
 
 @{
   Layout = "Academies/_AcademiesLayout";
@@ -43,3 +43,7 @@
     </tbody>
   </table>
 </section>
+@section Export
+{
+    <partial name="_AcademiesInTrustExportButton" model="@Model" />
+}

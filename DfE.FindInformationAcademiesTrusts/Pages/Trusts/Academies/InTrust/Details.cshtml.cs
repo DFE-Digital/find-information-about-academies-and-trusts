@@ -4,22 +4,31 @@ using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement;
 
-namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 
-public class AcademiesDetailsModel(
+public class AcademiesInTrustDetailsModel(
     IDataSourceService dataSourceService,
     IOtherServicesLinkBuilder linkBuilder,
-    ILogger<AcademiesDetailsModel> logger,
+    ILogger<AcademiesInTrustDetailsModel> logger,
     ITrustService trustService,
     IAcademyService academyService,
     IExportService exportService,
-    IDateTimeProvider dateTimeProvider)
-    : AcademiesPageModel(dataSourceService, trustService, exportService, logger,
-        dateTimeProvider)
+    IDateTimeProvider dateTimeProvider,
+    IFeatureManager featureManager
+) : AcademiesInTrustAreaModel(
+    dataSourceService,
+    trustService,
+    academyService,
+    exportService,
+    logger,
+    dateTimeProvider,
+    featureManager
+)
 {
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { TabName = ViewConstants.AcademiesDetailsPageName };
+        base.TrustPageMetadata with { TabName = ViewConstants.AcademiesInTrustDetailsPageName };
 
     public AcademyDetailsServiceModel[] Academies { get; set; } = default!;
     public IOtherServicesLinkBuilder LinkBuilder { get; } = linkBuilder;
@@ -29,7 +38,7 @@ public class AcademiesDetailsModel(
         var pageResult = await base.OnGetAsync();
         if (pageResult is NotFoundResult) return pageResult;
 
-        Academies = await academyService.GetAcademiesInTrustDetailsAsync(Uid);
+        Academies = await AcademyService.GetAcademiesInTrustDetailsAsync(Uid);
 
         return pageResult;
     }

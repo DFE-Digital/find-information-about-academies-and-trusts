@@ -42,6 +42,12 @@ public abstract class TrustsAreaModel(
                 return "Explore education statistics";
             case Source.FiatDb:
                 return "Find information about academies and trusts";
+            case Source.Prepare:
+                return "Prepare";
+            case Source.Complete:
+                return "Complete";
+            case Source.ManageFreeSchoolProjects:
+                return "Manage free school projects";
             default:
                 logger.LogError("Data source {source} does not map to known type", dataSource);
                 return "Unknown";
@@ -82,8 +88,8 @@ public abstract class TrustsAreaModel(
                 this is ContactsAreaModel,
                 "contacts-nav"),
             new TrustNavigationLinkModel($"{ViewConstants.AcademiesPageName} ({TrustSummary.NumberOfAcademies})",
-                "/Trusts/Academies/Details",
-                Uid, this is AcademiesPageModel, "academies-nav"),
+                "/Trusts/Academies/InTrust/Details",
+                Uid, this is AcademiesAreaModel, "academies-nav"),
             new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", Uid,
                 this is OfstedAreaModel,
                 "ofsted-nav"),
