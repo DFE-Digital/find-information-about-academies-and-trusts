@@ -1,21 +1,28 @@
 using DfE.FindInformationAcademiesTrusts.Pages;
-using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
+using Microsoft.FeatureManagement;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
 
-public class AcademiesDetailsModelTests : BaseAcademiesPageModelTests<AcademiesInTrustDetailsModel>
+public class AcademiesDetailsModelTests : AcademiesInTrustAreaModelTests<AcademiesInTrustDetailsModel>
 {
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinkBuilder = new();
     private readonly Mock<IAcademyService> _mockAcademyService = new();
+    private readonly Mock<IFeatureManager> _mockFeatureManager = new();
 
     public AcademiesDetailsModelTests()
     {
-        Sut = new AcademiesInTrustDetailsModel(MockDataSourceService.Object, _mockLinkBuilder.Object,
-                new MockLogger<AcademiesInTrustDetailsModel>().Object, MockTrustService.Object, _mockAcademyService.Object,
-                MockExportService.Object, MockDateTimeProvider.Object)
-            { Uid = TrustUid };
+        Sut = new AcademiesInTrustDetailsModel(MockDataSourceService.Object,
+                                               _mockLinkBuilder.Object,
+                                               new MockLogger<AcademiesInTrustDetailsModel>().Object,
+                                               MockTrustService.Object,
+                                               _mockAcademyService.Object,
+                                               MockExportService.Object,
+                                               MockDateTimeProvider.Object,
+                                               _mockFeatureManager.Object)
+        { Uid = TrustUid };
     }
 
     [Fact]
@@ -46,6 +53,6 @@ public class AcademiesDetailsModelTests : BaseAcademiesPageModelTests<AcademiesI
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.TabName.Should().Be(ViewConstants.AcademiesDetailsPageName);
+        Sut.TrustPageMetadata.TabName.Should().Be(ViewConstants.AcademiesInTrustDetailsPageName);
     }
 }

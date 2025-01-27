@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
+using DfE.FindInformationAcademiesTrusts.Extensions;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Extensions;
 
@@ -65,6 +66,33 @@ public class StringExtensionsTests
         var result = input.ParseAsNullableInt();
 
         result.Should().BeNull();
+    }
+
+    [Theory]
+    [InlineData("hello, world!", "hello-world")]
+    [InlineData("hel-lo, world!", "hel-lo-world")]
+    [InlineData("goodbye: cruel; world...", "goodbye-cruel-world")]
+    [InlineData("@hello#$%^&*()_+= world", "hello-world")]
+    [InlineData("he\tllo!\nworld?", "helloworld")]
+    [InlineData("\"quoted\" 'text'", "quoted-text")]
+    [InlineData("   hello, world!  ", "hello-world")]
+    public void Kebabify_should_remove_all_punctuation_characters(string input, string expected)
+    {
+        input.Kebabify().Should().Be(expected);
+    }
+
+    [Fact]
+    public void DefaultIfNull_should_return_the_string_if_not_null()
+    {
+        const string? text = "Test string";
+        text.DefaultIfNull("Fallback string").Should().Be("Test string");
+    }
+
+    [Fact]
+    public void DefaultIfNull_should_return_the_default_string_if_null()
+    {
+        const string? text = null;
+        text.DefaultIfNull("Fallback string").Should().Be("Fallback string");
     }
 
     [Theory]

@@ -1,10 +1,10 @@
-using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
 
-public class FreeSchoolMealsModelTests : BaseAcademiesPageModelTests<FreeSchoolMealsModel>
+public class FreeSchoolMealsModelTests : AcademiesInTrustAreaModelTests<FreeSchoolMealsModel>
 {
     private readonly Mock<IAcademyService> _mockAcademyService = new();
 
@@ -14,7 +14,7 @@ public class FreeSchoolMealsModelTests : BaseAcademiesPageModelTests<FreeSchoolM
                 MockDataSourceService.Object, new MockLogger<FreeSchoolMealsModel>().Object,
                 MockTrustService.Object, _mockAcademyService.Object, MockExportService.Object,
                 MockDateTimeProvider.Object)
-            { Uid = TrustUid };
+        { Uid = TrustUid };
     }
 
     [Fact]
