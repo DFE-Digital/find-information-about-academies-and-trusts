@@ -98,7 +98,7 @@ public class ExportServiceTests
         worksheet.Cell(4, 6).DataType.Should().Be(ClosedXML.Excel.XLDataType.DateTime);
         worksheet.Cell(4, 6).GetValue<DateTime>().Should().BeCloseTo(now, TimeSpan.FromSeconds(1));
 
-        worksheet.Cell(4, 7).Value.ToString().Should().Be("Not yet inspected");
+        worksheet.Cell(4, 7).Value.ToString().Should().Be("Not inspected");
         worksheet.Cell(4, 8).Value.ToString().Should().Be(string.Empty);
         worksheet.Cell(4, 9).Value.ToString().Should().Be(string.Empty);
         worksheet.Cell(4, 10).Value.ToString().Should().Be("Outstanding");
@@ -176,7 +176,7 @@ public class ExportServiceTests
         worksheet.Cell(4, 6).DataType.Should().Be(XLDataType.DateTime);
         worksheet.Cell(4, 6).GetValue<DateTime>().Should().BeCloseTo(now, TimeSpan.FromSeconds(1));
 
-        worksheet.Cell(4, 7).Value.ToString().Should().Be("Not yet inspected");
+        worksheet.Cell(4, 7).Value.ToString().Should().Be("Not inspected");
         worksheet.Cell(4, 8).Value.ToString().Should().Be(string.Empty);
         worksheet.Cell(4, 9).Value.ToString().Should().Be(string.Empty);
         worksheet.Cell(4, 10).Value.ToString().Should().Be("Not yet inspected");
@@ -293,7 +293,7 @@ public class ExportServiceTests
         using var workbook = new XLWorkbook(new MemoryStream(result));
         var worksheet = workbook.Worksheet("Academies");
 
-        worksheet.Cell(4, 7).Value.ToString().Should().Be("Not yet inspected");
+        worksheet.Cell(4, 7).Value.ToString().Should().Be("Not inspected");
         worksheet.Cell(4, 8).Value.ToString().Should().Be(string.Empty);
         worksheet.Cell(4, 9).Value.ToString().Should().Be(string.Empty);
         worksheet.Cell(4, 10).Value.ToString().Should().Be("Not yet inspected");
