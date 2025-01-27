@@ -25,13 +25,15 @@ public class PostAdvisoryBoardModel(
     public override TrustPageMetadata TrustPageMetadata =>
         base.TrustPageMetadata with { TabName = "Post advisory board" };
 
+    public AcademyPipelineServiceModel[] PostAdvisoryPipelineEstablishments { get; set; } = default!;
+
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        Academies = AcademyService.GetAcademiesPipelinePostAdvisory();
+        PostAdvisoryPipelineEstablishments = await AcademyService.GetAcademiesPipelinePostAdvisoryAsync(TrustReferenceNumber);
 
         return pageResult;
     }

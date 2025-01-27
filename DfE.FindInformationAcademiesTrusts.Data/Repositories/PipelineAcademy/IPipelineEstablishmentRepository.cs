@@ -2,6 +2,8 @@
 {
     public interface IPipelineEstablishmentRepository
     {
-        Task<PipelineEstablishment[]?> GetPipelineFreeSchoolProjects(string uid);
+        Task<PipelineEstablishment[]?> GetPipelineFreeSchoolProjectsAsync(string trustReferenceNumber);
+        Task<PipelineEstablishment[]?> GetAdvisoryConversionEstablishmentsAsync(string trustReferenceNumber, AdvisoryType advisoryType);
+        Task<PipelineEstablishment[]?> GetAdvisoryTransferEstablishmentsAsync(string trustReferenceNumber, AdvisoryType isPostAdvisory);
     }
 }
