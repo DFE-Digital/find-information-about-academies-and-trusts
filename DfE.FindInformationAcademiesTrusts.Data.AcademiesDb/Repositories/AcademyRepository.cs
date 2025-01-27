@@ -1,9 +1,9 @@
-using System.Globalization;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 
@@ -265,6 +265,13 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
             "9" => SafeguardingScore.NotRecorded,
             _ => SafeguardingScore.Unknown
         };
+    }
+    public async Task<string?> GetAcademyTrustTrustReferenceNumberAsync(string uid)
+    {
+        return await academiesDbContext.GiasGroupLinks
+            .Where(gl => gl.GroupUid == uid)
+            .Select(gl => gl.GroupId)
+            .FirstOrDefaultAsync();
     }
 
     private sealed record AcademyOfstedRatings(int Urn, OfstedRating Current, OfstedRating Previous);
