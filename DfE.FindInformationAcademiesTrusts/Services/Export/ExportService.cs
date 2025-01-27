@@ -128,7 +128,7 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
 
         SetDateCell(worksheet, rowNumber, 6, ofstedData?.DateAcademyJoinedTrust);
 
-        SetTextCell(worksheet, rowNumber, 7, previousRating.OverallEffectiveness.ToDisplayString(true));
+        SetTextCell(worksheet, rowNumber, 7, previousRating.OverallEffectiveness.ToDisplayString(false));
         SetTextCell(worksheet, rowNumber, 8,
             IsOfstedRatingBeforeOrAfterJoining(
                 previousRating.OverallEffectiveness,
@@ -277,14 +277,14 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
             )
         );
 
-        // Previous Ratings - Note, setting "current rating" as true so spreadsheet content doesn't change due to single headline grades implementation
-        SetTextCell(worksheet, rowNumber, 13, previousRating.QualityOfEducation.ToDisplayString(true));
-        SetTextCell(worksheet, rowNumber, 14, previousRating.BehaviourAndAttitudes.ToDisplayString(true));
-        SetTextCell(worksheet, rowNumber, 15, previousRating.PersonalDevelopment.ToDisplayString(true));
+        // Previous Ratings
+        SetTextCell(worksheet, rowNumber, 13, previousRating.QualityOfEducation.ToDisplayString(false));
+        SetTextCell(worksheet, rowNumber, 14, previousRating.BehaviourAndAttitudes.ToDisplayString(false));
+        SetTextCell(worksheet, rowNumber, 15, previousRating.PersonalDevelopment.ToDisplayString(false));
         SetTextCell(worksheet, rowNumber, 16,
-            previousRating.EffectivenessOfLeadershipAndManagement.ToDisplayString(true));
-        SetTextCell(worksheet, rowNumber, 17, previousRating.EarlyYearsProvision.ToDisplayString(true));
-        SetTextCell(worksheet, rowNumber, 18, previousRating.SixthFormProvision.ToDisplayString(true));
+            previousRating.EffectivenessOfLeadershipAndManagement.ToDisplayString(false));
+        SetTextCell(worksheet, rowNumber, 17, previousRating.EarlyYearsProvision.ToDisplayString(false));
+        SetTextCell(worksheet, rowNumber, 18, previousRating.SixthFormProvision.ToDisplayString(false));
 
         // Safeguarding Effective
         SetTextCell(worksheet, rowNumber, 19, currentRating.SafeguardingIsEffective.ToDisplayString());
