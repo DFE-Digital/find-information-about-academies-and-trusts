@@ -1,19 +1,24 @@
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
+using Microsoft.FeatureManagement;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
 
 public class FreeSchoolMealsModelTests : AcademiesInTrustAreaModelTests<FreeSchoolMealsModel>
 {
     private readonly Mock<IAcademyService> _mockAcademyService = new();
+    private readonly Mock<IFeatureManager> _mockFeatureManager = new();
 
     public FreeSchoolMealsModelTests()
     {
-        Sut = new FreeSchoolMealsModel(
-                MockDataSourceService.Object, new MockLogger<FreeSchoolMealsModel>().Object,
-                MockTrustService.Object, _mockAcademyService.Object, MockExportService.Object,
-                MockDateTimeProvider.Object)
+        Sut = new FreeSchoolMealsModel(MockDataSourceService.Object,
+                                       new MockLogger<FreeSchoolMealsModel>().Object,
+                                       MockTrustService.Object,
+                                       _mockAcademyService.Object,
+                                       MockExportService.Object,
+                                       MockDateTimeProvider.Object,
+                                       _mockFeatureManager.Object)
         { Uid = TrustUid };
     }
 

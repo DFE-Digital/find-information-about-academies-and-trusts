@@ -14,7 +14,7 @@ public class FreeSchoolMealsModel(
     ITrustService trustService,
     IAcademyService academyService,
     IExportService exportService,
-        IDateTimeProvider dateTimeProvider,
+    IDateTimeProvider dateTimeProvider,
     IFeatureManager featureManager
 ) : AcademiesInTrustAreaModel(
     dataSourceService,

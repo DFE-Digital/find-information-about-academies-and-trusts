@@ -1,19 +1,25 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
+using Microsoft.FeatureManagement;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
 
 public class PupilNumbersModelTests : AcademiesInTrustAreaModelTests<PupilNumbersModel>
 {
     private readonly Mock<IAcademyService> _mockAcademyService = new();
+    private readonly Mock<IFeatureManager> _mockFeatureManager = new();
 
     public PupilNumbersModelTests()
     {
-        Sut = new PupilNumbersModel(MockDataSourceService.Object, new MockLogger<PupilNumbersModel>().Object,
-                MockTrustService.Object, _mockAcademyService.Object, MockExportService.Object,
-                MockDateTimeProvider.Object)
+        Sut = new PupilNumbersModel(MockDataSourceService.Object,
+                                    new MockLogger<PupilNumbersModel>().Object,
+                                    MockTrustService.Object,
+                                    _mockAcademyService.Object,
+                                    MockExportService.Object,
+                                    MockDateTimeProvider.Object,
+                                    _mockFeatureManager.Object)
         { Uid = TrustUid };
     }
 

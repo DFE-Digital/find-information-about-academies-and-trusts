@@ -1,5 +1,7 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
+using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
@@ -98,7 +100,28 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseTrustPageTests<T>,
     public async Task OnGetAsync_sets_SubNavigationLinks_toEmptyArray()
     {
         _ = await Sut.OnGetAsync();
-        Sut.SubNavigationLinks.Should().Equal();
+        Sut.SubNavigationLinks.Should().HaveCount(1);
+        Sut.SubNavigationLinks[0].LinkText.Should().Be("In the trust (3)");
+        Sut.SubNavigationLinks[0].SubPageLink.Should().Be("/Trusts/Academies/InTrust/Details");
+    }
+
+    [Fact]
+    public override async Task OnGetAsync_sets_correct_data_source_list()
+    {
+        await Sut.OnGetAsync();
+        MockDataSourceService.Verify(e => e.GetAsync(Data.Enums.Source.Gias), Times.Once);
+
+        Sut.DataSourcesPerPage.Should().BeEquivalentTo([
+            new DataSourcePageListEntry(ViewConstants.AcademiesInTrustDetailsPageName,
+              [new DataSourceListEntry(GiasDataSource)]),
+          new DataSourcePageListEntry(ViewConstants.AcademiesInTrustPupilNumbersPageName,
+              [new DataSourceListEntry(GiasDataSource)]),
+          new DataSourcePageListEntry(ViewConstants.AcademiesInTrustFreeSchoolMealsPageName,
+              [
+                new DataSourceListEntry(GiasDataSource, "Pupils eligible for free school meals"),
+                new DataSourceListEntry(EesDataSource, "Local authority average 2023/24"),
+                new DataSourceListEntry(EesDataSource, "National average 2023/24")])
+        ]);
     }
 
     [Fact]

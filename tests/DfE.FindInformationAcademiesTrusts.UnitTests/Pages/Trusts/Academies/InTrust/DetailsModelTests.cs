@@ -55,4 +55,5 @@ public class AcademiesDetailsModelTests : AcademiesInTrustAreaModelTests<Academi
 
         Sut.TrustPageMetadata.TabName.Should().Be(ViewConstants.AcademiesInTrustDetailsPageName);
     }
+
 }
