@@ -19,5 +19,6 @@ public class MstrAcademyTransfers
     public DateTime? ExpectedTransferDate { get; set; }
     public required string InPrepare { get; set; }
     public required string InComplete { get; set; }
+    public DateTime? LastDataRefresh { get; set; }
 
 }

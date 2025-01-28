@@ -41,9 +41,9 @@ public class PipelineEstablishmentRepository(IAcademiesDbContext academiesDbCont
                 project.ProjectStatus == PipelineStatuses.Deferred ||
                 project.ProjectStatus == PipelineStatuses.DirectiveAcademyOrders);
 
-        query = advisoryType == AdvisoryType.PostAdvisory
-            ? query.Where(project => project.InComplete == "Yes")
-            : query.Where(project => project.InPrepare == "No");
+        query = advisoryType == AdvisoryType.PreAdvisory
+            ? query.Where(project => project.InComplete == "No" && project.InPrepare == "Yes")
+            : query.Where(project => project.InComplete == "Yes");
 
         var establishments = await query
             .Select(m => new PipelineEstablishment(
@@ -71,9 +71,9 @@ public class PipelineEstablishmentRepository(IAcademiesDbContext academiesDbCont
                 t.AcademyTransferStatus == PipelineStatuses.ConsideringAcademyTransfer ||
                 t.AcademyTransferStatus == PipelineStatuses.InProcessOfAcademyTransfer);
 
-        query = advisoryType == AdvisoryType.PostAdvisory
-            ? query.Where(project => project.InComplete == "Yes")
-            : query.Where(project => project.InPrepare == "No");
+        query = advisoryType == AdvisoryType.PreAdvisory
+           ? query.Where(project => project.InComplete == "No" && project.InPrepare == "Yes")
+           : query.Where(project => project.InComplete == "Yes");
 
         var establishments = await query
             .Select(t => new PipelineEstablishment(

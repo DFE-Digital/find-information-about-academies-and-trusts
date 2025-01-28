@@ -46,6 +46,9 @@ public partial class AcademiesDbContext
             entity.Property(e => e.InComplete)
                 .HasColumnName("In Complete");
 
+            entity.Property(e => e.LastDataRefresh)
+                .HasColumnName("Last Data Refresh");
+
         });
     }
 }

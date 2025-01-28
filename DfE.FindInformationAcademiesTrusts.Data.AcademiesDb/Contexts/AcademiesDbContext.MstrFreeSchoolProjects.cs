@@ -50,9 +50,6 @@ public partial class AcademiesDbContext
             entity.Property(e => e.NewURN)
                 .HasColumnName("New URN");
 
-            entity.Property(e => e.DateSource)
-                .HasColumnName("Datasource");
-
             entity.Property(e => e.LastDataRefresh)
                 .HasColumnName("Last Data Refresh");
         });

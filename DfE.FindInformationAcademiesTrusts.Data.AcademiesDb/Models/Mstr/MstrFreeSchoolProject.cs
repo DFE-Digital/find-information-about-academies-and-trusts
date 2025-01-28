@@ -19,6 +19,5 @@ public class MstrFreeSchoolProject
     public string? EstablishmentName { get; set; }
     public DateTime? ActualDateOpened { get; set; }
     public string? TrustID { get; set; }
-    public required string DateSource { get; set; }
     public DateTime? LastDataRefresh { get; set; }
 }

@@ -28,8 +28,7 @@ public class DataSourceService(
             Source.Gias or Source.Mstr or Source.Cdm or Source.Mis => await dataSourceRepository.GetAsync(source),
             Source.ExploreEducationStatistics => freeSchoolMealsAverageProvider.GetFreeSchoolMealsUpdated(),
             Source.Prepare or Source.Complete or Source.ManageFreeSchoolProjects =>
-               new Data.Repositories.DataSource.DataSource(source, new DateTime(2025, 1, 1), UpdateFrequency.Daily),
-            //TODO: Last updated put it to not fixed date
+               await dataSourceRepository.GetAsync(source),
             _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
         };
 

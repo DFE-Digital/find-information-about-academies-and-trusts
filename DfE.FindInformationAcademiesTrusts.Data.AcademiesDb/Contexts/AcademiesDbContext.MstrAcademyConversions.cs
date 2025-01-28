@@ -44,24 +44,8 @@ public partial class AcademiesDbContext
             entity.Property(e => e.ExpectedOpeningDate)
                 .HasColumnName("Expected Opening Date");
 
-            //entity.Property(e => e.RouteOfProject)
-            //    .HasColumnName("Route of Project");
-
-
-            //entity.Property(e => e.EstablishmentName)
-            //    .HasColumnName("Establishment Name");
-
-            //entity.Property(e => e.ActualDateOpened)
-            //    .HasColumnName("Actual Date Opened");
-
-            //entity.Property(e => e.TrustID)
-            //    .HasColumnName("Trust ID");
-
-            //entity.Property(e => e.DateSource)
-            //    .HasColumnName("Datasource");
-
-            //entity.Property(e => e.LastDataRefresh)
-            //    .HasColumnName("Last Data Refresh");
+            entity.Property(e => e.LastDataRefresh)
+                .HasColumnName("Last Data Refresh");
         });
 
     }

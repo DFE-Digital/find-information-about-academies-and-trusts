@@ -19,7 +19,6 @@ public class MstrAcademyConversions
     public string? EstablishmentName { get; set; }
     public DateTime? ExpectedOpeningDate { get; set; }
     public string? TrustID { get; set; }
-    public required string DateSource { get; set; }
     public DateTime? LastDataRefresh { get; set; }
     public required string InPrepare { get; set; }
     public required string InComplete { get; set; }
