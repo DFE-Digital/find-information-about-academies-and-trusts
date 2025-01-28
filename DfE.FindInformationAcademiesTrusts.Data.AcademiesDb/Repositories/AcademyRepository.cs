@@ -211,7 +211,7 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
         // Check if it is 'Not judged' all other gradings are int based
         if (rating?.ToLower().Equals("not judged") ?? false)
         {
-            return OfstedRatingScore.NoJudgement;
+            return OfstedRatingScore.SingleHeadlineGradeNotAvailable;
         }
 
         return ConvertNullableStringToOfstedRatingScore(rating);

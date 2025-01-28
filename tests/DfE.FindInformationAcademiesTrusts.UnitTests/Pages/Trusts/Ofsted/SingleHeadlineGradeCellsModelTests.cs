@@ -43,7 +43,7 @@ public class SingleHeadlineGradeCellsModelTests
     [InlineData(OfstedRatingScore.Good)]
     [InlineData(OfstedRatingScore.RequiresImprovement)]
     [InlineData(OfstedRatingScore.Inadequate)]
-    [InlineData(OfstedRatingScore.NoJudgement)]
+    [InlineData(OfstedRatingScore.SingleHeadlineGradeNotAvailable)]
     public void HasInspection_should_return_true_when_inspected(OfstedRatingScore overallEffectiveness)
     {
         var sut = _singleHeadlineGradeCellsModel with
@@ -104,7 +104,7 @@ public class SingleHeadlineGradeCellsModelTests
     [Theory]
     [InlineData(OfstedRatingScore.NotInspected)]
     [InlineData(OfstedRatingScore.Unknown)]
-    [InlineData(OfstedRatingScore.NoJudgement)]
+    [InlineData(OfstedRatingScore.SingleHeadlineGradeNotAvailable)]
     public void RatingShouldBeBold_should_return_false_when_no_shg(OfstedRatingScore overallEffectiveness)
     {
         var sut = _singleHeadlineGradeCellsModel with

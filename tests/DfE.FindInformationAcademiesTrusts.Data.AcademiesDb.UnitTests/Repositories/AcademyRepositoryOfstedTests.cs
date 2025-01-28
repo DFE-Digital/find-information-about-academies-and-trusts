@@ -567,7 +567,7 @@ public class AcademyRepositoryOfstedTests
         var result = AcademyRepository.ConvertOverallEffectivenessToOfstedRatingScore(rating);
 
         // Assert
-        result.Should().Be(OfstedRatingScore.NoJudgement);
+        result.Should().Be(OfstedRatingScore.SingleHeadlineGradeNotAvailable);
     }
 
     [Theory]
@@ -576,7 +576,7 @@ public class AcademyRepositoryOfstedTests
     [InlineData("3", OfstedRatingScore.RequiresImprovement)]
     [InlineData("4", OfstedRatingScore.Inadequate)]
     [InlineData("8", OfstedRatingScore.DoesNotApply)]
-    [InlineData("9", OfstedRatingScore.NoJudgement)]
+    [InlineData("9", OfstedRatingScore.SingleHeadlineGradeNotAvailable)]
     [InlineData("0", OfstedRatingScore.InsufficientEvidence)]
     [InlineData("-1", OfstedRatingScore.NotInspected)]
     public void
@@ -625,11 +625,12 @@ public class AcademyRepositoryOfstedTests
 
     [Theory]
     [InlineData("1", "2", OfstedRatingScore.Outstanding, OfstedRatingScore.Good)]
-    [InlineData("Not judged", "Not judged", OfstedRatingScore.NoJudgement, OfstedRatingScore.NoJudgement)]
+    [InlineData("Not judged", "Not judged", OfstedRatingScore.SingleHeadlineGradeNotAvailable,
+        OfstedRatingScore.SingleHeadlineGradeNotAvailable)]
     [InlineData(null, null, OfstedRatingScore.NotInspected, OfstedRatingScore.NotInspected)]
     [InlineData("abc", "def", OfstedRatingScore.Unknown, OfstedRatingScore.Unknown)]
-    [InlineData("2", "Not judged", OfstedRatingScore.Good, OfstedRatingScore.NoJudgement)]
-    [InlineData("Not judged", "1", OfstedRatingScore.NoJudgement, OfstedRatingScore.Outstanding)]
+    [InlineData("2", "Not judged", OfstedRatingScore.Good, OfstedRatingScore.SingleHeadlineGradeNotAvailable)]
+    [InlineData("Not judged", "1", OfstedRatingScore.SingleHeadlineGradeNotAvailable, OfstedRatingScore.Outstanding)]
     public async Task
         GetAcademiesInTrustOfstedAsync_should_correctly_convert_OverallEffectiveness_and_PreviousFullInspectionOverallEffectiveness(
             string? overallEffectiveness,

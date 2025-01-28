@@ -13,7 +13,7 @@ public static class OfstedRatingScoreExtensions
             OfstedRatingScore.RequiresImprovement => 3,
             OfstedRatingScore.Inadequate => 4,
             OfstedRatingScore.InsufficientEvidence => 5,
-            OfstedRatingScore.NoJudgement => 6,
+            OfstedRatingScore.SingleHeadlineGradeNotAvailable => 6,
             OfstedRatingScore.DoesNotApply => 7,
             OfstedRatingScore.NotInspected => 8,
             _ => -1
@@ -29,7 +29,7 @@ public static class OfstedRatingScoreExtensions
             (OfstedRatingScore.RequiresImprovement, _) => "Requires improvement",
             (OfstedRatingScore.Inadequate, _) => "Inadequate",
             (OfstedRatingScore.InsufficientEvidence, _) => "Insufficient evidence",
-            (OfstedRatingScore.NoJudgement, _) => "No judgement",
+            (OfstedRatingScore.SingleHeadlineGradeNotAvailable, _) => "Not available",
             (OfstedRatingScore.DoesNotApply, _) => "Does not apply",
             (OfstedRatingScore.NotInspected, true) => "Not yet inspected",
             (OfstedRatingScore.NotInspected, false) => "Not inspected",
