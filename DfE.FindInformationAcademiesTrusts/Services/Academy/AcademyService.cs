@@ -12,7 +12,7 @@ public interface IAcademyService
     Task<AcademyPupilNumbersServiceModel[]> GetAcademiesInTrustPupilNumbersAsync(string uid);
     Task<AcademyFreeSchoolMealsServiceModel[]> GetAcademiesInTrustFreeSchoolMealsAsync(string uid);
     AcademyPipelineSummaryServiceModel GetAcademiesPipelineSummary();
-    AcademyPipelineServiceModel[] GetAcademiesPipelinePreAdvisory();
+    Task<AcademyPipelineServiceModel[]> GetAcademiesPipelinePreAdvisoryAsync(string trustReferenceNumber);
     Task<AcademyPipelineServiceModel[]> GetAcademiesPipelinePostAdvisoryAsync(string trustReferenceNumber);
     Task<AcademyPipelineServiceModel[]> GetAcademiesPipelineFreeSchoolsAsync(string trustReferenceNumber);
     Task<string> GetAcademyTrustTrustReferenceNumberAsync(string uid);
@@ -76,25 +76,38 @@ public class AcademyService(
     [ExcludeFromCodeCoverage]
     public AcademyPipelineSummaryServiceModel GetAcademiesPipelineSummary()
     {
+        //TODO Implement this
         return new AcademyPipelineSummaryServiceModel(4, 4, 4);
     }
 
-    // MOCK METHOD
-    // Replace with real code later
-    [ExcludeFromCodeCoverage]
-    public AcademyPipelineServiceModel[] GetAcademiesPipelinePreAdvisory()
+
+    public async Task<AcademyPipelineServiceModel[]> GetAcademiesPipelinePreAdvisoryAsync(string trustReferenceNumber)
     {
-        return
-        [
-            new AcademyPipelineServiceModel("1234", "Baking academy", new AgeRange(4, 16), "Bristol", "Conversion",
-                new DateTime(2025, 3, 3)),
-            new AcademyPipelineServiceModel("1234", "Chocolate academy", new AgeRange(11, 18), "Birmingham",
-                "Conversion",
-                new DateTime(2025, 5, 3)),
-            new AcademyPipelineServiceModel("1234", "Fruity academy", new AgeRange(9, 16), "Sheffield", "Transfer",
-                new DateTime(2025, 9, 3)),
-            new AcademyPipelineServiceModel(null, null, null, null, null, null)
-        ];
+        var advisoryConversions =
+            await pipelineEstablishmentRepository.GetAdvisoryConversionEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory)
+            ?? Array.Empty<PipelineEstablishment>();
+
+        var advisoryTransfers =
+            await pipelineEstablishmentRepository.GetAdvisoryTransferEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory)
+            ?? Array.Empty<PipelineEstablishment>();
+
+        var preAdvisoryEstablishments = advisoryConversions
+            .Concat(advisoryTransfers)
+            .ToArray();
+
+        if (preAdvisoryEstablishments.Length == 0)
+        {
+            return Array.Empty<AcademyPipelineServiceModel>();
+        }
+
+        return preAdvisoryEstablishments.Select(fs => new AcademyPipelineServiceModel(
+            fs.Urn,
+            fs.EstablishmentName,
+            fs.AgeRange,
+            fs.LocalAuthority,
+            fs.ProjectType,
+            fs.ChangeDate
+        )).ToArray();
     }
 
     public async Task<AcademyPipelineServiceModel[]> GetAcademiesPipelinePostAdvisoryAsync(string trustReferenceNumber)

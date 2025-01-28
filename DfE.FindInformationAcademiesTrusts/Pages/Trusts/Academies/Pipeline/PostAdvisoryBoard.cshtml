@@ -7,6 +7,14 @@
 }
 
 <section class="app-table-container">
+    @if (Model.PostAdvisoryPipelineEstablishments == null || !Model.PostAdvisoryPipelineEstablishments.Any())
+    {
+        <div class="govuk-body" data-testid="empty-state-message">
+            There are no post advisory board academies in the pipeline for this trust.
+        </div>
+    }
+    else
+    {
     <table class="govuk-table" data-module="moj-sortable-table" aria-describedby="pupil-numbers-caption">
         <caption class="govuk-table__caption govuk-table__caption--m" id="pupil-numbers-caption" data-testid="subpage-header">Pupil numbers</caption>
         <thead class="govuk-table__head">
@@ -39,6 +47,7 @@
             }
         </tbody>
     </table>
+    }
 </section>
 
 @section Export

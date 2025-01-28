@@ -25,6 +25,7 @@ public class PreAdvisoryBoardModel(
     public override TrustPageMetadata TrustPageMetadata =>
         base.TrustPageMetadata with { TabName = "Pre advisory board" };
 
+    public AcademyPipelineServiceModel[] PreAdvisoryPipelineEstablishments { get; set; } = default!;
 
     public override async Task<IActionResult> OnGetAsync()
     {
@@ -32,8 +33,7 @@ public class PreAdvisoryBoardModel(
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        Academies = AcademyService.GetAcademiesPipelinePreAdvisory();
-
+        PreAdvisoryPipelineEstablishments = await AcademyService.GetAcademiesPipelinePreAdvisoryAsync(TrustReferenceNumber);
 
         return pageResult;
     }

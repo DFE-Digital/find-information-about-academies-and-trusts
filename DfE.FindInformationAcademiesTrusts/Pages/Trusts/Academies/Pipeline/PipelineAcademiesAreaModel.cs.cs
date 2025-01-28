@@ -31,8 +31,6 @@ public abstract class PipelineAcademiesAreaModel(
 )
 {
     public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = "Pipeline" };
-
-    public AcademyPipelineServiceModel[] Academies { get; set; } = default!;
     public string TrustReferenceNumber { get; set; } = default!;
 
     public override async Task<IActionResult> OnGetAsync()

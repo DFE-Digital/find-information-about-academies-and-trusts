@@ -7,6 +7,14 @@
 }
 
 <section class="app-table-container">
+    @if (Model.PreAdvisoryPipelineEstablishments == null || !Model.PreAdvisoryPipelineEstablishments.Any())
+    {
+        <div class="govuk-body" data-testid="empty-state-message">
+            There are no pre advisory board academies in the pipeline for this trust.
+        </div>
+    }
+    else
+    {
     <table class="govuk-table" data-module="moj-sortable-table" aria-describedby="pupil-numbers-caption">
         <caption class="govuk-table__caption govuk-table__caption--m" id="pupil-numbers-caption" data-testid="subpage-header">Pupil numbers</caption>
         <thead class="govuk-table__head">
@@ -20,7 +28,7 @@
             </tr>
         </thead>
         <tbody class="govuk-table__body">
-            @foreach (var academy in Model.Academies)
+            @foreach (var academy in Model.PreAdvisoryPipelineEstablishments)
             {
                 <tr class="govuk-table__row" data-testid="academy-row">
                     <td class="govuk-body govuk-table__cell" data-sort-value="@academy.EstablishmentName" data-testid="school-name">
@@ -39,6 +47,7 @@
             }
         </tbody>
     </table>
+    }
 </section>
 
 @section Export
