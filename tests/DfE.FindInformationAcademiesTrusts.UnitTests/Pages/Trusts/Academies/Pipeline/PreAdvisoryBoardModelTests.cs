@@ -65,12 +65,17 @@ public class PreAdvisoryBoardModelTests
                 new DateTime(2025, 9, 3)),
             new AcademyPipelineServiceModel(null, null, null, null, null, null)
         ];
-        _mockAcademyService.Setup(a => a.GetAcademiesPipelinePreAdvisory())
-            .Returns(academies);
+
+        _mockAcademyService
+        .Setup(a => a.GetAcademyTrustTrustReferenceNumberAsync("1234"))
+        .ReturnsAsync("1234");
+
+        _mockAcademyService.Setup(a => a.GetAcademiesPipelinePreAdvisoryAsync("1234"))
+            .ReturnsAsync(academies);
 
         _ = await _sut.OnGetAsync();
 
-        _sut.Academies.Should().BeEquivalentTo(academies);
+        _sut.PreAdvisoryPipelineEstablishments.Should().BeEquivalentTo(academies);
     }
 
     [Fact]
