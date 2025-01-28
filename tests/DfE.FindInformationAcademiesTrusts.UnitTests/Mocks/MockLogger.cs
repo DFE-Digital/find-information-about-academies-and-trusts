@@ -28,7 +28,7 @@ public class MockLogger<T> : Mock<ILogger<T>>
                 It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains(expectedMessage)),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()
-            )
+            ), Times.Once, $"Couldn't find {expectedLogLevel} log containing \"{expectedMessage}\""
         );
 
         return this;
