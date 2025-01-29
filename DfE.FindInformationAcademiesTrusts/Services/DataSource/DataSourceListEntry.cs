@@ -2,7 +2,7 @@
 
 namespace DfE.FindInformationAcademiesTrusts.Services.DataSource;
 
-public record DataSourceListEntry(DataSourceServiceModel DataSource, string DataField = "All information")
+public record DataSourceListEntry(DataSourceServiceModel DataSource, string DataField = "All information was")
 {
     public string LastUpdatedText => DataSource.LastUpdated is null
         ? "Unknown"
