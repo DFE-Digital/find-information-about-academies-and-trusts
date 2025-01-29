@@ -37,6 +37,8 @@ public record SingleHeadlineGradeCellsModel(
         SingleHeadlineGradeRating.InspectionDate?.ToString(StringFormatConstants.SortableDateFormat)
         ?? "0";
 
+    public string DataTestIdPrefix => $"ofsted-single-headline-grades-{(IsCurrent ? "current" : "previous")}";
+
     public string SingleHeadlineGradeText => SingleHeadlineGradeRating.OverallEffectiveness.ToDisplayString(IsCurrent);
     public int SingleHeadlineGradeSort => SingleHeadlineGradeRating.OverallEffectiveness.ToDataSortValue();
 }

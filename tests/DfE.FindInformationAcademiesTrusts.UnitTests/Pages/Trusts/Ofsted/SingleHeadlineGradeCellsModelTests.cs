@@ -192,4 +192,17 @@ public class SingleHeadlineGradeCellsModelTests
 
         sut.SingleHeadlineGradeSort.Should().Be(expected);
     }
+
+    [Theory]
+    [InlineData(true, "ofsted-single-headline-grades-current")]
+    [InlineData(false, "ofsted-single-headline-grades-previous")]
+    public void DataTestIdPrefix_should_contain_inspection_type(bool isCurrent, string expected)
+    {
+        var sut = _singleHeadlineGradeCellsModel with
+        {
+            IsCurrent = isCurrent
+        };
+
+        sut.DataTestIdPrefix.Should().Be(expected);
+    }
 }
