@@ -3,7 +3,7 @@
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 
 [ExcludeFromCodeCoverage] // Database model POCO
-public class MstrAcademyTransfers
+public class MstrAcademyTransfers : IInComplete, IInPrepare
 {
     public int SK { get; set; }
     public string? AcademyName { get; set; }

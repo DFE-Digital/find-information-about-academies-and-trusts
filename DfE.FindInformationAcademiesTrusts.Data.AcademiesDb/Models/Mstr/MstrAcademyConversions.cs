@@ -1,9 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 
 [ExcludeFromCodeCoverage] // Database model POCO
-public class MstrAcademyConversions
+public class MstrAcademyConversions : IInComplete, IInPrepare
 {
     public int SK { get; set; }
 

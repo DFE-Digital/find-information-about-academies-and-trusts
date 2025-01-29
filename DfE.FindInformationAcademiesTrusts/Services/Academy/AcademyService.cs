@@ -1,7 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
-using System.Diagnostics.CodeAnalysis;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.Academy;
 
@@ -11,7 +10,7 @@ public interface IAcademyService
     Task<AcademyOfstedServiceModel[]> GetAcademiesInTrustOfstedAsync(string uid);
     Task<AcademyPupilNumbersServiceModel[]> GetAcademiesInTrustPupilNumbersAsync(string uid);
     Task<AcademyFreeSchoolMealsServiceModel[]> GetAcademiesInTrustFreeSchoolMealsAsync(string uid);
-    AcademyPipelineSummaryServiceModel GetAcademiesPipelineSummary();
+    Task<AcademyPipelineSummaryServiceModel> GetAcademiesPipelineSummaryAsync(string trustReferenceNumber);
     Task<AcademyPipelineServiceModel[]> GetAcademiesPipelinePreAdvisoryAsync(string trustReferenceNumber);
     Task<AcademyPipelineServiceModel[]> GetAcademiesPipelinePostAdvisoryAsync(string trustReferenceNumber);
     Task<AcademyPipelineServiceModel[]> GetAcademiesPipelineFreeSchoolsAsync(string trustReferenceNumber);
@@ -71,14 +70,17 @@ public class AcademyService(
         return await academyRepository.GetAcademyTrustTrustReferenceNumberAsync(uid) ?? string.Empty;
     }
 
-    // MOCK METHOD
-    // Replace with real code later
-    [ExcludeFromCodeCoverage]
-    public AcademyPipelineSummaryServiceModel GetAcademiesPipelineSummary()
+    public async Task<AcademyPipelineSummaryServiceModel> GetAcademiesPipelineSummaryAsync(string trustReferenceNumber)
     {
-        //TODO Implement this
-        return new AcademyPipelineSummaryServiceModel(4, 4, 4);
+        var repoSummary = await pipelineEstablishmentRepository.GetAcademiesPipelineSummaryAsync(trustReferenceNumber);
+
+        return new AcademyPipelineSummaryServiceModel(
+            repoSummary.PreAdvisoryCount,
+            repoSummary.PostAdvisoryCount,
+            repoSummary.FreeSchoolsCount
+        );
     }
+
 
 
     public async Task<AcademyPipelineServiceModel[]> GetAcademiesPipelinePreAdvisoryAsync(string trustReferenceNumber)
