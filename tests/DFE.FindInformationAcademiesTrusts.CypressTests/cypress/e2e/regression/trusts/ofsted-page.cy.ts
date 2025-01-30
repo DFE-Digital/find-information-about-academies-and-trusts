@@ -2,6 +2,7 @@ import ofstedPage from "../../../pages/trusts/ofstedPage";
 import navigation from "../../../pages/navigation";
 import dataDownload from "../../../pages/trusts/dataDownload";
 import commonPage from "../../../pages/commonPage";
+import { TestDataStore } from "../../../support/test-data-store";
 
 const testTrustOfstedData = [
     {
@@ -290,8 +291,8 @@ describe("Testing the Ofsted page and its subpages ", () => {
                 .interceptAndVerifyNo500Errors();
         });
 
-        ['/trusts/ofsted/single-headline-grades?uid=17728', '/trusts/ofsted/current-ratings?uid=17728', '/trusts/ofsted/previous-ratings?uid=17728', '/trusts/ofsted/safeguarding-and-concerns?uid=17728'].forEach((url) => {
-            it(`Should have no 500 error on ${url}`, () => {
+        TestDataStore.GetTrustSubpagesFor(17728, "Ofsted").forEach(({ subpageName, url }) => {
+            it(`Should have no 500 error on ${subpageName}`, () => {
                 cy.visit(url);
             });
         });

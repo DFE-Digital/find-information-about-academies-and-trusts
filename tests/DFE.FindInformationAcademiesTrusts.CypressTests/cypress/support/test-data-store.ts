@@ -1,5 +1,15 @@
 export class TestDataStore {
-    public static readonly GetTrustSubpagesForUid = (uid: number) =>
+    public static readonly GetTrustSubpagesFor = (uid: number, pageName: string) => {
+
+        const page = TestDataStore.GetAllTrustSubpagesForUid(uid).find(p => p.pageName == pageName);
+
+        if (page === undefined)
+            throw new Error(`Page ${pageName} is not in the Cypress test data. Is this a new page that needs adding to TestDataStore?`);
+
+        return page.subpages;
+    };
+
+    public static readonly GetAllTrustSubpagesForUid = (uid: number) =>
         [
             {
                 pageName: "Overview",
