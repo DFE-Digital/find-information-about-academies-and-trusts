@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
@@ -8,11 +9,14 @@ public class AcademyServiceTests
 {
     private readonly AcademyService _sut;
     private readonly Mock<IAcademyRepository> _mockAcademyRepository = new();
+    private readonly Mock<IPipelineEstablishmentRepository> _mockPipelineEstablishmentRepository = new();
     private readonly Mock<IFreeSchoolMealsAverageProvider> _mockFreeSchoolMealsAverageProvider = new();
 
     public AcademyServiceTests()
     {
-        _sut = new AcademyService(_mockAcademyRepository.Object, _mockFreeSchoolMealsAverageProvider.Object);
+        _sut = new AcademyService(_mockAcademyRepository.Object,
+                                  _mockPipelineEstablishmentRepository.Object,
+                                  _mockFreeSchoolMealsAverageProvider.Object);
     }
 
     [Fact]
