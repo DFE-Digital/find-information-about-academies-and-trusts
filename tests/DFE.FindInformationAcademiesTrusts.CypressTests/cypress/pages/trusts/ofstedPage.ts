@@ -5,6 +5,23 @@ class OfstedPage {
     elements = {
         subpageHeader: () => cy.get('[data-testid="subpage-header"]'),
         downloadButton: () => cy.get('[data-testid="download-all-ofsted-data-button"]'),
+        singleHeadlineGrades: {
+            section: () => cy.get('[data-testid="ofsted-single-headline-grades-school-name-table"]'),
+            schoolName: () => this.elements.singleHeadlineGrades.section().find('[data-testid="ofsted-single-headline-grades-school-name"]'),
+            schoolNameHeader: () => this.elements.singleHeadlineGrades.section().find('[data-testid="ofsted-single-headline-grades-school-name-header"]'),
+            dateJoined: () => this.elements.singleHeadlineGrades.section().find('[data-testid="ofsted-single-headline-grades-date-joined"]'),
+            dateJoinedHeader: () => this.elements.singleHeadlineGrades.section().find('[data-testid="ofsted-single-headline-grades-date-joined-header"]'),
+            currentSHG: () => this.elements.singleHeadlineGrades.section().find('[data-testid="ofsted-single-headline-grades-current-single-headline-grade"]'),
+            currentSHGBeforeOrAfter: () => this.elements.singleHeadlineGrades.section().find('[data-testid="ofsted-single-headline-grades-current-before-after-joining"]'),
+            currentSHGHeader: () => this.elements.singleHeadlineGrades.section().find('[data-testid="ofsted-single-headline-grades-current-single-headline-grade-header"]'),
+            dateOfCurrentInspection: () => this.elements.singleHeadlineGrades.section().find('[data-testid="ofsted-single-headline-grades-current-date-of-inspection"]'),
+            dateOfCurrentInspectionHeader: () => this.elements.singleHeadlineGrades.section().find('[data-testid="ofsted-single-headline-grades-date-of-current-inspection-header"]'),
+            previousSHG: () => this.elements.singleHeadlineGrades.section().find('[data-testid="ofsted-single-headline-grades-previous-single-headline-grade"]'),
+            previousSHGBeforeOrAfter: () => this.elements.singleHeadlineGrades.section().find('[data-sort-value="3"] > [data-testid="ofsted-single-headline-grades-previous-before-after-joining"]'),
+            previousSHGHeader: () => this.elements.singleHeadlineGrades.section().find('[data-testid="ofsted-single-headline-grades-previous-single-headline-grade-header"]'),
+            dateOfPreviousInspection: () => this.elements.singleHeadlineGrades.section().find('[data-testid="ofsted-single-headline-grades-previous-date-of-inspection"]'),
+            dateOfPreviousInspectionHeader: () => this.elements.singleHeadlineGrades.section().find('[data-testid="ofsted-single-headline-grades-date-of-previous-inspection-header"]'),
+        },
         currentRatings: {
             section: () => cy.get('[data-testid="ofsted-current-ratings-table"]'),
             schoolName: () => this.elements.currentRatings.section().find('[data-testid="ofsted-current-ratings-school-name"]'),
@@ -83,10 +100,92 @@ class OfstedPage {
 
     private readonly checkValueIsValidBeforeOrAfterJoiningTag = (element: JQuery<HTMLElement>) => {
         const text = element.text().trim();
-        expect(text).to.match(/^(Before|After|Not yet inspected)$/);
+        expect(text).to.match(/^(Before|After|Not yet inspected|After joining|Before joining)$/);
     };
 
     // #endregion
+
+    // #region Single headline grades
+    public checkOfstedSHGPageHeaderPresent(): this {
+        this.elements.subpageHeader().should('contain', 'Single headline grades');
+        return this;
+    }
+
+    public checkOfstedSHGTableHeadersPresent(): this {
+        this.elements.singleHeadlineGrades.schoolNameHeader().should('be.visible');
+        this.elements.singleHeadlineGrades.dateJoinedHeader().should('be.visible');
+        this.elements.singleHeadlineGrades.currentSHGHeader().should('be.visible');
+        this.elements.singleHeadlineGrades.dateOfCurrentInspectionHeader().should('be.visible');
+        this.elements.singleHeadlineGrades.previousSHGHeader().should('be.visible');
+        this.elements.singleHeadlineGrades.dateOfPreviousInspectionHeader().should('be.visible');
+        return this;
+    }
+
+    public checkOfstedSHGSorting(): this {
+        TableUtility.checkStringSorting(
+            this.elements.singleHeadlineGrades.schoolName,
+            this.elements.singleHeadlineGrades.schoolNameHeader
+        );
+        TableUtility.checkStringSorting(
+            this.elements.singleHeadlineGrades.dateJoined,
+            this.elements.singleHeadlineGrades.dateJoinedHeader
+        );
+        TableUtility.checkStringSorting(
+            this.elements.singleHeadlineGrades.currentSHG,
+            this.elements.singleHeadlineGrades.currentSHGHeader
+        );
+        TableUtility.checkStringSorting(
+            this.elements.singleHeadlineGrades.dateOfCurrentInspection,
+            this.elements.singleHeadlineGrades.dateOfCurrentInspectionHeader
+        );
+        TableUtility.checkStringSorting(
+            this.elements.singleHeadlineGrades.previousSHG,
+            this.elements.singleHeadlineGrades.previousSHGHeader
+        );
+        TableUtility.checkStringSorting(
+            this.elements.singleHeadlineGrades.dateOfPreviousInspection,
+            this.elements.singleHeadlineGrades.dateOfPreviousInspectionHeader
+        );
+        return this;
+    }
+
+    public checkSHGDateJoinedPresent(): this {
+        this.elements.singleHeadlineGrades.dateJoined().each(this.checkValueIsValidDate);
+        return this;
+    }
+
+    public checkSHGDateOfCurrentInspectionPresent(): this {
+        this.elements.singleHeadlineGrades.dateOfCurrentInspection().each(this.checkValueIsValidDate);
+        return this;
+    }
+
+    public checkSHGDateOfPreviousInspectionPresent(): this {
+        this.elements.singleHeadlineGrades.dateOfPreviousInspection().each(this.checkValueIsValidDate);
+        return this;
+    }
+
+    public checkSHGCurrentSHGJudgementsPresent(): this {
+        this.elements.singleHeadlineGrades.currentSHG().each(this.checkValueIsValidOfstedRating);
+        return this;
+    }
+
+    public checkSHGPreviousSHGJudgementsPresent(): this {
+        this.elements.singleHeadlineGrades.previousSHG().each(this.checkValueIsValidOfstedRating);
+        return this;
+    }
+
+    public checkSHGCurrentSHGBeforeOrAfterPresent(): this {
+        this.elements.singleHeadlineGrades.currentSHGBeforeOrAfter().each(this.checkValueIsValidBeforeOrAfterJoiningTag);
+        return this;
+    }
+
+    public checkSHGPreviousSHGBeforeOrAfterPresent(): this {
+        this.elements.singleHeadlineGrades.previousSHGBeforeOrAfter().each(this.checkValueIsValidBeforeOrAfterJoiningTag);
+        return this;
+    }
+
+    // #endreigon
+
     // #region Current ratings
 
     public checkOfstedCurrentRatingsPageHeaderPresent(): this {

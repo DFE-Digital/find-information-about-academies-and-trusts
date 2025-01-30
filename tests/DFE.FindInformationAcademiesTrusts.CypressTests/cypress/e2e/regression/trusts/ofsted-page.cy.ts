@@ -3,7 +3,83 @@ import navigation from "../../../pages/navigation";
 import dataDownload from "../../../pages/trusts/dataDownload";
 import commonPage from "../../../pages/commonPage";
 
+const testTrustOfstedData = [
+    {
+        typeOfTrust: "single academy trust",
+        uid: 5527
+    },
+    {
+        typeOfTrust: "multi academy trust",
+        uid: 5712
+    }
+];
+
 describe("Testing the Ofsted page and its subpages ", () => {
+
+    testTrustOfstedData.forEach(({ typeOfTrust, uid }) => {
+        describe(`Testing the single headline grades page for a ${typeOfTrust}`, () => {
+            beforeEach(() => {
+                cy.login();
+                cy.visit(`/trusts/ofsted/single-headline-grades?uid=${uid}`);
+
+                cy.task('checkForFiles', 'cypress/downloads').then((files) => {
+                    if (files) {
+                        cy.task('clearDownloads', 'cypress/downloads');
+                    }
+                });
+            });
+
+            it("Checks the correct Ofsted single headline grades subpage header is present", () => {
+                ofstedPage
+                    .checkOfstedSHGPageHeaderPresent();
+            });
+
+            it("Checks the browser title is correct", () => {
+                commonPage
+                    .checkThatBrowserTitleForTrustPageMatches('Single headline grades - Ofsted - {trustName} - Find information about academies and trusts');
+            });
+
+            it("Checks the breadcrumb shows the correct page name", () => {
+                navigation
+                    .checkPageNameBreadcrumbPresent("Ofsted");
+            });
+
+            it("Checks the correct Ofsted single headline grades table headers are present", () => {
+                ofstedPage
+                    .checkOfstedSHGTableHeadersPresent();
+            });
+
+            it("Checks the Ofsted current ratings page sorting", () => {
+                ofstedPage
+                    .checkOfstedSHGSorting();
+            });
+
+            it("Checks that a trusts current and previous ratings correct judgement types are present", () => {
+                ofstedPage
+                    .checkSHGCurrentSHGJudgementsPresent()
+                    .checkSHGPreviousSHGJudgementsPresent()
+                    .checkSHGCurrentSHGBeforeOrAfterPresent()
+                    .checkSHGPreviousSHGBeforeOrAfterPresent();
+            });
+
+            it("Checks that the single headline grades dates are within the correct parameters", () => {
+                ofstedPage
+                    .checkSHGDateJoinedPresent()
+                    .checkSHGDateOfCurrentInspectionPresent()
+                    .checkSHGDateOfPreviousInspectionPresent();
+            });
+
+            it('should export academies data as an xlsx and verify it has downloaded and has content', () => {
+                ofstedPage
+                    .clickDownloadButton();
+                dataDownload
+                    .checkFileDownloaded()
+                    .checkFileHasContent()
+                    .deleteDownloadedFile();
+            });
+
+        });
+    });
 
     describe("Testing the Ofsted current ratings page ", () => {
         beforeEach(() => {
@@ -273,7 +349,8 @@ describe("Testing the Ofsted page and its subpages ", () => {
     describe("Testing a trust that has no ofsted data within it to ensure the issue of a 500 page appearing does not happen", () => {
         beforeEach(() => {
             cy.login();
-            commonPage.interceptAndVerifyNo500Errors();
+            commonPage
+                .interceptAndVerifyNo500Errors();
         });
 
         ['/trusts/ofsted/current-ratings?uid=17728', '/trusts/ofsted/previous-ratings?uid=17728', '/trusts/ofsted/important-dates?uid=17728', '/trusts/ofsted/safeguarding-and-concerns?uid=17728'].forEach((url) => {
