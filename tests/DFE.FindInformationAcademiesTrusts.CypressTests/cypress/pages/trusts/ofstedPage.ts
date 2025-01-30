@@ -85,9 +85,17 @@ class OfstedPage {
         }
     };
 
-    private readonly checkValueIsValidOfstedRating = (element: JQuery<HTMLElement>) => {
+    private readonly checkElementMatches = (element: JQuery<HTMLElement>, expected: RegExp) => {
         const text = element.text().trim();
-        expect(text).to.match(/^(Good|No judgement|Outstanding|Requires improvement|Inadequate|Not yet inspected|Insufficient evidence|Does not apply)$/);
+        expect(text).to.match(expected);
+    };
+
+    private readonly checkValueIsValidCurrentOfstedRating = (element: JQuery<HTMLElement>) =>
+        this.checkElementMatches(element, /^(Good|Not available|Outstanding|Requires improvement|Inadequate|Not yet inspected|Insufficient evidence|Does not apply)$/);
+
+    private readonly checkValueIsValidPreviousOfstedRating = (element: JQuery<HTMLElement>) => {
+        const text = element.text().trim();
+        expect(text).to.match(/^(Good|Not available|Outstanding|Requires improvement|Inadequate|Not inspected|Insufficient evidence|Does not apply)$/);
     };
 
     private readonly checkValueIsValidDate = (element: JQuery<HTMLElement>) => {
@@ -100,7 +108,7 @@ class OfstedPage {
 
     private readonly checkValueIsValidBeforeOrAfterJoiningTag = (element: JQuery<HTMLElement>) => {
         const text = element.text().trim();
-        expect(text).to.match(/^(Before|After|Not yet inspected|After joining|Before joining)$/);
+        expect(text).to.match(/^(Before|After|Not yet inspected)$/);
     };
 
     // #endregion
@@ -165,22 +173,26 @@ class OfstedPage {
     }
 
     public checkSHGCurrentSHGJudgementsPresent(): this {
-        this.elements.singleHeadlineGrades.currentSHG().each(this.checkValueIsValidOfstedRating);
+        this.elements.singleHeadlineGrades.currentSHG().each(this.checkValueIsValidCurrentOfstedRating);
         return this;
     }
 
     public checkSHGPreviousSHGJudgementsPresent(): this {
-        this.elements.singleHeadlineGrades.previousSHG().each(this.checkValueIsValidOfstedRating);
+        this.elements.singleHeadlineGrades.previousSHG().each(this.checkValueIsValidPreviousOfstedRating);
         return this;
     }
 
     public checkSHGCurrentSHGBeforeOrAfterPresent(): this {
-        this.elements.singleHeadlineGrades.currentSHGBeforeOrAfter().each(this.checkValueIsValidBeforeOrAfterJoiningTag);
+        this.elements.singleHeadlineGrades.currentSHGBeforeOrAfter().each((element: JQuery<HTMLElement>) => {
+            this.checkElementMatches(element, /^(Not yet inspected|After joining|Before joining)$/);
+        });
         return this;
     }
 
     public checkSHGPreviousSHGBeforeOrAfterPresent(): this {
-        this.elements.singleHeadlineGrades.previousSHGBeforeOrAfter().each(this.checkValueIsValidBeforeOrAfterJoiningTag);
+        this.elements.singleHeadlineGrades.previousSHGBeforeOrAfter().each((element: JQuery<HTMLElement>) => {
+            this.checkElementMatches(element, /^(Not inspected|After joining|Before joining)$/);
+        });
         return this;
     }
 
@@ -243,32 +255,32 @@ class OfstedPage {
     }
 
     public checkCurrentRatingsQualityOfEducationJudgementsPresent(): this {
-        this.elements.currentRatings.qualityOfEducation().each(this.checkValueIsValidOfstedRating);
+        this.elements.currentRatings.qualityOfEducation().each(this.checkValueIsValidCurrentOfstedRating);
         return this;
     }
 
     public checkCurrentRatingsBehaviourAndAttitudesJudgementsPresent(): this {
-        this.elements.currentRatings.behaviourAndAttitudes().each(this.checkValueIsValidOfstedRating);
+        this.elements.currentRatings.behaviourAndAttitudes().each(this.checkValueIsValidCurrentOfstedRating);
         return this;
     }
 
     public checkCurrentRatingsPersonalDevelopmentJudgementsPresent(): this {
-        this.elements.currentRatings.personalDevelopment().each(this.checkValueIsValidOfstedRating);
+        this.elements.currentRatings.personalDevelopment().each(this.checkValueIsValidCurrentOfstedRating);
         return this;
     }
 
     public checkCurrentRatingsLeadershipAndManagementJudgementsPresent(): this {
-        this.elements.currentRatings.leadershipAndManagement().each(this.checkValueIsValidOfstedRating);
+        this.elements.currentRatings.leadershipAndManagement().each(this.checkValueIsValidCurrentOfstedRating);
         return this;
     }
 
     public checkCurrentRatingsEarlyYearsProvisionJudgementsPresent(): this {
-        this.elements.currentRatings.earlyYearsProvision().each(this.checkValueIsValidOfstedRating);
+        this.elements.currentRatings.earlyYearsProvision().each(this.checkValueIsValidCurrentOfstedRating);
         return this;
     }
 
     public checkCurrentRatingsSixthFormProvisionJudgementsPresent(): this {
-        this.elements.currentRatings.sixthFormProvision().each(this.checkValueIsValidOfstedRating);
+        this.elements.currentRatings.sixthFormProvision().each(this.checkValueIsValidCurrentOfstedRating);
         return this;
     }
 
@@ -340,37 +352,37 @@ class OfstedPage {
     }
 
     public checkPreviousRatingsQualityOfEducationJudgementsPresent(): this {
-        this.elements.previousRatings.qualityOfEducation().each(this.checkValueIsValidOfstedRating);
+        this.elements.previousRatings.qualityOfEducation().each(this.checkValueIsValidPreviousOfstedRating);
         return this;
     }
 
     public checkPreviousRatingsBehaviourAndAttitudesJudgementsPresent(): this {
-        this.elements.previousRatings.behaviourAndAttitudes().each(this.checkValueIsValidOfstedRating);
+        this.elements.previousRatings.behaviourAndAttitudes().each(this.checkValueIsValidPreviousOfstedRating);
         return this;
     }
 
     public checkPreviousRatingsPersonalDevelopmentJudgementsPresent(): this {
-        this.elements.previousRatings.personalDevelopment().each(this.checkValueIsValidOfstedRating);
+        this.elements.previousRatings.personalDevelopment().each(this.checkValueIsValidPreviousOfstedRating);
         return this;
     }
 
     public checkPreviousRatingsLeadershipAndManagementJudgementsPresent(): this {
-        this.elements.previousRatings.leadershipAndManagement().each(this.checkValueIsValidOfstedRating);
+        this.elements.previousRatings.leadershipAndManagement().each(this.checkValueIsValidPreviousOfstedRating);
         return this;
     }
 
     public checkPreviousRatingsEarlyYearsProvisionJudgementsPresent(): this {
-        this.elements.previousRatings.earlyYearsProvision().each(this.checkValueIsValidOfstedRating);
+        this.elements.previousRatings.earlyYearsProvision().each(this.checkValueIsValidPreviousOfstedRating);
         return this;
     }
 
     public checkPreviousRatingsSixthFormProvisionJudgementsPresent(): this {
-        this.elements.previousRatings.sixthFormProvision().each(this.checkValueIsValidOfstedRating);
+        this.elements.previousRatings.sixthFormProvision().each(this.checkValueIsValidPreviousOfstedRating);
         return this;
     }
 
     public checkPreviousRatingsBeforeOrAfterJoiningJudgementsPresent(): this {
-        this.elements.previousRatings.beforeOrAfterJoining().each(this.checkValueIsValidBeforeOrAfterJoiningTag);
+        this.elements.previousRatings.beforeOrAfterJoining().each((element) => this.checkElementMatches(element, /^(Before|After|Not inspected)$/));
         return this;
     }
 
