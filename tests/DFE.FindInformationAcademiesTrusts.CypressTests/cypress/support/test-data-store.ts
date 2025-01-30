@@ -19,9 +19,9 @@ export class TestDataStore {
             {
                 pageName: "Ofsted",
                 subpages: [
+                    { subpageName: "Single headline grades", url: `/trusts/ofsted/single-headline-grades?uid=${uid}` },
                     { subpageName: "Current ratings", url: `/trusts/ofsted/current-ratings?uid=${uid}` },
                     { subpageName: "Previous ratings", url: `/trusts/ofsted/previous-ratings?uid=${uid}` },
-                    { subpageName: "Important dates", url: `/trusts/ofsted/important-dates?uid=${uid}` },
                     { subpageName: "Safeguarding and concerns", url: `/trusts/ofsted/safeguarding-and-concerns?uid=${uid}` }
                 ]
             },

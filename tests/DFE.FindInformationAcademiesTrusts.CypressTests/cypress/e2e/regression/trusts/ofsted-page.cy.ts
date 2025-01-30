@@ -283,69 +283,6 @@ describe("Testing the Ofsted page and its subpages ", () => {
         });
     });
 
-    describe("Testing the Ofsted important dates page ", () => {
-        beforeEach(() => {
-            cy.login();
-            cy.visit('/trusts/ofsted/important-dates?uid=5143');
-
-            // Clear the downloads folder before running each test
-            cy.task('checkForFiles', 'cypress/downloads').then((files) => {
-                if (files) {
-                    cy.task('clearDownloads', 'cypress/downloads');
-                }
-            });
-        });
-
-        it("Checks the correct Ofsted important dates sub page header is present", () => {
-            ofstedPage
-                .checkOfstedImportantDatesPageHeaderPresent();
-        });
-
-        it("Checks the browser title is correct", () => {
-            commonPage
-                .checkThatBrowserTitleForTrustPageMatches('Important dates - Ofsted - {trustName} - Find information about academies and trusts');
-        });
-
-        it("Checks the breadcrumb shows the correct page name", () => {
-            navigation
-                .checkPageNameBreadcrumbPresent("Ofsted");
-        });
-
-        it("Checks the correct Ofsted important dates table headers are present", () => {
-            ofstedPage
-                .checkOfstedImportantDatesTableHeadersPresent();
-        });
-
-        it("Checks that a trusts important dates fields are present ", () => {
-            ofstedPage
-                .checkDateJoinedPresent()
-                .checkDateOfCurrentInspectionPresent()
-                .checkDateOfPreviousInspectionPresent();
-        });
-
-        it("Checks that a trusts important dates sorting is working", () => {
-            ofstedPage
-                .checkOfstedImportantDatesSorting();
-        });
-
-        it("Checks that a different trusts important dates fields are present", () => {
-            cy.visit('/trusts/ofsted/important-dates?uid=5712');
-            ofstedPage
-                .checkDateJoinedPresent()
-                .checkDateOfCurrentInspectionPresent()
-                .checkDateOfPreviousInspectionPresent();
-        });
-
-        it('should export academies data as an xlsx and verify it has downloaded and has content', () => {
-            ofstedPage
-                .clickDownloadButton();
-            dataDownload
-                .checkFileDownloaded()
-                .checkFileHasContent()
-                .deleteDownloadedFile();
-        });
-    });
-
     describe("Testing a trust that has no ofsted data within it to ensure the issue of a 500 page appearing does not happen", () => {
         beforeEach(() => {
             cy.login();
@@ -353,7 +290,7 @@ describe("Testing the Ofsted page and its subpages ", () => {
                 .interceptAndVerifyNo500Errors();
         });
 
-        ['/trusts/ofsted/current-ratings?uid=17728', '/trusts/ofsted/previous-ratings?uid=17728', '/trusts/ofsted/important-dates?uid=17728', '/trusts/ofsted/safeguarding-and-concerns?uid=17728'].forEach((url) => {
+        ['/trusts/ofsted/single-headline-grades?uid=17728', '/trusts/ofsted/current-ratings?uid=17728', '/trusts/ofsted/previous-ratings?uid=17728', '/trusts/ofsted/safeguarding-and-concerns?uid=17728'].forEach((url) => {
             it(`Should have no 500 error on ${url}`, () => {
                 cy.visit(url);
             });
