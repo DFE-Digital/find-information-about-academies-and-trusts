@@ -667,7 +667,7 @@ public class AcademyRepositoryOfstedTests
         GetAcademiesInTrustOfstedAsync_should_remove_single_headline_grades_issued_after_2nd_sept_2024()
     {
         // Arrange
-        var giasGroupLinks = AddGiasGroupLinksToMockDb(8);
+        var giasGroupLinks = AddGiasGroupLinksToMockDb(10);
 
         // - Add non-further eds
         _mockAcademiesDbContext.AddEstablishmentsFiat(
@@ -700,12 +700,22 @@ public class AcademyRepositoryOfstedTests
                 PreviousFullInspectionOverallEffectiveness = "4",
                 InspectionStartDate = "01/01/2025",
                 PreviousInspectionStartDate = "02/09/2024"
-            });
+            },
+            new MisMstrEstablishmentFiat // OverallEffectiveness before policy change date
+            {
+                Urn = int.Parse(giasGroupLinks[4].Urn!),
+                OverallEffectiveness = "1",
+                PreviousFullInspectionOverallEffectiveness = "2",
+                InspectionStartDate = "01/09/2024",
+                PreviousInspectionStartDate = "01/01/2021"
+            }
+        );
+
         // - Add further eds
         _mockAcademiesDbContext.AddFurtherEducationEstablishmentsFiat(
             new MisMstrFurtherEducationEstablishmentFiat // OverallEffectiveness set after policy change date
             {
-                ProviderUrn = int.Parse(giasGroupLinks[4].Urn!),
+                ProviderUrn = int.Parse(giasGroupLinks[5].Urn!),
                 OverallEffectiveness = "1",
                 PreviousOverallEffectiveness = "3",
                 LastDayOfInspection = "01/01/2025",
@@ -713,14 +723,14 @@ public class AcademyRepositoryOfstedTests
             },
             new MisMstrFurtherEducationEstablishmentFiat // OverallEffectiveness set on policy change date
             {
-                ProviderUrn = int.Parse(giasGroupLinks[5].Urn!),
+                ProviderUrn = int.Parse(giasGroupLinks[6].Urn!),
                 OverallEffectiveness = "2",
                 LastDayOfInspection = "02/09/2024"
             },
             new
                 MisMstrFurtherEducationEstablishmentFiat // PreviousFullInspectionOverallEffectiveness set after policy change date
                 {
-                    ProviderUrn = int.Parse(giasGroupLinks[6].Urn!),
+                    ProviderUrn = int.Parse(giasGroupLinks[7].Urn!),
                     OverallEffectiveness = "Not judged",
                     PreviousOverallEffectiveness = "3",
                     LastDayOfInspection = "01/01/2025",
@@ -729,12 +739,20 @@ public class AcademyRepositoryOfstedTests
             new
                 MisMstrFurtherEducationEstablishmentFiat // PreviousFullInspectionOverallEffectiveness set on policy change date
                 {
-                    ProviderUrn = int.Parse(giasGroupLinks[7].Urn!),
+                    ProviderUrn = int.Parse(giasGroupLinks[8].Urn!),
                     OverallEffectiveness = "Not judged",
                     PreviousOverallEffectiveness = "4",
                     LastDayOfInspection = "01/01/2025",
                     PreviousLastDayOfInspection = "02/09/2024"
-                }
+                },
+            new MisMstrFurtherEducationEstablishmentFiat // OverallEffectiveness before policy change date
+            {
+                ProviderUrn = int.Parse(giasGroupLinks[9].Urn!),
+                OverallEffectiveness = "1",
+                PreviousOverallEffectiveness = "2",
+                LastDayOfInspection = "01/09/2024",
+                PreviousLastDayOfInspection = "01/01/2021"
+            }
         );
 
         // Act
@@ -771,6 +789,13 @@ public class AcademyRepositoryOfstedTests
                 rating.PreviousOfstedRating.OverallEffectiveness.Should()
                     .Be(OfstedRatingScore.SingleHeadlineGradeNotAvailable);
             },
+            rating => // OverallEffectiveness before policy change date
+            {
+                rating.CurrentOfstedRating.OverallEffectiveness.Should()
+                    .NotBe(OfstedRatingScore.SingleHeadlineGradeNotAvailable);
+                rating.PreviousOfstedRating.OverallEffectiveness.Should()
+                    .NotBe(OfstedRatingScore.SingleHeadlineGradeNotAvailable);
+            },
 
             // Further eds
             rating => // OverallEffectiveness set after policy change date
@@ -800,26 +825,29 @@ public class AcademyRepositoryOfstedTests
                     .Be(OfstedRatingScore.SingleHeadlineGradeNotAvailable);
                 rating.PreviousOfstedRating.OverallEffectiveness.Should()
                     .Be(OfstedRatingScore.SingleHeadlineGradeNotAvailable);
+            },
+            rating => // OverallEffectiveness before policy change date
+            {
+                rating.CurrentOfstedRating.OverallEffectiveness.Should()
+                    .NotBe(OfstedRatingScore.SingleHeadlineGradeNotAvailable);
+                rating.PreviousOfstedRating.OverallEffectiveness.Should()
+                    .NotBe(OfstedRatingScore.SingleHeadlineGradeNotAvailable);
             }
         );
 
         //Assert error logging occurred
-        _mockLogger.VerifyLogError(
-            $"URN {giasGroupLinks[0].Urn!} has a current Ofsted single headline grade of Outstanding issued");
-        _mockLogger.VerifyLogError(
-            $"URN {giasGroupLinks[1].Urn!} has a current Ofsted single headline grade of Good issued");
-        _mockLogger.VerifyLogError(
-            $"URN {giasGroupLinks[2].Urn!} has a previous Ofsted single headline grade of RequiresImprovement issued");
-        _mockLogger.VerifyLogError(
-            $"URN {giasGroupLinks[3].Urn!} has a previous Ofsted single headline grade of Inadequate issued");
-        _mockLogger.VerifyLogError(
-            $"URN {giasGroupLinks[4].Urn!} has a current Ofsted single headline grade of Outstanding issued");
-        _mockLogger.VerifyLogError(
-            $"URN {giasGroupLinks[5].Urn!} has a current Ofsted single headline grade of Good issued");
-        _mockLogger.VerifyLogError(
-            $"URN {giasGroupLinks[6].Urn!} has a previous Ofsted single headline grade of RequiresImprovement issued");
-        _mockLogger.VerifyLogError(
-            $"URN {giasGroupLinks[7].Urn!} has a previous Ofsted single headline grade of Inadequate issued");
+        _mockLogger.VerifyLogErrors(
+            $"URN {giasGroupLinks[0].Urn!} has a current Ofsted single headline grade of Outstanding issued",
+            $"URN {giasGroupLinks[1].Urn!} has a current Ofsted single headline grade of Good issued",
+            $"URN {giasGroupLinks[2].Urn!} has a previous Ofsted single headline grade of RequiresImprovement issued",
+            $"URN {giasGroupLinks[3].Urn!} has a previous Ofsted single headline grade of Inadequate issued",
+            // giasGroupLinks[4] - OverallEffectiveness before policy change date so no error log expected
+            $"URN {giasGroupLinks[5].Urn!} has a current Ofsted single headline grade of Outstanding issued",
+            $"URN {giasGroupLinks[6].Urn!} has a current Ofsted single headline grade of Good issued",
+            $"URN {giasGroupLinks[7].Urn!} has a previous Ofsted single headline grade of RequiresImprovement issued",
+            $"URN {giasGroupLinks[8].Urn!} has a previous Ofsted single headline grade of Inadequate issued"
+            // giasGroupLinks[9] - OverallEffectiveness before policy change date so no error log expected
+        );
         _mockLogger.VerifyNoOtherCalls();
     }
 
