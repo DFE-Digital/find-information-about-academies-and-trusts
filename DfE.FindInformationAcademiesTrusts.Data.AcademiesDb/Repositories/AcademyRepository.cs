@@ -10,6 +10,9 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<AcademyRepository> logger)
     : IAcademyRepository
 {
+    private static readonly DateTime
+        SingleHeadlineGradesPolicyChangeDate = new(2024, 09, 02, 0, 0, 0, DateTimeKind.Utc);
+
     public async Task<AcademyDetails[]> GetAcademiesInTrustDetailsAsync(string uid)
     {
         return await academiesDbContext.GiasGroupLinks
@@ -138,7 +141,57 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
                 ofstedRating.Urn);
         }
 
+        // Ensure that there are no single headline grades after policy change on 2nd September 2024
+        if (ofstedRatings.Any(rating =>
+                HasSingleHeadlineGradeIssuedAfterPolicyChange(rating.Current) ||
+                HasSingleHeadlineGradeIssuedAfterPolicyChange(rating.Previous)))
+        {
+            LogErrorForUrnsWithSingleHeadlineGradesAfterPolicyChange(ofstedRatings);
+
+            ofstedRatings = RemoveSingleHeadlineGradesIssuedAfterPolicyChange(ofstedRatings);
+        }
+
         return ofstedRatings.ToDictionary(o => o.Urn.ToString(), o => o);
+    }
+
+    private void LogErrorForUrnsWithSingleHeadlineGradesAfterPolicyChange(List<AcademyOfstedRatings> ofstedRatings)
+    {
+        foreach (var ofstedRating in ofstedRatings)
+        {
+            if (HasSingleHeadlineGradeIssuedAfterPolicyChange(ofstedRating.Current))
+            {
+                logger.LogError(
+                    "URN {Urn} has a current Ofsted single headline grade of {score} issued on {InspectionDate} which was after single headline grades stopped being issued on 2nd September. This could be a data integrity issue with the Ofsted data in Academies Db.",
+                    ofstedRating.Urn, ofstedRating.Current.OverallEffectiveness, ofstedRating.Current.InspectionDate);
+            }
+
+            if (HasSingleHeadlineGradeIssuedAfterPolicyChange(ofstedRating.Previous))
+            {
+                logger.LogError(
+                    "URN {Urn} has a previous Ofsted single headline grade of {score} issued on {InspectionDate} which was after single headline grades stopped being issued on 2nd September. This could be a data integrity issue with the Ofsted data in Academies Db.",
+                    ofstedRating.Urn, ofstedRating.Previous.OverallEffectiveness, ofstedRating.Previous.InspectionDate);
+            }
+        }
+    }
+
+    private static bool HasSingleHeadlineGradeIssuedAfterPolicyChange(OfstedRating rating)
+    {
+        return rating.InspectionDate >= SingleHeadlineGradesPolicyChangeDate &&
+               rating.OverallEffectiveness != OfstedRatingScore.SingleHeadlineGradeNotAvailable;
+    }
+
+    private static List<AcademyOfstedRatings> RemoveSingleHeadlineGradesIssuedAfterPolicyChange(
+        List<AcademyOfstedRatings> ratings)
+    {
+        return ratings.Select(rating => rating with
+        {
+            Current = HasSingleHeadlineGradeIssuedAfterPolicyChange(rating.Current)
+                ? rating.Current with { OverallEffectiveness = OfstedRatingScore.SingleHeadlineGradeNotAvailable }
+                : rating.Current,
+            Previous = HasSingleHeadlineGradeIssuedAfterPolicyChange(rating.Previous)
+                ? rating.Previous with { OverallEffectiveness = OfstedRatingScore.SingleHeadlineGradeNotAvailable }
+                : rating.Previous
+        }).ToList();
     }
 
     public async Task<AcademyPupilNumbers[]> GetAcademiesInTrustPupilNumbersAsync(string uid)
@@ -211,7 +264,7 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
         // Check if it is 'Not judged' all other gradings are int based
         if (rating?.ToLower().Equals("not judged") ?? false)
         {
-            return OfstedRatingScore.NoJudgement;
+            return OfstedRatingScore.SingleHeadlineGradeNotAvailable;
         }
 
         return ConvertNullableStringToOfstedRatingScore(rating);

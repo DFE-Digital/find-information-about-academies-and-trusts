@@ -29,7 +29,7 @@ describe("Testing the data sources component", () => {
     });
 
     describe("Trust pages", () => {
-        TestDataStore.GetTrustSubpagesForUid(5712).forEach(({ pageName, subpages }) => {
+        TestDataStore.GetAllTrustSubpagesForUid(5712).forEach(({ pageName, subpages }) => {
             const subpageNames = subpages.map(s => s.subpageName);
 
             describe(pageName, () => {

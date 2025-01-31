@@ -1,0 +1,68 @@
+@page "/trusts/ofsted/single-headline-grades"
+@model SingleHeadlineGradesModel
+
+@{
+  Layout = "Ofsted/_OfstedLayout";
+}
+
+<section class="app-table-container" data-testid="ofsted-single-headline-grades-school-name-table">
+  <details class="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        Why a single headline grade might not be available
+      </span>
+    </summary>
+    <div class="govuk-details__text">
+      <p class="govuk-body">
+        Single headline grades stopped being awarded by Ofsted on <strong class="govuk-!-font-weight-bold">2 September 2024</strong>.
+      </p>
+      <p class="govuk-body">
+        Inspections completed after this date are broken down by category.
+      </p>
+      <p class="govuk-body">
+        You can see these on the ‘Current ratings’ and ‘Previous ratings’ pages.
+      </p>
+    </div>
+  </details>
+  <hr class="govuk-section-break govuk-section-break--m">
+  <table class="govuk-table" data-module="moj-sortable-table">
+    <caption class="govuk-table__caption govuk-table__caption--m" data-testid="subpage-header">Single headline grades</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-body" aria-sort="ascending" data-testid="ofsted-single-headline-grades-school-name-header">
+          School name
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body column-header-date" aria-sort="none" data-testid="ofsted-single-headline-grades-date-joined-header">
+          Date joined
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body" aria-sort="none" data-testid="ofsted-single-headline-grades-current-single-headline-grade-header">
+          Current single headline grade
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body column-header-date" aria-sort="none" data-testid="ofsted-single-headline-grades-date-of-current-inspection-header">
+          Date of current inspection
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body" aria-sort="none" data-testid="ofsted-single-headline-grades-previous-single-headline-grade-header">
+          Previous single headline grade
+        </th>
+        <th scope="col" class="govuk-table__header govuk-body column-header-date" aria-sort="none" data-testid="ofsted-single-headline-grades-date-of-previous-inspection-header">
+          Date of previous inspection
+        </th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      @foreach (var academy in Model.Academies)
+      {
+        <tr class="govuk-table__row" data-testid="academy-row">
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.EstablishmentName" data-testid="ofsted-single-headline-grades-school-name">
+            @academy.EstablishmentName<br/>
+          </td>
+          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.SortableDateFormat)" data-testid="ofsted-single-headline-grades-date-joined">
+            @academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.DisplayDateFormat)
+          </td>
+          <partial name="_SingleHeadlineGradeCells" model="new SingleHeadlineGradeCellsModel(academy.CurrentOfstedRating, academy.WhenDidCurrentInspectionHappen, true)"/>
+          <partial name="_SingleHeadlineGradeCells" model="new SingleHeadlineGradeCellsModel(academy.PreviousOfstedRating, academy.WhenDidPreviousInspectionHappen, false)"/>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>

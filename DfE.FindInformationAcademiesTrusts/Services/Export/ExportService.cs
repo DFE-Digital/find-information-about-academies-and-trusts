@@ -128,7 +128,7 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
 
         SetDateCell(worksheet, rowNumber, 6, ofstedData?.DateAcademyJoinedTrust);
 
-        SetTextCell(worksheet, rowNumber, 7, previousRating.OverallEffectiveness.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 7, previousRating.OverallEffectiveness.ToDisplayString(false));
         SetTextCell(worksheet, rowNumber, 8,
             IsOfstedRatingBeforeOrAfterJoining(
                 previousRating.OverallEffectiveness,
@@ -139,7 +139,7 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
 
         SetDateCell(worksheet, rowNumber, 9, previousRating.InspectionDate);
 
-        SetTextCell(worksheet, rowNumber, 10, currentRating.OverallEffectiveness.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 10, currentRating.OverallEffectiveness.ToDisplayString(true));
         SetTextCell(worksheet, rowNumber, 11,
             IsOfstedRatingBeforeOrAfterJoining(
                 currentRating.OverallEffectiveness,
@@ -257,12 +257,13 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
         );
 
         // Current Ratings
-        SetTextCell(worksheet, rowNumber, 5, currentRating.QualityOfEducation.ToDisplayString());
-        SetTextCell(worksheet, rowNumber, 6, currentRating.BehaviourAndAttitudes.ToDisplayString());
-        SetTextCell(worksheet, rowNumber, 7, currentRating.PersonalDevelopment.ToDisplayString());
-        SetTextCell(worksheet, rowNumber, 8, currentRating.EffectivenessOfLeadershipAndManagement.ToDisplayString());
-        SetTextCell(worksheet, rowNumber, 9, currentRating.EarlyYearsProvision.ToDisplayString());
-        SetTextCell(worksheet, rowNumber, 10, currentRating.SixthFormProvision.ToDisplayString());
+        SetTextCell(worksheet, rowNumber, 5, currentRating.QualityOfEducation.ToDisplayString(true));
+        SetTextCell(worksheet, rowNumber, 6, currentRating.BehaviourAndAttitudes.ToDisplayString(true));
+        SetTextCell(worksheet, rowNumber, 7, currentRating.PersonalDevelopment.ToDisplayString(true));
+        SetTextCell(worksheet, rowNumber, 8,
+            currentRating.EffectivenessOfLeadershipAndManagement.ToDisplayString(true));
+        SetTextCell(worksheet, rowNumber, 9, currentRating.EarlyYearsProvision.ToDisplayString(true));
+        SetTextCell(worksheet, rowNumber, 10, currentRating.SixthFormProvision.ToDisplayString(true));
 
         // Previous Inspection Date
         SetDateCell(worksheet, rowNumber, 11, previousRating.InspectionDate);
@@ -277,13 +278,13 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
         );
 
         // Previous Ratings
-        SetTextCell(worksheet, rowNumber, 13, previousRating.QualityOfEducation.ToDisplayString());
-        SetTextCell(worksheet, rowNumber, 14, previousRating.BehaviourAndAttitudes.ToDisplayString());
-        SetTextCell(worksheet, rowNumber, 15, previousRating.PersonalDevelopment.ToDisplayString());
-        SetTextCell(worksheet, rowNumber, 16, previousRating.EffectivenessOfLeadershipAndManagement.ToDisplayString());
-        SetTextCell(worksheet, rowNumber, 17, previousRating.EarlyYearsProvision.ToDisplayString());
-        SetTextCell(worksheet, rowNumber, 18, previousRating.SixthFormProvision.ToDisplayString());
-
+        SetTextCell(worksheet, rowNumber, 13, previousRating.QualityOfEducation.ToDisplayString(false));
+        SetTextCell(worksheet, rowNumber, 14, previousRating.BehaviourAndAttitudes.ToDisplayString(false));
+        SetTextCell(worksheet, rowNumber, 15, previousRating.PersonalDevelopment.ToDisplayString(false));
+        SetTextCell(worksheet, rowNumber, 16,
+            previousRating.EffectivenessOfLeadershipAndManagement.ToDisplayString(false));
+        SetTextCell(worksheet, rowNumber, 17, previousRating.EarlyYearsProvision.ToDisplayString(false));
+        SetTextCell(worksheet, rowNumber, 18, previousRating.SixthFormProvision.ToDisplayString(false));
 
         // Safeguarding Effective
         SetTextCell(worksheet, rowNumber, 19, currentRating.SafeguardingIsEffective.ToDisplayString());

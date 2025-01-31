@@ -6,8 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Added
+
+- Added Single headline grades Ofsted subpage
+
+### Changed
+
 - Updated accessibility statement text
+- Page spacing tweak on Ofsted subpages
+- All Ofsted subpage tables - previous sub-judgements for academies with no previous inspection now say "Not inspected" (instead of "Not yet inspected" which is used for current sub-judgements)
+- Ofsted data download - previous sub-judgements for academies with no previous inspection now say "Not inspected" (instead of "Not yet inspected" which is used for current sub-judgements)
+
+### Removed
+
 - Removed 'Date joined trust' from Ofsted data source list
+- Removed Important dates Ofsted subpage
 
 ## [Release-19][release-19] (production-2025-01-20.4730)
 

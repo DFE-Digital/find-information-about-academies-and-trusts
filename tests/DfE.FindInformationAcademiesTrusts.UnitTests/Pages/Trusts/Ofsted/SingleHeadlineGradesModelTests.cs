@@ -3,16 +3,16 @@ using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Ofsted;
 
-public class ImportantDatesModelTests : BaseOfstedAreaModelTests<ImportantDatesModel>
+public class SingleHeadlineGradesModelTests : BaseOfstedAreaModelTests<SingleHeadlineGradesModel>
 {
-    public ImportantDatesModelTests()
+    public SingleHeadlineGradesModelTests()
     {
-        Sut = new ImportantDatesModel(MockDataSourceService.Object,
+        Sut = new SingleHeadlineGradesModel(MockDataSourceService.Object,
                 MockTrustService.Object,
                 MockAcademyService.Object,
                 MockExportService.Object,
                 MockDateTimeProvider.Object,
-                new MockLogger<ImportantDatesModel>().Object
+                new MockLogger<SingleHeadlineGradesModel>().Object
             )
             { Uid = TrustUid };
     }
@@ -23,7 +23,7 @@ public class ImportantDatesModelTests : BaseOfstedAreaModelTests<ImportantDatesM
         _ = await Sut.OnGetAsync();
 
         Sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.SubPageLink.Should().Be("./ImportantDates");
+            .Which.SubPageLink.Should().Be("./SingleHeadlineGrades");
     }
 
     [Fact]
@@ -31,6 +31,6 @@ public class ImportantDatesModelTests : BaseOfstedAreaModelTests<ImportantDatesM
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("Important dates");
+        Sut.TrustPageMetadata.SubPageName.Should().Be("Single headline grades");
     }
 }

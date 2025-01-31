@@ -6,35 +6,31 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Extensions;
 public class OfstedRatingScoreExtensionsTests
 {
     [Theory]
-    [InlineData(OfstedRatingScore.Outstanding, "Outstanding")]
-    [InlineData(OfstedRatingScore.Good, "Good")]
-    [InlineData(OfstedRatingScore.RequiresImprovement, "Requires improvement")]
-    [InlineData(OfstedRatingScore.Inadequate, "Inadequate")]
-    [InlineData(OfstedRatingScore.InsufficientEvidence, "Insufficient evidence")]
-    [InlineData(OfstedRatingScore.NoJudgement, "No judgement")]
-    [InlineData(OfstedRatingScore.DoesNotApply, "Does not apply")]
-    [InlineData(OfstedRatingScore.NotInspected, "Not yet inspected")]
-    public void ToDisplayString_ReturnsCorrectString_ForDefinedEnumValues(OfstedRatingScore rating, string expected)
+    [InlineData(OfstedRatingScore.Outstanding, "Outstanding", true)]
+    [InlineData(OfstedRatingScore.Outstanding, "Outstanding", false)]
+    [InlineData(OfstedRatingScore.Good, "Good", true)]
+    [InlineData(OfstedRatingScore.Good, "Good", false)]
+    [InlineData(OfstedRatingScore.RequiresImprovement, "Requires improvement", true)]
+    [InlineData(OfstedRatingScore.RequiresImprovement, "Requires improvement", false)]
+    [InlineData(OfstedRatingScore.Inadequate, "Inadequate", true)]
+    [InlineData(OfstedRatingScore.Inadequate, "Inadequate", false)]
+    [InlineData(OfstedRatingScore.InsufficientEvidence, "Insufficient evidence", true)]
+    [InlineData(OfstedRatingScore.InsufficientEvidence, "Insufficient evidence", false)]
+    [InlineData(OfstedRatingScore.SingleHeadlineGradeNotAvailable, "Not available", true)]
+    [InlineData(OfstedRatingScore.SingleHeadlineGradeNotAvailable, "Not available", false)]
+    [InlineData(OfstedRatingScore.DoesNotApply, "Does not apply", true)]
+    [InlineData(OfstedRatingScore.DoesNotApply, "Does not apply", false)]
+    [InlineData(OfstedRatingScore.NotInspected, "Not yet inspected", true)]
+    [InlineData(OfstedRatingScore.NotInspected, "Not inspected", false)]
+    [InlineData((OfstedRatingScore)999, "Unknown", true)]
+    [InlineData((OfstedRatingScore)999, "Unknown", false)]
+    public void ToDisplayString_ReturnsCorrectString(OfstedRatingScore rating, string expected, bool isCurrent)
     {
         // Act
-        var result = rating.ToDisplayString();
+        var result = rating.ToDisplayString(isCurrent);
 
         // Assert
         result.Should().Be(expected);
-    }
-
-    [Fact]
-    public void ToDisplayString_ReturnsUnknown_ForUndefinedEnumValue()
-    {
-        // Arrange
-        // Cast an undefined integer value to the enum
-        var undefinedRating = (OfstedRatingScore)999;
-
-        // Act
-        var result = undefinedRating.ToDisplayString();
-
-        // Assert
-        result.Should().Be("Unknown");
     }
 
     [Theory]
@@ -43,7 +39,7 @@ public class OfstedRatingScoreExtensionsTests
     [InlineData(OfstedRatingScore.RequiresImprovement, 3)]
     [InlineData(OfstedRatingScore.Inadequate, 4)]
     [InlineData(OfstedRatingScore.InsufficientEvidence, 5)]
-    [InlineData(OfstedRatingScore.NoJudgement, 6)]
+    [InlineData(OfstedRatingScore.SingleHeadlineGradeNotAvailable, 6)]
     [InlineData(OfstedRatingScore.DoesNotApply, 7)]
     [InlineData(OfstedRatingScore.NotInspected, 8)]
     public void ToDataSortValue_ReturnsCorrectValue_ForDefinedEnumValues(OfstedRatingScore rating, int expected)
