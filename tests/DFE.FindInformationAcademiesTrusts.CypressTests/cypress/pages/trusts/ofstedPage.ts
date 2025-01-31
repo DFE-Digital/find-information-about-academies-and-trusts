@@ -113,6 +113,15 @@ class OfstedPage {
 
     // #endregion
 
+    // #region All sub pages
+
+    public clickDownloadButton(): this {
+        this.elements.downloadButton().click();
+        return this;
+    }
+
+    // #endregion
+
     // #region Single headline grades
     public checkOfstedSHGPageHeaderPresent(): this {
         this.elements.subpageHeader().should('contain', 'Single headline grades');
@@ -196,7 +205,7 @@ class OfstedPage {
         return this;
     }
 
-    // #endreigon
+    // #endregion
 
     // #region Current ratings
 
@@ -443,63 +452,6 @@ class OfstedPage {
         return this;
     }
 
-    // #endregion
-    // #region Important Dates
-
-    public checkOfstedImportantDatesPageHeaderPresent(): this {
-        this.elements.subpageHeader().should('contain', 'Important dates');
-        return this;
-    }
-
-    public checkOfstedImportantDatesTableHeadersPresent(): this {
-        this.elements.importantDates.schoolNameHeader().should('be.visible');
-        this.elements.importantDates.dateJoinedHeader().should('be.visible');
-        this.elements.importantDates.dateOfCurrentInspectionHeader().should('be.visible');
-        this.elements.importantDates.dateOfPreviousInspectionHeader().should('be.visible');
-        return this;
-    }
-
-    public checkOfstedImportantDatesSorting(): this {
-        TableUtility.checkStringSorting(
-            this.elements.importantDates.schoolName,
-            this.elements.importantDates.schoolNameHeader
-        );
-        TableUtility.checkStringSorting(
-            this.elements.importantDates.dateJoined,
-            this.elements.importantDates.dateJoinedHeader
-        );
-        TableUtility.checkStringSorting(
-            this.elements.importantDates.dateOfCurrentInspection,
-            this.elements.importantDates.dateOfCurrentInspectionHeader
-        );
-        TableUtility.checkStringSorting(
-            this.elements.importantDates.dateOfPreviousInspection,
-            this.elements.importantDates.dateOfPreviousInspectionHeader
-        );
-        return this;
-    }
-
-
-    public checkDateJoinedPresent(): this {
-        this.elements.importantDates.dateJoined().each(this.checkValueIsValidDate);
-        return this;
-    }
-
-    public checkDateOfCurrentInspectionPresent(): this {
-        this.elements.importantDates.dateOfCurrentInspection().each(this.checkValueIsValidDate);
-        return this;
-    }
-
-
-    public checkDateOfPreviousInspectionPresent(): this {
-        this.elements.importantDates.dateOfPreviousInspection().each(this.checkValueIsValidDate);
-        return this;
-    }
-
-    public clickDownloadButton(): this {
-        this.elements.downloadButton().click();
-        return this;
-    }
     // #endregion
 }
 
