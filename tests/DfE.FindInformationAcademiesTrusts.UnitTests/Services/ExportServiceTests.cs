@@ -4,6 +4,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
+using FluentAssertions.Execution;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
 
@@ -516,20 +517,69 @@ public class ExportServiceTests
             .ReturnsAsync(new TrustSummary("Test Trust", "Multi-academy trust"));
 
         _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustDetailsAsync("uid"))
-            .ReturnsAsync(new AcademyDetails[]
-            {
-                new("A123", "Academy XYZ", "TypeX", "Local LA", "Urban")
-            });
+            .ReturnsAsync([
+                new AcademyDetails("A123", "Academy XYZ", "TypeX", "Local LA", "Urban")
+            ]);
 
-        _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustOfstedAsync("uid"))
-            .ReturnsAsync(Array.Empty<AcademyOfsted>());
+        _mockAcademyRepository.Setup(m => m.GetAcademiesInTrustOfstedAsync("uid")).ReturnsAsync([]);
 
         var result = await _sut.ExportOfstedDataToSpreadsheetAsync("uid");
         using var workbook = new XLWorkbook(new MemoryStream(result));
         var worksheet = workbook.Worksheet("Ofsted");
 
-        // If no Ofsted data, we get default "Not yet inspected"
-        worksheet.Cell(4, 5).Value.ToString().Should().Be("Not yet inspected");
-        worksheet.Cell(4, 3).Value.ToString().Should().Be(string.Empty); // date of current inspection empty
+        using var scope = new AssertionScope();
+
+        //Current inspection
+        Cell(worksheet, 4, OfstedColumns.DateOfCurrentInspection).Should().Be(string.Empty);
+        Cell(worksheet, 4, OfstedColumns.CurrentBeforeAfterJoining).Should().Be(string.Empty);
+        Cell(worksheet, 4, OfstedColumns.CurrentQualityOfEducation).Should().Be("Not yet inspected");
+        Cell(worksheet, 4, OfstedColumns.CurrentBehaviourAndAttitudes).Should().Be("Not yet inspected");
+        Cell(worksheet, 4, OfstedColumns.CurrentPersonalDevelopment).Should().Be("Not yet inspected");
+        Cell(worksheet, 4, OfstedColumns.CurrentLeadershipAndManagement).Should().Be("Not yet inspected");
+        Cell(worksheet, 4, OfstedColumns.CurrentEarlyYearsProvision).Should().Be("Not yet inspected");
+        Cell(worksheet, 4, OfstedColumns.CurrentSixthFormProvision).Should().Be("Not yet inspected");
+
+        //Previous inspection
+        Cell(worksheet, 4, OfstedColumns.DateOfPreviousInspection).Should().Be(string.Empty);
+        Cell(worksheet, 4, OfstedColumns.PreviousBeforeAfterJoining).Should().Be(string.Empty);
+        Cell(worksheet, 4, OfstedColumns.PreviousQualityOfEducation).Should().Be("Not inspected");
+        Cell(worksheet, 4, OfstedColumns.PreviousBehaviourAndAttitudes).Should().Be("Not inspected");
+        Cell(worksheet, 4, OfstedColumns.PreviousPersonalDevelopment).Should().Be("Not inspected");
+        Cell(worksheet, 4, OfstedColumns.PreviousLeadershipAndManagement).Should().Be("Not inspected");
+        Cell(worksheet, 4, OfstedColumns.PreviousEarlyYearsProvision).Should().Be("Not inspected");
+        Cell(worksheet, 4, OfstedColumns.PreviousSixthFormProvision).Should().Be("Not inspected");
+
+        //Safeguarding and concerns
+        Cell(worksheet, 4, OfstedColumns.EffectiveSafeguarding).Should().Be("Not yet inspected");
+        Cell(worksheet, 4, OfstedColumns.CategoryOfConcern).Should().Be("Not yet inspected");
+    }
+
+    private static string Cell(IXLWorksheet worksheet, int rowNumber, OfstedColumns column)
+    {
+        return worksheet.Cell(rowNumber, (int)column).Value.ToString();
+    }
+
+    private enum OfstedColumns
+    {
+        SchoolName = 1,
+        DateJoined = 2,
+        DateOfCurrentInspection = 3,
+        CurrentBeforeAfterJoining = 4,
+        CurrentQualityOfEducation = 5,
+        CurrentBehaviourAndAttitudes = 6,
+        CurrentPersonalDevelopment = 7,
+        CurrentLeadershipAndManagement = 8,
+        CurrentEarlyYearsProvision = 9,
+        CurrentSixthFormProvision = 10,
+        DateOfPreviousInspection = 11,
+        PreviousBeforeAfterJoining = 12,
+        PreviousQualityOfEducation = 13,
+        PreviousBehaviourAndAttitudes = 14,
+        PreviousPersonalDevelopment = 15,
+        PreviousLeadershipAndManagement = 16,
+        PreviousEarlyYearsProvision = 17,
+        PreviousSixthFormProvision = 18,
+        EffectiveSafeguarding = 19,
+        CategoryOfConcern = 20
     }
 }
