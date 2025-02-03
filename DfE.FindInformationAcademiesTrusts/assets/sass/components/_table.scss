@@ -19,17 +19,20 @@
     }
   }
 
+  .column-header-ofsted-rating {
+    width: 10%;
+  }
+
   .column-header-date {
     width: 15%;
   }
 
-  .column-header-ofsted-concern,
-  .column-header-ofsted-date {
-    width: 18%;
+  .column-header-ofsted-single-headline-grade {
+    width: 17%;
   }
 
-  .column-header-ofsted-rating {
-    width: 10%;
+  .column-header-ofsted-concern {
+    width: 18%;
   }
 
   .cell-ofsted-single-headline-grade {

@@ -28,26 +28,32 @@
   <table class="govuk-table" data-module="moj-sortable-table">
     <caption class="govuk-table__caption govuk-table__caption--m" data-testid="subpage-header">Single headline grades</caption>
     <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header govuk-body" aria-sort="ascending" data-testid="ofsted-single-headline-grades-school-name-header">
-          School name
-        </th>
-        <th scope="col" class="govuk-table__header govuk-body column-header-date" aria-sort="none" data-testid="ofsted-single-headline-grades-date-joined-header">
-          Date joined
-        </th>
-        <th scope="col" class="govuk-table__header govuk-body" aria-sort="none" data-testid="ofsted-single-headline-grades-current-single-headline-grade-header">
-          Current single headline grade
-        </th>
-        <th scope="col" class="govuk-table__header govuk-body column-header-date" aria-sort="none" data-testid="ofsted-single-headline-grades-date-of-current-inspection-header">
-          Date of current inspection
-        </th>
-        <th scope="col" class="govuk-table__header govuk-body" aria-sort="none" data-testid="ofsted-single-headline-grades-previous-single-headline-grade-header">
-          Previous single headline grade
-        </th>
-        <th scope="col" class="govuk-table__header govuk-body column-header-date" aria-sort="none" data-testid="ofsted-single-headline-grades-date-of-previous-inspection-header">
-          Date of previous inspection
-        </th>
-      </tr>
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header govuk-body" aria-sort="ascending"
+          data-testid="ofsted-single-headline-grades-school-name-header">
+        School name
+      </th>
+      <th scope="col" class="govuk-table__header govuk-body column-header-date" aria-sort="none"
+          data-testid="ofsted-single-headline-grades-date-joined-header">
+        Date joined
+      </th>
+      <th scope="col" class="govuk-table__header govuk-body column-header-ofsted-single-headline-grade" aria-sort="none"
+          data-testid="ofsted-single-headline-grades-current-single-headline-grade-header">
+        Current single headline grade
+      </th>
+      <th scope="col" class="govuk-table__header govuk-body column-header-date" aria-sort="none"
+          data-testid="ofsted-single-headline-grades-date-of-current-inspection-header">
+        Date of current inspection
+      </th>
+      <th scope="col" class="govuk-table__header govuk-body column-header-ofsted-single-headline-grade" aria-sort="none"
+          data-testid="ofsted-single-headline-grades-previous-single-headline-grade-header">
+        Previous single headline grade
+      </th>
+      <th scope="col" class="govuk-table__header govuk-body column-header-date" aria-sort="none"
+          data-testid="ofsted-single-headline-grades-date-of-previous-inspection-header">
+        Date of previous inspection
+      </th>
+    </tr>
     </thead>
     <tbody class="govuk-table__body">
       @foreach (var academy in Model.Academies)
