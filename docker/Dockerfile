@@ -41,16 +41,20 @@ RUN ["dotnet", "build", "DfE.FindInformationAcademiesTrusts", "--no-restore", "-
 
 RUN ["dotnet", "publish", "DfE.FindInformationAcademiesTrusts", "--no-build", "-o", "/app"]
 
-### Install SQL tools to allow migrations to be run ###
-FROM "mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION}-azurelinux3.0" AS base
-RUN curl "https://packages.microsoft.com/config/rhel/9/prod.repo" | tee /etc/yum.repos.d/mssql-release.repo
-ENV ACCEPT_EULA=Y
-RUN ["tdnf", "update", "-y"]
-RUN ["tdnf", "install", "-y", "mssql-tools18"]
-RUN ["tdnf", "clean", "all"]
+### Entity Framework: Migration Runner ###
+FROM "mcr.microsoft.com/mssql-tools" AS initcontainer
+
+# - Copy and configure sql migration script
+WORKDIR /app
+COPY ./DfE.FindInformationAcademiesTrusts.Data.FiatDb/Migrations/FiatDbMigrationScript.sql /app/sql/FiatDbMigrationScript.sql
+RUN ["touch", "/app/sql/FiatDbMigrationScriptOutput.txt"]
+
+# - Copy and configure docker entrypoint script
+COPY ./docker/init-docker-entrypoint.sh /app/migratedb
+RUN ["chmod", "+x", "/app/migratedb"]
 
 ### Build a runtime environment ###
-FROM base AS runtime
+FROM "mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION}-azurelinux3.0" AS final
 WORKDIR /app
 LABEL org.opencontainers.image.source="https://github.com/DFE-Digital/find-information-about-academies-and-trusts"
 
