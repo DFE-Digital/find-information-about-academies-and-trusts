@@ -2,11 +2,17 @@ name: Scan Docker image
 
 on:
   push:
-    branches: main
+    branches: [ main ]
 
 jobs:
   scan:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        stage: [
+          "final",
+          "initcontainer"
+        ]
     outputs:
       image: ${{ steps.build.outputs.imageid }}
     steps:
@@ -25,15 +31,16 @@ jobs:
           load: true
           cache-from: type=gha
           cache-to: type=gha
+          target: ${{ matrix.stage }}
           push: false
 
       - name: Export docker image as tar
-        run: docker save -o ${{ github.ref_name }}.tar ${{ steps.build.outputs.imageid }}
+        run: docker save -o ${{ matrix.stage }}-${{ github.ref_name }}.tar ${{ steps.build.outputs.imageid }}
 
       - name: Scan Docker image for CVEs
         uses: aquasecurity/trivy-action@0.29.0
         with:
-          input: ${{ github.ref_name }}.tar
+          input: ${{ matrix.stage }}-${{ github.ref_name }}.tar
           format: 'sarif'
           output: 'trivy-results.sarif'
           limit-severities-for-sarif: true
