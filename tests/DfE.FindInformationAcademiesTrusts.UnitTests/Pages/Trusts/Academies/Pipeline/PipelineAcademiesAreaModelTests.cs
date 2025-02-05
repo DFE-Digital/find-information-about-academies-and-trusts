@@ -15,6 +15,8 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.Pi
 
 public class PipelineAcademiesAreaModelTests
 {
+    private const string Uid = "1234";
+
     //TODO: make this inline with other tests
     private readonly Mock<ITrustService> _mockTrustService = new();
     private readonly Mock<IAcademyService> _mockAcademyService = new();
@@ -52,8 +54,8 @@ public class PipelineAcademiesAreaModelTests
         _mockDataSourceService.Setup(s => s.GetAsync(Source.Complete)).ReturnsAsync(_completeDataSource);
         _mockDataSourceService.Setup(s => s.GetAsync(Source.ManageFreeSchoolProjects))
             .ReturnsAsync(_manageFreeSchoolDataSource);
-        _mockAcademyService.Setup(t => t.GetAcademiesPipelineSummary())
-            .Returns(new AcademyPipelineSummaryServiceModel(1, 2, 3));
+        _mockAcademyService.Setup(t => t.GetAcademiesPipelineSummaryAsync(Uid))
+            .ReturnsAsync(new AcademyPipelineSummaryServiceModel(1, 2, 3));
         _mockFeatureManager.Setup(s => s.IsEnabledAsync(FeatureFlags.PipelineAcademies)).ReturnsAsync(true);
         _sut = new PipelineAcademiesAreaModelImpl(_mockDataSourceService.Object, _mockTrustService.Object,
             _mockAcademyService.Object,
@@ -64,7 +66,7 @@ public class PipelineAcademiesAreaModelTests
     public async Task OnGetExportAsync_ShouldReturnFileResult_WhenUidIsValid()
     {
         // Arrange
-        var uid = "1234";
+        var uid = Uid;
 
         var trustSummary = new TrustSummaryServiceModel(uid, "Sample Trust", "Multi-academy trust", 0);
         byte[] expectedBytes = [1, 2, 3];
@@ -102,7 +104,7 @@ public class PipelineAcademiesAreaModelTests
     public async Task OnGetExportAsync_ShouldSanitizeTrustName_WhenTrustNameContainsIllegalCharacters()
     {
         // Arrange
-        var uid = "1234";
+        var uid = Uid;
         var trustSummary = new TrustSummaryServiceModel(uid, "Sample/Trust:Name?", "Multi-academy trust", 0);
         var expectedBytes = new byte[] { 1, 2, 3 };
 
@@ -131,13 +133,19 @@ public class PipelineAcademiesAreaModelTests
     [Fact]
     public async Task OnGetAsync_should_configure_TrustPageMetadata()
     {
-        TrustSummaryServiceModel fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
+        // Arrange
+        _mockAcademyService
+        .Setup(a => a.GetAcademyTrustTrustReferenceNumberAsync("1234"))
+        .ReturnsAsync("1234");
+        TrustSummaryServiceModel fakeTrust = new(Uid, "My Trust", "Multi-academy trust", 3);
 
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(fakeTrust.Uid)).ReturnsAsync(fakeTrust);
         _sut.Uid = fakeTrust.Uid;
 
+        // Act
         _ = await _sut.OnGetAsync();
 
+        // Assert
         _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.AcademiesPageName);
         _sut.TrustPageMetadata.SubPageName.Should().Be(ViewConstants.PipelineAcademiesSubNavName);
         _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
@@ -146,7 +154,12 @@ public class PipelineAcademiesAreaModelTests
     [Fact]
     public async Task OnGetAsync_sets_correct_data_source_list()
     {
-        TrustSummaryServiceModel fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
+        // Arrange
+        _mockAcademyService
+        .Setup(a => a.GetAcademyTrustTrustReferenceNumberAsync("1234"))
+        .ReturnsAsync("1234");
+
+        TrustSummaryServiceModel fakeTrust = new(Uid, "My Trust", "Multi-academy trust", 3);
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(fakeTrust.Uid)).ReturnsAsync(fakeTrust);
         _sut.Uid = fakeTrust.Uid;
 

@@ -10,7 +10,7 @@ public class InTrustModelTests : BaseContactsAreaModelTests<InTrustModel>
         Sut = new InTrustModel(MockDataSourceService.Object,
                 MockTrustService.Object,
                 new MockLogger<InTrustModel>().Object)
-            { Uid = TrustUid };
+        { Uid = TrustUid };
     }
 
     [Fact]
@@ -27,6 +27,6 @@ public class InTrustModelTests : BaseContactsAreaModelTests<InTrustModel>
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("In the trust");
+        Sut.TrustPageMetadata.SubPageName.Should().Be("In this trust");
     }
 }

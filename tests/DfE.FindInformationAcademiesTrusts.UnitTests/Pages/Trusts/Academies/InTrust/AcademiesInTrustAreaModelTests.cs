@@ -101,7 +101,7 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseTrustPageTests<T>,
     {
         _ = await Sut.OnGetAsync();
         Sut.SubNavigationLinks.Should().HaveCount(1);
-        Sut.SubNavigationLinks[0].LinkText.Should().Be("In the trust (3)");
+        Sut.SubNavigationLinks[0].LinkText.Should().Be("In this trust (3)");
         Sut.SubNavigationLinks[0].SubPageLink.Should().Be("/Trusts/Academies/InTrust/Details");
     }
 

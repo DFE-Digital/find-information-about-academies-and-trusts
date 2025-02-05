@@ -10,5 +10,5 @@ public class InTrustModel(
     : ContactsAreaModel(dataSourceService, trustService, logger)
 {
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = "In the trust" };
+        base.TrustPageMetadata with { SubPageName = "In this trust" };
 }

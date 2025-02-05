@@ -44,11 +44,11 @@ public abstract class AcademiesInTrustAreaModel(
 
         TabList =
         [
-            new TrustTabNavigationLinkModel("Details", "./Details", Uid, "In the trust",
+            new TrustTabNavigationLinkModel("Details", "./Details", Uid, "In this trust",
                 this is AcademiesInTrustDetailsModel),
-            new TrustTabNavigationLinkModel("Pupil numbers", "./PupilNumbers", Uid, "In the trust",
+            new TrustTabNavigationLinkModel("Pupil numbers", "./PupilNumbers", Uid, "In this trust",
                 this is PupilNumbersModel),
-            new TrustTabNavigationLinkModel("Free school meals", "./FreeSchoolMeals", Uid, "In the trust",
+            new TrustTabNavigationLinkModel("Free school meals", "./FreeSchoolMeals", Uid, "In this trust",
                 this is FreeSchoolMealsModel)
         ];
 

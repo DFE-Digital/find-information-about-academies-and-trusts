@@ -60,7 +60,7 @@ public static class ViewConstants
 
     public const string ContactsPageName = "Contacts";
     public const string ContactsInDfePageName = "In DfE";
-    public const string ContactsInTrustPageName = "In the trust";
+    public const string ContactsInTrustPageName = "In this trust";
 
     public const string OfstedPageName = "Ofsted";
     public const string OfstedSingleHeadlineGradesPageName = "Single headline grades";
@@ -75,7 +75,7 @@ public static class ViewConstants
     public const string GovernanceHistoricMembersPageName = "Historic members";
 
     public const string AcademiesPageName = "Academies";
-    public const string AcademiesInTrustSubNavName = "In the trust";
+    public const string AcademiesInTrustSubNavName = "In this trust";
     public const string PipelineAcademiesSubNavName = "Pipeline";
     public const string AcademiesInTrustDetailsPageName = "Details";
     public const string AcademiesInTrustPupilNumbersPageName = "Pupil numbers";

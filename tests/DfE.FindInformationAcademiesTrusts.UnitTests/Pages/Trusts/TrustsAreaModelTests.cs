@@ -19,7 +19,7 @@ public class TrustsAreaModelTests : BaseTrustPageTests<TrustsAreaModel>
     public TrustsAreaModelTests()
     {
         Sut = new TrustsAreaModelImpl(MockDataSourceService.Object, MockTrustService.Object, _logger.Object)
-            { Uid = TrustUid };
+        { Uid = TrustUid };
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public class TrustsAreaModelTests : BaseTrustPageTests<TrustsAreaModel>
         var result = Sut.MapDataSourceToTestId(new DataSourceListEntry(source));
 
         // Assert
-        Assert.Equal("data-source-cdm-all-information", result);
+        Assert.Equal("data-source-cdm-all-information-was", result);
     }
 
     [Fact]

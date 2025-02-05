@@ -46,7 +46,7 @@ public abstract class AcademiesAreaModel(
         PipelineSummary = await AcademyService.GetAcademiesPipelineSummaryAsync(TrustReferenceNumber);
         SubNavigationLinks =
         [
-            new TrustSubNavigationLinkModel($"In the trust ({TrustSummary.NumberOfAcademies})",
+            new TrustSubNavigationLinkModel($"In this trust ({TrustSummary.NumberOfAcademies})",
                 "/Trusts/Academies/InTrust/Details", Uid,
                 TrustPageMetadata.PageName!, this is AcademiesInTrustAreaModel)
         ];

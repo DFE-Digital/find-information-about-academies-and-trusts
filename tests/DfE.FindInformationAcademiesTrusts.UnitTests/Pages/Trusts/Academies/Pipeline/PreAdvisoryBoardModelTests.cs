@@ -33,8 +33,8 @@ public class PreAdvisoryBoardModelTests
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(Uid))
             .ReturnsAsync(new TrustSummaryServiceModel(Uid, testTrustName, testTrustType,
                 1));
-        _mockAcademyService.Setup(t => t.GetAcademiesPipelineSummary())
-            .Returns(new AcademyPipelineSummaryServiceModel(1, 2, 3));
+        _mockAcademyService.Setup(t => t.GetAcademiesPipelineSummaryAsync(Uid))
+            .ReturnsAsync(new AcademyPipelineSummaryServiceModel(1, 2, 3));
         _mockFeatureManager.Setup(s => s.IsEnabledAsync(FeatureFlags.PipelineAcademies)).ReturnsAsync(true);
         _sut = new PreAdvisoryBoardModel(
                 _mockDataSourceService.Object, new MockLogger<PreAdvisoryBoardModel>().Object,
@@ -81,7 +81,15 @@ public class PreAdvisoryBoardModelTests
     [Fact]
     public async Task OnGetAsync_sets_correct_NavigationLinks()
     {
+        // Arrange
+        _mockAcademyService
+        .Setup(a => a.GetAcademyTrustTrustReferenceNumberAsync("1234"))
+        .ReturnsAsync("1234");
+
+        // Act
         _ = await _sut.OnGetAsync();
+
+        // Assert
         _sut.NavigationLinks.Should().BeEquivalentTo([
             new TrustNavigationLinkModel(ViewConstants.OverviewPageName, "/Trusts/Overview/TrustDetails", Uid,
                 false, "overview-nav"),
@@ -89,7 +97,7 @@ public class PreAdvisoryBoardModelTests
                 "contacts-nav"),
             new TrustNavigationLinkModel("Academies (1)", "/Trusts/Academies/InTrust/Details",
                 Uid, true, "academies-nav"),
-            new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", Uid, false,
+            new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/SingleHeadlineGrades", Uid, false,
                 "ofsted-nav"),
             new TrustNavigationLinkModel(ViewConstants.GovernancePageName, "/Trusts/Governance/TrustLeadership",
                 Uid, false,
@@ -100,9 +108,17 @@ public class PreAdvisoryBoardModelTests
     [Fact]
     public async Task OnGetAsync_sets_SubNavigationLinks_and_TabList_to_correct_value()
     {
+        // Arrange
+        _mockAcademyService
+        .Setup(a => a.GetAcademyTrustTrustReferenceNumberAsync("1234"))
+        .ReturnsAsync("1234");
+
+        // Act
         _ = await _sut.OnGetAsync();
+
+        // Assert
         _sut.SubNavigationLinks.Should().Equal([
-            new TrustSubNavigationLinkModel("In the trust (1)",
+            new TrustSubNavigationLinkModel("In this trust (1)",
                 "/Trusts/Academies/InTrust/Details", Uid,
                 ViewConstants.AcademiesPageName, false),
             new TrustSubNavigationLinkModel("Pipeline academies (6)",
@@ -122,8 +138,15 @@ public class PreAdvisoryBoardModelTests
     [Fact]
     public async Task OnGetAsync_should_configure_TrustPageMetadata()
     {
+        // Arrange
+        _mockAcademyService
+        .Setup(a => a.GetAcademyTrustTrustReferenceNumberAsync("1234"))
+        .ReturnsAsync("1234");
+
+        // Act
         _ = await _sut.OnGetAsync();
 
+        // Assert
         _sut.TrustPageMetadata.TabName.Should().Be(ViewConstants.PipelineAcademiesPreAdvisoryBoardPageName);
         _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.AcademiesPageName);
         _sut.TrustPageMetadata.TrustName.Should().Be("Test Trust");
