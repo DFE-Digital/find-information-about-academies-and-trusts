@@ -1,10 +1,10 @@
 # This sets the default owner for all code.
-* @dneed-nimble @dynamictulip @nimblelinzi
+* @dneed-nimble @dynamictulip @nimblelinzi @SteBradbury
 
 # This sets the owner for DevOps related code
-.github/workflows/* @drizzlyowl @stretch96 @dneed-nimble @dynamictulip @nwarms
-docker/* @drizzlyowl @stretch96 @dneed-nimble @dynamictulip @nwarms
-terraform/* @drizzlyowl @stretch96 @dneed-nimble @dynamictulip @nwarms
+.github/workflows/* @drizzlyowl @stretch96 @dneed-nimble @dynamictulip @nimblelinzi @SteBradbury
+docker/* @drizzlyowl @stretch96 @dneed-nimble @dynamictulip @nimblelinzi @SteBradbury
+terraform/* @drizzlyowl @stretch96 @dneed-nimble @dynamictulip @nimblelinzi @SteBradbury
 
 # This sets the owner for Cypress tests.
-tests/DFE.FindInformationAcademiesTrusts.CypressTests/ @CMurrell148 @dneed-nimble @dynamictulip @nwarms
+tests/DFE.FindInformationAcademiesTrusts.CypressTests/ @CMurrell148 @dneed-nimble @dynamictulip @nimblelinzi @SteBradbury

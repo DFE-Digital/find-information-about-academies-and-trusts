@@ -19,16 +19,26 @@
     }
   }
 
+  .column-header-ofsted-rating {
+    width: 10%;
+  }
+
   .column-header-date {
     width: 15%;
   }
 
-  .column-header-ofsted-concern,
-  .column-header-ofsted-date {
+  .column-header-ofsted-single-headline-grade {
+    width: 17%;
+  }
+
+  .column-header-ofsted-concern {
     width: 18%;
   }
 
-  .column-header-ofsted-rating {
-    width: 10%;
+  .cell-ofsted-single-headline-grade {
+    .govuk-tag {
+      margin-top: 10px;
+      margin-bottom: 7px;
+    }
   }
 }

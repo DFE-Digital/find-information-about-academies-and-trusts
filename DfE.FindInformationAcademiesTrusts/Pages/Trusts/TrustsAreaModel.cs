@@ -90,7 +90,7 @@ public abstract class TrustsAreaModel(
             new TrustNavigationLinkModel($"{ViewConstants.AcademiesPageName} ({TrustSummary.NumberOfAcademies})",
                 "/Trusts/Academies/InTrust/Details",
                 Uid, this is AcademiesAreaModel, "academies-nav"),
-            new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/CurrentRatings", Uid,
+            new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/SingleHeadlineGrades", Uid,
                 this is OfstedAreaModel,
                 "ofsted-nav"),
             new TrustNavigationLinkModel(ViewConstants.GovernancePageName, "/Trusts/Governance/TrustLeadership", Uid,

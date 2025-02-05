@@ -13,25 +13,26 @@ public static class OfstedRatingScoreExtensions
             OfstedRatingScore.RequiresImprovement => 3,
             OfstedRatingScore.Inadequate => 4,
             OfstedRatingScore.InsufficientEvidence => 5,
-            OfstedRatingScore.NoJudgement => 6,
+            OfstedRatingScore.SingleHeadlineGradeNotAvailable => 6,
             OfstedRatingScore.DoesNotApply => 7,
             OfstedRatingScore.NotInspected => 8,
             _ => -1
         };
     }
 
-    public static string ToDisplayString(this OfstedRatingScore rating)
+    public static string ToDisplayString(this OfstedRatingScore rating, bool isCurrentRating)
     {
-        return rating switch
+        return (rating, isCurrentRating) switch
         {
-            OfstedRatingScore.Outstanding => "Outstanding",
-            OfstedRatingScore.Good => "Good",
-            OfstedRatingScore.RequiresImprovement => "Requires improvement",
-            OfstedRatingScore.Inadequate => "Inadequate",
-            OfstedRatingScore.InsufficientEvidence => "Insufficient evidence",
-            OfstedRatingScore.NoJudgement => "No judgement",
-            OfstedRatingScore.DoesNotApply => "Does not apply",
-            OfstedRatingScore.NotInspected => "Not yet inspected",
+            (OfstedRatingScore.Outstanding, _) => "Outstanding",
+            (OfstedRatingScore.Good, _) => "Good",
+            (OfstedRatingScore.RequiresImprovement, _) => "Requires improvement",
+            (OfstedRatingScore.Inadequate, _) => "Inadequate",
+            (OfstedRatingScore.InsufficientEvidence, _) => "Insufficient evidence",
+            (OfstedRatingScore.SingleHeadlineGradeNotAvailable, _) => "Not available",
+            (OfstedRatingScore.DoesNotApply, _) => "Does not apply",
+            (OfstedRatingScore.NotInspected, true) => "Not yet inspected",
+            (OfstedRatingScore.NotInspected, false) => "Not inspected",
             _ => "Unknown"
         };
     }

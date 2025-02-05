@@ -29,7 +29,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     {
         SetupMockDbContext(_giasGroupLinks, context => context.GiasGroupLinks);
         SetupMockDbContext(_misMstrEstablishmentFiat, context => context.MisMstrEstablishmentsFiat);
-        SetupMockDbContext(_misMstrFurtherEducationEstablishmentFiat, context => context.MisMstrFurtherEducationEstablishmentsFiat);
+        SetupMockDbContext(_misMstrFurtherEducationEstablishmentFiat,
+            context => context.MisMstrFurtherEducationEstablishmentsFiat);
         SetupMockDbContext(_cdmSystemusers, context => context.CdmSystemusers);
         SetupMockDbContext(_cdmAccounts, context => context.CdmAccounts);
         SetupMockDbContext(_giasGroups, context => context.Groups);
@@ -118,6 +119,11 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         });
     }
 
+    public void AddEstablishmentsFiat(params MisMstrEstablishmentFiat[] establishmentsFiat)
+    {
+        AddEstablishmentsFiat((IEnumerable<MisMstrEstablishmentFiat>)establishmentsFiat);
+    }
+
     public void AddEstablishmentsFiat(IEnumerable<MisMstrEstablishmentFiat> establishmentsFiat)
     {
         _misMstrEstablishmentFiat.AddRange(establishmentsFiat);
@@ -133,6 +139,13 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         IEnumerable<MisMstrFurtherEducationEstablishmentFiat> furtherEducationEstablishmentsFiat)
     {
         _misMstrFurtherEducationEstablishmentFiat.AddRange(furtherEducationEstablishmentsFiat);
+    }
+
+    public void AddFurtherEducationEstablishmentsFiat(
+        params MisMstrFurtherEducationEstablishmentFiat[] furtherEducationEstablishmentsFiat)
+    {
+        AddFurtherEducationEstablishmentsFiat(
+            (IEnumerable<MisMstrFurtherEducationEstablishmentFiat>)furtherEducationEstablishmentsFiat);
     }
 
     public void AddGiasEstablishment(GiasEstablishment giasEstablishment)

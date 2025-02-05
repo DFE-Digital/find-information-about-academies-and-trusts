@@ -6,8 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+## [Release-20][release-20](production-2025-02-04.4852)
+
+### Added
+
+- Added Single headline grades Ofsted subpage
+
+### Changed
+
 - Updated accessibility statement text
+- Page spacing tweak on Ofsted subpages
+- All Ofsted subpage tables - previous sub-judgements for academies with no previous inspection now say "Not inspected" (instead of "Not yet inspected" which is used for current sub-judgements)
+- Ofsted data download - previous sub-judgements for academies with no previous inspection now say "Not inspected" (instead of "Not yet inspected" which is used for current sub-judgements)
+
+### Removed
+
 - Removed 'Date joined trust' from Ofsted data source list
+- Removed Important dates Ofsted subpage
 
 ## [Release-19][release-19] (production-2025-01-20.4730)
 
@@ -236,7 +251,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated text on "404 - Not Found" page to adhere to DfE design pattern and added the not found url to the support email template.
 
 [unreleased]:
-  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/compare/production-2025-01-20.4730...HEAD
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/compare/production-2025-02-04.4852...HEAD
 [release-1]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-07-18.2517
 [release-2]:
@@ -275,3 +290,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-12-19.4567
 [release-19]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-01-20.4730
+[release-20]:
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-02-04.4852

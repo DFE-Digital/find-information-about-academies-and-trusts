@@ -1,5 +1,15 @@
 export class TestDataStore {
-    public static readonly GetTrustSubpagesForUid = (uid: number) =>
+    public static readonly GetTrustSubpagesFor = (uid: number, pageName: string) => {
+
+        const page = TestDataStore.GetAllTrustSubpagesForUid(uid).find(p => p.pageName == pageName);
+
+        if (page === undefined)
+            throw new Error(`Page ${pageName} is not in the Cypress test data. Is this a new page that needs adding to TestDataStore?`);
+
+        return page.subpages;
+    };
+
+    public static readonly GetAllTrustSubpagesForUid = (uid: number) =>
         [
             {
                 pageName: "Overview",
@@ -19,9 +29,9 @@ export class TestDataStore {
             {
                 pageName: "Ofsted",
                 subpages: [
+                    { subpageName: "Single headline grades", url: `/trusts/ofsted/single-headline-grades?uid=${uid}` },
                     { subpageName: "Current ratings", url: `/trusts/ofsted/current-ratings?uid=${uid}` },
                     { subpageName: "Previous ratings", url: `/trusts/ofsted/previous-ratings?uid=${uid}` },
-                    { subpageName: "Important dates", url: `/trusts/ofsted/important-dates?uid=${uid}` },
                     { subpageName: "Safeguarding and concerns", url: `/trusts/ofsted/safeguarding-and-concerns?uid=${uid}` }
                 ]
             },

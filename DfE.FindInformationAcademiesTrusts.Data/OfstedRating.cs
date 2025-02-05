@@ -58,7 +58,7 @@ public enum OfstedRatingScore
     RequiresImprovement = 3,
     Inadequate = 4,
     DoesNotApply = 8,
-    NoJudgement = 9
+    SingleHeadlineGradeNotAvailable = 9
 }
 
 public enum SafeguardingScore

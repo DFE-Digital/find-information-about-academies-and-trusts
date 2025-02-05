@@ -6,15 +6,15 @@ using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Ofsted;
 
-public class ImportantDatesModel(
+public class SingleHeadlineGradesModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
     IAcademyService academyService,
     IExportService exportService,
     IDateTimeProvider dateTimeProvider,
-    ILogger<ImportantDatesModel> logger) : OfstedAreaModel(dataSourceService, trustService,
+    ILogger<SingleHeadlineGradesModel> logger) : OfstedAreaModel(dataSourceService, trustService,
     academyService, exportService, dateTimeProvider, logger)
 {
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = ViewConstants.OfstedImportantDatesPageName };
+        base.TrustPageMetadata with { SubPageName = ViewConstants.OfstedSingleHeadlineGradesPageName };
 }
