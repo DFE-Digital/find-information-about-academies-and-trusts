@@ -41,19 +41,19 @@ public class StringExtensionsTests
         result.Should().Be(expected);
     }
 
-    public static IEnumerable<object[]> DateValues =>
-        new List<object[]>
+    public static TheoryData<string?, DateTime?> DateValues =>
+        new()
         {
-            new object[] { "01/01/2023", new DateTime(2023, 01, 01) },
-            new object[] { "01/12/2019", new DateTime(2019, 12, 01) },
-            new object[] { "12/01/2017", new DateTime(2017, 01, 12) },
-            new object[] { "29/02/2016", new DateTime(2016, 02, 29) },
-            new object[] { "30/01/2015", new DateTime(2015, 01, 30) },
-            new object[] { "01-01-2023", new DateTime(2023, 01, 01) },
-            new object[] { "01-12-2019", new DateTime(2019, 12, 01) },
-            new object[] { "12-01-2017", new DateTime(2017, 01, 12) },
-            new object[] { "29-02-2016", new DateTime(2016, 02, 29) },
-            new object[] { "30-01-2015", new DateTime(2015, 01, 30) }
+            { "01/01/2023", new DateTime(2023, 01, 01) },
+            { "01/12/2019", new DateTime(2019, 12, 01) },
+            { "12/01/2017", new DateTime(2017, 01, 12) },
+            { "29/02/2016", new DateTime(2016, 02, 29) },
+            { "30/01/2015", new DateTime(2015, 01, 30) },
+            { "01-01-2023", new DateTime(2023, 01, 01) },
+            { "01-12-2019", new DateTime(2019, 12, 01) },
+            { "12-01-2017", new DateTime(2017, 01, 12) },
+            { "29-02-2016", new DateTime(2016, 02, 29) },
+            { "30-01-2015", new DateTime(2015, 01, 30) }
         };
 
     [Theory]
