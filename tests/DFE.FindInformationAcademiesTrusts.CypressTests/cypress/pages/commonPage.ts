@@ -110,6 +110,11 @@ class CommonPage {
         }).as('allRequests');
     }
 
+    public checkNoUnknownEntries() {
+        cy.get('body')
+            .should('not.contain', 'unknown');
+    }
+
 }
 
 const commonPage = new CommonPage();

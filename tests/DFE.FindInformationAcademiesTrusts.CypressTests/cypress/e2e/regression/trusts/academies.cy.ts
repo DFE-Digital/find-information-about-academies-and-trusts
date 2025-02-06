@@ -2,6 +2,17 @@ import academiesPage from "../../../pages/trusts/academiesPage";
 import navigation from "../../../pages/navigation";
 import commonPage from "../../../pages/commonPage";
 
+const testTrustData = [
+    {
+        typeOfTrust: "single academy trust with contacts",
+        uid: 5527
+    },
+    {
+        typeOfTrust: "multi academy trust with contacts",
+        uid: 5712
+    }
+];
+
 describe("Testing the components of the Academies page", () => {
 
     describe("Details tab", () => {
@@ -189,6 +200,22 @@ describe("Testing the components of the Academies page", () => {
         ['/trusts/academies/details?uid=17728', '/trusts/academies/pupil-numbers?uid=17728', '/trusts/academies/free-school-meals?uid=17728'].forEach((url) => {
             it(`Should have no 500 error on ${url}`, () => {
                 cy.visit(url);
+            });
+        });
+    });
+
+    describe("Testing that no unown entries are found for an academies various tables/pages", () => {
+        testTrustData.forEach(({ typeOfTrust, uid }) => {
+            beforeEach(() => {
+                cy.login();
+            });
+
+            [`/trusts/academies/details?uid=${uid}`, `/trusts/academies/pupil-numbers?uid=${uid}`, `/trusts/academies/free-school-meals?uid=${uid}`].forEach((url) => {
+                it(`Should have no unknown entries on ${url} for a ${typeOfTrust}`, () => {
+                    cy.visit(url);
+                    commonPage
+                        .checkNoUnknownEntries();
+                });
             });
         });
     });
