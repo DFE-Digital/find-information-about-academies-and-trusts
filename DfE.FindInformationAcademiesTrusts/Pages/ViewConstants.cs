@@ -76,7 +76,7 @@ public static class ViewConstants
 
     public const string AcademiesPageName = "Academies";
     public const string AcademiesInTrustSubNavName = "In this trust";
-    public const string PipelineAcademiesSubNavName = "Pipeline";
+    public const string PipelineAcademiesSubNavName = "Pipeline academies";
     public const string AcademiesInTrustDetailsPageName = "Details";
     public const string AcademiesInTrustPupilNumbersPageName = "Pupil numbers";
     public const string AcademiesInTrustFreeSchoolMealsPageName = "Free school meals";
