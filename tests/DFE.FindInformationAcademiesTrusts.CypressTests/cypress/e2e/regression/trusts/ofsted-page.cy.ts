@@ -297,4 +297,20 @@ describe("Testing the Ofsted page and its subpages ", () => {
             });
         });
     });
+
+    describe("Testing that no unown entries are found for ofsteds various tables/pages", () => {
+        testTrustOfstedData.forEach(({ typeOfTrust, uid }) => {
+            beforeEach(() => {
+                cy.login();
+            });
+
+            [`trusts/ofsted/single-headline-grades?uid=${uid}`, `trusts/ofsted/current-ratings?uid=${uid}`, `trusts/ofsted/previous-ratings?uid=${uid}`, `/trusts/ofsted/safeguarding-and-concerns?uid=${uid}`].forEach((url) => {
+                it(`Should have no unknown entries on ${url} for a ${typeOfTrust}`, () => {
+                    cy.visit(url);
+                    commonPage
+                        .checkNoUnknownEntries();
+                });
+            });
+        });
+    });
 });
