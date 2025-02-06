@@ -10,27 +10,15 @@ public class CookiesModel(IHttpContextAccessor httpContextAccessor) : ContentPag
     [BindProperty(SupportsGet = true)] public string? ReturnPath { get; set; }
     [BindProperty(SupportsGet = true)] public bool? Consent { get; set; }
 
-    /// <summary>
-    /// Used to load the cookies page or to set cookie preferences from the cookie banner
-    /// </summary>
-    /// <returns>The cookies page if we are not setting the cookie preference, otherwise redirect to the redirect path (from the cookie banner)</returns>
     public ActionResult OnGet()
     {
         ValidateReturnPath();
-
-        ApplyCookieConsent();
-
-        if (string.IsNullOrWhiteSpace(ReturnPath) || Consent is null)
+        if (CookiesPreferencesHaveBeenSet())
         {
-            if (CookiesPreferencesHaveBeenSet())
-            {
-                Consent = CookiesHelper.OptionalCookiesAreAccepted(httpContextAccessor.HttpContext!, TempData);
-            }
-
-            return Page();
+            Consent = CookiesHelper.OptionalCookiesAreAccepted(httpContextAccessor.HttpContext!, TempData);
         }
 
-        return LocalRedirect(ReturnPath!);
+        return Page();
     }
 
     public ActionResult OnPost()
@@ -42,6 +30,15 @@ public class CookiesModel(IHttpContextAccessor httpContextAccessor) : ContentPag
         DisplayCookieChangedMessageOnCookiesPage = true;
 
         return Page();
+    }
+
+    public ActionResult OnPostFromBanner()
+    {
+        ValidateReturnPath();
+
+        ApplyCookieConsent();
+
+        return LocalRedirect(ReturnPath!);
     }
 
     private void ApplyCookieConsent()
@@ -109,7 +106,6 @@ public class CookiesModel(IHttpContextAccessor httpContextAccessor) : ContentPag
             ReturnPath = "/";
         }
     }
-
 
     private bool CookiesPreferencesHaveBeenSet()
     {
