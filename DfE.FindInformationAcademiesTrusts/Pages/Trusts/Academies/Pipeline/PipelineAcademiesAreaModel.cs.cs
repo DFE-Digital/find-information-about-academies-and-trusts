@@ -30,7 +30,7 @@ public abstract class PipelineAcademiesAreaModel(
     featureManager
 )
 {
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = "Pipeline" };
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = "Pipeline academies" };
 
     public override async Task<IActionResult> OnGetAsync()
     {

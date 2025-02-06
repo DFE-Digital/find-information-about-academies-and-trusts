@@ -174,4 +174,287 @@ public class AcademyServiceTests
         result[2].LaAveragePercentageFreeSchoolMeals.Should().Be(70);
         result[2].NationalAveragePercentageFreeSchoolMeals.Should().Be(60);
     }
+
+    [Fact]
+    public async Task GetAcademiesPipelineSummaryAsync_should_return_mapped_result_from_repository()
+    {
+        // Arrange
+        const string trustReferenceNumber = "TRN123";
+        var repoSummary = new PipelineSummary(5, 3, 2);
+
+
+        _mockPipelineEstablishmentRepository
+            .Setup(r => r.GetAcademiesPipelineSummaryAsync(trustReferenceNumber))
+            .ReturnsAsync(repoSummary);
+
+        // Act
+        var result = await _sut.GetAcademiesPipelineSummaryAsync(trustReferenceNumber);
+
+        // Assert
+        result.PreAdvisoryCount.Should().Be(repoSummary.PreAdvisoryCount);
+        result.PostAdvisoryCount.Should().Be(repoSummary.PostAdvisoryCount);
+        result.FreeSchoolsCount.Should().Be(repoSummary.FreeSchoolsCount);
+    }
+
+    // Pre Advisory Pipeline tests
+
+    [Fact]
+    public async Task GetAcademiesPipelinePreAdvisoryAsync_should_return_empty_array_when_no_establishments_found()
+    {
+        // Arrange
+        const string trustReferenceNumber = "TRN123";
+        _mockPipelineEstablishmentRepository
+            .Setup(r => r.GetAdvisoryConversionEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory))
+            .ReturnsAsync(Array.Empty<PipelineEstablishment>());
+        _mockPipelineEstablishmentRepository
+            .Setup(r => r.GetAdvisoryTransferEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory))
+            .ReturnsAsync(Array.Empty<PipelineEstablishment>());
+
+        // Act
+        var result = await _sut.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber);
+
+        // Assert
+        result.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task GetAcademiesPipelinePreAdvisoryAsync_should_return_mapped_establishments_when_data_found()
+    {
+        // Arrange
+        const string trustReferenceNumber = "TRN123";
+
+        var conversionEstablishment = new PipelineEstablishment(
+            "1001",
+            "Academy Conversion 1",
+            new AgeRange(11, 18),
+            "Authority A",
+            "Conversion",
+            new DateTime(2023, 1, 1));
+
+        var transferEstablishment = new PipelineEstablishment(
+            "1002",
+            "Academy Transfer 1",
+            new AgeRange(11, 16),
+            "Authority B",
+            "Transfer",
+            new DateTime(2023, 2, 1));
+
+        _mockPipelineEstablishmentRepository
+            .Setup(r => r.GetAdvisoryConversionEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory))
+            .ReturnsAsync(new[] { conversionEstablishment });
+        _mockPipelineEstablishmentRepository
+            .Setup(r => r.GetAdvisoryTransferEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory))
+            .ReturnsAsync(new[] { transferEstablishment });
+
+        // Act
+        var result = await _sut.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber);
+
+        // Assert
+        result.Should().HaveCount(2);
+
+        // Verify first establishment (from conversion)
+        result[0].Urn.Should().Be("1001");
+        result[0].EstablishmentName.Should().Be("Academy Conversion 1");
+        result[0].AgeRange.Should().Be(new AgeRange(11, 18));
+        result[0].LocalAuthority.Should().Be("Authority A");
+        result[0].ProjectType.Should().Be("Conversion");
+        result[0].ChangeDate.Should().Be(new DateTime(2023, 1, 1));
+
+        // Verify second establishment (from transfer)
+        result[1].Urn.Should().Be("1002");
+        result[1].EstablishmentName.Should().Be("Academy Transfer 1");
+        result[1].AgeRange.Should().Be(new AgeRange(11, 16));
+        result[1].LocalAuthority.Should().Be("Authority B");
+        result[1].ProjectType.Should().Be("Transfer");
+        result[1].ChangeDate.Should().Be(new DateTime(2023, 2, 1));
+    }
+
+    // Post Advisory Pipeline tests
+
+    [Fact]
+    public async Task GetAcademiesPipelinePostAdvisoryAsync_should_return_empty_array_when_no_establishments_found()
+    {
+        // Arrange
+        const string trustReferenceNumber = "TRN123";
+        _mockPipelineEstablishmentRepository
+            .Setup(r => r.GetAdvisoryConversionEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PostAdvisory))
+            .ReturnsAsync(Array.Empty<PipelineEstablishment>());
+        _mockPipelineEstablishmentRepository
+            .Setup(r => r.GetAdvisoryTransferEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PostAdvisory))
+            .ReturnsAsync(Array.Empty<PipelineEstablishment>());
+
+        // Act
+        var result = await _sut.GetAcademiesPipelinePostAdvisoryAsync(trustReferenceNumber);
+
+        // Assert
+        result.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task GetAcademiesPipelinePostAdvisoryAsync_should_return_mapped_establishments_when_data_found()
+    {
+        // Arrange
+        const string trustReferenceNumber = "TRN123";
+
+        var conversionEstablishment = new PipelineEstablishment(
+            "2001",
+            "Academy Post Advisory Conversion 1",
+            new AgeRange(11, 18),
+            "Authority X",
+            "Conversion",
+            new DateTime(2023, 3, 1));
+
+        var transferEstablishment = new PipelineEstablishment(
+            "2002",
+            "Academy Post Advisory Transfer 1",
+            new AgeRange(11, 16),
+            "Authority Y",
+            "Transfer",
+            new DateTime(2023, 4, 1));
+
+        _mockPipelineEstablishmentRepository
+            .Setup(r => r.GetAdvisoryConversionEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PostAdvisory))
+            .ReturnsAsync(new[] { conversionEstablishment });
+        _mockPipelineEstablishmentRepository
+            .Setup(r => r.GetAdvisoryTransferEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PostAdvisory))
+            .ReturnsAsync(new[] { transferEstablishment });
+
+        // Act
+        var result = await _sut.GetAcademiesPipelinePostAdvisoryAsync(trustReferenceNumber);
+
+        // Assert
+        result.Should().HaveCount(2);
+
+        // Verify first establishment (from conversion)
+        result[0].Urn.Should().Be("2001");
+        result[0].EstablishmentName.Should().Be("Academy Post Advisory Conversion 1");
+        result[0].AgeRange.Should().Be(new AgeRange(11, 18));
+        result[0].LocalAuthority.Should().Be("Authority X");
+        result[0].ProjectType.Should().Be("Conversion");
+        result[0].ChangeDate.Should().Be(new DateTime(2023, 3, 1));
+
+        // Verify second establishment (from transfer)
+        result[1].Urn.Should().Be("2002");
+        result[1].EstablishmentName.Should().Be("Academy Post Advisory Transfer 1");
+        result[1].AgeRange.Should().Be(new AgeRange(11, 16));
+        result[1].LocalAuthority.Should().Be("Authority Y");
+        result[1].ProjectType.Should().Be("Transfer");
+        result[1].ChangeDate.Should().Be(new DateTime(2023, 4, 1));
+    }
+
+    // Free schools
+
+    [Fact]
+    public async Task GetAcademiesPipelineFreeSchoolsAsync_should_return_empty_array_when_repository_returns_null()
+    {
+        // Arrange
+        const string trustReferenceNumber = "TRN123";
+        _mockPipelineEstablishmentRepository
+            .Setup(r => r.GetPipelineFreeSchoolProjectsAsync(trustReferenceNumber))
+            .ReturnsAsync((PipelineEstablishment[]?)null);
+
+        // Act
+        var result = await _sut.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber);
+
+        // Assert
+        result.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task GetAcademiesPipelineFreeSchoolsAsync_should_return_empty_array_when_repository_returns_empty_array()
+    {
+        // Arrange
+        const string trustReferenceNumber = "TRN123";
+        _mockPipelineEstablishmentRepository
+            .Setup(r => r.GetPipelineFreeSchoolProjectsAsync(trustReferenceNumber))
+            .ReturnsAsync(Array.Empty<PipelineEstablishment>());
+
+        // Act
+        var result = await _sut.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber);
+
+        // Assert
+        result.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task GetAcademiesPipelineFreeSchoolsAsync_should_return_mapped_establishments_when_data_found()
+    {
+        // Arrange
+        const string trustReferenceNumber = "TRN123";
+
+        var freeSchoolEstablishment1 = new PipelineEstablishment(
+            "3001",
+            "Free School 1",
+            new AgeRange(11, 18),
+            "Authority FS1",
+            "FreeSchool",
+            new DateTime(2023, 5, 1));
+
+        var freeSchoolEstablishment2 = new PipelineEstablishment(
+            "3002",
+            "Free School 2",
+            new AgeRange(11, 16),
+            "Authority FS2",
+            "FreeSchool",
+            new DateTime(2023, 6, 1));
+
+        _mockPipelineEstablishmentRepository
+            .Setup(r => r.GetPipelineFreeSchoolProjectsAsync(trustReferenceNumber))
+            .ReturnsAsync(new[] { freeSchoolEstablishment1, freeSchoolEstablishment2 });
+
+        // Act
+        var result = await _sut.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber);
+
+        // Assert
+        result.Should().HaveCount(2);
+
+        // Verify first establishment
+        result[0].Urn.Should().Be("3001");
+        result[0].EstablishmentName.Should().Be("Free School 1");
+        result[0].AgeRange.Should().Be(new AgeRange(11, 18));
+        result[0].LocalAuthority.Should().Be("Authority FS1");
+        result[0].ProjectType.Should().Be("FreeSchool");
+        result[0].ChangeDate.Should().Be(new DateTime(2023, 5, 1));
+
+        // Verify second establishment
+        result[1].Urn.Should().Be("3002");
+        result[1].EstablishmentName.Should().Be("Free School 2");
+        result[1].AgeRange.Should().Be(new AgeRange(11, 16));
+        result[1].LocalAuthority.Should().Be("Authority FS2");
+        result[1].ProjectType.Should().Be("FreeSchool");
+        result[1].ChangeDate.Should().Be(new DateTime(2023, 6, 1));
+    }
+
+    [Fact]
+    public async Task GetAcademyTrustTrustReferenceNumberAsync_should_return_trust_reference_number_when_found()
+    {
+        // Arrange
+        const string uid = "1234";
+        const string expectedTrustReferenceNumber = "TRUST123";
+        _mockAcademyRepository
+            .Setup(r => r.GetAcademyTrustTrustReferenceNumberAsync(uid))
+            .ReturnsAsync(expectedTrustReferenceNumber);
+
+        // Act
+        var result = await _sut.GetAcademyTrustTrustReferenceNumberAsync(uid);
+
+        // Assert
+        result.Should().Be(expectedTrustReferenceNumber);
+    }
+
+    [Fact]
+    public async Task GetAcademyTrustTrustReferenceNumberAsync_should_return_empty_string_when_null_returned()
+    {
+        // Arrange
+        const string uid = "1234";
+        _mockAcademyRepository
+            .Setup(r => r.GetAcademyTrustTrustReferenceNumberAsync(uid))
+            .ReturnsAsync((string?)null);
+
+        // Act
+        var result = await _sut.GetAcademyTrustTrustReferenceNumberAsync(uid);
+
+        // Assert
+        result.Should().BeEmpty();
+    }
 }
