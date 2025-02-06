@@ -4,7 +4,7 @@
     {
         Task<PipelineEstablishment[]?> GetPipelineFreeSchoolProjectsAsync(string trustReferenceNumber);
         Task<PipelineEstablishment[]?> GetAdvisoryConversionEstablishmentsAsync(string trustReferenceNumber, AdvisoryType advisoryType);
-        Task<PipelineEstablishment[]?> GetAdvisoryTransferEstablishmentsAsync(string trustReferenceNumber, AdvisoryType isPostAdvisory);
+        Task<PipelineEstablishment[]?> GetAdvisoryTransferEstablishmentsAsync(string trustReferenceNumber, AdvisoryType advisoryType);
         Task<PipelineSummary> GetAcademiesPipelineSummaryAsync(string trustReferenceNumber);
     }
 }

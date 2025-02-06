@@ -8,7 +8,7 @@
     string? ProjectType,
     DateTime? ChangeDate
 );
-    public class PipelineStatuses
+    public static class PipelineStatuses
     {
         // Free schools
         public const string FreeSchoolPipeline = "Pipeline";

@@ -173,7 +173,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
         /// <summary>
         /// Apply filter for Pre-Advisory records: InComplete == "No" && InPrepare == "Yes"
         /// </summary>
-        private IQueryable<T> ApplyPreAdvisoryFilter<T>(IQueryable<T> query)
+        private static IQueryable<T> ApplyPreAdvisoryFilter<T>(IQueryable<T> query)
             where T : class, IInComplete, IInPrepare
         {
             return query.Where(x => x.InComplete == "No" && x.InPrepare == "Yes");
@@ -182,7 +182,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
         /// <summary>
         /// Apply filter for Post-Advisory records: InComplete == "Yes"
         /// </summary>
-        private IQueryable<T> ApplyPostAdvisoryFilter<T>(IQueryable<T> query)
+        private static IQueryable<T> ApplyPostAdvisoryFilter<T>(IQueryable<T> query)
             where T : class, IInComplete
         {
             return query.Where(x => x.InComplete == "Yes");
