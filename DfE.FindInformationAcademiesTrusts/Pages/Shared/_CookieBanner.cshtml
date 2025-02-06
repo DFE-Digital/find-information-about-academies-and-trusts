@@ -1,6 +1,7 @@
 @if (CookiesHelper.ShowCookieBanner(Context, TempData))
 {
-  <div class="govuk-cookie-banner " data-nosnippet role="region" aria-label="Cookies on Find information about academies and trusts">
+  <section class="govuk-cookie-banner" data-nosnippet
+           aria-label="Cookies on Find information about academies and trusts">
     <div class="govuk-cookie-banner__message govuk-width-container">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -21,12 +22,13 @@
         <a class="govuk-link" asp-page="/cookies" asp-route-returnPath="@CookiesHelper.ReturnPath(Context)" data-testid="banner-view-cookies">View cookies</a>
       </div>
     </div>
-  </div>
+  </section>
 }
 
 @if (TempData[CookiesHelper.CookieChangedTempDataName] is not null)
 {
-  <div class="govuk-cookie-banner " data-nosnippet role="region" aria-label="Cookies on Find information about academies and trusts">
+  <section class="govuk-cookie-banner" data-nosnippet
+           aria-label="Cookies on Find information about academies and trusts">
     <div class="govuk-cookie-banner__message govuk-width-container">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -36,5 +38,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 }
