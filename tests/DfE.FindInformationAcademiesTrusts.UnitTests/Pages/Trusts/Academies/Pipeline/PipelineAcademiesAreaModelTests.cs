@@ -17,7 +17,6 @@ public class PipelineAcademiesAreaModelTests
 {
     private const string Uid = "1234";
 
-    //TODO: make this inline with other tests
     private readonly Mock<ITrustService> _mockTrustService = new();
     private readonly Mock<IAcademyService> _mockAcademyService = new();
     private readonly Mock<IExportService> _mockExportService = new();

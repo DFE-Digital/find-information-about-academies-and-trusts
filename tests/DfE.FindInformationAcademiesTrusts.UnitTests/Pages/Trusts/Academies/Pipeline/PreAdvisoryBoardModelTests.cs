@@ -14,7 +14,6 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.Pi
 
 public class PreAdvisoryBoardModelTests
 {
-    //TODO: make this inline with other tests
     private readonly PreAdvisoryBoardModel _sut;
     private readonly Mock<ITrustService> _mockTrustService = new();
     private readonly Mock<IAcademyService> _mockAcademyService = new();
