@@ -2,5 +2,5 @@
 
 public interface IInComplete
 {
-    public bool InComplete { get; set; }
+    public string InComplete { get; set; }
 }
