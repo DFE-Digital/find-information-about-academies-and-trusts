@@ -31,79 +31,34 @@ public class CookiesModelTests
         };
     }
 
-    //Check return path is set correctly
-    //Return path set correctly when valid local path
+    //Check return path is sanitised
     [Theory]
     [InlineData("/")]
     [InlineData("/page")]
     [InlineData("/index")]
     [InlineData("/search?keywords=\"test\"")]
-    public void OnGet_should_keep_return_path_when_it_is_valid(string path)
+    public void ReturnPath_should_not_change_when_set_to_valid_value(string path)
     {
         _sut.ReturnPath = path;
-        _sut.OnGet();
         _sut.ReturnPath.Should().Be(path);
     }
 
     [Theory]
-    [InlineData("/")]
-    [InlineData("/page")]
-    [InlineData("/index")]
-    [InlineData("/search?keywords=\"test\"")]
-    public void OnPost_should_keep_return_path_when_it_is_valid(string path)
-    {
-        _sut.ReturnPath = path;
-        _sut.OnPost();
-        _sut.ReturnPath.Should().Be(path);
-    }
-
-    [Theory]
-    [InlineData("/")]
-    [InlineData("/page")]
-    [InlineData("/index")]
-    [InlineData("/search?keywords=\"test\"")]
-    public void OnPostFromBanner_should_keep_return_path_when_it_is_valid(string path)
-    {
-        _sut.ReturnPath = path;
-        _sut.OnPostFromBanner();
-        _sut.ReturnPath.Should().Be(path);
-    }
-
-    //Return path set to / when invalid
-    [Theory]
     [InlineData("")]
+    [InlineData("    ")]
     [InlineData("test")]
     [InlineData("https://www.gov.uk")]
     [InlineData(null)]
-    public void OnGet_should_replace_return_path_when_it_is_invalid(string? path)
+    public void ReturnPath_should_default_to_home_when_set_to_invalid_value(string? path)
     {
         _sut.ReturnPath = path;
-        _sut.OnGet();
         _sut.ReturnPath.Should().Be("/");
     }
 
-    [Theory]
-    [InlineData("")]
-    [InlineData("test")]
-    [InlineData("https://www.gov.uk")]
-    [InlineData(null)]
-    public void OnPost_should_replace_return_path_when_it_is_invalid(string? path)
+    [Fact]
+    public void ReturnPath_should_be_null_if_not_set()
     {
-        _sut.ReturnPath = path;
-        _sut.OnPost();
-        _sut.ReturnPath.Should().Be("/");
-    }
-
-    [Theory]
-    [InlineData("")]
-    [InlineData("test")]
-    [InlineData("https://www.gov.uk")]
-    [InlineData(null)]
-    public void OnPostFromBanner_should_replace_return_path_when_it_is_invalid(string? path)
-    {
-        _sut.ReturnPath = path;
-        _sut.OnPostFromBanner();
-        _sut.ReturnPath.Should().Be("/");
+        _sut.ReturnPath.Should().BeNull();
     }
 
     //Check Consent is set correctly
@@ -204,6 +159,15 @@ public class CookiesModelTests
 
         result.Should().BeOfType<LocalRedirectResult>()
             .Which.Url.Should().Be(redirectUrl);
+    }
+
+    [Fact]
+    public void OnPostFromBanner_redirects_to_home_when_ReturnPath_not_set()
+    {
+        var result = _sut.OnPostFromBanner();
+
+        result.Should().BeOfType<LocalRedirectResult>()
+            .Which.Url.Should().Be("/");
     }
 
     // Consent cookie

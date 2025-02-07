@@ -6,13 +6,31 @@ namespace DfE.FindInformationAcademiesTrusts.Pages;
 
 public class CookiesModel(IHttpContextAccessor httpContextAccessor) : ContentPageModel
 {
+    private string? _returnPath;
     public bool DisplayCookieChangedMessageOnCookiesPage { get; set; }
-    [BindProperty(SupportsGet = true)] public string? ReturnPath { get; set; }
     [BindProperty(SupportsGet = true)] public bool? Consent { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public string? ReturnPath
+    {
+        get => _returnPath;
+        set
+        {
+            // Sanitise to ensure malicious/bad urls can't be passed in and redirected to
+            if (string.IsNullOrWhiteSpace(value) || !Url.IsLocalUrl(value))
+            {
+                // If it's not a valid local url it didn't come from us, treat it as incorrect and remove it
+                _returnPath = "/";
+            }
+            else
+            {
+                _returnPath = value;
+            }
+        }
+    }
 
     public ActionResult OnGet()
     {
-        ValidateReturnPath();
         if (CookiesPreferencesHaveBeenSet())
         {
             Consent = CookiesHelper.OptionalCookiesAreAccepted(httpContextAccessor.HttpContext!, TempData);
@@ -23,8 +41,6 @@ public class CookiesModel(IHttpContextAccessor httpContextAccessor) : ContentPag
 
     public ActionResult OnPost()
     {
-        ValidateReturnPath();
-
         ApplyCookieConsent();
 
         DisplayCookieChangedMessageOnCookiesPage = true;
@@ -34,11 +50,9 @@ public class CookiesModel(IHttpContextAccessor httpContextAccessor) : ContentPag
 
     public ActionResult OnPostFromBanner()
     {
-        ValidateReturnPath();
-
         ApplyCookieConsent();
 
-        return LocalRedirect(ReturnPath!);
+        return LocalRedirect(ReturnPath ?? "/");
     }
 
     private void ApplyCookieConsent()
@@ -94,17 +108,6 @@ public class CookiesModel(IHttpContextAccessor httpContextAccessor) : ContentPag
             .ToList();
 
         return cookiesToDelete;
-    }
-
-    private void ValidateReturnPath()
-    {
-        // Expect to be a path eg starts with a slash
-        // If its not a path it didn't come from us
-        // Treat it as incorrect and remove it
-        if (string.IsNullOrWhiteSpace(ReturnPath) || !Url.IsLocalUrl(ReturnPath))
-        {
-            ReturnPath = "/";
-        }
     }
 
     private bool CookiesPreferencesHaveBeenSet()
