@@ -76,4 +76,7 @@ locals {
   cdn_frontdoor_vdp_destination_hostname          = var.cdn_frontdoor_vdp_destination_hostname
   dns_alias_records                               = var.dns_alias_records
   monitor_http_availability_fqdn                  = var.monitor_http_availability_fqdn
+  enable_init_container                           = var.enable_init_container
+  init_container_image                            = var.init_container_image
+  init_container_command                          = var.init_container_command
 }
