@@ -9,8 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - Changed Ofsted data download to include single headline grades
+- Use buttons instead of links to accept/decline cookies in cookie banner
 
-## [Release-20][release-20](production-2025-02-04.4852)
+## [Release-20][release-20] (production-2025-02-04.4852)
 
 ### Added
 
