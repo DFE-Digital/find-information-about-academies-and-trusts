@@ -22,5 +22,5 @@ public class MstrAcademyConversions : IInComplete, IInPrepare
     public string? TrustID { get; set; }
     public DateTime? LastDataRefresh { get; set; }
     public required string InPrepare { get; set; }
-    public required string InComplete { get; set; }
+    public required bool InComplete { get; set; }
 }

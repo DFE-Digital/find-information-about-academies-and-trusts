@@ -1,5 +1,6 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
@@ -44,11 +45,17 @@ public partial class AcademiesDbContext
                 .HasColumnName("In Prepare");
 
             entity.Property(e => e.InComplete)
-                .HasColumnName("In Complete");
+                .HasColumnName("In Complete").HasConversion(dbVarCharNullableToBoolNullableConverter);
 
             entity.Property(e => e.LastDataRefresh)
                 .HasColumnName("Last Data Refresh");
 
         });
     }
+
+    public static ValueConverter<bool, string> dbVarCharNullableToBoolNullableConverter = new(
+        v => (v == true ? "TRUE" : v == false ? "FALSE" : null) ?? string.Empty,
+        v => v.ToUpper() == "YES"
+    );
+
 }

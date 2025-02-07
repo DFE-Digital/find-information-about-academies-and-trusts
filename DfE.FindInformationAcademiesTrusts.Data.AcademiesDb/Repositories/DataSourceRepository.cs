@@ -55,7 +55,7 @@ public class DataSourceRepository(
                                 .Select(t => t.LastDataRefresh)
                                 .MaxAsync(),
             Source.Complete => await academiesDbContext.MstrAcademyTransfers
-                                .Where(t => t.InComplete == "Yes")
+                                .Where(t => t.InComplete)
                                 .Select(t => t.LastDataRefresh)
                                 .MaxAsync(),
             Source.ManageFreeSchoolProjects => await academiesDbContext.MstrFreeSchoolProjects

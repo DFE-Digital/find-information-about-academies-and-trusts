@@ -73,8 +73,8 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
 
             // Advisory filter
             query = advisoryType == AdvisoryType.PreAdvisory
-                ? query.Where(project => project.InComplete == "No" && project.InPrepare == "Yes")
-                : query.Where(project => project.InComplete == "Yes");
+                ? query.Where(project => !project.InComplete && project.InPrepare == "Yes")
+                : query.Where(project => project.InComplete);
 
             var establishments = await query
                 .Select(m => new PipelineEstablishment(
@@ -105,8 +105,8 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
 
             // Advisory filter
             query = advisoryType == AdvisoryType.PreAdvisory
-                ? query.Where(t => t.InComplete == "No" && t.InPrepare == "Yes")
-                : query.Where(t => t.InComplete == "Yes");
+                ? query.Where(t => !t.InComplete && t.InPrepare == "Yes")
+                : query.Where(t => t.InComplete);
 
             var establishments = await query
                 .Select(t => new PipelineEstablishment(
@@ -176,7 +176,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
         private static IQueryable<T> ApplyPreAdvisoryFilter<T>(IQueryable<T> query)
             where T : class, IInComplete, IInPrepare
         {
-            return query.Where(x => x.InComplete == "No" && x.InPrepare == "Yes");
+            return query.Where(x => !x.InComplete && x.InPrepare == "Yes");
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
         private static IQueryable<T> ApplyPostAdvisoryFilter<T>(IQueryable<T> query)
             where T : class, IInComplete
         {
-            return query.Where(x => x.InComplete == "Yes");
+            return query.Where(x => x.InComplete);
         }
 
         /// <summary>
