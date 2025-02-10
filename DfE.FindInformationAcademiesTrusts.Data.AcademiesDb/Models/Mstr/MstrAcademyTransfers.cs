@@ -17,8 +17,8 @@ public class MstrAcademyTransfers : IInComplete, IInPrepare
     public int? StatutoryHighestAge { get; set; }
     public string? LocalAuthority { get; set; }
     public DateTime? ExpectedTransferDate { get; set; }
-    public required string InPrepare { get; set; }
-    public required string InComplete { get; set; }
+    public bool? InPrepare { get; set; }
+    public bool? InComplete { get; set; }
     public DateTime? LastDataRefresh { get; set; }
 
 }

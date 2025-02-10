@@ -42,7 +42,7 @@ public static partial class StringExtensions
         return textInfo.ToTitleCase(textInfo.ToLower(text));
     }
 
-    public static string DefaultIfNull(this string? input, string defaultValue = ViewConstants.NoDataText)
+    public static string DefaultIfNullOrWhiteSpace(this string? input, string defaultValue = ViewConstants.NoDataText)
     {
         return string.IsNullOrWhiteSpace(input) ? defaultValue : input;
     }

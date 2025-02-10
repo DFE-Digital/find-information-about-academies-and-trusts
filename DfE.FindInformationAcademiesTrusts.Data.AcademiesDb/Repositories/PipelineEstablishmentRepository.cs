@@ -5,41 +5,34 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
 {
-    public class PipelineEstablishmentRepository : IPipelineEstablishmentRepository
+    public class PipelineEstablishmentRepository(IAcademiesDbContext academiesDbContext) : IPipelineEstablishmentRepository
     {
-        private readonly IAcademiesDbContext academiesDbContext;
-
         /// <summary>
         /// List of valid pipeline statuses for the conversions side.
         /// </summary>
         private static readonly string[] ConversionStatuses =
-        {
+        [
             PipelineStatuses.ApprovedForAO,
             PipelineStatuses.AwaitingModeration,
             PipelineStatuses.ConverterPreAO,
             PipelineStatuses.ConverterPreAOC,
             PipelineStatuses.Deferred,
             PipelineStatuses.DirectiveAcademyOrders
-        };
+        ];
 
         /// <summary>
         /// List of valid pipeline statuses for the transfers side.
         /// </summary>
         private static readonly string[] TransferStatuses =
-        {
+        [
             PipelineStatuses.ConsideringAcademyTransfer,
             PipelineStatuses.InProcessOfAcademyTransfer
-        };
-
-        public PipelineEstablishmentRepository(IAcademiesDbContext academiesDbContext)
-        {
-            this.academiesDbContext = academiesDbContext;
-        }
+        ];
 
         /// <summary>
         /// Returns all Free School projects for the specified trust in the "FreeSchoolPipeline" stage.
         /// </summary>
-        public async Task<PipelineEstablishment[]?> GetPipelineFreeSchoolProjectsAsync(string trustReferenceNumber)
+        public async Task<PipelineEstablishment[]> GetPipelineFreeSchoolProjectsAsync(string trustReferenceNumber)
         {
             var freeSchoolProjects = await academiesDbContext.MstrFreeSchoolProjects
                 .Where(trust => trust.TrustID == trustReferenceNumber)
@@ -62,7 +55,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
         /// <summary>
         /// Returns all advisory Conversions (Pre or Post) for the specified trust.
         /// </summary>
-        public async Task<PipelineEstablishment[]?> GetAdvisoryConversionEstablishmentsAsync(
+        public async Task<PipelineEstablishment[]> GetAdvisoryConversionEstablishmentsAsync(
             string trustReferenceNumber,
             AdvisoryType advisoryType)
         {
@@ -73,8 +66,8 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
 
             // Advisory filter
             query = advisoryType == AdvisoryType.PreAdvisory
-                ? query.Where(project => project.InComplete == "No" && project.InPrepare == "Yes")
-                : query.Where(project => project.InComplete == "Yes");
+                ? ApplyPreAdvisoryFilter(query)
+                : ApplyPostAdvisoryFilter(query);
 
             var establishments = await query
                 .Select(m => new PipelineEstablishment(
@@ -84,7 +77,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
                         ? new AgeRange(m.StatutoryLowestAge.Value, m.StatutoryHighestAge.Value)
                         : null,
                     m.LocalAuthority,
-                    "Conversion", // Could be a const, or from an enum
+                    ProjectType.Conversion,
                     m.ExpectedOpeningDate
                 ))
                 .ToArrayAsync();
@@ -95,7 +88,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
         /// <summary>
         /// Returns all advisory Transfers (Pre or Post) for the specified trust.
         /// </summary>
-        public async Task<PipelineEstablishment[]?> GetAdvisoryTransferEstablishmentsAsync(
+        public async Task<PipelineEstablishment[]> GetAdvisoryTransferEstablishmentsAsync(
             string trustReferenceNumber,
             AdvisoryType advisoryType)
         {
@@ -105,8 +98,8 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
 
             // Advisory filter
             query = advisoryType == AdvisoryType.PreAdvisory
-                ? query.Where(t => t.InComplete == "No" && t.InPrepare == "Yes")
-                : query.Where(t => t.InComplete == "Yes");
+                ? ApplyPreAdvisoryFilter(query)
+                : ApplyPostAdvisoryFilter(query);
 
             var establishments = await query
                 .Select(t => new PipelineEstablishment(
@@ -116,7 +109,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
                         ? new AgeRange(t.StatutoryLowestAge.Value, t.StatutoryHighestAge.Value)
                         : null,
                     t.LocalAuthority,
-                    "Transfer", // Could be a const, or from an enum
+                    ProjectType.Transfer,
                     t.ExpectedTransferDate
                 ))
                 .ToArrayAsync();
@@ -176,7 +169,8 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
         private static IQueryable<T> ApplyPreAdvisoryFilter<T>(IQueryable<T> query)
             where T : class, IInComplete, IInPrepare
         {
-            return query.Where(x => x.InComplete == "No" && x.InPrepare == "Yes");
+            return query.Where(x=>x.InComplete.HasValue && x.InPrepare.HasValue)
+                        .Where(x => !x.InComplete!.Value && x.InPrepare!.Value);
         }
 
         /// <summary>
@@ -185,7 +179,8 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
         private static IQueryable<T> ApplyPostAdvisoryFilter<T>(IQueryable<T> query)
             where T : class, IInComplete
         {
-            return query.Where(x => x.InComplete == "Yes");
+            return query.Where(x => x.InComplete.HasValue)
+                        .Where(x => x.InComplete!.Value);
         }
 
         /// <summary>

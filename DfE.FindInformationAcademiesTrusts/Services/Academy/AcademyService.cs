@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.Academy;
 
@@ -20,7 +21,8 @@ public interface IAcademyService
 public class AcademyService(
     IAcademyRepository academyRepository,
     IPipelineEstablishmentRepository pipelineEstablishmentRepository,
-    IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider) : IAcademyService
+    IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider,
+    ITrustRepository trustRepository) : IAcademyService
 {
     public async Task<AcademyDetailsServiceModel[]> GetAcademiesInTrustDetailsAsync(string uid)
     {
@@ -67,7 +69,7 @@ public class AcademyService(
 
     public async Task<string> GetAcademyTrustTrustReferenceNumberAsync(string uid)
     {
-        return await academyRepository.GetAcademyTrustTrustReferenceNumberAsync(uid) ?? string.Empty;
+        return await trustRepository.GetAcademyTrustTrustReferenceNumberAsync(uid) ?? string.Empty;
     }
 
     public async Task<AcademyPipelineSummaryServiceModel> GetAcademiesPipelineSummaryAsync(string trustReferenceNumber)
@@ -86,12 +88,10 @@ public class AcademyService(
     public async Task<AcademyPipelineServiceModel[]> GetAcademiesPipelinePreAdvisoryAsync(string trustReferenceNumber)
     {
         var advisoryConversions =
-            await pipelineEstablishmentRepository.GetAdvisoryConversionEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory)
-            ?? Array.Empty<PipelineEstablishment>();
+            await pipelineEstablishmentRepository.GetAdvisoryConversionEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory);
 
         var advisoryTransfers =
-            await pipelineEstablishmentRepository.GetAdvisoryTransferEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory)
-            ?? Array.Empty<PipelineEstablishment>();
+            await pipelineEstablishmentRepository.GetAdvisoryTransferEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory);
 
         var preAdvisoryEstablishments = advisoryConversions
             .Concat(advisoryTransfers)
@@ -99,7 +99,7 @@ public class AcademyService(
 
         if (preAdvisoryEstablishments.Length == 0)
         {
-            return Array.Empty<AcademyPipelineServiceModel>();
+            return [];
         }
 
         return preAdvisoryEstablishments.Select(fs => new AcademyPipelineServiceModel(
@@ -114,13 +114,9 @@ public class AcademyService(
 
     public async Task<AcademyPipelineServiceModel[]> GetAcademiesPipelinePostAdvisoryAsync(string trustReferenceNumber)
     {
-        var advisoryConversions =
-            await pipelineEstablishmentRepository.GetAdvisoryConversionEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PostAdvisory)
-            ?? Array.Empty<PipelineEstablishment>();
+        var advisoryConversions = await pipelineEstablishmentRepository.GetAdvisoryConversionEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PostAdvisory);
 
-        var advisoryTransfers =
-            await pipelineEstablishmentRepository.GetAdvisoryTransferEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PostAdvisory)
-            ?? Array.Empty<PipelineEstablishment>();
+        var advisoryTransfers = await pipelineEstablishmentRepository.GetAdvisoryTransferEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PostAdvisory);
 
         var postAdvisoryEstablishments = advisoryConversions
             .Concat(advisoryTransfers)
@@ -128,7 +124,7 @@ public class AcademyService(
 
         if (postAdvisoryEstablishments.Length == 0)
         {
-            return Array.Empty<AcademyPipelineServiceModel>();
+            return [];
         }
 
         return postAdvisoryEstablishments.Select(fs => new AcademyPipelineServiceModel(
@@ -143,11 +139,11 @@ public class AcademyService(
 
     public async Task<AcademyPipelineServiceModel[]> GetAcademiesPipelineFreeSchoolsAsync(string trustReferenceNumber)
     {
-        PipelineEstablishment[]? freeSchools = await pipelineEstablishmentRepository.GetPipelineFreeSchoolProjectsAsync(trustReferenceNumber);
+        PipelineEstablishment[] freeSchools = await pipelineEstablishmentRepository.GetPipelineFreeSchoolProjectsAsync(trustReferenceNumber);
 
-        if (freeSchools is null || freeSchools.Length == 0)
+        if (freeSchools.Length == 0)
         {
-            return Array.Empty<AcademyPipelineServiceModel>();
+            return [];
         }
 
         return freeSchools.Select(fs => new AcademyPipelineServiceModel(

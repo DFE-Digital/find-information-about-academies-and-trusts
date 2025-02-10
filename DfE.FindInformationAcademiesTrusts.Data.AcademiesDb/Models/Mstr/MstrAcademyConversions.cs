@@ -21,6 +21,6 @@ public class MstrAcademyConversions : IInComplete, IInPrepare
     public DateTime? ExpectedOpeningDate { get; set; }
     public string? TrustID { get; set; }
     public DateTime? LastDataRefresh { get; set; }
-    public required string InPrepare { get; set; }
-    public required string InComplete { get; set; }
+    public bool? InPrepare { get; set; }
+    public bool? InComplete { get; set; }
 }

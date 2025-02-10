@@ -1,6 +1,7 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Converters;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 public partial class AcademiesDbContext
@@ -41,10 +42,13 @@ public partial class AcademiesDbContext
                 .HasColumnName("Expected Academy transfer date");
 
             entity.Property(e => e.InPrepare)
-                .HasColumnName("In Prepare");
+                .HasColumnName("In Prepare")
+                .HasConversion<YesNoValueToBooleanConverter>();
+                
 
             entity.Property(e => e.InComplete)
-                .HasColumnName("In Complete");
+                .HasColumnName("In Complete")
+                .HasConversion<YesNoValueToBooleanConverter>();
 
             entity.Property(e => e.LastDataRefresh)
                 .HasColumnName("Last Data Refresh");

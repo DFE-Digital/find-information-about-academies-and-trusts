@@ -33,4 +33,9 @@
         PostAdvisory
     }
 
+    public static class ProjectType
+    {
+        public const string Transfer = "Transfer";
+        public const string Conversion = "Conversion";
+    }
 }

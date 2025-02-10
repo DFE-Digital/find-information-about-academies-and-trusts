@@ -25,7 +25,7 @@ public class FreeSchoolsModel(
     public override TrustPageMetadata TrustPageMetadata =>
         base.TrustPageMetadata with { TabName = "Free schools" };
 
-    public AcademyPipelineServiceModel[] PipelineFreeSchools { get; set; } = default!;
+    public AcademyPipelineServiceModel[] PipelineFreeSchools { get; set; } = [];
 
     public override async Task<IActionResult> OnGetAsync()
     {

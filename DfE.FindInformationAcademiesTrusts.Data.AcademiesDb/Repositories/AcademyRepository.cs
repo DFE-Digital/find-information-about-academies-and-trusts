@@ -319,13 +319,6 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<A
             _ => SafeguardingScore.Unknown
         };
     }
-    public async Task<string?> GetAcademyTrustTrustReferenceNumberAsync(string uid)
-    {
-        return await academiesDbContext.GiasGroupLinks
-            .Where(gl => gl.GroupUid == uid)
-            .Select(gl => gl.GroupId)
-            .FirstOrDefaultAsync();
-    }
 
     private sealed record AcademyOfstedRatings(int Urn, OfstedRating Current, OfstedRating Previous);
 }

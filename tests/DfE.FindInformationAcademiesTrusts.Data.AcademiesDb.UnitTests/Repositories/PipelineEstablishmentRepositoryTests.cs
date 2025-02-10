@@ -60,8 +60,8 @@ namespace PipelineEstablishmentRepositoryTests
         private void AddMstrAcademyConversion(
             string trustId,
             string projectStatus,
-            string inPrepare,
-            string inComplete,
+            bool inPrepare,
+            bool inComplete,
             string routeOfProject = "Conversion",
             string? projectName = null,
             int? urn = null,
@@ -88,8 +88,8 @@ namespace PipelineEstablishmentRepositoryTests
         private void AddMstrAcademyTransfer(
             string trustId,
             string academyTransferStatus,
-            string inPrepare,
-            string inComplete,
+            bool? inPrepare,
+            bool? inComplete,
             string? academyName = null,
             int? academyUrn = null,
             int? statutoryLowestAge = null,
@@ -182,17 +182,17 @@ namespace PipelineEstablishmentRepositoryTests
             };
 
             // Add a matching record: InComplete = "No", InPrepare = "Yes"
-            AddMstrAcademyConversion(trustRef, validStatuses[0], inPrepare: "Yes", inComplete: "No",
+            AddMstrAcademyConversion(trustRef, validStatuses[0], inPrepare: true, inComplete: false,
                                      projectName: "Conversion X", urn: 555, statutoryLowestAge: 3, statutoryHighestAge: 7,
                                      expectedOpeningDate: new DateTime(2025, 4, 1));
 
             // Add some that won't match
             // 1) Wrong trust
-            AddMstrAcademyConversion("TR999", validStatuses[0], "Yes", "No");
+            AddMstrAcademyConversion("TR999", validStatuses[0], true, false);
             // 2) Wrong status
-            AddMstrAcademyConversion(trustRef, "SomeOtherStatus", "Yes", "No");
+            AddMstrAcademyConversion(trustRef, "SomeOtherStatus", true, false);
             // 3) InComplete = "No", InPrepare = "No" => fails the pre-advisory filter
-            AddMstrAcademyConversion(trustRef, validStatuses[1], "No", "No");
+            AddMstrAcademyConversion(trustRef, validStatuses[1], false, false);
 
             var repository = new PipelineEstablishmentRepository(_mockContext.Object);
 
@@ -230,11 +230,11 @@ namespace PipelineEstablishmentRepositoryTests
             };
 
             // Add a matching record: InComplete="Yes", InPrepare=anything (ignored in post-advisory)
-            AddMstrAcademyConversion(trustRef, validStatuses[2], inPrepare: "No", inComplete: "Yes",
+            AddMstrAcademyConversion(trustRef, validStatuses[2], false, true,
                                      projectName: "PostAdvisory Conv", urn: 999);
 
             // Non-matching: (InComplete="No")
-            AddMstrAcademyConversion(trustRef, validStatuses[3], inPrepare: "No", inComplete: "No");
+            AddMstrAcademyConversion(trustRef, validStatuses[3], false, false);
 
             var repository = new PipelineEstablishmentRepository(_mockContext.Object);
 
@@ -275,18 +275,18 @@ namespace PipelineEstablishmentRepositoryTests
             };
 
             // Add a valid record: InComplete="No", InPrepare="Yes"
-            AddMstrAcademyTransfer(trustRef, validStatuses[0], inPrepare: "Yes", inComplete: "No",
+            AddMstrAcademyTransfer(trustRef, validStatuses[0], true, false,
                                    academyName: "Transfer Academy 1", academyUrn: 111,
                                    statutoryLowestAge: 5, statutoryHighestAge: 10,
                                    localAuthority: "LA B", expectedTransferDate: new DateTime(2026, 1, 1));
 
             // Add some that won't match
             // 1) Different trust
-            AddMstrAcademyTransfer("TR999", validStatuses[0], "Yes", "No", academyName: "Wrong Trust");
+            AddMstrAcademyTransfer("TR999", validStatuses[0], true, false, academyName: "Wrong Trust");
             // 2) Wrong status
-            AddMstrAcademyTransfer(trustRef, "RandomStatus", "Yes", "No", academyName: "Wrong Status");
+            AddMstrAcademyTransfer(trustRef, "RandomStatus", true, false, academyName: "Wrong Status");
             // 3) InComplete="Yes"
-            AddMstrAcademyTransfer(trustRef, validStatuses[1], "Yes", "Yes", academyName: "Wrong InComplete");
+            AddMstrAcademyTransfer(trustRef, validStatuses[1], true, true, academyName: "Wrong InComplete");
 
             var repository = new PipelineEstablishmentRepository(_mockContext.Object);
 
@@ -320,11 +320,11 @@ namespace PipelineEstablishmentRepositoryTests
             };
 
             // Add a matching record for PostAdvisory: InComplete="Yes"
-            AddMstrAcademyTransfer(trustRef, validStatuses[1], inPrepare: "No", inComplete: "Yes",
+            AddMstrAcademyTransfer(trustRef, validStatuses[1], false, true,
                                    academyName: "Post Transfer Academy", academyUrn: 777);
 
             // Add a non-matching record: same trust, same status but InComplete="No"
-            AddMstrAcademyTransfer(trustRef, validStatuses[1], inPrepare: "No", inComplete: "No",
+            AddMstrAcademyTransfer(trustRef, validStatuses[1], false, false,
                                    academyName: "Non-post Transfer Academy", academyUrn: 778);
 
             var repository = new PipelineEstablishmentRepository(_mockContext.Object);
@@ -347,6 +347,42 @@ namespace PipelineEstablishmentRepositoryTests
 
             // Act
             var result = await repository.GetAdvisoryTransferEstablishmentsAsync("TR_NO_DATA", AdvisoryType.PreAdvisory);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeEmpty();
+        }
+
+        [Fact]
+        public async Task IfInCompleteForInProcessIsNull_ReturnsEmptyArray()
+        {
+            string trustRef = "TR888Null";
+
+            AddMstrAcademyTransfer(trustRef, PipelineStatuses.InProcessOfAcademyTransfer, true, null,
+                academyName: "Post Transfer Academy", academyUrn: 777);
+
+            var repository = new PipelineEstablishmentRepository(_mockContext.Object);
+
+            // Act
+            var result = await repository.GetAdvisoryTransferEstablishmentsAsync(trustRef, AdvisoryType.PostAdvisory);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeEmpty();
+        }
+
+        [Fact]
+        public async Task IfInPrepareForInProcessIsNull_ReturnsEmptyArray()
+        {
+            string trustRef = "TRPrepNull";
+
+            AddMstrAcademyTransfer(trustRef, PipelineStatuses.InProcessOfAcademyTransfer, null, true,
+                academyName: "Post Transfer Academy", academyUrn: 777);
+
+            var repository = new PipelineEstablishmentRepository(_mockContext.Object);
+
+            // Act
+            var result = await repository.GetAdvisoryTransferEstablishmentsAsync(trustRef, AdvisoryType.PreAdvisory);
 
             // Assert
             result.Should().NotBeNull();

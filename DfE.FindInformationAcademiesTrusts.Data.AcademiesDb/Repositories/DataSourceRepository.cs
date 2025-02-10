@@ -51,11 +51,13 @@ public class DataSourceRepository(
         lastDataRefresh = source switch
         {
             Source.Prepare => await academiesDbContext.MstrAcademyTransfers
-                                .Where(t => t.InPrepare == "Yes")
+                                .Where(x=> x.InPrepare.HasValue)
+                                .Where(t => t.InPrepare!.Value)
                                 .Select(t => t.LastDataRefresh)
                                 .MaxAsync(),
             Source.Complete => await academiesDbContext.MstrAcademyTransfers
-                                .Where(t => t.InComplete == "Yes")
+                                .Where(x => x.InComplete.HasValue)
+                                .Where(t => t.InComplete!.Value)
                                 .Select(t => t.LastDataRefresh)
                                 .MaxAsync(),
             Source.ManageFreeSchoolProjects => await academiesDbContext.MstrFreeSchoolProjects

@@ -1,6 +1,7 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Converters;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 public partial class AcademiesDbContext
@@ -46,6 +47,14 @@ public partial class AcademiesDbContext
 
             entity.Property(e => e.LastDataRefresh)
                 .HasColumnName("Last Data Refresh");
+
+            entity.Property(e => e.InPrepare)
+                .HasColumnName("InPrepare")
+                .HasConversion<YesNoValueToBooleanConverter>();
+
+            entity.Property(e => e.InComplete)
+                .HasColumnName("InComplete")
+                .HasConversion<YesNoValueToBooleanConverter>();
         });
 
     }

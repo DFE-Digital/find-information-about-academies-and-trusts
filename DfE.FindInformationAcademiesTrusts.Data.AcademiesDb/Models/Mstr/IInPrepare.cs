@@ -2,5 +2,5 @@
 
 public interface IInPrepare
 {
-    public string InPrepare { get; set; }
+    public bool? InPrepare { get; set; }
 }

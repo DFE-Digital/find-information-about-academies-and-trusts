@@ -7,7 +7,7 @@
 }
 
 <section class="app-table-container">
-    @if (Model.PipelineFreeSchools == null || !Model.PipelineFreeSchools.Any())
+    @if (!Model.PipelineFreeSchools.Any())
     {
         <div class="govuk-body" data-testid="empty-state-message">
             There are no free schools in the pipeline for this trust.
@@ -32,14 +32,14 @@
                 {
                     <tr class="govuk-table__row" data-testid="academy-row">
                         <td class="govuk-body govuk-table__cell" data-sort-value="@academy.EstablishmentName" data-testid="free-schools-board-school-name">
-                            @academy.EstablishmentName.DefaultIfNull(ViewConstants.UnconfirmedDateText)
+                            @academy.EstablishmentName.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)
                         </td>
-                        <td class="govuk-body govuk-table__cell" data-testid="free-schools-URN">@academy.Urn.DefaultIfNull(ViewConstants.UnconfirmedDateText)</td>
+                        <td class="govuk-body govuk-table__cell" data-testid="free-schools-URN">@academy.Urn.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
                         <td class="govuk-body govuk-table__cell" data-sort-value="@PipelineAcademiesAreaModel.AgeRangeSortValue(academy)" data-testid="free-schools-age-range">
                             @(academy.AgeRange is null ? ViewConstants.UnconfirmedDateText : $"{academy.AgeRange.Minimum} - {academy.AgeRange.Maximum}")
                         </td>
-                        <td class="govuk-body govuk-table__cell" data-sort-value="@academy.LocalAuthority" data-testid="free-schools-local-authority">@academy.LocalAuthority.DefaultIfNull(ViewConstants.UnconfirmedDateText)</td>
-                        <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ProjectType" data-testid="free-schools-project-type">@academy.ProjectType.DefaultIfNull(ViewConstants.UnconfirmedDateText)</td>
+                        <td class="govuk-body govuk-table__cell" data-sort-value="@academy.LocalAuthority" data-testid="free-schools-local-authority">@academy.LocalAuthority.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
+                        <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ProjectType" data-testid="free-schools-project-type">@academy.ProjectType.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
                         <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ChangeDate" data-testid="free-schools-provisional-opening-date-header">
                             @academy.ChangeDate.ShowDateStringOrReplaceWithText(ViewConstants.UnconfirmedDateText)
                         </td>

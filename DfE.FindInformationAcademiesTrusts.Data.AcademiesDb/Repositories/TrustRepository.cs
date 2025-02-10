@@ -167,4 +167,12 @@ public class TrustRepository(
                 governorEmails.SingleOrDefault(governorEmail => governorEmail.Gid == governor.Gid)?.Email)
         );
     }
+
+    public async Task<string?> GetAcademyTrustTrustReferenceNumberAsync(string uid)
+    {
+        return await academiesDbContext.Groups
+            .Where(gl => gl.GroupUid == uid)
+            .Select(gl => gl.GroupId)
+            .FirstOrDefaultAsync();
+    }
 }
