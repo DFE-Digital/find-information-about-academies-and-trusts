@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Changed
+
+- Changed Ofsted data download to include single headline grades
+
 ## [Release-20][release-20](production-2025-02-04.4852)
 
 ### Added
