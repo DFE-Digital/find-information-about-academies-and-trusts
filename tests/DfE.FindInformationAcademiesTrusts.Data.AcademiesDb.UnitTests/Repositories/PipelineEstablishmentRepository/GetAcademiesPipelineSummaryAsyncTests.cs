@@ -1,6 +1,7 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
+using System.Collections.Generic;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories.PipelineEstablishmentRepository;
 
@@ -49,32 +50,77 @@ public class GetAcademiesPipelineSummaryAsyncTests
         result.PostAdvisoryCount.Should().Be(0);
     }
 
- //   [Theory]
- ////   [InlineData(null, null, 0)]
- //   [InlineData(null, true, 0)]
- //  // [InlineData(true, null, 0)]
- //   public async Task ForPreAdvisoryConversion_ShouldCalculateCorrectCount(bool? inPrepare, bool? inComplete, int expectedCount)
- //   {
- //       string trustReferences = "TRU123";
+    [Theory]
+    [InlineData(null, null, 0)]
+    [InlineData(null, true, 0)]
+    [InlineData(true, null, 0)]
+    [InlineData(true, false, 2)]
+    public async Task ForPreAdvisoryConversion_ShouldCalculateCorrectCount(bool? inPrepare, bool? inComplete, int expectedCount)
+    {
+        string trustReference = "TRU123";
 
- //       _academyConversions.Add(new MstrAcademyConversions
- //       {
- //           SK = 2,
- //           TrustID = trustReferences,
- //           ProjectStatus = PipelineStatuses.ApprovedForAO,
- //           RouteOfProject = ProjectType.Conversion,
- //           InPrepare = inPrepare,
- //           InComplete = inComplete,
- //       });
+        _academyConversions.Add(new MstrAcademyConversions
+        {
+            SK = 2,
+            TrustID = trustReference,
+            ProjectStatus = PipelineStatuses.ApprovedForAO,
+            RouteOfProject = ProjectType.Conversion,
+            InPrepare = inPrepare,
+            InComplete = inComplete,
+        });
 
- //       var repository = new AcademiesDb.Repositories.PipelineEstablishmentRepository(_mockContext.Object);
+        _academyTransfers.Add(new MstrAcademyTransfers
+        {
+            SK = 3,
+            InPrepare = inPrepare,
+            InComplete = inComplete,
+            NewProvisionalTrustID = trustReference,
+            AcademyTransferStatus = PipelineStatuses.InProcessOfAcademyTransfer,
+        });
 
- //       var result = await repository.GetAcademiesPipelineSummaryAsync(trustReferences);
+        var repository = new AcademiesDb.Repositories.PipelineEstablishmentRepository(_mockContext.Object);
 
- //       result.FreeSchoolsCount.Should().Be(0);
- //       result.PreAdvisoryCount.Should().Be(expectedCount);
- //       result.PostAdvisoryCount.Should().Be(0);
- //   }
+        var result = await repository.GetAcademiesPipelineSummaryAsync(trustReference);
+
+        result.PreAdvisoryCount.Should().Be(expectedCount);
+    }
+
+
+
+    [Theory]
+    [InlineData(null, null, 0)]
+    [InlineData(true, true, 2)]
+    [InlineData(true, null, 0)]
+    [InlineData(true, false, 0)]
+    public async Task ForPostAdvisoryConversion_ShouldCalculateCorrectCount(bool? inPrepare, bool? inComplete, int expectedCount)
+    {
+        string trustReference = "TRU123";
+
+        _academyConversions.Add(new MstrAcademyConversions
+        {
+            SK = 2,
+            TrustID = trustReference,
+            ProjectStatus = PipelineStatuses.ApprovedForAO,
+            RouteOfProject = ProjectType.Conversion,
+            InPrepare = inPrepare,
+            InComplete = inComplete,
+        });
+
+        _academyTransfers.Add(new MstrAcademyTransfers
+        {
+            SK = 3,
+            InPrepare = inPrepare,
+            InComplete = inComplete,
+            NewProvisionalTrustID = trustReference,
+            AcademyTransferStatus = PipelineStatuses.InProcessOfAcademyTransfer,
+        });
+
+        var repository = new AcademiesDb.Repositories.PipelineEstablishmentRepository(_mockContext.Object);
+
+        var result = await repository.GetAcademiesPipelineSummaryAsync(trustReference);
+
+        result.PostAdvisoryCount.Should().Be(expectedCount);
+    }
 
     [Fact]
     public async Task IfFreeSchoolExists_ShouldReurnCorrectNumberOfFreeSchools()
