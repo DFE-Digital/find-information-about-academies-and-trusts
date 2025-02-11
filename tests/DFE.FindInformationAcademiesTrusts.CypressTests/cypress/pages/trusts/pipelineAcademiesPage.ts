@@ -3,6 +3,7 @@ import { TableUtility } from "../tableUtility";
 class PipelineAcademies {
 
     elements = {
+        subpageHeader: () => cy.get('[data-testid="subpage-header"]'),
         preAdvisory: {
             section: () => cy.get('[data-testid="pre-advisory-board-table"]'),
             schoolName: () => this.elements.preAdvisory.section().find('[data-testid="pre-advisory-board-school-name"]'),
@@ -51,6 +52,11 @@ class PipelineAcademies {
         },
 
     };
+
+    public checkOfstedSHGPageHeaderPresent(): this {
+        this.elements.subpageHeader().should('contain', 'Single headline grades');
+        return this;
+    }
 
 }
 
