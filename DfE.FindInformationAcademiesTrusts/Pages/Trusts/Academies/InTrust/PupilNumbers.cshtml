@@ -46,6 +46,9 @@
 </section>
 
 @section Export
-          {
-    <partial name="_AcademiesInTrustExportButton" model="@Model" />
+{
+    @{
+        var exportModel = new AcademiesExportButtonModel(Model, "Download all academy data");
+    }
+    <partial name="Trusts/Academies/_AcademiesExportButton" model="exportModel"/>
 }
