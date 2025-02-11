@@ -242,5 +242,21 @@ describe("Testing the components of the Governance page", () => {
             governancePage
                 .checkSubNavNotPresent();
         });
+
+        describe("Testing that no unown entries are found for an academies governance tables/pages", () => {
+            trustsWithGovernanceData.forEach(({ typeOfTrust, uid }) => {
+                beforeEach(() => {
+                    cy.login();
+                });
+
+                [`/trusts/governance/trust-leadership?uid=${uid}`, `/trusts/governance/trustees?uid=${uid}`, `/trusts/governance/members?uid=${uid}`, `/trusts/governance/historic-members?uid=${uid}`].forEach((url) => {
+                    it(`Should have no unknown entries on ${url} for a ${typeOfTrust}`, () => {
+                        cy.visit(url);
+                        commonPage
+                            .checkNoUnknownEntries();
+                    });
+                });
+            });
+        });
     });
 });
