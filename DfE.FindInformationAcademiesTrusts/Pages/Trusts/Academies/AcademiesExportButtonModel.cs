@@ -1,4 +1,4 @@
 ﻿namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies
 {
-    public record AcademiesExportButtonModel(AcademiesAreaModel AcademiesAreaModel, string ButtonText);
+    public record AcademiesExportButtonModel(string Uid, string ButtonText);
 }
