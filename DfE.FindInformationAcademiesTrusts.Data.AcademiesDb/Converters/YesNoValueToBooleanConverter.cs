@@ -2,23 +2,28 @@
 
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-public class YesNoValueToBooleanConverter : ValueConverter<bool?, string?>
-{
-    public YesNoValueToBooleanConverter() : base(
-        // writing to the database
-        v => (v == true ? "Yes" : v == false ? "No" : null) ?? string.Empty,
+public class YesNoValueToBooleanConverter() :
+    ValueConverter<bool?, string?>(
+        value => ConvertBoolToYesNoString(value),
         value => ConvertYesNoString(value))
+{
+    private static bool? ConvertYesNoString(string? input)
     {
+        if (string.IsNullOrEmpty(input))
+        {
+            return null;
+        }
 
+        return input.Equals("yes", StringComparison.CurrentCultureIgnoreCase);
     }
 
-    private static bool? ConvertYesNoString(string? input)
+    private static string? ConvertBoolToYesNoString(bool? input)
     {
         if (input is null)
         {
             return null;
         }
 
-        return input.Equals("yes", StringComparison.CurrentCultureIgnoreCase);
+        return input.Value ? "Yes" : "No";
     }
 }

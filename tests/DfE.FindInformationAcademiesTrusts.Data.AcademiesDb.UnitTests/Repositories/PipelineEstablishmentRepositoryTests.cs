@@ -1,4 +1,5 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
+﻿using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
@@ -164,6 +165,43 @@ namespace PipelineEstablishmentRepositoryTests
             result.Should().BeEmpty("because no matching free school projects were added for this trust");
         }
 
+
+        [Theory]
+        [InlineData(null, null, null, null)]
+        [InlineData(1, null, null, null)]
+        [InlineData(null, 1, null, null)]
+        [InlineData(1, 5, 1, 5)]
+        public async Task GetPipelineFreeSchoolProjectsAsync_WithNoLowAndHighAgeRange_ShouldHaveNullAgeRange(int? lowerAge, int? upperAge, int? expectedMin, int? expectedMax)
+        {
+            string trustRef = "TR_NO_AGES";
+
+            AddMstrFreeSchoolProject(trustRef, PipelineStatuses.FreeSchoolPipeline, "FreeRoute",
+                projectName: "Project A", statutoryLowestAge: lowerAge, statutoryHighestAge: upperAge,
+                newUrn: 12345, localAuthority: "LA A", actualDateOpened: new DateTime(2024, 9, 1));
+
+
+            var repository = new PipelineEstablishmentRepository(_mockContext.Object);
+
+            // Act
+            var result = await repository.GetPipelineFreeSchoolProjectsAsync(trustRef);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Length.Should().Be(1);
+
+            var project = result[0];
+            if (expectedMin.HasValue && expectedMax.HasValue)
+            {
+                project.AgeRange.Should().NotBeNull();
+                project.AgeRange!.Minimum.Should().Be(expectedMin.Value);
+                project.AgeRange.Maximum.Should().Be(expectedMax.Value);
+            }
+            else
+            {
+                project.AgeRange.Should().BeNull();
+            }
+        }
+
         [Fact]
         public async Task GetAdvisoryConversionEstablishmentsAsync_PreAdvisory_ReturnsCorrectResults()
         {
@@ -260,6 +298,41 @@ namespace PipelineEstablishmentRepositoryTests
             // Assert
             result.Should().NotBeNull();
             result.Should().BeEmpty();
+        }
+
+        [Theory]
+        [InlineData(null, null, null, null)]
+        [InlineData(1, null, null, null)]
+        [InlineData(null, 1, null, null)]
+        [InlineData(1, 5, 1, 5)]
+        public async Task GetAdvisoryConversionEstablishmentsAsync_WithNoLowAndHighAgeRange_ShouldHaveNullAgeRange(int? lowerAge, int? upperAge, int? expectedMin, int? expectedMax)
+        {
+            // Arrange
+            var trustRef = "NO_AGES";
+
+            AddMstrAcademyConversion(trustRef, PipelineStatuses.ApprovedForAO, inPrepare: true, inComplete: false,
+                projectName: "Conversion X", urn: 555, statutoryLowestAge: lowerAge, statutoryHighestAge: upperAge,
+                expectedOpeningDate: new DateTime(2025, 4, 1));
+            var repository = new PipelineEstablishmentRepository(_mockContext.Object);
+
+            // Act
+            var result = await repository.GetAdvisoryConversionEstablishmentsAsync(trustRef, AdvisoryType.PreAdvisory);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Length.Should().Be(1);
+
+            var project = result[0];
+            if (expectedMin.HasValue && expectedMax.HasValue)
+            {
+                project.AgeRange.Should().NotBeNull();
+                project.AgeRange!.Minimum.Should().Be(expectedMin.Value);
+                project.AgeRange.Maximum.Should().Be(expectedMax.Value);
+            }
+            else
+            {
+                project.AgeRange.Should().BeNull();
+            }
         }
 
         [Fact]
@@ -387,6 +460,43 @@ namespace PipelineEstablishmentRepositoryTests
             // Assert
             result.Should().NotBeNull();
             result.Should().BeEmpty();
+        }
+
+        [Theory]
+        [InlineData(null, null, null, null)]
+        [InlineData(1, null, null, null)]
+        [InlineData(null, 1, null, null)]
+        [InlineData(1, 5, 1, 5)]
+        public async Task GetAdvisoryTransferEstablishmentsAsync_WithNoLowAndHighAgeRange_ShouldHaveNullAgeRange(int? lowerAge, int? upperAge, int? expectedMin, int? expectedMax)
+        {
+            // Arrange
+            var trustRef = "TR_NOAGE";
+
+            AddMstrAcademyTransfer(trustRef, PipelineStatuses.ConsideringAcademyTransfer, true, false,
+                                   academyName: "Transfer Academy 1", academyUrn: 111,
+                                   statutoryLowestAge: lowerAge, statutoryHighestAge: upperAge,
+                                   localAuthority: "LA B", expectedTransferDate: new DateTime(2026, 1, 1));
+
+            var repository = new PipelineEstablishmentRepository(_mockContext.Object);
+
+            // Act
+            var result = await repository.GetAdvisoryTransferEstablishmentsAsync(trustRef, AdvisoryType.PreAdvisory);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Length.Should().Be(1);
+
+            var project = result![0];
+            if (expectedMin.HasValue && expectedMax.HasValue)
+            {
+                project.AgeRange.Should().NotBeNull();
+                project.AgeRange!.Minimum.Should().Be(expectedMin.Value);
+                project.AgeRange.Maximum.Should().Be(expectedMax.Value);
+            }
+            else
+            {
+                project.AgeRange.Should().BeNull();
+            }
         }
     }
 }
