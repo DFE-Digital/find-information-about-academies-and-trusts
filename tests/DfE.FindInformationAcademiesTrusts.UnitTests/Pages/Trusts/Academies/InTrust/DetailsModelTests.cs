@@ -2,27 +2,24 @@ using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
-using Microsoft.FeatureManagement;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
 
 public class AcademiesDetailsModelTests : AcademiesInTrustAreaModelTests<AcademiesInTrustDetailsModel>
 {
     private readonly Mock<IOtherServicesLinkBuilder> _mockLinkBuilder = new();
-    private readonly Mock<IAcademyService> _mockAcademyService = new();
-    private readonly Mock<IFeatureManager> _mockFeatureManager = new();
 
     public AcademiesDetailsModelTests()
     {
         Sut = new AcademiesInTrustDetailsModel(MockDataSourceService.Object,
-                                               _mockLinkBuilder.Object,
-                                               new MockLogger<AcademiesInTrustDetailsModel>().Object,
-                                               MockTrustService.Object,
-                                               _mockAcademyService.Object,
-                                               MockExportService.Object,
-                                               MockDateTimeProvider.Object,
-                                               _mockFeatureManager.Object)
-        { Uid = TrustUid };
+                _mockLinkBuilder.Object,
+                new MockLogger<AcademiesInTrustDetailsModel>().Object,
+                MockTrustService.Object,
+                MockAcademyService.Object,
+                MockExportService.Object,
+                MockDateTimeProvider.Object,
+                MockFeatureManager.Object)
+            { Uid = TrustUid };
     }
 
     [Fact]
@@ -32,7 +29,7 @@ public class AcademiesDetailsModelTests : AcademiesInTrustAreaModelTests<Academi
     }
 
     [Fact]
-    public async Task OnGetAsync_sets_academies_from_academyService()
+    public override async Task OnGetAsync_sets_academies_from_academyService()
     {
         var academies = new[]
         {
@@ -40,7 +37,7 @@ public class AcademiesDetailsModelTests : AcademiesInTrustAreaModelTests<Academi
             new AcademyDetailsServiceModel("2", "", "", "", ""),
             new AcademyDetailsServiceModel("3", "", "", "", "")
         };
-        _mockAcademyService.Setup(a => a.GetAcademiesInTrustDetailsAsync(Sut.Uid))
+        MockAcademyService.Setup(a => a.GetAcademiesInTrustDetailsAsync(Sut.Uid))
             .ReturnsAsync(academies);
 
         _ = await Sut.OnGetAsync();
@@ -56,4 +53,12 @@ public class AcademiesDetailsModelTests : AcademiesInTrustAreaModelTests<Academi
         Sut.TrustPageMetadata.TabName.Should().Be(ViewConstants.AcademiesInTrustDetailsPageName);
     }
 
+    [Fact]
+    public override async Task OnGetAsync_should_set_active_TabList_to_current_tab()
+    {
+        _ = await Sut.OnGetAsync();
+
+        Sut.TabList.Should().ContainSingle(l => l.LinkIsActive)
+            .Which.SubPageLink.Should().Be("./Details");
+    }
 }
