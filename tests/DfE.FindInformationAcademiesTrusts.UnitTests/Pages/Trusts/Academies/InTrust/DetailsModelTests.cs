@@ -59,6 +59,6 @@ public class AcademiesDetailsModelTests : AcademiesInTrustAreaModelTests<Academi
         _ = await Sut.OnGetAsync();
 
         Sut.TabList.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.SubPageLink.Should().Be("./Details");
+            .Which.TabPageLink.Should().Be("./Details");
     }
 }

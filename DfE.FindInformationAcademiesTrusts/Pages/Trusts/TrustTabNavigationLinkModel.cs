@@ -4,10 +4,9 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public record TrustTabNavigationLinkModel(
     string LinkText,
-    string SubPageLink,
-    string Uid,
-    string SubNavName,
+    string TabPageLink,
+    string TabNavName,
     bool LinkIsActive)
 {
-    public string TestId => $"{SubNavName}-{LinkText}-tab".Kebabify();
+    public string TestId => $"{TabNavName}-{LinkText}-tab".Kebabify();
 }

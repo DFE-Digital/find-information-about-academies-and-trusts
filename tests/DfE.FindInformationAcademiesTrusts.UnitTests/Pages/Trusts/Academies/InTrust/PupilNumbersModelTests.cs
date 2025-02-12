@@ -72,6 +72,6 @@ public class PupilNumbersModelTests : AcademiesInTrustAreaModelTests<PupilNumber
         _ = await Sut.OnGetAsync();
 
         Sut.TabList.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.SubPageLink.Should().Be("./PupilNumbers");
+            .Which.TabPageLink.Should().Be("./PupilNumbers");
     }
 }

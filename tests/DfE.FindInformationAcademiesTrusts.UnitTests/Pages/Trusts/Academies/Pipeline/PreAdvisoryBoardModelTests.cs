@@ -49,6 +49,6 @@ public class PreAdvisoryBoardModelTests : BasePipelineAcademiesAreaModelTests<Pr
         _ = await Sut.OnGetAsync();
 
         Sut.TabList.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.SubPageLink.Should().Be("./PreAdvisoryBoard");
+            .Which.TabPageLink.Should().Be("./PreAdvisoryBoard");
     }
 }

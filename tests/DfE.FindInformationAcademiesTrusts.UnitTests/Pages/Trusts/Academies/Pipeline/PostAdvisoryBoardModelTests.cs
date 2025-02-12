@@ -50,6 +50,6 @@ public class PostAdvisoryBoardModelTests : BasePipelineAcademiesAreaModelTests<P
         _ = await Sut.OnGetAsync();
 
         Sut.TabList.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.SubPageLink.Should().Be("./PostAdvisoryBoard");
+            .Which.TabPageLink.Should().Be("./PostAdvisoryBoard");
     }
 }

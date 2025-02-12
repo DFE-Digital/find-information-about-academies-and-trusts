@@ -126,20 +126,20 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseAcademiesAreaModel
                 l =>
                 {
                     l.LinkText.Should().Be("Details");
-                    l.SubPageLink.Should().Be("./Details");
-                    l.SubNavName.Should().Be("In this trust");
+                    l.TabPageLink.Should().Be("./Details");
+                    l.TabNavName.Should().Be("In this trust");
                 },
                 l =>
                 {
                     l.LinkText.Should().Be("Pupil numbers");
-                    l.SubPageLink.Should().Be("./PupilNumbers");
-                    l.SubNavName.Should().Be("In this trust");
+                    l.TabPageLink.Should().Be("./PupilNumbers");
+                    l.TabNavName.Should().Be("In this trust");
                 },
                 l =>
                 {
                     l.LinkText.Should().Be("Free school meals");
-                    l.SubPageLink.Should().Be("./FreeSchoolMeals");
-                    l.SubNavName.Should().Be("In this trust");
+                    l.TabPageLink.Should().Be("./FreeSchoolMeals");
+                    l.TabNavName.Should().Be("In this trust");
                 });
     }
 }

@@ -49,6 +49,6 @@ public class FreeSchoolMealsModelTests : AcademiesInTrustAreaModelTests<FreeScho
         _ = await Sut.OnGetAsync();
 
         Sut.TabList.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.SubPageLink.Should().Be("./FreeSchoolMeals");
+            .Which.TabPageLink.Should().Be("./FreeSchoolMeals");
     }
 }
