@@ -83,27 +83,6 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
     }
 
     [Fact]
-    public async Task OnGetAsync_should_configure_TrustPageMetadata()
-    {
-        // Arrange
-        MockAcademyService
-            .Setup(a => a.GetAcademyTrustTrustReferenceNumberAsync("1234"))
-            .ReturnsAsync("1234");
-        TrustSummaryServiceModel fakeTrust = new(TrustUid, "My Trust", "Multi-academy trust", 3);
-
-        MockTrustService.Setup(t => t.GetTrustSummaryAsync(fakeTrust.Uid)).ReturnsAsync(fakeTrust);
-        Sut.Uid = fakeTrust.Uid;
-
-        // Act
-        _ = await Sut.OnGetAsync();
-
-        // Assert
-        Sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.AcademiesPageName);
-        Sut.TrustPageMetadata.SubPageName.Should().Be(ViewConstants.PipelineAcademiesSubNavName);
-        Sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
-    }
-
-    [Fact]
     public override async Task OnGetAsync_sets_correct_data_source_list()
     {
         _ = await Sut.OnGetAsync();

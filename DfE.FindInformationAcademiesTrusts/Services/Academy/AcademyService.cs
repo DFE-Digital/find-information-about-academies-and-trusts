@@ -1,7 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
-using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.Academy;
 
@@ -15,14 +14,12 @@ public interface IAcademyService
     Task<AcademyPipelineServiceModel[]> GetAcademiesPipelinePreAdvisoryAsync(string trustReferenceNumber);
     Task<AcademyPipelineServiceModel[]> GetAcademiesPipelinePostAdvisoryAsync(string trustReferenceNumber);
     Task<AcademyPipelineServiceModel[]> GetAcademiesPipelineFreeSchoolsAsync(string trustReferenceNumber);
-    Task<string> GetAcademyTrustTrustReferenceNumberAsync(string uid);
 }
 
 public class AcademyService(
     IAcademyRepository academyRepository,
     IPipelineEstablishmentRepository pipelineEstablishmentRepository,
-    IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider,
-    ITrustRepository trustRepository) : IAcademyService
+    IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider) : IAcademyService
 {
     public async Task<AcademyDetailsServiceModel[]> GetAcademiesInTrustDetailsAsync(string uid)
     {
@@ -65,11 +62,6 @@ public class AcademyService(
                         a.TypeOfEstablishment),
                     freeSchoolMealsAverageProvider.GetNationalAverage(a.PhaseOfEducation, a.TypeOfEstablishment)))
             .ToArray();
-    }
-
-    public async Task<string> GetAcademyTrustTrustReferenceNumberAsync(string uid)
-    {
-        return await trustRepository.GetAcademyTrustTrustReferenceNumberAsync(uid) ?? string.Empty;
     }
 
     public async Task<AcademyPipelineSummaryServiceModel> GetAcademiesPipelineSummaryAsync(string trustReferenceNumber)

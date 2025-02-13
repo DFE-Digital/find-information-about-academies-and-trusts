@@ -168,7 +168,7 @@ public class TrustRepository(
         );
     }
 
-    public async Task<string?> GetAcademyTrustTrustReferenceNumberAsync(string uid)
+    public async Task<string> GetTrustReferenceNumberAsync(string uid)
     {
         return await academiesDbContext.Groups
             .Where(gl => gl.GroupUid == uid)

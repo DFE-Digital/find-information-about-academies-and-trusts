@@ -17,9 +17,8 @@ public class AcademyServiceTests
     public AcademyServiceTests()
     {
         _sut = new AcademyService(_mockAcademyRepository.Object,
-                                  _mockPipelineEstablishmentRepository.Object,
-                                  _mockFreeSchoolMealsAverageProvider.Object,
-                                  _mockTrustRepository.Object);
+            _mockPipelineEstablishmentRepository.Object,
+            _mockFreeSchoolMealsAverageProvider.Object);
     }
 
     [Fact]
@@ -426,38 +425,5 @@ public class AcademyServiceTests
         result[1].LocalAuthority.Should().Be("Authority FS2");
         result[1].ProjectType.Should().Be("FreeSchool");
         result[1].ChangeDate.Should().Be(new DateTime(2023, 6, 1));
-    }
-
-    [Fact]
-    public async Task GetAcademyTrustTrustReferenceNumberAsync_should_return_trust_reference_number_when_found()
-    {
-        // Arrange
-        const string uid = "1234";
-        const string expectedTrustReferenceNumber = "TRUST123";
-        _mockTrustRepository
-            .Setup(r => r.GetAcademyTrustTrustReferenceNumberAsync(uid))
-            .ReturnsAsync(expectedTrustReferenceNumber);
-
-        // Act
-        var result = await _sut.GetAcademyTrustTrustReferenceNumberAsync(uid);
-
-        // Assert
-        result.Should().Be(expectedTrustReferenceNumber);
-    }
-
-    [Fact]
-    public async Task GetAcademyTrustTrustReferenceNumberAsync_should_return_empty_string_when_null_returned()
-    {
-        // Arrange
-        const string uid = "1234";
-        _mockTrustRepository
-            .Setup(r => r.GetAcademyTrustTrustReferenceNumberAsync(uid))
-            .ReturnsAsync((string?)null);
-
-        // Act
-        var result = await _sut.GetAcademyTrustTrustReferenceNumberAsync(uid);
-
-        // Assert
-        result.Should().BeEmpty();
     }
 }

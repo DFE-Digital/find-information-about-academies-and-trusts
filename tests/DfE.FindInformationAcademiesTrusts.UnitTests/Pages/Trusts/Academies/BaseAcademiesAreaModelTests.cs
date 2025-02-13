@@ -16,8 +16,8 @@ public abstract class BaseAcademiesAreaModelTests<T> : BaseTrustPageTests<T>, IT
 
     public BaseAcademiesAreaModelTests()
     {
-        MockAcademyService
-            .Setup(a => a.GetAcademyTrustTrustReferenceNumberAsync(TrustUid))
+        MockTrustService
+            .Setup(a => a.GetTrustReferenceNumberAsync(TrustUid))
             .ReturnsAsync(TrustReferenceNumber);
 
         //Set default GetAcademiesPipelineSummaryAsync to enable base tests with different UIDs

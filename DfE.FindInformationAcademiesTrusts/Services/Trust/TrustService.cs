@@ -16,6 +16,8 @@ public interface ITrustService
 
     Task<TrustContactUpdatedServiceModel> UpdateContactAsync(int uid, string? name, string? email,
         ContactRole role);
+
+    Task<string> GetTrustReferenceNumberAsync(string uid);
 }
 
 public class TrustService(
@@ -204,4 +206,8 @@ public class TrustService(
                                    dateSelector(item) <= rangeEnd);
     }
 
+    public async Task<string> GetTrustReferenceNumberAsync(string uid)
+    {
+        return await trustRepository.GetTrustReferenceNumberAsync(uid);
+    }
 }
