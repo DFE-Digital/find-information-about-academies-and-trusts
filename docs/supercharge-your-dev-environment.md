@@ -94,3 +94,5 @@ Update your [settings.json file](https://code.visualstudio.com/docs/getstarted/s
     }   
 ]
 ```
+
+Then follow [these steps](https://youtu.be/m8sAdYCIWhY) to connect to the SonarCloud instance.
