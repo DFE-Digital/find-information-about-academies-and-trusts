@@ -6,7 +6,7 @@
     Layout = "Academies/_AcademiesLayout";
 }
 
-<section class="app-table-container">
+<section class="app-table-container" data-testid="pre-advisory-board-table">
     @if (!Model.PreAdvisoryPipelineEstablishments.Any())
     {
         <div class="govuk-body" data-testid="empty-state-message">
