@@ -1,21 +1,38 @@
 import commonPage from "../../../pages/commonPage";
 import pipelineAcademiesPage from "../../../pages/trusts/pipelineAcademiesPage";
+import navigation from "../../../pages/navigation";
 
-const testTrustData = [
+const testPreAdvisoryData = [
     {
-        typeOfTrust: "single academy trust",
-        uid: 5527
+        uid: 16002
     },
     {
-        typeOfTrust: "multi academy trust",
-        uid: 5712
+        uid: 4921
+    }
+];
+
+const testPostAdvisoryData = [
+    {
+        uid: 17584
+    },
+    {
+        uid: 16857
+    }
+];
+
+const testFreeSchoolsData = [
+    {
+        uid: 17538
+    },
+    {
+        uid: 15786
     }
 ];
 
 describe("Testing the Pipeline academies pages", () => {
-    testTrustData.forEach(({ typeOfTrust, uid }) => {
 
-        describe(`On the Pre advisory board page for a ${typeOfTrust}`, () => {
+    describe(`On the Pre advisory board page for a trust`, () => {
+        testPreAdvisoryData.forEach(({ uid }) => {
             beforeEach(() => {
                 cy.login();
                 cy.visit(`/trusts/academies/pipeline/pre-advisory-board?uid=${uid}`);
@@ -26,13 +43,31 @@ describe("Testing the Pipeline academies pages", () => {
                     .checkThatBrowserTitleForTrustPageMatches('Pre advisory board - Pipeline academies - Academies - {trustName} - Find information about academies and trusts');
             });
 
-            it("Checks the correct Pipeline academies  subpage header is present", () => {
+            it("Checks the Pre advisory board Pipeline academies subpage header is present", () => {
                 pipelineAcademiesPage
-                    .checkOfstedSHGPageHeaderPresent();
+                    .checkPreAdvisoryPageHeaderPresent();
             });
-        });
 
-        describe(`On the Post advisory board page for a ${typeOfTrust}`, () => {
+            it("Checks the breadcrumb shows the correct page name", () => {
+                navigation
+                    .checkPageNameBreadcrumbPresent("Academies");
+            });
+
+            it("Checks the correct Pipeline academies Pre advisory board table headers are present", () => {
+                pipelineAcademiesPage
+                    .checkPreAdvisoryTableHeadersPresent();
+            });
+
+            it("Checks the Pipeline academies Pre advisory page sorting", () => {
+                pipelineAcademiesPage
+                    .checkPreAdvisoryTableSorting();
+            });
+
+        });
+    });
+
+    describe(`On the Post advisory board page for`, () => {
+        testPostAdvisoryData.forEach(({ uid }) => {
             beforeEach(() => {
                 cy.login();
                 cy.visit(`/trusts/academies/pipeline/post-advisory-board?uid=${uid}`);
@@ -42,9 +77,37 @@ describe("Testing the Pipeline academies pages", () => {
                 commonPage
                     .checkThatBrowserTitleForTrustPageMatches('Post advisory board - Pipeline academies - Academies - {trustName} - Find information about academies and trusts');
             });
-        });
 
-        describe(`On the Free schools page for a ${typeOfTrust}`, () => {
+            it("Checks the Post advisory board Pipeline academies subpage header is present", () => {
+                pipelineAcademiesPage
+                    .checkPostAdvisoryPageHeaderPresent();
+            });
+
+            it("Checks the breadcrumb shows the correct page name", () => {
+                navigation
+                    .checkPageNameBreadcrumbPresent("Academies");
+            });
+
+            it("Checks the correct Pipeline academies Post advisory board table headers are present", () => {
+                pipelineAcademiesPage
+                    .checkPostAdvisoryTableHeadersPresent();
+            });
+
+            it("Checks the Pipeline academies Post advisory page sorting", () => {
+                pipelineAcademiesPage
+                    .checkPostAdvisoryTableHeadersPresent();
+            });
+
+            it("Checks the Pipeline academies Post advisory page sorting", () => {
+                pipelineAcademiesPage
+                    .checkPostAdvisoryTableSorting();
+            });
+
+        });
+    });
+
+    describe(`On the Free schools page`, () => {
+        testFreeSchoolsData.forEach(({ uid }) => {
             beforeEach(() => {
                 cy.login();
                 cy.visit(`/trusts/academies/pipeline/free-schools?uid=${uid}`);
@@ -54,6 +117,58 @@ describe("Testing the Pipeline academies pages", () => {
                 commonPage
                     .checkThatBrowserTitleForTrustPageMatches('Free schools - Pipeline academies - Academies - {trustName} - Find information about academies and trusts');
             });
+
+            it("Checks the Free schools Pipeline academies subpage header is present", () => {
+                pipelineAcademiesPage
+                    .checkFreeSchoolsPageHeaderPresent();
+            });
+
+            it("Checks the breadcrumb shows the correct page name", () => {
+                navigation
+                    .checkPageNameBreadcrumbPresent("Academies");
+            });
+
+            it("Checks the correct Pipeline academies Free schools table headers are present", () => {
+                pipelineAcademiesPage
+                    .checkFreeSchoolsTableHeadersPresent();
+            });
+
+            it("Checks the Pipeline academies Free schools page sorting", () => {
+                pipelineAcademiesPage
+                    .checkFreeSchoolsTableHeadersPresent();
+            });
+
+            it("Checks the Pipeline academies Free schools page sorting", () => {
+                pipelineAcademiesPage
+                    .checkFreeSchoolsTableSorting();
+            });
+
         });
     });
+
+    describe.only(`On the pages with no pipeline academy data under them`, () => {
+
+        beforeEach(() => {
+            cy.login();
+        });
+
+        it("Checks the Pipeline academies Pre advisory page when an academy doesnt exist under it to ensure the correct message is displayed", () => {
+            cy.visit(`/trusts/academies/pipeline/pre-advisory-board?uid=5712`);
+            pipelineAcademiesPage
+                .checkPreAdvisoryNoAcademyPresent();
+        });
+
+        it("Checks the Pipeline academies Post advisory page when an academy doesnt exist under it to ensure the correct message is displayed", () => {
+            cy.visit(`/trusts/academies/pipeline/post-advisory-board?uid=5712`);
+            pipelineAcademiesPage
+                .checkPostAdvisoryNoAcademyPresent();
+        });
+
+        it("Checks the Pipeline academies Free schools page when an academy doesnt exist under it to ensure the correct message is displayed", () => {
+            cy.visit(`/trusts/academies/pipeline/free-schools?uid=5712`);
+            pipelineAcademiesPage
+                .checkFreeSchoolsNoAcademyPresent();
+        });
+    });
+
 });
