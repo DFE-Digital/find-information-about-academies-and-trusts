@@ -1,4 +1,4 @@
-import academiesPage from "../../../pages/trusts/academiesPage";
+import academiesInTrustPage from "../../../pages/trusts/academiesInTrustPage";
 import navigation from "../../../pages/navigation";
 import commonPage from "../../../pages/commonPage";
 
@@ -27,37 +27,37 @@ describe("Testing the components of the Academies page", () => {
         });
 
         it("Checks the correct details page headers are present", () => {
-            academiesPage
+            academiesInTrustPage
                 .checkDetailsHeadersPresent();
         });
 
         it("Checks that the correct school types are present", () => {
-            academiesPage
+            academiesInTrustPage
                 .checkSchoolTypesOnDetailsTable();
         });
 
         it("Checks that a different and larger trusts correct school types are present", () => {
             cy.visit('/trusts/academies/details?uid=5143');
-            academiesPage
+            academiesInTrustPage
                 .checkSchoolTypesOnDetailsTable();
         });
 
         it("Checks the detail page sorting", () => {
             cy.visit('/trusts/academies/details?uid=5143');
-            academiesPage
+            academiesInTrustPage
                 .checkTrustDetailsSorting();
         });
 
         it('should match the academy count in the sidebar with the actual table row count on the Details page', () => {
-            academiesPage.getAcademyCountFromSidebar().then(expectedCount => {
-                academiesPage.getTableRowCountOnDetailsPage().should('eq', expectedCount);
+            academiesInTrustPage.getAcademyCountFromSidebar().then(expectedCount => {
+                academiesInTrustPage.getTableRowCountOnDetailsPage().should('eq', expectedCount);
             });
         });
 
         it('should match the academy count in the sidebar with the actual table row count on the Details page after visiting', () => {
             cy.visit('/trusts/academies/details?uid=5143');
-            academiesPage.getAcademyCountFromSidebar().then(expectedCount => {
-                academiesPage.getTableRowCountOnDetailsPage().should('eq', expectedCount);
+            academiesInTrustPage.getAcademyCountFromSidebar().then(expectedCount => {
+                academiesInTrustPage.getTableRowCountOnDetailsPage().should('eq', expectedCount);
             });
         });
     });
@@ -75,31 +75,31 @@ describe("Testing the components of the Academies page", () => {
         });
 
         it("Checks the correct Pupil numbers page headers are present", () => {
-            academiesPage
+            academiesInTrustPage
                 .checkPupilNumbersHeadersPresent();
         });
 
         it("Checks the Pupil numbers page sorting", () => {
-            academiesPage
+            academiesInTrustPage
                 .checkPupilNumbersSorting();
         });
 
         it('should match the academy count in the sidebar with the actual table row count on the Pupil numbers page', () => {
-            academiesPage.getAcademyCountFromSidebar().then(expectedCount => {
-                academiesPage.getTableRowCountOnPupilNumbersPage().should('eq', expectedCount);
+            academiesInTrustPage.getAcademyCountFromSidebar().then(expectedCount => {
+                academiesInTrustPage.getTableRowCountOnPupilNumbersPage().should('eq', expectedCount);
             });
         });
 
         it('should match the academy count in the sidebar with the actual table row count on the Pupil numbers page after visiting', () => {
             cy.visit('/trusts/academies/pupil-numbers?uid=5143');
-            academiesPage.getAcademyCountFromSidebar().then(expectedCount => {
-                academiesPage.getTableRowCountOnPupilNumbersPage().should('eq', expectedCount);
+            academiesInTrustPage.getAcademyCountFromSidebar().then(expectedCount => {
+                academiesInTrustPage.getTableRowCountOnPupilNumbersPage().should('eq', expectedCount);
             });
         });
 
         it("Checks the Pupil numbers page sorting on a larger trust", () => {
             cy.visit('/trusts/academies/pupil-numbers?uid=5143');
-            academiesPage
+            academiesInTrustPage
                 .checkPupilNumbersSorting();
         });
 
@@ -117,31 +117,31 @@ describe("Testing the components of the Academies page", () => {
         });
 
         it("Checks the correct Free school meals page headers are present", () => {
-            academiesPage
+            academiesInTrustPage
                 .checkFreeSchoolMealsHeadersPresent();
         });
 
         it("Checks the Free school meals page sorting", () => {
-            academiesPage
+            academiesInTrustPage
                 .checkFreeSchoolMealsSorting();
         });
 
         it('should match the academy count in the sidebar with the actual table row count on the Free school meals page', () => {
-            academiesPage.getAcademyCountFromSidebar().then(expectedCount => {
-                academiesPage.getTableRowCountOnFreeSchoolMealsPage().should('eq', expectedCount);
+            academiesInTrustPage.getAcademyCountFromSidebar().then(expectedCount => {
+                academiesInTrustPage.getTableRowCountOnFreeSchoolMealsPage().should('eq', expectedCount);
             });
         });
 
         it('should match the academy count in the sidebar with the actual table row count on the Free school meals page after visiting', () => {
             cy.visit('/trusts/academies/free-school-meals?uid=5143');
-            academiesPage.getAcademyCountFromSidebar().then(expectedCount => {
-                academiesPage.getTableRowCountOnFreeSchoolMealsPage().should('eq', expectedCount);
+            academiesInTrustPage.getAcademyCountFromSidebar().then(expectedCount => {
+                academiesInTrustPage.getTableRowCountOnFreeSchoolMealsPage().should('eq', expectedCount);
             });
         });
 
         it("Checks the Free school meals page sorting on a larger trust", () => {
             cy.visit('/trusts/academies/free-school-meals?uid=5143');
-            academiesPage
+            academiesInTrustPage
                 .checkFreeSchoolMealsSorting();
         });
 
@@ -159,7 +159,7 @@ describe("Testing the components of the Academies page", () => {
                 .checkCurrentURLIsCorrect('/trusts/academies/pupil-numbers?uid=5527')
                 .checkAllServiceNavItemsPresent()
                 .checkAllAcademiesNavItemsPresent();
-            academiesPage
+            academiesInTrustPage
                 .checkPupilNumbersHeadersPresent();
         });
 
@@ -169,7 +169,7 @@ describe("Testing the components of the Academies page", () => {
                 .checkCurrentURLIsCorrect('/trusts/academies/free-school-meals?uid=5527')
                 .checkAllServiceNavItemsPresent()
                 .checkAllAcademiesNavItemsPresent();
-            academiesPage
+            academiesInTrustPage
                 .checkFreeSchoolMealsHeadersPresent();
         });
 
@@ -180,7 +180,7 @@ describe("Testing the components of the Academies page", () => {
                 .checkCurrentURLIsCorrect('/trusts/academies/details?uid=5527')
                 .checkAllServiceNavItemsPresent()
                 .checkAllAcademiesNavItemsPresent();
-            academiesPage
+            academiesInTrustPage
                 .checkDetailsHeadersPresent();
         });
 
