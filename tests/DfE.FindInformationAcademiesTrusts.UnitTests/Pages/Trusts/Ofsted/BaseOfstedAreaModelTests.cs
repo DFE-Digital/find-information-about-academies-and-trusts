@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Ofsted;
 
-public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITestSubpages where T : OfstedAreaModel
+public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITestSubpages, ITestExport
+    where T : OfstedAreaModel
 {
     protected readonly Mock<IAcademyService> MockAcademyService = new();
     protected readonly Mock<IExportService> MockExportService = new();
