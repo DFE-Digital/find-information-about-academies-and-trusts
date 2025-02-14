@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
@@ -6,40 +7,65 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 
 public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 {
-    private readonly List<GiasGroupLink> _giasGroupLinks = [];
-    private readonly List<MisMstrEstablishmentFiat> _misMstrEstablishmentFiat = [];
-    private readonly List<MisMstrFurtherEducationEstablishmentFiat> _misMstrFurtherEducationEstablishmentFiat = [];
+    //application
+    private readonly List<ApplicationEvent> _applicationEvents = [];
+
+    private readonly List<ApplicationSetting> _applicationSettings = [];
+
+    //cdm
     private readonly List<CdmSystemuser> _cdmSystemusers = [];
+
     private readonly List<CdmAccount> _cdmAccounts = [];
-    private readonly List<GiasGroup> _giasGroups = [];
-    private readonly List<MstrTrust> _mstrTrusts = [];
+
+    //gias
     private readonly List<GiasEstablishment> _giasEstablishments = [];
     private readonly List<GiasGovernance> _giasGovernances = [];
+    private readonly List<GiasGroup> _giasGroups = [];
+    private readonly List<GiasGroupLink> _giasGroupLinks = [];
+
+    //mis_mstr
+    private readonly List<MisMstrEstablishmentFiat> _misMstrEstablishmentFiat = [];
+    private readonly List<MisMstrFurtherEducationEstablishmentFiat> _misMstrFurtherEducationEstablishmentFiat = [];
+
+    //mstr
+    private readonly List<MstrTrust> _mstrTrusts = [];
+    private readonly List<MstrAcademyConversions> _mstrAcademyConversions = [];
+    private readonly List<MstrAcademyTransfers> _mstrAcademyTransfers = [];
+
+    private readonly List<MstrFreeSchoolProject> _mstrFreeSchoolProjects = [];
+
+    //tad
     private readonly List<TadTrustGovernance> _tadTrustGovernances = [];
-    private readonly List<ApplicationEvent> _applicationEvents = [];
-    private readonly List<ApplicationSetting> _applicationSettings = [];
 
     public MockAcademiesDbContext()
     {
+        //application
+        SetupMockDbContext(_applicationEvents, context => context.ApplicationEvents);
+        SetupMockDbContext(_applicationSettings, context => context.ApplicationSettings);
+        //cdm
+        SetupMockDbContext(_cdmSystemusers, context => context.CdmSystemusers);
+        SetupMockDbContext(_cdmAccounts, context => context.CdmAccounts);
+        //gias
+        SetupMockDbContext(_giasEstablishments, context => context.GiasEstablishments);
+        SetupMockDbContext(_giasGovernances, context => context.GiasGovernances);
+        SetupMockDbContext(_giasGroups, context => context.Groups);
         SetupMockDbContext(_giasGroupLinks, context => context.GiasGroupLinks);
+        //mis_mstr
         SetupMockDbContext(_misMstrEstablishmentFiat, context => context.MisMstrEstablishmentsFiat);
         SetupMockDbContext(_misMstrFurtherEducationEstablishmentFiat,
             context => context.MisMstrFurtherEducationEstablishmentsFiat);
-        SetupMockDbContext(_cdmSystemusers, context => context.CdmSystemusers);
-        SetupMockDbContext(_cdmAccounts, context => context.CdmAccounts);
-        SetupMockDbContext(_giasGroups, context => context.Groups);
+        //mstr
+        SetupMockDbContext(_mstrAcademyConversions, context => context.MstrAcademyConversions);
+        SetupMockDbContext(_mstrAcademyTransfers, context => context.MstrAcademyTransfers);
+        SetupMockDbContext(_mstrFreeSchoolProjects, context => context.MstrFreeSchoolProjects);
         SetupMockDbContext(_mstrTrusts, context => context.MstrTrusts);
-        SetupMockDbContext(_giasEstablishments, context => context.GiasEstablishments);
-        SetupMockDbContext(_giasGovernances, context => context.GiasGovernances);
+        //tad
         SetupMockDbContext(_tadTrustGovernances, context => context.TadTrustGovernances);
-        SetupMockDbContext(_applicationEvents, context => context.ApplicationEvents);
-        SetupMockDbContext(_applicationSettings, context => context.ApplicationSettings);
 
         //Set up some unused data to ensure we are actually retrieving the right data in our tests
         var otherTrust = AddGiasGroup(groupName: "Some other trust");
@@ -54,7 +80,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             var otherAcademy = AddGiasEstablishment(establishmentName: $"Some other academy {i}");
             AddGiasGroupLink(otherAcademy, otherTrust);
             AddGiasGovernance(new GiasGovernance
-            { Gid = $"{i}", Uid = otherTrust.GroupUid!, Forename1 = $"Governor {i}" });
+                { Gid = $"{i}", Uid = otherTrust.GroupUid!, Forename1 = $"Governor {i}" });
             AddTadTrustGovernance(new TadTrustGovernance { Gid = $"{i}", Email = $"governor{i}@othertrust.com" });
         }
     }
@@ -231,6 +257,88 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     public void AddTadTrustGovernance(TadTrustGovernance tadTrustGovernance)
     {
         _tadTrustGovernances.Add(tadTrustGovernance);
+    }
+
+    public void AddMstrFreeSchoolProject(
+        string trustId,
+        string stage,
+        string routeOfProject,
+        string? projectName = null,
+        int? statutoryLowestAge = null,
+        int? statutoryHighestAge = null,
+        int? newUrn = null,
+        string? localAuthority = null,
+        DateTime? actualDateOpened = null)
+    {
+        _mstrFreeSchoolProjects.Add(new MstrFreeSchoolProject
+        {
+            SK = _mstrFreeSchoolProjects.GetNextId(e => e.SK),
+            TrustID = trustId,
+            Stage = stage,
+            RouteOfProject = routeOfProject,
+            ProjectName = projectName,
+            StatutoryLowestAge = statutoryLowestAge,
+            StatutoryHighestAge = statutoryHighestAge,
+            NewURN = newUrn,
+            LocalAuthority = localAuthority,
+            ActualDateOpened = actualDateOpened
+        });
+    }
+
+    public void AddMstrAcademyConversion(
+        string trustId,
+        string projectStatus,
+        bool? inPrepare,
+        bool? inComplete,
+        string routeOfProject = "Conversion",
+        string? projectName = null,
+        int? urn = null,
+        int? statutoryLowestAge = null,
+        int? statutoryHighestAge = null,
+        DateTime? expectedOpeningDate = null)
+    {
+        _mstrAcademyConversions.Add(new MstrAcademyConversions
+        {
+            SK = _mstrAcademyConversions.GetNextId(e => e.SK),
+            TrustID = trustId,
+            ProjectStatus = projectStatus,
+            InPrepare = inPrepare,
+            InComplete = inComplete,
+            RouteOfProject = routeOfProject,
+            ProjectName = projectName,
+            URN = urn,
+            StatutoryLowestAge = statutoryLowestAge,
+            StatutoryHighestAge = statutoryHighestAge,
+            ExpectedOpeningDate = expectedOpeningDate
+        });
+    }
+
+    public void AddMstrAcademyTransfer(
+        string newProvisionalTrustId,
+        string academyTransferStatus,
+        bool? inPrepare,
+        bool? inComplete,
+        string? academyName = null,
+        int? academyUrn = null,
+        int? statutoryLowestAge = null,
+        int? statutoryHighestAge = null,
+        string? localAuthority = null,
+        DateTime? expectedTransferDate = null)
+    {
+        _mstrAcademyTransfers.Add(new MstrAcademyTransfers
+        {
+            SK = _mstrAcademyTransfers.GetNextId(e => e.SK),
+            NewProvisionalTrustID = newProvisionalTrustId,
+            AcademyTransferStatus = academyTransferStatus,
+            InPrepare = inPrepare,
+            InComplete = inComplete,
+            AcademyName = academyName,
+            AcademyURN = academyUrn,
+            StatutoryLowestAge = statutoryLowestAge,
+            StatutoryHighestAge = statutoryHighestAge,
+            LocalAuthority = localAuthority,
+            ExpectedTransferDate = expectedTransferDate
+        });
     }
 }
 

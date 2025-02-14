@@ -1,49 +1,26 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
-using System.Collections.Generic;
+﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories.PipelineEstablishmentRepository;
 
 public class GetAcademiesPipelineSummaryAsyncTests
 {
-    private readonly MockAcademiesDbContext _mockContext;
-
-    private readonly List<MstrAcademyConversions> _academyConversions;
-    private readonly List<MstrAcademyTransfers> _academyTransfers;
-    private readonly List<MstrFreeSchoolProject> _freeSchoolProjects;
+    private readonly MockAcademiesDbContext _mockContext = new();
+    private readonly AcademiesDb.Repositories.PipelineEstablishmentRepository _sut;
 
     public GetAcademiesPipelineSummaryAsyncTests()
     {
-        // Create mock context
-        _mockContext = new MockAcademiesDbContext();
-
-        _academyConversions = new List<MstrAcademyConversions>();
-        _academyTransfers = new List<MstrAcademyTransfers>();
-        _freeSchoolProjects = new List<MstrFreeSchoolProject>();
-
-        // use mock context to setup above lists for testing purposes
-        _mockContext.SetupMockDbContext(_academyConversions, db => db.MstrAcademyConversions);
-        _mockContext.SetupMockDbContext(_academyTransfers, db => db.MstrAcademyTransfers);
-        _mockContext.SetupMockDbContext(_freeSchoolProjects, db => db.MstrFreeSchoolProjects);
+        _sut = new AcademiesDb.Repositories.PipelineEstablishmentRepository(_mockContext.Object);
     }
 
     [Fact]
     public async Task ForFreeSchool_ShouldCalculateCorrectNumberOfResults()
     {
-        string trustReferences = "TRU123";
+        var trustReferences = "TRU123";
 
-        _freeSchoolProjects.Add(new MstrFreeSchoolProject
-        {
-            SK = 1,
-            TrustID = trustReferences,
-            Stage = PipelineStatuses.FreeSchoolPipeline,
-            RouteOfProject = "FreeRoute"
-        });
+        _mockContext.AddMstrFreeSchoolProject(trustReferences, PipelineStatuses.FreeSchoolPipeline, "FreeRoute");
 
-        var repository = new AcademiesDb.Repositories.PipelineEstablishmentRepository(_mockContext.Object);
-
-        var result = await repository.GetAcademiesPipelineSummaryAsync(trustReferences);
+        var result = await _sut.GetAcademiesPipelineSummaryAsync(trustReferences);
 
         result.FreeSchoolsCount.Should().Be(1);
         result.PreAdvisoryCount.Should().Be(0);
@@ -55,36 +32,29 @@ public class GetAcademiesPipelineSummaryAsyncTests
     [InlineData(null, true, 0)]
     [InlineData(true, null, 0)]
     [InlineData(true, false, 2)]
-    public async Task ForPreAdvisoryConversion_ShouldCalculateCorrectCount(bool? inPrepare, bool? inComplete, int expectedCount)
+    public async Task ForPreAdvisoryConversion_ShouldCalculateCorrectCount(bool? inPrepare, bool? inComplete,
+        int expectedCount)
     {
-        string trustReference = "TRU123";
+        var trustReference = "TRU123";
 
-        _academyConversions.Add(new MstrAcademyConversions
-        {
-            SK = 2,
-            TrustID = trustReference,
-            ProjectStatus = PipelineStatuses.ApprovedForAO,
-            RouteOfProject = ProjectType.Conversion,
-            InPrepare = inPrepare,
-            InComplete = inComplete,
-        });
+        _mockContext.AddMstrAcademyConversion(
+            trustReference,
+            PipelineStatuses.ApprovedForAO,
+            routeOfProject: ProjectType.Conversion,
+            inPrepare: inPrepare,
+            inComplete: inComplete);
 
-        _academyTransfers.Add(new MstrAcademyTransfers
-        {
-            SK = 3,
-            InPrepare = inPrepare,
-            InComplete = inComplete,
-            NewProvisionalTrustID = trustReference,
-            AcademyTransferStatus = PipelineStatuses.InProcessOfAcademyTransfer,
-        });
+        _mockContext.AddMstrAcademyTransfer(
+            trustReference,
+            inPrepare: inPrepare,
+            inComplete: inComplete,
+            academyTransferStatus: PipelineStatuses.InProcessOfAcademyTransfer
+        );
 
-        var repository = new AcademiesDb.Repositories.PipelineEstablishmentRepository(_mockContext.Object);
-
-        var result = await repository.GetAcademiesPipelineSummaryAsync(trustReference);
+        var result = await _sut.GetAcademiesPipelineSummaryAsync(trustReference);
 
         result.PreAdvisoryCount.Should().Be(expectedCount);
     }
-
 
 
     [Theory]
@@ -92,32 +62,26 @@ public class GetAcademiesPipelineSummaryAsyncTests
     [InlineData(true, true, 2)]
     [InlineData(true, null, 0)]
     [InlineData(true, false, 0)]
-    public async Task ForPostAdvisoryConversion_ShouldCalculateCorrectCount(bool? inPrepare, bool? inComplete, int expectedCount)
+    public async Task ForPostAdvisoryConversion_ShouldCalculateCorrectCount(bool? inPrepare, bool? inComplete,
+        int expectedCount)
     {
-        string trustReference = "TRU123";
+        var trustReference = "TRU123";
 
-        _academyConversions.Add(new MstrAcademyConversions
-        {
-            SK = 2,
-            TrustID = trustReference,
-            ProjectStatus = PipelineStatuses.ApprovedForAO,
-            RouteOfProject = ProjectType.Conversion,
-            InPrepare = inPrepare,
-            InComplete = inComplete,
-        });
+        _mockContext.AddMstrAcademyConversion(
+            trustReference,
+            PipelineStatuses.ApprovedForAO,
+            inPrepare,
+            inComplete
+        );
 
-        _academyTransfers.Add(new MstrAcademyTransfers
-        {
-            SK = 3,
-            InPrepare = inPrepare,
-            InComplete = inComplete,
-            NewProvisionalTrustID = trustReference,
-            AcademyTransferStatus = PipelineStatuses.InProcessOfAcademyTransfer,
-        });
+        _mockContext.AddMstrAcademyTransfer(
+            trustReference,
+            PipelineStatuses.InProcessOfAcademyTransfer,
+            inPrepare,
+            inComplete
+        );
 
-        var repository = new AcademiesDb.Repositories.PipelineEstablishmentRepository(_mockContext.Object);
-
-        var result = await repository.GetAcademiesPipelineSummaryAsync(trustReference);
+        var result = await _sut.GetAcademiesPipelineSummaryAsync(trustReference);
 
         result.PostAdvisoryCount.Should().Be(expectedCount);
     }
@@ -125,19 +89,14 @@ public class GetAcademiesPipelineSummaryAsyncTests
     [Fact]
     public async Task IfFreeSchoolExists_ShouldReurnCorrectNumberOfFreeSchools()
     {
-        string freeSchoolTrust = "FREE";
+        var freeSchoolTrust = "FREE";
 
-        _freeSchoolProjects.Add(new MstrFreeSchoolProject
-        {
-            SK = _freeSchoolProjects.Count + 1,
-            TrustID = freeSchoolTrust,
-            Stage = PipelineStatuses.FreeSchoolPipeline,
-            RouteOfProject = "FreeRoute"
-        });
-            
-        var repository = new AcademiesDb.Repositories.PipelineEstablishmentRepository(_mockContext.Object);
+        _mockContext.AddMstrFreeSchoolProject(
+            freeSchoolTrust,
+            PipelineStatuses.FreeSchoolPipeline,
+            "FreeRoute");
 
-        var result = await repository.GetAcademiesPipelineSummaryAsync(freeSchoolTrust);
+        var result = await _sut.GetAcademiesPipelineSummaryAsync(freeSchoolTrust);
 
         result.FreeSchoolsCount.Should().Be(1);
     }
@@ -145,19 +104,14 @@ public class GetAcademiesPipelineSummaryAsyncTests
     [Fact]
     public async Task IfFreeSchoolPipelineIsNotFreeSchool_ShouldReturnCountOf0()
     {
-        string freeSchoolTrust = "FREE";
+        var freeSchoolTrust = "FREE";
 
-        _freeSchoolProjects.Add(new MstrFreeSchoolProject
-        {
-            SK = _freeSchoolProjects.Count + 1,
-            TrustID = freeSchoolTrust,
-            Stage = PipelineStatuses.ApprovedForAO,
-            RouteOfProject = "FreeRoute"
-        });
+        _mockContext.AddMstrFreeSchoolProject(
+            freeSchoolTrust,
+            PipelineStatuses.ApprovedForAO,
+            "FreeRoute");
 
-        var repository = new AcademiesDb.Repositories.PipelineEstablishmentRepository(_mockContext.Object);
-
-        var result = await repository.GetAcademiesPipelineSummaryAsync(freeSchoolTrust);
+        var result = await _sut.GetAcademiesPipelineSummaryAsync(freeSchoolTrust);
 
         result.FreeSchoolsCount.Should().Be(0);
     }
@@ -165,19 +119,14 @@ public class GetAcademiesPipelineSummaryAsyncTests
     [Fact]
     public async Task IfTrustDoesNotHaveFreeSchools_ShouldReturnCountOf0()
     {
-        string freeSchoolTrust = "FREE";
+        var freeSchoolTrust = "FREE";
 
-        _freeSchoolProjects.Add(new MstrFreeSchoolProject
-        {
-            SK = _freeSchoolProjects.Count + 1,
-            TrustID = freeSchoolTrust,
-            Stage = PipelineStatuses.FreeSchoolPipeline,
-            RouteOfProject = "FreeRoute"
-        });
+        _mockContext.AddMstrFreeSchoolProject(
+            freeSchoolTrust,
+            PipelineStatuses.FreeSchoolPipeline,
+            "FreeRoute");
 
-        var repository = new AcademiesDb.Repositories.PipelineEstablishmentRepository(_mockContext.Object);
-
-        var result = await repository.GetAcademiesPipelineSummaryAsync("SomeOtherTrust");
+        var result = await _sut.GetAcademiesPipelineSummaryAsync("SomeOtherTrust");
 
         result.FreeSchoolsCount.Should().Be(0);
     }
