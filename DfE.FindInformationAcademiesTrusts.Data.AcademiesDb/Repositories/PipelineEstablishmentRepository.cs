@@ -149,14 +149,14 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
             );
         }
 
-        private IQueryable<MstrAcademyConversions> ConversionsBaseQuery(string trustReferenceNumber)
+        private IQueryable<MstrAcademyConversion> ConversionsBaseQuery(string trustReferenceNumber)
         {
             return academiesDbContext.MstrAcademyConversions
                 .Where(conv => conv.TrustID == trustReferenceNumber)
                 .Where(conv => ConversionStatuses.Contains(conv.ProjectStatus));
         }
 
-        private IQueryable<MstrAcademyTransfers> TransfersBaseQuery(string trustReferenceNumber)
+        private IQueryable<MstrAcademyTransfer> TransfersBaseQuery(string trustReferenceNumber)
         {
             return academiesDbContext.MstrAcademyTransfers
                 .Where(t => t.NewProvisionalTrustID == trustReferenceNumber)

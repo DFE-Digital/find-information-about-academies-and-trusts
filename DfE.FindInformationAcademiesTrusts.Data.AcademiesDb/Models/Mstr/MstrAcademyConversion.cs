@@ -1,13 +1,11 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 
 [ExcludeFromCodeCoverage] // Database model POCO
-public class MstrAcademyConversions : IInComplete, IInPrepare
+public class MstrAcademyConversion : IInComplete, IInPrepare
 {
     public int SK { get; set; }
-
     public string? ProjectID { get; set; }
     public string? ProjectName { get; set; }
     public int? URN { get; set; }

@@ -34,8 +34,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 
     //mstr
     private readonly List<MstrTrust> _mstrTrusts = [];
-    private readonly List<MstrAcademyConversions> _mstrAcademyConversions = [];
-    private readonly List<MstrAcademyTransfers> _mstrAcademyTransfers = [];
+    private readonly List<MstrAcademyConversion> _mstrAcademyConversions = [];
+    private readonly List<MstrAcademyTransfer> _mstrAcademyTransfers = [];
 
     private readonly List<MstrFreeSchoolProject> _mstrFreeSchoolProjects = [];
 
@@ -299,7 +299,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         int? statutoryHighestAge = null,
         DateTime? expectedOpeningDate = null)
     {
-        _mstrAcademyConversions.Add(new MstrAcademyConversions
+        _mstrAcademyConversions.Add(new MstrAcademyConversion
         {
             SK = _mstrAcademyConversions.GetNextId(e => e.SK),
             TrustID = trustId,
@@ -327,7 +327,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         DateTime? expectedTransferDate = null,
         DateTime? lastDataRefresh = null)
     {
-        _mstrAcademyTransfers.Add(new MstrAcademyTransfers
+        _mstrAcademyTransfers.Add(new MstrAcademyTransfer
         {
             SK = _mstrAcademyTransfers.GetNextId(e => e.SK),
             NewProvisionalTrustID = newProvisionalTrustId,
