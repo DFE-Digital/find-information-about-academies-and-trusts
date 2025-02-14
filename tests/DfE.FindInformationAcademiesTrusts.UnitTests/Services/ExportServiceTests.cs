@@ -2,6 +2,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
+using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using FluentAssertions.Execution;
@@ -13,6 +14,7 @@ public class ExportServiceTests
     private readonly Mock<IDateTimeProvider> _mockDateTimeProvider;
     private readonly Mock<IAcademyRepository> _mockAcademyRepository;
     private readonly Mock<ITrustRepository> _mockTrustRepository;
+    private readonly Mock<IAcademyService> _mockAcademyService;
     private readonly ExportService _sut;
 
     public ExportServiceTests()
@@ -20,10 +22,11 @@ public class ExportServiceTests
         _mockDateTimeProvider = new Mock<IDateTimeProvider>();
         _mockAcademyRepository = new Mock<IAcademyRepository>();
         _mockTrustRepository = new Mock<ITrustRepository>();
+        _mockAcademyService = new Mock<IAcademyService>();
 
         _mockDateTimeProvider.Setup(m => m.Now).Returns(DateTime.Now);
 
-        _sut = new ExportService(_mockAcademyRepository.Object, _mockTrustRepository.Object);
+        _sut = new ExportService(_mockAcademyRepository.Object, _mockTrustRepository.Object, _mockAcademyService.Object);
     }
 
     [Fact]
