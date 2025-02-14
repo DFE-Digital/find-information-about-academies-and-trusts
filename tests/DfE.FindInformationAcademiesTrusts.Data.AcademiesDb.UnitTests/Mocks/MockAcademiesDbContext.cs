@@ -268,7 +268,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         int? statutoryHighestAge = null,
         int? newUrn = null,
         string? localAuthority = null,
-        DateTime? actualDateOpened = null)
+        DateTime? actualDateOpened = null,
+        DateTime? lastDataRefresh = null)
     {
         _mstrFreeSchoolProjects.Add(new MstrFreeSchoolProject
         {
@@ -281,7 +282,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             StatutoryHighestAge = statutoryHighestAge,
             NewURN = newUrn,
             LocalAuthority = localAuthority,
-            ActualDateOpened = actualDateOpened
+            ActualDateOpened = actualDateOpened,
+            LastDataRefresh = lastDataRefresh
         });
     }
 
@@ -313,8 +315,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         });
     }
 
-    public void AddMstrAcademyTransfer(
-        string newProvisionalTrustId,
+    public void AddMstrAcademyTransfer(string newProvisionalTrustId,
         string academyTransferStatus,
         bool? inPrepare,
         bool? inComplete,
@@ -323,7 +324,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         int? statutoryLowestAge = null,
         int? statutoryHighestAge = null,
         string? localAuthority = null,
-        DateTime? expectedTransferDate = null)
+        DateTime? expectedTransferDate = null,
+        DateTime? lastDataRefresh = null)
     {
         _mstrAcademyTransfers.Add(new MstrAcademyTransfers
         {
@@ -337,7 +339,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             StatutoryLowestAge = statutoryLowestAge,
             StatutoryHighestAge = statutoryHighestAge,
             LocalAuthority = localAuthority,
-            ExpectedTransferDate = expectedTransferDate
+            ExpectedTransferDate = expectedTransferDate,
+            LastDataRefresh = lastDataRefresh
         });
     }
 }
