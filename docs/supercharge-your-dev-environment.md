@@ -79,6 +79,7 @@ Alternatively, you add the following to your [settings.json file](https://code.v
     "typescript.format.semicolons": "insert"
 }
 ```
+
 ### Linting Sonar rules
 
 Include the following extension in your IDE installation: [SonarQube for IDE](https://marketplace.visualstudio.com/items?itemName=SonarSource.sonarlint-vscode)
@@ -93,6 +94,9 @@ Update your [settings.json file](https://code.visualstudio.com/docs/getstarted/s
         "disableNotifications": false
     }   
 ]
+```
+
+
 ```
 
 Then follow [these steps](https://youtu.be/m8sAdYCIWhY) to connect to the SonarCloud instance.
