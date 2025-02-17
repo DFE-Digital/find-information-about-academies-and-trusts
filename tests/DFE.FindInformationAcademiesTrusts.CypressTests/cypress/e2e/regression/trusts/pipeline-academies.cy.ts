@@ -1,6 +1,7 @@
 import commonPage from "../../../pages/commonPage";
 import pipelineAcademiesPage from "../../../pages/trusts/pipelineAcademiesPage";
 import navigation from "../../../pages/navigation";
+import { TestDataStore } from "../../../support/test-data-store";
 
 const testPreAdvisoryData = [
     {
@@ -146,7 +147,7 @@ describe("Testing the Pipeline academies pages", () => {
         });
     });
 
-    describe.only(`On the pages with no pipeline academy data under them`, () => {
+    describe(`On the pages with no pipeline academy data under them`, () => {
 
         beforeEach(() => {
             cy.login();
@@ -168,6 +169,26 @@ describe("Testing the Pipeline academies pages", () => {
             cy.visit(`/trusts/academies/pipeline/free-schools?uid=5712`);
             pipelineAcademiesPage
                 .checkFreeSchoolsNoAcademyPresent();
+        });
+    });
+
+    describe("Testing a trust that has no ofsted data within it to ensure the issue of a 500 page appearing does not happen", () => {
+        beforeEach(() => {
+            cy.login();
+            commonPage
+                .interceptAndVerifyNo500Errors();
+        });
+
+        it(`Should have no 500 error on the Pre advisory page`, () => {
+            cy.visit(`/trusts/academies/pipeline/pre-advisory-board?uid=5712`);
+        });
+
+        it(`Should have no 500 error on the Post advisory page`, () => {
+            cy.visit(`/trusts/academies/pipeline/post-advisory-board?uid=5712`);
+        });
+
+        it(`Should have no 500 error on the free schools page`, () => {
+            cy.visit(`/trusts/academies/pipeline/free-schools?uid=5712`);
         });
     });
 
