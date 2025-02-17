@@ -18,11 +18,7 @@ public interface IExportService
 
 public class ExportService(IAcademyRepository academyRepository, ITrustRepository trustRepository, IAcademyService academyService, ITrustService trustService) : IExportService
 {
-    internal readonly IAcademyService AcademyService = academyService;
-    
     private const string BeforeOrAfterJoiningHeader = "Before/After Joining";
-    
-    public string TrustReferenceNumber { get; set; } = default!;
 
     public async Task<byte[]> ExportAcademiesToSpreadsheetAsync(string uid)
     {
@@ -313,11 +309,10 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
         };
         
         var trustSummary = await trustRepository.GetTrustSummaryAsync(uid);
-        // var trustReferenceNumber = await AcademyService.GetAcademyTrustTrustReferenceNumberAsync(uid);
-        TrustReferenceNumber = await trustService.GetTrustReferenceNumberAsync(uid);
-        var preAdvisoryAcademies = await AcademyService.GetAcademiesPipelinePreAdvisoryAsync(TrustReferenceNumber);
-        var postAdvisoryAcademies = await AcademyService.GetAcademiesPipelinePostAdvisoryAsync(TrustReferenceNumber);
-        var freeSchools = await AcademyService.GetAcademiesPipelineFreeSchoolsAsync(TrustReferenceNumber);
+        var trustReferenceNumber = await trustService.GetTrustReferenceNumberAsync(uid);
+        var preAdvisoryAcademies = await academyService.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber);
+        var postAdvisoryAcademies = await academyService.GetAcademiesPipelinePostAdvisoryAsync(trustReferenceNumber);
+        var freeSchools = await academyService.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber);
         
         return GeneratePipelineAcademiesSpreadsheet(
             trustSummary,
