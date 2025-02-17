@@ -25,10 +25,11 @@ describe("Testing the Ofsted page and its subpages ", () => {
                     cy.task('clearDownloads', 'cypress/downloads');
                 }
             });
+            cy.visit(`/trusts/ofsted/single-headline-grades?uid=5527`);
         });
 
         it("Checks the correct Ofsted single headline grades subpage header is present", () => {
-            cy.visit(`/trusts/ofsted/single-headline-grades?uid=5527`);
+
             ofstedPage
                 .checkOfstedSHGPageHeaderPresent();
         });
