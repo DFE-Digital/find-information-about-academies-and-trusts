@@ -15,6 +15,7 @@ public class ExportServiceTests
     private readonly Mock<IAcademyRepository> _mockAcademyRepository;
     private readonly Mock<ITrustRepository> _mockTrustRepository;
     private readonly Mock<IAcademyService> _mockAcademyService;
+    private readonly Mock<ITrustService> _mockTrustService;
     private readonly ExportService _sut;
 
     public ExportServiceTests()
@@ -23,10 +24,11 @@ public class ExportServiceTests
         _mockAcademyRepository = new Mock<IAcademyRepository>();
         _mockTrustRepository = new Mock<ITrustRepository>();
         _mockAcademyService = new Mock<IAcademyService>();
+        _mockTrustService = new Mock<ITrustService>();
 
         _mockDateTimeProvider.Setup(m => m.Now).Returns(DateTime.Now);
 
-        _sut = new ExportService(_mockAcademyRepository.Object, _mockTrustRepository.Object, _mockAcademyService.Object);
+        _sut = new ExportService(_mockAcademyRepository.Object, _mockTrustRepository.Object, _mockAcademyService.Object, _mockTrustService.Object);
     }
 
     [Fact]
@@ -584,7 +586,7 @@ public class ExportServiceTests
         _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(trustSummary.Uid)).ReturnsAsync(
             new TrustSummary("Sample Trust", "Multi-academy trust"));
 
-        _mockAcademyService.Setup(m => m.GetAcademyTrustTrustReferenceNumberAsync(trustSummary.Uid)).ReturnsAsync(
+        _mockTrustService.Setup(m => m.GetTrustReferenceNumberAsync(trustSummary.Uid)).ReturnsAsync(
                 "TRN1111"
             );
 
@@ -653,7 +655,7 @@ public class ExportServiceTests
         _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(trustSummary.Uid)).ReturnsAsync(
             new TrustSummary("Sample Trust", "Multi-academy trust"));
 
-        _mockAcademyService.Setup(m => m.GetAcademyTrustTrustReferenceNumberAsync(trustSummary.Uid)).ReturnsAsync(
+        _mockTrustService.Setup(m => m.GetTrustReferenceNumberAsync(trustSummary.Uid)).ReturnsAsync(
                 "TRN1111"
             );
 
@@ -715,7 +717,7 @@ public class ExportServiceTests
         _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(trustSummary.Uid)).ReturnsAsync(
             new TrustSummary("Sample Trust", "Multi-academy trust"));
 
-        _mockAcademyService.Setup(m => m.GetAcademyTrustTrustReferenceNumberAsync(trustSummary.Uid)).ReturnsAsync(
+        _mockTrustService.Setup(m => m.GetTrustReferenceNumberAsync(trustSummary.Uid)).ReturnsAsync(
             "TRN1111"
         );
 

@@ -5,6 +5,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Extensions;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
+using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.Export;
 
@@ -15,11 +16,13 @@ public interface IExportService
     Task<byte[]> ExportPipelineAcademiesToSpreadsheetAsync(string uid);
 }
 
-public class ExportService(IAcademyRepository academyRepository, ITrustRepository trustRepository, IAcademyService academyService) : IExportService
+public class ExportService(IAcademyRepository academyRepository, ITrustRepository trustRepository, IAcademyService academyService, ITrustService trustService) : IExportService
 {
     internal readonly IAcademyService AcademyService = academyService;
     
     private const string BeforeOrAfterJoiningHeader = "Before/After Joining";
+    
+    public string TrustReferenceNumber { get; set; } = default!;
 
     public async Task<byte[]> ExportAcademiesToSpreadsheetAsync(string uid)
     {
@@ -310,10 +313,11 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
         };
         
         var trustSummary = await trustRepository.GetTrustSummaryAsync(uid);
-        var trustReferenceNumber = await AcademyService.GetAcademyTrustTrustReferenceNumberAsync(uid);
-        var preAdvisoryAcademies = await AcademyService.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber);
-        var postAdvisoryAcademies = await AcademyService.GetAcademiesPipelinePostAdvisoryAsync(trustReferenceNumber);
-        var freeSchools = await AcademyService.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber);
+        // var trustReferenceNumber = await AcademyService.GetAcademyTrustTrustReferenceNumberAsync(uid);
+        TrustReferenceNumber = await trustService.GetTrustReferenceNumberAsync(uid);
+        var preAdvisoryAcademies = await AcademyService.GetAcademiesPipelinePreAdvisoryAsync(TrustReferenceNumber);
+        var postAdvisoryAcademies = await AcademyService.GetAcademiesPipelinePostAdvisoryAsync(TrustReferenceNumber);
+        var freeSchools = await AcademyService.GetAcademiesPipelineFreeSchoolsAsync(TrustReferenceNumber);
         
         return GeneratePipelineAcademiesSpreadsheet(
             trustSummary,
