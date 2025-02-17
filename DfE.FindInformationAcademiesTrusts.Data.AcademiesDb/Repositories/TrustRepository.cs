@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Exceptions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
@@ -168,11 +169,19 @@ public class TrustRepository(
         );
     }
 
-    public async Task<string?> GetAcademyTrustTrustReferenceNumberAsync(string uid)
+    public async Task<string> GetTrustReferenceNumberAsync(string uid)
     {
-        return await academiesDbContext.Groups
+        var trustReferenceNumber = await academiesDbContext.Groups
             .Where(gl => gl.GroupUid == uid)
             .Select(gl => gl.GroupId)
-            .FirstOrDefaultAsync();
+            .SingleAsync();
+
+        if (trustReferenceNumber is null)
+        {
+            throw new DataIntegrityException(
+                $"Trust reference number not found for UID {uid}. This record is broken in Academies Db GIAS groups table.");
+        }
+
+        return trustReferenceNumber;
     }
 }

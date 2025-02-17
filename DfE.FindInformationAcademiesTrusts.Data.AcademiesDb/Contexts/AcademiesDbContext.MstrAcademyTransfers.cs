@@ -1,17 +1,17 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Converters;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
+using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 public partial class AcademiesDbContext
 {
-    public DbSet<MstrAcademyTransfers> MstrAcademyTransfers { get; set; }
+    public DbSet<MstrAcademyTransfer> MstrAcademyTransfers { get; set; }
 
     [ExcludeFromCodeCoverage]
     protected static void OnModelCreatingMstrAcademyTransfers(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<MstrAcademyTransfers>(entity =>
+        modelBuilder.Entity<MstrAcademyTransfer>(entity =>
         {
             entity.HasKey(e => e.SK);
 

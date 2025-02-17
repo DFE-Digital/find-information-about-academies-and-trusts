@@ -41,10 +41,10 @@ public abstract class PipelineAcademiesAreaModel(
         TabList =
         [
             new TrustTabNavigationLinkModel($"Pre advisory board ({PipelineSummary.PreAdvisoryCount})",
-                "./PreAdvisoryBoard", Uid, "Pipeline", this is PreAdvisoryBoardModel),
+                "./PreAdvisoryBoard", "Pipeline", this is PreAdvisoryBoardModel),
             new TrustTabNavigationLinkModel($"Post advisory board ({PipelineSummary.PostAdvisoryCount})",
-                "./PostAdvisoryBoard", Uid, "Pipeline", this is PostAdvisoryBoardModel),
-            new TrustTabNavigationLinkModel($"Free schools ({PipelineSummary.FreeSchoolsCount})", "./FreeSchools", Uid,
+                "./PostAdvisoryBoard", "Pipeline", this is PostAdvisoryBoardModel),
+            new TrustTabNavigationLinkModel($"Free schools ({PipelineSummary.FreeSchoolsCount})", "./FreeSchools",
                 "Pipeline", this is FreeSchoolsModel)
         ];
         var prepareSource = await DataSourceService.GetAsync(Source.Prepare);

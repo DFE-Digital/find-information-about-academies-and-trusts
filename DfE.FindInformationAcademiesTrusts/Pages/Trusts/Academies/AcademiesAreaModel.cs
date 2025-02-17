@@ -41,7 +41,7 @@ public abstract class AcademiesAreaModel(
         var pageResult = await base.OnGetAsync();
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
-        TrustReferenceNumber = await AcademyService.GetAcademyTrustTrustReferenceNumberAsync(Uid);
+        TrustReferenceNumber = await TrustService.GetTrustReferenceNumberAsync(Uid);
 
         PipelineSummary = await AcademyService.GetAcademiesPipelineSummaryAsync(TrustReferenceNumber);
         SubNavigationLinks =

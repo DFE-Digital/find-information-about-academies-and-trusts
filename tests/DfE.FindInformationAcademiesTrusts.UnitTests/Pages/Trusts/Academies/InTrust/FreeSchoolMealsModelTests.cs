@@ -1,29 +1,25 @@
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
-using Microsoft.FeatureManagement;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
 
 public class FreeSchoolMealsModelTests : AcademiesInTrustAreaModelTests<FreeSchoolMealsModel>
 {
-    private readonly Mock<IAcademyService> _mockAcademyService = new();
-    private readonly Mock<IFeatureManager> _mockFeatureManager = new();
-
     public FreeSchoolMealsModelTests()
     {
         Sut = new FreeSchoolMealsModel(MockDataSourceService.Object,
-                                       new MockLogger<FreeSchoolMealsModel>().Object,
-                                       MockTrustService.Object,
-                                       _mockAcademyService.Object,
-                                       MockExportService.Object,
-                                       MockDateTimeProvider.Object,
-                                       _mockFeatureManager.Object)
-        { Uid = TrustUid };
+                new MockLogger<FreeSchoolMealsModel>().Object,
+                MockTrustService.Object,
+                MockAcademyService.Object,
+                MockExportService.Object,
+                MockDateTimeProvider.Object,
+                MockFeatureManager.Object)
+            { Uid = TrustUid };
     }
 
     [Fact]
-    public async Task OnGetAsync_sets_academies_from_academyService()
+    public override async Task OnGetAsync_sets_academies_from_academyService()
     {
         var academies = new[]
         {
@@ -31,7 +27,7 @@ public class FreeSchoolMealsModelTests : AcademiesInTrustAreaModelTests<FreeScho
             new AcademyFreeSchoolMealsServiceModel("2", "Academy 2", null, 70.1, 64.1),
             new AcademyFreeSchoolMealsServiceModel("3", "Academy 3", 8.2, 4, 10)
         };
-        _mockAcademyService.Setup(a => a.GetAcademiesInTrustFreeSchoolMealsAsync(Sut.Uid))
+        MockAcademyService.Setup(a => a.GetAcademiesInTrustFreeSchoolMealsAsync(Sut.Uid))
             .ReturnsAsync(academies);
 
         _ = await Sut.OnGetAsync();
@@ -45,5 +41,14 @@ public class FreeSchoolMealsModelTests : AcademiesInTrustAreaModelTests<FreeScho
         _ = await Sut.OnGetAsync();
 
         Sut.TrustPageMetadata.TabName.Should().Be("Free school meals");
+    }
+
+    [Fact]
+    public override async Task OnGetAsync_should_set_active_TabList_to_current_tab()
+    {
+        _ = await Sut.OnGetAsync();
+
+        Sut.TabList.Should().ContainSingle(l => l.LinkIsActive)
+            .Which.TabPageLink.Should().Be("./FreeSchoolMeals");
     }
 }

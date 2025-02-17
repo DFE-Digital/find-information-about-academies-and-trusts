@@ -15,7 +15,8 @@
             @if (tab.LinkIsActive)
             {
                 <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-                    <a id="@tab.TestId-link" class="govuk-tabs__tab" asp-page="@tab.SubPageLink" asp-route-uid="@Model.TrustSummary.Uid" data-testid="@tab.TestId">
+                    <a id="@tab.TestId-link" class="govuk-tabs__tab" asp-page="@tab.TabPageLink"
+                       asp-route-uid="@Model.TrustSummary.Uid" data-testid="@tab.TestId">
                         <span class="govuk-visually-hidden">Academies </span>@tab.LinkText
                     </a>
                 </li>
@@ -23,7 +24,8 @@
             else
             {
                 <li class="govuk-tabs__list-item ">
-                    <a id="@tab.TestId-link" class="govuk-tabs__tab" asp-page="@tab.SubPageLink" asp-route-uid="@Model.TrustSummary.Uid" data-testid="@tab.TestId">
+                    <a id="@tab.TestId-link" class="govuk-tabs__tab" asp-page="@tab.TabPageLink"
+                       asp-route-uid="@Model.TrustSummary.Uid" data-testid="@tab.TestId">
                         <span class="govuk-visually-hidden">Academies </span>@tab.LinkText
                     </a>
                 </li>
