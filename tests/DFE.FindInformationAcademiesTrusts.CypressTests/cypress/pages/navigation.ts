@@ -16,12 +16,12 @@ class Navigation {
         },
         currentPageSubnavLinks: () => cy.get('.moj-sub-navigation__link'),
         acadmiesInTrustSubNav: {
-            academiesInTrustofstedButton: () => cy.get('[data-testid="ofsted-nav"]'),
-            academiesInTrustpupilNumbersButton: () => cy.get('[data-testid="in-this-trust-pupil-numbers-tab"]'),
-            academiesInTrustfreeSchoolMealsButton: () => cy.get('[data-testid="in-this-trust-free-school-meals-tab"]'),
-            academiesInTrustdetailsButton: () => cy.get('[data-testid="in-this-trust-details-tab"]'),
+            academiesInTrustOfstedButton: () => cy.get('[data-testid="ofsted-nav"]'),
+            academiesInTrustPupilNumbersButton: () => cy.get('[data-testid="in-this-trust-pupil-numbers-tab"]'),
+            academiesInTrustFreeSchoolMealsButton: () => cy.get('[data-testid="in-this-trust-free-school-meals-tab"]'),
+            academiesInTrustDetailsButton: () => cy.get('[data-testid="in-this-trust-details-tab"]'),
         },
-        pipelineAcadmiesSubNav: {
+        pipelineAcademiesSubNav: {
             pipelineAcademiesPreAdvisoryButton: () => cy.get('[data-testid="pipeline-pre-advisory-board-tab"]'),
             pipelineAcademiesPostAdvisoryButton: () => cy.get('[data-testid="pipeline-post-advisory-board-tab"]'),
             pipelineAcademiesFreeSchoolMealsButton: () => cy.get('[data-testid="pipeline-free-schools-tab"]'),
@@ -156,36 +156,36 @@ class Navigation {
     }
 
     public clickOfstedAcadmiesTrustButton(): this {
-        this.elements.acadmiesInTrustSubNav.academiesInTrustofstedButton().click();
+        this.elements.acadmiesInTrustSubNav.academiesInTrustOfstedButton().click();
         return this;
     }
 
     public clickPupilNumbersAcadmiesTrustButton(): this {
-        this.elements.acadmiesInTrustSubNav.academiesInTrustpupilNumbersButton().click();
+        this.elements.acadmiesInTrustSubNav.academiesInTrustPupilNumbersButton().click();
         return this;
     }
 
     public clickFreeSchoolMealsAcadmiesTrustButton(): this {
-        this.elements.acadmiesInTrustSubNav.academiesInTrustfreeSchoolMealsButton().click();
+        this.elements.acadmiesInTrustSubNav.academiesInTrustFreeSchoolMealsButton().click();
         return this;
     }
 
     public clickDetailsAcadmiesTrustButton(): this {
-        this.elements.acadmiesInTrustSubNav.academiesInTrustdetailsButton().click();
+        this.elements.acadmiesInTrustSubNav.academiesInTrustDetailsButton().click();
         return this;
     }
 
     public checkAcademiesSubNavNotPresent(): this {
-        this.elements.acadmiesInTrustSubNav.academiesInTrustdetailsButton().should('not.exist');
-        this.elements.acadmiesInTrustSubNav.academiesInTrustpupilNumbersButton().should('not.exist');
-        this.elements.acadmiesInTrustSubNav.academiesInTrustfreeSchoolMealsButton().should('not.exist');
+        this.elements.acadmiesInTrustSubNav.academiesInTrustDetailsButton().should('not.exist');
+        this.elements.acadmiesInTrustSubNav.academiesInTrustPupilNumbersButton().should('not.exist');
+        this.elements.acadmiesInTrustSubNav.academiesInTrustFreeSchoolMealsButton().should('not.exist');
         return this;
     }
 
     public checkAllAcademiesNavItemsPresent(): this {
-        this.elements.acadmiesInTrustSubNav.academiesInTrustdetailsButton().should('be.visible');
-        this.elements.acadmiesInTrustSubNav.academiesInTrustpupilNumbersButton().should('be.visible');
-        this.elements.acadmiesInTrustSubNav.academiesInTrustfreeSchoolMealsButton().should('be.visible');
+        this.elements.acadmiesInTrustSubNav.academiesInTrustDetailsButton().should('be.visible');
+        this.elements.acadmiesInTrustSubNav.academiesInTrustPupilNumbersButton().should('be.visible');
+        this.elements.acadmiesInTrustSubNav.academiesInTrustFreeSchoolMealsButton().should('be.visible');
         return this;
     }
 
@@ -194,7 +194,7 @@ class Navigation {
         this.elements.serviceNav.contactsServiceNavButton().should('be.visible');
         this.elements.serviceNav.academiesServiceNavButton().should('be.visible');
         this.elements.serviceNav.governanceServiceNavButton().should('be.visible');
-        this.elements.acadmiesInTrustSubNav.academiesInTrustofstedButton().should('be.visible');
+        this.elements.acadmiesInTrustSubNav.academiesInTrustOfstedButton().should('be.visible');
         return this;
     }
 
@@ -209,17 +209,17 @@ class Navigation {
     }
 
     public clickPipelineAcademiesPreAdvisoryNavButton(): this {
-        this.elements.pipelineAcadmiesSubNav.pipelineAcademiesPreAdvisoryButton().click();
+        this.elements.pipelineAcademiesSubNav.pipelineAcademiesPreAdvisoryButton().click();
         return this;
     }
 
     public clickPipelineAcademiesPostAdvisoryNavButton(): this {
-        this.elements.pipelineAcadmiesSubNav.pipelineAcademiesPostAdvisoryButton().click();
+        this.elements.pipelineAcademiesSubNav.pipelineAcademiesPostAdvisoryButton().click();
         return this;
     }
 
     public clickPipelineAcademiesFreeSchoolsNavButton(): this {
-        this.elements.pipelineAcadmiesSubNav.pipelineAcademiesFreeSchoolMealsButton().click();
+        this.elements.pipelineAcademiesSubNav.pipelineAcademiesFreeSchoolMealsButton().click();
         return this;
     }
 }
