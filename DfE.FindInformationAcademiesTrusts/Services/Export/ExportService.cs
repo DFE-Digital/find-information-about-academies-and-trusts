@@ -5,7 +5,6 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Extensions;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
-using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.Export;
 
@@ -16,7 +15,7 @@ public interface IExportService
     Task<byte[]> ExportPipelineAcademiesToSpreadsheetAsync(string uid);
 }
 
-public class ExportService(IAcademyRepository academyRepository, ITrustRepository trustRepository, IAcademyService academyService, ITrustService trustService) : IExportService
+public class ExportService(IAcademyRepository academyRepository, ITrustRepository trustRepository, IAcademyService academyService) : IExportService
 {
     private const string BeforeOrAfterJoiningHeader = "Before/After Joining";
 
@@ -309,7 +308,7 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
         };
         
         var trustSummary = await trustRepository.GetTrustSummaryAsync(uid);
-        var trustReferenceNumber = await trustService.GetTrustReferenceNumberAsync(uid);
+        var trustReferenceNumber = await trustRepository.GetTrustReferenceNumberAsync(uid);
         var preAdvisoryAcademies = await academyService.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber);
         var postAdvisoryAcademies = await academyService.GetAcademiesPipelinePostAdvisoryAsync(trustReferenceNumber);
         var freeSchools = await academyService.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber);

@@ -15,7 +15,6 @@ public class ExportServiceTests
     private readonly Mock<IAcademyRepository> _mockAcademyRepository;
     private readonly Mock<ITrustRepository> _mockTrustRepository;
     private readonly Mock<IAcademyService> _mockAcademyService;
-    private readonly Mock<ITrustService> _mockTrustService;
     private readonly ExportService _sut;
 
     public ExportServiceTests()
@@ -24,11 +23,10 @@ public class ExportServiceTests
         _mockAcademyRepository = new Mock<IAcademyRepository>();
         _mockTrustRepository = new Mock<ITrustRepository>();
         _mockAcademyService = new Mock<IAcademyService>();
-        _mockTrustService = new Mock<ITrustService>();
 
         _mockDateTimeProvider.Setup(m => m.Now).Returns(DateTime.Now);
 
-        _sut = new ExportService(_mockAcademyRepository.Object, _mockTrustRepository.Object, _mockAcademyService.Object, _mockTrustService.Object);
+        _sut = new ExportService(_mockAcademyRepository.Object, _mockTrustRepository.Object, _mockAcademyService.Object);
     }
 
     [Fact]
@@ -101,7 +99,7 @@ public class ExportServiceTests
         worksheet.Cell(4, 5).Value.ToString().Should().Be("Urban");
 
         // Check date joined is set as a date
-        worksheet.Cell(4, 6).DataType.Should().Be(ClosedXML.Excel.XLDataType.DateTime);
+        worksheet.Cell(4, 6).DataType.Should().Be(XLDataType.DateTime);
         worksheet.Cell(4, 6).GetValue<DateTime>().Should().BeCloseTo(now, TimeSpan.FromSeconds(1));
 
         worksheet.Cell(4, 7).Value.ToString().Should().Be("Not inspected");
@@ -111,7 +109,7 @@ public class ExportServiceTests
         worksheet.Cell(4, 11).Value.ToString().Should().Be("After Joining");
 
         // Current Ofsted date also as a date
-        worksheet.Cell(4, 12).DataType.Should().Be(ClosedXML.Excel.XLDataType.DateTime);
+        worksheet.Cell(4, 12).DataType.Should().Be(XLDataType.DateTime);
         worksheet.Cell(4, 12).GetValue<DateTime>().Should().BeCloseTo(now, TimeSpan.FromSeconds(1));
 
         worksheet.Cell(4, 13).Value.ToString().Should().Be("Primary");
@@ -586,7 +584,7 @@ public class ExportServiceTests
         _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(trustSummary.Uid)).ReturnsAsync(
             new TrustSummary("Sample Trust", "Multi-academy trust"));
 
-        _mockTrustService.Setup(m => m.GetTrustReferenceNumberAsync(trustSummary.Uid)).ReturnsAsync(
+        _mockTrustRepository.Setup(m => m.GetTrustReferenceNumberAsync(trustSummary.Uid)).ReturnsAsync(
                 "TRN1111"
             );
 
@@ -624,7 +622,7 @@ public class ExportServiceTests
         worksheet.Cell(5, 3).Value.ToString().Should().Be("4 - 11");
         worksheet.Cell(5, 4).Value.ToString().Should().Be("Local Authority 1");
         worksheet.Cell(5, 5).Value.ToString().Should().Be("Pre-advisory");
-        worksheet.Cell(5, 6).DataType.Should().Be(ClosedXML.Excel.XLDataType.DateTime);
+        worksheet.Cell(5, 6).DataType.Should().Be(XLDataType.DateTime);
         worksheet.Cell(5, 6).GetValue<DateTime>().Should().BeCloseTo(now, TimeSpan.FromSeconds(1));
         
         // Post-advisory
@@ -633,7 +631,7 @@ public class ExportServiceTests
         worksheet.Cell(8, 3).Value.ToString().Should().Be("2 - 11");
         worksheet.Cell(8, 4).Value.ToString().Should().Be("Local Authority 2");
         worksheet.Cell(8, 5).Value.ToString().Should().Be("Post-advisory");
-        worksheet.Cell(8, 6).DataType.Should().Be(ClosedXML.Excel.XLDataType.DateTime);
+        worksheet.Cell(8, 6).DataType.Should().Be(XLDataType.DateTime);
         worksheet.Cell(8, 6).GetValue<DateTime>().Should().BeCloseTo(now, TimeSpan.FromSeconds(1));
         
         // Free schools
@@ -642,9 +640,9 @@ public class ExportServiceTests
         worksheet.Cell(11, 3).Value.ToString().Should().Be("11 - 18");
         worksheet.Cell(11, 4).Value.ToString().Should().Be("Local Authority 3");
         worksheet.Cell(11, 5).Value.ToString().Should().Be("Free school");
-        worksheet.Cell(11, 6).DataType.Should().Be(ClosedXML.Excel.XLDataType.DateTime);
-        worksheet.Cell(11, 6).GetValue<DateTime>().Should().BeCloseTo(now, TimeSpan.FromSeconds(1));
-    }
+        worksheet.Cell(11, 6).DataType.Should().Be(XLDataType.DateTime);
+             worksheet.Cell(11, 6).GetValue<DateTime>().Should().BeCloseTo(now, TimeSpan.FromSeconds(1));
+         }
 
     [Fact]
     public async Task ExportPipelineAcademiesToSpreadsheet_ShouldCorrectlyHandleNullValuesAsync()
@@ -655,7 +653,7 @@ public class ExportServiceTests
         _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(trustSummary.Uid)).ReturnsAsync(
             new TrustSummary("Sample Trust", "Multi-academy trust"));
 
-        _mockTrustService.Setup(m => m.GetTrustReferenceNumberAsync(trustSummary.Uid)).ReturnsAsync(
+        _mockTrustRepository.Setup(m => m.GetTrustReferenceNumberAsync(trustSummary.Uid)).ReturnsAsync(
                 "TRN1111"
             );
 
@@ -717,7 +715,7 @@ public class ExportServiceTests
         _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(trustSummary.Uid)).ReturnsAsync(
             new TrustSummary("Sample Trust", "Multi-academy trust"));
 
-        _mockTrustService.Setup(m => m.GetTrustReferenceNumberAsync(trustSummary.Uid)).ReturnsAsync(
+        _mockTrustRepository.Setup(m => m.GetTrustReferenceNumberAsync(trustSummary.Uid)).ReturnsAsync(
             "TRN1111"
         );
 
