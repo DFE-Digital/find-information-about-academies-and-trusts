@@ -12,7 +12,7 @@ public class FreeSchoolsModelTests : BasePipelineAcademiesAreaModelTests<FreeSch
         Sut = new FreeSchoolsModel(
                 MockDataSourceService.Object, new MockLogger<FreeSchoolsModel>().Object,
                 MockTrustService.Object, MockAcademyService.Object, MockExportService.Object,
-                MockDateTimeProvider.Object, MockFeatureManager.Object)
+                MockDateTimeProvider.Object)
             { Uid = TrustUid };
     }
 

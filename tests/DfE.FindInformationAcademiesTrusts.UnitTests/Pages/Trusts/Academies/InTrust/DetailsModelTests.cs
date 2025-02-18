@@ -17,8 +17,7 @@ public class AcademiesDetailsModelTests : AcademiesInTrustAreaModelTests<Academi
                 MockTrustService.Object,
                 MockAcademyService.Object,
                 MockExportService.Object,
-                MockDateTimeProvider.Object,
-                MockFeatureManager.Object)
+                MockDateTimeProvider.Object)
             { Uid = TrustUid };
     }
 

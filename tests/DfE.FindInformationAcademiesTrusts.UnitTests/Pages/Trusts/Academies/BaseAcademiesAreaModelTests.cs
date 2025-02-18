@@ -1,8 +1,6 @@
-using DfE.FindInformationAcademiesTrusts.Configuration;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
-using Microsoft.FeatureManagement;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 
@@ -11,7 +9,6 @@ public abstract class BaseAcademiesAreaModelTests<T> : BaseTrustPageTests<T>, IT
 {
     protected readonly Mock<IAcademyService> MockAcademyService = new();
     protected readonly Mock<IExportService> MockExportService = new();
-    protected readonly Mock<IFeatureManager> MockFeatureManager = new();
     protected const string TrustReferenceNumber = "TRN00123";
 
     public BaseAcademiesAreaModelTests()
@@ -28,8 +25,6 @@ public abstract class BaseAcademiesAreaModelTests<T> : BaseTrustPageTests<T>, IT
         MockAcademyService
             .Setup(t => t.GetAcademiesPipelineSummaryAsync(TrustReferenceNumber))
             .ReturnsAsync(new AcademyPipelineSummaryServiceModel(1, 2, 3));
-
-        MockFeatureManager.Setup(s => s.IsEnabledAsync(FeatureFlags.PipelineAcademies)).ReturnsAsync(true);
     }
 
     [Fact]
@@ -58,24 +53,6 @@ public abstract class BaseAcademiesAreaModelTests<T> : BaseTrustPageTests<T>, IT
                 {
                     l.LinkText.Should().Be("Pipeline academies (6)");
                     l.SubPageLink.Should().Be("/Trusts/Academies/Pipeline/PreAdvisoryBoard");
-                    l.ServiceName.Should().Be("Academies");
-                }
-            );
-    }
-
-    [Fact]
-    public async Task OnGetAsync_should_populate_SubNavigationLinks_to_subpages_when_pipeline_feature_disabled()
-    {
-        MockFeatureManager.Setup(s => s.IsEnabledAsync(FeatureFlags.PipelineAcademies)).ReturnsAsync(false);
-
-        _ = await Sut.OnGetAsync();
-
-        Sut.SubNavigationLinks.Should()
-            .SatisfyRespectively(
-                l =>
-                {
-                    l.LinkText.Should().Be("In this trust (3)");
-                    l.SubPageLink.Should().Be("/Trusts/Academies/InTrust/Details");
                     l.ServiceName.Should().Be("Academies");
                 }
             );
