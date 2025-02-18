@@ -14,8 +14,7 @@ public class PupilNumbersModelTests : AcademiesInTrustAreaModelTests<PupilNumber
                 MockTrustService.Object,
                 MockAcademyService.Object,
                 MockExportService.Object,
-                MockDateTimeProvider.Object,
-                MockFeatureManager.Object)
+                MockDateTimeProvider.Object)
             { Uid = TrustUid };
     }
 
