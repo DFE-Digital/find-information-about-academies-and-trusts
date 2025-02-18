@@ -4,6 +4,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Extensions;
 using DfE.FindInformationAcademiesTrusts.Pages;
+using DfE.FindInformationAcademiesTrusts.Services.Academy;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.Export;
 
@@ -11,9 +12,10 @@ public interface IExportService
 {
     Task<byte[]> ExportAcademiesToSpreadsheetAsync(string uid);
     Task<byte[]> ExportOfstedDataToSpreadsheetAsync(string uid);
+    Task<byte[]> ExportPipelineAcademiesToSpreadsheetAsync(string uid);
 }
 
-public class ExportService(IAcademyRepository academyRepository, ITrustRepository trustRepository) : IExportService
+public class ExportService(IAcademyRepository academyRepository, ITrustRepository trustRepository, IAcademyService academyService) : IExportService
 {
     private const string BeforeOrAfterJoiningHeader = "Before/After Joining";
 
@@ -293,6 +295,121 @@ public class ExportService(IAcademyRepository academyRepository, ITrustRepositor
         SetTextCell(worksheet, rowNumber, 20, currentRating.CategoryOfConcern.ToDisplayString());
     }
 
+    public async Task<byte[]> ExportPipelineAcademiesToSpreadsheetAsync(string uid)
+    {
+        var headers = new List<string>
+        {
+            "School Name",
+            "URN",
+            "Age range",
+            "Local authority",
+            "Project type",
+            "Provisional opening date"
+        };
+        
+        var trustSummary = await trustRepository.GetTrustSummaryAsync(uid);
+        var trustReferenceNumber = await trustRepository.GetTrustReferenceNumberAsync(uid);
+        var preAdvisoryAcademies = await academyService.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber);
+        var postAdvisoryAcademies = await academyService.GetAcademiesPipelinePostAdvisoryAsync(trustReferenceNumber);
+        var freeSchools = await academyService.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber);
+        
+        return GeneratePipelineAcademiesSpreadsheet(
+            trustSummary,
+            headers,
+            preAdvisoryAcademies,
+            postAdvisoryAcademies,
+            freeSchools
+            );
+    }
+
+    private static byte[] GeneratePipelineAcademiesSpreadsheet(
+        TrustSummary? trustSummary,
+        List<string> headers,
+        AcademyPipelineServiceModel[] preAdvisoryAcademies, 
+        AcademyPipelineServiceModel[] postAdvisoryAcademies, 
+        AcademyPipelineServiceModel[] freeSchools)
+    {
+        using var workbook = new XLWorkbook();
+        var worksheet = workbook.Worksheets.Add("Pipeline Academies");
+        
+        WriteTrustInformation(worksheet, trustSummary);
+        WriteHeaders(worksheet, headers);
+
+        // Pre-advisory
+        GeneratePipelineAcademySectionHeading(worksheet, 4, "Pre-advisory academies");
+        
+        var startRowPreAdvisory = 5;
+        GeneratePipelineAcademySection(worksheet, startRowPreAdvisory, preAdvisoryAcademies);
+
+        var endRowPreAdvisory = startRowPreAdvisory + preAdvisoryAcademies.Length;
+        worksheet.Cell(endRowPreAdvisory, 1).Value = string.Empty;
+        
+        // Post-advisory
+        GeneratePipelineAcademySectionHeading(worksheet, endRowPreAdvisory + 1, "Post-advisory academies");
+        
+        var startRowPostAdvisory = endRowPreAdvisory + 2;
+        GeneratePipelineAcademySection(worksheet, startRowPostAdvisory, postAdvisoryAcademies);
+
+        var endRowPostAdvisory = startRowPostAdvisory + postAdvisoryAcademies.Length;
+        worksheet.Cell(endRowPostAdvisory, 1).Value = string.Empty;
+        
+        // Free schools
+        GeneratePipelineAcademySectionHeading(worksheet, endRowPostAdvisory + 1, "Free schools");
+        
+        var startRowFreeSchools = endRowPostAdvisory + 2;
+        GeneratePipelineAcademySection(worksheet, startRowFreeSchools, freeSchools);
+        
+        worksheet.Columns().AdjustToContents();
+        return SaveWorkbookToByteArray(workbook);
+    }
+
+    private static void GeneratePipelineAcademyRow(
+        IXLWorksheet worksheet,
+        int rowNumber,
+        AcademyPipelineServiceModel pipelineAcademy)
+    {
+        SetTextCell(worksheet, rowNumber, 1, pipelineAcademy.EstablishmentName ?? string.Empty);
+        SetTextCell(worksheet, rowNumber, 2, pipelineAcademy.Urn ?? string.Empty);
+        SetTextCell(worksheet, rowNumber, 3, pipelineAcademy.AgeRange != null
+            ? $"{pipelineAcademy.AgeRange.Minimum} - {pipelineAcademy.AgeRange.Maximum}"
+            : "Unconfirmed"
+        );
+        SetTextCell(worksheet, rowNumber, 4, pipelineAcademy.LocalAuthority ?? string.Empty);
+        SetTextCell(worksheet, rowNumber, 5, pipelineAcademy.ProjectType ?? string.Empty);
+
+        if (pipelineAcademy.ChangeDate != null)
+        {
+            SetDateCell(worksheet, rowNumber, 6, pipelineAcademy.ChangeDate);
+        }
+        else
+        {
+            SetTextCell(worksheet, rowNumber, 6, "Unconfirmed");
+        }
+    }
+
+    private static void GeneratePipelineAcademySection(
+        IXLWorksheet worksheet,
+        int startRow,
+        AcademyPipelineServiceModel[] pipelineAcademies)
+    {
+        for (var i = 0; i < pipelineAcademies.Length; i++)
+        {
+            var currentRow = startRow + i;
+            var pipelineAcademy = pipelineAcademies[i];
+            
+            GeneratePipelineAcademyRow(worksheet, currentRow, pipelineAcademy);
+        }
+    }
+
+    private static void GeneratePipelineAcademySectionHeading(
+        IXLWorksheet worksheet,
+        int row,
+        string heading)
+    {
+        worksheet.Cell(row, 1).Value = heading;
+        worksheet.Row(row).Style.Font.Bold = true;
+    }
+    
     private static void SetDateCell(IXLWorksheet worksheet, int row, int column, DateTime? dateValue)
     {
         var cell = worksheet.Cell(row, column);
