@@ -6,7 +6,7 @@
     Layout = "Academies/_AcademiesLayout";
 }
 
-<section class="app-table-container">
+<section class="app-table-container" data-testid="free-schools-table">
     @if (!Model.PipelineFreeSchools.Any())
     {
         <div class="govuk-body" data-testid="empty-state-message">
@@ -40,7 +40,7 @@
                         </td>
                         <td class="govuk-body govuk-table__cell" data-sort-value="@academy.LocalAuthority" data-testid="free-schools-local-authority">@academy.LocalAuthority.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
                         <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ProjectType" data-testid="free-schools-project-type">@academy.ProjectType.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
-                        <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ChangeDate" data-testid="free-schools-provisional-opening-date-header">
+                        <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ChangeDate" data-testid="free-schools-provisional-opening-date">
                             @academy.ChangeDate.ShowDateStringOrReplaceWithText(ViewConstants.UnconfirmedDateText)
                         </td>
                     </tr>
