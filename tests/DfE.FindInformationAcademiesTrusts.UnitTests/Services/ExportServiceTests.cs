@@ -5,6 +5,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
+using DocumentFormat.OpenXml.Wordprocessing;
 using FluentAssertions.Execution;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
@@ -403,26 +404,28 @@ public class ExportServiceTests
         var worksheet = workbook.Worksheet("Ofsted");
 
         // Verify headers on row 3
-        worksheet.Cell(3, 1).Value.ToString().Should().Be("School Name");
-        worksheet.Cell(3, 2).Value.ToString().Should().Be("Date Joined");
-        worksheet.Cell(3, 3).Value.ToString().Should().Be("Date of Current Inspection");
-        worksheet.Cell(3, 4).Value.ToString().Should().Be("Before/After Joining");
-        worksheet.Cell(3, 5).Value.ToString().Should().Be("Quality of Education");
-        worksheet.Cell(3, 6).Value.ToString().Should().Be("Behaviour and Attitudes");
-        worksheet.Cell(3, 7).Value.ToString().Should().Be("Personal Development");
-        worksheet.Cell(3, 8).Value.ToString().Should().Be("Leadership and Management");
-        worksheet.Cell(3, 9).Value.ToString().Should().Be("Early Years Provision");
-        worksheet.Cell(3, 10).Value.ToString().Should().Be("Sixth Form Provision");
-        worksheet.Cell(3, 11).Value.ToString().Should().Be("Date of Previous Inspection");
-        worksheet.Cell(3, 12).Value.ToString().Should().Be("Before/After Joining");
-        worksheet.Cell(3, 13).Value.ToString().Should().Be("Previous Quality of Education");
-        worksheet.Cell(3, 14).Value.ToString().Should().Be("Previous Behaviour and Attitudes");
-        worksheet.Cell(3, 15).Value.ToString().Should().Be("Previous Personal Development");
-        worksheet.Cell(3, 16).Value.ToString().Should().Be("Previous Leadership and Management");
-        worksheet.Cell(3, 17).Value.ToString().Should().Be("Previous Early Years Provision");
-        worksheet.Cell(3, 18).Value.ToString().Should().Be("Previous Sixth Form Provision");
-        worksheet.Cell(3, 19).Value.ToString().Should().Be("Effective Safeguarding");
-        worksheet.Cell(3, 20).Value.ToString().Should().Be("Category of Concern");
+        Cell(worksheet, 3, OfstedColumns.SchoolName).Should().Be("School Name");
+        Cell(worksheet, 3, OfstedColumns.DateJoined).Should().Be("Date Joined");
+        Cell(worksheet, 3, OfstedColumns.CurrentSingleHeadlineGrade).Should().Be("Current single headline grade");
+        Cell(worksheet, 3, OfstedColumns.CurrentBeforeAfterJoining).Should().Be("Before/After Joining");
+        Cell(worksheet, 3, OfstedColumns.DateOfCurrentInspection).Should().Be("Date of Current Inspection");
+        Cell(worksheet, 3, OfstedColumns.PreviousSingleHeadlineGrade).Should().Be("Previous single headline grade");
+        Cell(worksheet, 3, OfstedColumns.PreviousBeforeAfterJoining).Should().Be("Before/After Joining");
+        Cell(worksheet, 3, OfstedColumns.DateOfPreviousInspection).Should().Be("Date of previous inspection");
+        Cell(worksheet, 3, OfstedColumns.CurrentQualityOfEducation).Should().Be("Quality of Education");
+        Cell(worksheet, 3, OfstedColumns.CurrentBehaviourAndAttitudes).Should().Be("Behaviour and Attitudes");
+        Cell(worksheet, 3, OfstedColumns.CurrentPersonalDevelopment).Should().Be("Personal Development");
+        Cell(worksheet, 3, OfstedColumns.CurrentLeadershipAndManagement).Should().Be("Leadership and Management");
+        Cell(worksheet, 3, OfstedColumns.CurrentEarlyYearsProvision).Should().Be("Early Years Provision");
+        Cell(worksheet, 3, OfstedColumns.CurrentSixthFormProvision).Should().Be("Sixth Form Provision");
+        Cell(worksheet, 3, OfstedColumns.PreviousQualityOfEducation).Should().Be("Previous Quality of Education");
+        Cell(worksheet, 3, OfstedColumns.PreviousBehaviourAndAttitudes).Should().Be("Previous Behaviour and Attitudes");
+        Cell(worksheet, 3, OfstedColumns.PreviousPersonalDevelopment).Should().Be("Previous Personal Development");
+        Cell(worksheet, 3, OfstedColumns.PreviousLeadershipAndManagement).Should().Be("Previous Leadership and Management");
+        Cell(worksheet, 3, OfstedColumns.PreviousEarlyYearsProvision).Should().Be("Previous Early Years Provision");
+        Cell(worksheet, 3, OfstedColumns.PreviousSixthFormProvision).Should().Be("Previous Sixth Form Provision");
+        Cell(worksheet, 3, OfstedColumns.EffectiveSafeguarding).Should().Be("Effective Safeguarding");
+        Cell(worksheet, 3, OfstedColumns.CategoryOfConcern).Should().Be("Category of Concern");
     }
 
     [Fact]
@@ -491,12 +494,12 @@ public class ExportServiceTests
         worksheet.Cell(4, 2).GetValue<DateTime>().Should().Be(joinedDate);
 
         // Current Inspection Date as date
-        worksheet.Cell(4, 3).DataType.Should().Be(XLDataType.DateTime);
-        worksheet.Cell(4, 3).GetValue<DateTime>().Should().Be(currentInspectionDate);
+        worksheet.Cell(4, 5).DataType.Should().Be(XLDataType.DateTime);
+        worksheet.Cell(4, 5).GetValue<DateTime>().Should().Be(currentInspectionDate);
 
         // Previous Inspection Date as date
-        worksheet.Cell(4, 11).DataType.Should().Be(XLDataType.DateTime);
-        worksheet.Cell(4, 11).GetValue<DateTime>().Should().Be(previousInspectionDate);
+        worksheet.Cell(4, 8).DataType.Should().Be(XLDataType.DateTime);
+        worksheet.Cell(4, 8).GetValue<DateTime>().Should().Be(previousInspectionDate);
     }
 
     [Fact]
@@ -761,23 +764,25 @@ public class ExportServiceTests
     {
         SchoolName = 1,
         DateJoined = 2,
-        DateOfCurrentInspection = 3,
+        CurrentSingleHeadlineGrade = 3,
         CurrentBeforeAfterJoining = 4,
-        CurrentQualityOfEducation = 5,
-        CurrentBehaviourAndAttitudes = 6,
-        CurrentPersonalDevelopment = 7,
-        CurrentLeadershipAndManagement = 8,
-        CurrentEarlyYearsProvision = 9,
-        CurrentSixthFormProvision = 10,
-        DateOfPreviousInspection = 11,
-        PreviousBeforeAfterJoining = 12,
-        PreviousQualityOfEducation = 13,
-        PreviousBehaviourAndAttitudes = 14,
-        PreviousPersonalDevelopment = 15,
-        PreviousLeadershipAndManagement = 16,
-        PreviousEarlyYearsProvision = 17,
-        PreviousSixthFormProvision = 18,
-        EffectiveSafeguarding = 19,
-        CategoryOfConcern = 20
+        DateOfCurrentInspection = 5,
+        PreviousSingleHeadlineGrade = 6,
+        PreviousBeforeAfterJoining = 7,
+        DateOfPreviousInspection = 8,
+        CurrentQualityOfEducation = 9,
+        CurrentBehaviourAndAttitudes = 10,
+        CurrentPersonalDevelopment = 11,
+        CurrentLeadershipAndManagement = 12,
+        CurrentEarlyYearsProvision = 13,
+        CurrentSixthFormProvision = 14,
+        PreviousQualityOfEducation = 15,
+        PreviousBehaviourAndAttitudes = 16,
+        PreviousPersonalDevelopment = 17,
+        PreviousLeadershipAndManagement = 18,
+        PreviousEarlyYearsProvision = 19,
+        PreviousSixthFormProvision = 20,
+        EffectiveSafeguarding = 21,
+        CategoryOfConcern = 22
     }
 }

@@ -31,72 +31,47 @@ public class CookiesModelTests
         };
     }
 
-    //Check return path is set correctly
-    //Return path set correctly when valid local path
+    //Check return path is sanitised
     [Theory]
     [InlineData("/")]
     [InlineData("/page")]
     [InlineData("/index")]
     [InlineData("/search?keywords=\"test\"")]
-    public void OnGet_should_keep_return_path_when_it_is_valid(string path)
+    public void ReturnPath_should_not_change_when_set_to_valid_value(string path)
     {
         _sut.ReturnPath = path;
-        _sut.OnGet();
         _sut.ReturnPath.Should().Be(path);
     }
 
     [Theory]
-    [InlineData("/")]
-    [InlineData("/page")]
-    [InlineData("/index")]
-    [InlineData("/search?keywords=\"test\"")]
-    public void OnPost_should_keep_return_path_when_it_is_valid(string path)
-    {
-        _sut.ReturnPath = path;
-        _sut.OnPost();
-        _sut.ReturnPath.Should().Be(path);
-    }
-
-    //Return path set to / when invalid
-    [Theory]
     [InlineData("")]
+    [InlineData("    ")]
     [InlineData("test")]
     [InlineData("https://www.gov.uk")]
     [InlineData(null)]
-    public void OnGet_should_replace_return_path_when_it_is_invalid(string? path)
+    public void ReturnPath_should_default_to_home_when_set_to_invalid_value(string? path)
     {
         _sut.ReturnPath = path;
-        _sut.OnGet();
         _sut.ReturnPath.Should().Be("/");
     }
 
-    [Theory]
-    [InlineData("")]
-    [InlineData("test")]
-    [InlineData("https://www.gov.uk")]
-    [InlineData(null)]
-    public void OnPost_should_replace_return_path_when_it_is_invalid(string? path)
+    [Fact]
+    public void ReturnPath_should_be_null_if_not_set()
     {
-        _sut.ReturnPath = path;
-        _sut.OnPost();
-        _sut.ReturnPath.Should().Be("/");
+        _sut.ReturnPath.Should().BeNull();
     }
 
     //Check Consent is set correctly
 
     [Theory]
-    [InlineData(true, null)]
-    [InlineData(false, null)]
-    [InlineData(true, true)]
-    [InlineData(false, true)]
-    [InlineData(true, false)]
-    [InlineData(false, false)]
-    public void OnGet_should_not_change_consent_when_it_is_provided(bool consent, bool? accepted)
+    [InlineData(null)]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void OnGet_should_set_consent_to_current_cookie_value(bool? consentCookieValue)
     {
-        _mockHttpContext.MockRequestCookies.SetupConsentCookie(accepted);
-        _sut.Consent = consent;
+        _mockHttpContext.MockRequestCookies.SetupConsentCookie(consentCookieValue);
         _sut.OnGet();
-        _sut.Consent.Should().Be(consent);
+        _sut.Consent.Should().Be(consentCookieValue);
     }
 
     [Theory]
@@ -115,13 +90,18 @@ public class CookiesModelTests
     }
 
     [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public void OnGet_should_set_consent_when_it_not_provided_and_the_cookie_has_been_set(bool accepted)
+    [InlineData(true, null)]
+    [InlineData(false, null)]
+    [InlineData(true, true)]
+    [InlineData(false, true)]
+    [InlineData(true, false)]
+    [InlineData(false, false)]
+    public void OnPostFromBanner_should_not_change_consent_when_it_is_provided(bool consent, bool? accepted)
     {
         _mockHttpContext.MockRequestCookies.SetupConsentCookie(accepted);
-        _sut.OnGet();
-        _sut.Consent.Should().Be(accepted);
+        _sut.Consent = consent;
+        _sut.OnPostFromBanner();
+        _sut.Consent.Should().Be(consent);
     }
 
     [Fact]
@@ -152,18 +132,8 @@ public class CookiesModelTests
         _sut.DisplayCookieChangedMessageOnCookiesPage.Should().BeTrue();
     }
 
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public void OnGet_returns_local_redirect_when_consent_is_given(bool consent)
-    {
-        _sut.Consent = consent;
-        var result = _sut.OnGet();
-        result.Should().BeOfType<LocalRedirectResult>();
-    }
-
     [Fact]
-    public void OnGet_returns_Cookies_page_when_consent_is_not_given()
+    public void OnGet_returns_Cookies_page()
     {
         var result = _sut.OnGet();
         result.Should().BeOfType<PageResult>();
@@ -176,17 +146,31 @@ public class CookiesModelTests
         result.Should().BeOfType<PageResult>();
     }
 
-    // Consent cookie appended (value true or false depending on test)
     [Theory]
-    [InlineData(true, "True")]
-    [InlineData(false, "False")]
-    public void OnGet_adds_consent_cookie_when_consent_is_given(bool consent, string value)
+    [InlineData("/")]
+    [InlineData("/page")]
+    [InlineData("/index")]
+    [InlineData("/search?keywords=\"test\"")]
+    public void OnPostFromBanner_redirects_to_return_url(string redirectUrl)
     {
-        _sut.Consent = consent;
-        _sut.OnGet();
-        _mockHttpContext.MockResponseCookies.VerifySecureCookieAdded(FiatCookies.CookieConsent, value);
+        _sut.ReturnPath = redirectUrl;
+
+        var result = _sut.OnPostFromBanner();
+
+        result.Should().BeOfType<LocalRedirectResult>()
+            .Which.Url.Should().Be(redirectUrl);
     }
 
+    [Fact]
+    public void OnPostFromBanner_redirects_to_home_when_ReturnPath_not_set()
+    {
+        var result = _sut.OnPostFromBanner();
+
+        result.Should().BeOfType<LocalRedirectResult>()
+            .Which.Url.Should().Be("/");
+    }
+
+    // Consent cookie
     [Theory]
     [InlineData(true, "True")]
     [InlineData(false, "False")]
@@ -197,20 +181,17 @@ public class CookiesModelTests
         _mockHttpContext.MockResponseCookies.VerifySecureCookieAdded(FiatCookies.CookieConsent, value);
     }
 
-    // (Cookie appended Delete called if needed/TempData is not null)
     [Theory]
-    [InlineData("ai_session")]
-    [InlineData("ai_user")]
-    [InlineData("_ga")]
-    [InlineData("_gid")]
-    public void OnGet_removes_optional_cookie_when_consent_is_false(string cookieName)
+    [InlineData(true, "True")]
+    [InlineData(false, "False")]
+    public void OnPostFromBanner_adds_consent_cookie_when_consent_is_given(bool consent, string value)
     {
-        _mockHttpContext.MockRequestCookies.SetupOptionalCookies();
-        _sut.Consent = false;
-        _sut.OnGet();
-        _mockHttpContext.MockResponseCookies.VerifyCookieDeleted(cookieName);
+        _sut.Consent = consent;
+        _sut.OnPostFromBanner();
+        _mockHttpContext.MockResponseCookies.VerifySecureCookieAdded(FiatCookies.CookieConsent, value);
     }
 
+    // (Cookie appended Delete called if needed/TempData is not null)
     [Theory]
     [InlineData("ai_session")]
     [InlineData("ai_user")]
@@ -221,6 +202,19 @@ public class CookiesModelTests
         _mockHttpContext.MockRequestCookies.SetupOptionalCookies();
         _sut.Consent = false;
         _sut.OnPost();
+        _mockHttpContext.MockResponseCookies.VerifyCookieDeleted(cookieName);
+    }
+
+    [Theory]
+    [InlineData("ai_session")]
+    [InlineData("ai_user")]
+    [InlineData("_ga")]
+    [InlineData("_gid")]
+    public void OnPostFromBanner_removes_optional_cookie_when_consent_is_false(string cookieName)
+    {
+        _mockHttpContext.MockRequestCookies.SetupOptionalCookies();
+        _sut.Consent = false;
+        _sut.OnPostFromBanner();
         _mockHttpContext.MockResponseCookies.VerifyCookieDeleted(cookieName);
     }
 
@@ -245,6 +239,16 @@ public class CookiesModelTests
     }
 
     [Fact]
+    public void OnPostFromBanner_does_not_remove_cookies_when_consent_is_true()
+    {
+        _mockHttpContext.MockRequestCookies.SetupOptionalCookies();
+        _mockHttpContext.MockRequestCookies.SetupAcceptedCookie();
+        _sut.Consent = true;
+        _sut.OnPostFromBanner();
+        _mockHttpContext.MockResponseCookies.VerifyNoCookiesDeleted();
+    }
+
+    [Fact]
     public void OnGet_does_not_remove_cookies_when_there_are_no_optional_cookies_to_remove()
     {
         _mockHttpContext.MockRequestCookies.SetupRejectedCookie();
@@ -262,18 +266,16 @@ public class CookiesModelTests
         _mockHttpContext.MockResponseCookies.VerifyNoCookiesDeleted();
     }
 
-    //TempData
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public void OnGet_sets_tempdata_cookie_changed_when_consent_is_given(bool consent)
+    [Fact]
+    public void OnPostFromBanner_does_not_remove_cookies_when_there_are_no_optional_cookies_to_remove()
     {
-        _sut.Consent = consent;
-        _sut.OnGet();
-        Assert.NotNull(_tempData[CookiesHelper.CookieChangedTempDataName]);
-        _tempData[CookiesHelper.CookieChangedTempDataName].As<bool>().Should().BeTrue();
+        _mockHttpContext.MockRequestCookies.SetupRejectedCookie();
+        _sut.Consent = false;
+        _sut.OnPostFromBanner();
+        _mockHttpContext.MockResponseCookies.VerifyNoCookiesDeleted();
     }
 
+    //TempData
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
@@ -281,6 +283,17 @@ public class CookiesModelTests
     {
         _sut.Consent = consent;
         _sut.OnPost();
+        Assert.NotNull(_tempData[CookiesHelper.CookieChangedTempDataName]);
+        _tempData[CookiesHelper.CookieChangedTempDataName].As<bool>().Should().BeTrue();
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void OnPostFromBanner_sets_tempdata_cookie_changed_when_consent_is_given(bool consent)
+    {
+        _sut.Consent = consent;
+        _sut.OnPostFromBanner();
         Assert.NotNull(_tempData[CookiesHelper.CookieChangedTempDataName]);
         _tempData[CookiesHelper.CookieChangedTempDataName].As<bool>().Should().BeTrue();
     }
@@ -320,12 +333,11 @@ public class CookiesModelTests
     }
 
     [Fact]
-    public void OnGet_sets_tempdata_cookie_deleted_when_consent_is_false()
+    public void OnPostFromBanner_does_not_set_tempdata_cookie_deleted_when_consent_is_true()
     {
-        _sut.Consent = false;
-        _sut.OnGet();
-        _tempData[CookiesHelper.DeleteCookieTempDataName].Should().NotBeNull();
-        _tempData[CookiesHelper.DeleteCookieTempDataName].As<bool>().Should().BeTrue();
+        _sut.Consent = true;
+        _sut.OnPostFromBanner();
+        _tempData[CookiesHelper.DeleteCookieTempDataName].Should().BeNull();
     }
 
     [Fact]
@@ -333,6 +345,15 @@ public class CookiesModelTests
     {
         _sut.Consent = false;
         _sut.OnPost();
+        _tempData[CookiesHelper.DeleteCookieTempDataName].Should().NotBeNull();
+        _tempData[CookiesHelper.DeleteCookieTempDataName].As<bool>().Should().BeTrue();
+    }
+
+    [Fact]
+    public void OnPostFromBanner_sets_tempdata_cookie_deleted_when_consent_is_false()
+    {
+        _sut.Consent = false;
+        _sut.OnPostFromBanner();
         _tempData[CookiesHelper.DeleteCookieTempDataName].Should().NotBeNull();
         _tempData[CookiesHelper.DeleteCookieTempDataName].As<bool>().Should().BeTrue();
     }

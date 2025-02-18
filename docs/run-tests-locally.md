@@ -103,7 +103,7 @@ You will be able to find all reports in the `StrykerOutput` folder in your proje
 
     ```json
     {
-      "URL": "localhost",
+      "URL": "http://localhost",
       "AUTH_KEY": "<the TestOverride__CypressTestSecret value you set in step 2>"
     }
     ```
