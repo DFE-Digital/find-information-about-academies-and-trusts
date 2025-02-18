@@ -26,7 +26,7 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
         // Arrange
         byte[] expectedBytes = [1, 2, 3];
 
-        MockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(TrustUid)).ReturnsAsync(expectedBytes);
+        MockExportService.Setup(x => x.ExportPipelineAcademiesToSpreadsheetAsync(TrustUid)).ReturnsAsync(expectedBytes);
 
         // Act
         var result = await Sut.OnGetExportAsync(TrustUid);
@@ -61,7 +61,7 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
         var expectedBytes = new byte[] { 1, 2, 3 };
 
         MockTrustService.Setup(x => x.GetTrustSummaryAsync(TrustUid)).ReturnsAsync(trustSummary);
-        MockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(TrustUid)).ReturnsAsync(expectedBytes);
+        MockExportService.Setup(x => x.ExportPipelineAcademiesToSpreadsheetAsync(TrustUid)).ReturnsAsync(expectedBytes);
 
         // Act
         var result = await Sut.OnGetExportAsync(TrustUid);
