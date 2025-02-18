@@ -23,7 +23,7 @@ export class TestDataStore {
                 pageName: "Contacts",
                 subpages: [
                     { subpageName: "In DfE", url: `/trusts/contacts/in-dfe?uid=${uid}` },
-                    { subpageName: "In the trust", url: `/trusts/contacts/in-the-trust?uid=${uid}` },
+                    { subpageName: "In this trust", url: `/trusts/contacts/in-the-trust?uid=${uid}` },
                 ]
             },
             {
