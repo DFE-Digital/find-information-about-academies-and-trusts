@@ -64,7 +64,7 @@ describe("Testing the Pipeline academies pages", () => {
                     .checkPreAdvisoryTableSorting();
             });
             // The download function is the same for every sub-page - the test is here because this is the landing page for pipeline academies
-            it('should export academies data as an xlsx and verify it has downloaded and has content', () => {
+            it('should export pipeline academies data as an xlsx and verify it has downloaded and has content', () => {
                 pipelineAcademiesPage
                     .clickDownloadButton();
                 dataDownload

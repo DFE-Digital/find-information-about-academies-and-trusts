@@ -5,7 +5,7 @@ class PipelineAcademies {
     elements = {
         subpageHeader: () => cy.get('[data-testid="subpage-header"]'),
         emptyStateMessage: () => cy.get('[data-testid="empty-state-message"]'),
-        downloadButton: () => cy.get('[data-testid="download-all-ofsted-data-button"]'),
+        downloadButton: () => cy.get('[data-testid="download-all-pipeline-data-button"]'),
         preAdvisory: {
             section: () => cy.get('[data-testid="pre-advisory-board-table"]'),
             schoolName: () => this.elements.preAdvisory.section().find('[data-testid="pre-advisory-board-school-name"]'),
