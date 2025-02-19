@@ -408,10 +408,12 @@ public class ExportService(
         int startRow,
         AcademyPipelineServiceModel[] pipelineAcademies)
     {
-        for (var i = 0; i < pipelineAcademies.Length; i++)
+        var orderedPipelineAcademies = pipelineAcademies.OrderBy(a => a.EstablishmentName).ToArray();
+
+        for (var i = 0; i < orderedPipelineAcademies.Length; i++)
         {
             var currentRow = startRow + i;
-            var pipelineAcademy = pipelineAcademies[i];
+            var pipelineAcademy = orderedPipelineAcademies[i];
 
             GeneratePipelineAcademyRow(worksheet, currentRow, pipelineAcademy);
         }

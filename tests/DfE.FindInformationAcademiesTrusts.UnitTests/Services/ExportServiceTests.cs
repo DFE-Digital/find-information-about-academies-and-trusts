@@ -619,6 +619,89 @@ public class ExportServiceTests
         );
     }
 
+    [Fact]
+    public async Task ExportPipelineAcademiesToSpreadsheetAsync_ShouldArrangeAcademiesByNameAlphabetically()
+    {
+        const string uid = "1";
+        const string trustReferenceNumber = "TRN1111";
+
+        _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(uid))
+            .ReturnsAsync(new TrustSummary("Sample Trust", "Multi-academy trust"));
+        _mockTrustRepository.Setup(m => m.GetTrustReferenceNumberAsync(uid))
+            .ReturnsAsync(trustReferenceNumber);
+
+        _mockAcademyService.Setup(m => m.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber))
+            .ReturnsAsync([
+                new AcademyPipelineServiceModel("1", "z Academy", new AgeRange(4, 10), "Local Authority 1",
+                    "Pre-advisory", new DateTime(2023, 2, 1)),
+                new AcademyPipelineServiceModel("2", "B Academy", new AgeRange(5, 11), "Local Authority 2",
+                    "Pre-advisory", new DateTime(2024, 3, 2)),
+                new AcademyPipelineServiceModel("3", "S Academy 1", new AgeRange(6, 12), "Local Authority 3",
+                    "Pre-advisory", new DateTime(2025, 4, 3)),
+                new AcademyPipelineServiceModel("4", "S Academy 2", new AgeRange(7, 13), "Local Authority 4",
+                    "Pre-advisory", new DateTime(2026, 5, 4))
+            ]);
+        _mockAcademyService.Setup(m => m.GetAcademiesPipelinePostAdvisoryAsync(trustReferenceNumber))
+            .ReturnsAsync([
+                new AcademyPipelineServiceModel("5", "zz Academy", new AgeRange(4, 10), "Local Authority 1",
+                    "Post-advisory", new DateTime(2023, 2, 1)),
+                new AcademyPipelineServiceModel("6", "Bb Academy 2", new AgeRange(5, 11), "Local Authority 2",
+                    "Post-advisory", new DateTime(2024, 3, 2)),
+                new AcademyPipelineServiceModel("7", "Bb Academy 1", new AgeRange(6, 12), "Local Authority 3",
+                    "Post-advisory", new DateTime(2025, 4, 3)),
+                new AcademyPipelineServiceModel("8", "Ss Academy", new AgeRange(7, 13), "Local Authority 4",
+                    "Post-advisory", new DateTime(2026, 5, 4))
+            ]);
+        _mockAcademyService.Setup(m => m.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber))
+            .ReturnsAsync([
+                new AcademyPipelineServiceModel("9", "Aaa Academy", new AgeRange(4, 10), "Local Authority 1",
+                    "Free school", new DateTime(2023, 2, 1)),
+                new AcademyPipelineServiceModel("10", "Zzz Academy", new AgeRange(5, 11), "Local Authority 2",
+                    "Free school", new DateTime(2024, 3, 2)),
+                new AcademyPipelineServiceModel("11", "Xxx Academy", new AgeRange(6, 12), "Local Authority 3",
+                    "Free school", new DateTime(2025, 4, 3)),
+                new AcademyPipelineServiceModel("12", "Fff Academy", new AgeRange(7, 13), "Local Authority 4",
+                    "Free school", new DateTime(2026, 5, 4))
+            ]);
+
+        var result = await _sut.ExportPipelineAcademiesToSpreadsheetAsync(uid);
+
+        using var workbook = new XLWorkbook(new MemoryStream(result));
+        var worksheet = workbook.Worksheet("Pipeline Academies");
+
+        AssertSpreadsheetMatches(worksheet,
+            ["Sample Trust"],
+            ["Multi-academy trust"],
+            [],
+            ["Pre-advisory academies"],
+            [
+                "School Name", "URN", "Age range", "Local authority", "Project type",
+                "Proposed conversion or transfer date"
+            ],
+            ["B Academy", "2", "5 - 11", "Local Authority 2", "Pre-advisory", new DateTime(2024, 3, 2)],
+            ["S Academy 1", "3", "6 - 12", "Local Authority 3", "Pre-advisory", new DateTime(2025, 4, 3)],
+            ["S Academy 2", "4", "7 - 13", "Local Authority 4", "Pre-advisory", new DateTime(2026, 5, 4)],
+            ["z Academy", "1", "4 - 10", "Local Authority 1", "Pre-advisory", new DateTime(2023, 2, 1)],
+            [],
+            ["Post-advisory academies"],
+            [
+                "School Name", "URN", "Age range", "Local authority", "Project type",
+                "Proposed conversion or transfer date"
+            ],
+            ["Bb Academy 1", "7", "6 - 12", "Local Authority 3", "Post-advisory", new DateTime(2025, 4, 3)],
+            ["Bb Academy 2", "6", "5 - 11", "Local Authority 2", "Post-advisory", new DateTime(2024, 3, 2)],
+            ["Ss Academy", "8", "7 - 13", "Local Authority 4", "Post-advisory", new DateTime(2026, 5, 4)],
+            ["zz Academy", "5", "4 - 10", "Local Authority 1", "Post-advisory", new DateTime(2023, 2, 1)],
+            [],
+            ["Free schools"],
+            ["School Name", "URN", "Age range", "Local authority", "Project type", "Provisional opening date"],
+            ["Aaa Academy", "9", "4 - 10", "Local Authority 1", "Free school", new DateTime(2023, 2, 1)],
+            ["Fff Academy", "12", "7 - 13", "Local Authority 4", "Free school", new DateTime(2026, 5, 4)],
+            ["Xxx Academy", "11", "6 - 12", "Local Authority 3", "Free school", new DateTime(2025, 4, 3)],
+            ["Zzz Academy", "10", "5 - 11", "Local Authority 2", "Free school", new DateTime(2024, 3, 2)]
+        );
+    }
+
     /// <summary>
     /// Asserts that the given strings are present in the expected places in the spreadsheet.
     /// Does not look at any cells other than the ones specified.
