@@ -1,5 +1,4 @@
-﻿using DfE.FindInformationAcademiesTrusts.Configuration;
-using DfE.FindInformationAcademiesTrusts.Data;
+﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Pipeline;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
@@ -7,7 +6,6 @@ using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.FeatureManagement;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 
@@ -17,12 +15,9 @@ public abstract class AcademiesAreaModel(
     IAcademyService academyService,
     IExportService exportService,
     ILogger<AcademiesAreaModel> logger,
-    IDateTimeProvider dateTimeProvider,
-    IFeatureManager featureManager
+    IDateTimeProvider dateTimeProvider
 ) : TrustsAreaModel(dataSourceService, trustService, logger)
 {
-    private readonly IFeatureManager _featureManager = featureManager;
-
     public override TrustPageMetadata TrustPageMetadata =>
         base.TrustPageMetadata with { PageName = ViewConstants.AcademiesPageName };
 
@@ -47,17 +42,12 @@ public abstract class AcademiesAreaModel(
         SubNavigationLinks =
         [
             new TrustSubNavigationLinkModel($"In this trust ({TrustSummary.NumberOfAcademies})",
-                "/Trusts/Academies/InTrust/Details", Uid,
-                TrustPageMetadata.PageName!, this is AcademiesInTrustAreaModel)
+                "/Trusts/Academies/InTrust/Details", Uid, TrustPageMetadata.PageName!,
+                this is AcademiesInTrustAreaModel),
+            new TrustSubNavigationLinkModel($"Pipeline academies ({PipelineSummary.Total})",
+                "/Trusts/Academies/Pipeline/PreAdvisoryBoard", Uid, TrustPageMetadata.PageName!,
+                this is PipelineAcademiesAreaModel)
         ];
-
-        if (await _featureManager.IsEnabledAsync(FeatureFlags.PipelineAcademies))
-        {
-            SubNavigationLinks = SubNavigationLinks.Append(new TrustSubNavigationLinkModel(
-                $"Pipeline academies ({PipelineSummary.Total})",
-                "/Trusts/Academies/Pipeline/PreAdvisoryBoard", Uid,
-                TrustPageMetadata.PageName!, this is PipelineAcademiesAreaModel)).ToArray();
-        }
 
         return pageResult;
     }
