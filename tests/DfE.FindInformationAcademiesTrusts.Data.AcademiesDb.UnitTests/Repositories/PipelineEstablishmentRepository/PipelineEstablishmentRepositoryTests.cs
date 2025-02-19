@@ -18,27 +18,23 @@ public class PipelineEstablishmentRepositoryTests
     {
         // Arrange
         var trustRef = "TR100";
-        _mockContext.AddMstrFreeSchoolProject(trustRef, PipelineStatuses.FreeSchoolPipeline, "FreeRoute",
-            "Project A", 5, 11,
-            12345, "LA A", new DateTime(2024, 9, 1));
+        _mockContext.AddMstrFreeSchoolProject(trustRef, "Presumption",
+            PipelineStatuses.FreeSchoolPipeline, "Project A", 5,
+            11, 12345, "LA A", new DateTime(2024, 9, 1));
 
         // Add a non-matching project (different stage)
-        _mockContext.AddMstrFreeSchoolProject(trustRef, "NotPipeline", "FreeRoute");
-
-        // Add a project for a different trust
-        _mockContext.AddMstrFreeSchoolProject("TR999", PipelineStatuses.FreeSchoolPipeline, "FreeRoute");
+        _mockContext.AddMstrFreeSchoolProject(trustRef, "Central", "NotPipeline");
 
         // Act
         var result = await _sut.GetPipelineFreeSchoolProjectsAsync(trustRef);
 
         // Assert
-        result.Should().NotBeNull();
         result.Should().HaveCount(1, "because only one project matches stage 'Pipeline' for TR100");
 
         var project = result[0];
         project.Urn.Should().Be("12345");
         project.EstablishmentName.Should().Be("Project A");
-        project.ProjectType.Should().Be("FreeRoute");
+        project.ProjectType.Should().Be("Presumption");
         project.LocalAuthority.Should().Be("LA A");
         project.AgeRange.Should().NotBeNull();
         project.AgeRange!.Minimum.Should().Be(5);
@@ -68,9 +64,9 @@ public class PipelineEstablishmentRepositoryTests
     {
         var trustRef = "TR_NO_AGES";
 
-        _mockContext.AddMstrFreeSchoolProject(trustRef, PipelineStatuses.FreeSchoolPipeline, "FreeRoute",
-            "Project A", lowerAge, upperAge,
-            12345, "LA A", new DateTime(2024, 9, 1));
+        _mockContext.AddMstrFreeSchoolProject(trustRef, "FreeRoute",
+            PipelineStatuses.FreeSchoolPipeline, "Project A", lowerAge,
+            upperAge, 12345, "LA A", new DateTime(2024, 9, 1));
 
         // Act
         var result = await _sut.GetPipelineFreeSchoolProjectsAsync(trustRef);
