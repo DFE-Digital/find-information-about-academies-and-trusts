@@ -5,7 +5,6 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
-using DocumentFormat.OpenXml.Wordprocessing;
 using FluentAssertions.Execution;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
@@ -27,7 +26,8 @@ public class ExportServiceTests
 
         _mockDateTimeProvider.Setup(m => m.Now).Returns(DateTime.Now);
 
-        _sut = new ExportService(_mockAcademyRepository.Object, _mockTrustRepository.Object, _mockAcademyService.Object);
+        _sut = new ExportService(_mockAcademyRepository.Object, _mockTrustRepository.Object,
+            _mockAcademyService.Object);
     }
 
     [Fact]
@@ -131,7 +131,8 @@ public class ExportServiceTests
         var worksheet = workbook.Worksheet("Academies");
 
         var lastUsedRow = worksheet.LastRowUsed()?.RowNumber() ?? 0;
-        lastUsedRow.Should().Be(3); // If no data rows are present, we expect the last used row to be the headers row (3)
+        lastUsedRow.Should()
+            .Be(3); // If no data rows are present, we expect the last used row to be the headers row (3)
     }
 
     [Fact]
@@ -421,7 +422,8 @@ public class ExportServiceTests
         Cell(worksheet, 3, OfstedColumns.PreviousQualityOfEducation).Should().Be("Previous Quality of Education");
         Cell(worksheet, 3, OfstedColumns.PreviousBehaviourAndAttitudes).Should().Be("Previous Behaviour and Attitudes");
         Cell(worksheet, 3, OfstedColumns.PreviousPersonalDevelopment).Should().Be("Previous Personal Development");
-        Cell(worksheet, 3, OfstedColumns.PreviousLeadershipAndManagement).Should().Be("Previous Leadership and Management");
+        Cell(worksheet, 3, OfstedColumns.PreviousLeadershipAndManagement).Should()
+            .Be("Previous Leadership and Management");
         Cell(worksheet, 3, OfstedColumns.PreviousEarlyYearsProvision).Should().Be("Previous Early Years Provision");
         Cell(worksheet, 3, OfstedColumns.PreviousSixthFormProvision).Should().Be("Previous Sixth Form Provision");
         Cell(worksheet, 3, OfstedColumns.EffectiveSafeguarding).Should().Be("Effective Safeguarding");
@@ -455,7 +457,8 @@ public class ExportServiceTests
         var worksheet = workbook.Worksheet("Ofsted");
 
         var lastUsedRow = worksheet.LastRowUsed()?.RowNumber() ?? 0;
-        lastUsedRow.Should().Be(3); // If no data rows are present, we expect the last used row to be the headers row (3)
+        lastUsedRow.Should()
+            .Be(3); // If no data rows are present, we expect the last used row to be the headers row (3)
     }
 
     [Fact]
@@ -561,123 +564,218 @@ public class ExportServiceTests
     }
 
     [Fact]
-    public async Task ExportPipelineAcademiesToSpreadsheet_ShouldGenerateCorrectHeadersAsync()
+    public async Task ExportPipelineAcademiesToSpreadsheet_ShouldCorrectlyExtractPipelineAcademyDataAsync()
     {
-        var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 0);
-        
-        var result = await _sut.ExportPipelineAcademiesToSpreadsheetAsync(trustSummary.Uid);
+        const string uid = "1";
+        const string trustReferenceNumber = "TRN1111";
+
+        _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(uid))
+            .ReturnsAsync(new TrustSummary("Sample Trust", "Multi-academy trust"));
+        _mockTrustRepository.Setup(m => m.GetTrustReferenceNumberAsync(uid))
+            .ReturnsAsync(trustReferenceNumber);
+
+        _mockAcademyService.Setup(m => m.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber))
+            .ReturnsAsync([
+                new AcademyPipelineServiceModel("1", "Academy 1", new AgeRange(4, 11), "Local Authority 1",
+                    "Pre-advisory", new DateTime(2025, 2, 19))
+            ]);
+        _mockAcademyService.Setup(m => m.GetAcademiesPipelinePostAdvisoryAsync(trustReferenceNumber))
+            .ReturnsAsync([
+                new AcademyPipelineServiceModel("2", "Academy 2", new AgeRange(2, 11), "Local Authority 2",
+                    "Post-advisory", new DateTime(2026, 2, 20))
+            ]);
+        _mockAcademyService.Setup(m => m.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber))
+            .ReturnsAsync([
+                new AcademyPipelineServiceModel("3", "Academy 3", new AgeRange(11, 18), "Local Authority 3",
+                    "Free school", new DateTime(2025, 6, 21))
+            ]);
+
+        var result = await _sut.ExportPipelineAcademiesToSpreadsheetAsync(uid);
+
         using var workbook = new XLWorkbook(new MemoryStream(result));
         var worksheet = workbook.Worksheet("Pipeline Academies");
-        
-        worksheet.Cell(3, 1).Value.ToString().Should().Be("School Name");
-        worksheet.Cell(3, 2).Value.ToString().Should().Be("URN");
-        worksheet.Cell(3, 3).Value.ToString().Should().Be("Age range");
-        worksheet.Cell(3, 4).Value.ToString().Should().Be("Local authority");
-        worksheet.Cell(3, 5).Value.ToString().Should().Be("Project type");
-        worksheet.Cell(3, 6).Value.ToString().Should().Be("Provisional opening date");
+
+        AssertSpreadsheetMatches(worksheet,
+            ["Sample Trust"],
+            ["Multi-academy trust"],
+            [],
+            ["Pre-advisory academies"],
+            [
+                "School Name", "URN", "Age range", "Local authority", "Project type",
+                "Proposed conversion or transfer date"
+            ],
+            ["Academy 1", "1", "4 - 11", "Local Authority 1", "Pre-advisory", new DateTime(2025, 2, 19)],
+            [],
+            ["Post-advisory academies"],
+            [
+                "School Name", "URN", "Age range", "Local authority", "Project type",
+                "Proposed conversion or transfer date"
+            ],
+            ["Academy 2", "2", "2 - 11", "Local Authority 2", "Post-advisory", new DateTime(2026, 2, 20)],
+            [],
+            ["Free schools"],
+            ["School Name", "URN", "Age range", "Local authority", "Project type", "Provisional opening date"],
+            ["Academy 3", "3", "11 - 18", "Local Authority 3", "Free school", new DateTime(2025, 6, 21)]
+        );
     }
 
     [Fact]
-    public async Task ExportPipelineAcademiesToSpreadsheet_ShouldCorrectlyExtractPipelineAcademyDataAsync()
+    public async Task ExportPipelineAcademiesToSpreadsheetAsync_ShouldArrangeAcademiesByNameAlphabetically()
     {
-        var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
-        var trustReferenceNumber = "TRN1111";
-        var now = DateTime.Now;
-        
-        _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(trustSummary.Uid)).ReturnsAsync(
-            new TrustSummary("Sample Trust", "Multi-academy trust"));
+        const string uid = "1";
+        const string trustReferenceNumber = "TRN1111";
 
-        _mockTrustRepository.Setup(m => m.GetTrustReferenceNumberAsync(trustSummary.Uid)).ReturnsAsync(
-                "TRN1111"
-            );
+        _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(uid))
+            .ReturnsAsync(new TrustSummary("Sample Trust", "Multi-academy trust"));
+        _mockTrustRepository.Setup(m => m.GetTrustReferenceNumberAsync(uid))
+            .ReturnsAsync(trustReferenceNumber);
 
-        _mockAcademyService.Setup(m => m.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber)).ReturnsAsync(
-            new AcademyPipelineServiceModel[]
-            {
-                new(Urn: "1", EstablishmentName: "Academy 1", AgeRange: new AgeRange(4, 11),
-                    LocalAuthority: "Local Authority 1", ProjectType: "Pre-advisory", ChangeDate: now),
-            }
-        );
+        _mockAcademyService.Setup(m => m.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber))
+            .ReturnsAsync([
+                new AcademyPipelineServiceModel("1", "z Academy", new AgeRange(4, 10), "Local Authority 1",
+                    "Pre-advisory", new DateTime(2023, 2, 1)),
+                new AcademyPipelineServiceModel("2", "B Academy", new AgeRange(5, 11), "Local Authority 2",
+                    "Pre-advisory", new DateTime(2024, 3, 2)),
+                new AcademyPipelineServiceModel("3", "S Academy 1", new AgeRange(6, 12), "Local Authority 3",
+                    "Pre-advisory", new DateTime(2025, 4, 3)),
+                new AcademyPipelineServiceModel("4", "S Academy 2", new AgeRange(7, 13), "Local Authority 4",
+                    "Pre-advisory", new DateTime(2026, 5, 4))
+            ]);
+        _mockAcademyService.Setup(m => m.GetAcademiesPipelinePostAdvisoryAsync(trustReferenceNumber))
+            .ReturnsAsync([
+                new AcademyPipelineServiceModel("5", "zz Academy", new AgeRange(4, 10), "Local Authority 1",
+                    "Post-advisory", new DateTime(2023, 2, 1)),
+                new AcademyPipelineServiceModel("6", "Bb Academy 2", new AgeRange(5, 11), "Local Authority 2",
+                    "Post-advisory", new DateTime(2024, 3, 2)),
+                new AcademyPipelineServiceModel("7", "Bb Academy 1", new AgeRange(6, 12), "Local Authority 3",
+                    "Post-advisory", new DateTime(2025, 4, 3)),
+                new AcademyPipelineServiceModel("8", "Ss Academy", new AgeRange(7, 13), "Local Authority 4",
+                    "Post-advisory", new DateTime(2026, 5, 4))
+            ]);
+        _mockAcademyService.Setup(m => m.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber))
+            .ReturnsAsync([
+                new AcademyPipelineServiceModel("9", "Aaa Academy", new AgeRange(4, 10), "Local Authority 1",
+                    "Free school", new DateTime(2023, 2, 1)),
+                new AcademyPipelineServiceModel("10", "Zzz Academy", new AgeRange(5, 11), "Local Authority 2",
+                    "Free school", new DateTime(2024, 3, 2)),
+                new AcademyPipelineServiceModel("11", "Xxx Academy", new AgeRange(6, 12), "Local Authority 3",
+                    "Free school", new DateTime(2025, 4, 3)),
+                new AcademyPipelineServiceModel("12", "Fff Academy", new AgeRange(7, 13), "Local Authority 4",
+                    "Free school", new DateTime(2026, 5, 4))
+            ]);
 
-        _mockAcademyService.Setup(m => m.GetAcademiesPipelinePostAdvisoryAsync(trustReferenceNumber)).ReturnsAsync(
-            new AcademyPipelineServiceModel[]
-            {
-                new(Urn: "2", EstablishmentName: "Academy 2", AgeRange: new AgeRange(2, 11),
-                    LocalAuthority: "Local Authority 2", ProjectType: "Post-advisory", ChangeDate: now),
-            }
-        );
+        var result = await _sut.ExportPipelineAcademiesToSpreadsheetAsync(uid);
 
-        _mockAcademyService.Setup(m => m.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber)).ReturnsAsync(
-            new AcademyPipelineServiceModel[]
-            {
-                new(Urn: "3", EstablishmentName: "Academy 3", AgeRange: new AgeRange(11, 18),
-                    LocalAuthority: "Local Authority 3", ProjectType: "Free school", ChangeDate: now),
-            }
-        );
-
-        var result = await _sut.ExportPipelineAcademiesToSpreadsheetAsync(trustSummary.Uid);
         using var workbook = new XLWorkbook(new MemoryStream(result));
         var worksheet = workbook.Worksheet("Pipeline Academies");
-        
-        // Pre-advisory
-        worksheet.Cell(5, 1).Value.ToString().Should().Be("Academy 1");
-        worksheet.Cell(5, 2).Value.ToString().Should().Be("1");
-        worksheet.Cell(5, 3).Value.ToString().Should().Be("4 - 11");
-        worksheet.Cell(5, 4).Value.ToString().Should().Be("Local Authority 1");
-        worksheet.Cell(5, 5).Value.ToString().Should().Be("Pre-advisory");
-        worksheet.Cell(5, 6).DataType.Should().Be(XLDataType.DateTime);
-        worksheet.Cell(5, 6).GetValue<DateTime>().Should().BeCloseTo(now, TimeSpan.FromSeconds(1));
-        
-        // Post-advisory
-        worksheet.Cell(8, 1).Value.ToString().Should().Be("Academy 2");
-        worksheet.Cell(8, 2).Value.ToString().Should().Be("2");
-        worksheet.Cell(8, 3).Value.ToString().Should().Be("2 - 11");
-        worksheet.Cell(8, 4).Value.ToString().Should().Be("Local Authority 2");
-        worksheet.Cell(8, 5).Value.ToString().Should().Be("Post-advisory");
-        worksheet.Cell(8, 6).DataType.Should().Be(XLDataType.DateTime);
-        worksheet.Cell(8, 6).GetValue<DateTime>().Should().BeCloseTo(now, TimeSpan.FromSeconds(1));
-        
-        // Free schools
-        worksheet.Cell(11, 1).Value.ToString().Should().Be("Academy 3");
-        worksheet.Cell(11, 2).Value.ToString().Should().Be("3");
-        worksheet.Cell(11, 3).Value.ToString().Should().Be("11 - 18");
-        worksheet.Cell(11, 4).Value.ToString().Should().Be("Local Authority 3");
-        worksheet.Cell(11, 5).Value.ToString().Should().Be("Free school");
-        worksheet.Cell(11, 6).DataType.Should().Be(XLDataType.DateTime);
-             worksheet.Cell(11, 6).GetValue<DateTime>().Should().BeCloseTo(now, TimeSpan.FromSeconds(1));
-         }
+
+        AssertSpreadsheetMatches(worksheet,
+            ["Sample Trust"],
+            ["Multi-academy trust"],
+            [],
+            ["Pre-advisory academies"],
+            [
+                "School Name", "URN", "Age range", "Local authority", "Project type",
+                "Proposed conversion or transfer date"
+            ],
+            ["B Academy", "2", "5 - 11", "Local Authority 2", "Pre-advisory", new DateTime(2024, 3, 2)],
+            ["S Academy 1", "3", "6 - 12", "Local Authority 3", "Pre-advisory", new DateTime(2025, 4, 3)],
+            ["S Academy 2", "4", "7 - 13", "Local Authority 4", "Pre-advisory", new DateTime(2026, 5, 4)],
+            ["z Academy", "1", "4 - 10", "Local Authority 1", "Pre-advisory", new DateTime(2023, 2, 1)],
+            [],
+            ["Post-advisory academies"],
+            [
+                "School Name", "URN", "Age range", "Local authority", "Project type",
+                "Proposed conversion or transfer date"
+            ],
+            ["Bb Academy 1", "7", "6 - 12", "Local Authority 3", "Post-advisory", new DateTime(2025, 4, 3)],
+            ["Bb Academy 2", "6", "5 - 11", "Local Authority 2", "Post-advisory", new DateTime(2024, 3, 2)],
+            ["Ss Academy", "8", "7 - 13", "Local Authority 4", "Post-advisory", new DateTime(2026, 5, 4)],
+            ["zz Academy", "5", "4 - 10", "Local Authority 1", "Post-advisory", new DateTime(2023, 2, 1)],
+            [],
+            ["Free schools"],
+            ["School Name", "URN", "Age range", "Local authority", "Project type", "Provisional opening date"],
+            ["Aaa Academy", "9", "4 - 10", "Local Authority 1", "Free school", new DateTime(2023, 2, 1)],
+            ["Fff Academy", "12", "7 - 13", "Local Authority 4", "Free school", new DateTime(2026, 5, 4)],
+            ["Xxx Academy", "11", "6 - 12", "Local Authority 3", "Free school", new DateTime(2025, 4, 3)],
+            ["Zzz Academy", "10", "5 - 11", "Local Authority 2", "Free school", new DateTime(2024, 3, 2)]
+        );
+    }
+
+    /// <summary>
+    /// Asserts that the given strings are present in the expected places in the spreadsheet.
+    /// Does not look at any cells other than the ones specified.
+    /// </summary>
+    private static void AssertSpreadsheetMatches(IXLWorksheet worksheet, params object[][] expectedValues)
+    {
+        for (var rowNumber = 0; rowNumber < expectedValues.Length; rowNumber++)
+        {
+            for (var columnNumber = 0; columnNumber < expectedValues[rowNumber].Length; columnNumber++)
+            {
+                var actualCell = worksheet.Cell(rowNumber + 1, columnNumber + 1); //the worksheet is 1-indexed
+
+                switch (expectedValues[rowNumber][columnNumber])
+                {
+                    case DateTime expectedCellValue:
+                        actualCell.DataType.Should().Be(XLDataType.DateTime);
+                        actualCell.GetValue<DateTime>().Should().Be(expectedCellValue);
+                        break;
+
+                    case string expectedCellValue:
+                        actualCell.Value.ToString().Should().Be(expectedCellValue);
+                        break;
+
+                    default: throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+    }
 
     [Fact]
     public async Task ExportPipelineAcademiesToSpreadsheet_ShouldCorrectlyHandleNullValuesAsync()
     {
         var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
         var trustReferenceNumber = "TRN1111";
-        
+
         _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(trustSummary.Uid)).ReturnsAsync(
             new TrustSummary("Sample Trust", "Multi-academy trust"));
 
         _mockTrustRepository.Setup(m => m.GetTrustReferenceNumberAsync(trustSummary.Uid)).ReturnsAsync(
-                "TRN1111"
-            );
+            "TRN1111"
+        );
 
         _mockAcademyService.Setup(m => m.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber)).ReturnsAsync(
             new AcademyPipelineServiceModel[]
             {
-                new(Urn: "1", EstablishmentName: null, AgeRange: null,
-                    LocalAuthority: null, ProjectType: "Pre-advisory", ChangeDate: null),
+                new("1", null, null,
+                    null, "Pre-advisory", null)
             }
         );
 
         var result = await _sut.ExportPipelineAcademiesToSpreadsheetAsync(trustSummary.Uid);
         using var workbook = new XLWorkbook(new MemoryStream(result));
         var worksheet = workbook.Worksheet("Pipeline Academies");
-        
-        worksheet.Cell(5, 1).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(5, 2).Value.ToString().Should().Be("1");
-        worksheet.Cell(5, 3).Value.ToString().Should().Be("Unconfirmed");
-        worksheet.Cell(5, 4).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(5, 5).Value.ToString().Should().Be("Pre-advisory");
-        worksheet.Cell(5, 6).Value.ToString().Should().Be("Unconfirmed");
+
+        AssertSpreadsheetMatches(worksheet,
+            [trustSummary.Name],
+            [trustSummary.Type],
+            [],
+            ["Pre-advisory academies"],
+            [
+                "School Name", "URN", "Age range", "Local authority", "Project type",
+                "Proposed conversion or transfer date"
+            ],
+            [string.Empty, "1", "Unconfirmed", string.Empty, "Pre-advisory", "Unconfirmed"],
+            [],
+            ["Post-advisory academies"],
+            [
+                "School Name", "URN", "Age range", "Local authority", "Project type",
+                "Proposed conversion or transfer date"
+            ],
+            [],
+            ["Free schools"],
+            ["School Name", "URN", "Age range", "Local authority", "Project type", "Provisional opening date"]
+        );
     }
 
     [Fact]
@@ -693,7 +791,7 @@ public class ExportServiceTests
         worksheet.Cell(1, 1).Value.ToString().Should().Be("My Trust");
         worksheet.Cell(2, 1).Value.ToString().Should().Be("Multi-academy trust");
     }
-    
+
     [Fact]
     public async Task ExportPipelineAcademiesToSpreadsheet_ShouldHandleNullTrustSummaryAsync()
     {
@@ -706,53 +804,6 @@ public class ExportServiceTests
 
         worksheet.Cell(1, 1).Value.ToString().Should().Be(string.Empty);
         worksheet.Cell(2, 1).Value.ToString().Should().Be(string.Empty);
-    }
-
-    [Fact]
-    public async Task ExportPipelineAcademiesToSpreadsheet_ShouldWritePipelineSectionHeadingsAsync()
-    {
-        var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
-        var trustReferenceNumber = "TRN1111";
-        var now = DateTime.Now;
-        
-        _mockTrustRepository.Setup(x => x.GetTrustSummaryAsync(trustSummary.Uid)).ReturnsAsync(
-            new TrustSummary("Sample Trust", "Multi-academy trust"));
-
-        _mockTrustRepository.Setup(m => m.GetTrustReferenceNumberAsync(trustSummary.Uid)).ReturnsAsync(
-            "TRN1111"
-        );
-
-        _mockAcademyService.Setup(m => m.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber)).ReturnsAsync(
-            new AcademyPipelineServiceModel[]
-            {
-                new(Urn: "1", EstablishmentName: "Academy 1", AgeRange: new AgeRange(4, 11),
-                    LocalAuthority: "Local Authority 1", ProjectType: "Pre-advisory", ChangeDate: now),
-            }
-        );
-
-        _mockAcademyService.Setup(m => m.GetAcademiesPipelinePostAdvisoryAsync(trustReferenceNumber)).ReturnsAsync(
-            new AcademyPipelineServiceModel[]
-            {
-                new(Urn: "2", EstablishmentName: "Academy 2", AgeRange: new AgeRange(2, 11),
-                    LocalAuthority: "Local Authority 2", ProjectType: "Post-advisory", ChangeDate: now),
-            }
-        );
-
-        _mockAcademyService.Setup(m => m.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber)).ReturnsAsync(
-            new AcademyPipelineServiceModel[]
-            {
-                new(Urn: "3", EstablishmentName: "Academy 3", AgeRange: new AgeRange(11, 18),
-                    LocalAuthority: "Local Authority 3", ProjectType: "Free school", ChangeDate: now),
-            }
-        );
-
-        var result = await _sut.ExportPipelineAcademiesToSpreadsheetAsync(trustSummary.Uid);
-        using var workbook = new XLWorkbook(new MemoryStream(result));
-        var worksheet = workbook.Worksheet("Pipeline Academies");
-        
-        worksheet.Cell(4, 1).Value.ToString().Should().Be("Pre-advisory academies");
-        worksheet.Cell(7, 1).Value.ToString().Should().Be("Post-advisory academies");
-        worksheet.Cell(10, 1).Value.ToString().Should().Be("Free schools");
     }
 
     private static string Cell(IXLWorksheet worksheet, int rowNumber, OfstedColumns column)
