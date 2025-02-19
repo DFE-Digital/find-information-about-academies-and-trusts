@@ -1,5 +1,6 @@
 import commonPage from "../../../pages/commonPage";
 import pipelineAcademiesPage from "../../../pages/trusts/pipelineAcademiesPage";
+import dataDownload from "../../../pages/trusts/dataDownload";
 import navigation from "../../../pages/navigation";
 
 const testPreAdvisoryData = [
@@ -61,6 +62,15 @@ describe("Testing the Pipeline academies pages", () => {
             it("Checks the Pipeline academies Pre advisory page sorting", () => {
                 pipelineAcademiesPage
                     .checkPreAdvisoryTableSorting();
+            });
+            // The download function is the same for every sub-page - the test is here because this is the landing page for pipeline academies
+            it('should export academies data as an xlsx and verify it has downloaded and has content', () => {
+                pipelineAcademiesPage
+                    .clickDownloadButton();
+                dataDownload
+                    .checkFileDownloaded()
+                    .checkFileHasContent()
+                    .deleteDownloadedFile();
             });
 
         });

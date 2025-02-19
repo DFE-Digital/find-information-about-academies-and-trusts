@@ -5,6 +5,7 @@ class PipelineAcademies {
     elements = {
         subpageHeader: () => cy.get('[data-testid="subpage-header"]'),
         emptyStateMessage: () => cy.get('[data-testid="empty-state-message"]'),
+        downloadButton: () => cy.get('[data-testid="download-all-ofsted-data-button"]'),
         preAdvisory: {
             section: () => cy.get('[data-testid="pre-advisory-board-table"]'),
             schoolName: () => this.elements.preAdvisory.section().find('[data-testid="pre-advisory-board-school-name"]'),
@@ -56,6 +57,11 @@ class PipelineAcademies {
 
     public checkPreAdvisoryPageHeaderPresent(): this {
         this.elements.subpageHeader().should('contain', 'Pre advisory board');
+        return this;
+    }
+
+    public clickDownloadButton(): this {
+        this.elements.downloadButton().click();
         return this;
     }
 
