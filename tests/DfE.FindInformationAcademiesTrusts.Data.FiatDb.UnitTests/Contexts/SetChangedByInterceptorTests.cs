@@ -12,7 +12,7 @@ public class SetChangedByInterceptorTests(FiatDbContainerFixture fiatDbContainer
     public async Task SetChangedByInterceptor_should_set_lastmodified_from_userdetailsprovider_on_SaveChangesAsync(
         string username, string email)
     {
-        MockUserDetailsProvider.Setup(a => a.GetUserDetails()).Returns((username, email));
+        MockUserDetailsProvider.GetUserDetails().Returns((username, email));
 
         var entry = FiatDbContext.Contacts.Add(new Contact
         {
@@ -34,8 +34,8 @@ public class SetChangedByInterceptorTests(FiatDbContainerFixture fiatDbContainer
     public void SetChangedByInterceptor_should_set_lastmodified_from_userdetailsprovider_on_SaveChanges(string username,
         string email)
     {
-        MockUserDetailsProvider.Setup(a => a.GetUserDetails()).Returns((username, email));
-
+        MockUserDetailsProvider.GetUserDetails().Returns((username, email));
+        
         var entry = FiatDbContext.Contacts.Add(new Contact
         {
             Name = "My TrustRelationshipManager",
