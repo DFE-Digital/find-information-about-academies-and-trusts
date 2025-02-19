@@ -10,15 +10,16 @@ namespace DfE.FindInformationAcademiesTrusts.Data.FiatDb.UnitTests;
 public abstract class BaseFiatDbTest : IDisposable
 {
     protected FiatDbContext FiatDbContext { get; }
-    protected Mock<IUserDetailsProvider> MockUserDetailsProvider { get; } = new();
+    protected IUserDetailsProvider MockUserDetailsProvider { get; }
 
     protected BaseFiatDbTest(FiatDbContainerFixture fiatDbContainerFixture)
     {
-        MockUserDetailsProvider.Setup(a => a.GetUserDetails()).Returns(("Default TestUser", "user@defaulttest"));
+        MockUserDetailsProvider = Substitute.For<IUserDetailsProvider>();
+        MockUserDetailsProvider.GetUserDetails().Returns(("Default TestUser", "user@defaulttest"));
 
         FiatDbContext = new FiatDbContext(
             new DbContextOptionsBuilder<FiatDbContext>().UseSqlServer(fiatDbContainerFixture.ConnectionString).Options,
-            new SetChangedByInterceptor(MockUserDetailsProvider.Object));
+            new SetChangedByInterceptor(MockUserDetailsProvider));
 
         FiatDbContext.Database.EnsureDeleted();
         FiatDbContext.Database.EnsureCreated();
