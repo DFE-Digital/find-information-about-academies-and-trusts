@@ -92,7 +92,7 @@ public class DataSourceRepositoryTests
         //MIS does not have an errored update status
         _mockAcademiesDbContext.AddMstrAcademyTransfer("", "", true, false, lastDataRefresh: null);
         _mockAcademiesDbContext.AddMstrAcademyTransfer("", "", false, true, lastDataRefresh: null);
-        _mockAcademiesDbContext.AddMstrFreeSchoolProject("", "", "", lastDataRefresh: null);
+        _mockAcademiesDbContext.AddMstrFreeSchoolProject("", "", lastDataRefresh: null);
     }
 
     private void AddSuccessfulDataSourceUpdates(DateTime updateTime)
@@ -103,7 +103,7 @@ public class DataSourceRepositoryTests
         _mockAcademiesDbContext.AddApplicationSetting("ManagementInformationSchoolTableData CSV Filename", updateTime);
         _mockAcademiesDbContext.AddMstrAcademyTransfer("", "", true, false, lastDataRefresh: updateTime);
         _mockAcademiesDbContext.AddMstrAcademyTransfer("", "", false, true, lastDataRefresh: updateTime);
-        _mockAcademiesDbContext.AddMstrFreeSchoolProject("", "", "", lastDataRefresh: updateTime);
+        _mockAcademiesDbContext.AddMstrFreeSchoolProject("", "", lastDataRefresh: updateTime);
     }
 
     private void AddSuccessfulDataSourceUpdatesExceptFor(Source source)
@@ -121,6 +121,6 @@ public class DataSourceRepositoryTests
         if (source is not Source.Complete)
             _mockAcademiesDbContext.AddMstrAcademyTransfer("", "", false, true, lastDataRefresh: lastUpdateTime);
         if (source is not Source.ManageFreeSchoolProjects)
-            _mockAcademiesDbContext.AddMstrFreeSchoolProject("", "", "", lastDataRefresh: lastUpdateTime);
+            _mockAcademiesDbContext.AddMstrFreeSchoolProject("", "", lastDataRefresh: lastUpdateTime);
     }
 }

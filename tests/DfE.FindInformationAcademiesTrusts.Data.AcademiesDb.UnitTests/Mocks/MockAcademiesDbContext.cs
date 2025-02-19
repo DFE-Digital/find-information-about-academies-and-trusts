@@ -6,6 +6,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis_Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
@@ -82,6 +83,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             AddGiasGovernance(new GiasGovernance
                 { Gid = $"{i}", Uid = otherTrust.GroupUid!, Forename1 = $"Governor {i}" });
             AddTadTrustGovernance(new TadTrustGovernance { Gid = $"{i}", Email = $"governor{i}@othertrust.com" });
+            AddMstrFreeSchoolProject(otherTrust.GroupId!, "Presumption");
         }
     }
 
@@ -259,10 +261,9 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         _tadTrustGovernances.Add(tadTrustGovernance);
     }
 
-    public void AddMstrFreeSchoolProject(
-        string trustId,
-        string stage,
-        string routeOfProject,
+    public void AddMstrFreeSchoolProject(string trustId,
+        string projectApplicationType,
+        string stage = PipelineStatuses.FreeSchoolPipeline,
         string? projectName = null,
         int? statutoryLowestAge = null,
         int? statutoryHighestAge = null,
@@ -276,7 +277,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             SK = _mstrFreeSchoolProjects.GetNextId(e => e.SK),
             TrustID = trustId,
             Stage = stage,
-            RouteOfProject = routeOfProject,
+            RouteOfProject = "Free School",
+            ProjectApplicationType = projectApplicationType,
             ProjectName = projectName,
             StatutoryLowestAge = statutoryLowestAge,
             StatutoryHighestAge = statutoryHighestAge,
