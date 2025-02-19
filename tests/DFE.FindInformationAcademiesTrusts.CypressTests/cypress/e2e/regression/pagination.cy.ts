@@ -23,15 +23,7 @@ describe('Pagination Tests', () => {
         navigation
             .checkCurrentURLIsCorrect('pagenumber=2');
         commonPage
-            .checkThatBrowserTitleMatches('Search (page 2 of 72) - tru - Find information about academies and trusts');
-
-        paginationPage
-            .clickPageNumber(72);
-
-        navigation
-            .checkCurrentURLIsCorrect('pagenumber=72');
-        commonPage
-            .checkThatBrowserTitleMatches('Search (page 72 of 72) - tru - Find information about academies and trusts');
+            .checkThatBrowserTitleMatches('Search (page 2 of 71) - tru - Find information about academies and trusts');
 
         paginationPage
             .clickPageNumber(71);
@@ -39,7 +31,15 @@ describe('Pagination Tests', () => {
         navigation
             .checkCurrentURLIsCorrect('pagenumber=71');
         commonPage
-            .checkThatBrowserTitleMatches('Search (page 71 of 72) - tru - Find information about academies and trusts');
+            .checkThatBrowserTitleMatches('Search (page 71 of 71) - tru - Find information about academies and trusts');
+
+        paginationPage
+            .clickPageNumber(70);
+
+        navigation
+            .checkCurrentURLIsCorrect('pagenumber=70');
+        commonPage
+            .checkThatBrowserTitleMatches('Search (page 70 of 71) - tru - Find information about academies and trusts');
     });
 
     it('Should navigate to the next page on next button click', () => {
@@ -102,8 +102,8 @@ describe('Pagination Tests', () => {
             .checkExpectedPageNumberInPaginationBar(30)
             .checkExpectedPageNumberInPaginationBar(31)
             .checkResultIsNotInPaginationBar(32)
-            .checkResultIsNotInPaginationBar(71)
-            .checkExpectedPageNumberInPaginationBar(72);
+            .checkResultIsNotInPaginationBar(70)
+            .checkExpectedPageNumberInPaginationBar(71);
     });
 
     it('Checks that on a single result page only the page number is present', () => {
