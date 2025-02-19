@@ -11,7 +11,7 @@ public class MstrFreeSchoolProject
     public string? ProjectName { get; set; }
     public string? ProjectApplicationType { get; set; }
     public string? LocalAuthority { get; set; }
-    public required string Stage { get; set; }
+    public string? Stage { get; set; }
     public required string RouteOfProject { get; set; }
     public int? StatutoryLowestAge { get; set; }
     public int? StatutoryHighestAge { get; set; }

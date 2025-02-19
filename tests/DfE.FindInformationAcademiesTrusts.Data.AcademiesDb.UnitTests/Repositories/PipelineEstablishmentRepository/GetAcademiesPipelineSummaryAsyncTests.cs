@@ -18,7 +18,7 @@ public class GetAcademiesPipelineSummaryAsyncTests
     {
         var trustReferences = "TRU123";
 
-        _mockContext.AddMstrFreeSchoolProject(trustReferences, PipelineStatuses.FreeSchoolPipeline, "FreeRoute");
+        _mockContext.AddMstrFreeSchoolProject(trustReferences, "FreeRoute");
 
         var result = await _sut.GetAcademiesPipelineSummaryAsync(trustReferences);
 
@@ -93,7 +93,6 @@ public class GetAcademiesPipelineSummaryAsyncTests
 
         _mockContext.AddMstrFreeSchoolProject(
             freeSchoolTrust,
-            PipelineStatuses.FreeSchoolPipeline,
             "FreeRoute");
 
         var result = await _sut.GetAcademiesPipelineSummaryAsync(freeSchoolTrust);
@@ -108,7 +107,6 @@ public class GetAcademiesPipelineSummaryAsyncTests
 
         _mockContext.AddMstrFreeSchoolProject(
             freeSchoolTrust,
-            PipelineStatuses.ApprovedForAO,
             "FreeRoute");
 
         var result = await _sut.GetAcademiesPipelineSummaryAsync(freeSchoolTrust);
@@ -123,7 +121,6 @@ public class GetAcademiesPipelineSummaryAsyncTests
 
         _mockContext.AddMstrFreeSchoolProject(
             freeSchoolTrust,
-            PipelineStatuses.FreeSchoolPipeline,
             "FreeRoute");
 
         var result = await _sut.GetAcademiesPipelineSummaryAsync("SomeOtherTrust");
