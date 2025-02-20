@@ -39,24 +39,13 @@ public class ExportServiceTests
         using var workbook = new XLWorkbook(new MemoryStream(result));
         var worksheet = workbook.Worksheet("Academies");
 
-        worksheet.Cell(3, 1).Value.ToString().Should().Be("School Name");
-        worksheet.Cell(3, 2).Value.ToString().Should().Be("URN");
-        worksheet.Cell(3, 3).Value.ToString().Should().Be("Local Authority");
-        worksheet.Cell(3, 4).Value.ToString().Should().Be("Type");
-        worksheet.Cell(3, 5).Value.ToString().Should().Be("Rural or Urban");
-        worksheet.Cell(3, 6).Value.ToString().Should().Be("Date joined");
-        worksheet.Cell(3, 7).Value.ToString().Should().Be("Previous Ofsted Rating");
-        worksheet.Cell(3, 8).Value.ToString().Should().Be("Before/After Joining");
-        worksheet.Cell(3, 9).Value.ToString().Should().Be("Date of Previous Ofsted");
-        worksheet.Cell(3, 10).Value.ToString().Should().Be("Current Ofsted Rating");
-        worksheet.Cell(3, 11).Value.ToString().Should().Be("Before/After Joining");
-        worksheet.Cell(3, 12).Value.ToString().Should().Be("Date of Current Ofsted");
-        worksheet.Cell(3, 13).Value.ToString().Should().Be("Phase of Education");
-        worksheet.Cell(3, 14).Value.ToString().Should().Be("Age Range");
-        worksheet.Cell(3, 15).Value.ToString().Should().Be("Pupil Numbers");
-        worksheet.Cell(3, 16).Value.ToString().Should().Be("Capacity");
-        worksheet.Cell(3, 17).Value.ToString().Should().Be("% Full");
-        worksheet.Cell(3, 18).Value.ToString().Should().Be("Pupils eligible for Free School Meals");
+        AssertSpreadsheetMatches(worksheet, 3,
+        [
+            "School Name", "URN", "Local authority", "Type", "Rural or Urban", "Date joined",
+            "Previous Ofsted Rating", "Before/After Joining", "Date of Previous Ofsted", "Current Ofsted Rating",
+            "Before/After Joining", "Date of Current Ofsted", "Phase of Education", "Age range", "Pupil Numbers",
+            "Capacity", "% Full", "Pupils eligible for Free School Meals"
+        ]);
     }
 
     [Fact]
@@ -405,29 +394,16 @@ public class ExportServiceTests
         var worksheet = workbook.Worksheet("Ofsted");
 
         // Verify headers on row 3
-        Cell(worksheet, 3, OfstedColumns.SchoolName).Should().Be("School Name");
-        Cell(worksheet, 3, OfstedColumns.DateJoined).Should().Be("Date Joined");
-        Cell(worksheet, 3, OfstedColumns.CurrentSingleHeadlineGrade).Should().Be("Current single headline grade");
-        Cell(worksheet, 3, OfstedColumns.CurrentBeforeAfterJoining).Should().Be("Before/After Joining");
-        Cell(worksheet, 3, OfstedColumns.DateOfCurrentInspection).Should().Be("Date of Current Inspection");
-        Cell(worksheet, 3, OfstedColumns.PreviousSingleHeadlineGrade).Should().Be("Previous single headline grade");
-        Cell(worksheet, 3, OfstedColumns.PreviousBeforeAfterJoining).Should().Be("Before/After Joining");
-        Cell(worksheet, 3, OfstedColumns.DateOfPreviousInspection).Should().Be("Date of previous inspection");
-        Cell(worksheet, 3, OfstedColumns.CurrentQualityOfEducation).Should().Be("Quality of Education");
-        Cell(worksheet, 3, OfstedColumns.CurrentBehaviourAndAttitudes).Should().Be("Behaviour and Attitudes");
-        Cell(worksheet, 3, OfstedColumns.CurrentPersonalDevelopment).Should().Be("Personal Development");
-        Cell(worksheet, 3, OfstedColumns.CurrentLeadershipAndManagement).Should().Be("Leadership and Management");
-        Cell(worksheet, 3, OfstedColumns.CurrentEarlyYearsProvision).Should().Be("Early Years Provision");
-        Cell(worksheet, 3, OfstedColumns.CurrentSixthFormProvision).Should().Be("Sixth Form Provision");
-        Cell(worksheet, 3, OfstedColumns.PreviousQualityOfEducation).Should().Be("Previous Quality of Education");
-        Cell(worksheet, 3, OfstedColumns.PreviousBehaviourAndAttitudes).Should().Be("Previous Behaviour and Attitudes");
-        Cell(worksheet, 3, OfstedColumns.PreviousPersonalDevelopment).Should().Be("Previous Personal Development");
-        Cell(worksheet, 3, OfstedColumns.PreviousLeadershipAndManagement).Should()
-            .Be("Previous Leadership and Management");
-        Cell(worksheet, 3, OfstedColumns.PreviousEarlyYearsProvision).Should().Be("Previous Early Years Provision");
-        Cell(worksheet, 3, OfstedColumns.PreviousSixthFormProvision).Should().Be("Previous Sixth Form Provision");
-        Cell(worksheet, 3, OfstedColumns.EffectiveSafeguarding).Should().Be("Effective Safeguarding");
-        Cell(worksheet, 3, OfstedColumns.CategoryOfConcern).Should().Be("Category of Concern");
+        AssertSpreadsheetMatches(worksheet, 3,
+        [
+            "School Name", "Date joined", "Current single headline grade", "Before/After Joining",
+            "Date of Current Inspection", "Previous single headline grade", "Before/After Joining",
+            "Date of previous inspection", "Quality of Education", "Behaviour and Attitudes", "Personal Development",
+            "Leadership and Management", "Early Years Provision", "Sixth Form Provision",
+            "Previous Quality of Education", "Previous Behaviour and Attitudes", "Previous Personal Development",
+            "Previous Leadership and Management", "Previous Early Years Provision", "Previous Sixth Form Provision",
+            "Effective Safeguarding", "Category of Concern"
+        ]);
     }
 
     [Fact]
@@ -595,7 +571,7 @@ public class ExportServiceTests
         using var workbook = new XLWorkbook(new MemoryStream(result));
         var worksheet = workbook.Worksheet("Pipeline Academies");
 
-        AssertSpreadsheetMatches(worksheet,
+        AssertSpreadsheetMatches(worksheet, 1,
             ["Sample Trust"],
             ["Multi-academy trust"],
             [],
@@ -669,7 +645,7 @@ public class ExportServiceTests
         using var workbook = new XLWorkbook(new MemoryStream(result));
         var worksheet = workbook.Worksheet("Pipeline Academies");
 
-        AssertSpreadsheetMatches(worksheet,
+        AssertSpreadsheetMatches(worksheet, 1,
             ["Sample Trust"],
             ["Multi-academy trust"],
             [],
@@ -706,13 +682,14 @@ public class ExportServiceTests
     /// Asserts that the given strings are present in the expected places in the spreadsheet.
     /// Does not look at any cells other than the ones specified.
     /// </summary>
-    private static void AssertSpreadsheetMatches(IXLWorksheet worksheet, params object[][] expectedValues)
+    private static void AssertSpreadsheetMatches(IXLWorksheet worksheet, int startingRow,
+        params object[][] expectedValues)
     {
         for (var rowNumber = 0; rowNumber < expectedValues.Length; rowNumber++)
         {
             for (var columnNumber = 0; columnNumber < expectedValues[rowNumber].Length; columnNumber++)
             {
-                var actualCell = worksheet.Cell(rowNumber + 1, columnNumber + 1); //the worksheet is 1-indexed
+                var actualCell = worksheet.Cell(rowNumber + startingRow, columnNumber + 1); //the worksheet is 1-indexed
 
                 switch (expectedValues[rowNumber][columnNumber])
                 {
@@ -725,7 +702,7 @@ public class ExportServiceTests
                         actualCell.Value.ToString().Should().Be(expectedCellValue);
                         break;
 
-                    default: throw new ArgumentOutOfRangeException();
+                    default: throw new ArgumentOutOfRangeException(nameof(expectedValues));
                 }
             }
         }
@@ -756,7 +733,7 @@ public class ExportServiceTests
         using var workbook = new XLWorkbook(new MemoryStream(result));
         var worksheet = workbook.Worksheet("Pipeline Academies");
 
-        AssertSpreadsheetMatches(worksheet,
+        AssertSpreadsheetMatches(worksheet, 1,
             [trustSummary.Name],
             [trustSummary.Type],
             [],

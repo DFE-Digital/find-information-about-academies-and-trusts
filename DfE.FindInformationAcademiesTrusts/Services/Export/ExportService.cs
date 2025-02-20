@@ -20,18 +20,27 @@ public class ExportService(
     ITrustRepository trustRepository,
     IAcademyService academyService) : IExportService
 {
+    #region Common header display strings
+
+    private const string AgeRange = "Age range";
     private const string BeforeOrAfterJoiningHeader = "Before/After Joining";
+    private const string DateJoined = "Date joined";
+    private const string LocalAuthority = "Local authority";
+    private const string SchoolName = "School Name";
+    private const string Urn = "URN";
+
+    #endregion
 
     public async Task<byte[]> ExportAcademiesToSpreadsheetAsync(string uid)
     {
         var headers = new List<string>
         {
-            "School Name",
-            "URN",
-            "Local Authority",
+            SchoolName,
+            Urn,
+            LocalAuthority,
             "Type",
             "Rural or Urban",
-            "Date joined",
+            DateJoined,
             "Previous Ofsted Rating",
             BeforeOrAfterJoiningHeader,
             "Date of Previous Ofsted",
@@ -39,7 +48,7 @@ public class ExportService(
             BeforeOrAfterJoiningHeader,
             "Date of Current Ofsted",
             "Phase of Education",
-            "Age Range",
+            AgeRange,
             "Pupil Numbers",
             "Capacity",
             "% Full",
@@ -181,8 +190,8 @@ public class ExportService(
     {
         var headers = new List<string>
         {
-            "School Name",
-            "Date Joined",
+            SchoolName,
+            DateJoined,
             "Current single headline grade",
             BeforeOrAfterJoiningHeader,
             "Date of Current Inspection",
@@ -339,10 +348,10 @@ public class ExportService(
         // Pre-advisory
         nextRow = GeneratePipelineAcademySectionHeading(worksheet, nextRow + sectionGapRowCount,
             "Pre-advisory academies",
-            "School Name",
-            "URN",
-            "Age range",
-            "Local authority",
+            SchoolName,
+            Urn,
+            AgeRange,
+            LocalAuthority,
             "Project type",
             "Proposed conversion or transfer date");
         nextRow = GeneratePipelineAcademySection(worksheet, nextRow, preAdvisoryAcademies);
@@ -350,20 +359,20 @@ public class ExportService(
         // Post-advisory
         nextRow = GeneratePipelineAcademySectionHeading(worksheet, nextRow + sectionGapRowCount,
             "Post-advisory academies",
-            "School Name",
-            "URN",
-            "Age range",
-            "Local authority",
+            SchoolName,
+            Urn,
+            AgeRange,
+            LocalAuthority,
             "Project type",
             "Proposed conversion or transfer date");
         nextRow = GeneratePipelineAcademySection(worksheet, nextRow, postAdvisoryAcademies);
 
         // Free schools
         nextRow = GeneratePipelineAcademySectionHeading(worksheet, nextRow + sectionGapRowCount, "Free schools",
-            "School Name",
-            "URN",
-            "Age range",
-            "Local authority",
+            SchoolName,
+            Urn,
+            AgeRange,
+            LocalAuthority,
             "Project type",
             "Provisional opening date"
         );
