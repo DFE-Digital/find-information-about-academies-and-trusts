@@ -518,3 +518,9 @@ variable "init_container_command" {
   type        = list(any)
   default     = []
 }
+
+variable "enable_monitoring_traces" {
+  description = "Monitor App Insights traces for error messages"
+  type        = bool
+  default     = true
+}

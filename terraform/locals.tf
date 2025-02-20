@@ -57,6 +57,7 @@ locals {
   enable_monitoring                               = var.enable_monitoring
   monitor_email_receivers                         = var.monitor_email_receivers
   monitor_endpoint_healthcheck                    = var.monitor_endpoint_healthcheck
+  enable_monitoring_traces                        = var.enable_monitoring_traces
   existing_logic_app_workflow                     = var.existing_logic_app_workflow
   existing_network_watcher_name                   = var.existing_network_watcher_name
   existing_network_watcher_resource_group_name    = var.existing_network_watcher_resource_group_name
