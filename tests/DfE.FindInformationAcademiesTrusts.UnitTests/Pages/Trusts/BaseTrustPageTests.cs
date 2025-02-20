@@ -106,7 +106,7 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
                 l =>
                 {
                     l.LinkText.Should().Be("Academies (3)");
-                    l.Page.Should().Be("/Trusts/Academies/Details");
+                    l.Page.Should().Be("/Trusts/Academies/InTrust/Details");
                     l.DataTestId.Should().Be("academies-nav");
                 },
                 l =>

@@ -4,22 +4,27 @@ class Navigation {
         privacyFooterButton: () => cy.contains('Privacy'),
         cookiesFooterButton: () => cy.get('[data-testid="cookies-footer-link"]'),
         accessibilityFooterButton: () => cy.contains('Accessibility'),
-
-
+        academyTypeNav: {
+            inThisTrustButton: () => cy.get('[data-testid="academies-in-this-trust-subnav"]'),
+            pipelineAcademiesButton: () => cy.get('[data-testid="academies-pipeline-academies-subnav"]'),
+        },
         serviceNav: {
             academiesServiceNavButton: () => cy.get('[data-testid="academies-nav"]'),
             contactsServiceNavButton: () => cy.get('[data-testid="contacts-nav"]'),
             governanceServiceNavButton: () => cy.get('[data-testid="governance-nav"]'),
             overviewServiceNavButton: () => cy.get('[data-testid="overview-nav"]'),
         },
-
         currentPageSubnavLinks: () => cy.get('.moj-sub-navigation__link'),
-
-        acadmiesSubNav: {
-            ofstedAcadmiesTrustButton: () => cy.get('[data-testid="ofsted-nav"]'),
-            pupilNumbersAcadmiesTrustButton: () => cy.get('#academies-pupil-numbers-link'),
-            freeSchoolMealsAcadmiesTrustButton: () => cy.get('#free-school-meals-link'),
-            detailsAcadmiesTrustButton: () => cy.get('#academies-details-link'),
+        acadmiesInTrustSubNav: {
+            academiesInTrustOfstedButton: () => cy.get('[data-testid="ofsted-nav"]'),
+            academiesInTrustPupilNumbersButton: () => cy.get('[data-testid="in-this-trust-pupil-numbers-tab"]'),
+            academiesInTrustFreeSchoolMealsButton: () => cy.get('[data-testid="in-this-trust-free-school-meals-tab"]'),
+            academiesInTrustDetailsButton: () => cy.get('[data-testid="in-this-trust-details-tab"]'),
+        },
+        pipelineAcademiesSubNav: {
+            pipelineAcademiesPreAdvisoryButton: () => cy.get('[data-testid="pipeline-pre-advisory-board-tab"]'),
+            pipelineAcademiesPostAdvisoryButton: () => cy.get('[data-testid="pipeline-post-advisory-board-tab"]'),
+            pipelineAcademiesFreeSchoolMealsButton: () => cy.get('[data-testid="pipeline-free-schools-tab"]'),
         },
         breadcrumbs: {
             breadcrumbParent: () => cy.get('[aria-label="Breadcrumb"]'),
@@ -151,36 +156,36 @@ class Navigation {
     }
 
     public clickOfstedAcadmiesTrustButton(): this {
-        this.elements.acadmiesSubNav.ofstedAcadmiesTrustButton().click();
+        this.elements.acadmiesInTrustSubNav.academiesInTrustOfstedButton().click();
         return this;
     }
 
     public clickPupilNumbersAcadmiesTrustButton(): this {
-        this.elements.acadmiesSubNav.pupilNumbersAcadmiesTrustButton().click();
+        this.elements.acadmiesInTrustSubNav.academiesInTrustPupilNumbersButton().click();
         return this;
     }
 
     public clickFreeSchoolMealsAcadmiesTrustButton(): this {
-        this.elements.acadmiesSubNav.freeSchoolMealsAcadmiesTrustButton().click();
+        this.elements.acadmiesInTrustSubNav.academiesInTrustFreeSchoolMealsButton().click();
         return this;
     }
 
     public clickDetailsAcadmiesTrustButton(): this {
-        this.elements.acadmiesSubNav.detailsAcadmiesTrustButton().click();
+        this.elements.acadmiesInTrustSubNav.academiesInTrustDetailsButton().click();
         return this;
     }
 
     public checkAcademiesSubNavNotPresent(): this {
-        this.elements.acadmiesSubNav.detailsAcadmiesTrustButton().should('not.exist');
-        this.elements.acadmiesSubNav.pupilNumbersAcadmiesTrustButton().should('not.exist');
-        this.elements.acadmiesSubNav.freeSchoolMealsAcadmiesTrustButton().should('not.exist');
+        this.elements.acadmiesInTrustSubNav.academiesInTrustDetailsButton().should('not.exist');
+        this.elements.acadmiesInTrustSubNav.academiesInTrustPupilNumbersButton().should('not.exist');
+        this.elements.acadmiesInTrustSubNav.academiesInTrustFreeSchoolMealsButton().should('not.exist');
         return this;
     }
 
     public checkAllAcademiesNavItemsPresent(): this {
-        this.elements.acadmiesSubNav.detailsAcadmiesTrustButton().should('be.visible');
-        this.elements.acadmiesSubNav.pupilNumbersAcadmiesTrustButton().should('be.visible');
-        this.elements.acadmiesSubNav.freeSchoolMealsAcadmiesTrustButton().should('be.visible');
+        this.elements.acadmiesInTrustSubNav.academiesInTrustDetailsButton().should('be.visible');
+        this.elements.acadmiesInTrustSubNav.academiesInTrustPupilNumbersButton().should('be.visible');
+        this.elements.acadmiesInTrustSubNav.academiesInTrustFreeSchoolMealsButton().should('be.visible');
         return this;
     }
 
@@ -189,7 +194,32 @@ class Navigation {
         this.elements.serviceNav.contactsServiceNavButton().should('be.visible');
         this.elements.serviceNav.academiesServiceNavButton().should('be.visible');
         this.elements.serviceNav.governanceServiceNavButton().should('be.visible');
-        this.elements.acadmiesSubNav.ofstedAcadmiesTrustButton().should('be.visible');
+        this.elements.acadmiesInTrustSubNav.academiesInTrustOfstedButton().should('be.visible');
+        return this;
+    }
+
+    public clickAcademiesInThisTrustNavButton(): this {
+        this.elements.academyTypeNav.inThisTrustButton().click();
+        return this;
+    }
+
+    public clickPipelineAcademiesNavButton(): this {
+        this.elements.academyTypeNav.pipelineAcademiesButton().click();
+        return this;
+    }
+
+    public clickPipelineAcademiesPreAdvisoryNavButton(): this {
+        this.elements.pipelineAcademiesSubNav.pipelineAcademiesPreAdvisoryButton().click();
+        return this;
+    }
+
+    public clickPipelineAcademiesPostAdvisoryNavButton(): this {
+        this.elements.pipelineAcademiesSubNav.pipelineAcademiesPostAdvisoryButton().click();
+        return this;
+    }
+
+    public clickPipelineAcademiesFreeSchoolsNavButton(): this {
+        this.elements.pipelineAcademiesSubNav.pipelineAcademiesFreeSchoolMealsButton().click();
         return this;
     }
 }

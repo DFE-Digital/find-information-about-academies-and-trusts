@@ -1,5 +1,5 @@
-@page
-@model AcademiesDetailsModel
+@page "/trusts/academies/in-trust/details"
+@model AcademiesInTrustDetailsModel
 
 @{
   Layout = "Academies/_AcademiesLayout";
@@ -43,3 +43,10 @@
     </tbody>
   </table>
 </section>
+@section Export
+{
+    @{
+        var exportModel = new AcademiesExportButtonModel(Model.TrustSummary.Uid, "Download all academy data", "export-academy-data");
+    }
+    <partial name="Trusts/Academies/_AcademiesExportButton" model="exportModel"/>
+}
