@@ -63,6 +63,17 @@ describe("Testing the Pipeline academies pages", () => {
                 pipelineAcademiesPage
                     .checkPreAdvisoryTableSorting();
             });
+
+            it("Checks the Pipeline academies Pre advisory project type", () => {
+                pipelineAcademiesPage
+                    .checkPreAdvisoryCorrectProjectTypePresent();
+            });
+
+            it("Checks the Pipeline academies Pre advisory Proposed conversion or transfer date", () => {
+                pipelineAcademiesPage
+                    .checkPreAdvisoryCorrectConversionTransferDatePresent();
+            });
+
             // The download function is the same for every sub-page - the test is here because this is the landing page for pipeline academies
             it('should export pipeline academies data as an xlsx and verify it has downloaded and has content', () => {
                 pipelineAcademiesPage
@@ -113,6 +124,16 @@ describe("Testing the Pipeline academies pages", () => {
                     .checkPostAdvisoryTableSorting();
             });
 
+            it("Checks the Pipeline academies Post advisory project type", () => {
+                pipelineAcademiesPage
+                    .checkPostAdvisoryCorrectProjectTypePresent();
+            });
+
+            it("Checks the Pipeline academies Post advisory Proposed conversion or transfer date", () => {
+                pipelineAcademiesPage
+                    .checkPostAdvisoryCorrectConversionTransferDatePresent();
+            });
+
         });
     });
 
@@ -153,6 +174,16 @@ describe("Testing the Pipeline academies pages", () => {
                     .checkFreeSchoolsTableSorting();
             });
 
+            it("Checks the Pipeline academies Free schools project type", () => {
+                pipelineAcademiesPage
+                    .checkFreeSchoolsCorrectProjectTypePresent();
+            });
+
+            it("Checks the Pipeline academies Free schools Proposed conversion or transfer date", () => {
+                pipelineAcademiesPage
+                    .checkFreeSchoolsCorrectProvisionalOpenDatePresent();
+            });
+
         });
     });
 
@@ -181,7 +212,7 @@ describe("Testing the Pipeline academies pages", () => {
         });
     });
 
-    describe("Testing a trust that has no ofsted data within it to ensure the issue of a 500 page appearing does not happen", () => {
+    describe("Testing a trust that has no pipeline data within it to ensure the issue of a 500 page appearing does not happen", () => {
         beforeEach(() => {
             cy.login();
             commonPage
@@ -198,6 +229,31 @@ describe("Testing the Pipeline academies pages", () => {
 
         it(`Should have no 500 error on the free schools page`, () => {
             cy.visit(`/trusts/academies/pipeline/free-schools?uid=5712`);
+        });
+    });
+
+    describe(`On the pages with no pipeline academy data under them`, () => {
+
+        beforeEach(() => {
+            cy.login();
+        });
+
+        it("Checks the Pipeline academies Pre advisory page when an academy doesnt exist under it to ensure the correct message is displayed", () => {
+            cy.visit(`/trusts/academies/pipeline/pre-advisory-board?uid=5712`);
+            pipelineAcademiesPage
+                .checkPreAdvisoryNoAcademyPresent();
+        });
+
+        it("Checks the Pipeline academies Post advisory page when an academy doesnt exist under it to ensure the correct message is displayed", () => {
+            cy.visit(`/trusts/academies/pipeline/post-advisory-board?uid=5712`);
+            pipelineAcademiesPage
+                .checkPostAdvisoryNoAcademyPresent();
+        });
+
+        it("Checks the Pipeline academies Free schools page when an academy doesnt exist under it to ensure the correct message is displayed", () => {
+            cy.visit(`/trusts/academies/pipeline/free-schools?uid=5712`);
+            pipelineAcademiesPage
+                .checkFreeSchoolsNoAcademyPresent();
         });
     });
 

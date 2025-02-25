@@ -49,10 +49,26 @@ class PipelineAcademies {
             localAuthorityHeader: () => this.elements.freeSchools.section().find('[data-testid="free-schools-local-authority-header"]'),
             projectType: () => this.elements.freeSchools.section().find('[data-testid="free-schools-project-type"]'),
             projectTypeHeader: () => this.elements.freeSchools.section().find('[data-testid="free-schools-project-type-header"]'),
-            proposedConversionTransferDate: () => this.elements.freeSchools.section().find('[data-testid="free-schools-provisional-opening-date"]'),
-            proposedConversionTransferDateHeader: () => this.elements.freeSchools.section().find('[data-testid="free-schools-provisional-opening-date-header"]'),
+            provisionalOpeningDate: () => this.elements.freeSchools.section().find('[data-testid="free-schools-provisional-opening-date"]'),
+            provisionalOpeningDateHeader: () => this.elements.freeSchools.section().find('[data-testid="free-schools-provisional-opening-date-header"]'),
         },
 
+    };
+
+    private readonly checkElementMatches = (element: JQuery<HTMLElement>, expected: RegExp) => {
+        const text = element.text().trim();
+        expect(text).to.match(expected);
+    };
+
+    private readonly checkValueIsValidConversionTransfer = (element: JQuery<HTMLElement>) =>
+        this.checkElementMatches(element, /^(Conversion|Transfer)$/);
+
+    private readonly checkValueIsValidOpeningDate = (element: JQuery<HTMLElement>) => {
+        const text = element.text().trim();
+
+        // Resolves to a date ({2 digits} {month} {4 digits}) or "Unconfirmed" string
+        // Tech debt - We are allowing Sep and Sept due to different cultures set on remote vs local builds
+        expect(text).to.match(/^\d{1,2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec) \d{4}$|^Unconfirmed$/);
     };
 
     public checkPreAdvisoryPageHeaderPresent(): this {
@@ -157,7 +173,7 @@ class PipelineAcademies {
         this.elements.freeSchools.ageRangeHeader().should('be.visible');
         this.elements.freeSchools.localAuthorityHeader().should('be.visible');
         this.elements.freeSchools.projectTypeHeader().should('be.visible');
-        this.elements.freeSchools.proposedConversionTransferDateHeader().should('be.visible');
+        this.elements.freeSchools.provisionalOpeningDateHeader().should('be.visible');
         return this;
     }
 
@@ -183,8 +199,8 @@ class PipelineAcademies {
             this.elements.freeSchools.projectTypeHeader
         );
         TableUtility.checkStringSorting(
-            this.elements.freeSchools.proposedConversionTransferDate,
-            this.elements.freeSchools.proposedConversionTransferDateHeader
+            this.elements.freeSchools.provisionalOpeningDate,
+            this.elements.freeSchools.provisionalOpeningDateHeader
         );
         return this;
     }
@@ -201,6 +217,38 @@ class PipelineAcademies {
 
     public checkFreeSchoolsNoAcademyPresent(): this {
         this.elements.emptyStateMessage().should('contain', 'There are no free schools in the pipeline for this trust.');
+        return this;
+    }
+
+    public checkPreAdvisoryCorrectProjectTypePresent(): this {
+        this.elements.preAdvisory.projectType().each(this.checkValueIsValidConversionTransfer);
+        return this;
+    }
+
+    public checkPreAdvisoryCorrectConversionTransferDatePresent(): this {
+        this.elements.preAdvisory.proposedConversionTransferDate().each(this.checkValueIsValidOpeningDate);
+        return this;
+    }
+
+    public checkPostAdvisoryCorrectProjectTypePresent(): this {
+        this.elements.postAdvisory.projectType().each(this.checkValueIsValidConversionTransfer);
+        return this;
+    }
+
+    public checkPostAdvisoryCorrectConversionTransferDatePresent(): this {
+        this.elements.postAdvisory.proposedConversionTransferDate().each(this.checkValueIsValidOpeningDate);
+        return this;
+    }
+
+    public checkFreeSchoolsCorrectProjectTypePresent(): this {
+        this.elements.freeSchools.projectType().each((element: JQuery<HTMLElement>) =>
+            this.checkElementMatches(element, /^(Central|Presumption)$/));
+
+        return this;
+    }
+
+    public checkFreeSchoolsCorrectProvisionalOpenDatePresent(): this {
+        this.elements.freeSchools.provisionalOpeningDate().each(this.checkValueIsValidOpeningDate);
         return this;
     }
 
