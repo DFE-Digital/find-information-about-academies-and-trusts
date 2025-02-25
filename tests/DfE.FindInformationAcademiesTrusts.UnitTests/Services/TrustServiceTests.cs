@@ -327,4 +327,21 @@ public class TrustServiceTests
 
         result.Should().BeEquivalentTo(expected);
     }
+
+    [Fact]
+    public async Task GetAcademyTrustTrustReferenceNumberAsync_should_return_trust_reference_number_when_found()
+    {
+        // Arrange
+        const string uid = "1234";
+        const string expectedTrustReferenceNumber = "TRUST123";
+        _mockTrustRepository
+            .Setup(r => r.GetTrustReferenceNumberAsync(uid))
+            .ReturnsAsync(expectedTrustReferenceNumber);
+
+        // Act
+        var result = await _sut.GetTrustReferenceNumberAsync(uid);
+
+        // Assert
+        result.Should().Be(expectedTrustReferenceNumber);
+    }
 }

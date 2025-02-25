@@ -13,7 +13,7 @@ Use this documentation to help supercharge your dev environment. We recommend us
 We recommend setting Rider to run unit tests on save, for fast feedback on changes.
 
 - Go to Settings -> Plugins and check that `dotCover` is enabled
-- Go to Settings -> Build, Execution, Deployment -> Unit Testing -> Continuous Testing and select 'Automatically start tests in continuous testing sessions on **Save**'
+- Go to Settings -> Build, Execution, Deployment -> dotCover -> Continuous Testing and select 'Trigger Continuous Testing on **Save**'
 - Go to or open a Unit Tests session (Tests -> Create New Session), open the 'Continuous testing modes' menu and select 'Run all tests'
 
 ## Configure linting and code cleanup

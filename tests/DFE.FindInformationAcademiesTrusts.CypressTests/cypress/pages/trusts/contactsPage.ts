@@ -53,7 +53,7 @@ class ContactsPage {
 
         subNav: {
             contactsInDfeSubnavButton: () => cy.get('[data-testid="contacts-in-dfe-subnav"]'),
-            contactsInTheTrustSubnavButton: () => cy.get('[data-testid="contacts-in-the-trust-subnav"]'),
+            contactsInTheTrustSubnavButton: () => cy.get('[data-testid="contacts-in-this-trust-subnav"]'),
         },
         subHeaders: {
             subHeader: () => cy.get('[data-testid="subpage-header"]'),
@@ -215,7 +215,7 @@ class ContactsPage {
 
     public checkContactsInTheTrustSubHeaderPresent(): this {
         this.elements.subHeaders.subHeader().should('be.visible');
-        this.elements.subHeaders.subHeader().should('contain', 'Contacts in the trust');
+        this.elements.subHeaders.subHeader().should('contain', 'Contacts in this trust');
         return this;
     }
 }

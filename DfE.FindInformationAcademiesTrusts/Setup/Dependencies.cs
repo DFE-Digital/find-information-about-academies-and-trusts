@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using DfE.FindInformationAcademiesTrusts.Data;
+﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
@@ -8,6 +7,7 @@ using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Hardcoded;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
@@ -15,6 +15,7 @@ using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DfE.FindInformationAcademiesTrusts.Setup;
 
@@ -42,13 +43,14 @@ public static class Dependencies
         builder.Services.AddScoped<ITrustSearch, TrustSearch>();
 
         builder.Services.AddScoped<IDateTimeProvider, DateTimeProvider>();
-        
+
         builder.Services.AddScoped<IStringFormattingUtilities, StringFormattingUtilities>();
 
         builder.Services.AddScoped<IAcademyRepository, AcademyRepository>();
         builder.Services.AddScoped<ITrustRepository, TrustRepository>();
         builder.Services.AddScoped<IDataSourceRepository, DataSourceRepository>();
         builder.Services.AddScoped<IContactRepository, ContactRepository>();
+        builder.Services.AddScoped<IPipelineEstablishmentRepository, PipelineEstablishmentRepository>();
 
         builder.Services.AddScoped<IDataSourceService, DataSourceService>();
         builder.Services.AddScoped<ITrustService, TrustService>();

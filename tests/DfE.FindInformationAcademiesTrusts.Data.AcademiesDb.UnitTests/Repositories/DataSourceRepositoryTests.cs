@@ -34,6 +34,9 @@ public class DataSourceRepositoryTests
     [InlineData(Source.Gias, UpdateFrequency.Daily)]
     [InlineData(Source.Mis, UpdateFrequency.Monthly)]
     [InlineData(Source.Mstr, UpdateFrequency.Daily)]
+    [InlineData(Source.Prepare, UpdateFrequency.Daily)]
+    [InlineData(Source.Complete, UpdateFrequency.Daily)]
+    [InlineData(Source.ManageFreeSchoolProjects, UpdateFrequency.Daily)]
     public async Task GetAsync_WhenEntryExists_ShouldReturnLatestSuccessfullyFinishedDataSourceUpdate(Source source,
         UpdateFrequency updateFrequency)
     {
@@ -58,6 +61,10 @@ public class DataSourceRepositoryTests
     [InlineData(Source.Mis, "Unable to find when ManagementInformationSchoolTableData was last modified",
         UpdateFrequency.Monthly)]
     [InlineData(Source.Mstr, "Unable to find when MSTR_Daily was last run", UpdateFrequency.Daily)]
+    [InlineData(Source.Prepare, "Unable to find last data refresh for MSTR source 'Prepare'", UpdateFrequency.Daily)]
+    [InlineData(Source.Complete, "Unable to find last data refresh for MSTR source 'Complete'", UpdateFrequency.Daily)]
+    [InlineData(Source.ManageFreeSchoolProjects,
+        "Unable to find last data refresh for MSTR source 'ManageFreeSchoolProjects'", UpdateFrequency.Daily)]
     public async Task GetAsync_WhenNoEntryForPipelineExists_ShouldReturnDataSource_WithNullDate_AndLogError(
         Source source, string expectedErrorMessage, UpdateFrequency updateFrequency)
     {
@@ -83,6 +90,9 @@ public class DataSourceRepositoryTests
         _mockAcademiesDbContext.AddApplicationEvent("MSTR_Daily", updateTime, eventType: 'E');
         _mockAcademiesDbContext.AddApplicationEvent("CDM_Daily", updateTime, eventType: 'E');
         //MIS does not have an errored update status
+        _mockAcademiesDbContext.AddMstrAcademyTransfer("", "", true, false, lastDataRefresh: null);
+        _mockAcademiesDbContext.AddMstrAcademyTransfer("", "", false, true, lastDataRefresh: null);
+        _mockAcademiesDbContext.AddMstrFreeSchoolProject("", "", lastDataRefresh: null);
     }
 
     private void AddSuccessfulDataSourceUpdates(DateTime updateTime)
@@ -91,6 +101,9 @@ public class DataSourceRepositoryTests
         _mockAcademiesDbContext.AddApplicationEvent("MSTR_Daily", updateTime);
         _mockAcademiesDbContext.AddApplicationEvent("CDM_Daily", updateTime);
         _mockAcademiesDbContext.AddApplicationSetting("ManagementInformationSchoolTableData CSV Filename", updateTime);
+        _mockAcademiesDbContext.AddMstrAcademyTransfer("", "", true, false, lastDataRefresh: updateTime);
+        _mockAcademiesDbContext.AddMstrAcademyTransfer("", "", false, true, lastDataRefresh: updateTime);
+        _mockAcademiesDbContext.AddMstrFreeSchoolProject("", "", lastDataRefresh: updateTime);
     }
 
     private void AddSuccessfulDataSourceUpdatesExceptFor(Source source)
@@ -103,5 +116,11 @@ public class DataSourceRepositoryTests
         if (source is not Source.Mis)
             _mockAcademiesDbContext.AddApplicationSetting("ManagementInformationSchoolTableData CSV Filename",
                 lastUpdateTime);
+        if (source is not Source.Prepare)
+            _mockAcademiesDbContext.AddMstrAcademyTransfer("", "", true, false, lastDataRefresh: lastUpdateTime);
+        if (source is not Source.Complete)
+            _mockAcademiesDbContext.AddMstrAcademyTransfer("", "", false, true, lastDataRefresh: lastUpdateTime);
+        if (source is not Source.ManageFreeSchoolProjects)
+            _mockAcademiesDbContext.AddMstrFreeSchoolProject("", "", lastDataRefresh: lastUpdateTime);
     }
 }

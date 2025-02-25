@@ -135,7 +135,7 @@ describe("Testing the components of the Governance page", () => {
     const trustsWithNoGovernanceData = [
         {
             typeOfTrust: "single academy trust with no governance data",
-            uid: 4009
+            uid: 2171
         },
         {
             typeOfTrust: "multi academy trust with no governance data",

@@ -1,5 +1,5 @@
 import navigation from "../../pages/navigation";
-import academiesPage from "../../pages/trusts/academiesPage";
+import academiesInTrustPage from "../../pages/trusts/academiesInTrustPage";
 import governancePage from "../../pages/trusts/governancePage";
 import contactsPage from "../../pages/trusts/contactsPage";
 import overviewPage from "../../pages/trusts/overviewPage";
@@ -129,15 +129,15 @@ describe('Testing Navigation', () => {
             navigation
                 .clickAcademiesServiceNavButton()
                 .checkAcademiesServiceNavButtonIsHighlighted()
-                .checkCurrentURLIsCorrect('/trusts/academies/details?uid=5527')
+                .checkCurrentURLIsCorrect('/trusts/academies/in-trust/details?uid=5527')
                 .checkAllServiceNavItemsPresent();
-            academiesPage
+            academiesInTrustPage
                 .checkDetailsHeadersPresent();
         });
 
         it('Should check that the Governance navigation button takes me to the governance trust leadership page', () => {
             // Academies -> Governance
-            cy.visit('/trusts/academies/details?uid=5527');
+            cy.visit('/trusts/academies/in-trust/details?uid=5527');
 
             navigation
                 .clickGovernanceServiceNavButton()
@@ -146,6 +146,43 @@ describe('Testing Navigation', () => {
                 .checkAllServiceNavItemsPresent();
             governancePage
                 .checkTrustLeadershipSubHeaderPresent();
+        });
+    });
+
+    describe("Should check that the pipeline academies navigation works", () => {
+        beforeEach(() => {
+            cy.login();
+        });
+
+        it('Navigates from In this trust to pipeline academies', () => {
+            // Academies in Trust -> Pipeline Academies
+            cy.visit('/trusts/academies/in-trust/details?uid=16002');
+
+            navigation
+                .clickPipelineAcademiesNavButton()
+                .checkCurrentURLIsCorrect('/trusts/academies/pipeline/pre-advisory-board?uid=16002');
+        });
+
+        it('Navigates from In this trust to pipeline academies', () => {
+            // Pipeline Academies -> Academies in Trust
+            cy.visit('/trusts/academies/pipeline/pre-advisory-board?uid=16002');
+
+            navigation
+                .clickAcademiesInThisTrustNavButton()
+                .checkCurrentURLIsCorrect('/trusts/academies/in-trust/details?uid=16002');
+        });
+
+        it('Navigates from In this trust to pipeline academies', () => {
+            // Pipeline Academies page nav buttons
+            cy.visit('/trusts/academies/pipeline/pre-advisory-board?uid=16002');
+
+            navigation
+                .clickPipelineAcademiesPostAdvisoryNavButton()
+                .checkCurrentURLIsCorrect('/trusts/academies/pipeline/post-advisory-board?uid=16002')
+                .clickPipelineAcademiesFreeSchoolsNavButton()
+                .checkCurrentURLIsCorrect('/trusts/academies/pipeline/free-schools?uid=16002')
+                .clickPipelineAcademiesPreAdvisoryNavButton()
+                .checkCurrentURLIsCorrect('/trusts/academies/pipeline/pre-advisory-board?uid=16002');
         });
     });
 });

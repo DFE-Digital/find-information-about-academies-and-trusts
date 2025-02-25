@@ -1,0 +1,60 @@
+﻿@page "/trusts/academies/pipeline/free-schools"
+@using DfE.FindInformationAcademiesTrusts.Extensions
+@model FreeSchoolsModel
+
+@{
+    Layout = "Academies/_AcademiesLayout";
+}
+
+<section class="app-table-container" data-testid="free-schools-table">
+    @if (!Model.PipelineFreeSchools.Any())
+    {
+        <div class="govuk-body" data-testid="empty-state-message">
+            There are no free schools in the pipeline for this trust.
+        </div>
+    }
+    else
+    {
+        <table class="govuk-table" data-module="moj-sortable-table" aria-describedby="free-schools-caption">
+            <caption class="govuk-table__caption govuk-table__caption--m" id="free-schools-caption" data-testid="subpage-header">Free schools</caption>
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-body govuk-table__header" aria-sort="ascending" data-testid="free-schools-school-name-header">School name</th>
+                    <th scope="col" class="govuk-body govuk-table__header" aria-sort="none" data-testid="free-schools-URN-header">URN</th>
+                    <th scope="col" class="govuk-body govuk-table__header" aria-sort="none" data-testid="free-schools-age-range-header">Age range</th>
+                    <th scope="col" class="govuk-body govuk-table__header" aria-sort="none" data-testid="free-schools-local-authority-header">Local authority</th>
+                    <th scope="col" class="govuk-body govuk-table__header" aria-sort="none" data-testid="free-schools-project-type-header">Project type</th>
+                    <th scope="col" class="govuk-body govuk-table__header govuk-!-width-one-quarter" aria-sort="none" data-testid="free-schools-provisional-opening-date-header">Provisional opening date</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                @foreach (var academy in Model.PipelineFreeSchools)
+                {
+                    <tr class="govuk-table__row" data-testid="academy-row">
+                        <td class="govuk-body govuk-table__cell" data-sort-value="@academy.EstablishmentName" data-testid="free-schools-board-school-name">
+                            @academy.EstablishmentName.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)
+                        </td>
+                        <td class="govuk-body govuk-table__cell" data-testid="free-schools-URN">@academy.Urn.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
+                        <td class="govuk-body govuk-table__cell" data-sort-value="@PipelineAcademiesAreaModel.AgeRangeSortValue(academy)" data-testid="free-schools-age-range">
+                            @(academy.AgeRange is null ? ViewConstants.UnconfirmedDateText : $"{academy.AgeRange.Minimum} - {academy.AgeRange.Maximum}")
+                        </td>
+                        <td class="govuk-body govuk-table__cell" data-sort-value="@academy.LocalAuthority" data-testid="free-schools-local-authority">@academy.LocalAuthority.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
+                        <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ProjectType" data-testid="free-schools-project-type">@academy.ProjectType.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
+                        <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ChangeDate" data-testid="free-schools-provisional-opening-date">
+                            @academy.ChangeDate.ShowDateStringOrReplaceWithText(ViewConstants.UnconfirmedDateText)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
+
+
+@section Export
+{
+    @{
+        var exportModel = new AcademiesExportButtonModel(Model.TrustSummary.Uid, "Download all pipeline academy data", "download-all-pipeline-data-button");
+     }
+    <partial name="Trusts/Academies/_AcademiesExportButton" model="exportModel"/>
+}

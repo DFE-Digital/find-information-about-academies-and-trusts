@@ -118,7 +118,7 @@ describe("Testing the components of the Trust contacts page", () => {
 
             it("Checks the browser title is correct", () => {
                 commonPage
-                    .checkThatBrowserTitleForTrustPageMatches('In the trust - Contacts - {trustName} - Find information about academies and trusts');
+                    .checkThatBrowserTitleForTrustPageMatches('In this trust - Contacts - {trustName} - Find information about academies and trusts');
             });
 
             it("Checks the breadcrumb shows the correct page name", () => {
@@ -237,7 +237,7 @@ describe("Testing the components of the Trust contacts page", () => {
                 .checkTrustRelationshipManagerIsPresent();
         });
 
-        it('Should check that the contacts in the trust navigation button takes me to the correct page', () => {
+        it('Should check that the contacts in this trust navigation button takes me to the correct page', () => {
             cy.visit('/trusts/contacts/in-dfe?uid=5527');
 
             contactsPage
