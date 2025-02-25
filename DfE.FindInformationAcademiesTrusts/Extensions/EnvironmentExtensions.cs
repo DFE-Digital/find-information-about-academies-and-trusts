@@ -2,7 +2,7 @@ namespace DfE.FindInformationAcademiesTrusts.Extensions;
 
 public static class EnvironmentExtensions
 {
-    private const string ContinuousIntegrationEnvironmentName = "CI";
+    public const string ContinuousIntegrationEnvironmentName = "CI";
     private const string LocalDevelopmentEnvironmentName = "LocalDevelopment";
     private const string TestEnvironmentName = "Test";
 
