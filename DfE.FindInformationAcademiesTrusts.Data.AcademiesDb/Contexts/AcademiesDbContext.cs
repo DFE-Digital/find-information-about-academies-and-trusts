@@ -18,7 +18,7 @@ public interface IAcademiesDbContext
     DbSet<MstrTrust> MstrTrusts { get; }
     DbSet<MstrFreeSchoolProject> MstrFreeSchoolProjects { get; }
     DbSet<MstrAcademyConversion> MstrAcademyConversions { get; }
-    DbSet<MstrAcademyTransfer> MstrAcademyTransfers { get; set; }
+    DbSet<MstrAcademyTransfer> MstrAcademyTransfers { get; }
     DbSet<CdmAccount> CdmAccounts { get; }
     DbSet<CdmSystemuser> CdmSystemusers { get; }
     DbSet<TadTrustGovernance> TadTrustGovernances { get; }
