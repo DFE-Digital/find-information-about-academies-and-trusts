@@ -1,8 +1,9 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
+﻿using System.Diagnostics.CodeAnalysis;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
+
 public partial class AcademiesDbContext
 {
     public DbSet<MstrFreeSchoolProject> MstrFreeSchoolProjects { get; set; }
@@ -41,8 +42,8 @@ public partial class AcademiesDbContext
             entity.Property(e => e.EstablishmentName)
                 .HasColumnName("Establishment Name");
 
-            entity.Property(e => e.ActualDateOpened)
-                .HasColumnName("Actual Date Opened");
+            entity.Property(e => e.ProvisionalOpeningDate)
+                .HasColumnName("Provisional Opening Date");
 
             entity.Property(e => e.TrustID)
                 .HasColumnName("Trust ID");
@@ -53,6 +54,5 @@ public partial class AcademiesDbContext
             entity.Property(e => e.LastDataRefresh)
                 .HasColumnName("Last Data Refresh");
         });
-
     }
 }

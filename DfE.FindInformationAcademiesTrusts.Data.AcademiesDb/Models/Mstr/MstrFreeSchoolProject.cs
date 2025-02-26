@@ -17,7 +17,7 @@ public class MstrFreeSchoolProject
     public int? StatutoryHighestAge { get; set; }
     public int? NewURN { get; set; }
     public string? EstablishmentName { get; set; }
-    public DateTime? ActualDateOpened { get; set; }
+    public DateTime? ProvisionalOpeningDate { get; set; }
     public string? TrustID { get; set; }
     public DateTime? LastDataRefresh { get; set; }
 }

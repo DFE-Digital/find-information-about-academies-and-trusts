@@ -269,7 +269,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         int? statutoryHighestAge = null,
         int? newUrn = null,
         string? localAuthority = null,
-        DateTime? actualDateOpened = null,
+        DateTime? provisionalOpeningDate = null,
         DateTime? lastDataRefresh = null)
     {
         _mstrFreeSchoolProjects.Add(new MstrFreeSchoolProject
@@ -284,7 +284,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             StatutoryHighestAge = statutoryHighestAge,
             NewURN = newUrn,
             LocalAuthority = localAuthority,
-            ActualDateOpened = actualDateOpened,
+            ProvisionalOpeningDate = provisionalOpeningDate,
             LastDataRefresh = lastDataRefresh
         });
     }

@@ -45,7 +45,7 @@ public class PipelineEstablishmentRepository(IAcademiesDbContext academiesDbCont
                     : null,
                 m.LocalAuthority,
                 m.ProjectApplicationType,
-                m.ActualDateOpened
+                m.ProvisionalOpeningDate
             ))
             .ToArrayAsync();
 
