@@ -29,7 +29,7 @@ public class EditTrustRelationshipManagerModelTests
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
             .ReturnsAsync(_fakeTrust);
 
-        _sut = new EditTrustRelationshipManagerModel(_mockDataSourceService.Object,
+        _sut = new EditTrustRelationshipManagerModel(_mockDataSourceService,
                 new MockLogger<EditTrustRelationshipManagerModel>().Object, _mockTrustService.Object)
             { Uid = "1234" };
     }

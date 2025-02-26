@@ -9,7 +9,7 @@ public class TrustSummaryModelTests : BaseOverviewAreaModelTests<TrustSummaryMod
     public TrustSummaryModelTests()
     {
         Sut = new TrustSummaryModel(
-                MockDataSourceService.Object,
+                MockDataSourceService,
                 new MockLogger<TrustSummaryModel>().Object,
                 MockTrustService.Object)
             { Uid = TrustUid };

@@ -4,6 +4,7 @@ using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
+using NSubstitute;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Contacts;
 
@@ -118,9 +119,9 @@ public abstract class BaseContactsAreaModelTests<T> : BaseTrustPageTests<T>, ITe
     public override async Task OnGetAsync_sets_correct_data_source_list()
     {
         await Sut.OnGetAsync();
-
-        MockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
-        MockDataSourceService.Verify(e => e.GetAsync(Source.Mstr), Times.Once);
+        
+        await MockDataSourceService.Received(1).GetAsync(Source.Gias);
+        await MockDataSourceService.Received(1).GetAsync(Source.Mstr);
 
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
             new DataSourcePageListEntry(ViewConstants.ContactsInDfePageName, [

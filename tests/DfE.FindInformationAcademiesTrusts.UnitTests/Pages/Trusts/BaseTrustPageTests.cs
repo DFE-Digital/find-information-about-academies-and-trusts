@@ -6,6 +6,7 @@ using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using NSubstitute;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 
@@ -13,17 +14,17 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
 {
     protected T Sut = default!;
     protected readonly Mock<ITrustService> MockTrustService = new();
-    protected readonly MockDataSourceService MockDataSourceService = new();
+    protected IDataSourceService MockDataSourceService { get; }
 
     protected readonly DataSourceServiceModel GiasDataSource =
         new(Source.Gias, new DateTime(2025, 1, 1), UpdateFrequency.Daily);
-
+    
     protected readonly DataSourceServiceModel MstrDataSource =
         new(Source.Mstr, new DateTime(2025, 1, 1), UpdateFrequency.Monthly);
-
+    
     protected readonly DataSourceServiceModel MisDataSource =
         new(Source.Mis, new DateTime(2025, 1, 1), UpdateFrequency.Daily);
-
+    
     protected readonly DataSourceServiceModel EesDataSource = new(Source.ExploreEducationStatistics,
         new DateTime(2025, 1, 1), UpdateFrequency.Annually);
 
@@ -34,10 +35,13 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
     {
         MockTrustService.Setup(t => t.GetTrustSummaryAsync(TrustUid)).ReturnsAsync(DummyTrustSummary);
 
-        MockDataSourceService.Setup(s => s.GetAsync(Source.Gias)).ReturnsAsync(GiasDataSource);
-        MockDataSourceService.Setup(s => s.GetAsync(Source.Mstr)).ReturnsAsync(MstrDataSource);
-        MockDataSourceService.Setup(s => s.GetAsync(Source.Mis)).ReturnsAsync(MisDataSource);
-        MockDataSourceService.Setup(s => s.GetAsync(Source.ExploreEducationStatistics)).ReturnsAsync(EesDataSource);
+        MockDataSourceService = Substitute.For<IDataSourceService>();
+
+        MockDataSourceService.GetAsync(Source.Gias).Returns(Task.FromResult(GiasDataSource));
+        MockDataSourceService.GetAsync(Source.Mstr).Returns(Task.FromResult(MstrDataSource));
+        MockDataSourceService.GetAsync(Source.Mis).Returns(Task.FromResult(MisDataSource));
+        MockDataSourceService.GetAsync(Source.ExploreEducationStatistics).Returns(Task.FromResult(EesDataSource));
+
     }
 
     [Fact]

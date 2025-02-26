@@ -11,7 +11,7 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
     public TrustDetailsModelTests()
     {
         Sut = new TrustDetailsModel(
-                MockDataSourceService.Object,
+                MockDataSourceService,
                 new MockLogger<TrustDetailsModel>().Object,
                 MockTrustService.Object,
                 _mockLinksToOtherServices.Object)
