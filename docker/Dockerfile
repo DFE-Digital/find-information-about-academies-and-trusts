@@ -42,7 +42,8 @@ RUN ["dotnet", "build", "DfE.FindInformationAcademiesTrusts", "--no-restore", "-
 RUN ["dotnet", "publish", "DfE.FindInformationAcademiesTrusts", "--no-build", "-o", "/app"]
 
 ### Entity Framework: Migration Runner ###
-FROM "mcr.microsoft.com/mssql-tools" AS initcontainer
+FROM ubuntu:22.04 AS initcontainer
+RUN apt-get update && apt-get install gnupg ca-certificates wget -y
 
 # - Copy and configure sql migration script
 WORKDIR /app
