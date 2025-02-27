@@ -45,7 +45,7 @@ public class DataSourceListEntryTest
     public void DataField_default_is_correct()
     {
         var sut = new DataSourceListEntry(new DataSourceServiceModel(Source.Gias, null, null));
-        sut.DataField.Should().Be("All information");
+        sut.DataField.Should().Be("All information was");
     }
 
     [Fact]

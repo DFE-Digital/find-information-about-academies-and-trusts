@@ -5,7 +5,7 @@ using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 
 public class PupilNumbersModel(
     IDataSourceService dataSourceService,
@@ -13,12 +13,19 @@ public class PupilNumbersModel(
     ITrustService trustService,
     IAcademyService academyService,
     IExportService exportService,
-    IDateTimeProvider dateTimeProvider)
-    : AcademiesPageModel(dataSourceService, trustService, exportService, logger, dateTimeProvider)
+    IDateTimeProvider dateTimeProvider
+) : AcademiesInTrustAreaModel(
+    dataSourceService,
+    trustService,
+    academyService,
+    exportService,
+    logger,
+    dateTimeProvider
+)
 {
     public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with
     {
-        TabName = ViewConstants.AcademiesPupilNumbersPageName
+        TabName = ViewConstants.AcademiesInTrustPupilNumbersPageName
     };
 
     public AcademyPupilNumbersServiceModel[] Academies { get; set; } = default!;
@@ -28,7 +35,7 @@ public class PupilNumbersModel(
         var pageResult = await base.OnGetAsync();
         if (pageResult is NotFoundResult) return pageResult;
 
-        Academies = await academyService.GetAcademiesInTrustPupilNumbersAsync(Uid);
+        Academies = await AcademyService.GetAcademiesInTrustPupilNumbersAsync(Uid);
 
         return pageResult;
     }

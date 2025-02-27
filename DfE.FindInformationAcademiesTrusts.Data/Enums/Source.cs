@@ -7,5 +7,8 @@ public enum Source
     Cdm,
     Mis,
     ExploreEducationStatistics,
-    FiatDb
+    FiatDb,
+    Prepare,
+    Complete,
+    ManageFreeSchoolProjects
 }

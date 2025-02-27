@@ -209,7 +209,7 @@ public abstract class BaseContactsAreaModelTests<T> : BaseTrustPageTests<T>, ITe
                 },
                 l =>
                 {
-                    l.LinkText.Should().Be("In the trust");
+                    l.LinkText.Should().Be("In this trust");
                     l.SubPageLink.Should().Be("./InTrust");
                     l.ServiceName.Should().Be("Contacts");
                 });

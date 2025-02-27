@@ -19,6 +19,9 @@ public class DataSourceRepository(
             Source.Mstr => await GetDataSourceFromApplicationEvents("MSTR_Daily", Source.Mstr, UpdateFrequency.Daily),
             Source.Cdm => await GetDataSourceFromApplicationEvents("CDM_Daily", Source.Cdm, UpdateFrequency.Daily),
             Source.Mis => await GetMisEstablishmentsUpdatedAsync(),
+            Source.Prepare
+            or Source.Complete
+            or Source.ManageFreeSchoolProjects => await GetDataSourceFromMstr(source),
             _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
         };
     }
@@ -34,6 +37,40 @@ public class DataSourceRepository(
         }
 
         return new DataSource(Source.Mis, lastEntry.Modified.Value, UpdateFrequency.Monthly);
+    }
+
+    /// <summary>
+    /// Retrieve MSTR data source information by switching on the Source value.
+    /// </summary>
+    private async Task<DataSource> GetDataSourceFromMstr(Source source)
+    {
+        // Default to Daily, but adjust if needed
+        var updateFrequency = UpdateFrequency.Daily;
+        DateTime? lastDataRefresh = null;
+
+        lastDataRefresh = source switch
+        {
+            Source.Prepare => await academiesDbContext.MstrAcademyTransfers
+                                .Where(x=> x.InPrepare.HasValue)
+                                .Where(t => t.InPrepare!.Value)
+                                .Select(t => t.LastDataRefresh)
+                                .MaxAsync(),
+            Source.Complete => await academiesDbContext.MstrAcademyTransfers
+                                .Where(x => x.InComplete.HasValue)
+                                .Where(t => t.InComplete!.Value)
+                                .Select(t => t.LastDataRefresh)
+                                .MaxAsync(),
+            Source.ManageFreeSchoolProjects => await academiesDbContext.MstrFreeSchoolProjects
+                                .Select(p => p.LastDataRefresh)
+                                .MaxAsync(),
+            _ => throw new ArgumentOutOfRangeException(nameof(source), source, null),
+        };
+        if (lastDataRefresh is null)
+        {
+            logger.LogError("Unable to find last data refresh for MSTR source '{source}'", source);
+        }
+
+        return new DataSource(source, lastDataRefresh, updateFrequency);
     }
 
     private async Task<DataSource> GetDataSourceFromApplicationEvents(string pipelineName, Source source,

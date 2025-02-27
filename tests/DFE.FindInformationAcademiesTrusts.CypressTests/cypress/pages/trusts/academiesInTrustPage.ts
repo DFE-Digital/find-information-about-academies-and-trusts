@@ -1,6 +1,6 @@
 import { TableUtility } from "../tableUtility";
 
-class AcademiesPage {
+class AcademiesInTrustPage {
 
     elements = {
         pageTabs: {
@@ -149,5 +149,5 @@ class AcademiesPage {
     }
 }
 
-const academiesPage = new AcademiesPage();
-export default academiesPage;
+const academiesInTrustPage = new AcademiesInTrustPage();
+export default academiesInTrustPage;

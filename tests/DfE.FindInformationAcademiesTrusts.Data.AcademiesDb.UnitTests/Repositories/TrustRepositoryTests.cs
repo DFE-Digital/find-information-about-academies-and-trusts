@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Exceptions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
@@ -396,5 +397,33 @@ public class TrustRepositoryTests
 
         // Assert
         Assert.All(result, g => Assert.Equal("some-uid", g.Uid));
+    }
+
+    [Fact]
+    public async Task GetTrustReferenceNumberAsync_should_return_trustReferenceNumber_for_uid()
+    {
+        _ = _mockAcademiesDbContext.AddGiasGroup("2806", groupId: "My trust reference number");
+
+        var result = await _sut.GetTrustReferenceNumberAsync("2806");
+        result.Should().BeEquivalentTo("My trust reference number");
+    }
+
+    [Fact]
+    public async Task GetTrustReferenceNumberAsync_should_throw_if_trustReferenceNumber_is_null()
+    {
+        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        {
+            GroupUid = "0401",
+            GroupId = null,
+            Ukprn = "10012345",
+            GroupType = "Multi-academy trust",
+            CompaniesHouseNumber = "123456",
+            IncorporatedOnOpenDate = "28/06/2007"
+        });
+        var exception =
+            await Assert.ThrowsAsync<DataIntegrityException>(() => _sut.GetTrustReferenceNumberAsync("0401"));
+        exception.Message.Should()
+            .Be(
+                "Trust reference number not found for UID 0401. This record is broken in Academies Db GIAS groups table.");
     }
 }

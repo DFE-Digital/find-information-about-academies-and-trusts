@@ -16,7 +16,9 @@ public interface IAcademiesDbContext
     DbSet<GiasGroupLink> GiasGroupLinks { get; }
     DbSet<GiasGroup> Groups { get; }
     DbSet<MstrTrust> MstrTrusts { get; }
-
+    DbSet<MstrFreeSchoolProject> MstrFreeSchoolProjects { get; }
+    DbSet<MstrAcademyConversion> MstrAcademyConversions { get; }
+    DbSet<MstrAcademyTransfer> MstrAcademyTransfers { get; }
     DbSet<CdmAccount> CdmAccounts { get; }
     DbSet<CdmSystemuser> CdmSystemusers { get; }
     DbSet<TadTrustGovernance> TadTrustGovernances { get; }
@@ -48,6 +50,9 @@ public partial class AcademiesDbContext : DbContext, IAcademiesDbContext
         OnModelCreatingCdmSystemusers(modelBuilder);
         OnModelCreatingTadTrustGovernances(modelBuilder);
         OnModelCreatingMstrTrusts(modelBuilder);
+        OnModelCreatingMstrFreeSchoolProjects(modelBuilder);
+        OnModelCreatingMstrAcademyConversions(modelBuilder);
+        OnModelCreatingMstrAcademyTransfers(modelBuilder);
         OnModelCreatingApplicationSettings(modelBuilder);
         OnModelCreatingApplicationEvents(modelBuilder);
         OnModelCreatingAddFilters(modelBuilder);

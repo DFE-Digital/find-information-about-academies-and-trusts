@@ -1,5 +1,4 @@
-@* Add the route to use hyphenation between words *@
-@page "/trusts/academies/pupil-numbers"
+@page "/trusts/academies/in-trust/pupil-numbers"
 @model PupilNumbersModel
 
 @{
@@ -45,3 +44,11 @@
     </tbody>
   </table>
 </section>
+
+@section Export
+{
+    @{
+        var exportModel = new AcademiesExportButtonModel(Model.TrustSummary.Uid, "Download all academy data", "export-academy-data");
+    }
+    <partial name="Trusts/Academies/_AcademiesExportButton" model="exportModel"/>
+}

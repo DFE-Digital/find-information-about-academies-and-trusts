@@ -1,5 +1,5 @@
-using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Data;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
@@ -24,6 +24,7 @@ public static class ViewConstants
         "https://forms.office.com/Pages/ResponsePage.aspx?id=yXfS-grGoU2187O4s0qC-fkHK2JGo_BIpVChpLMaBFpUNUFDSzhQN0FHVklTV0JWTzFZTjNKWTNJUi4u";
 
     public const string NoDataText = "No data";
+    public const string UnconfirmedDateText = "Unconfirmed";
 
     public static readonly List<ExternalServiceLink> ExternalServiceLinks =
     [
@@ -59,12 +60,7 @@ public static class ViewConstants
 
     public const string ContactsPageName = "Contacts";
     public const string ContactsInDfePageName = "In DfE";
-    public const string ContactsInTrustPageName = "In the trust";
-
-    public const string AcademiesPageName = "Academies";
-    public const string AcademiesDetailsPageName = "Details";
-    public const string AcademiesPupilNumbersPageName = "Pupil numbers";
-    public const string AcademiesFreeSchoolMealsPageName = "Free school meals";
+    public const string ContactsInTrustPageName = "In this trust";
 
     public const string OfstedPageName = "Ofsted";
     public const string OfstedSingleHeadlineGradesPageName = "Single headline grades";
@@ -77,4 +73,14 @@ public static class ViewConstants
     public const string GovernanceTrusteesPageName = "Trustees";
     public const string GovernanceMembersPageName = "Members";
     public const string GovernanceHistoricMembersPageName = "Historic members";
+
+    public const string AcademiesPageName = "Academies";
+    public const string AcademiesInTrustSubNavName = "In this trust";
+    public const string PipelineAcademiesSubNavName = "Pipeline academies";
+    public const string AcademiesInTrustDetailsPageName = "Details";
+    public const string AcademiesInTrustPupilNumbersPageName = "Pupil numbers";
+    public const string AcademiesInTrustFreeSchoolMealsPageName = "Free school meals";
+    public const string PipelineAcademiesPreAdvisoryBoardPageName = "Pre advisory board";
+    public const string PipelineAcademiesPostAdvisoryBoardPageName = "Post advisory board";
+    public const string PipelineAcademiesFreeSchoolsPageName = "Free schools";
 }

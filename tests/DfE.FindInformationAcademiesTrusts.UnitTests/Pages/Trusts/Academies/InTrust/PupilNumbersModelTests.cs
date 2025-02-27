@@ -1,18 +1,19 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
 
-public class PupilNumbersModelTests : BaseAcademiesPageModelTests<PupilNumbersModel>
+public class PupilNumbersModelTests : AcademiesInTrustAreaModelTests<PupilNumbersModel>
 {
-    private readonly Mock<IAcademyService> _mockAcademyService = new();
-
     public PupilNumbersModelTests()
     {
-        Sut = new PupilNumbersModel(MockDataSourceService.Object, new MockLogger<PupilNumbersModel>().Object,
-                MockTrustService.Object, _mockAcademyService.Object, MockExportService.Object,
+        Sut = new PupilNumbersModel(MockDataSourceService.Object,
+                new MockLogger<PupilNumbersModel>().Object,
+                MockTrustService.Object,
+                MockAcademyService.Object,
+                MockExportService.Object,
                 MockDateTimeProvider.Object)
             { Uid = TrustUid };
     }
@@ -39,7 +40,7 @@ public class PupilNumbersModelTests : BaseAcademiesPageModelTests<PupilNumbersMo
     }
 
     [Fact]
-    public async Task OnGetAsync_sets_academies_from_academyService()
+    public override async Task OnGetAsync_sets_academies_from_academyService()
     {
         var academy = new AcademyPupilNumbersServiceModel("", null, null, new AgeRange(5, 11), null, null);
         var academies = new[]
@@ -48,7 +49,7 @@ public class PupilNumbersModelTests : BaseAcademiesPageModelTests<PupilNumbersMo
             academy with { Urn = "2" },
             academy with { Urn = "3" }
         };
-        _mockAcademyService.Setup(a => a.GetAcademiesInTrustPupilNumbersAsync(TrustUid))
+        MockAcademyService.Setup(a => a.GetAcademiesInTrustPupilNumbersAsync(TrustUid))
             .ReturnsAsync(academies);
 
         _ = await Sut.OnGetAsync();
@@ -62,5 +63,14 @@ public class PupilNumbersModelTests : BaseAcademiesPageModelTests<PupilNumbersMo
         _ = await Sut.OnGetAsync();
 
         Sut.TrustPageMetadata.TabName.Should().Be("Pupil numbers");
+    }
+
+    [Fact]
+    public override async Task OnGetAsync_should_set_active_TabList_to_current_tab()
+    {
+        _ = await Sut.OnGetAsync();
+
+        Sut.TabList.Should().ContainSingle(l => l.LinkIsActive)
+            .Which.TabPageLink.Should().Be("./PupilNumbers");
     }
 }

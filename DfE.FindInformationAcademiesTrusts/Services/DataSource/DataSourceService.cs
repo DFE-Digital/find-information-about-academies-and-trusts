@@ -1,8 +1,8 @@
-using System.Runtime.CompilerServices;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 using Microsoft.Extensions.Caching.Memory;
+using System.Runtime.CompilerServices;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.DataSource;
 
@@ -27,6 +27,8 @@ public class DataSourceService(
         {
             Source.Gias or Source.Mstr or Source.Cdm or Source.Mis => await dataSourceRepository.GetAsync(source),
             Source.ExploreEducationStatistics => freeSchoolMealsAverageProvider.GetFreeSchoolMealsUpdated(),
+            Source.Prepare or Source.Complete or Source.ManageFreeSchoolProjects =>
+               await dataSourceRepository.GetAsync(source),
             _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
         };
 

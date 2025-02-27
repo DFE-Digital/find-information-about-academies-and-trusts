@@ -33,7 +33,7 @@ public class ContactsAreaModel(
         [
             new TrustSubNavigationLinkModel(ViewConstants.ContactsInDfePageName, "./InDfE", Uid,
                 TrustPageMetadata.PageName!, this is InDfeModel),
-            new TrustSubNavigationLinkModel("In the trust", "./InTrust", Uid, TrustPageMetadata.PageName!,
+            new TrustSubNavigationLinkModel("In this trust", "./InTrust", Uid, TrustPageMetadata.PageName!,
                 this is InTrustModel)
         ];
 
@@ -55,7 +55,7 @@ public class ContactsAreaModel(
                         SfsoLead?.LastModifiedByEmail), ContactRole.SfsoLead.MapRoleToViewString())
                 ]
             ),
-            new DataSourcePageListEntry("In the trust", [
+            new DataSourcePageListEntry("In this trust", [
                     new DataSourceListEntry(giasDataSource, "Accounting officer name"),
                     new DataSourceListEntry(giasDataSource, "Chief financial officer name"),
                     new DataSourceListEntry(giasDataSource, "Chair of trustees name"),
