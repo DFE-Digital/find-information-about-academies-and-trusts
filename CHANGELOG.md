@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Added
+
+- Added pipeline academies sub page and tabs
+- Added pipeline academies spreadsheet download capability
+
+### Changed
+
+- Existing academies tabs moved to "Academies in this trust" sub page with new urls e.g. `/trusts/academies/in-trust/details`
+- Renamed "Contacts in the trust" to "Contacts in this trust"
+- Datasource component text changed from "All information taken from" to "All information was taken from"
+
 ## [Release-21][release-21] (production-2025-02-20.5021)
 
 ### Changed
