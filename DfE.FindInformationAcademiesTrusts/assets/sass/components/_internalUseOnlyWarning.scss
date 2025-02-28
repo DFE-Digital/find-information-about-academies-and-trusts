@@ -1,0 +1,17 @@
+.app-internal-use-only-warning {
+  @include govuk-responsive-padding(2, "left");
+  @include govuk-responsive-padding(2, "right");
+  @include govuk-responsive-padding(1, "top");
+  @include govuk-responsive-padding(1, "bottom");
+  background-color: govuk-colour("black");
+
+  .govuk-warning-text__text {
+    color: govuk-colour("white");
+  }
+
+  .govuk-warning-text__icon {
+    background-color: govuk-colour("white");
+    border-color: govuk-colour("white");
+    color: govuk-colour("black");
+  }
+}
