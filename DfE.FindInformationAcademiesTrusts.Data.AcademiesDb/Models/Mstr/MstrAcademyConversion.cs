@@ -15,6 +15,7 @@ public class MstrAcademyConversion : IInComplete, IInPrepare
     public string? ProjectApplicationType { get; set; } = "Conversion";
     public required string ProjectStatus { get; set; }
     public required string RouteOfProject { get; set; }
+    public string? DaoProgress { get; set; }
     public string? EstablishmentName { get; set; }
     public DateTime? ExpectedOpeningDate { get; set; }
     public string? TrustID { get; set; }

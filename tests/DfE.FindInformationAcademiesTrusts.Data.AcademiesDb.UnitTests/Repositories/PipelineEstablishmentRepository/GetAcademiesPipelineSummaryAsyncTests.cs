@@ -40,7 +40,6 @@ public class GetAcademiesPipelineSummaryAsyncTests
         result.PreAdvisoryCount.Should().Be(expectedCount);
     }
 
-
     [Theory]
     [InlineData(null, null, 0)]
     [InlineData(true, true, 2)]
@@ -66,6 +65,33 @@ public class GetAcademiesPipelineSummaryAsyncTests
         var result = await _sut.GetAcademiesPipelineSummaryAsync(TrustReferenceNumber);
 
         result.PostAdvisoryCount.Should().Be(expectedCount);
+    }
+
+    [Fact]
+    public async Task ForConversions_ShouldNotIncludeDaoRevoked()
+    {
+        //Pre-advisory
+        _mockContext.AddMstrAcademyConversion(TrustReferenceNumber, AdvisoryType.PreAdvisory,
+            PipelineStatuses.ConverterPreAO, "Pre-Academy convertor 1");
+        _mockContext.AddMstrAcademyConversion(TrustReferenceNumber, AdvisoryType.PreAdvisory,
+            PipelineStatuses.DirectiveAcademyOrders, "Pre-Academy revoked", "dAO revoked");
+        _mockContext.AddMstrAcademyConversion(TrustReferenceNumber, AdvisoryType.PreAdvisory,
+            PipelineStatuses.DirectiveAcademyOrders, "Pre-Academy convertor 2",
+            "Sponsor funding confirmed – progressing to conversion");
+
+        //Post-advisory
+        _mockContext.AddMstrAcademyConversion(TrustReferenceNumber, AdvisoryType.PostAdvisory,
+            PipelineStatuses.ApprovedForAO, "Post-Academy convertor 1");
+        _mockContext.AddMstrAcademyConversion(TrustReferenceNumber, AdvisoryType.PostAdvisory,
+            PipelineStatuses.DirectiveAcademyOrders, "Post-Academy revoked", "dAO revoked");
+        _mockContext.AddMstrAcademyConversion(TrustReferenceNumber, AdvisoryType.PostAdvisory,
+            PipelineStatuses.DirectiveAcademyOrders, "Post-Academy convertor 2",
+            "Sponsor funding confirmed – progressing to conversion");
+
+        var result = await _sut.GetAcademiesPipelineSummaryAsync(TrustReferenceNumber);
+
+        result.PreAdvisoryCount.Should().Be(2);
+        result.PostAdvisoryCount.Should().Be(2);
     }
 
     [Fact]
