@@ -12,9 +12,9 @@ public class MstrAcademyConversion : IInComplete, IInPrepare
     public int? StatutoryLowestAge { get; set; }
     public int? StatutoryHighestAge { get; set; }
     public string? LocalAuthority { get; set; }
-    public string? ProjectApplicationType { get; set; } = "Conversion";
-    public required string ProjectStatus { get; set; }
-    public required string RouteOfProject { get; set; }
+    public string? ProjectApplicationType { get; set; }
+    public string? ProjectStatus { get; set; }
+    public string? RouteOfProject { get; set; }
     public string? DaoProgress { get; set; }
     public string? EstablishmentName { get; set; }
     public DateTime? ExpectedOpeningDate { get; set; }
