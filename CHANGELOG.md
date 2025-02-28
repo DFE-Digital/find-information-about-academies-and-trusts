@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Changed
+
+- Pipeline academies pages no longer show conversion projects which are "dAO revoked"
+
 ## [Release-22][release-22] (production-2025-02-27.5055)
 
 ### Added

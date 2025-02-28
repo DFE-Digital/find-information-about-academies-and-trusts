@@ -4,6 +4,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
+
 public partial class AcademiesDbContext
 {
     public DbSet<MstrAcademyConversion> MstrAcademyConversions { get; set; }
@@ -29,6 +30,9 @@ public partial class AcademiesDbContext
 
             entity.Property(e => e.ProjectStatus)
                 .HasColumnName("Project Status");
+
+            entity.Property(e => e.DaoProgress)
+                .HasColumnName("dAO Progress");
 
             entity.Property(e => e.StatutoryLowestAge)
                 .HasColumnName("Statutory Lowest Age");
@@ -56,6 +60,5 @@ public partial class AcademiesDbContext
                 .HasColumnName("InComplete")
                 .HasConversion<YesNoValueToBooleanConverter>();
         });
-
     }
 }
