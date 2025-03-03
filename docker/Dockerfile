@@ -43,18 +43,7 @@ RUN ["dotnet", "publish", "DfE.FindInformationAcademiesTrusts", "--no-build", "-
 
 ### Entity Framework: Migration Runner ###
 FROM ubuntu:22.04 AS initcontainer
-RUN apt-get update && apt-get install gnupg ca-certificates wget -y
-
-# - Copy and configure sql migration script
-WORKDIR /app
-COPY ./DfE.FindInformationAcademiesTrusts.Data.FiatDb/Migrations/FiatDbMigrationScript.sql /app/sql/FiatDbMigrationScript.sql
-COPY ./docker/init-docker-entrypoint.sh /app/migratedb
-
-# - Set permissions, create user, and change ownership
-RUN chmod +x /app/migratedb && \
-    touch /app/sql/FiatDbMigrationScriptOutput.txt && \
-    useradd -r -m -U app && \
-    chown -R app:app /app
+RUN apt-get update && apt-get install ca-certificates -y
 
 # - Install upstream requirements
 ADD https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb /usr/share/microsoft.deb
@@ -66,6 +55,17 @@ RUN apt-get update && \
   msodbcsql18 && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
+
+# - Copy and configure sql migration script
+WORKDIR /app
+COPY ./DfE.FindInformationAcademiesTrusts.Data.FiatDb/Migrations/FiatDbMigrationScript.sql /app/sql/FiatDbMigrationScript.sql
+COPY ./docker/init-docker-entrypoint.sh /app/migratedb
+
+# - Set permissions, create user, and change ownership
+RUN chmod +x /app/migratedb && \
+    touch /app/sql/FiatDbMigrationScriptOutput.txt && \
+    useradd -r -m -U app && \
+    chown -R app:app /app
 
 USER app
 ENV PATH="$PATH:/opt/mssql-tools18/bin"
