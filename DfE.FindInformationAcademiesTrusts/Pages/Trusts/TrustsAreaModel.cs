@@ -3,6 +3,7 @@ using DfE.FindInformationAcademiesTrusts.Extensions;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.FinancialDocuments;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Governance;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Ofsted;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
@@ -82,17 +83,16 @@ public abstract class TrustsAreaModel(
         NavigationLinks =
         [
             new TrustNavigationLinkModel(ViewConstants.OverviewPageName, "/Trusts/Overview/TrustDetails", Uid,
-                this is OverviewAreaModel,
-                "overview-nav"),
+                this is OverviewAreaModel, "overview-nav"),
             new TrustNavigationLinkModel(ViewConstants.ContactsPageName, "/Trusts/Contacts/InDfe", Uid,
-                this is ContactsAreaModel,
-                "contacts-nav"),
+                this is ContactsAreaModel, "contacts-nav"),
             new TrustNavigationLinkModel($"{ViewConstants.AcademiesPageName} ({TrustSummary.NumberOfAcademies})",
-                "/Trusts/Academies/InTrust/Details",
-                Uid, this is AcademiesAreaModel, "academies-nav"),
+                "/Trusts/Academies/InTrust/Details", Uid, this is AcademiesAreaModel, "academies-nav"),
             new TrustNavigationLinkModel(ViewConstants.OfstedPageName, "/Trusts/Ofsted/SingleHeadlineGrades", Uid,
-                this is OfstedAreaModel,
-                "ofsted-nav"),
+                this is OfstedAreaModel, "ofsted-nav"),
+            new TrustNavigationLinkModel(ViewConstants.FinancialDocumentsPageName,
+                "/Trusts/FinancialDocuments/FinancialStatements", Uid, this is FinancialDocumentsAreaModel,
+                "financial-documents-nav"),
             new TrustNavigationLinkModel(ViewConstants.GovernancePageName, "/Trusts/Governance/TrustLeadership", Uid,
                 this is GovernanceAreaModel, "governance-nav")
         ];
