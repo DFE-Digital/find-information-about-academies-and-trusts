@@ -99,4 +99,16 @@ public abstract class TrustsAreaModel(
     }
 
     public TrustSubNavigationLinkModel[] SubNavigationLinks { get; set; } = [];
+
+    public TrustSubNavigationLinkModel GetSubPageLink<TTo>(string linkText, string aspPage) where TTo : TrustsAreaModel
+    {
+        return new TrustSubNavigationLinkModel
+        (
+            linkText,
+            aspPage,
+            Uid,
+            TrustPageMetadata.PageName!,
+            this is TTo
+        );
+    }
 }

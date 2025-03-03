@@ -1,0 +1,29 @@
+@model FinancialDocumentsAreaModel
+@{
+  Layout = "_TrustLayout";
+}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m" data-testid="subpage-header">
+      @Model.TrustPageMetadata.SubPageName
+    </h2>
+
+    <dl class="govuk-summary-list">
+      @foreach (var doc in Model.FinancialDocuments)
+      {
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            @doc year
+          </dt>
+          <dd class="govuk-summary-list__value">
+            @doc link
+          </dd>
+        </div>
+      }
+    </dl>
+
+    @RenderBody()
+
+  </div>
+</div>
