@@ -7,7 +7,7 @@ public class InTrustModelTests : BaseContactsAreaModelTests<InTrustModel>
 {
     public InTrustModelTests()
     {
-        Sut = new InTrustModel(MockDataSourceService.Object,
+        Sut = new InTrustModel(Mocks.MockDataSourceService.CreateSubstitute(),
                 MockTrustService.Object,
                 new MockLogger<InTrustModel>().Object)
         { Uid = TrustUid };

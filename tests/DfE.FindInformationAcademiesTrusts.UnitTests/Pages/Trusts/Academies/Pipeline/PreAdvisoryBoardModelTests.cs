@@ -10,7 +10,7 @@ public class PreAdvisoryBoardModelTests : BasePipelineAcademiesAreaModelTests<Pr
     public PreAdvisoryBoardModelTests()
     {
         Sut = new PreAdvisoryBoardModel(
-                MockDataSourceService.Object, new MockLogger<PreAdvisoryBoardModel>().Object,
+                Mocks.MockDataSourceService.CreateSubstitute(), new MockLogger<PreAdvisoryBoardModel>().Object,
                 MockTrustService.Object, MockAcademyService.Object, MockExportService.Object,
                 MockDateTimeProvider.Object)
             { Uid = TrustUid };

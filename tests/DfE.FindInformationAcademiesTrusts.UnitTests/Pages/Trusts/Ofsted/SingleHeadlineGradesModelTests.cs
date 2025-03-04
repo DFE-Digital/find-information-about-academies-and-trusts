@@ -7,7 +7,7 @@ public class SingleHeadlineGradesModelTests : BaseOfstedAreaModelTests<SingleHea
 {
     public SingleHeadlineGradesModelTests()
     {
-        Sut = new SingleHeadlineGradesModel(MockDataSourceService.Object,
+        Sut = new SingleHeadlineGradesModel(Mocks.MockDataSourceService.CreateSubstitute(),
                 MockTrustService.Object,
                 MockAcademyService.Object,
                 MockExportService.Object,

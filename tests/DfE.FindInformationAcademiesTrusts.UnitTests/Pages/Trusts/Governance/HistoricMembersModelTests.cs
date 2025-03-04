@@ -7,7 +7,7 @@ public class HistoricMembersModelTests : BaseGovernanceAreaModelTests<HistoricMe
 {
     public HistoricMembersModelTests()
     {
-        Sut = new HistoricMembersModel(MockDataSourceService.Object,
+        Sut = new HistoricMembersModel(Mocks.MockDataSourceService.CreateSubstitute(),
                 new MockLogger<HistoricMembersModel>().Object, MockTrustService.Object)
             { Uid = TrustUid };
     }

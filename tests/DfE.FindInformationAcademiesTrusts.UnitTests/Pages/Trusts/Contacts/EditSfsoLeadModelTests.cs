@@ -12,8 +12,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Contacts;
 public class EditSfsoLeadModelTests
 {
     private readonly EditSfsoLeadModel _sut;
-
-    private readonly MockDataSourceService _mockDataSourceService = new();
+    
     private readonly Mock<ITrustService> _mockTrustService = new();
 
     private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
@@ -28,7 +27,7 @@ public class EditSfsoLeadModelTests
         _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
             .ReturnsAsync(_fakeTrust);
 
-        _sut = new EditSfsoLeadModel(_mockDataSourceService.Object,
+        _sut = new EditSfsoLeadModel(MockDataSourceService.CreateSubstitute(),
                 new MockLogger<EditSfsoLeadModel>().Object, _mockTrustService.Object)
             { Uid = "1234" };
     }

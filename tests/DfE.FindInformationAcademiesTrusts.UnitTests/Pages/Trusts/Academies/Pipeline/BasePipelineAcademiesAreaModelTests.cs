@@ -6,6 +6,7 @@ using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
+using NSubstitute;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.Pipeline;
 
@@ -86,17 +87,20 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
     public override async Task OnGetAsync_sets_correct_data_source_list()
     {
         _ = await Sut.OnGetAsync();
-        MockDataSourceService.Verify(e => e.GetAsync(Source.Prepare), Times.Once);
-        MockDataSourceService.Verify(e => e.GetAsync(Source.ManageFreeSchoolProjects), Times.Once);
-        MockDataSourceService.Verify(e => e.GetAsync(Source.Complete), Times.Once);
+        await MockDataSourceService.GetAsync(Source.Prepare);
+        await MockDataSourceService.Received(1).GetAsync(Source.Prepare);
+        await MockDataSourceService.GetAsync(Source.ManageFreeSchoolProjects);
+        await MockDataSourceService.Received(1).GetAsync(Source.ManageFreeSchoolProjects);
+        await MockDataSourceService.GetAsync(Source.Complete);
+        await MockDataSourceService.Received(1).GetAsync(Source.Complete);
 
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
             new DataSourcePageListEntry(ViewConstants.PipelineAcademiesPreAdvisoryBoardPageName,
-                [new DataSourceListEntry(MockDataSourceService.Prepare)]),
+                [new DataSourceListEntry(Mocks.MockDataSourceService.Prepare)]),
             new DataSourcePageListEntry(ViewConstants.PipelineAcademiesPostAdvisoryBoardPageName,
-                [new DataSourceListEntry(MockDataSourceService.Complete)]),
+                [new DataSourceListEntry(Mocks.MockDataSourceService.Complete)]),
             new DataSourcePageListEntry(ViewConstants.PipelineAcademiesFreeSchoolsPageName,
-                [new DataSourceListEntry(MockDataSourceService.ManageFreeSchool)])
+                [new DataSourceListEntry(Mocks.MockDataSourceService.ManageFreeSchool)])
         ]);
     }
 

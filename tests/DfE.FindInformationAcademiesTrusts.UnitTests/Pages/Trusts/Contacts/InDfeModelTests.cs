@@ -7,7 +7,7 @@ public class InDfeModelTests : BaseContactsAreaModelTests<InDfeModel>
 {
     public InDfeModelTests()
     {
-        Sut = new InDfeModel(MockDataSourceService.Object,
+        Sut = new InDfeModel(Mocks.MockDataSourceService.CreateSubstitute(),
                 MockTrustService.Object,
                 new MockLogger<InDfeModel>().Object)
             { Uid = TrustUid };

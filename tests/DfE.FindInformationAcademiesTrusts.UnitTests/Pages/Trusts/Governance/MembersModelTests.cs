@@ -7,7 +7,7 @@ public class MembersModelTests : BaseGovernanceAreaModelTests<MembersModel>
 {
     public MembersModelTests()
     {
-        Sut = new MembersModel(MockDataSourceService.Object,
+        Sut = new MembersModel(Mocks.MockDataSourceService.CreateSubstitute(),
                 new MockLogger<MembersModel>().Object, MockTrustService.Object)
             { Uid = TrustUid };
     }
