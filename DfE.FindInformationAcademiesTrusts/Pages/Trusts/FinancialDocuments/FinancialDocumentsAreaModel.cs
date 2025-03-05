@@ -13,6 +13,8 @@ public class FinancialDocumentsAreaModel(
     public override TrustPageMetadata TrustPageMetadata =>
         base.TrustPageMetadata with { PageName = ViewConstants.FinancialDocumentsPageName };
 
+    public virtual bool InternalUseOnly => true;
+
     public string[] FinancialDocuments { get; set; } = ["Doc 1", "Doc 2", "Doc 3"];
 
     public override async Task<IActionResult> OnGetAsync()

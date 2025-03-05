@@ -30,4 +30,10 @@ public class InternalScrutinyReportsModelTests : BaseFinancialDocumentsAreaModel
 
         Sut.TrustPageMetadata.SubPageName.Should().Be("Internal scrutiny reports");
     }
+
+    [Fact]
+    public void InternalUseOnly_should_be_true()
+    {
+        Sut.InternalUseOnly.Should().BeTrue();
+    }
 }

@@ -30,4 +30,10 @@ public class FinancialStatementModelTests : BaseFinancialDocumentsAreaModelTests
 
         Sut.TrustPageMetadata.SubPageName.Should().Be("Financial statements");
     }
+
+    [Fact]
+    public void InternalUseOnly_should_be_false()
+    {
+        Sut.InternalUseOnly.Should().BeFalse();
+    }
 }

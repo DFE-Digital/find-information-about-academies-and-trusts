@@ -11,4 +11,6 @@ public class FinancialStatementsModel(
 {
     public override TrustPageMetadata TrustPageMetadata =>
         base.TrustPageMetadata with { SubPageName = ViewConstants.FinancialDocumentsFinancialStatementsSubPageName };
+
+    public override bool InternalUseOnly => false;
 }
