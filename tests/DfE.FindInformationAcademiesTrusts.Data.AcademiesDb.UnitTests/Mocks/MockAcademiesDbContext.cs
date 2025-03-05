@@ -289,6 +289,15 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         });
     }
 
+    public void AddMstrAcademyConversion(string trustId, AdvisoryType advisoryType, string projectStatus,
+        string projectName, string? daoProgress = null)
+    {
+        AddMstrAcademyConversion(trustId, projectStatus,
+            advisoryType == AdvisoryType.PreAdvisory,
+            advisoryType == AdvisoryType.PostAdvisory,
+            projectName: projectName, daoProgress: daoProgress);
+    }
+
     public void AddMstrAcademyConversion(
         string trustId,
         string projectStatus,
@@ -299,7 +308,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         int? urn = null,
         int? statutoryLowestAge = null,
         int? statutoryHighestAge = null,
-        DateTime? expectedOpeningDate = null)
+        DateTime? expectedOpeningDate = null,
+        string? daoProgress = null)
     {
         _mstrAcademyConversions.Add(new MstrAcademyConversion
         {
@@ -313,7 +323,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             URN = urn,
             StatutoryLowestAge = statutoryLowestAge,
             StatutoryHighestAge = statutoryHighestAge,
-            ExpectedOpeningDate = expectedOpeningDate
+            ExpectedOpeningDate = expectedOpeningDate,
+            DaoProgress = daoProgress
         });
     }
 

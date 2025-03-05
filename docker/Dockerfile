@@ -42,16 +42,33 @@ RUN ["dotnet", "build", "DfE.FindInformationAcademiesTrusts", "--no-restore", "-
 RUN ["dotnet", "publish", "DfE.FindInformationAcademiesTrusts", "--no-build", "-o", "/app"]
 
 ### Entity Framework: Migration Runner ###
-FROM "mcr.microsoft.com/mssql-tools" AS initcontainer
+FROM ubuntu:22.04 AS initcontainer
+RUN apt-get update && apt-get install ca-certificates -y
+
+# - Install upstream requirements
+ADD https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb /usr/share/microsoft.deb
+RUN dpkg -i /usr/share/microsoft.deb && rm /usr/share/microsoft.deb
+RUN apt-get update && \
+  apt-get upgrade -y && \
+  ACCEPT_EULA=Y apt-get install -y \
+  mssql-tools18 \
+  msodbcsql18 && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
 
 # - Copy and configure sql migration script
 WORKDIR /app
 COPY ./DfE.FindInformationAcademiesTrusts.Data.FiatDb/Migrations/FiatDbMigrationScript.sql /app/sql/FiatDbMigrationScript.sql
-RUN ["touch", "/app/sql/FiatDbMigrationScriptOutput.txt"]
-
-# - Copy and configure docker entrypoint script
 COPY ./docker/init-docker-entrypoint.sh /app/migratedb
-RUN ["chmod", "+x", "/app/migratedb"]
+
+# - Set permissions, create user, and change ownership
+RUN chmod +x /app/migratedb && \
+    touch /app/sql/FiatDbMigrationScriptOutput.txt && \
+    useradd -r -m -U app && \
+    chown -R app:app /app
+
+USER app
+ENV PATH="$PATH:/opt/mssql-tools18/bin"
 
 ### Build a runtime environment ###
 FROM "mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION}-azurelinux3.0" AS final

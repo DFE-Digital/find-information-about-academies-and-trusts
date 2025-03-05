@@ -60,9 +60,7 @@ public class PipelineEstablishmentRepository(IAcademiesDbContext academiesDbCont
         AdvisoryType advisoryType)
     {
         // Base query
-        var query = academiesDbContext.MstrAcademyConversions
-            .Where(project => project.TrustID == trustReferenceNumber)
-            .Where(project => ConversionStatuses.Contains(project.ProjectStatus));
+        var query = ConversionsBaseQuery(trustReferenceNumber);
 
         // Advisory filter
         query = advisoryType == AdvisoryType.PreAdvisory
@@ -153,7 +151,8 @@ public class PipelineEstablishmentRepository(IAcademiesDbContext academiesDbCont
     {
         return academiesDbContext.MstrAcademyConversions
             .Where(conv => conv.TrustID == trustReferenceNumber)
-            .Where(conv => ConversionStatuses.Contains(conv.ProjectStatus));
+            .Where(conv => ConversionStatuses.Contains(conv.ProjectStatus))
+            .Where(conv => conv.DaoProgress != "dAO revoked");
     }
 
     private IQueryable<MstrAcademyTransfer> TransfersBaseQuery(string trustReferenceNumber)

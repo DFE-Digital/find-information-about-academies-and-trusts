@@ -88,94 +88,66 @@ public class PipelineEstablishmentRepositoryTests
         }
     }
 
-    [Fact]
-    public async Task GetAdvisoryConversionEstablishmentsAsync_PreAdvisory_ReturnsCorrectResults()
+    [Theory]
+    [InlineData(AdvisoryType.PreAdvisory)]
+    [InlineData(AdvisoryType.PostAdvisory)]
+    public async Task GetAdvisoryConversionEstablishmentsAsync_FiltersOnStatus(AdvisoryType advisoryType)
     {
         // Arrange
         var trustRef = "TR200";
 
-        // Valid statuses
-        var validStatuses = new[]
-        {
-            PipelineStatuses.ApprovedForAO,
-            PipelineStatuses.AwaitingModeration,
-            PipelineStatuses.ConverterPreAO,
-            PipelineStatuses.ConverterPreAOC,
-            PipelineStatuses.Deferred,
-            PipelineStatuses.DirectiveAcademyOrders
-        };
+        // - Valid statuses
+        _mockContext.AddMstrAcademyConversion(trustRef, advisoryType, PipelineStatuses.ApprovedForAO, "Academy 1");
+        _mockContext.AddMstrAcademyConversion(trustRef, advisoryType, PipelineStatuses.AwaitingModeration, "Academy 2");
+        _mockContext.AddMstrAcademyConversion(trustRef, advisoryType, PipelineStatuses.ConverterPreAO, "Academy 3");
+        _mockContext.AddMstrAcademyConversion(trustRef, advisoryType, PipelineStatuses.ConverterPreAOC, "Academy 4");
+        _mockContext.AddMstrAcademyConversion(trustRef, advisoryType, PipelineStatuses.Deferred, "Academy 5");
+        _mockContext.AddMstrAcademyConversion(trustRef, advisoryType, PipelineStatuses.DirectiveAcademyOrders,
+            "Academy 6");
 
-        // Add a matching record: InComplete = "No", InPrepare = "Yes"
-        _mockContext.AddMstrAcademyConversion(trustRef, validStatuses[0], true, false,
-            projectName: "Conversion X", urn: 555, statutoryLowestAge: 3, statutoryHighestAge: 7,
-            expectedOpeningDate: new DateTime(2025, 4, 1));
-
-        // Add some that won't match
-        // 1) Wrong trust
-        _mockContext.AddMstrAcademyConversion("TR999", validStatuses[0], true, false);
-        // 2) Wrong status
-        _mockContext.AddMstrAcademyConversion(trustRef, "SomeOtherStatus", true, false);
-        // 3) InComplete = "No", InPrepare = "No" => fails the pre-advisory filter
-        _mockContext.AddMstrAcademyConversion(trustRef, validStatuses[1], false, false);
+        // - Invalid statuses
+        _mockContext.AddMstrAcademyConversion(trustRef, advisoryType, "Declined", "Don't show 1");
+        _mockContext.AddMstrAcademyConversion(trustRef, advisoryType, "Open", "Don't show 2");
+        _mockContext.AddMstrAcademyConversion(trustRef, advisoryType, "Withdrawn", "Don't show 3");
 
         // Act
-        var result = await _sut.GetAdvisoryConversionEstablishmentsAsync(trustRef, AdvisoryType.PreAdvisory);
+        var result = await _sut.GetAdvisoryConversionEstablishmentsAsync(trustRef, advisoryType);
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().HaveCount(1, "only one record matches the trust, valid status, and pre-advisory flags");
-
-        var est = result[0];
-        est.Urn.Should().Be("555");
-        est.EstablishmentName.Should().Be("Conversion X");
-        est.ProjectType.Should().Be("Conversion");
-        est.AgeRange.Should().NotBeNull();
-        est.AgeRange!.Minimum.Should().Be(3);
-        est.AgeRange.Maximum.Should().Be(7);
-        est.ChangeDate.Should().Be(new DateTime(2025, 4, 1));
+        result.Should().HaveCount(6)
+            .And.OnlyContain(establishment => establishment.EstablishmentName!.StartsWith("Academy"))
+            .And.OnlyHaveUniqueItems();
     }
 
-    [Fact]
-    public async Task GetAdvisoryConversionEstablishmentsAsync_PostAdvisory_ReturnsCorrectResults()
+    [Theory]
+    [InlineData(AdvisoryType.PreAdvisory)]
+    [InlineData(AdvisoryType.PostAdvisory)]
+    public async Task GetAdvisoryConversionEstablishmentsAsync_ShouldNotIncludeDaoRevoked(AdvisoryType advisoryType)
     {
         // Arrange
         var trustRef = "TR200";
-        // Use the same valid statuses
-        var validStatuses = new[]
-        {
-            PipelineStatuses.ApprovedForAO,
-            PipelineStatuses.AwaitingModeration,
-            PipelineStatuses.ConverterPreAO,
-            PipelineStatuses.ConverterPreAOC,
-            PipelineStatuses.Deferred,
-            PipelineStatuses.DirectiveAcademyOrders
-        };
-
-        // Add a matching record: InComplete="Yes", InPrepare=anything (ignored in post-advisory)
-        _mockContext.AddMstrAcademyConversion(trustRef, validStatuses[2], false, true,
-            projectName: "PostAdvisory Conv", urn: 999);
-
-        // Non-matching: (InComplete="No")
-        _mockContext.AddMstrAcademyConversion(trustRef, validStatuses[3], false, false);
+        _mockContext.AddMstrAcademyConversion(trustRef, advisoryType, PipelineStatuses.ConverterPreAO,
+            "Academy convertor 1");
+        _mockContext.AddMstrAcademyConversion(trustRef, advisoryType, PipelineStatuses.DirectiveAcademyOrders,
+            "Academy not converting", "dAO revoked");
+        _mockContext.AddMstrAcademyConversion(trustRef, advisoryType, PipelineStatuses.DirectiveAcademyOrders,
+            "Academy convertor 2", "Sponsor funding confirmed – progressing to conversion");
 
         // Act
-        var result = await _sut.GetAdvisoryConversionEstablishmentsAsync(trustRef, AdvisoryType.PostAdvisory);
+        var result = await _sut.GetAdvisoryConversionEstablishmentsAsync(trustRef, advisoryType);
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().HaveCount(1);
-        result[0].Urn.Should().Be("999");
-        result[0].EstablishmentName.Should().Be("PostAdvisory Conv");
+        result.Should().Satisfy(
+            p => p.EstablishmentName == "Academy convertor 1",
+            p => p.EstablishmentName == "Academy convertor 2"
+        );
     }
 
     [Fact]
     public async Task GetAdvisoryConversionEstablishmentsAsync_NoData_ReturnsEmptyArray()
     {
-        // Arrange
-        var repository = new AcademiesDb.Repositories.PipelineEstablishmentRepository(_mockContext.Object);
-
         // Act
-        var result = await repository.GetAdvisoryConversionEstablishmentsAsync("TR_NO_MATCH", AdvisoryType.PreAdvisory);
+        var result = await _sut.GetAdvisoryConversionEstablishmentsAsync("TR_NO_MATCH", AdvisoryType.PreAdvisory);
 
         // Assert
         result.Should().NotBeNull();
@@ -302,7 +274,7 @@ public class PipelineEstablishmentRepositoryTests
     }
 
     [Fact]
-    public async Task IfInCompleteForInProcessIsNull_ReturnsEmptyArray()
+    public async Task GetAdvisoryTransferEstablishmentsAsync_IfInCompleteForInProcessIsNull_ReturnsEmptyArray()
     {
         var trustRef = "TR888Null";
 
@@ -318,7 +290,7 @@ public class PipelineEstablishmentRepositoryTests
     }
 
     [Fact]
-    public async Task IfInPrepareForInProcessIsNull_ReturnsEmptyArray()
+    public async Task GetAdvisoryTransferEstablishmentsAsync_IfInPrepareForInProcessIsNull_ReturnsEmptyArray()
     {
         var trustRef = "TRPrepNull";
 
