@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+### Changed
+
+- Move "internal use only" out of contact cards to single box at the top of the "Contacts in this trust" page
+
 ## [Release-23][release-23] (production-2025-02-28.5074)
 
 ### Changed

@@ -11,38 +11,30 @@
       <h2 class="govuk-heading-m" data-testid="subpage-header">
         Contacts in this trust
       </h2>
+      <partial name="Shared/_InternalUseOnlyWarning" model=@("Trust email addresses") />
       <div class="govuk-summary-card" data-testid="accounting-officer">
-        <div class="govuk-summary-card__title-wrapper contact-card-title-with-disclaimer">
+        <div class="govuk-summary-card__title-wrapper">
           <h3 class="govuk-summary-card__title">
             Accounting officer
           </h3>
-          <div class="govuk-summary-card__actions govuk-!-margin-0">
-            @await Html.PartialAsync("Shared/_SummaryCardDisclaimerText")
-          </div>
         </div>
-        <partial name="_DisplayContact" model="@Model.AccountingOfficer"/>
+        <partial name="_DisplayContact" model="@Model.AccountingOfficer" />
       </div>
       <div class="govuk-summary-card" data-testid="chair-of-trustees">
-        <div class="govuk-summary-card__title-wrapper contact-card-title-with-disclaimer">
+        <div class="govuk-summary-card__title-wrapper">
           <h3 class="govuk-summary-card__title">
             Chair of trustees
           </h3>
-          <div class="govuk-summary-card__actions govuk-!-margin-0">
-            @await Html.PartialAsync("Shared/_SummaryCardDisclaimerText")
-          </div>
         </div>
-        <partial name="_DisplayContact" model="@Model.ChairOfTrustees"/>
+        <partial name="_DisplayContact" model="@Model.ChairOfTrustees" />
       </div>
       <div class="govuk-summary-card" data-testid="chief-financial-officer">
-        <div class="govuk-summary-card__title-wrapper contact-card-title-with-disclaimer">
+        <div class="govuk-summary-card__title-wrapper">
           <h3 class="govuk-summary-card__title">
             Chief financial officer
           </h3>
-          <div class="govuk-summary-card__actions govuk-!-margin-0">
-            @await Html.PartialAsync("Shared/_SummaryCardDisclaimerText")
-          </div>
         </div>
-        <partial name="_DisplayContact" model="@Model.ChiefFinancialOfficer"/>
+        <partial name="_DisplayContact" model="@Model.ChiefFinancialOfficer" />
       </div>
     </section>
   </div>
