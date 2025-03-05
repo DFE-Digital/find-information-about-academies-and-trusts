@@ -29,10 +29,8 @@ public abstract class BaseOverviewAreaModelTests<T> : BaseTrustPageTests<T>, ITe
     public override async Task OnGetAsync_sets_correct_data_source_list()
     {
         _ = await Sut.OnGetAsync();
-        await MockDataSourceService.GetAsync(Source.Gias);
         await MockDataSourceService.Received(1).GetAsync(Source.Gias);
-
-
+        
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
             new DataSourcePageListEntry(ViewConstants.OverviewTrustDetailsPageName,
                 [new DataSourceListEntry(GiasDataSource)]),

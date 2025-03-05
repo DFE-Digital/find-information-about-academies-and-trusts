@@ -87,11 +87,9 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
     public override async Task OnGetAsync_sets_correct_data_source_list()
     {
         _ = await Sut.OnGetAsync();
-        await MockDataSourceService.GetAsync(Source.Prepare);
+
         await MockDataSourceService.Received(1).GetAsync(Source.Prepare);
-        await MockDataSourceService.GetAsync(Source.ManageFreeSchoolProjects);
         await MockDataSourceService.Received(1).GetAsync(Source.ManageFreeSchoolProjects);
-        await MockDataSourceService.GetAsync(Source.Complete);
         await MockDataSourceService.Received(1).GetAsync(Source.Complete);
 
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([

@@ -35,9 +35,8 @@ public abstract class BaseGovernanceAreaModelTests<T> : BaseTrustPageTests<T>, I
     public override async Task OnGetAsync_sets_correct_data_source_list()
     {
         await Sut.OnGetAsync();
-        await MockDataSourceService.GetAsync(Source.Gias);
-        await MockDataSourceService.Received(1).GetAsync(Source.Gias);
 
+        await MockDataSourceService.Received(1).GetAsync(Source.Gias);
 
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
             new DataSourcePageListEntry(ViewConstants.GovernanceTrustLeadershipPageName,

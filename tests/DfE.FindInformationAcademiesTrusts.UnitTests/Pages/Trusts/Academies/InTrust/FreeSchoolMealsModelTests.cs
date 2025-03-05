@@ -8,7 +8,7 @@ public class FreeSchoolMealsModelTests : AcademiesInTrustAreaModelTests<FreeScho
 {
     public FreeSchoolMealsModelTests()
     {
-        Sut = new FreeSchoolMealsModel(Mocks.MockDataSourceService.CreateSubstitute(),
+        Sut = new FreeSchoolMealsModel(MockDataSourceService,
                 new MockLogger<FreeSchoolMealsModel>().Object,
                 MockTrustService.Object,
                 MockAcademyService.Object,

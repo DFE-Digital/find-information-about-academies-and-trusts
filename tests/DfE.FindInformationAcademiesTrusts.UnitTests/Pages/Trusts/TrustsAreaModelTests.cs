@@ -18,14 +18,14 @@ public class TrustsAreaModelTests : BaseTrustPageTests<TrustsAreaModel>
 
     public TrustsAreaModelTests()
     {
-        Sut = new TrustsAreaModelImpl(Mocks.MockDataSourceService.CreateSubstitute(), MockTrustService.Object, _logger.Object)
-        { Uid = TrustUid };
+        Sut = new TrustsAreaModelImpl(MockDataSourceService, MockTrustService.Object, _logger.Object)
+            { Uid = TrustUid };
     }
 
     [Fact]
     public void GroupUid_should_be_empty_string_by_default()
     {
-        Sut = new TrustsAreaModelImpl(Mocks.MockDataSourceService.CreateSubstitute(), MockTrustService.Object, _logger.Object);
+        Sut = new TrustsAreaModelImpl(MockDataSourceService, MockTrustService.Object, _logger.Object);
         Sut.Uid.Should().BeEquivalentTo(string.Empty);
     }
 

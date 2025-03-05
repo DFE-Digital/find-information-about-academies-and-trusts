@@ -9,7 +9,7 @@ public class PupilNumbersModelTests : AcademiesInTrustAreaModelTests<PupilNumber
 {
     public PupilNumbersModelTests()
     {
-        Sut = new PupilNumbersModel(Mocks.MockDataSourceService.CreateSubstitute(),
+        Sut = new PupilNumbersModel(MockDataSourceService,
                 new MockLogger<PupilNumbersModel>().Object,
                 MockTrustService.Object,
                 MockAcademyService.Object,

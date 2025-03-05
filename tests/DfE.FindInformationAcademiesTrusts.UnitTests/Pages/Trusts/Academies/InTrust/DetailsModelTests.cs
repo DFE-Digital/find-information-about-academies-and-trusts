@@ -11,7 +11,7 @@ public class AcademiesDetailsModelTests : AcademiesInTrustAreaModelTests<Academi
 
     public AcademiesDetailsModelTests()
     {
-        Sut = new AcademiesInTrustDetailsModel(Mocks.MockDataSourceService.CreateSubstitute(),
+        Sut = new AcademiesInTrustDetailsModel(MockDataSourceService,
                 _mockLinkBuilder.Object,
                 new MockLogger<AcademiesInTrustDetailsModel>().Object,
                 MockTrustService.Object,

@@ -7,7 +7,7 @@ public class CurrentRatingsModelTests : BaseOfstedAreaModelTests<CurrentRatingsM
 {
     public CurrentRatingsModelTests()
     {
-        Sut = new CurrentRatingsModel(Mocks.MockDataSourceService.CreateSubstitute(),
+        Sut = new CurrentRatingsModel(MockDataSourceService,
                 MockTrustService.Object,
                 MockAcademyService.Object,
                 MockExportService.Object,

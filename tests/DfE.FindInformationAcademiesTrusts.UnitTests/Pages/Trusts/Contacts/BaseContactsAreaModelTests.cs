@@ -120,11 +120,9 @@ public abstract class BaseContactsAreaModelTests<T> : BaseTrustPageTests<T>, ITe
     {
         await Sut.OnGetAsync();
 
-        await MockDataSourceService.GetAsync(Source.Gias);
         await MockDataSourceService.Received(1).GetAsync(Source.Gias);
-        await MockDataSourceService.GetAsync(Source.Mstr);
         await MockDataSourceService.Received(1).GetAsync(Source.Mstr);
-        
+
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
             new DataSourcePageListEntry(ViewConstants.ContactsInDfePageName, [
                     new DataSourceListEntry(new DataSourceServiceModel(Source.FiatDb, null, null),

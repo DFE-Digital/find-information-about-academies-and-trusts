@@ -7,7 +7,7 @@ public class SafeguardingAndConcernsModelTests : BaseOfstedAreaModelTests<Safegu
 {
     public SafeguardingAndConcernsModelTests()
     {
-        Sut = new SafeguardingAndConcernsModel(Mocks.MockDataSourceService.CreateSubstitute(),
+        Sut = new SafeguardingAndConcernsModel(MockDataSourceService,
                 MockTrustService.Object,
                 MockAcademyService.Object,
                 MockExportService.Object,

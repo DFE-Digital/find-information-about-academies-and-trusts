@@ -16,20 +16,7 @@ public static class MockDataSourceService
             .Returns(args =>
             {
                 var source = (Source)args[0];
-                var updateFrequency = source switch
-                {
-                    Source.Cdm => UpdateFrequency.Daily,
-                    Source.Complete => UpdateFrequency.Daily,
-                    Source.Gias => UpdateFrequency.Daily,
-                    Source.ManageFreeSchoolProjects => UpdateFrequency.Daily,
-                    Source.Mstr => UpdateFrequency.Daily,
-                    Source.Prepare => UpdateFrequency.Daily,
-                    Source.Mis => UpdateFrequency.Monthly,
-                    Source.ExploreEducationStatistics => UpdateFrequency.Annually,
-                    _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
-                };
-
-                return Task.FromResult(new DataSourceServiceModel(source, StaticTime, updateFrequency));
+                return Task.FromResult(GetDummyDataSource(source));
             });
         return mockDataSourceService;
     }
