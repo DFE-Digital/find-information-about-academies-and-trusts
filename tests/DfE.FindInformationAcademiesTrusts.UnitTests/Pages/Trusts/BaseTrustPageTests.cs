@@ -3,7 +3,6 @@ using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -13,19 +12,19 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
 {
     protected T Sut = default!;
     protected readonly Mock<ITrustService> MockTrustService = new();
-    protected readonly MockDataSourceService MockDataSourceService = new();
-
+    protected readonly IDataSourceService MockDataSourceService = Mocks.MockDataSourceService.CreateSubstitute();
+    
     protected readonly DataSourceServiceModel GiasDataSource =
-        new(Source.Gias, new DateTime(2025, 1, 1), UpdateFrequency.Daily);
+        new(Source.Gias, new DateTime(2023, 11, 9), UpdateFrequency.Daily);
 
     protected readonly DataSourceServiceModel MstrDataSource =
-        new(Source.Mstr, new DateTime(2025, 1, 1), UpdateFrequency.Monthly);
+        new(Source.Mstr, new DateTime(2023, 11, 9), UpdateFrequency.Daily);
 
     protected readonly DataSourceServiceModel MisDataSource =
-        new(Source.Mis, new DateTime(2025, 1, 1), UpdateFrequency.Daily);
+        new(Source.Mis, new DateTime(2023, 11, 9), UpdateFrequency.Monthly);
 
     protected readonly DataSourceServiceModel EesDataSource = new(Source.ExploreEducationStatistics,
-        new DateTime(2025, 1, 1), UpdateFrequency.Annually);
+        new DateTime(2023, 11, 9), UpdateFrequency.Annually);
 
     protected const string TrustUid = "1234";
     protected readonly TrustSummaryServiceModel DummyTrustSummary = new(TrustUid, "My Trust", "Multi-academy trust", 3);
@@ -33,11 +32,6 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
     protected BaseTrustPageTests()
     {
         MockTrustService.Setup(t => t.GetTrustSummaryAsync(TrustUid)).ReturnsAsync(DummyTrustSummary);
-
-        MockDataSourceService.Setup(s => s.GetAsync(Source.Gias)).ReturnsAsync(GiasDataSource);
-        MockDataSourceService.Setup(s => s.GetAsync(Source.Mstr)).ReturnsAsync(MstrDataSource);
-        MockDataSourceService.Setup(s => s.GetAsync(Source.Mis)).ReturnsAsync(MisDataSource);
-        MockDataSourceService.Setup(s => s.GetAsync(Source.ExploreEducationStatistics)).ReturnsAsync(EesDataSource);
     }
 
     [Fact]

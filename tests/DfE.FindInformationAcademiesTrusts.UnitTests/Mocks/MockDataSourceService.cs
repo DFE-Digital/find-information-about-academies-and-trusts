@@ -1,18 +1,27 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+using NSubstitute;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
-public class MockDataSourceService : Mock<IDataSourceService>
+public static class MockDataSourceService
 {
     private static readonly DateTime StaticTime = new(2023, 11, 9);
-
-    public MockDataSourceService()
+    public static IDataSourceService CreateSubstitute()
     {
-        Setup(f => f.GetAsync(It.IsAny<Source>())).ReturnsAsync((Source source) => GetDummyDataSource(source));
+        var mockDataSourceService = Substitute.For<IDataSourceService>();
+
+        mockDataSourceService
+            .GetAsync(Arg.Any<Source>())
+            .Returns(args =>
+            {
+                var source = (Source)args[0];
+                return Task.FromResult(GetDummyDataSource(source));
+            });
+        return mockDataSourceService;
     }
 
-    public static DataSourceServiceModel GetDummyDataSource(Source source)
+    private static DataSourceServiceModel GetDummyDataSource(Source source)
     {
         return new DataSourceServiceModel(source, StaticTime, source switch
         {
@@ -27,8 +36,8 @@ public class MockDataSourceService : Mock<IDataSourceService>
             _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
         });
     }
-
-    public DataSourceServiceModel Prepare { get; } = GetDummyDataSource(Source.Prepare);
-    public DataSourceServiceModel Complete { get; } = GetDummyDataSource(Source.Complete);
-    public DataSourceServiceModel ManageFreeSchool { get; } = GetDummyDataSource(Source.ManageFreeSchoolProjects);
+    
+    public static DataSourceServiceModel Prepare { get; } = GetDummyDataSource(Source.Prepare);
+    public static DataSourceServiceModel Complete { get; } = GetDummyDataSource(Source.Complete);
+    public static DataSourceServiceModel ManageFreeSchool { get; } = GetDummyDataSource(Source.ManageFreeSchoolProjects);
 }

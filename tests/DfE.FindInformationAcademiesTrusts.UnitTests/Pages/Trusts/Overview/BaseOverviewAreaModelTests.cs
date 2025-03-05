@@ -3,6 +3,7 @@ using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
+using NSubstitute;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Overview;
 
@@ -28,8 +29,8 @@ public abstract class BaseOverviewAreaModelTests<T> : BaseTrustPageTests<T>, ITe
     public override async Task OnGetAsync_sets_correct_data_source_list()
     {
         _ = await Sut.OnGetAsync();
-        MockDataSourceService.Verify(e => e.GetAsync(Source.Gias), Times.Once);
-
+        await MockDataSourceService.Received(1).GetAsync(Source.Gias);
+        
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
             new DataSourcePageListEntry(ViewConstants.OverviewTrustDetailsPageName,
                 [new DataSourceListEntry(GiasDataSource)]),
