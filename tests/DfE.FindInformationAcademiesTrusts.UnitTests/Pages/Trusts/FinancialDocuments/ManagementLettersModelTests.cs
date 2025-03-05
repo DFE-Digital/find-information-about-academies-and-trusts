@@ -30,4 +30,10 @@ public class ManagementLettersModelTests : BaseFinancialDocumentsAreaModelTests<
 
         Sut.TrustPageMetadata.SubPageName.Should().Be("Management letters");
     }
+
+    [Fact]
+    public void InternalUseOnly_should_be_true()
+    {
+        Sut.InternalUseOnly.Should().BeTrue();
+    }
 }
