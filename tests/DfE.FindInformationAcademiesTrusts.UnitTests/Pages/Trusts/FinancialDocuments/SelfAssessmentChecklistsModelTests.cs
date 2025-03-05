@@ -30,4 +30,10 @@ public class SelfAssessmentChecklistsModelTests : BaseFinancialDocumentsAreaMode
 
         Sut.TrustPageMetadata.SubPageName.Should().Be("Self-assessment checklists");
     }
+
+    [Fact]
+    public void InternalUseOnly_should_be_true()
+    {
+        Sut.InternalUseOnly.Should().BeTrue();
+    }
 }

@@ -8,7 +8,11 @@
     <h2 class="govuk-heading-m" data-testid="subpage-header">
       @Model.TrustPageMetadata.SubPageName
     </h2>
-
+    <p class="govuk-body">You must have permission to view these documents.</p>
+    @if (Model.InternalUseOnly)
+    {
+      <partial name="Shared/_InternalUseOnlyWarning" model="@Model.TrustPageMetadata.SubPageName" />
+    }
     <dl class="govuk-summary-list">
       @foreach (var doc in Model.FinancialDocuments)
       {
