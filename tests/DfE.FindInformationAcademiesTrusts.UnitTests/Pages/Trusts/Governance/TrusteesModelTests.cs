@@ -8,7 +8,7 @@ public class TrusteesModelTests : BaseGovernanceAreaModelTests<TrusteesModel>
     public TrusteesModelTests()
     {
         Sut = new TrusteesModel(MockDataSourceService,
-                new MockLogger<TrusteesModel>().Object, MockTrustService.Object)
+                MockLogger.CreateLogger<TrusteesModel>(), MockTrustService.Object)
             { Uid = TrustUid };
     }
 

@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Governance;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
@@ -8,7 +9,7 @@ public class HistoricMembersModelTests : BaseGovernanceAreaModelTests<HistoricMe
     public HistoricMembersModelTests()
     {
         Sut = new HistoricMembersModel(MockDataSourceService,
-                new MockLogger<HistoricMembersModel>().Object, MockTrustService.Object)
+                MockLogger.CreateLogger<HistoricMembersModel>(), MockTrustService.Object)
             { Uid = TrustUid };
     }
 

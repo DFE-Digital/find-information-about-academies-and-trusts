@@ -12,7 +12,7 @@ public class CurrentRatingsModelTests : BaseOfstedAreaModelTests<CurrentRatingsM
                 MockAcademyService.Object,
                 MockExportService.Object,
                 MockDateTimeProvider.Object,
-                new MockLogger<CurrentRatingsModel>().Object
+                MockLogger.CreateLogger<CurrentRatingsModel>()
             )
             { Uid = TrustUid };
     }

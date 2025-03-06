@@ -9,7 +9,7 @@ public class InDfeModelTests : BaseContactsAreaModelTests<InDfeModel>
     {
         Sut = new InDfeModel(MockDataSourceService,
                 MockTrustService.Object,
-                new MockLogger<InDfeModel>().Object)
+                MockLogger.CreateLogger<InDfeModel>())
             { Uid = TrustUid };
     }
 

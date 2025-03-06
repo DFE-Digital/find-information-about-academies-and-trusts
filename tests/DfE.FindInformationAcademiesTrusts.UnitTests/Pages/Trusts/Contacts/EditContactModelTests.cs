@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Pipeline;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -19,7 +20,7 @@ public class EditContactModelTests
             .ReturnsAsync(_fakeTrust);
 
         _sut = new EditSfsoLeadModel(MockDataSourceService.CreateSubstitute(),
-                new MockLogger<EditSfsoLeadModel>().Object, _mockTrustService.Object)
+                MockLogger.CreateLogger<EditSfsoLeadModel>(), _mockTrustService.Object)
             { Uid = "1234" };
     }
 

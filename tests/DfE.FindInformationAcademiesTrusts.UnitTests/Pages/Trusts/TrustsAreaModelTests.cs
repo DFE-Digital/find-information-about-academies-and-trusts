@@ -9,7 +9,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
 
 public class TrustsAreaModelTests : BaseTrustPageTests<TrustsAreaModel>
 {
-    private readonly MockLogger<TrustsAreaModel> _logger = new();
+    private readonly ILogger<TrustsAreaModel> _logger = MockLogger.CreateLogger<TrustsAreaModel>();
 
     private class TrustsAreaModelImpl(
         IDataSourceService dataSourceService,
@@ -18,14 +18,14 @@ public class TrustsAreaModelTests : BaseTrustPageTests<TrustsAreaModel>
 
     public TrustsAreaModelTests()
     {
-        Sut = new TrustsAreaModelImpl(MockDataSourceService, MockTrustService.Object, _logger.Object)
+        Sut = new TrustsAreaModelImpl(MockDataSourceService, MockTrustService.Object, _logger)
             { Uid = TrustUid };
     }
 
     [Fact]
     public void GroupUid_should_be_empty_string_by_default()
     {
-        Sut = new TrustsAreaModelImpl(MockDataSourceService, MockTrustService.Object, _logger.Object);
+        Sut = new TrustsAreaModelImpl(MockDataSourceService, MockTrustService.Object, _logger);
         Sut.Uid.Should().BeEquivalentTo(string.Empty);
     }
 

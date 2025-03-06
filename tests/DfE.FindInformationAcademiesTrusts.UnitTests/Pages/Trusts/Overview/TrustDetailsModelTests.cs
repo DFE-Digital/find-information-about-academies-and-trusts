@@ -12,7 +12,7 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
     {
         Sut = new TrustDetailsModel(
                 MockDataSourceService,
-                new MockLogger<TrustDetailsModel>().Object,
+                MockLogger.CreateLogger<TrustDetailsModel>(),
                 MockTrustService.Object,
                 _mockLinksToOtherServices.Object)
             { Uid = TrustUid };

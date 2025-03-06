@@ -12,7 +12,7 @@ public class PreviousRatingsModelTests : BaseOfstedAreaModelTests<PreviousRating
                 MockAcademyService.Object,
                 MockExportService.Object,
                 MockDateTimeProvider.Object,
-                new MockLogger<PreviousRatingsModel>().Object
+                MockLogger.CreateLogger<PreviousRatingsModel>()
             )
             { Uid = TrustUid };
     }

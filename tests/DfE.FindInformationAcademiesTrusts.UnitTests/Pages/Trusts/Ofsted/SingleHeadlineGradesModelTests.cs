@@ -12,7 +12,7 @@ public class SingleHeadlineGradesModelTests : BaseOfstedAreaModelTests<SingleHea
                 MockAcademyService.Object,
                 MockExportService.Object,
                 MockDateTimeProvider.Object,
-                new MockLogger<SingleHeadlineGradesModel>().Object
+                MockLogger.CreateLogger<SingleHeadlineGradesModel>()
             )
             { Uid = TrustUid };
     }

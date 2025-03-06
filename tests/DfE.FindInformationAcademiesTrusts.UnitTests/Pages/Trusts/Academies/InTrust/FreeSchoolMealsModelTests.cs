@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -9,7 +10,7 @@ public class FreeSchoolMealsModelTests : AcademiesInTrustAreaModelTests<FreeScho
     public FreeSchoolMealsModelTests()
     {
         Sut = new FreeSchoolMealsModel(MockDataSourceService,
-                new MockLogger<FreeSchoolMealsModel>().Object,
+                MockLogger.CreateLogger<FreeSchoolMealsModel>(),
                 MockTrustService.Object,
                 MockAcademyService.Object,
                 MockExportService.Object,

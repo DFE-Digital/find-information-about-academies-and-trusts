@@ -10,7 +10,7 @@ public class PostAdvisoryBoardModelTests : BasePipelineAcademiesAreaModelTests<P
     public PostAdvisoryBoardModelTests()
     {
         Sut = new PostAdvisoryBoardModel(
-                MockDataSourceService, new MockLogger<PostAdvisoryBoardModel>().Object,
+                MockDataSourceService, MockLogger.CreateLogger<PostAdvisoryBoardModel>(),
                 MockTrustService.Object, MockAcademyService.Object, MockExportService.Object,
                 MockDateTimeProvider.Object)
             { Uid = TrustUid };
