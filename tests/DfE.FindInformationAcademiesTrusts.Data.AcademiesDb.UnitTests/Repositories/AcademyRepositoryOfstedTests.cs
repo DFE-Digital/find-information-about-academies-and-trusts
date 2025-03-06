@@ -194,14 +194,8 @@ public class AcademyRepositoryOfstedTests
 
         //---Assert--
         //Check we got a log error for each invalid establishment
-        foreach (var urn in invalidEstablishmentUrns)
-        {
-            _mockLogger.VerifyLogError(
-                $"URN {urn} has some unrecognised ofsted ratings. This could be a data integrity issue with the Ofsted data in Academies Db.");
-        }
-
-        //Ensure that we didn't get a log error for the valid ones
-        _mockLogger.Received(0);
+        VerifyLogs(invalidEstablishmentUrns, shouldLogError: true);
+        VerifyLogs(validEstablishmentUrns, shouldLogError: false);
     }
 
     [Theory]
@@ -543,7 +537,7 @@ public class AcademyRepositoryOfstedTests
 
         await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
-        _mockLogger.Received(0);
+        _mockLogger.VerifyDidNotReceive();
     }
 
     [Fact]
@@ -849,7 +843,10 @@ public class AcademyRepositoryOfstedTests
             $"URN {giasGroupLinks[8].Urn!} has a previous Ofsted single headline grade of Inadequate issued"
             // giasGroupLinks[9] - OverallEffectiveness before policy change date so no error log expected
         );
-        _mockLogger.Received(0);
+
+        var urnId = int.Parse(giasGroupLinks[9].Urn!);
+
+        VerifyLogs([urnId], shouldLogError: false);
     }
 
     [Fact]
@@ -925,6 +922,23 @@ public class AcademyRepositoryOfstedTests
         // Act
         _ = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
-        _mockLogger.Received(0);
+        _mockLogger.VerifyDidNotReceive();
+    }
+
+    private void VerifyLogs(int[] urns, bool shouldLogError)
+    {
+        foreach (var urn in urns)
+        {
+            var message = $"URN {urn} has some unrecognised ofsted ratings. This could be a data integrity issue with the Ofsted data in Academies Db.";
+
+            if (shouldLogError)
+            {
+                _mockLogger.VerifyLogError(message);
+            }
+            else
+            {
+                _mockLogger.VerifyDidNotReceive(message);
+            }
+        }
     }
 }
