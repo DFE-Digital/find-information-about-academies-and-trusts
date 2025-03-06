@@ -1,18 +1,14 @@
+using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Configuration;
 using Microsoft.AspNetCore.Http;
+using NSubstitute;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
-public class MockRequestCookies : Mock<IRequestCookieCollection>
+public class MockRequestCookies : IRequestCookieCollection
 {
-    public Dictionary<string, string> Data { get; } = new();
-
-    public MockRequestCookies()
-    {
-        Setup(m => m.Keys).Returns(Data.Keys);
-        Setup(m => m.ContainsKey(It.IsAny<string>())).Returns((string key) => Data.ContainsKey(key));
-        Setup(m => m[It.IsAny<string>()]).Returns((string key) => Data.TryGetValue(key, out var value) ? value : null);
-    }
+    private Dictionary<string, string> Data { get; } = new();
 
     public void SetupConsentCookie(bool? accepted)
     {
@@ -43,4 +39,17 @@ public class MockRequestCookies : Mock<IRequestCookieCollection>
         Data.Add("_gid", "True");
         Data.Add("_ga", "True");
     }
+
+    public bool ContainsKey(string key) => Data.ContainsKey(key);
+
+    public bool TryGetValue(string key, [NotNullWhen(true)] out string? value) => Data.TryGetValue(key, out value);
+
+    public int Count => Data.Count;
+    public ICollection<string> Keys => Data.Keys;
+
+    public string? this[string key] => Data[key];
+
+    public IEnumerator<KeyValuePair<string, string>> GetEnumerator() => Data.GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

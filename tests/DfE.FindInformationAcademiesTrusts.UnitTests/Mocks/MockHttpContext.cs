@@ -2,32 +2,35 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.Extensions.Primitives;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
-public class MockHttpContext : Mock<HttpContext>
+public class MockHttpContext
 {
     public MockResponseCookies MockResponseCookies { get; } = new();
     public MockRequestCookies MockRequestCookies { get; } = new();
-    private readonly Mock<HttpRequest> _mockRequest = new();
-    private readonly Mock<IFeatureCollection> _mockFeatureCollection = new();
+    public HttpContext Object { get; } = Substitute.For<HttpContext>();
+    
+    private readonly HttpRequest _mockRequest = Substitute.For<HttpRequest>();
+    private readonly IFeatureCollection _mockFeatureCollection = Substitute.For<IFeatureCollection>();
     private readonly ClaimsIdentity _claimsIdentity = new();
 
     public MockHttpContext()
     {
-        Mock<HttpResponse> mockResponse = new();
-        mockResponse.Setup(m => m.Cookies).Returns(MockResponseCookies.Object);
-
+        HttpResponse mockResponse = Substitute.For<HttpResponse>();
+        mockResponse.Cookies.Returns(MockResponseCookies.Cookies);
+        
         ClaimsPrincipal user = new();
         user.AddIdentity(_claimsIdentity);
-
-        _mockRequest.Setup(m => m.Cookies).Returns(MockRequestCookies.Object);
-        _mockRequest.Setup(m => m.Query[It.IsAny<string>()]).Returns("");
-
-        Setup(m => m.Request).Returns(_mockRequest.Object);
-        Setup(m => m.Response).Returns(mockResponse.Object);
-        Setup(m => m.Features).Returns(_mockFeatureCollection.Object);
-        Setup(m => m.User).Returns(user);
+        
+        _mockRequest.Cookies.Returns(MockRequestCookies);
+        _mockRequest.Query[Arg.Any<string>()].Returns((StringValues)"");
+        
+        Object.Request.Returns(_mockRequest);
+        Object.Response.Returns(mockResponse);
+        Object.Features.Returns(_mockFeatureCollection);
+        Object.User.Returns(user);
     }
 
     public void AddUserClaim(string type, string value)
@@ -37,7 +40,7 @@ public class MockHttpContext : Mock<HttpContext>
 
     public void SetQueryReturnPath(string path)
     {
-        _mockRequest.Setup(m => m.Query[CookiesHelper.ReturnPathQuery]).Returns(path);
+        _mockRequest.Query[CookiesHelper.ReturnPathQuery].Returns((StringValues)path);
     }
 
     public void SetPath(string path)
@@ -46,8 +49,8 @@ public class MockHttpContext : Mock<HttpContext>
         {
             path = "/" + path;
         }
-
-        _mockRequest.Setup(m => m.Path).Returns(path);
+        
+        _mockRequest.Path.Returns((PathString)path);
     }
 
     public void SetQueryString(string queryString)
@@ -57,16 +60,17 @@ public class MockHttpContext : Mock<HttpContext>
             queryString = "?" + queryString;
         }
 
-        _mockRequest.Setup(m => m.QueryString).Returns(new QueryString(queryString));
+        _mockRequest.QueryString.Returns(new QueryString(queryString));
     }
 
     public void SetNotFoundUrl(string host, string path, string query)
     {
-        _mockFeatureCollection.Setup(m => m.Get<IStatusCodeReExecuteFeature>())
-            .Returns(Of<IStatusCodeReExecuteFeature>(m =>
-                m.OriginalPath == path
-                && m.OriginalQueryString == query));
-
-        _mockRequest.Setup(m => m.Host).Returns(new HostString(host));
+        var statusCodeReExecuteFeature = Substitute.For<IStatusCodeReExecuteFeature>();
+        statusCodeReExecuteFeature.OriginalPath.Returns(path);
+        statusCodeReExecuteFeature.OriginalQueryString.Returns(query);
+        
+        _mockFeatureCollection.Get<IStatusCodeReExecuteFeature>().Returns(statusCodeReExecuteFeature);
+        
+        _mockRequest.Host.Returns(new HostString(host));
     }
 }
