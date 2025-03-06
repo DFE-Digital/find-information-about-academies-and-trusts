@@ -3,48 +3,34 @@ using Microsoft.Extensions.Logging;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
-public class MockLogger<T> : Mock<ILogger<T>>
+public static class MockLogger
 {
-    public MockLogger<T> VerifyLogInformation(string expectedMessage)
+    public static ILogger<T> CreateLogger<T>()
     {
-        return VerifyLog(LogLevel.Information, expectedMessage);
+        return Substitute.For<ILogger<T>>();
     }
 
-    public MockLogger<T> VerifyLogWarning(string expectedMessage)
+    public static void VerifyLogError<T>(this ILogger<T> logger, string regexPattern)
     {
-        return VerifyLog(LogLevel.Warning, expectedMessage);
+        VerifyLog(logger, LogLevel.Error, regexPattern);
     }
 
-    public MockLogger<T> VerifyLogError(string regexPattern)
-    {
-        VerifyLog(LogLevel.Error, regexPattern);
-        return this;
-    }
-
-    public MockLogger<T> VerifyLogErrors(params string[] regexPatterns)
+    public static void VerifyLogErrors<T>(this ILogger<T> logger, params string[] regexPatterns)
     {
         foreach (var regexPattern in regexPatterns)
         {
-            VerifyLogError(regexPattern);
+            logger.VerifyLogError(regexPattern);
         }
-
-        return this;
     }
 
-    private MockLogger<T> VerifyLog(LogLevel expectedLogLevel, string regexPattern)
+    private static void VerifyLog<T>(ILogger<T> logger, LogLevel expectedLogLevel, string regexPattern)
     {
-        Verify(
-            mock => mock.Log(
-                It.Is<LogLevel>(logLevel => logLevel == expectedLogLevel),
-                It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => Regex.IsMatch(v.ToString()!, regexPattern, RegexOptions.NonBacktracking)),
-                It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception?, string>>()
-            ),
-            Times.Once,
-            $"Couldn't find {expectedLogLevel} log matching \"{regexPattern}\""
+        logger.Received(1).Log(
+            Arg.Is<LogLevel>(logLevel => logLevel == expectedLogLevel),
+            Arg.Any<EventId>(),
+            Arg.Is<object>((v) => Regex.IsMatch(v.ToString()!, regexPattern, RegexOptions.NonBacktracking)),
+            Arg.Any<Exception>(),
+            Arg.Any<Func<object, Exception?, string>>()
         );
-
-        return this;
     }
 }

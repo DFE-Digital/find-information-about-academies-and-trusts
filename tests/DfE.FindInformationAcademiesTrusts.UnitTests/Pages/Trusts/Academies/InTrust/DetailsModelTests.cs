@@ -13,7 +13,7 @@ public class AcademiesDetailsModelTests : AcademiesInTrustAreaModelTests<Academi
     {
         Sut = new AcademiesInTrustDetailsModel(MockDataSourceService,
                 _mockLinkBuilder.Object,
-                new MockLogger<AcademiesInTrustDetailsModel>().Object,
+                MockLogger.CreateLogger<AcademiesInTrustDetailsModel>(),
                 MockTrustService.Object,
                 MockAcademyService.Object,
                 MockExportService.Object,

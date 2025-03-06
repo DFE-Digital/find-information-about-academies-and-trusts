@@ -10,7 +10,7 @@ public class ReferenceNumbersModelTests : BaseOverviewAreaModelTests<ReferenceNu
     {
         Sut = new ReferenceNumbersModel(
                 MockDataSourceService,
-                new MockLogger<ReferenceNumbersModel>().Object,
+                MockLogger.CreateLogger<ReferenceNumbersModel>(),
                 MockTrustService.Object)
             { Uid = TrustUid };
     }

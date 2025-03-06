@@ -2,8 +2,11 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis_Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
+using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using FluentAssertions.Execution;
+using Microsoft.Extensions.Logging;
+using NSubstitute;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories;
 
@@ -12,11 +15,11 @@ public class AcademyRepositoryOfstedTests
     private const string GroupUid = "1234";
     private readonly AcademyRepository _sut;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
-    private readonly MockLogger<AcademyRepository> _mockLogger = new();
+    private readonly ILogger<AcademyRepository> _mockLogger = MockLogger.CreateLogger<AcademyRepository>();
 
     public AcademyRepositoryOfstedTests()
     {
-        _sut = new AcademyRepository(_mockAcademiesDbContext.Object, _mockLogger.Object);
+        _sut = new AcademyRepository(_mockAcademiesDbContext.Object, _mockLogger);
     }
 
     private GiasGroupLink[] AddGiasGroupLinksToMockDb(int count)
@@ -144,8 +147,7 @@ public class AcademyRepositoryOfstedTests
         };
 
         // Add each type of invalid previous rating
-        invalidEstablishmentsFiat.AddRange(new MisMstrEstablishmentFiat[]
-        {
+        invalidEstablishmentsFiat.AddRange([
             new() { Urn = 111109, PreviousFullInspectionOverallEffectiveness = "some unknown value" },
             new() { Urn = 222209, PreviousQualityOfEducation = 212 },
             new() { Urn = 333309, PreviousBehaviourAndAttitudes = 212 },
@@ -155,16 +157,15 @@ public class AcademyRepositoryOfstedTests
             new() { Urn = 777709, PreviousSixthFormProvisionWhereApplicable = "some unknown value" },
             new() { Urn = 888809, PreviousCategoryOfConcern = "some unknown value" },
             new() { Urn = 999909, PreviousSafeguardingIsEffective = "some unknown value" }
-        });
-        invalidFurtherEducationEstablishmentsFiat.AddRange(new MisMstrFurtherEducationEstablishmentFiat[]
-        {
+        ]);
+        invalidFurtherEducationEstablishmentsFiat.AddRange([
             new() { ProviderUrn = 101109, PreviousOverallEffectiveness = "212" },
             new() { ProviderUrn = 102209, PreviousQualityOfEducation = 212 },
             new() { ProviderUrn = 103309, PreviousBehaviourAndAttitudes = 212 },
             new() { ProviderUrn = 104409, PreviousPersonalDevelopment = 212 },
             new() { ProviderUrn = 105509, PreviousEffectivenessOfLeadershipAndManagement = 212 },
             new() { ProviderUrn = 106609, PreviousSafeguarding = "some unknown value" }
-        });
+        ]);
 
         //Add invalid establishments to mock db
         _mockAcademiesDbContext.AddEstablishmentsFiat(invalidEstablishmentsFiat);
@@ -200,7 +201,7 @@ public class AcademyRepositoryOfstedTests
         }
 
         //Ensure that we didn't get a log error for the valid ones
-        _mockLogger.VerifyNoOtherCalls();
+        _mockLogger.Received(0);
     }
 
     [Theory]
@@ -542,7 +543,7 @@ public class AcademyRepositoryOfstedTests
 
         await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
-        _mockLogger.VerifyNoOtherCalls();
+        _mockLogger.Received(0);
     }
 
     [Fact]
@@ -848,7 +849,7 @@ public class AcademyRepositoryOfstedTests
             $"URN {giasGroupLinks[8].Urn!} has a previous Ofsted single headline grade of Inadequate issued"
             // giasGroupLinks[9] - OverallEffectiveness before policy change date so no error log expected
         );
-        _mockLogger.VerifyNoOtherCalls();
+        _mockLogger.Received(0);
     }
 
     [Fact]
@@ -924,6 +925,6 @@ public class AcademyRepositoryOfstedTests
         // Act
         _ = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
-        _mockLogger.VerifyNoOtherCalls();
+        _mockLogger.Received(0);
     }
 }
