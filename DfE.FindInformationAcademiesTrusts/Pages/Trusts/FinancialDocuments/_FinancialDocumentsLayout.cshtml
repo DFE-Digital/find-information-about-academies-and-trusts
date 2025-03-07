@@ -1,3 +1,4 @@
+@using DfE.FindInformationAcademiesTrusts.Data.Enums
 @model FinancialDocumentsAreaModel
 @{
   Layout = "_TrustLayout";
@@ -18,10 +19,31 @@
       {
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
-            @doc year
+            @doc.YearFrom to @doc.YearTo
           </dt>
           <dd class="govuk-summary-list__value">
-            @doc link
+            @switch (doc)
+            {
+              case { Status: FinancialDocumentStatus.Submitted, Link: not null }:
+                <a href="@doc.Link" class="govuk-link" rel="noreferrer noopener" target="_blank">
+                  View
+                  <span class="govuk-visually-hidden">@doc.YearFrom to @doc.YearTo</span>
+                  @Model.FinancialDocumentDisplayName (opens in a new tab)
+                </a>
+                break;
+              case { Status: FinancialDocumentStatus.NotYetSubmitted }:
+                <strong class="govuk-tag govuk-tag--yellow">Not yet submitted</strong>
+                break;
+              case { Status: FinancialDocumentStatus.NotSubmitted }:
+                <span>Not submitted</span>
+                break;
+              case { Status: FinancialDocumentStatus.NotExpected }:
+                <span>Not expected</span>
+                break;
+              default:
+                <span>There is a problem displaying this document</span>
+                break;
+            }
           </dd>
         </div>
       }
