@@ -1,4 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Governance;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
