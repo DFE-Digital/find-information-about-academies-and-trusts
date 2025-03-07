@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.FinancialDocuments;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
@@ -5,12 +6,11 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.FinancialDoc
 
 public class InternalScrutinyReportsModelTests : BaseFinancialDocumentsAreaModelTests<InternalScrutinyReportsModel>
 {
-    public InternalScrutinyReportsModelTests()
+    public InternalScrutinyReportsModelTests() : base(FinancialDocumentType.InternalScrutinyReport)
     {
         Sut = new InternalScrutinyReportsModel(MockDataSourceService,
-                new MockLogger<InternalScrutinyReportsModel>().Object,
-                MockTrustService.Object
-            )
+                new MockLogger<InternalScrutinyReportsModel>().Object, MockTrustService.Object,
+                MockFinancialDocumentService.Object)
             { Uid = TrustUid };
     }
 
@@ -35,5 +35,11 @@ public class InternalScrutinyReportsModelTests : BaseFinancialDocumentsAreaModel
     public void InternalUseOnly_should_be_true()
     {
         Sut.InternalUseOnly.Should().BeTrue();
+    }
+
+    [Fact]
+    public void FinancialDocumentDisplayName_should_be_scrutiny_report()
+    {
+        Sut.FinancialDocumentDisplayName.Should().Be("scrutiny report");
     }
 }
