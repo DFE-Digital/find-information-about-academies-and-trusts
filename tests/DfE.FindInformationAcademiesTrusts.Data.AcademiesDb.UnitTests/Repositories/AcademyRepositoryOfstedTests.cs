@@ -842,9 +842,7 @@ public class AcademyRepositoryOfstedTests
             // giasGroupLinks[9] - OverallEffectiveness before policy change date so no error log expected
         );
 
-        var urnId = int.Parse(giasGroupLinks[9].Urn!);
-
-        VerifyLogs([urnId], shouldLogError: false);
+        _mockLogger.VerifyDidNotReceive(giasGroupLinks[9].Urn!);
     }
 
     [Fact]
