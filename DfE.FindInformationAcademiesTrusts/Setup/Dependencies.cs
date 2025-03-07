@@ -1,4 +1,5 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data;
+﻿using System.Diagnostics.CodeAnalysis;
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
@@ -13,9 +14,9 @@ using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
+using DfE.FindInformationAcademiesTrusts.Services.FinancialDocument;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 
 namespace DfE.FindInformationAcademiesTrusts.Setup;
 
@@ -56,6 +57,7 @@ public static class Dependencies
         builder.Services.AddScoped<ITrustService, TrustService>();
         builder.Services.AddScoped<IAcademyService, AcademyService>();
         builder.Services.AddScoped<IExportService, ExportService>();
+        builder.Services.AddScoped<IFinancialDocumentService, FinancialDocumentService>();
 
         builder.Services.AddScoped<IOtherServicesLinkBuilder, OtherServicesLinkBuilder>();
         builder.Services.AddScoped<IFreeSchoolMealsAverageProvider, FreeSchoolMealsAverageProvider>();
