@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.FinancialDocuments;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
@@ -5,12 +6,11 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.FinancialDoc
 
 public class SelfAssessmentChecklistsModelTests : BaseFinancialDocumentsAreaModelTests<SelfAssessmentChecklistsModel>
 {
-    public SelfAssessmentChecklistsModelTests()
+    public SelfAssessmentChecklistsModelTests() : base(FinancialDocumentType.SelfAssessmentChecklist)
     {
         Sut = new SelfAssessmentChecklistsModel(MockDataSourceService,
-                new MockLogger<SelfAssessmentChecklistsModel>().Object,
-                MockTrustService.Object
-            )
+                new MockLogger<SelfAssessmentChecklistsModel>().Object, MockTrustService.Object,
+                MockFinancialDocumentService.Object)
             { Uid = TrustUid };
     }
 
@@ -35,5 +35,11 @@ public class SelfAssessmentChecklistsModelTests : BaseFinancialDocumentsAreaMode
     public void InternalUseOnly_should_be_true()
     {
         Sut.InternalUseOnly.Should().BeTrue();
+    }
+
+    [Fact]
+    public void FinancialDocumentDisplayName_should_be_self_assessment_checklist()
+    {
+        Sut.FinancialDocumentDisplayName.Should().Be("self-assessment checklist");
     }
 }

@@ -1,26 +1,38 @@
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+using DfE.FindInformationAcademiesTrusts.Services.FinancialDocument;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.FinancialDocuments;
 
-public class FinancialDocumentsAreaModel(
+public abstract class FinancialDocumentsAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
-    ILogger<FinancialDocumentsAreaModel> logger)
+    ILogger<FinancialDocumentsAreaModel> logger,
+    IFinancialDocumentService financialDocumentService)
     : TrustsAreaModel(dataSourceService, trustService, logger)
 {
     public override TrustPageMetadata TrustPageMetadata =>
         base.TrustPageMetadata with { PageName = ViewConstants.FinancialDocumentsPageName };
 
     public virtual bool InternalUseOnly => true;
+    protected abstract FinancialDocumentType FinancialDocumentType { get; }
+    public abstract string FinancialDocumentDisplayName { get; }
+    private FinancialDocumentServiceModel[] _financialDocuments = null!;
 
-    public string[] FinancialDocuments { get; set; } = ["Doc 1", "Doc 2", "Doc 3"];
+    public FinancialDocumentServiceModel[] FinancialDocuments
+    {
+        get => _financialDocuments;
+        set => _financialDocuments = value.OrderByDescending(doc => doc.YearTo).ToArray();
+    }
 
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();
         if (pageResult is NotFoundResult) return pageResult;
+
+        FinancialDocuments = await financialDocumentService.GetFinancialDocumentsAsync(FinancialDocumentType);
 
         SubNavigationLinks =
         [

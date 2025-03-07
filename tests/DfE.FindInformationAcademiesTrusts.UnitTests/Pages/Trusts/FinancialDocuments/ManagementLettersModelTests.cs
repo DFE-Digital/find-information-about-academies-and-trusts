@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.FinancialDocuments;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
@@ -5,12 +6,10 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.FinancialDoc
 
 public class ManagementLettersModelTests : BaseFinancialDocumentsAreaModelTests<ManagementLettersModel>
 {
-    public ManagementLettersModelTests()
+    public ManagementLettersModelTests() : base(FinancialDocumentType.ManagementLetter)
     {
-        Sut = new ManagementLettersModel(MockDataSourceService,
-                new MockLogger<ManagementLettersModel>().Object,
-                MockTrustService.Object
-            )
+        Sut = new ManagementLettersModel(MockDataSourceService, new MockLogger<ManagementLettersModel>().Object,
+                MockTrustService.Object, MockFinancialDocumentService.Object)
             { Uid = TrustUid };
     }
 
@@ -35,5 +34,11 @@ public class ManagementLettersModelTests : BaseFinancialDocumentsAreaModelTests<
     public void InternalUseOnly_should_be_true()
     {
         Sut.InternalUseOnly.Should().BeTrue();
+    }
+
+    [Fact]
+    public void FinancialDocumentDisplayName_should_be_management_letter()
+    {
+        Sut.FinancialDocumentDisplayName.Should().Be("management letter");
     }
 }
