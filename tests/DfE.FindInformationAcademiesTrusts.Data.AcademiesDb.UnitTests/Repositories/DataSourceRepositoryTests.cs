@@ -3,6 +3,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
+using Microsoft.Extensions.Logging;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories;
 
@@ -10,11 +11,11 @@ public class DataSourceRepositoryTests
 {
     private readonly DataSourceRepository _sut;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
-    private readonly MockLogger<DataSourceRepository> _logger = new();
+    private readonly ILogger<DataSourceRepository> _logger = MockLogger.CreateLogger<DataSourceRepository>();
 
     public DataSourceRepositoryTests()
     {
-        _sut = new DataSourceRepository(_mockAcademiesDbContext.Object, _logger.Object);
+        _sut = new DataSourceRepository(_mockAcademiesDbContext.Object, _logger);
 
         var someDateTime = new DateTime(2020, 01, 01);
         _mockAcademiesDbContext.AddApplicationEvent("Unrelated event", someDateTime);

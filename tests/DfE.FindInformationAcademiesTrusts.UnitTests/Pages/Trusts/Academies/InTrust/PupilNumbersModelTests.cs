@@ -10,7 +10,7 @@ public class PupilNumbersModelTests : AcademiesInTrustAreaModelTests<PupilNumber
     public PupilNumbersModelTests()
     {
         Sut = new PupilNumbersModel(MockDataSourceService,
-                new MockLogger<PupilNumbersModel>().Object,
+                MockLogger.CreateLogger<PupilNumbersModel>(),
                 MockTrustService.Object,
                 MockAcademyService.Object,
                 MockExportService.Object,

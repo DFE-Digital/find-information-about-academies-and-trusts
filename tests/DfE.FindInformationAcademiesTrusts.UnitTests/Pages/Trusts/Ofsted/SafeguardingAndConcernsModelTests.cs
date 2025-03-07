@@ -12,7 +12,7 @@ public class SafeguardingAndConcernsModelTests : BaseOfstedAreaModelTests<Safegu
                 MockAcademyService.Object,
                 MockExportService.Object,
                 MockDateTimeProvider.Object,
-                new MockLogger<SafeguardingAndConcernsModel>().Object
+                MockLogger.CreateLogger<SafeguardingAndConcernsModel>()
             )
             { Uid = TrustUid };
     }

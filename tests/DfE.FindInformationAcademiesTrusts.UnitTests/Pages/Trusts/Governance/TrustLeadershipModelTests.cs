@@ -8,7 +8,7 @@ public class TrustLeadershipModelTests : BaseGovernanceAreaModelTests<TrustLeade
     public TrustLeadershipModelTests()
     {
         Sut = new TrustLeadershipModel(MockDataSourceService,
-                new MockLogger<TrustLeadershipModel>().Object, MockTrustService.Object)
+                MockLogger.CreateLogger<TrustLeadershipModel>(), MockTrustService.Object)
             { Uid = TrustUid };
     }
 

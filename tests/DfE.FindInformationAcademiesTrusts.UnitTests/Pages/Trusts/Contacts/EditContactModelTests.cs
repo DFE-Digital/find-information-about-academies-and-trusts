@@ -19,7 +19,7 @@ public class EditContactModelTests
             .ReturnsAsync(_fakeTrust);
 
         _sut = new EditSfsoLeadModel(MockDataSourceService.CreateSubstitute(),
-                new MockLogger<EditSfsoLeadModel>().Object, _mockTrustService.Object)
+                MockLogger.CreateLogger<EditSfsoLeadModel>(), _mockTrustService.Object)
             { Uid = "1234" };
     }
 
