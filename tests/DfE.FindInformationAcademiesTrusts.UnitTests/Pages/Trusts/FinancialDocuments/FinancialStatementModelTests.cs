@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.FinancialDocuments;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
@@ -5,12 +6,10 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.FinancialDoc
 
 public class FinancialStatementModelTests : BaseFinancialDocumentsAreaModelTests<FinancialStatementsModel>
 {
-    public FinancialStatementModelTests()
+    public FinancialStatementModelTests() : base(FinancialDocumentType.FinancialStatement)
     {
-        Sut = new FinancialStatementsModel(MockDataSourceService,
-                new MockLogger<FinancialStatementsModel>().Object,
-                MockTrustService.Object
-            )
+        Sut = new FinancialStatementsModel(MockDataSourceService, new MockLogger<FinancialStatementsModel>().Object,
+                MockTrustService.Object, MockFinancialDocumentService.Object)
             { Uid = TrustUid };
     }
 
@@ -35,5 +34,11 @@ public class FinancialStatementModelTests : BaseFinancialDocumentsAreaModelTests
     public void InternalUseOnly_should_be_false()
     {
         Sut.InternalUseOnly.Should().BeFalse();
+    }
+
+    [Fact]
+    public void FinancialDocumentDisplayName_should_be_financial_statement()
+    {
+        Sut.FinancialDocumentDisplayName.Should().Be("financial statement");
     }
 }

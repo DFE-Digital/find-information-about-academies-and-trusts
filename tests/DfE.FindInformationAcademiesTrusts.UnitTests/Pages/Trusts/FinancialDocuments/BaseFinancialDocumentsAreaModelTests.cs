@@ -1,14 +1,40 @@
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.FinancialDocuments;
+using DfE.FindInformationAcademiesTrusts.Services.FinancialDocument;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.FinancialDocuments;
 
 public abstract class BaseFinancialDocumentsAreaModelTests<T> : BaseTrustPageTests<T>, ITestSubpages
     where T : FinancialDocumentsAreaModel
 {
+    protected readonly Mock<IFinancialDocumentService> MockFinancialDocumentService = new();
+
+    private readonly FinancialDocumentServiceModel[] _unsortedFinancialDocs =
+    [
+        new(2023, 2024, FinancialDocumentStatus.NotYetSubmitted, null),
+        new(2022, 2023, FinancialDocumentStatus.NotExpected, null),
+        new(2024, 2025, FinancialDocumentStatus.Submitted, "https://www.google.com")
+    ];
+
+    protected BaseFinancialDocumentsAreaModelTests(FinancialDocumentType financialDocumentType)
+    {
+        MockFinancialDocumentService.Setup(d => d.GetFinancialDocumentsAsync(financialDocumentType))
+            .ReturnsAsync(_unsortedFinancialDocs);
+    }
+
     [Fact(Skip = "Data source not implemented yet")]
     public override Task OnGetAsync_sets_correct_data_source_list()
     {
         throw new NotImplementedException();
+    }
+
+    [Fact]
+    public async Task OnGetAsync_sets_FinancialDocuments_in_descending_order_for_page()
+    {
+        _ = await Sut.OnGetAsync();
+
+        Sut.FinancialDocuments.Should().BeEquivalentTo(_unsortedFinancialDocs);
+        Sut.FinancialDocuments.Should().BeInDescendingOrder(d => d.YearTo);
     }
 
     [Fact]
