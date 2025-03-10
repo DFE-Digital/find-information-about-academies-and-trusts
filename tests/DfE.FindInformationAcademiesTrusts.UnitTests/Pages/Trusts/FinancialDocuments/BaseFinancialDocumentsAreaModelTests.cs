@@ -22,10 +22,13 @@ public abstract class BaseFinancialDocumentsAreaModelTests<T> : BaseTrustPageTes
             .ReturnsAsync(_unsortedFinancialDocs);
     }
 
-    [Fact(Skip = "Data source not implemented yet")]
-    public override Task OnGetAsync_sets_correct_data_source_list()
+    [Fact]
+    public override async Task OnGetAsync_sets_correct_data_source_list()
     {
-        throw new NotImplementedException();
+        _ = await Sut.OnGetAsync();
+
+        await MockDataSourceService.DidNotReceive().GetAsync(Arg.Any<Source>());
+        Sut.DataSourcesPerPage.Should().BeEmpty();
     }
 
     [Fact]
