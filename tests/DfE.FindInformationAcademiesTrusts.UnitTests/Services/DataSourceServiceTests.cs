@@ -3,14 +3,17 @@ using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
+using Moq;
+using NSubstitute.ExceptionExtensions;
+using NSubstitute.ReceivedExtensions;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
 
 public class DataSourceServiceTests
 {
     private readonly DataSourceService _sut;
-    private readonly Mock<IDataSourceRepository> _mockDataSourceRepository = new();
-    private readonly Mock<IFreeSchoolMealsAverageProvider> _mockFreeSchoolMealsAverageProvider = new();
+    private readonly IDataSourceRepository _mockDataSourceRepository = Substitute.For<IDataSourceRepository>();
+    private readonly IFreeSchoolMealsAverageProvider _mockFreeSchoolMealsAverageProvider = Substitute.For<IFreeSchoolMealsAverageProvider>();
     private readonly MockMemoryCache _mockMemoryCache = new();
 
     private readonly Dictionary<Source, Data.Repositories.DataSource.DataSource> _dummyDataSources = new()
@@ -27,22 +30,22 @@ public class DataSourceServiceTests
 
     public DataSourceServiceTests()
     {
-        _sut = new DataSourceService(_mockDataSourceRepository.Object,
-            _mockFreeSchoolMealsAverageProvider.Object, _mockMemoryCache.Object);
+        _sut = new DataSourceService(_mockDataSourceRepository,
+            _mockFreeSchoolMealsAverageProvider, _mockMemoryCache.Object);
 
         Source[] supportedAcademiesDbSources =
         [
             Source.Cdm, Source.Complete, Source.Gias, Source.ManageFreeSchoolProjects, Source.Mis, Source.Mstr,
             Source.Prepare
         ];
-
-        _mockDataSourceRepository.Setup(d => d.GetAsync(It.IsIn(supportedAcademiesDbSources)))
-            .ReturnsAsync((Source source) => _dummyDataSources[source]);
-        _mockDataSourceRepository.Setup(d => d.GetAsync(It.IsNotIn(supportedAcademiesDbSources)))
+        
+        _mockDataSourceRepository.GetAsync(Arg.Is<Source>(source => supportedAcademiesDbSources.Contains(source)))
+            .Returns(callInfo => _dummyDataSources[callInfo.Arg<Source>()]);
+        
+        _mockDataSourceRepository.GetAsync(Arg.Is<Source>(source => !supportedAcademiesDbSources.Contains(source)))
             .ThrowsAsync(new ArgumentOutOfRangeException());
-
-        _mockFreeSchoolMealsAverageProvider.Setup(d => d.GetFreeSchoolMealsUpdated())
-            .Returns(_dummyDataSources[Source.ExploreEducationStatistics]);
+        
+        _mockFreeSchoolMealsAverageProvider.GetFreeSchoolMealsUpdated().Returns(_dummyDataSources[Source.ExploreEducationStatistics]);
     }
 
     private static Data.Repositories.DataSource.DataSource GetDummyDataSource(Source source,
@@ -57,7 +60,7 @@ public class DataSourceServiceTests
         var result = await _sut.GetAsync(Source.ExploreEducationStatistics);
 
         result.Should().BeEquivalentTo(_dummyDataSources[Source.ExploreEducationStatistics]);
-        _mockFreeSchoolMealsAverageProvider.Verify(f => f.GetFreeSchoolMealsUpdated(), Times.Once);
+        _mockFreeSchoolMealsAverageProvider.Received(1).GetFreeSchoolMealsUpdated();
     }
 
     [Theory]
@@ -92,8 +95,8 @@ public class DataSourceServiceTests
 
         await _sut.GetAsync(source);
 
-        _mockMemoryCache.Verify(m => m.CreateEntry(source), Times.Once);
-
+        _mockMemoryCache.Object.Received(1).CreateEntry(source);
+        
         var cachedEntry = _mockMemoryCache.MockCacheEntries[source];
 
         cachedEntry.Value.Should().BeEquivalentTo(_dummyDataSources[source]);
@@ -113,7 +116,7 @@ public class DataSourceServiceTests
         var result = await _sut.GetAsync(source);
 
         result.Should().BeEquivalentTo(_dummyDataSources[source]);
-        _mockDataSourceRepository.Verify(d => d.GetAsync(source), Times.Once);
+        await _mockDataSourceRepository.Received(1).GetAsync(source);
     }
 
     [Theory]
@@ -131,8 +134,8 @@ public class DataSourceServiceTests
             updateFrequency is UpdateFrequency.Daily ? TimeSpan.FromHours(1) : TimeSpan.FromDays(1);
 
         await _sut.GetAsync(source);
-
-        _mockMemoryCache.Verify(m => m.CreateEntry(source), Times.Once);
+        
+        _mockMemoryCache.Object.Received(1).CreateEntry(source);
 
         var cachedEntry = _mockMemoryCache.MockCacheEntries[source];
 
@@ -143,12 +146,12 @@ public class DataSourceServiceTests
     [Fact]
     public async Task GetAsync_uncached_should_not_cache_source_with_null_lastUpdated()
     {
-        _mockDataSourceRepository.Setup(d => d.GetAsync(Source.Gias))
-            .ReturnsAsync(new Data.Repositories.DataSource.DataSource(Source.Gias, null, UpdateFrequency.Daily));
+        _mockDataSourceRepository.GetAsync(Source.Gias).Returns(
+            Task.FromResult(new Data.Repositories.DataSource.DataSource(Source.Gias, null, UpdateFrequency.Daily)));
 
         await _sut.GetAsync(Source.Gias);
-
-        _mockMemoryCache.Verify(m => m.CreateEntry(It.IsAny<Source>()), Times.Never);
+        
+        _mockMemoryCache.Object.DidNotReceive().CreateEntry(It.IsAny<Source>());
     }
 
     [Fact]

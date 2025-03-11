@@ -6,18 +6,18 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests;
 public class CookiesHelperTests
 {
     private readonly MockHttpContext _mockContext = new();
-    private readonly Mock<ITempDataDictionary> _mockTempData = new();
+    private readonly ITempDataDictionary _mockTempData = Substitute.For<ITempDataDictionary>();
 
     private void SetTempDataCookieDeleted()
     {
-        _mockTempData.Setup(m => m[CookiesHelper.DeleteCookieTempDataName]).Returns(true);
+        _mockTempData[CookiesHelper.DeleteCookieTempDataName].Returns(true);
     }
 
     [Fact]
     public void OptionalCookiesAreAccepted_is_true_when_Accepted_cookie_exists()
     {
         _mockContext.MockRequestCookies.SetupAcceptedCookie();
-        var result = CookiesHelper.OptionalCookiesAreAccepted(_mockContext.Object, _mockTempData.Object);
+        var result = CookiesHelper.OptionalCookiesAreAccepted(_mockContext.Object, _mockTempData);
         result.Should().BeTrue();
     }
 
@@ -25,7 +25,7 @@ public class CookiesHelperTests
     public void OptionalCookiesAreAccepted_is_false_when_Rejected_cookie_exists()
     {
         _mockContext.MockRequestCookies.SetupRejectedCookie();
-        var result = CookiesHelper.OptionalCookiesAreAccepted(_mockContext.Object, _mockTempData.Object);
+        var result = CookiesHelper.OptionalCookiesAreAccepted(_mockContext.Object, _mockTempData);
         result.Should().BeFalse();
     }
 
@@ -38,14 +38,14 @@ public class CookiesHelperTests
         _mockContext.MockRequestCookies.SetupConsentCookie(cookieAccepted);
 
         SetTempDataCookieDeleted();
-        var result = CookiesHelper.OptionalCookiesAreAccepted(_mockContext.Object, _mockTempData.Object);
+        var result = CookiesHelper.OptionalCookiesAreAccepted(_mockContext.Object, _mockTempData);
         result.Should().BeFalse();
     }
 
     [Fact]
     public void OptionalCookiesAreAccepted_is_false_when_neither_Cookie_or_TempData_exists()
     {
-        var result = CookiesHelper.OptionalCookiesAreAccepted(_mockContext.Object, _mockTempData.Object);
+        var result = CookiesHelper.OptionalCookiesAreAccepted(_mockContext.Object, _mockTempData);
         result.Should().BeFalse();
     }
 
@@ -72,7 +72,7 @@ public class CookiesHelperTests
     [Fact]
     public void ShowCookieBanner_is_true_when_consent_cookie_does_not_exist_and_temp_data_does_not_exist()
     {
-        var result = CookiesHelper.ShowCookieBanner(_mockContext.Object, _mockTempData.Object);
+        var result = CookiesHelper.ShowCookieBanner(_mockContext.Object, _mockTempData);
         result.Should().BeTrue();
     }
 
@@ -83,7 +83,7 @@ public class CookiesHelperTests
     {
         _mockContext.MockRequestCookies.SetupConsentCookie(cookieAccepted);
 
-        var result = CookiesHelper.ShowCookieBanner(_mockContext.Object, _mockTempData.Object);
+        var result = CookiesHelper.ShowCookieBanner(_mockContext.Object, _mockTempData);
         result.Should().BeFalse();
     }
 
@@ -91,7 +91,7 @@ public class CookiesHelperTests
     public void ShowCookieBanner_is_false_when_consent_cookie_does_not_exist_and_temp_data_exists()
     {
         SetTempDataCookieDeleted();
-        var result = CookiesHelper.ShowCookieBanner(_mockContext.Object, _mockTempData.Object);
+        var result = CookiesHelper.ShowCookieBanner(_mockContext.Object, _mockTempData);
         result.Should().BeFalse();
     }
 
@@ -103,7 +103,7 @@ public class CookiesHelperTests
         _mockContext.MockRequestCookies.SetupConsentCookie(cookieAccepted);
 
         SetTempDataCookieDeleted();
-        var result = CookiesHelper.ShowCookieBanner(_mockContext.Object, _mockTempData.Object);
+        var result = CookiesHelper.ShowCookieBanner(_mockContext.Object, _mockTempData);
         result.Should().BeFalse();
     }
 }

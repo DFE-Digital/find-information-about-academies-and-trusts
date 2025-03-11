@@ -6,15 +6,15 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Overview;
 
 public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsModel>
 {
-    private readonly Mock<IOtherServicesLinkBuilder> _mockLinksToOtherServices = new();
+    private readonly IOtherServicesLinkBuilder _mockLinksToOtherServices = Substitute.For<IOtherServicesLinkBuilder>();
 
     public TrustDetailsModelTests()
     {
         Sut = new TrustDetailsModel(
                 MockDataSourceService,
                 MockLogger.CreateLogger<TrustDetailsModel>(),
-                MockTrustService.Object,
-                _mockLinksToOtherServices.Object)
+                MockTrustService,
+                _mockLinksToOtherServices)
             { Uid = TrustUid };
     }
 
@@ -22,7 +22,7 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
     public async Task CompaniesHouseLink_is_null_if_link_builder_returns_null()
     {
         SetupTrustOverview(BaseTrustOverviewServiceModel with { CompaniesHouseNumber = "123456" });
-        _mockLinksToOtherServices.Setup(l => l.CompaniesHouseListingLink("123456"))
+        _mockLinksToOtherServices.CompaniesHouseListingLink("123456")
             .Returns((string?)null);
 
         await Sut.OnGetAsync();
@@ -34,7 +34,7 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
     public async Task CompaniesHouseLink_is_string_if_link_builder_returns_string()
     {
         SetupTrustOverview(BaseTrustOverviewServiceModel with { CompaniesHouseNumber = "123456" });
-        _mockLinksToOtherServices.Setup(l => l.CompaniesHouseListingLink("123456"))
+        _mockLinksToOtherServices.CompaniesHouseListingLink("123456")
             .Returns("url");
 
         await Sut.OnGetAsync();
@@ -45,7 +45,7 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
     [Fact]
     public async Task GetInformationAboutSchoolsLink_is_returned_from_link_builder()
     {
-        _mockLinksToOtherServices.Setup(l => l.GetInformationAboutSchoolsListingLinkForTrust(TrustUid))
+        _mockLinksToOtherServices.GetInformationAboutSchoolsListingLinkForTrust(TrustUid)
             .Returns("url");
 
         await Sut.OnGetAsync();
@@ -57,9 +57,7 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
     public async Task SchoolsFinancialBenchmarkingLink_is_null_if_link_builder_returns_null()
     {
         SetupTrustOverview(BaseTrustOverviewServiceModel with { CompaniesHouseNumber = "123456" });
-        _mockLinksToOtherServices
-            .Setup(l => l.FinancialBenchmarkingInsightsToolListingLink(
-                BaseTrustOverviewServiceModel.CompaniesHouseNumber))
+        _mockLinksToOtherServices.FinancialBenchmarkingInsightsToolListingLink(Arg.Is<string>(x => x == "123456"))
             .Returns((string?)null);
         await Sut.OnGetAsync();
         Sut.FinancialBenchmarkingInsightsToolLink.Should().BeNull();
@@ -69,8 +67,8 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
     public async Task SchoolsFinancialBenchmarkingLink_is_string_if_link_builder_returns_string()
     {
         _mockLinksToOtherServices
-            .Setup(l => l.FinancialBenchmarkingInsightsToolListingLink(
-                BaseTrustOverviewServiceModel.CompaniesHouseNumber))
+            .FinancialBenchmarkingInsightsToolListingLink(
+                BaseTrustOverviewServiceModel.CompaniesHouseNumber)
             .Returns("url");
         await Sut.OnGetAsync();
         Sut.FinancialBenchmarkingInsightsToolLink.Should().Be("url");
@@ -79,8 +77,8 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
     [Fact]
     public async Task FindSchoolPerformanceLink_is_null_if_link_builder_returns_null()
     {
-        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(BaseTrustOverviewServiceModel.Uid,
-                BaseTrustOverviewServiceModel.Type, BaseTrustOverviewServiceModel.SingleAcademyTrustAcademyUrn))
+        _mockLinksToOtherServices.FindSchoolPerformanceDataListingLink(BaseTrustOverviewServiceModel.Uid,
+                BaseTrustOverviewServiceModel.Type, BaseTrustOverviewServiceModel.SingleAcademyTrustAcademyUrn)
             .Returns((string?)null);
         await Sut.OnGetAsync();
         Sut.FindSchoolPerformanceLink.Should().BeNull();
@@ -89,8 +87,8 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
     [Fact]
     public async Task FindSchoolPerformanceLink_is_string_if_link_builder_returns_string()
     {
-        _mockLinksToOtherServices.Setup(l => l.FindSchoolPerformanceDataListingLink(BaseTrustOverviewServiceModel.Uid,
-                BaseTrustOverviewServiceModel.Type, BaseTrustOverviewServiceModel.SingleAcademyTrustAcademyUrn))
+        _mockLinksToOtherServices.FindSchoolPerformanceDataListingLink(BaseTrustOverviewServiceModel.Uid,
+                BaseTrustOverviewServiceModel.Type, BaseTrustOverviewServiceModel.SingleAcademyTrustAcademyUrn)
             .Returns("url");
         await Sut.OnGetAsync();
         Sut.FindSchoolPerformanceLink.Should().Be("url");
@@ -105,9 +103,7 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
     [Fact]
     public async Task OnGetAsync_should_Set_correct_SharepointLink()
     {
-        _mockLinksToOtherServices.Setup(l =>
-                l.SharepointFolderLink(BaseTrustOverviewServiceModel.GroupId))
-            .Returns("url/groupID");
+        _mockLinksToOtherServices.SharepointFolderLink(BaseTrustOverviewServiceModel.GroupId).Returns("url/groupID");
         await Sut.OnGetAsync();
 
         Sut.SharepointLink.Should().Be("url/groupID");

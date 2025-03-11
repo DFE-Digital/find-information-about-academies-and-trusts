@@ -11,8 +11,8 @@ public class PreAdvisoryBoardModelTests : BasePipelineAcademiesAreaModelTests<Pr
     {
         Sut = new PreAdvisoryBoardModel(
                 MockDataSourceService, MockLogger.CreateLogger<PreAdvisoryBoardModel>(),
-                MockTrustService.Object, MockAcademyService.Object, MockExportService.Object,
-                MockDateTimeProvider.Object)
+                MockTrustService, MockAcademyService, MockExportService,
+                MockDateTimeProvider)
             { Uid = TrustUid };
     }
 
@@ -27,8 +27,7 @@ public class PreAdvisoryBoardModelTests : BasePipelineAcademiesAreaModelTests<Pr
             new("4", null, null, null, null, null)
         ];
 
-        MockAcademyService.Setup(a => a.GetAcademiesPipelinePreAdvisoryAsync(TrustReferenceNumber))
-            .ReturnsAsync(academies);
+        MockAcademyService.GetAcademiesPipelinePreAdvisoryAsync(TrustReferenceNumber).Returns(Task.FromResult(academies));
 
         _ = await Sut.OnGetAsync();
 

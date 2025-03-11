@@ -11,10 +11,10 @@ public class PupilNumbersModelTests : AcademiesInTrustAreaModelTests<PupilNumber
     {
         Sut = new PupilNumbersModel(MockDataSourceService,
                 MockLogger.CreateLogger<PupilNumbersModel>(),
-                MockTrustService.Object,
-                MockAcademyService.Object,
-                MockExportService.Object,
-                MockDateTimeProvider.Object)
+                MockTrustService,
+                MockAcademyService,
+                MockExportService,
+                MockDateTimeProvider)
             { Uid = TrustUid };
     }
 
@@ -49,8 +49,7 @@ public class PupilNumbersModelTests : AcademiesInTrustAreaModelTests<PupilNumber
             academy with { Urn = "2" },
             academy with { Urn = "3" }
         };
-        MockAcademyService.Setup(a => a.GetAcademiesInTrustPupilNumbersAsync(TrustUid))
-            .ReturnsAsync(academies);
+        MockAcademyService.GetAcademiesInTrustPupilNumbersAsync(TrustUid).Returns(Task.FromResult(academies));
 
         _ = await Sut.OnGetAsync();
 

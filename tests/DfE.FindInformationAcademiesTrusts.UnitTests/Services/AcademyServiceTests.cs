@@ -9,16 +9,15 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
 public class AcademyServiceTests
 {
     private readonly AcademyService _sut;
-    private readonly Mock<IAcademyRepository> _mockAcademyRepository = new();
-    private readonly Mock<IPipelineEstablishmentRepository> _mockPipelineEstablishmentRepository = new();
-    private readonly Mock<IFreeSchoolMealsAverageProvider> _mockFreeSchoolMealsAverageProvider = new();
-    private readonly Mock<ITrustRepository> _mockTrustRepository = new();
+    private readonly IAcademyRepository _mockAcademyRepository = Substitute.For<IAcademyRepository>();
+    private readonly IPipelineEstablishmentRepository _mockPipelineEstablishmentRepository = Substitute.For<IPipelineEstablishmentRepository>();
+    private readonly IFreeSchoolMealsAverageProvider _mockFreeSchoolMealsAverageProvider = Substitute.For<IFreeSchoolMealsAverageProvider>();
 
     public AcademyServiceTests()
     {
-        _sut = new AcademyService(_mockAcademyRepository.Object,
-            _mockPipelineEstablishmentRepository.Object,
-            _mockFreeSchoolMealsAverageProvider.Object);
+        _sut = new AcademyService(_mockAcademyRepository,
+            _mockPipelineEstablishmentRepository,
+            _mockFreeSchoolMealsAverageProvider);
     }
 
     [Fact]
@@ -32,9 +31,8 @@ public class AcademyServiceTests
             new AcademyDetails("9876", "Academy 2", "Academy sponsor led", "Lincolnshire",
                 "(England/Wales) Rural town and fringe")
         ];
-
-        _mockAcademyRepository.Setup(a => a.GetAcademiesInTrustDetailsAsync(uid))
-            .ReturnsAsync(academies);
+        
+        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(uid).Returns(academies);
 
         var result = await _sut.GetAcademiesInTrustDetailsAsync(uid);
 
@@ -58,10 +56,9 @@ public class AcademyServiceTests
                 new OfstedRating((int)OfstedRatingScore.Good, new DateTime(2023, 1, 3)),
                 new OfstedRating((int)OfstedRatingScore.RequiresImprovement, new DateTime(2023, 4, 1)))
         };
-
-        _mockAcademyRepository.Setup(a => a.GetAcademiesInTrustOfstedAsync(uid))
-            .ReturnsAsync(academies);
-
+        
+        _mockAcademyRepository.GetAcademiesInTrustOfstedAsync(uid).Returns(academies);
+        
         var result = await _sut.GetAcademiesInTrustOfstedAsync(uid);
 
         result.Should().BeOfType<AcademyOfstedServiceModel[]>();
@@ -77,10 +74,9 @@ public class AcademyServiceTests
             BuildDummyAcademyPupilNumbers("9876", "phase1", new AgeRange(2, 15), 100, 200),
             BuildDummyAcademyPupilNumbers("8765", "phase2", new AgeRange(7, 12), 2, 5)
         ];
-
-        _mockAcademyRepository.Setup(a => a.GetAcademiesInTrustPupilNumbersAsync(uid))
-            .ReturnsAsync(academies);
-
+        
+        _mockAcademyRepository.GetAcademiesInTrustPupilNumbersAsync(uid).Returns(academies);
+        
         var result = await _sut.GetAcademiesInTrustPupilNumbersAsync(uid);
 
         result.Should().BeOfType<AcademyPupilNumbersServiceModel[]>();
@@ -116,10 +112,9 @@ public class AcademyServiceTests
             academy with { Urn = "4", EstablishmentName = "Academy 4", PercentageFreeSchoolMeals = null },
             academy with { Urn = "5", EstablishmentName = "Academy 5", PercentageFreeSchoolMeals = 100 }
         ];
-
-        _mockAcademyRepository.Setup(a => a.GetAcademiesInTrustFreeSchoolMealsAsync(uid))
-            .ReturnsAsync(academies);
-
+        
+        _mockAcademyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(uid).Returns(academies);
+        
         var result = await _sut.GetAcademiesInTrustFreeSchoolMealsAsync(uid);
 
         result.Should().BeOfType<AcademyFreeSchoolMealsServiceModel[]>();
@@ -151,21 +146,14 @@ public class AcademyServiceTests
                 LocalAuthorityCode = 34, TypeOfEstablishment = "Foundation special school"
             }
         ];
-        _mockAcademyRepository.Setup(a => a.GetAcademiesInTrustFreeSchoolMealsAsync(uid))
-            .ReturnsAsync(academies);
+        _mockAcademyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(uid).Returns(academies);
 
-        _mockFreeSchoolMealsAverageProvider.Setup(f => f.GetLaAverage(12, "Primary", "Community school"))
-            .Returns(22.4);
-        _mockFreeSchoolMealsAverageProvider.Setup(f => f.GetLaAverage(22, "Secondary", "Academy converter"))
-            .Returns(23.5);
-        _mockFreeSchoolMealsAverageProvider.Setup(f => f.GetLaAverage(34, string.Empty, "Foundation special school"))
-            .Returns(70);
-        _mockFreeSchoolMealsAverageProvider.Setup(f => f.GetNationalAverage("Primary", "Community school"))
-            .Returns(12.4);
-        _mockFreeSchoolMealsAverageProvider.Setup(f => f.GetNationalAverage("Secondary", "Academy converter"))
-            .Returns(13.5);
-        _mockFreeSchoolMealsAverageProvider.Setup(f => f.GetNationalAverage(string.Empty, "Foundation special school"))
-            .Returns(60);
+        _mockFreeSchoolMealsAverageProvider.GetLaAverage(12, "Primary", "Community school").Returns(22.4);
+        _mockFreeSchoolMealsAverageProvider.GetLaAverage(22, "Secondary", "Academy converter").Returns(23.5);
+        _mockFreeSchoolMealsAverageProvider.GetLaAverage(34, string.Empty, "Foundation special school").Returns(70);
+        _mockFreeSchoolMealsAverageProvider.GetNationalAverage("Primary", "Community school").Returns(12.4);
+        _mockFreeSchoolMealsAverageProvider.GetNationalAverage("Secondary", "Academy converter").Returns(13.5);
+        _mockFreeSchoolMealsAverageProvider.GetNationalAverage(string.Empty, "Foundation special school").Returns(60);
 
         var result = await _sut.GetAcademiesInTrustFreeSchoolMealsAsync(uid);
 
@@ -183,11 +171,9 @@ public class AcademyServiceTests
         // Arrange
         const string trustReferenceNumber = "TRN123";
         var repoSummary = new PipelineSummary(5, 3, 2);
-
-
-        _mockPipelineEstablishmentRepository
-            .Setup(r => r.GetAcademiesPipelineSummaryAsync(trustReferenceNumber))
-            .ReturnsAsync(repoSummary);
+        
+        _mockPipelineEstablishmentRepository.GetAcademiesPipelineSummaryAsync(trustReferenceNumber).Returns(
+            Task.FromResult(repoSummary));
 
         // Act
         var result = await _sut.GetAcademiesPipelineSummaryAsync(trustReferenceNumber);
@@ -206,11 +192,11 @@ public class AcademyServiceTests
         // Arrange
         const string trustReferenceNumber = "TRN123";
         _mockPipelineEstablishmentRepository
-            .Setup(r => r.GetAdvisoryConversionEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory))
-            .ReturnsAsync([]);
+            .GetAdvisoryConversionEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory)
+            .Returns(Task.FromResult<PipelineEstablishment[]>([]));
         _mockPipelineEstablishmentRepository
-            .Setup(r => r.GetAdvisoryTransferEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory))
-            .ReturnsAsync([]);
+            .GetAdvisoryTransferEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory)
+            .Returns(Task.FromResult<PipelineEstablishment[]>([]));
 
         // Act
         var result = await _sut.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber);
@@ -241,12 +227,10 @@ public class AcademyServiceTests
             ProjectType.Transfer,
             new DateTime(2023, 2, 1));
 
-        _mockPipelineEstablishmentRepository
-            .Setup(r => r.GetAdvisoryConversionEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory))
-            .ReturnsAsync(new[] { conversionEstablishment });
-        _mockPipelineEstablishmentRepository
-            .Setup(r => r.GetAdvisoryTransferEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory))
-            .ReturnsAsync(new[] { transferEstablishment });
+        _mockPipelineEstablishmentRepository.GetAdvisoryConversionEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory).Returns(
+            Task.FromResult(new[] { conversionEstablishment }));
+        _mockPipelineEstablishmentRepository.GetAdvisoryTransferEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PreAdvisory).Returns(
+            Task.FromResult(new[] { transferEstablishment }));
 
         // Act
         var result = await _sut.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber);
@@ -278,12 +262,10 @@ public class AcademyServiceTests
     {
         // Arrange
         const string trustReferenceNumber = "TRN123";
-        _mockPipelineEstablishmentRepository
-            .Setup(r => r.GetAdvisoryConversionEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PostAdvisory))
-            .ReturnsAsync(Array.Empty<PipelineEstablishment>());
-        _mockPipelineEstablishmentRepository
-            .Setup(r => r.GetAdvisoryTransferEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PostAdvisory))
-            .ReturnsAsync(Array.Empty<PipelineEstablishment>());
+        _mockPipelineEstablishmentRepository.GetAdvisoryConversionEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PostAdvisory).Returns(
+            Task.FromResult(Array.Empty<PipelineEstablishment>()));
+        _mockPipelineEstablishmentRepository.GetAdvisoryTransferEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PostAdvisory).Returns(
+            Task.FromResult(Array.Empty<PipelineEstablishment>()));
 
         // Act
         var result = await _sut.GetAcademiesPipelinePostAdvisoryAsync(trustReferenceNumber);
@@ -314,12 +296,10 @@ public class AcademyServiceTests
             "Transfer",
             new DateTime(2023, 4, 1));
 
-        _mockPipelineEstablishmentRepository
-            .Setup(r => r.GetAdvisoryConversionEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PostAdvisory))
-            .ReturnsAsync(new[] { conversionEstablishment });
-        _mockPipelineEstablishmentRepository
-            .Setup(r => r.GetAdvisoryTransferEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PostAdvisory))
-            .ReturnsAsync(new[] { transferEstablishment });
+        _mockPipelineEstablishmentRepository.GetAdvisoryConversionEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PostAdvisory).Returns(
+            Task.FromResult(new[] { conversionEstablishment }));
+        _mockPipelineEstablishmentRepository.GetAdvisoryTransferEstablishmentsAsync(trustReferenceNumber, AdvisoryType.PostAdvisory).Returns(
+            Task.FromResult(new[] { transferEstablishment }));
 
         // Act
         var result = await _sut.GetAcademiesPipelinePostAdvisoryAsync(trustReferenceNumber);
@@ -351,9 +331,8 @@ public class AcademyServiceTests
     {
         // Arrange
         const string trustReferenceNumber = "TRN123";
-        _mockPipelineEstablishmentRepository
-            .Setup(r => r.GetPipelineFreeSchoolProjectsAsync(trustReferenceNumber))
-            .ReturnsAsync([]);
+        _mockPipelineEstablishmentRepository.GetPipelineFreeSchoolProjectsAsync(trustReferenceNumber)
+            .Returns(Task.FromResult<PipelineEstablishment[]>([]));
 
         // Act
         var result = await _sut.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber);
@@ -367,9 +346,8 @@ public class AcademyServiceTests
     {
         // Arrange
         const string trustReferenceNumber = "TRN123";
-        _mockPipelineEstablishmentRepository
-            .Setup(r => r.GetPipelineFreeSchoolProjectsAsync(trustReferenceNumber))
-            .ReturnsAsync([]);
+        _mockPipelineEstablishmentRepository.GetPipelineFreeSchoolProjectsAsync(trustReferenceNumber)
+            .Returns(Task.FromResult<PipelineEstablishment[]>([]));
 
         // Act
         var result = await _sut.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber);
@@ -400,9 +378,9 @@ public class AcademyServiceTests
             "FreeSchool",
             new DateTime(2023, 6, 1));
 
-        _mockPipelineEstablishmentRepository
-            .Setup(r => r.GetPipelineFreeSchoolProjectsAsync(trustReferenceNumber))
-            .ReturnsAsync([freeSchoolEstablishment1, freeSchoolEstablishment2]);
+        _mockPipelineEstablishmentRepository.GetPipelineFreeSchoolProjectsAsync(trustReferenceNumber).Returns(
+            Task.FromResult<PipelineEstablishment[]>(
+                [freeSchoolEstablishment1, freeSchoolEstablishment2]));
 
         // Act
         var result = await _sut.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber);

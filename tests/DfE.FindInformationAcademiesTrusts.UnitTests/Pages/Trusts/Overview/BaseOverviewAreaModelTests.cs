@@ -15,14 +15,14 @@ public abstract class BaseOverviewAreaModelTests<T> : BaseTrustPageTests<T>, ITe
 
     protected BaseOverviewAreaModelTests()
     {
-        MockTrustService.Setup(t => t.GetTrustOverviewAsync(It.IsAny<string>()))
-            .ReturnsAsync((string uid) => BaseTrustOverviewServiceModel with { Uid = uid });
+        MockTrustService.GetTrustOverviewAsync(Arg.Any<string>())
+            .Returns(callinfo => BaseTrustOverviewServiceModel with { Uid = callinfo.Arg<string>() });
     }
 
     protected void SetupTrustOverview(TrustOverviewServiceModel trustOverviewServiceModel)
     {
-        MockTrustService.Setup(t => t.GetTrustOverviewAsync(trustOverviewServiceModel.Uid))
-            .ReturnsAsync(trustOverviewServiceModel);
+        MockTrustService.GetTrustOverviewAsync(trustOverviewServiceModel.Uid)
+            .Returns(Task.FromResult(trustOverviewServiceModel));
     }
 
     [Fact]

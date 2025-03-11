@@ -13,12 +13,12 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.Pi
 public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesAreaModelTests<T>
     where T : PipelineAcademiesAreaModel
 {
-    protected readonly Mock<IDateTimeProvider> MockDateTimeProvider = new();
+    protected readonly IDateTimeProvider MockDateTimeProvider = Substitute.For<IDateTimeProvider>();
 
     protected BasePipelineAcademiesAreaModelTests()
     {
-        MockAcademyService.Setup(t => t.GetAcademiesPipelineSummaryAsync(TrustUid))
-            .ReturnsAsync(new AcademyPipelineSummaryServiceModel(1, 2, 3));
+        MockAcademyService.GetAcademiesPipelineSummaryAsync(TrustUid)
+            .Returns(Task.FromResult(new AcademyPipelineSummaryServiceModel(1, 2, 3)));
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
         // Arrange
         byte[] expectedBytes = [1, 2, 3];
 
-        MockExportService.Setup(x => x.ExportPipelineAcademiesToSpreadsheetAsync(TrustUid)).ReturnsAsync(expectedBytes);
+        MockExportService.ExportPipelineAcademiesToSpreadsheetAsync(TrustUid).Returns(Task.FromResult(expectedBytes));
 
         // Act
         var result = await Sut.OnGetExportAsync(TrustUid);
@@ -45,7 +45,7 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
         // Arrange
         var uid = "invalid-uid";
 
-        MockTrustService.Setup(x => x.GetTrustSummaryAsync(uid)).ReturnsAsync((TrustSummaryServiceModel?)null);
+        MockTrustService.GetTrustSummaryAsync(uid).Returns(Task.FromResult((TrustSummaryServiceModel?)null));
 
         // Act
         var result = await Sut.OnGetExportAsync(uid);
@@ -61,8 +61,8 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
         var trustSummary = new TrustSummaryServiceModel(TrustUid, "Sample/Trust:Name?", "Multi-academy trust", 0);
         var expectedBytes = new byte[] { 1, 2, 3 };
 
-        MockTrustService.Setup(x => x.GetTrustSummaryAsync(TrustUid)).ReturnsAsync(trustSummary);
-        MockExportService.Setup(x => x.ExportPipelineAcademiesToSpreadsheetAsync(TrustUid)).ReturnsAsync(expectedBytes);
+        MockTrustService.GetTrustSummaryAsync(TrustUid)!.Returns(Task.FromResult(trustSummary));
+        MockExportService.ExportPipelineAcademiesToSpreadsheetAsync(TrustUid).Returns(Task.FromResult(expectedBytes));
 
         // Act
         var result = await Sut.OnGetExportAsync(TrustUid);
