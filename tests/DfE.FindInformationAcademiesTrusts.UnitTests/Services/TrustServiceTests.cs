@@ -91,8 +91,8 @@ public class TrustServiceTests
             .ReturnsAsync(numAcademies);
 
         await _sut.GetTrustSummaryAsync(uid);
-
-        _mockMemoryCache.Verify(m => m.CreateEntry(key), Times.Once);
+        
+        _mockMemoryCache.Object.Received(1).CreateEntry(key);
 
         var cachedEntry = _mockMemoryCache.MockCacheEntries[key];
 

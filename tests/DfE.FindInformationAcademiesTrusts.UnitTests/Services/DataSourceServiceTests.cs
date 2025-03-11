@@ -3,6 +3,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
+using NSubstitute.ReceivedExtensions;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
 
@@ -92,8 +93,8 @@ public class DataSourceServiceTests
 
         await _sut.GetAsync(source);
 
-        _mockMemoryCache.Verify(m => m.CreateEntry(source), Times.Once);
-
+        _mockMemoryCache.Object.Received(1).CreateEntry(source);
+        
         var cachedEntry = _mockMemoryCache.MockCacheEntries[source];
 
         cachedEntry.Value.Should().BeEquivalentTo(_dummyDataSources[source]);
@@ -131,8 +132,8 @@ public class DataSourceServiceTests
             updateFrequency is UpdateFrequency.Daily ? TimeSpan.FromHours(1) : TimeSpan.FromDays(1);
 
         await _sut.GetAsync(source);
-
-        _mockMemoryCache.Verify(m => m.CreateEntry(source), Times.Once);
+        
+        _mockMemoryCache.Object.Received(1).CreateEntry(source);
 
         var cachedEntry = _mockMemoryCache.MockCacheEntries[source];
 
@@ -147,8 +148,8 @@ public class DataSourceServiceTests
             .ReturnsAsync(new Data.Repositories.DataSource.DataSource(Source.Gias, null, UpdateFrequency.Daily));
 
         await _sut.GetAsync(Source.Gias);
-
-        _mockMemoryCache.Verify(m => m.CreateEntry(It.IsAny<Source>()), Times.Never);
+        
+        _mockMemoryCache.Object.DidNotReceive().CreateEntry(It.IsAny<Source>());
     }
 
     [Fact]

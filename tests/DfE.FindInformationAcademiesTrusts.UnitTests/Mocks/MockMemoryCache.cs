@@ -3,28 +3,30 @@ using Microsoft.Extensions.Primitives;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
-public class MockMemoryCache : Mock<IMemoryCache>
+public class MockMemoryCache
 {
     public Dictionary<object, MockCacheEntry> MockCacheEntries { get; } = new();
+    public IMemoryCache Object { get; } = Substitute.For<IMemoryCache>();
 
     public MockMemoryCache()
     {
-        Setup(m => m.CreateEntry(It.IsAny<object>())).Returns((object key) =>
+        Object.CreateEntry(Arg.Any<object>()).Returns(args =>
         {
+            var key = args[0];
             var mockCacheEntry = new MockCacheEntry(key);
             MockCacheEntries.Add(key, mockCacheEntry);
 
             return mockCacheEntry;
         });
 
-        object? outReturn; //needed separately by Moq for out parameter
-        Setup(m => m.TryGetValue(It.IsAny<object>(), out outReturn))
-            .Returns((object key, out object? value) =>
+        Object.TryGetValue(Arg.Any<object>(), out Arg.Any<object?>()).Returns(args =>
             {
+                var key = args[0];
                 var isInCache = MockCacheEntries.TryGetValue(key, out var mockCacheEntry);
-                value = mockCacheEntry?.Value;
+                args[1] = mockCacheEntry?.Value;
                 return isInCache;
-            });
+            }
+        );
     }
 
     public void AddMockCacheEntry<TItem>(object key, TItem value)
