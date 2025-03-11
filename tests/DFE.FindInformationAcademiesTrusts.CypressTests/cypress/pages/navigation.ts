@@ -9,14 +9,15 @@ class Navigation {
             pipelineAcademiesButton: () => cy.get('[data-testid="academies-pipeline-academies-subnav"]'),
         },
         serviceNav: {
-            academiesServiceNavButton: () => cy.get('[data-testid="academies-nav"]'),
-            contactsServiceNavButton: () => cy.get('[data-testid="contacts-nav"]'),
-            governanceServiceNavButton: () => cy.get('[data-testid="governance-nav"]'),
             overviewServiceNavButton: () => cy.get('[data-testid="overview-nav"]'),
+            contactsServiceNavButton: () => cy.get('[data-testid="contacts-nav"]'),
+            academiesServiceNavButton: () => cy.get('[data-testid="academies-nav"]'),
+            ofstedServiceNavButton: () => cy.get('[data-testid="ofsted-nav"]'),
+            financialDocumentsServiceNavButton: () => cy.get('[data-testid="financial-documents-nav"]'),
+            governanceServiceNavButton: () => cy.get('[data-testid="governance-nav"]'),
         },
         currentPageSubnavLinks: () => cy.get('.moj-sub-navigation__link'),
         acadmiesInTrustSubNav: {
-            academiesInTrustOfstedButton: () => cy.get('[data-testid="ofsted-nav"]'),
             academiesInTrustPupilNumbersButton: () => cy.get('[data-testid="in-this-trust-pupil-numbers-tab"]'),
             academiesInTrustFreeSchoolMealsButton: () => cy.get('[data-testid="in-this-trust-free-school-meals-tab"]'),
             academiesInTrustDetailsButton: () => cy.get('[data-testid="in-this-trust-details-tab"]'),
@@ -31,7 +32,13 @@ class Navigation {
             homeBreadcrumbButton: () => this.elements.breadcrumbs.breadcrumbParent().contains('Home'),
             trustBreadcrumbLabel: (trustname: string) => this.elements.breadcrumbs.breadcrumbParent().contains(trustname),
             pageNameBreadcrumbLabel: () => this.elements.breadcrumbs.breadcrumbParent().find('[data-testid="breadcrumb-page-name"]')
-        }
+        },
+        financialDocumentsSubNav: {
+            financialStatementsNavButton: () => cy.get('[data-testid="financial-documents-financial-statements-subnav"]'),
+            managementLettersButton: () => cy.get('[data-testid="financial-documents-management-letters-subnav"]'),
+            internalScrutinyReportsButton: () => cy.get('[data-testid="financial-documents-internal-scrutiny-reports-subnav"]'),
+            selfAssessmentChecklistsButton: () => cy.get('[data-testid="financial-documents-self-assessment-checklists-subnav"]'),
+        },
     };
 
     public checkSubpageNavMatches(expectedSubpages: { subpageName: string, url: string; }[]): this {
@@ -135,6 +142,26 @@ class Navigation {
         return this;
     }
 
+    public clickOfstedServiceNavButton(): this {
+        this.elements.serviceNav.ofstedServiceNavButton().click();
+        return this;
+    }
+
+    public checkOfstedServiceNavButtonIsHighlighted(): this {
+        this.elements.serviceNav.ofstedServiceNavButton().should('have.class', 'govuk-service-navigation__item--active');
+        return this;
+    }
+
+    public clickFinancialDocumentsServiceNavButton(): this {
+        this.elements.serviceNav.financialDocumentsServiceNavButton().click();
+        return this;
+    }
+
+    public checkFinancialDocumentsServiceNavButtonIsHighlighted(): this {
+        this.elements.serviceNav.financialDocumentsServiceNavButton().should('have.class', 'govuk-service-navigation__item--active');
+        return this;
+    }
+
     public clickGovernanceServiceNavButton(): this {
         this.elements.serviceNav.governanceServiceNavButton().click();
         return this;
@@ -152,11 +179,6 @@ class Navigation {
 
     public checkOverviewServiceNavButtonIsHighlighted(): this {
         this.elements.serviceNav.overviewServiceNavButton().should('have.class', 'govuk-service-navigation__item--active');
-        return this;
-    }
-
-    public clickOfstedAcadmiesTrustButton(): this {
-        this.elements.acadmiesInTrustSubNav.academiesInTrustOfstedButton().click();
         return this;
     }
 
@@ -193,8 +215,9 @@ class Navigation {
         this.elements.serviceNav.overviewServiceNavButton().should('be.visible');
         this.elements.serviceNav.contactsServiceNavButton().should('be.visible');
         this.elements.serviceNav.academiesServiceNavButton().should('be.visible');
+        this.elements.serviceNav.ofstedServiceNavButton().should('be.visible');
+        this.elements.serviceNav.financialDocumentsServiceNavButton().should('be.visible');
         this.elements.serviceNav.governanceServiceNavButton().should('be.visible');
-        this.elements.acadmiesInTrustSubNav.academiesInTrustOfstedButton().should('be.visible');
         return this;
     }
 
@@ -220,6 +243,26 @@ class Navigation {
 
     public clickPipelineAcademiesFreeSchoolsNavButton(): this {
         this.elements.pipelineAcademiesSubNav.pipelineAcademiesFreeSchoolMealsButton().click();
+        return this;
+    }
+
+    public clickFinancialDocsFinancialStatementsButton(): this {
+        this.elements.financialDocumentsSubNav.financialStatementsNavButton().click();
+        return this;
+    }
+
+    public clickFinancialDocsManagementLettersButton(): this {
+        this.elements.financialDocumentsSubNav.managementLettersButton().click();
+        return this;
+    }
+
+    public clickFinancialDocsInternalScrutinyReportsButton(): this {
+        this.elements.financialDocumentsSubNav.internalScrutinyReportsButton().click();
+        return this;
+    }
+
+    public clickFinancialDocsSelfAssessmentButton(): this {
+        this.elements.financialDocumentsSubNav.selfAssessmentChecklistsButton().click();
         return this;
     }
 }
