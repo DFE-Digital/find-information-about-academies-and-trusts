@@ -10,19 +10,19 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
 public class TrustServiceGovernanceTurnoverTests
 {
     private readonly TrustService _sut;
-    private readonly Mock<IAcademyRepository> _mockAcademyRepository = new();
-    private readonly Mock<ITrustRepository> _mockTrustRepository = new();
-    private readonly Mock<IContactRepository> _mockContactRepository = new();
-    private readonly Mock<IDateTimeProvider> _mockDateTimeProvider = new();
+    private readonly IAcademyRepository _mockAcademyRepository = Substitute.For<IAcademyRepository>();
+    private readonly ITrustRepository _mockTrustRepository = Substitute.For<ITrustRepository>();
+    private readonly IContactRepository _mockContactRepository = Substitute.For<IContactRepository>();
+    private readonly IDateTimeProvider _mockDateTimeProvider = Substitute.For<IDateTimeProvider>();
     private readonly MockMemoryCache _mockMemoryCache = new();
 
     public TrustServiceGovernanceTurnoverTests()
     {
-        _sut = new TrustService(_mockAcademyRepository.Object,
-                                _mockTrustRepository.Object,
-                                _mockContactRepository.Object,
+        _sut = new TrustService(_mockAcademyRepository,
+                                _mockTrustRepository,
+                                _mockContactRepository,
                                 _mockMemoryCache.Object,
-                                _mockDateTimeProvider.Object);
+                                _mockDateTimeProvider);
     }
     [Fact]
     public void GetGovernanceTurnoverRate_Returns_Zero_When_No_CurrentGovernors()
@@ -35,7 +35,7 @@ public class TrustServiceGovernanceTurnoverTests
             HistoricMembers: []
         );
 
-        _mockDateTimeProvider.Setup(d => d.Today).Returns(new DateTime(2023, 10, 1));
+        _mockDateTimeProvider.Today.Returns(new DateTime(2023, 10, 1));
 
         // Act
         var result = _sut.GetGovernanceTurnoverRate(trustGovernance);
@@ -50,7 +50,7 @@ public class TrustServiceGovernanceTurnoverTests
         // Arrange
         var startDate = new DateTime(2022, 1, 1);
         var endDate = new DateTime(2023, 1, 1);
-        _mockDateTimeProvider.Setup(d => d.Today).Returns(new DateTime(2023, 10, 1));
+        _mockDateTimeProvider.Today.Returns(new DateTime(2023, 10, 1));
 
         var governor = new Governor("1", "UID", "John Doe", "Member", "Appointing Body", startDate, endDate, null);
         var trustGovernance = new TrustGovernance(

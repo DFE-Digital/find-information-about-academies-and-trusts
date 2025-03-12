@@ -10,16 +10,17 @@ public class HttpContextUserDetailsProviderTests
 
     public HttpContextUserDetailsProviderTests()
     {
-        Mock<IHttpContextAccessor> mockHttpAccessor = new();
-        mockHttpAccessor.Setup(m => m.HttpContext).Returns(_mockHttpContext.Object);
+        IHttpContextAccessor mockHttpAccessor = Substitute.For<IHttpContextAccessor>();
+        mockHttpAccessor.HttpContext.Returns(_mockHttpContext.Object);
 
-        _sut = new HttpContextUserDetailsProvider(mockHttpAccessor.Object);
+        _sut = new HttpContextUserDetailsProvider(mockHttpAccessor);
     }
 
     [Fact]
     public void GetUserDetails_should_throw_if_there_is_no_httpcontext()
     {
-        _sut = new HttpContextUserDetailsProvider(Mock.Of<IHttpContextAccessor>());
+        var httpContextAccessor = Substitute.For<IHttpContextAccessor>();
+        _sut = new HttpContextUserDetailsProvider(httpContextAccessor);
 
         var action = () => _sut.GetUserDetails();
 

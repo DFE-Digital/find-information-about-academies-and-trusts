@@ -10,7 +10,7 @@ public class EnvironmentExtensionsTests
     {
         var mockWebHostEnvironment = CreateMockEnvironment("LocalDevelopment");
 
-        mockWebHostEnvironment.Object.IsLocalDevelopment().Should().BeTrue();
+        mockWebHostEnvironment.IsLocalDevelopment().Should().BeTrue();
     }
 
     [Theory]
@@ -23,7 +23,7 @@ public class EnvironmentExtensionsTests
     {
         var mockWebHostEnvironment = CreateMockEnvironment(environmentName);
 
-        mockWebHostEnvironment.Object.IsLocalDevelopment().Should().BeFalse();
+        mockWebHostEnvironment.IsLocalDevelopment().Should().BeFalse();
     }
 
     [Fact]
@@ -31,7 +31,7 @@ public class EnvironmentExtensionsTests
     {
         var mockWebHostEnvironment = CreateMockEnvironment("CI");
 
-        mockWebHostEnvironment.Object.IsContinuousIntegration().Should().BeTrue();
+        mockWebHostEnvironment.IsContinuousIntegration().Should().BeTrue();
     }
 
     [Theory]
@@ -44,7 +44,7 @@ public class EnvironmentExtensionsTests
     {
         var mockWebHostEnvironment = CreateMockEnvironment(environmentName);
 
-        mockWebHostEnvironment.Object.IsContinuousIntegration().Should().BeFalse();
+        mockWebHostEnvironment.IsContinuousIntegration().Should().BeFalse();
     }
 
     [Fact]
@@ -52,7 +52,7 @@ public class EnvironmentExtensionsTests
     {
         var mockWebHostEnvironment = CreateMockEnvironment("Test");
 
-        mockWebHostEnvironment.Object.IsTest().Should().BeTrue();
+        mockWebHostEnvironment.IsTest().Should().BeTrue();
     }
 
     [Theory]
@@ -65,7 +65,7 @@ public class EnvironmentExtensionsTests
     {
         var mockWebHostEnvironment = CreateMockEnvironment(environmentName);
 
-        mockWebHostEnvironment.Object.IsTest().Should().BeFalse();
+        mockWebHostEnvironment.IsTest().Should().BeFalse();
     }
 
     [Theory]
@@ -77,7 +77,7 @@ public class EnvironmentExtensionsTests
     {
         var mockWebHostEnvironment = CreateMockEnvironment(environmentName);
 
-        mockWebHostEnvironment.Object.IsLiveEnvironment().Should().BeFalse();
+        mockWebHostEnvironment.IsLiveEnvironment().Should().BeFalse();
     }
 
     [Theory]
@@ -89,13 +89,13 @@ public class EnvironmentExtensionsTests
     {
         var mockWebHostEnvironment = CreateMockEnvironment(environmentName);
 
-        mockWebHostEnvironment.Object.IsLiveEnvironment().Should().BeTrue();
+        mockWebHostEnvironment.IsLiveEnvironment().Should().BeTrue();
     }
 
-    private static Mock<IWebHostEnvironment> CreateMockEnvironment(string environmentName)
+    private static IWebHostEnvironment CreateMockEnvironment(string environmentName)
     {
-        var mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
-        mockWebHostEnvironment.SetupGet(m => m.EnvironmentName).Returns(environmentName);
+        var mockWebHostEnvironment = Substitute.For<IWebHostEnvironment>();
+        mockWebHostEnvironment.EnvironmentName.Returns(environmentName);
         return mockWebHostEnvironment;
     }
 }
