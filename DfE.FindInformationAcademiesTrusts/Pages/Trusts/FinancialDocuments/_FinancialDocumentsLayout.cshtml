@@ -9,7 +9,8 @@
     <h2 class="govuk-heading-m" data-testid="subpage-header">
       @Model.TrustPageMetadata.SubPageName
     </h2>
-    <p class="govuk-body">You must have permission to view these documents.</p>
+    <p class="govuk-body" data-testid="you-must-have-permission-message">You must have permission to view these
+      documents.</p>
     @if (Model.InternalUseOnly)
     {
       <partial name="Shared/_InternalUseOnlyWarning" model="@Model.TrustPageMetadata.SubPageName" />
@@ -18,10 +19,10 @@
       @foreach (var doc in Model.FinancialDocuments)
       {
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
+          <dt class="govuk-summary-list__key" data-testid="financial-docs-financial-year">
             @doc.YearFrom to @doc.YearTo
           </dt>
-          <dd class="govuk-summary-list__value">
+          <dd class="govuk-summary-list__value" data-testid="financial-docs-financial-status-or-link">
             @switch (doc)
             {
               case { Status: FinancialDocumentStatus.Submitted, Link: not null }:
@@ -49,7 +50,7 @@
       }
     </dl>
 
-    <details class="govuk-details">
+    <details class="govuk-details" data-testid="about-these-documents">
       <summary class="govuk-details__summary">
         <span class="govuk-details__summary-text">
           About these documents
@@ -63,7 +64,8 @@
         <p class="govuk-body">To report a problem with a document, or if you have a <strong>business need</strong> to be
           granted access, email:</p>
         <p class="govuk-body">
-          <a href="mailto:academiesfinancialmonitoring@education.gov.uk" class="govuk-link" rel="noreferrer noopener">academiesfinancialmonitoring@education.gov.uk</a>.
+          <a href="mailto:academiesfinancialmonitoring@education.gov.uk" class="govuk-link"
+            rel="noreferrer noopener">academiesfinancialmonitoring@education.gov.uk</a>.
         </p>
         <p class="govuk-heading-s">Why a document might not be expected</p>
         <p class="govuk-body">If a trust could not have submitted a document, for example because it had not formed yet,
