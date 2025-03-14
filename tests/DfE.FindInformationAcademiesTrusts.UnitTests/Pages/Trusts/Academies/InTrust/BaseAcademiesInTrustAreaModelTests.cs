@@ -12,7 +12,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.In
 public abstract class AcademiesInTrustAreaModelTests<T> : BaseAcademiesAreaModelTests<T>, ITestTabPages
     where T : AcademiesInTrustAreaModel
 {
-    protected readonly Mock<IDateTimeProvider> MockDateTimeProvider = new();
+    protected readonly IDateTimeProvider MockDateTimeProvider = Substitute.For<IDateTimeProvider>();
 
     [Fact]
     public override async Task OnGetExportAsync_ShouldReturnFileResult_WhenUidIsValid()
@@ -20,8 +20,7 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseAcademiesAreaModel
         // Arrange
         byte[] expectedBytes = [1, 2, 3];
 
-        MockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(TrustUid))
-            .ReturnsAsync(expectedBytes);
+        MockExportService.ExportAcademiesToSpreadsheetAsync(TrustUid).Returns(Task.FromResult(expectedBytes));
 
         // Act
         var result = await Sut.OnGetExportAsync(TrustUid);
@@ -39,8 +38,7 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseAcademiesAreaModel
         // Arrange
         var uid = "invalid-uid";
 
-        MockTrustService.Setup(x => x.GetTrustSummaryAsync(uid))
-            .ReturnsAsync((TrustSummaryServiceModel?)null);
+        MockTrustService.GetTrustSummaryAsync(uid).Returns(Task.FromResult((TrustSummaryServiceModel?)null));
 
         // Act
         var result = await Sut.OnGetExportAsync(uid);
@@ -56,10 +54,8 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseAcademiesAreaModel
         var uid = TrustUid;
         var expectedBytes = new byte[] { 1, 2, 3 };
 
-        MockTrustService.Setup(x => x.GetTrustSummaryAsync(uid))
-            .ReturnsAsync(DummyTrustSummary with { Name = "Sample/Trust:Name?" });
-        MockExportService.Setup(x => x.ExportAcademiesToSpreadsheetAsync(uid))
-            .ReturnsAsync(expectedBytes);
+        MockTrustService.GetTrustSummaryAsync(uid)!.Returns(Task.FromResult(DummyTrustSummary with { Name = "Sample/Trust:Name?" }));
+        MockExportService.ExportAcademiesToSpreadsheetAsync(uid).Returns(Task.FromResult(expectedBytes));
 
         // Act
         var result = await Sut.OnGetExportAsync(uid);

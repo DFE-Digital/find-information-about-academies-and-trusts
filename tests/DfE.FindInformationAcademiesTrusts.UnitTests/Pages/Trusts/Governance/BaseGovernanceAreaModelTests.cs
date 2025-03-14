@@ -13,8 +13,8 @@ public abstract class BaseGovernanceAreaModelTests<T> : BaseTrustPageTests<T>, I
 {
     protected BaseGovernanceAreaModelTests()
     {
-        MockTrustService.Setup(t => t.GetTrustGovernanceAsync(It.IsAny<string>()))
-            .ReturnsAsync(new TrustGovernanceServiceModel([], [], [], [], 0));
+        MockTrustService.GetTrustGovernanceAsync(Arg.Any<string>())
+            .Returns(Task.FromResult(new TrustGovernanceServiceModel([], [], [], [], 0)));
     }
 
     private static Governor[] GenerateGovernors(bool isCurrent, string role, int numberToGenerate)
@@ -60,12 +60,11 @@ public abstract class BaseGovernanceAreaModelTests<T> : BaseTrustPageTests<T>, I
             GenerateGovernors(false, "Trustee", 1),
             10);
 
-        MockTrustService.Setup(t => t.GetTrustGovernanceAsync(TrustUid))
-            .ReturnsAsync(trustGovernanceServiceModelWithData);
+        MockTrustService.GetTrustGovernanceAsync(TrustUid).Returns(Task.FromResult(trustGovernanceServiceModelWithData));
 
         await Sut.OnGetAsync();
 
-        MockTrustService.Verify(e => e.GetTrustGovernanceAsync(TrustUid), Times.Once);
+        await MockTrustService.Received(1).GetTrustGovernanceAsync(TrustUid);
         Sut.TrustGovernance.Should().BeEquivalentTo(trustGovernanceServiceModelWithData);
     }
 
@@ -78,13 +77,13 @@ public abstract class BaseGovernanceAreaModelTests<T> : BaseTrustPageTests<T>, I
     public async Task OnGetAsync_should_include_numbers_of_governors_in_subpage_link_text(int numTrustLeaders,
         int numMembers, int numTrustees, int numHistoricMembers)
     {
-        MockTrustService.Setup(t => t.GetTrustGovernanceAsync(TrustUid))
-            .ReturnsAsync(new TrustGovernanceServiceModel(
+        MockTrustService.GetTrustGovernanceAsync(TrustUid)
+            .Returns(Task.FromResult(new TrustGovernanceServiceModel(
                 GenerateGovernors(true, "Chair of Trustees", numTrustLeaders),
                 GenerateGovernors(true, "Member", numMembers),
                 GenerateGovernors(true, "Trustee", numTrustees),
                 GenerateGovernors(false, "Trustee", numHistoricMembers),
-                0));
+                0)));
 
         _ = await Sut.OnGetAsync();
 

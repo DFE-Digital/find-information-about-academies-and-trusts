@@ -10,26 +10,25 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Authorization;
 
 public class AutomationAuthorizationHandlerTests
 {
-    private readonly Mock<IWebHostEnvironment> _mockWebHostEnvironment;
+    private readonly IWebHostEnvironment _mockWebHostEnvironment;
     private readonly DefaultHttpContext _httpContext;
-    private readonly Mock<IOptions<TestOverrideOptions>> _mockTestOverrideOptions;
+    private readonly IOptions<TestOverrideOptions> _mockTestOverrideOptions;
     private readonly AutomationAuthorizationHandler _sut;
-    private readonly Mock<IHttpContextAccessor> _mockHttpAccessor;
+    private readonly IHttpContextAccessor _mockHttpAccessor;
 
     public AutomationAuthorizationHandlerTests()
     {
-        _mockHttpAccessor = new Mock<IHttpContextAccessor>();
-        _mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
-        _mockTestOverrideOptions = new Mock<IOptions<TestOverrideOptions>>();
+        _mockHttpAccessor = Substitute.For<IHttpContextAccessor>();
+        _mockWebHostEnvironment = Substitute.For<IWebHostEnvironment>();
+        _mockTestOverrideOptions = Substitute.For<IOptions<TestOverrideOptions>>();
         _httpContext = new DefaultHttpContext();
+        
+        _mockHttpAccessor.HttpContext.Returns(_httpContext);
+        _mockTestOverrideOptions.Value.Returns(new TestOverrideOptions { CypressTestSecret = "123" });
+        _mockWebHostEnvironment.EnvironmentName.Returns("Development");
 
-        _mockHttpAccessor.Setup(m => m.HttpContext).Returns(_httpContext);
-        _mockTestOverrideOptions.Setup(m => m.Value)
-            .Returns(new TestOverrideOptions { CypressTestSecret = "123" });
-        _mockWebHostEnvironment.SetupGet(m => m.EnvironmentName).Returns("Development");
-
-        _sut = new AutomationAuthorizationHandler(_mockWebHostEnvironment.Object, _mockHttpAccessor.Object,
-            _mockTestOverrideOptions.Object);
+        _sut = new AutomationAuthorizationHandler(_mockWebHostEnvironment, _mockHttpAccessor,
+            _mockTestOverrideOptions);
     }
 
     [Theory]
@@ -41,12 +40,12 @@ public class AutomationAuthorizationHandlerTests
     public void IsClientSecretHeaderValid_should_only_be_true_in_specified_environments(string environment,
         bool expected)
     {
-        _mockWebHostEnvironment.SetupGet(m => m.EnvironmentName).Returns(environment);
+        _mockWebHostEnvironment.EnvironmentName.Returns(environment);
         _httpContext.Request.Headers.Append(HeaderNames.Authorization, "Bearer 123");
 
         //Create sut here because constructor decides whether or not an environment is live
-        var sut = new AutomationAuthorizationHandler(_mockWebHostEnvironment.Object, _mockHttpAccessor.Object,
-            _mockTestOverrideOptions.Object);
+        var sut = new AutomationAuthorizationHandler(_mockWebHostEnvironment, _mockHttpAccessor,
+            _mockTestOverrideOptions);
 
         var result = sut.IsClientSecretHeaderValid();
 
@@ -75,8 +74,7 @@ public class AutomationAuthorizationHandlerTests
         string? serverAuthKey)
     {
         _httpContext.Request.Headers.Append(HeaderNames.Authorization, $"Bearer {headerAuthKey}");
-        _mockTestOverrideOptions.Setup(m => m.Value)
-            .Returns(new TestOverrideOptions { CypressTestSecret = serverAuthKey });
+        _mockTestOverrideOptions.Value.Returns(new TestOverrideOptions { CypressTestSecret = serverAuthKey });
 
         var result = _sut.IsClientSecretHeaderValid();
 

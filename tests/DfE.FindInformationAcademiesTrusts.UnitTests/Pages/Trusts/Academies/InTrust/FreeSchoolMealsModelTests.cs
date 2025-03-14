@@ -11,10 +11,10 @@ public class FreeSchoolMealsModelTests : AcademiesInTrustAreaModelTests<FreeScho
     {
         Sut = new FreeSchoolMealsModel(MockDataSourceService,
                 MockLogger.CreateLogger<FreeSchoolMealsModel>(),
-                MockTrustService.Object,
-                MockAcademyService.Object,
-                MockExportService.Object,
-                MockDateTimeProvider.Object)
+                MockTrustService,
+                MockAcademyService,
+                MockExportService,
+                MockDateTimeProvider)
             { Uid = TrustUid };
     }
 
@@ -27,8 +27,7 @@ public class FreeSchoolMealsModelTests : AcademiesInTrustAreaModelTests<FreeScho
             new AcademyFreeSchoolMealsServiceModel("2", "Academy 2", null, 70.1, 64.1),
             new AcademyFreeSchoolMealsServiceModel("3", "Academy 3", 8.2, 4, 10)
         };
-        MockAcademyService.Setup(a => a.GetAcademiesInTrustFreeSchoolMealsAsync(Sut.Uid))
-            .ReturnsAsync(academies);
+        MockAcademyService.GetAcademiesInTrustFreeSchoolMealsAsync(Sut.Uid).Returns(Task.FromResult(academies));
 
         _ = await Sut.OnGetAsync();
 

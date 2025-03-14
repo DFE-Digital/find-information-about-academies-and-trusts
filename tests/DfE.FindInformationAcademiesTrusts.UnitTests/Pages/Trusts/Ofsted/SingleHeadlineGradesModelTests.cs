@@ -8,10 +8,10 @@ public class SingleHeadlineGradesModelTests : BaseOfstedAreaModelTests<SingleHea
     public SingleHeadlineGradesModelTests()
     {
         Sut = new SingleHeadlineGradesModel(MockDataSourceService,
-                MockTrustService.Object,
-                MockAcademyService.Object,
-                MockExportService.Object,
-                MockDateTimeProvider.Object,
+                MockTrustService,
+                MockAcademyService,
+                MockExportService,
+                MockDateTimeProvider,
                 MockLogger.CreateLogger<SingleHeadlineGradesModel>()
             )
             { Uid = TrustUid };

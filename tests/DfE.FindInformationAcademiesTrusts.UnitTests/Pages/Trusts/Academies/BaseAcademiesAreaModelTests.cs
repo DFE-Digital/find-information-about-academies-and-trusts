@@ -7,24 +7,22 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies;
 public abstract class BaseAcademiesAreaModelTests<T> : BaseTrustPageTests<T>, ITestSubpages, ITestTabPages, ITestExport
     where T : AcademiesAreaModel
 {
-    protected readonly Mock<IAcademyService> MockAcademyService = new();
-    protected readonly Mock<IExportService> MockExportService = new();
+    protected readonly IAcademyService MockAcademyService = Substitute.For<IAcademyService>();
+    protected readonly IExportService MockExportService = Substitute.For<IExportService>();
     protected const string TrustReferenceNumber = "TRN00123";
 
     public BaseAcademiesAreaModelTests()
     {
-        MockTrustService
-            .Setup(a => a.GetTrustReferenceNumberAsync(TrustUid))
-            .ReturnsAsync(TrustReferenceNumber);
+        MockTrustService.GetTrustReferenceNumberAsync(TrustUid).Returns(Task.FromResult(TrustReferenceNumber));
 
         //Set default GetAcademiesPipelineSummaryAsync to enable base tests with different UIDs
         MockAcademyService
-            .Setup(t => t.GetAcademiesPipelineSummaryAsync(It.IsAny<string>()))
-            .ReturnsAsync(new AcademyPipelineSummaryServiceModel(0, 0, 0));
+            .GetAcademiesPipelineSummaryAsync(Arg.Any<string>())
+            .Returns(Task.FromResult(new AcademyPipelineSummaryServiceModel(0, 0, 0)));
 
         MockAcademyService
-            .Setup(t => t.GetAcademiesPipelineSummaryAsync(TrustReferenceNumber))
-            .ReturnsAsync(new AcademyPipelineSummaryServiceModel(1, 2, 3));
+            .GetAcademiesPipelineSummaryAsync(TrustReferenceNumber)
+            .Returns(Task.FromResult(new AcademyPipelineSummaryServiceModel(1, 2, 3)));
     }
 
     [Fact]

@@ -7,24 +7,24 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.In
 
 public class AcademiesDetailsModelTests : AcademiesInTrustAreaModelTests<AcademiesInTrustDetailsModel>
 {
-    private readonly Mock<IOtherServicesLinkBuilder> _mockLinkBuilder = new();
+    private readonly IOtherServicesLinkBuilder _mockLinkBuilder = Substitute.For<IOtherServicesLinkBuilder>();
 
     public AcademiesDetailsModelTests()
     {
         Sut = new AcademiesInTrustDetailsModel(MockDataSourceService,
-                _mockLinkBuilder.Object,
+                _mockLinkBuilder,
                 MockLogger.CreateLogger<AcademiesInTrustDetailsModel>(),
-                MockTrustService.Object,
-                MockAcademyService.Object,
-                MockExportService.Object,
-                MockDateTimeProvider.Object)
+                MockTrustService,
+                MockAcademyService,
+                MockExportService,
+                MockDateTimeProvider)
             { Uid = TrustUid };
     }
 
     [Fact]
     public void OtherServicesLinkBuilder_should_be_injected()
     {
-        Sut.LinkBuilder.Should().Be(_mockLinkBuilder.Object);
+        Sut.LinkBuilder.Should().Be(_mockLinkBuilder);
     }
 
     [Fact]
@@ -36,8 +36,7 @@ public class AcademiesDetailsModelTests : AcademiesInTrustAreaModelTests<Academi
             new AcademyDetailsServiceModel("2", "", "", "", ""),
             new AcademyDetailsServiceModel("3", "", "", "", "")
         };
-        MockAcademyService.Setup(a => a.GetAcademiesInTrustDetailsAsync(Sut.Uid))
-            .ReturnsAsync(academies);
+        MockAcademyService.GetAcademiesInTrustDetailsAsync(Sut.Uid).Returns(Task.FromResult(academies));
 
         _ = await Sut.OnGetAsync();
 

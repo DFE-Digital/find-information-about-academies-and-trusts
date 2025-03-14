@@ -19,12 +19,13 @@ public class CookiesModelTests
 
     public CookiesModelTests()
     {
-        Mock<IHttpContextAccessor> mockHttpAccessor = new();
+        IHttpContextAccessor mockHttpAccessor = Substitute.For<IHttpContextAccessor>();
         _mockHttpContext = new MockHttpContext();
-        mockHttpAccessor.Setup(m => m.HttpContext).Returns(_mockHttpContext.Object);
+        mockHttpAccessor.HttpContext.Returns(_mockHttpContext.Object);
         var actionContext = new ActionContext(_mockHttpContext.Object, new RouteData(), new ActionDescriptor());
-        _tempData = new TempDataDictionary(_mockHttpContext.Object, Mock.Of<ITempDataProvider>());
-        _sut = new CookiesModel(mockHttpAccessor.Object)
+        var tempDataProvider = Substitute.For<ITempDataProvider>();
+        _tempData = new TempDataDictionary(_mockHttpContext.Object, tempDataProvider);
+        _sut = new CookiesModel(mockHttpAccessor)
         {
             TempData = _tempData,
             Url = new UrlHelper(actionContext)

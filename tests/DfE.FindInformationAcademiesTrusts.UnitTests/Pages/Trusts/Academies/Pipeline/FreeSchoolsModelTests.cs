@@ -11,8 +11,8 @@ public class FreeSchoolsModelTests : BasePipelineAcademiesAreaModelTests<FreeSch
     {
         Sut = new FreeSchoolsModel(
                 MockDataSourceService, MockLogger.CreateLogger<FreeSchoolsModel>(),
-                MockTrustService.Object, MockAcademyService.Object, MockExportService.Object,
-                MockDateTimeProvider.Object)
+                MockTrustService, MockAcademyService, MockExportService,
+                MockDateTimeProvider)
             { Uid = TrustUid };
     }
 
@@ -33,8 +33,8 @@ public class FreeSchoolsModelTests : BasePipelineAcademiesAreaModelTests<FreeSch
         };
 
         MockAcademyService
-            .Setup(a => a.GetAcademiesPipelineFreeSchoolsAsync(TrustReferenceNumber))
-            .ReturnsAsync(academies);
+            .GetAcademiesPipelineFreeSchoolsAsync(TrustReferenceNumber)
+            .Returns(Task.FromResult(academies));
 
         // Act
         await Sut.OnGetAsync();

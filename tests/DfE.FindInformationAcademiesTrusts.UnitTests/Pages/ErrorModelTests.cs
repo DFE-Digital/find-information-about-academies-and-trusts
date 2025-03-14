@@ -11,10 +11,10 @@ public class ErrorModelTests
 
     public ErrorModelTests()
     {
-        Mock<IHttpContextAccessor> mockHttpAccessor = new();
-        mockHttpAccessor.Setup(m => m.HttpContext).Returns(_mockHttpContext.Object);
+        IHttpContextAccessor mockHttpAccessor = Substitute.For<IHttpContextAccessor>();
+        mockHttpAccessor.HttpContext.Returns(_mockHttpContext.Object);
 
-        _sut = new ErrorModel(mockHttpAccessor.Object);
+        _sut = new ErrorModel(mockHttpAccessor);
     }
 
     [Fact]

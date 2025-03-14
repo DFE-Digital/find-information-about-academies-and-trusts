@@ -13,7 +13,7 @@ public class EditSfsoLeadModelTests
 {
     private readonly EditSfsoLeadModel _sut;
     
-    private readonly Mock<ITrustService> _mockTrustService = new();
+    private readonly ITrustService _mockTrustService = Substitute.For<ITrustService>();
 
     private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
 
@@ -22,20 +22,19 @@ public class EditSfsoLeadModelTests
 
     public EditSfsoLeadModelTests()
     {
-        _mockTrustService.Setup(tp => tp.GetTrustContactsAsync("1234")).ReturnsAsync(
-            new TrustContactsServiceModel(null, _sfsoLead, null, null, null));
-        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
-            .ReturnsAsync(_fakeTrust);
+        _mockTrustService.GetTrustContactsAsync("1234").Returns(
+            Task.FromResult(new TrustContactsServiceModel(null, _sfsoLead, null, null, null)));
+        _mockTrustService.GetTrustSummaryAsync(_fakeTrust.Uid)!.Returns(Task.FromResult(_fakeTrust));
 
         _sut = new EditSfsoLeadModel(MockDataSourceService.CreateSubstitute(),
-            MockLogger.CreateLogger<EditSfsoLeadModel>(), _mockTrustService.Object)
+            MockLogger.CreateLogger<EditSfsoLeadModel>(), _mockTrustService)
             { Uid = "1234" };
     }
 
     [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustService.Setup(r => r.GetTrustSummaryAsync("1234")).ReturnsAsync((TrustSummaryServiceModel?)null);
+        _mockTrustService.GetTrustSummaryAsync("1234").Returns(Task.FromResult((TrustSummaryServiceModel?)null));
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
@@ -62,8 +61,8 @@ public class EditSfsoLeadModelTests
     {
         _sut.TrustSummary = _fakeTrust;
         _mockTrustService
-            .Setup(r => r.UpdateContactAsync(1234, It.IsAny<string>(), It.IsAny<string>(), ContactRole.SfsoLead))
-            .ReturnsAsync(new TrustContactUpdatedServiceModel(emailUpdated, nameUpdated));
+            .UpdateContactAsync(1234, Arg.Any<string>(), Arg.Any<string>(), ContactRole.SfsoLead)
+            .Returns(Task.FromResult(new TrustContactUpdatedServiceModel(emailUpdated, nameUpdated)));
 
         var result = await _sut.OnPostAsync();
 
@@ -100,9 +99,9 @@ public class EditSfsoLeadModelTests
     {
         _sut.TrustSummary = _fakeTrust;
         _mockTrustService
-            .Setup(r => r.UpdateContactAsync(1234, It.IsAny<string>(), It.IsAny<string>(),
-                ContactRole.SfsoLead))
-            .ReturnsAsync(new TrustContactUpdatedServiceModel(true, true));
+            .UpdateContactAsync(1234, Arg.Any<string>(), Arg.Any<string>(),
+                ContactRole.SfsoLead)
+            .Returns(Task.FromResult(new TrustContactUpdatedServiceModel(true, true)));
         _ = await _sut.OnPostAsync();
 
         _sut.TrustPageMetadata.SubPageName.Should()

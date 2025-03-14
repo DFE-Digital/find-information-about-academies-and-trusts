@@ -14,9 +14,9 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Ofsted;
 public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITestSubpages, ITestExport
     where T : OfstedAreaModel
 {
-    protected readonly Mock<IAcademyService> MockAcademyService = new();
-    protected readonly Mock<IExportService> MockExportService = new();
-    protected readonly Mock<IDateTimeProvider> MockDateTimeProvider = new();
+    protected readonly IAcademyService MockAcademyService = Substitute.For<IAcademyService>();
+    protected readonly IExportService MockExportService = Substitute.For<IExportService>();
+    protected readonly IDateTimeProvider MockDateTimeProvider = Substitute.For<IDateTimeProvider>();
 
     [Fact]
     public override async Task OnGetAsync_sets_correct_data_source_list()
@@ -67,8 +67,7 @@ public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITest
                 new OfstedRating(2, new DateTime(2023, 1, 3)),
                 new OfstedRating(3, new DateTime(2023, 4, 1)))
         };
-        MockAcademyService.Setup(a => a.GetAcademiesInTrustOfstedAsync(Sut.Uid))
-            .ReturnsAsync(academies);
+        MockAcademyService.GetAcademiesInTrustOfstedAsync(Sut.Uid).Returns(Task.FromResult(academies));
 
         _ = await Sut.OnGetAsync();
 
@@ -80,8 +79,7 @@ public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITest
     {
         // Arrange
         byte[] expectedBytes = [1, 2, 3];
-        MockExportService.Setup(x => x.ExportOfstedDataToSpreadsheetAsync(TrustUid))
-            .ReturnsAsync(expectedBytes);
+        MockExportService.ExportOfstedDataToSpreadsheetAsync(TrustUid).Returns(Task.FromResult(expectedBytes));
 
         // Act
         var result = await Sut.OnGetExportAsync(TrustUid);
@@ -99,8 +97,7 @@ public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITest
         // Arrange
         var uid = "invalid-uid";
 
-        MockTrustService.Setup(x => x.GetTrustSummaryAsync(uid))
-            .ReturnsAsync((TrustSummaryServiceModel?)null);
+        MockTrustService.GetTrustSummaryAsync(uid).Returns(Task.FromResult<TrustSummaryServiceModel?>(null));
 
         // Act
         var result = await Sut.OnGetExportAsync(uid);
@@ -116,10 +113,8 @@ public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITest
         var uid = TrustUid;
         var expectedBytes = new byte[] { 1, 2, 3 };
 
-        MockTrustService.Setup(x => x.GetTrustSummaryAsync(uid))
-            .ReturnsAsync(DummyTrustSummary with { Name = "Sample/Trust:Name?" });
-        MockExportService.Setup(x => x.ExportOfstedDataToSpreadsheetAsync(uid))
-            .ReturnsAsync(expectedBytes);
+        MockTrustService.GetTrustSummaryAsync(uid)!.Returns(Task.FromResult(DummyTrustSummary with { Name = "Sample/Trust:Name?" }));
+        MockExportService.ExportOfstedDataToSpreadsheetAsync(uid).Returns(Task.FromResult(expectedBytes));
 
         // Act
         var result = await Sut.OnGetExportAsync(uid);
