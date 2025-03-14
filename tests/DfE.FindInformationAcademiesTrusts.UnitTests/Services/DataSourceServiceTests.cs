@@ -3,9 +3,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
-using Moq;
 using NSubstitute.ExceptionExtensions;
-using NSubstitute.ReceivedExtensions;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
 
@@ -151,7 +149,7 @@ public class DataSourceServiceTests
 
         await _sut.GetAsync(Source.Gias);
         
-        _mockMemoryCache.Object.DidNotReceive().CreateEntry(It.IsAny<Source>());
+        _mockMemoryCache.Object.DidNotReceive().CreateEntry(Arg.Any<object>());
     }
 
     [Fact]
