@@ -53,30 +53,30 @@ public class ExportServiceTests
     {
         var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
 
-        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid).ReturnsForAnyArgs(
-            new TrustSummary("Sample Trust", "Multi-academy trust"));
+        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid)!.Returns(
+            Task.FromResult(new TrustSummary("Sample Trust", "Multi-academy trust")));
 
         var now = DateTime.Now;
-        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).ReturnsForAnyArgs(
-            new AcademyDetails[]
+        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).Returns(
+            Task.FromResult(new AcademyDetails[]
             {
                 new("123456", "Academy 1", "Type A", "Local Authority 1", "Urban")
-            });
-        _mockAcademyRepository.GetAcademiesInTrustOfstedAsync(trustSummary.Uid).ReturnsForAnyArgs(
-            new AcademyOfsted[]
+            }));
+        _mockAcademyRepository.GetAcademiesInTrustOfstedAsync(trustSummary.Uid).Returns(
+            Task.FromResult(new AcademyOfsted[]
             {
                 new("123456", "Academy 1", now, new OfstedRating(-1, null), new OfstedRating(1, now))
-            });
-        _mockAcademyRepository.GetAcademiesInTrustPupilNumbersAsync(trustSummary.Uid).ReturnsForAnyArgs(
-            new AcademyPupilNumbers[]
+            }));
+        _mockAcademyRepository.GetAcademiesInTrustPupilNumbersAsync(trustSummary.Uid).Returns(
+            Task.FromResult(new AcademyPupilNumbers[]
             {
                 new("123456", "Academy 1", "Primary", new AgeRange(5, 11), 500, 600)
-            });
-        _mockAcademyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid).ReturnsForAnyArgs(
-            new AcademyFreeSchoolMeals[]
+            }));
+        _mockAcademyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid).Returns(
+            Task.FromResult(new AcademyFreeSchoolMeals[]
             {
                 new("123456", "Academy 1", 20, 1, "Type A", "Primary")
-            });
+            }));
 
         var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
         using var workbook = new XLWorkbook(new MemoryStream(result));
@@ -129,33 +129,33 @@ public class ExportServiceTests
     {
         var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
 
-        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid).ReturnsForAnyArgs(
-            new TrustSummary("Sample Trust", "Multi-academy trust"));
+        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid)!.Returns(
+            Task.FromResult(new TrustSummary("Sample Trust", "Multi-academy trust")));
 
-        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).ReturnsForAnyArgs(
-            new AcademyDetails[]
+        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).Returns(
+            Task.FromResult(new AcademyDetails[]
             {
                 new("123456", null, null, null, null)
-            });
+            }));
 
         var now = DateTime.Now;
-        _mockAcademyRepository.GetAcademiesInTrustOfstedAsync(trustSummary.Uid).ReturnsForAnyArgs(
-            new AcademyOfsted[]
+        _mockAcademyRepository.GetAcademiesInTrustOfstedAsync(trustSummary.Uid).Returns(
+            Task.FromResult(new AcademyOfsted[]
             {
                 new("123456", null, now, new OfstedRating(-1, null), new OfstedRating(-1, null))
-            });
+            }));
 
-        _mockAcademyRepository.GetAcademiesInTrustPupilNumbersAsync(trustSummary.Uid).ReturnsForAnyArgs(
-            new AcademyPupilNumbers[]
+        _mockAcademyRepository.GetAcademiesInTrustPupilNumbersAsync(trustSummary.Uid).Returns(
+            Task.FromResult(new AcademyPupilNumbers[]
             {
                 new("123456", null, null, new AgeRange(5, 11), null, null)
-            });
+            }));
 
-        _mockAcademyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid).ReturnsForAnyArgs(
-            new AcademyFreeSchoolMeals[]
+        _mockAcademyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid).Returns(
+            Task.FromResult(new AcademyFreeSchoolMeals[]
             {
                 new("123456", null, null, 1, null, null)
-            });
+            }));
 
         var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
         using var workbook = new XLWorkbook(new MemoryStream(result));
@@ -257,7 +257,7 @@ public class ExportServiceTests
     public async Task ExportAcademiesToSpreadsheet_ShouldHandleNullTrustSummaryAsync()
     {
         var uid = "some-uid";
-        _mockTrustRepository.GetTrustSummaryAsync(uid).ReturnsForAnyArgs((TrustSummary?)null);
+        _mockTrustRepository.GetTrustSummaryAsync(uid).Returns(Task.FromResult<TrustSummary?>(null));
 
         var result = await _sut.ExportAcademiesToSpreadsheetAsync(uid);
         using var workbook = new XLWorkbook(new MemoryStream(result));
@@ -273,12 +273,13 @@ public class ExportServiceTests
         var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
         var academyUrn = "123456";
 
-        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid).ReturnsForAnyArgs(new TrustSummary("Sample Trust", "Multi-academy trust"));
-        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).ReturnsForAnyArgs(new AcademyDetails[]
-            {
-                new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
-            });
-        _mockAcademyRepository.GetAcademiesInTrustOfstedAsync(trustSummary.Uid).ReturnsForAnyArgs(Array.Empty<AcademyOfsted>());
+        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid)!.Returns(Task.FromResult(new TrustSummary("Sample Trust",
+            "Multi-academy trust")));
+        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).Returns(Task.FromResult(new AcademyDetails[]
+        {
+            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
+        }));
+        _mockAcademyRepository.GetAcademiesInTrustOfstedAsync(trustSummary.Uid).Returns(Task.FromResult(Array.Empty<AcademyOfsted>()));
 
         var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
         using var workbook = new XLWorkbook(new MemoryStream(result));
@@ -298,12 +299,15 @@ public class ExportServiceTests
         var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
         var academyUrn = "123456";
 
-        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid).ReturnsForAnyArgs(new TrustSummary("Sample Trust", "Multi-academy trust"));
-        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).ReturnsForAnyArgs(new AcademyDetails[]
-            {
-                new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
-            });
-        _mockAcademyRepository.GetAcademiesInTrustPupilNumbersAsync(trustSummary.Uid).ReturnsForAnyArgs(Array.Empty<AcademyPupilNumbers>());
+        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid)!.Returns(Task.FromResult(new TrustSummary(
+            "Sample Trust",
+            "Multi-academy trust")));
+        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).Returns(Task.FromResult(new AcademyDetails[]
+        {
+            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
+        }));
+        _mockAcademyRepository.GetAcademiesInTrustPupilNumbersAsync(trustSummary.Uid).Returns(
+            Task.FromResult(Array.Empty<AcademyPupilNumbers>()));
 
         var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
         using var workbook = new XLWorkbook(new MemoryStream(result));
@@ -320,15 +324,16 @@ public class ExportServiceTests
         var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
         var academyUrn = "123456";
 
-        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid).ReturnsForAnyArgs(new TrustSummary("Sample Trust", "Multi-academy trust"));
-        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).ReturnsForAnyArgs(new AcademyDetails[]
-            {
-                new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
-            });
-        _mockAcademyRepository.GetAcademiesInTrustPupilNumbersAsync(trustSummary.Uid).ReturnsForAnyArgs(new AcademyPupilNumbers[]
-            {
-                new(academyUrn, "Academy 1", "Primary", new AgeRange(5, 11), 0, 300)
-            });
+        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid)!.Returns(Task.FromResult(new TrustSummary("Sample Trust",
+            "Multi-academy trust")));
+        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).Returns(Task.FromResult(new AcademyDetails[]
+        {
+            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
+        }));
+        _mockAcademyRepository.GetAcademiesInTrustPupilNumbersAsync(trustSummary.Uid).Returns(Task.FromResult(new AcademyPupilNumbers[]
+        {
+            new(academyUrn, "Academy 1", "Primary", new AgeRange(5, 11), 0, 300)
+        }));
 
         var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
         using var workbook = new XLWorkbook(new MemoryStream(result));
@@ -343,12 +348,14 @@ public class ExportServiceTests
         var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
         var academyUrn = "123456";
 
-        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid).ReturnsForAnyArgs(new TrustSummary("Sample Trust", "Multi-academy trust"));
-        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).ReturnsForAnyArgs(new AcademyDetails[]
-            {
-                new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
-            });
-        _mockAcademyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid).ReturnsForAnyArgs(Array.Empty<AcademyFreeSchoolMeals>());
+        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid)!.Returns(Task.FromResult(new TrustSummary("Sample Trust",
+            "Multi-academy trust")));
+        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).Returns(Task.FromResult(new AcademyDetails[]
+        {
+            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
+        }));
+        _mockAcademyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid).Returns(
+            Task.FromResult(Array.Empty<AcademyFreeSchoolMeals>()));
 
         var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
         using var workbook = new XLWorkbook(new MemoryStream(result));
@@ -373,8 +380,8 @@ public class ExportServiceTests
     [Fact]
     public async Task ExportOfstedDataToSpreadsheet_ShouldGenerateCorrectHeadersAsync()
     {
-        _mockTrustRepository.GetTrustSummaryAsync("some-uid").ReturnsForAnyArgs(
-            new TrustSummary("Some Trust", "Multi-academy trust"));
+        _mockTrustRepository.GetTrustSummaryAsync("some-uid")!.Returns(
+            Task.FromResult(new TrustSummary("Some Trust", "Multi-academy trust")));
 
         var result = await _sut.ExportOfstedDataToSpreadsheetAsync("some-uid");
         using var workbook = new XLWorkbook(new MemoryStream(result));
@@ -396,8 +403,8 @@ public class ExportServiceTests
     [Fact]
     public async Task ExportOfstedDataToSpreadsheet_ShouldWriteTrustInformationAsync()
     {
-        _mockTrustRepository.GetTrustSummaryAsync("uid").ReturnsForAnyArgs(
-            new TrustSummary("My Trust", "Multi-academy trust"));
+        _mockTrustRepository.GetTrustSummaryAsync("uid")!.Returns(
+            Task.FromResult(new TrustSummary("My Trust", "Multi-academy trust")));
 
         var result = await _sut.ExportOfstedDataToSpreadsheetAsync("uid");
         using var workbook = new XLWorkbook(new MemoryStream(result));
@@ -410,10 +417,10 @@ public class ExportServiceTests
     [Fact]
     public async Task ExportOfstedDataToSpreadsheet_ShouldHandleEmptyAcademiesAsync()
     {
-        _mockTrustRepository.GetTrustSummaryAsync("uid").ReturnsForAnyArgs(
-            new TrustSummary("Empty Trust", "Multi-academy trust"));
+        _mockTrustRepository.GetTrustSummaryAsync("uid")!.Returns(
+            Task.FromResult(new TrustSummary("Empty Trust", "Multi-academy trust")));
         _mockAcademyRepository.GetAcademiesInTrustDetailsAsync("uid")
-            .ReturnsForAnyArgs(Array.Empty<AcademyDetails>());
+            .Returns(Task.FromResult(Array.Empty<AcademyDetails>()));
 
         var result = await _sut.ExportOfstedDataToSpreadsheetAsync("uid");
         using var workbook = new XLWorkbook(new MemoryStream(result));
@@ -427,26 +434,26 @@ public class ExportServiceTests
     [Fact]
     public async Task ExportOfstedDataToSpreadsheet_ShouldWriteDateCellsAsDatesAsync()
     {
-        _mockTrustRepository.GetTrustSummaryAsync("uid")
-            .ReturnsForAnyArgs(new TrustSummary("Test Trust", "Multi-academy trust"));
+        _mockTrustRepository.GetTrustSummaryAsync("uid")!
+            .Returns(Task.FromResult(new TrustSummary("Test Trust", "Multi-academy trust")));
 
         var joinedDate = new DateTime(2020, 1, 1);
         var currentInspectionDate = new DateTime(2021, 5, 20);
         var previousInspectionDate = new DateTime(2019, 12, 31);
 
         _mockAcademyRepository.GetAcademiesInTrustDetailsAsync("uid")
-            .ReturnsForAnyArgs(new AcademyDetails[]
+            .Returns(Task.FromResult(new AcademyDetails[]
             {
                 new("A123", "Academy XYZ", "TypeX", "Local LA", "Urban")
-            });
+            }));
 
         _mockAcademyRepository.GetAcademiesInTrustOfstedAsync("uid")
-            .ReturnsForAnyArgs(new AcademyOfsted[]
+            .Returns(Task.FromResult(new AcademyOfsted[]
             {
                 new("A123", "Academy XYZ", joinedDate,
                     new OfstedRating((int)OfstedRatingScore.Good, previousInspectionDate),
                     new OfstedRating((int)OfstedRatingScore.Outstanding, currentInspectionDate))
-            });
+            }));
 
         var result = await _sut.ExportOfstedDataToSpreadsheetAsync("uid");
         using var workbook = new XLWorkbook(new MemoryStream(result));
@@ -471,7 +478,7 @@ public class ExportServiceTests
     [Fact]
     public async Task ExportOfstedDataToSpreadsheet_ShouldHandleNullTrustSummaryAsync()
     {
-        _mockTrustRepository.GetTrustSummaryAsync("uid").ReturnsForAnyArgs((TrustSummary?)null);
+        _mockTrustRepository.GetTrustSummaryAsync("uid").Returns(Task.FromResult<TrustSummary?>(null));
 
         var result = await _sut.ExportOfstedDataToSpreadsheetAsync("uid");
         using var workbook = new XLWorkbook(new MemoryStream(result));
@@ -484,13 +491,15 @@ public class ExportServiceTests
     [Fact]
     public async Task ExportOfstedDataToSpreadsheet_ShouldHandleNoOfstedDataAsync()
     {
-        _mockTrustRepository.GetTrustSummaryAsync("uid").ReturnsForAnyArgs(new TrustSummary("Test Trust", "Multi-academy trust"));
+        _mockTrustRepository.GetTrustSummaryAsync("uid")!.Returns(
+            Task.FromResult(new TrustSummary("Test Trust", "Multi-academy trust")));
 
-        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync("uid").ReturnsForAnyArgs([
-                new AcademyDetails("A123", "Academy XYZ", "TypeX", "Local LA", "Urban")
-            ]);
+        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync("uid").Returns(Task.FromResult<AcademyDetails[]>(
+        [
+            new AcademyDetails("A123", "Academy XYZ", "TypeX", "Local LA", "Urban")
+        ]));
 
-        _mockAcademyRepository.GetAcademiesInTrustOfstedAsync("uid").ReturnsForAnyArgs([]);
+        _mockAcademyRepository.GetAcademiesInTrustOfstedAsync("uid").Returns(Task.FromResult<AcademyOfsted[]>([]));
 
         var result = await _sut.ExportOfstedDataToSpreadsheetAsync("uid");
         using var workbook = new XLWorkbook(new MemoryStream(result));
@@ -529,24 +538,27 @@ public class ExportServiceTests
         const string uid = "1";
         const string trustReferenceNumber = "TRN1111";
 
-        _mockTrustRepository.GetTrustSummaryAsync(uid).ReturnsForAnyArgs(new TrustSummary("Sample Trust", "Multi-academy trust"));
-        _mockTrustRepository.GetTrustReferenceNumberAsync(uid).ReturnsForAnyArgs(trustReferenceNumber);
+        _mockTrustRepository.GetTrustSummaryAsync(uid)!.Returns(Task.FromResult(new TrustSummary("Sample Trust", "Multi-academy trust")));
+        _mockTrustRepository.GetTrustReferenceNumberAsync(uid).Returns(Task.FromResult(trustReferenceNumber));
 
         _mockAcademyService.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber)
-            .ReturnsForAnyArgs([
+            .Returns(Task.FromResult<AcademyPipelineServiceModel[]>(
+            [
                 new AcademyPipelineServiceModel("1", "Academy 1", new AgeRange(4, 11), "Local Authority 1",
                     "Pre-advisory", new DateTime(2025, 2, 19))
-            ]);
+            ]));
         _mockAcademyService.GetAcademiesPipelinePostAdvisoryAsync(trustReferenceNumber)
-            .ReturnsForAnyArgs([
+            .Returns(Task.FromResult<AcademyPipelineServiceModel[]>(
+            [
                 new AcademyPipelineServiceModel("2", "Academy 2", new AgeRange(2, 11), "Local Authority 2",
                     "Post-advisory", new DateTime(2026, 2, 20))
-            ]);
+            ]));
         _mockAcademyService.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber)
-            .ReturnsForAnyArgs([
+            .Returns(Task.FromResult<AcademyPipelineServiceModel[]>(
+            [
                 new AcademyPipelineServiceModel("3", "Academy 3", new AgeRange(11, 18), "Local Authority 3",
                     "Free school", new DateTime(2025, 6, 21))
-            ]);
+            ]));
 
         var result = await _sut.ExportPipelineAcademiesToSpreadsheetAsync(uid);
 
@@ -583,11 +595,12 @@ public class ExportServiceTests
         const string uid = "1";
         const string trustReferenceNumber = "TRN1111";
 
-        _mockTrustRepository.GetTrustSummaryAsync(uid).ReturnsForAnyArgs(new TrustSummary("Sample Trust", "Multi-academy trust"));
-        _mockTrustRepository.GetTrustReferenceNumberAsync(uid).ReturnsForAnyArgs(trustReferenceNumber);
+        _mockTrustRepository.GetTrustSummaryAsync(uid)!.Returns(Task.FromResult(new TrustSummary("Sample Trust", "Multi-academy trust")));
+        _mockTrustRepository.GetTrustReferenceNumberAsync(uid).Returns(Task.FromResult(trustReferenceNumber));
 
         _mockAcademyService.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber)
-            .ReturnsForAnyArgs([
+            .Returns(Task.FromResult<AcademyPipelineServiceModel[]>(
+            [
                 new AcademyPipelineServiceModel("1", "z Academy", new AgeRange(4, 10), "Local Authority 1",
                     "Pre-advisory", new DateTime(2023, 2, 1)),
                 new AcademyPipelineServiceModel("2", "B Academy", new AgeRange(5, 11), "Local Authority 2",
@@ -596,9 +609,10 @@ public class ExportServiceTests
                     "Pre-advisory", new DateTime(2025, 4, 3)),
                 new AcademyPipelineServiceModel("4", "S Academy 2", new AgeRange(7, 13), "Local Authority 4",
                     "Pre-advisory", new DateTime(2026, 5, 4))
-            ]);
+            ]));
         _mockAcademyService.GetAcademiesPipelinePostAdvisoryAsync(trustReferenceNumber)
-            .ReturnsForAnyArgs([
+            .Returns(Task.FromResult<AcademyPipelineServiceModel[]>(
+            [
                 new AcademyPipelineServiceModel("5", "zz Academy", new AgeRange(4, 10), "Local Authority 1",
                     "Post-advisory", new DateTime(2023, 2, 1)),
                 new AcademyPipelineServiceModel("6", "Bb Academy 2", new AgeRange(5, 11), "Local Authority 2",
@@ -607,9 +621,10 @@ public class ExportServiceTests
                     "Post-advisory", new DateTime(2025, 4, 3)),
                 new AcademyPipelineServiceModel("8", "Ss Academy", new AgeRange(7, 13), "Local Authority 4",
                     "Post-advisory", new DateTime(2026, 5, 4))
-            ]);
+            ]));
         _mockAcademyService.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber)
-            .ReturnsForAnyArgs([
+            .Returns(Task.FromResult<AcademyPipelineServiceModel[]>(
+            [
                 new AcademyPipelineServiceModel("9", "Aaa Academy", new AgeRange(4, 10), "Local Authority 1",
                     "Free school", new DateTime(2023, 2, 1)),
                 new AcademyPipelineServiceModel("10", "Zzz Academy", new AgeRange(5, 11), "Local Authority 2",
@@ -618,7 +633,7 @@ public class ExportServiceTests
                     "Free school", new DateTime(2025, 4, 3)),
                 new AcademyPipelineServiceModel("12", "Fff Academy", new AgeRange(7, 13), "Local Authority 4",
                     "Free school", new DateTime(2026, 5, 4))
-            ]);
+            ]));
 
         var result = await _sut.ExportPipelineAcademiesToSpreadsheetAsync(uid);
 
@@ -694,20 +709,20 @@ public class ExportServiceTests
         var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
         var trustReferenceNumber = "TRN1111";
 
-        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid).ReturnsForAnyArgs(
-            new TrustSummary("Sample Trust", "Multi-academy trust"));
+        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid)!.Returns(
+            Task.FromResult(new TrustSummary("Sample Trust", "Multi-academy trust")));
 
-        _mockTrustRepository.GetTrustReferenceNumberAsync(trustSummary.Uid).ReturnsForAnyArgs(
-            "TRN1111"
+        _mockTrustRepository.GetTrustReferenceNumberAsync(trustSummary.Uid).Returns(
+            Task.FromResult("TRN1111")
         );
 
-        _mockAcademyService.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber).ReturnsForAnyArgs(
-            new AcademyPipelineServiceModel[]
-            {
-                new("1", null, null,
-                    null, "Pre-advisory", null)
-            }
-        );
+        _mockAcademyService.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber).Returns(
+            Task.FromResult(new AcademyPipelineServiceModel[]
+                {
+                    new("1", null, null,
+                        null, "Pre-advisory", null)
+                }
+            ));
 
         var result = await _sut.ExportPipelineAcademiesToSpreadsheetAsync(trustSummary.Uid);
         using var workbook = new XLWorkbook(new MemoryStream(result));
@@ -738,8 +753,8 @@ public class ExportServiceTests
     [Fact]
     public async Task ExportPipelineAcademiesToSpreadsheet_ShouldWriteTrustInformationAsync()
     {
-        _mockTrustRepository.GetTrustSummaryAsync("uid").ReturnsForAnyArgs(
-            new TrustSummary("My Trust", "Multi-academy trust"));
+        _mockTrustRepository.GetTrustSummaryAsync("uid")!.Returns(
+            Task.FromResult(new TrustSummary("My Trust", "Multi-academy trust")));
 
         var result = await _sut.ExportPipelineAcademiesToSpreadsheetAsync("uid");
         using var workbook = new XLWorkbook(new MemoryStream(result));
@@ -752,7 +767,7 @@ public class ExportServiceTests
     [Fact]
     public async Task ExportPipelineAcademiesToSpreadsheet_ShouldHandleNullTrustSummaryAsync()
     {
-        _mockTrustRepository.GetTrustSummaryAsync("uid").ReturnsForAnyArgs((TrustSummary?)null);
+        _mockTrustRepository.GetTrustSummaryAsync("uid").Returns(Task.FromResult<TrustSummary?>(null));
 
         var result = await _sut.ExportPipelineAcademiesToSpreadsheetAsync("uid");
         using var workbook = new XLWorkbook(new MemoryStream(result));

@@ -34,6 +34,8 @@ public class TrustServiceTests
                                 _mockContactRepository,
                                 _mockMemoryCache.Object,
                                 _mockDateTimeProvider);
+        
+        _mockAcademyRepository.GetSingleAcademyTrustAcademyUrnAsync(Arg.Any<string>()).Returns(Task.FromResult<string?>(null));
     }
 
     [Fact]
@@ -54,7 +56,7 @@ public class TrustServiceTests
     [Fact]
     public async Task GetTrustSummaryAsync_should_return_null_if_no_giasGroup_found()
     {
-        _mockTrustRepository.GetTrustSummaryAsync("this uid doesn't exist").ReturnsForAnyArgs((TrustSummary?)null);
+        _mockTrustRepository.GetTrustSummaryAsync("this uid doesn't exist").Returns(Task.FromResult<TrustSummary?>(null));
 
         var result = await _sut.GetTrustSummaryAsync("this uid doesn't exist");
         result.Should().BeNull();
@@ -67,8 +69,8 @@ public class TrustServiceTests
     public async Task GetTrustSummaryAsync_should_return_trustSummary_if_found(string uid, string name, string type,
         int numAcademies)
     {
-        _mockTrustRepository.GetTrustSummaryAsync(uid).ReturnsForAnyArgs(new TrustSummary(name, type));
-        _mockAcademyRepository.GetNumberOfAcademiesInTrustAsync(uid).ReturnsForAnyArgs(numAcademies);
+        _mockTrustRepository.GetTrustSummaryAsync(uid)!.Returns(Task.FromResult(new TrustSummary(name, type)));
+        _mockAcademyRepository.GetNumberOfAcademiesInTrustAsync(uid).Returns(Task.FromResult(numAcademies));
 
         var result = await _sut.GetTrustSummaryAsync(uid);
         result.Should().BeEquivalentTo(new TrustSummaryServiceModel(uid, name, type, numAcademies));
@@ -83,8 +85,8 @@ public class TrustServiceTests
     {
         var key = $"{nameof(TrustService)}:{uid}";
 
-        _mockTrustRepository.GetTrustSummaryAsync(uid).ReturnsForAnyArgs(new TrustSummary(name, type));
-        _mockAcademyRepository.GetNumberOfAcademiesInTrustAsync(uid).ReturnsForAnyArgs(numAcademies);
+        _mockTrustRepository.GetTrustSummaryAsync(uid)!.Returns(Task.FromResult(new TrustSummary(name, type)));
+        _mockAcademyRepository.GetNumberOfAcademiesInTrustAsync(uid).Returns(Task.FromResult(numAcademies));
 
         await _sut.GetTrustSummaryAsync(uid);
         
@@ -145,7 +147,7 @@ public class TrustServiceTests
             Email: null
         );
         _mockTrustRepository.GetTrustGovernanceAsync("1234", null)
-            .ReturnsForAnyArgs(new TrustGovernance([leader], [member], [trustee], [historic]));
+            .Returns(Task.FromResult(new TrustGovernance([leader], [member], [trustee], [historic])));
 
         var result = await _sut.GetTrustGovernanceAsync("1234");
 
@@ -160,11 +162,11 @@ public class TrustServiceTests
     {
         var person = new Person("First Middle Last", "firstlast@email.com");
         var contacts = new TrustContacts(person, person, person);
-        _mockTrustRepository.GetTrustContactsAsync("1234", null).ReturnsForAnyArgs(contacts);
+        _mockTrustRepository.GetTrustContactsAsync("1234").Returns(Task.FromResult(contacts));
         var internalContact =
             new InternalContact("First Middle Last", "firstlast@email.com", DateTime.Today, "Test@email.com");
         var internalContacts = new InternalContacts(internalContact, internalContact);
-        _mockContactRepository.GetInternalContactsAsync("1234").ReturnsForAnyArgs(internalContacts);
+        _mockContactRepository.GetInternalContactsAsync("1234").Returns(Task.FromResult(internalContacts));
 
         var result = await _sut.GetTrustContactsAsync("1234");
 
@@ -179,8 +181,8 @@ public class TrustServiceTests
         GetTrustOverviewAsync_should_get_singleAcademyTrustAcademyUrn_from_academy_repository_when_trust_is_single_academy_trust(
             string? singleAcademyTrustAcademyUrn)
     {
-        _mockAcademyRepository.GetSingleAcademyTrustAcademyUrnAsync("2806").ReturnsForAnyArgs(singleAcademyTrustAcademyUrn);
-        _mockTrustRepository.GetTrustOverviewAsync("2806").ReturnsForAnyArgs(BaseTrustOverview);
+        _mockAcademyRepository.GetSingleAcademyTrustAcademyUrnAsync("2806").Returns(Task.FromResult(singleAcademyTrustAcademyUrn));
+        _mockTrustRepository.GetTrustOverviewAsync("2806").Returns(Task.FromResult(BaseTrustOverview));
 
         var result = await _sut.GetTrustOverviewAsync("2806");
 
@@ -192,7 +194,7 @@ public class TrustServiceTests
         GetTrustOverviewAsync_should_not_get_singleAcademyTrustAcademyUrn_when_trust_is_multi_academy_trust()
     {
         _mockTrustRepository.GetTrustOverviewAsync("2806")
-            .ReturnsForAnyArgs(BaseTrustOverview with { Type = "Multi-academy trust" });
+            .Returns(Task.FromResult(BaseTrustOverview with { Type = "Multi-academy trust" }));
 
         var result = await _sut.GetTrustOverviewAsync("2806");
 
@@ -214,7 +216,7 @@ public class TrustServiceTests
             OpenedDate = new DateTime(2015, 4, 20)
         };
 
-        _mockTrustRepository.GetTrustOverviewAsync("6798").ReturnsForAnyArgs(trustOverview);
+        _mockTrustRepository.GetTrustOverviewAsync("6798").Returns(Task.FromResult(trustOverview));
 
         var result = await _sut.GetTrustOverviewAsync("6798");
 
@@ -228,7 +230,7 @@ public class TrustServiceTests
     public async Task GetTrustOverviewAsync_should_set_trustType(string givenType, TrustType expectedTrustType)
     {
         _mockTrustRepository.GetTrustOverviewAsync("2806")
-            .ReturnsForAnyArgs(BaseTrustOverview with { Type = givenType });
+            .Returns(Task.FromResult(BaseTrustOverview with { Type = givenType }));
 
         var result = await _sut.GetTrustOverviewAsync("2806");
 
@@ -241,7 +243,7 @@ public class TrustServiceTests
     public async Task GetTrustOverviewAsync_should_throw_when_trustType_invalid(string givenType)
     {
         _mockTrustRepository.GetTrustOverviewAsync("2806")
-            .ReturnsForAnyArgs(BaseTrustOverview with { Type = givenType });
+            .Returns(Task.FromResult(BaseTrustOverview with { Type = givenType }));
 
         var action = async () => await _sut.GetTrustOverviewAsync("2806");
 
@@ -260,8 +262,8 @@ public class TrustServiceTests
             new("1003", "LocalAuthorityA", 300, 400)
         };
 
-        _mockAcademyRepository.GetOverviewOfAcademiesInTrustAsync(uid).ReturnsForAnyArgs(academiesOverview);
-        _mockTrustRepository.GetTrustOverviewAsync(uid).ReturnsForAnyArgs(BaseTrustOverview with { Uid = uid });
+        _mockAcademyRepository.GetOverviewOfAcademiesInTrustAsync(uid).Returns(Task.FromResult(academiesOverview));
+        _mockTrustRepository.GetTrustOverviewAsync(uid).Returns(Task.FromResult(BaseTrustOverview with { Uid = uid }));
 
         // Act
         var result = await _sut.GetTrustOverviewAsync(uid);
@@ -285,8 +287,8 @@ public class TrustServiceTests
         var uid = "1234";
         var academiesOverview = Array.Empty<AcademyOverview>();
 
-        _mockAcademyRepository.GetOverviewOfAcademiesInTrustAsync(uid).ReturnsForAnyArgs(academiesOverview);
-        _mockTrustRepository.GetTrustOverviewAsync(uid).ReturnsForAnyArgs(BaseTrustOverview with { Uid = uid });
+        _mockAcademyRepository.GetOverviewOfAcademiesInTrustAsync(uid).Returns(Task.FromResult(academiesOverview));
+        _mockTrustRepository.GetTrustOverviewAsync(uid).Returns(Task.FromResult(BaseTrustOverview with { Uid = uid }));
 
         // Act
         var result = await _sut.GetTrustOverviewAsync(uid);
@@ -308,7 +310,7 @@ public class TrustServiceTests
     {
         var expected = new TrustContactUpdated(emailUpdated, nameUpdated);
         _mockContactRepository.UpdateInternalContactsAsync(1234, "Name", "Email", ContactRole.SfsoLead)
-            .ReturnsForAnyArgs(expected);
+            .Returns(Task.FromResult(expected));
         var result = await _sut.UpdateContactAsync(1234, "Name", "Email", ContactRole.SfsoLead);
 
         result.Should().BeEquivalentTo(expected);
@@ -322,7 +324,7 @@ public class TrustServiceTests
         const string expectedTrustReferenceNumber = "TRUST123";
         _mockTrustRepository
             .GetTrustReferenceNumberAsync(uid)
-            .ReturnsForAnyArgs(expectedTrustReferenceNumber);
+            .Returns(Task.FromResult(expectedTrustReferenceNumber));
 
         // Act
         var result = await _sut.GetTrustReferenceNumberAsync(uid);

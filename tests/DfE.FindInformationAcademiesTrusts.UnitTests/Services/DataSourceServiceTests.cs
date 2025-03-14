@@ -38,14 +38,10 @@ public class DataSourceServiceTests
             Source.Cdm, Source.Complete, Source.Gias, Source.ManageFreeSchoolProjects, Source.Mis, Source.Mstr,
             Source.Prepare
         ];
-
-        // _mockDataSourceRepository.Setup(d => d.GetAsync(It.IsIn(supportedAcademiesDbSources)))
-        //     .ReturnsAsync((Source source) => _dummyDataSources[source]);
+        
         _mockDataSourceRepository.GetAsync(Arg.Is<Source>(source => supportedAcademiesDbSources.Contains(source)))
             .Returns(callInfo => _dummyDataSources[callInfo.Arg<Source>()]);
         
-        // _mockDataSourceRepository.Setup(d => d.GetAsync(It.IsNotIn(supportedAcademiesDbSources)))
-        //     .ThrowsAsync(new ArgumentOutOfRangeException());
         _mockDataSourceRepository.GetAsync(Arg.Is<Source>(source => !supportedAcademiesDbSources.Contains(source)))
             .ThrowsAsync(new ArgumentOutOfRangeException());
         
@@ -150,7 +146,8 @@ public class DataSourceServiceTests
     [Fact]
     public async Task GetAsync_uncached_should_not_cache_source_with_null_lastUpdated()
     {
-        _mockDataSourceRepository.GetAsync(Source.Gias).ReturnsForAnyArgs(new Data.Repositories.DataSource.DataSource(Source.Gias, null, UpdateFrequency.Daily));
+        _mockDataSourceRepository.GetAsync(Source.Gias).Returns(
+            Task.FromResult(new Data.Repositories.DataSource.DataSource(Source.Gias, null, UpdateFrequency.Daily)));
 
         await _sut.GetAsync(Source.Gias);
         

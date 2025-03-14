@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
+using DocumentFormat.OpenXml.Office2013.Excel;
 using FluentAssertions.Execution;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -28,10 +29,12 @@ public class SearchModelTests
         _mockTrustSearch = Substitute.For<ITrustSearch>();
         
         mockTrustService.GetTrustSummaryAsync(_fakeTrust.Uid).Returns(_fakeTrust);
-        
+
+        _mockTrustSearch.SearchAsync(Arg.Any<string?>(), Arg.Any<int>()).Returns(Task.FromResult<IPaginatedList<TrustSearchEntry>>(PaginatedList<TrustSearchEntry>.Empty()));
         _mockTrustSearch.SearchAsync(SearchTermThatMatchesAllFakeTrusts, Arg.Any<int>())
-            .ReturnsForAnyArgs(new PaginatedList<TrustSearchEntry>(_fakeTrusts, _fakeTrusts.Length, 1, 1));
-        _mockTrustSearch.SearchAutocompleteAsync(SearchTermThatMatchesAllFakeTrusts).ReturnsForAnyArgs(_fakeTrusts);
+            .Returns(Task.FromResult<IPaginatedList<TrustSearchEntry>>(new PaginatedList<TrustSearchEntry>(_fakeTrusts, _fakeTrusts.Length, 1, 1)));
+        _mockTrustSearch.SearchAutocompleteAsync(Arg.Any<string?>()).Returns(Task.FromResult<TrustSearchEntry[]>([]));
+        _mockTrustSearch.SearchAutocompleteAsync(SearchTermThatMatchesAllFakeTrusts).Returns(Task.FromResult(_fakeTrusts));
 
         _sut = new SearchModel(mockTrustService, _mockTrustSearch);
     }
@@ -50,9 +53,6 @@ public class SearchModelTests
     public async Task OnGetAsync_should_return_no_results_page_if_no_trusts_found_for_term()
     {
         _sut.KeyWords = "no matching trusts";
-        _mockTrustSearch.SearchAsync(Arg.Any<string?>(), Arg.Any<int>())
-            .ReturnsForAnyArgs(PaginatedList<TrustSearchEntry>.Empty());
-
         await _sut.OnGetAsync();
 
         _sut.Trusts.Should().BeEmpty();
@@ -63,8 +63,6 @@ public class SearchModelTests
     public async Task OnGetAsync_should_return_no_results_page_if_no_keyword_given()
     {
         _sut.KeyWords = null;
-        _mockTrustSearch.SearchAsync(null)
-            .ReturnsForAnyArgs(PaginatedList<TrustSearchEntry>.Empty());
         await _sut.OnGetAsync();
 
         _sut.Trusts.Should().BeEmpty();
@@ -89,7 +87,7 @@ public class SearchModelTests
     {
         var differentFakeTrust = new TrustSearchEntry("other trust", "Some address", "987", "TR0987");
         _mockTrustSearch.SearchAsync(differentFakeTrust.Name, Arg.Any<int>())
-            .ReturnsForAnyArgs(new PaginatedList<TrustSearchEntry>(new[] { differentFakeTrust }, 1, 1, 1));
+            .Returns(Task.FromResult<IPaginatedList<TrustSearchEntry>>(new PaginatedList<TrustSearchEntry>(new[] { differentFakeTrust }, 1, 1, 1)));
 
         _sut.KeyWords = differentFakeTrust.Name;
         _sut.Uid = _fakeTrust.Uid;
@@ -123,7 +121,6 @@ public class SearchModelTests
     [InlineData(null)]
     public async Task OnGetPopulateAutocompleteAsync_should_return_empty_json_when_no_matching_keyword(string? keywords)
     {
-        _mockTrustSearch.SearchAutocompleteAsync(Arg.Any<string?>()).ReturnsForAnyArgs([]);
         _sut.KeyWords = keywords;
 
         var result = await _sut.OnGetPopulateAutocompleteAsync();
@@ -197,9 +194,14 @@ public class SearchModelTests
     [Fact]
     public async Task When_a_different_page_is_requested_return_a_different_page()
     {
-        _mockTrustSearch.SearchAsync(SearchTermThatMatchesAllFakeTrusts, 1).ReturnsForAnyArgs(new PaginatedList<TrustSearchEntry>(_fakeTrusts, 4, 1, 3));
+        _mockTrustSearch.SearchAsync(SearchTermThatMatchesAllFakeTrusts, 1).Returns(
+            Task.FromResult<IPaginatedList<TrustSearchEntry>>(
+                new PaginatedList<TrustSearchEntry>(_fakeTrusts, 4, 1, 3)));
         var differentFakeTrust =
             new TrustSearchEntry(SearchTermThatMatchesAllFakeTrusts, "Some address", "987", "TR0987");
+        _mockTrustSearch.SearchAsync(differentFakeTrust.Name, 2).Returns(
+            Task.FromResult<IPaginatedList<TrustSearchEntry>>(
+                new PaginatedList<TrustSearchEntry>(new[] { differentFakeTrust }, 4, 2, 3)));
 
         _sut.KeyWords = SearchTermThatMatchesAllFakeTrusts;
         _sut.PageNumber = 1;
@@ -208,8 +210,7 @@ public class SearchModelTests
         result.Should().BeOfType<PageResult>();
         _sut.Trusts.Should().BeEquivalentTo(_fakeTrusts);
         _sut.PaginationRouteData["Keywords"].Should().Be(SearchTermThatMatchesAllFakeTrusts);
-        
-        _mockTrustSearch.SearchAsync(differentFakeTrust.Name, 2).ReturnsForAnyArgs(new PaginatedList<TrustSearchEntry>(new[] { differentFakeTrust }, 4, 2, 3));
+
 
         _sut.PageNumber = 2;
         result = await _sut.OnGetAsync();

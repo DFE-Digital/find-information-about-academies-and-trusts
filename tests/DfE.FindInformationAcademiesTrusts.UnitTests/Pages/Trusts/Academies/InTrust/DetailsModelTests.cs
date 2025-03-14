@@ -36,7 +36,7 @@ public class AcademiesDetailsModelTests : AcademiesInTrustAreaModelTests<Academi
             new AcademyDetailsServiceModel("2", "", "", "", ""),
             new AcademyDetailsServiceModel("3", "", "", "", "")
         };
-        MockAcademyService.GetAcademiesInTrustDetailsAsync(Sut.Uid).ReturnsForAnyArgs(academies);
+        MockAcademyService.GetAcademiesInTrustDetailsAsync(Sut.Uid).Returns(Task.FromResult(academies));
 
         _ = await Sut.OnGetAsync();
 

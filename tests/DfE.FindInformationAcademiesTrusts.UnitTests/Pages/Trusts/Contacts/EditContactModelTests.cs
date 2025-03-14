@@ -13,9 +13,9 @@ public class EditContactModelTests
 
     public EditContactModelTests()
     {
-        _mockTrustService.GetTrustContactsAsync("1234").ReturnsForAnyArgs(
-            new TrustContactsServiceModel(null, null, null, null, null));
-        _mockTrustService.GetTrustSummaryAsync(_fakeTrust.Uid).ReturnsForAnyArgs(_fakeTrust);
+        _mockTrustService.GetTrustContactsAsync("1234").Returns(
+            Task.FromResult(new TrustContactsServiceModel(null, null, null, null, null)));
+        _mockTrustService.GetTrustSummaryAsync(_fakeTrust.Uid)!.Returns(Task.FromResult(_fakeTrust));
 
         _sut = new EditSfsoLeadModel(MockDataSourceService.CreateSubstitute(),
                 MockLogger.CreateLogger<EditSfsoLeadModel>(), _mockTrustService)

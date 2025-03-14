@@ -14,7 +14,7 @@ public abstract class BaseGovernanceAreaModelTests<T> : BaseTrustPageTests<T>, I
     protected BaseGovernanceAreaModelTests()
     {
         MockTrustService.GetTrustGovernanceAsync(Arg.Any<string>())
-            .ReturnsForAnyArgs(new TrustGovernanceServiceModel([], [], [], [], 0));
+            .Returns(Task.FromResult(new TrustGovernanceServiceModel([], [], [], [], 0)));
     }
 
     private static Governor[] GenerateGovernors(bool isCurrent, string role, int numberToGenerate)
@@ -60,7 +60,7 @@ public abstract class BaseGovernanceAreaModelTests<T> : BaseTrustPageTests<T>, I
             GenerateGovernors(false, "Trustee", 1),
             10);
 
-        MockTrustService.GetTrustGovernanceAsync(TrustUid).ReturnsForAnyArgs(trustGovernanceServiceModelWithData);
+        MockTrustService.GetTrustGovernanceAsync(TrustUid).Returns(Task.FromResult(trustGovernanceServiceModelWithData));
 
         await Sut.OnGetAsync();
 
@@ -78,12 +78,12 @@ public abstract class BaseGovernanceAreaModelTests<T> : BaseTrustPageTests<T>, I
         int numMembers, int numTrustees, int numHistoricMembers)
     {
         MockTrustService.GetTrustGovernanceAsync(TrustUid)
-            .ReturnsForAnyArgs(new TrustGovernanceServiceModel(
+            .Returns(Task.FromResult(new TrustGovernanceServiceModel(
                 GenerateGovernors(true, "Chair of Trustees", numTrustLeaders),
                 GenerateGovernors(true, "Member", numMembers),
                 GenerateGovernors(true, "Trustee", numTrustees),
                 GenerateGovernors(false, "Trustee", numHistoricMembers),
-                0));
+                0)));
 
         _ = await Sut.OnGetAsync();
 

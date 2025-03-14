@@ -34,7 +34,7 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
 
     protected BaseTrustPageTests()
     {
-        MockTrustService.GetTrustSummaryAsync(TrustUid).ReturnsForAnyArgs(DummyTrustSummary);
+        MockTrustService.GetTrustSummaryAsync(TrustUid)!.Returns(Task.FromResult(DummyTrustSummary));
     }
 
     [Fact]
@@ -55,7 +55,7 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
     [Fact]
     public async Task OnGetAsync_should_return_not_found_result_if_trust_is_not_found()
     {
-        MockTrustService.GetTrustSummaryAsync("1111").ReturnsForAnyArgs((TrustSummaryServiceModel?)null);
+        MockTrustService.GetTrustSummaryAsync("1111").Returns(Task.FromResult<TrustSummaryServiceModel?>(null));
 
         Sut.Uid = "1111";
         var result = await Sut.OnGetAsync();
@@ -65,7 +65,7 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
     [Fact]
     public async Task OnGetAsync_should_return_not_found_result_if_Uid_is_not_provided()
     {
-        MockTrustService.GetTrustSummaryAsync("").ReturnsForAnyArgs((TrustSummaryServiceModel?)null);
+        MockTrustService.GetTrustSummaryAsync("").Returns(Task.FromResult((TrustSummaryServiceModel?)null));
         
         Sut.Uid = "";
         var result = await Sut.OnGetAsync();
@@ -127,7 +127,7 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
     [InlineData("5678")]
     public async Task OnGetAsync_should_set_NavigationLinks_to_trust_uid(string trustUid)
     {
-        MockTrustService.GetTrustSummaryAsync(trustUid).ReturnsForAnyArgs(DummyTrustSummary with { Uid = trustUid });
+        MockTrustService.GetTrustSummaryAsync(trustUid)!.Returns(Task.FromResult(DummyTrustSummary with { Uid = trustUid }));
         Sut.Uid = trustUid;
 
         _ = await Sut.OnGetAsync();
@@ -151,7 +151,7 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
     [InlineData("5678")]
     public async Task OnGetAsync_should_set_SubNavigationLinks_to_trust_uid(string trustUid)
     {
-        MockTrustService.GetTrustSummaryAsync(trustUid).ReturnsForAnyArgs(DummyTrustSummary with { Uid = trustUid });
+        MockTrustService.GetTrustSummaryAsync(trustUid)!.Returns(Task.FromResult(DummyTrustSummary with { Uid = trustUid }));
 
         Sut.Uid = trustUid;
 

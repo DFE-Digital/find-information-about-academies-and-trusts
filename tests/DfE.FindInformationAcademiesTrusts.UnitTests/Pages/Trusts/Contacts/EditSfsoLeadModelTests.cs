@@ -22,9 +22,9 @@ public class EditSfsoLeadModelTests
 
     public EditSfsoLeadModelTests()
     {
-        _mockTrustService.GetTrustContactsAsync("1234").ReturnsForAnyArgs(
-            new TrustContactsServiceModel(null, _sfsoLead, null, null, null));
-        _mockTrustService.GetTrustSummaryAsync(_fakeTrust.Uid).ReturnsForAnyArgs(_fakeTrust);
+        _mockTrustService.GetTrustContactsAsync("1234").Returns(
+            Task.FromResult(new TrustContactsServiceModel(null, _sfsoLead, null, null, null)));
+        _mockTrustService.GetTrustSummaryAsync(_fakeTrust.Uid)!.Returns(Task.FromResult(_fakeTrust));
 
         _sut = new EditSfsoLeadModel(MockDataSourceService.CreateSubstitute(),
             MockLogger.CreateLogger<EditSfsoLeadModel>(), _mockTrustService)
@@ -34,7 +34,7 @@ public class EditSfsoLeadModelTests
     [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustService.GetTrustSummaryAsync("1234").ReturnsForAnyArgs((TrustSummaryServiceModel?)null);
+        _mockTrustService.GetTrustSummaryAsync("1234").Returns(Task.FromResult((TrustSummaryServiceModel?)null));
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
@@ -62,7 +62,7 @@ public class EditSfsoLeadModelTests
         _sut.TrustSummary = _fakeTrust;
         _mockTrustService
             .UpdateContactAsync(1234, Arg.Any<string>(), Arg.Any<string>(), ContactRole.SfsoLead)
-            .ReturnsForAnyArgs(new TrustContactUpdatedServiceModel(emailUpdated, nameUpdated));
+            .Returns(Task.FromResult(new TrustContactUpdatedServiceModel(emailUpdated, nameUpdated)));
 
         var result = await _sut.OnPostAsync();
 
@@ -101,7 +101,7 @@ public class EditSfsoLeadModelTests
         _mockTrustService
             .UpdateContactAsync(1234, Arg.Any<string>(), Arg.Any<string>(),
                 ContactRole.SfsoLead)
-            .ReturnsForAnyArgs(new TrustContactUpdatedServiceModel(true, true));
+            .Returns(Task.FromResult(new TrustContactUpdatedServiceModel(true, true)));
         _ = await _sut.OnPostAsync();
 
         _sut.TrustPageMetadata.SubPageName.Should()
