@@ -28,7 +28,7 @@ public class PostAdvisoryBoardModelTests : BasePipelineAcademiesAreaModelTests<P
             new(null, null, null, null, null, null)
         ];
 
-        MockAcademyService.GetAcademiesPipelinePostAdvisoryAsync(TrustReferenceNumber).ReturnsForAnyArgs(academies);
+        MockAcademyService.GetAcademiesPipelinePostAdvisoryAsync(TrustReferenceNumber).Returns(Task.FromResult(academies));
 
         _ = await Sut.OnGetAsync();
 

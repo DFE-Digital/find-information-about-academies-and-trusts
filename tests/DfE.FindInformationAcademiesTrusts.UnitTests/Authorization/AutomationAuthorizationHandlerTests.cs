@@ -26,7 +26,6 @@ public class AutomationAuthorizationHandlerTests
         _mockHttpAccessor.HttpContext.Returns(_httpContext);
         _mockTestOverrideOptions.Value.Returns(new TestOverrideOptions { CypressTestSecret = "123" });
         _mockWebHostEnvironment.EnvironmentName.Returns("Development");
-        // _mockWebHostEnvironment.SetupGet(m => m.EnvironmentName).Returns("Development");
 
         _sut = new AutomationAuthorizationHandler(_mockWebHostEnvironment, _mockHttpAccessor,
             _mockTestOverrideOptions);

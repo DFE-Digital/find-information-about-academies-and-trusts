@@ -27,7 +27,7 @@ public class PreAdvisoryBoardModelTests : BasePipelineAcademiesAreaModelTests<Pr
             new("4", null, null, null, null, null)
         ];
 
-        MockAcademyService.GetAcademiesPipelinePreAdvisoryAsync(TrustReferenceNumber).ReturnsForAnyArgs(academies);
+        MockAcademyService.GetAcademiesPipelinePreAdvisoryAsync(TrustReferenceNumber).Returns(Task.FromResult(academies));
 
         _ = await Sut.OnGetAsync();
 

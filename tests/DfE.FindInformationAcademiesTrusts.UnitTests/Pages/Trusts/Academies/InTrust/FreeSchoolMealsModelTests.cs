@@ -27,7 +27,7 @@ public class FreeSchoolMealsModelTests : AcademiesInTrustAreaModelTests<FreeScho
             new AcademyFreeSchoolMealsServiceModel("2", "Academy 2", null, 70.1, 64.1),
             new AcademyFreeSchoolMealsServiceModel("3", "Academy 3", 8.2, 4, 10)
         };
-        MockAcademyService.GetAcademiesInTrustFreeSchoolMealsAsync(Sut.Uid).ReturnsForAnyArgs(academies);
+        MockAcademyService.GetAcademiesInTrustFreeSchoolMealsAsync(Sut.Uid).Returns(Task.FromResult(academies));
 
         _ = await Sut.OnGetAsync();
 

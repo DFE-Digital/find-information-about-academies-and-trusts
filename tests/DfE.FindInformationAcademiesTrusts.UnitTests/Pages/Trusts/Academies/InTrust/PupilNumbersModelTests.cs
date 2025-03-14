@@ -49,7 +49,7 @@ public class PupilNumbersModelTests : AcademiesInTrustAreaModelTests<PupilNumber
             academy with { Urn = "2" },
             academy with { Urn = "3" }
         };
-        MockAcademyService.GetAcademiesInTrustPupilNumbersAsync(TrustUid).ReturnsForAnyArgs(academies);
+        MockAcademyService.GetAcademiesInTrustPupilNumbersAsync(TrustUid).Returns(Task.FromResult(academies));
 
         _ = await Sut.OnGetAsync();
 

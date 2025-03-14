@@ -23,9 +23,9 @@ public class EditTrustRelationshipManagerModelTests
 
     public EditTrustRelationshipManagerModelTests()
     {
-        _mockTrustService.GetTrustContactsAsync("1234").ReturnsForAnyArgs(
-            new TrustContactsServiceModel(_trustRelationshipManager, null, null, null, null));
-        _mockTrustService.GetTrustSummaryAsync(_fakeTrust.Uid).ReturnsForAnyArgs(_fakeTrust);
+        _mockTrustService.GetTrustContactsAsync("1234").Returns(
+            Task.FromResult(new TrustContactsServiceModel(_trustRelationshipManager, null, null, null, null)));
+        _mockTrustService.GetTrustSummaryAsync(_fakeTrust.Uid)!.Returns(Task.FromResult(_fakeTrust));
 
         _sut = new EditTrustRelationshipManagerModel(MockDataSourceService.CreateSubstitute(),
                 MockLogger.CreateLogger<EditTrustRelationshipManagerModel>(), _mockTrustService)
@@ -35,7 +35,7 @@ public class EditTrustRelationshipManagerModelTests
     [Fact]
     public async Task OnGetAsync_returns_NotFoundResult_if_Trust_is_not_found()
     {
-        _mockTrustService.GetTrustSummaryAsync("1234").ReturnsForAnyArgs((TrustSummaryServiceModel?)null);
+        _mockTrustService.GetTrustSummaryAsync("1234").Returns(Task.FromResult<TrustSummaryServiceModel?>(null));
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
@@ -64,7 +64,7 @@ public class EditTrustRelationshipManagerModelTests
         _mockTrustService
             .UpdateContactAsync(1234, Arg.Any<string>(), Arg.Any<string>(),
                 ContactRole.TrustRelationshipManager)
-            .ReturnsForAnyArgs(new TrustContactUpdatedServiceModel(emailUpdated, nameUpdated));
+            .Returns(Task.FromResult(new TrustContactUpdatedServiceModel(emailUpdated, nameUpdated)));
 
         var result = await _sut.OnPostAsync();
 
@@ -102,7 +102,7 @@ public class EditTrustRelationshipManagerModelTests
         _mockTrustService
             .UpdateContactAsync(1234, Arg.Any<string>(), Arg.Any<string>(),
                 ContactRole.TrustRelationshipManager)
-            .ReturnsForAnyArgs(new TrustContactUpdatedServiceModel(true, true));
+            .Returns(Task.FromResult(new TrustContactUpdatedServiceModel(true, true)));
         _ = await _sut.OnPostAsync();
 
         _sut.TrustPageMetadata.SubPageName.Should().Be("Edit Trust relationship manager details");

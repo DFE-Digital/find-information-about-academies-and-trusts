@@ -18,7 +18,7 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
     protected BasePipelineAcademiesAreaModelTests()
     {
         MockAcademyService.GetAcademiesPipelineSummaryAsync(TrustUid)
-            .ReturnsForAnyArgs(new AcademyPipelineSummaryServiceModel(1, 2, 3));
+            .Returns(Task.FromResult(new AcademyPipelineSummaryServiceModel(1, 2, 3)));
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
         // Arrange
         byte[] expectedBytes = [1, 2, 3];
 
-        MockExportService.ExportPipelineAcademiesToSpreadsheetAsync(TrustUid).ReturnsForAnyArgs(expectedBytes);
+        MockExportService.ExportPipelineAcademiesToSpreadsheetAsync(TrustUid).Returns(Task.FromResult(expectedBytes));
 
         // Act
         var result = await Sut.OnGetExportAsync(TrustUid);
@@ -45,7 +45,7 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
         // Arrange
         var uid = "invalid-uid";
 
-        MockTrustService.GetTrustSummaryAsync(uid).ReturnsForAnyArgs((TrustSummaryServiceModel?)null);
+        MockTrustService.GetTrustSummaryAsync(uid).Returns(Task.FromResult((TrustSummaryServiceModel?)null));
 
         // Act
         var result = await Sut.OnGetExportAsync(uid);
@@ -61,8 +61,8 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
         var trustSummary = new TrustSummaryServiceModel(TrustUid, "Sample/Trust:Name?", "Multi-academy trust", 0);
         var expectedBytes = new byte[] { 1, 2, 3 };
 
-        MockTrustService.GetTrustSummaryAsync(TrustUid).ReturnsForAnyArgs(trustSummary);
-        MockExportService.ExportPipelineAcademiesToSpreadsheetAsync(TrustUid).ReturnsForAnyArgs(expectedBytes);
+        MockTrustService.GetTrustSummaryAsync(TrustUid)!.Returns(Task.FromResult(trustSummary));
+        MockExportService.ExportPipelineAcademiesToSpreadsheetAsync(TrustUid).Returns(Task.FromResult(expectedBytes));
 
         // Act
         var result = await Sut.OnGetExportAsync(TrustUid);

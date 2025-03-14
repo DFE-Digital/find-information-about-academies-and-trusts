@@ -13,16 +13,16 @@ public abstract class BaseAcademiesAreaModelTests<T> : BaseTrustPageTests<T>, IT
 
     public BaseAcademiesAreaModelTests()
     {
-        MockTrustService.GetTrustReferenceNumberAsync(TrustUid).ReturnsForAnyArgs(TrustReferenceNumber);
+        MockTrustService.GetTrustReferenceNumberAsync(TrustUid).Returns(Task.FromResult(TrustReferenceNumber));
 
         //Set default GetAcademiesPipelineSummaryAsync to enable base tests with different UIDs
         MockAcademyService
             .GetAcademiesPipelineSummaryAsync(Arg.Any<string>())
-            .ReturnsForAnyArgs(new AcademyPipelineSummaryServiceModel(0, 0, 0));
+            .Returns(Task.FromResult(new AcademyPipelineSummaryServiceModel(0, 0, 0)));
 
         MockAcademyService
             .GetAcademiesPipelineSummaryAsync(TrustReferenceNumber)
-            .ReturnsForAnyArgs(new AcademyPipelineSummaryServiceModel(1, 2, 3));
+            .Returns(Task.FromResult(new AcademyPipelineSummaryServiceModel(1, 2, 3)));
     }
 
     [Fact]

@@ -34,7 +34,7 @@ public class FreeSchoolsModelTests : BasePipelineAcademiesAreaModelTests<FreeSch
 
         MockAcademyService
             .GetAcademiesPipelineFreeSchoolsAsync(TrustReferenceNumber)
-            .ReturnsForAnyArgs(academies);
+            .Returns(Task.FromResult(academies));
 
         // Act
         await Sut.OnGetAsync();
