@@ -12,12 +12,11 @@ WORKDIR /app
 # - Copy over and restore npm packages separately so they can be cached by Docker
 COPY ./DfE.FindInformationAcademiesTrusts/package.json      /app
 COPY ./DfE.FindInformationAcademiesTrusts/package-lock.json /app
-RUN npm ci
-
 # - Only copy over frontend assets so this can be cached independently to other app changes
 COPY ./DfE.FindInformationAcademiesTrusts/webpack.config.js /app
 COPY ./DfE.FindInformationAcademiesTrusts/assets/           /app/assets/
-RUN npm run build
+RUN npm ci --ignore-scripts && \
+    npm run build
 
 ### Build the app using the dotnet SDK ###
 FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}-azurelinux3.0 AS build
@@ -37,24 +36,25 @@ COPY ./DfE.FindInformationAcademiesTrusts.Data.FiatDb/      /build/DfE.FindInfor
 COPY ./DfE.FindInformationAcademiesTrusts.Data/             /build/DfE.FindInformationAcademiesTrusts.Data/
 COPY ./DfE.FindInformationAcademiesTrusts.Data.AcademiesDb/ /build/DfE.FindInformationAcademiesTrusts.Data.AcademiesDb/
 COPY ./DfE.FindInformationAcademiesTrusts/                  /build/DfE.FindInformationAcademiesTrusts/
-RUN ["dotnet", "build", "DfE.FindInformationAcademiesTrusts", "--no-restore", "-c", "Release"]
-
-RUN ["dotnet", "publish", "DfE.FindInformationAcademiesTrusts", "--no-build", "-o", "/app"]
+RUN dotnet build DfE.FindInformationAcademiesTrusts --no-restore -c Release && \
+    dotnet publish DfE.FindInformationAcademiesTrusts --no-build -o /app
 
 ### Entity Framework: Migration Runner ###
 FROM ubuntu:22.04 AS initcontainer
-RUN apt-get update && apt-get install ca-certificates -y
+RUN apt-get update && \
+    apt-get install ca-certificates -y
 
 # - Install upstream requirements
 ADD https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb /usr/share/microsoft.deb
-RUN dpkg -i /usr/share/microsoft.deb && rm /usr/share/microsoft.deb
-RUN apt-get update && \
-  apt-get upgrade -y && \
-  ACCEPT_EULA=Y apt-get install -y \
-  mssql-tools18 \
-  msodbcsql18 && \
-  apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+RUN dpkg -i /usr/share/microsoft.deb && \
+    rm /usr/share/microsoft.deb && \
+    apt-get update && \
+    apt-get upgrade -y && \
+    ACCEPT_EULA=Y apt-get install -y \
+    mssql-tools18 \
+    msodbcsql18 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # - Copy and configure sql migration script
 WORKDIR /app
@@ -77,12 +77,13 @@ LABEL org.opencontainers.image.source="https://github.com/DFE-Digital/find-infor
 
 # - Copy and configure docker entrypoint script
 COPY ./docker/web-docker-entrypoint.sh /app/docker-entrypoint.sh
-RUN ["chmod", "+x", "/app/docker-entrypoint.sh"]
 
 # - Copy and configure sql migration script
 COPY ./DfE.FindInformationAcademiesTrusts.Data.FiatDb/Migrations/FiatDbMigrationScript.sql /app/sql/FiatDbMigrationScript.sql
-RUN ["touch", "/app/sql/FiatDbMigrationScriptOutput.txt"]
-RUN chown "$APP_UID" "/app/sql" -R
+
+RUN chmod +x /app/docker-entrypoint.sh && \
+    touch /app/sql/FiatDbMigrationScriptOutput.txt && \
+    chown "$APP_UID" "/app/sql" -R
 
 # - Copy frontend assets
 COPY --from=assets /app/wwwroot /app/wwwroot
