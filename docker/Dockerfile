@@ -6,7 +6,7 @@ ARG NODEJS_VERSION_MAJOR=22
 # Note: For optimal Docker caching, ensure all steps within a build stage are arranged in order of "least likely to be impacted by changes"
 
 ### Build frontend assets using node js ###
-FROM "node:${NODEJS_VERSION_MAJOR}-bullseye-slim" AS assets
+FROM node:${NODEJS_VERSION_MAJOR}-bullseye-slim AS assets
 WORKDIR /app
 
 # - Copy over and restore npm packages separately so they can be cached by Docker
@@ -20,7 +20,7 @@ COPY ./DfE.FindInformationAcademiesTrusts/assets/           /app/assets/
 RUN npm run build
 
 ### Build the app using the dotnet SDK ###
-FROM "mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}-azurelinux3.0" AS build
+FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}-azurelinux3.0 AS build
 WORKDIR /build
 
 # - Copy over csprojs and restore nuget packages separately so they can be cached by Docker
@@ -71,7 +71,7 @@ USER app
 ENV PATH="$PATH:/opt/mssql-tools18/bin"
 
 ### Build a runtime environment ###
-FROM "mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION}-azurelinux3.0" AS final
+FROM mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION}-azurelinux3.0 AS final
 WORKDIR /app
 LABEL org.opencontainers.image.source="https://github.com/DFE-Digital/find-information-about-academies-and-trusts"
 
