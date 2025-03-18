@@ -150,10 +150,11 @@ public class TrustRepository(
                     governance.Gid,
                     FullName = GetFullName(governance.Forename1!, governance.Forename2!, governance.Surname!),
                     EndDate = governance.DateTermOfOfficeEndsEnded.ParseAsNullableDate(),
+                    StartDate = governance.DateOfAppointment.ParseAsNullableDate() ?? DateTime.MinValue,
                     Role = governance.Role!
                 })
                 .ToArrayAsync())
-            .Where(g => g.EndDate == null || g.EndDate >= DateTime.Today).ToArray();
+            .Where(g => (g.EndDate == null || g.EndDate >= DateTime.Today) && g.StartDate <= DateTime.Today).ToArray();
 
         var gids = governors.Select(g => g.Gid).ToArray();
 

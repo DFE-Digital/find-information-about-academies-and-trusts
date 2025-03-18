@@ -426,4 +426,22 @@ public class TrustRepositoryTests
             .Be(
                 "Trust reference number not found for UID 0401. This record is broken in Academies Db GIAS groups table.");
     }
+
+    [Fact]
+    public async Task GetTrustContactsAsync_ShouldOnlyReturnCurrentChairOfTrusteesWhenOneStartsInFuture()
+    {
+        var startDateOfNewChair = DateTime.Now.AddDays(2);
+        var endDateOfCurrent = DateTime.Now.AddDays(1);
+
+        string currentName = "James";
+        string newName = "Pete";
+;       string newChairId = "5678";
+
+        _ = CreateGovernor("1234", newChairId, startDateOfNewChair, null, "Chair of Trustees", forename1: newName);
+        _ = CreateGovernor("1234", "9999", null, endDateOfCurrent, "Chair of Trustees", forename1: currentName);
+
+        var result = await _sut.GetTrustContactsAsync("1234");
+        result.ChairOfTrustees.Should().NotBeNull();
+        result.ChairOfTrustees!.FullName.Should().Be($"{currentName} Second Last");
+    }
 }
