@@ -83,10 +83,10 @@ public class TrustRepository(
             .ToArrayAsync();
 
         var governersDto = new TrustGovernance(
-            governors.Where(g => g.IsCurrentGovernor && g.HasRoleLeadership).ToArray(),
-            governors.Where(g => g.IsCurrentGovernor && g.HasRoleMember).ToArray(),
-            governors.Where(g => g.IsCurrentGovernor && g.HasRoleTrustee).ToArray(),
-            governors.Where(g => !g.IsCurrentGovernor).ToArray()
+            governors.Where(g => g.IsCurrentOrFutureGovernor && g.HasRoleLeadership).ToArray(),
+            governors.Where(g => g.IsCurrentOrFutureGovernor && g.HasRoleMember).ToArray(),
+            governors.Where(g => g.IsCurrentOrFutureGovernor && g.HasRoleTrustee).ToArray(),
+            governors.Where(g => !g.IsCurrentOrFutureGovernor).ToArray()
         );
 
         return governersDto;
