@@ -10,7 +10,6 @@ public abstract class BaseFinancialDocumentsAreaModelTests<T> : BaseTrustPageTes
     protected readonly IFinancialDocumentService MockFinancialDocumentService =
         Substitute.For<IFinancialDocumentService>();
 
-
     private readonly FinancialDocumentServiceModel[] _unsortedFinancialDocs =
     [
         new(2023, 2024, FinancialDocumentStatus.NotYetSubmitted, null),
