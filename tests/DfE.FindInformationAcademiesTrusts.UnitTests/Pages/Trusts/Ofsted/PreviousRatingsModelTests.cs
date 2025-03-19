@@ -8,10 +8,10 @@ public class PreviousRatingsModelTests : BaseOfstedAreaModelTests<PreviousRating
     public PreviousRatingsModelTests()
     {
         Sut = new PreviousRatingsModel(MockDataSourceService,
-                MockTrustService.Object,
-                MockAcademyService.Object,
-                MockExportService.Object,
-                MockDateTimeProvider.Object,
+                MockTrustService,
+                MockAcademyService,
+                MockExportService,
+                MockDateTimeProvider,
                 MockLogger.CreateLogger<PreviousRatingsModel>()
             )
             { Uid = TrustUid };

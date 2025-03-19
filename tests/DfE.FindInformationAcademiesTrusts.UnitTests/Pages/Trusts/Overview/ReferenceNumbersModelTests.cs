@@ -11,7 +11,7 @@ public class ReferenceNumbersModelTests : BaseOverviewAreaModelTests<ReferenceNu
         Sut = new ReferenceNumbersModel(
                 MockDataSourceService,
                 MockLogger.CreateLogger<ReferenceNumbersModel>(),
-                MockTrustService.Object)
+                MockTrustService)
             { Uid = TrustUid };
     }
 

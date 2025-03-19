@@ -7,19 +7,18 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Contacts;
 public class EditContactModelTests
 {
     private readonly EditContactModel _sut;
-    private readonly Mock<ITrustService> _mockTrustService = new();
+    private readonly ITrustService _mockTrustService = Substitute.For<ITrustService>();
 
     private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
 
     public EditContactModelTests()
     {
-        _mockTrustService.Setup(tp => tp.GetTrustContactsAsync("1234")).ReturnsAsync(
-            new TrustContactsServiceModel(null, null, null, null, null));
-        _mockTrustService.Setup(t => t.GetTrustSummaryAsync(_fakeTrust.Uid))
-            .ReturnsAsync(_fakeTrust);
+        _mockTrustService.GetTrustContactsAsync("1234").Returns(
+            Task.FromResult(new TrustContactsServiceModel(null, null, null, null, null)));
+        _mockTrustService.GetTrustSummaryAsync(_fakeTrust.Uid)!.Returns(Task.FromResult(_fakeTrust));
 
         _sut = new EditSfsoLeadModel(MockDataSourceService.CreateSubstitute(),
-                MockLogger.CreateLogger<EditSfsoLeadModel>(), _mockTrustService.Object)
+                MockLogger.CreateLogger<EditSfsoLeadModel>(), _mockTrustService)
             { Uid = "1234" };
     }
 

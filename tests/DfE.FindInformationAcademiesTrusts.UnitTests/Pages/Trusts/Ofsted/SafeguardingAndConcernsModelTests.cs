@@ -8,10 +8,10 @@ public class SafeguardingAndConcernsModelTests : BaseOfstedAreaModelTests<Safegu
     public SafeguardingAndConcernsModelTests()
     {
         Sut = new SafeguardingAndConcernsModel(MockDataSourceService,
-                MockTrustService.Object,
-                MockAcademyService.Object,
-                MockExportService.Object,
-                MockDateTimeProvider.Object,
+                MockTrustService,
+                MockAcademyService,
+                MockExportService,
+                MockDateTimeProvider,
                 MockLogger.CreateLogger<SafeguardingAndConcernsModel>()
             )
             { Uid = TrustUid };

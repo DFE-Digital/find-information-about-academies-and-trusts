@@ -11,8 +11,8 @@ public class PostAdvisoryBoardModelTests : BasePipelineAcademiesAreaModelTests<P
     {
         Sut = new PostAdvisoryBoardModel(
                 MockDataSourceService, MockLogger.CreateLogger<PostAdvisoryBoardModel>(),
-                MockTrustService.Object, MockAcademyService.Object, MockExportService.Object,
-                MockDateTimeProvider.Object)
+                MockTrustService, MockAcademyService, MockExportService,
+                MockDateTimeProvider)
             { Uid = TrustUid };
     }
 
@@ -28,8 +28,7 @@ public class PostAdvisoryBoardModelTests : BasePipelineAcademiesAreaModelTests<P
             new(null, null, null, null, null, null)
         ];
 
-        MockAcademyService.Setup(a => a.GetAcademiesPipelinePostAdvisoryAsync(TrustReferenceNumber))
-            .ReturnsAsync(academies);
+        MockAcademyService.GetAcademiesPipelinePostAdvisoryAsync(TrustReferenceNumber).Returns(Task.FromResult(academies));
 
         _ = await Sut.OnGetAsync();
 
