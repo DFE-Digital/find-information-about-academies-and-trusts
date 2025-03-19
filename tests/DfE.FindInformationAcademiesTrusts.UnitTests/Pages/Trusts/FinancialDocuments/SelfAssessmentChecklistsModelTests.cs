@@ -9,8 +9,8 @@ public class SelfAssessmentChecklistsModelTests : BaseFinancialDocumentsAreaMode
     public SelfAssessmentChecklistsModelTests() : base(FinancialDocumentType.SelfAssessmentChecklist)
     {
         Sut = new SelfAssessmentChecklistsModel(MockDataSourceService,
-                new MockLogger<SelfAssessmentChecklistsModel>().Object, MockTrustService.Object,
-                MockFinancialDocumentService.Object)
+                MockLogger.CreateLogger<SelfAssessmentChecklistsModel>(), MockTrustService,
+                MockFinancialDocumentService)
             { Uid = TrustUid };
     }
 

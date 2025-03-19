@@ -9,8 +9,8 @@ public class InternalScrutinyReportsModelTests : BaseFinancialDocumentsAreaModel
     public InternalScrutinyReportsModelTests() : base(FinancialDocumentType.InternalScrutinyReport)
     {
         Sut = new InternalScrutinyReportsModel(MockDataSourceService,
-                new MockLogger<InternalScrutinyReportsModel>().Object, MockTrustService.Object,
-                MockFinancialDocumentService.Object)
+                MockLogger.CreateLogger<InternalScrutinyReportsModel>(), MockTrustService,
+                MockFinancialDocumentService)
             { Uid = TrustUid };
     }
 
