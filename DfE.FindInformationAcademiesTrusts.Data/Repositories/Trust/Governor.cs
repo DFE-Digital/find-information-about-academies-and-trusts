@@ -10,7 +10,7 @@ public record Governor(
     DateTime? DateOfTermEnd,
     string? Email) : Person(FullName, Email)
 {
-    public bool IsCurrentGovernor => DateOfTermEnd == null || DateOfTermEnd >= DateTime.Today;
+    public bool IsCurrentOrFutureGovernor => DateOfTermEnd == null || DateOfTermEnd >= DateTime.Today;
 
     public bool HasRoleLeadership =>
         HasRoleAccountingOfficer || HasRoleChiefFinancialOfficer ||

@@ -83,10 +83,10 @@ public class TrustRepository(
             .ToArrayAsync();
 
         var governersDto = new TrustGovernance(
-            governors.Where(g => g.IsCurrentGovernor && g.HasRoleLeadership).ToArray(),
-            governors.Where(g => g.IsCurrentGovernor && g.HasRoleMember).ToArray(),
-            governors.Where(g => g.IsCurrentGovernor && g.HasRoleTrustee).ToArray(),
-            governors.Where(g => !g.IsCurrentGovernor).ToArray()
+            governors.Where(g => g.IsCurrentOrFutureGovernor && g.HasRoleLeadership).ToArray(),
+            governors.Where(g => g.IsCurrentOrFutureGovernor && g.HasRoleMember).ToArray(),
+            governors.Where(g => g.IsCurrentOrFutureGovernor && g.HasRoleTrustee).ToArray(),
+            governors.Where(g => !g.IsCurrentOrFutureGovernor).ToArray()
         );
 
         return governersDto;
@@ -150,10 +150,11 @@ public class TrustRepository(
                     governance.Gid,
                     FullName = GetFullName(governance.Forename1!, governance.Forename2!, governance.Surname!),
                     EndDate = governance.DateTermOfOfficeEndsEnded.ParseAsNullableDate(),
+                    StartDate = governance.DateOfAppointment.ParseAsNullableDate() ?? DateTime.MinValue,
                     Role = governance.Role!
                 })
                 .ToArrayAsync())
-            .Where(g => g.EndDate == null || g.EndDate >= DateTime.Today).ToArray();
+            .Where(g => (g.EndDate == null || g.EndDate >= DateTime.Today) && g.StartDate <= DateTime.Today).ToArray();
 
         var gids = governors.Select(g => g.Gid).ToArray();
 
