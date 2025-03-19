@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+## [Release-25][release-25] (production-2025-03-19.5191)
+
+### Changed
+
+- Bug fix for when there are multiple contacts for the same role
+- Added feature flag to hide governance turnover calculation
+
 ## [Release-24][release-24] (production-2025-03-11.5152)
 
 ### Changed
@@ -283,7 +290,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated text on "404 - Not Found" page to adhere to DfE design pattern and added the not found url to the support email template.
 
 [unreleased]:
-  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/compare/production-2025-03-11.5152...HEAD
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/compare/production-2025-03-19.5191...HEAD
 [release-1]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-07-18.2517
 [release-2]:
@@ -332,3 +339,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-02-28.5074
 [release-24]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-03-11.5152
+[release-24]:
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-03-19.5191
