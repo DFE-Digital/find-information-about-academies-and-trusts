@@ -21,7 +21,8 @@ public partial class AcademiesDbContext
                 .HasMaxLength(10)
                 .IsUnicode(false);
             entity.Property(e => e.FolderYear)
-                .HasMaxLength(4)
+                .HasConversion<string>()
+                .HasColumnType("varchar(4)")
                 .IsUnicode(false);
             entity.Property(e => e.DocumentFilename).HasMaxLength(100);
             entity.Property(e => e.CompaniesHouseNumber)
