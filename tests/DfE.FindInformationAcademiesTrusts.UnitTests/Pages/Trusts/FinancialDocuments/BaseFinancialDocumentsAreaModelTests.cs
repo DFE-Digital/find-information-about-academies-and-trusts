@@ -7,7 +7,9 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.FinancialDoc
 public abstract class BaseFinancialDocumentsAreaModelTests<T> : BaseTrustPageTests<T>, ITestSubpages
     where T : FinancialDocumentsAreaModel
 {
-    protected readonly Mock<IFinancialDocumentService> MockFinancialDocumentService = new();
+    protected readonly IFinancialDocumentService MockFinancialDocumentService =
+        Substitute.For<IFinancialDocumentService>();
+
 
     private readonly FinancialDocumentServiceModel[] _unsortedFinancialDocs =
     [
@@ -18,8 +20,7 @@ public abstract class BaseFinancialDocumentsAreaModelTests<T> : BaseTrustPageTes
 
     protected BaseFinancialDocumentsAreaModelTests(FinancialDocumentType financialDocumentType)
     {
-        MockFinancialDocumentService.Setup(d => d.GetFinancialDocumentsAsync(financialDocumentType))
-            .ReturnsAsync(_unsortedFinancialDocs);
+        MockFinancialDocumentService.GetFinancialDocumentsAsync(financialDocumentType).Returns(_unsortedFinancialDocs);
     }
 
     [Fact]
