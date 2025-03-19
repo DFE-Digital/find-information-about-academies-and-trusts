@@ -8,8 +8,8 @@ public class ManagementLettersModelTests : BaseFinancialDocumentsAreaModelTests<
 {
     public ManagementLettersModelTests() : base(FinancialDocumentType.ManagementLetter)
     {
-        Sut = new ManagementLettersModel(MockDataSourceService, new MockLogger<ManagementLettersModel>().Object,
-                MockTrustService.Object, MockFinancialDocumentService.Object)
+        Sut = new ManagementLettersModel(MockDataSourceService, MockLogger.CreateLogger<ManagementLettersModel>(),
+                MockTrustService, MockFinancialDocumentService)
             { Uid = TrustUid };
     }
 

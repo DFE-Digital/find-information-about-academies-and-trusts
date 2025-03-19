@@ -8,8 +8,8 @@ public class FinancialStatementModelTests : BaseFinancialDocumentsAreaModelTests
 {
     public FinancialStatementModelTests() : base(FinancialDocumentType.FinancialStatement)
     {
-        Sut = new FinancialStatementsModel(MockDataSourceService, new MockLogger<FinancialStatementsModel>().Object,
-                MockTrustService.Object, MockFinancialDocumentService.Object)
+        Sut = new FinancialStatementsModel(MockDataSourceService, MockLogger.CreateLogger<FinancialStatementsModel>(),
+                MockTrustService, MockFinancialDocumentService)
             { Uid = TrustUid };
     }
 
