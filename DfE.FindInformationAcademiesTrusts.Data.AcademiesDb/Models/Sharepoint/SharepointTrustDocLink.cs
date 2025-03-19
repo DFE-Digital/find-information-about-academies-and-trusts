@@ -7,7 +7,7 @@ public class SharepointTrustDocLink
 {
     public string FolderPrefix { get; set; } = null!;
 
-    public string FolderYear { get; set; } = null!;
+    public int FolderYear { get; set; }
 
     public string DocumentFilename { get; set; } = null!;
 
