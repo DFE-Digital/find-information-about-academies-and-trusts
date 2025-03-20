@@ -6,6 +6,7 @@ Feature flags can be used to programatically turn features on and off. We can us
 
 - `TestFlag` (Default: false): Flag added to test the functionality of feature flags. Adds a line to the layout that shows flags are working when set to true.
 - `UpdatedFooterHelpLink` (Default: true): Flag added to control when we release the updated help link in the footer.
+- `GovernanceTurnover` (Default: false): Flag to hide the governance turnover calculation until a bug fix can be determined.
 
 ## Implementation
 
