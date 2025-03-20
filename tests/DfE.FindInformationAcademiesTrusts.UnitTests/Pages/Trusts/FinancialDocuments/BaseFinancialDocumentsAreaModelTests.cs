@@ -19,7 +19,8 @@ public abstract class BaseFinancialDocumentsAreaModelTests<T> : BaseTrustPageTes
 
     protected BaseFinancialDocumentsAreaModelTests(FinancialDocumentType financialDocumentType)
     {
-        MockFinancialDocumentService.GetFinancialDocumentsAsync(financialDocumentType).Returns(_unsortedFinancialDocs);
+        MockFinancialDocumentService.GetFinancialDocumentsAsync("TR00261", financialDocumentType)
+            .Returns(_unsortedFinancialDocs);
     }
 
     [Fact]
