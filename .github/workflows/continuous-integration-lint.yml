@@ -56,11 +56,11 @@ jobs:
             echo "No changed files identified because this was not triggered by a pull request"
           fi
 
-      - name: Process changed files
-        id: process-files
+      - name: Categorise changed files
+        id: categorise-files
         run: |
           MARKDOWN_FILES=$(cat "changed_files.txt" | grep -E '*.md$' 2>/dev/null || true)
-          PACKAGE_LOCK_FILES=$(cat "changed_files.txt" | grep 'package-lock.json$' 2>/dev/null || true)
+          FRONTEND_ASSET_FILES=$(cat "changed_files.txt" | grep -E '^DfE.FindInformationAcademiesTrusts/(package*.json|assets|.stylelintrc.json|.prettierignore)' 2>/dev/null || true)
 
           if [ -n "$MARKDOWN_FILES" ]; then
             echo "markdown_files_found=true" >> $GITHUB_OUTPUT
@@ -69,28 +69,28 @@ jobs:
             echo "markdown_files_found=false" >> $GITHUB_OUTPUT
           fi
 
-          if [ -n "$PACKAGE_LOCK_FILES" ]; then
-            echo "package_lock_changed=true" >> $GITHUB_OUTPUT
+          if [ -n "$FRONTEND_ASSET_FILES" ]; then
+            echo "frontend_assets_changed=true" >> $GITHUB_OUTPUT
           else
-            echo "package_lock_changed=false" >> $GITHUB_OUTPUT
+            echo "frontend_assets_changed=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Lint Markdown
         uses: DavidAnson/markdownlint-cli2-action@v19
-        if: steps.process-files.outputs.markdown_files_found == 'true'
+        if: steps.categorise-files.outputs.markdown_files_found == 'true'
         with:
-          globs: ${{ steps.process-files.outputs.MARKDOWN_FILES }}
+          globs: ${{ steps.categorise-files.outputs.MARKDOWN_FILES }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
-        if: steps.process-files.outputs.package_lock_changed == 'true'
+        if: steps.categorise-files.outputs.frontend_assets_changed == 'true'
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
           cache-dependency-path: DfE.FindInformationAcademiesTrusts/package-lock.json
 
-      - name: Install dependencies
-        if: steps.process-files.outputs.package_lock_changed == 'true'
+      - name: Lint frontend assets
+        if: steps.categorise-files.outputs.frontend_assets_changed == 'true'
         working-directory: DfE.FindInformationAcademiesTrusts
         run: npm ci --ignore-scripts && npm run lint
 
