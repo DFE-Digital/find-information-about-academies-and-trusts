@@ -104,7 +104,7 @@ jobs:
 
       - name: Build and Test
         run: |
-          dotnet build DfE.FindInformationAcademiesTrusts -c Release
+          dotnet build DfE.FindInformationAcademiesTrusts --no-incremental
           dotnet coverage collect "dotnet test" -f xml -o "coverage.xml"
 
       - name: End SonarQube Scanner
