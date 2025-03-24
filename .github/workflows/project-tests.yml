@@ -1,25 +1,19 @@
 name: .NET
 
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - '**'
-      - '!.gitignore'
-      - '!**.DotSettings'
-      - '!**.md'
-      - '!.github/**'
-      - '!terraform/**'
   pull_request:
     branches: [ main, '**-feature' ]
     types: [ opened, synchronize, reopened]
     paths:
-      - '**'
-      - '!.gitignore'
-      - '!**.DotSettings'
-      - '!**.md'
-      - '!.github/**'
-      - '!terraform/**'
+      - '**.cs'
+      - '**.cshtml'
+      - '**.sql'
+      - '**.csproj'
+      - '**.sln'
+      - '**/appsettings*json'
+      - '.config/dotnet-tools.json'
+      - 'stryker-config.json'
+  workflow_dispatch:
 
 env:
   DOTNET_VERSION: 8.0.x
@@ -27,8 +21,7 @@ env:
 jobs:
   build:
     name: Build & Test
-    runs-on: ubuntu-latest
-    environment: development
+    runs-on: ubuntu-24.04
     steps:
     - name: Check out code
       uses: actions/checkout@v4
@@ -46,8 +39,29 @@ jobs:
         dotnet restore DfE.FindInformationAcademiesTrusts
         dotnet build DfE.FindInformationAcademiesTrusts -c Release
 
-    - name: Run mutation tests
-      run: dotnet stryker
-
     - name: Ensure there are no pending migrations
       run: dotnet ef migrations has-pending-model-changes --context FiatDbContext --project DfE.FindInformationAcademiesTrusts.Data.FiatDb --startup-project DfE.FindInformationAcademiesTrusts
+
+    - name: Run mutation tests
+      run: dotnet stryker --reporter "markdown" --reporter "html" --output "${{ github.workspace }}"
+
+    - name: Print stryker report
+      working-directory: StrykerOutput
+      run: |
+        # Construct the full path to the markdown file
+        REPORT_FILE="${{ github.workspace }}/reports/mutation-report.md"
+
+        # Check if the file exists
+        if [ -f "$REPORT_FILE" ]; then
+          echo "File exists: $REPORT_FILE"
+          # Print the report as a Step Summary
+          echo "$(cat $REPORT_FILE)" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "::error ::File not found: $REPORT_FILE"
+        fi
+
+    - name: Upload Stryker report
+      uses: actions/upload-artifact@v4
+      with:
+        name: stryker-report
+        path: ${{ github.workspace }}/reports/mutation-report.html
