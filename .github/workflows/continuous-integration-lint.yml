@@ -53,7 +53,7 @@ jobs:
       - name: Process changed files
         id: process-files
         run: |
-          MARKDOWN_FILES=$(cat "changed_files.txt" | grep -E 'docs\/.*\.md$|docs\/\*.md$' 2>/dev/null || true)
+          MARKDOWN_FILES=$(cat "changed_files.txt" | grep -E '*.md$' 2>/dev/null || true)
           PACKAGE_LOCK_FILES=$(cat "changed_files.txt" | grep 'package-lock.json$' 2>/dev/null || true)
 
           if [ -n "$MARKDOWN_FILES" ]; then
@@ -69,7 +69,7 @@ jobs:
             echo "package_lock_changed=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Run Markdown Lint
+      - name: Lint Markdown
         uses: DavidAnson/markdownlint-cli2-action@v19
         if: steps.process-files.outputs.markdown_files_found == 'true'
         with:
