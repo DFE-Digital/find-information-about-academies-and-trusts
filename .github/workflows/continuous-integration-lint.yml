@@ -1,5 +1,7 @@
 name: Lint project
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [ main, '**-feature' ]
     types: [ opened, synchronize, reopened]
@@ -47,8 +49,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr diff ${{ github.event.number }} --name-only > changed_files.txt
-          cat "changed_files.txt"
+          if [ ${{ github.event_name }} = "pull_request" ]; then
+            gh pr diff ${{ github.event.number }} --name-only > changed_files.txt
+            cat "changed_files.txt"
+          else
+            echo "No changed files identified because this was not triggered by a pull request"
+          fi
 
       - name: Process changed files
         id: process-files
