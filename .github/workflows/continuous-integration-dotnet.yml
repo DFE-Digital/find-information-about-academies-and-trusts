@@ -45,7 +45,6 @@ jobs:
       run: dotnet stryker --reporter "markdown" --reporter "html" --output "${{ github.workspace }}"
 
     - name: Print stryker report
-      working-directory: StrykerOutput
       run: |
         # Construct the full path to the markdown file
         REPORT_FILE="${{ github.workspace }}/reports/mutation-report.md"
