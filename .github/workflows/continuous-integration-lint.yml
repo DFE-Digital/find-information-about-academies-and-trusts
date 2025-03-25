@@ -1,37 +1,110 @@
 name: Lint project
 on:
+  push:
+    branches: [ main ]
   pull_request:
     branches: [ main, '**-feature' ]
-    types: [ opened, synchronize, reopened]
 
 env:
-  NODE_VERSION: 22.11.0
+  NODE_VERSION: '22'
+  DOTNET_VERSION: '8.0.x'
+  JAVA_VERSION: '21'
+  LAST_COMMIT_SHA:
+
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: Run linters
     steps:
-    - uses: actions/checkout@v4
-      name: Check out repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # needed for git diff on push
 
-    - uses: actions/setup-node@v4
-      name: Set up Node.js
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-        cache: npm
-        cache-dependency-path: |
-          DfE.FindInformationAcademiesTrusts/package-lock.json
-          tests/DFE.FindInformationAcademiesTrusts.CypressTests/package-lock.json
+      - name: Set SHA environment variable
+        run: |
+          echo "LAST_COMMIT_SHA=${GITHUB_SHA:(-7)}" >> $GITHUB_ENV
 
-    - name: Install dependencies
-      run: |
-        (cd DfE.FindInformationAcademiesTrusts && npm ci)
-        (cd tests/DFE.FindInformationAcademiesTrusts.CypressTests && npm ci)
+      - name: Set up .NET ${{ env.DOTNET_VERSION }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Analyse front end assets
-      run: |
-        cd DfE.FindInformationAcademiesTrusts && npm run lint
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'microsoft'
 
-    # - name: Analyse Cypress tests
-    #   run: |
-    #     cd tests/\DFE.FindInformationAcademiesTrusts.CypressTests && npm run lint
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+
+      - name: Get changed files
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ ${{ github.event_name }} = "pull_request" ]; then
+            gh pr diff ${{ github.event.number }} --name-only > changed_files.txt
+            cat "changed_files.txt"
+          else
+            echo "No changed files identified because this was not triggered by a pull request"
+          fi
+
+      - name: Categorise changed files
+        id: categorise-files
+        run: |
+          MARKDOWN_FILES=$(cat "changed_files.txt" | grep -E '*.md$' 2>/dev/null || true)
+          FRONTEND_ASSET_FILES=$(cat "changed_files.txt" | grep -E '^DfE.FindInformationAcademiesTrusts/(package*.json|assets|.stylelintrc.json|.prettierignore)' 2>/dev/null || true)
+
+          if [ -n "$MARKDOWN_FILES" ]; then
+            echo "markdown_files_found=true" >> $GITHUB_OUTPUT
+            echo "MARKDOWN_FILES=$MARKDOWN_FILES" >> $GITHUB_OUTPUT
+          else
+            echo "markdown_files_found=false" >> $GITHUB_OUTPUT
+          fi
+
+          if [ -n "$FRONTEND_ASSET_FILES" ]; then
+            echo "frontend_assets_changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "frontend_assets_changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Lint Markdown
+        uses: DavidAnson/markdownlint-cli2-action@v19
+        if: steps.categorise-files.outputs.markdown_files_found == 'true'
+        with:
+          globs: ${{ steps.categorise-files.outputs.MARKDOWN_FILES }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        if: steps.categorise-files.outputs.frontend_assets_changed == 'true'
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: DfE.FindInformationAcademiesTrusts/package-lock.json
+
+      - name: Lint frontend assets
+        if: steps.categorise-files.outputs.frontend_assets_changed == 'true'
+        working-directory: DfE.FindInformationAcademiesTrusts
+        run: npm ci --ignore-scripts && npm run lint
+
+      - name: Install SonarCloud scanner & .NET Tools
+        run: |
+          dotnet tool install --global dotnet-sonarscanner --version 10.1.0
+          dotnet tool restore
+
+      - name: Begin SonarQube Scanner
+        run: dotnet-sonarscanner begin /d:sonar.qualitygate.wait=true /k:"DFE-Digital_find-information-about-academies-and-trusts" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml /o:"dfe-digital" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.scanner.skipJreProvisioning=true /d:sonar.buildString=${{ env.LAST_COMMIT_SHA }}
+
+      - name: Build and Test
+        run: |
+          dotnet build DfE.FindInformationAcademiesTrusts --no-incremental
+          dotnet coverage collect "dotnet test" -f xml -o "coverage.xml"
+
+      - name: End SonarQube Scanner
+        run: dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
