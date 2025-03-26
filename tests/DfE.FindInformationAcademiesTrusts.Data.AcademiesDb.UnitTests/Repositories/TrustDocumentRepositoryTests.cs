@@ -39,15 +39,16 @@ public class TrustDocumentRepositoryTests
         _mockAcademiesDb.AddTrustDocLinks(TrustReferenceNumber, "Not the folder prefix we're looking for", 5);
 
         //Add trust docs which should be retrieved
-        foreach (var folderPrefix in folderPrefixes)
+        for (var i = 0; i < folderPrefixes.Length; i++)
         {
+            var folderPrefix = folderPrefixes[i];
             _mockAcademiesDb.AddTrustDocLink(new SharepointTrustDocLink
             {
                 FolderPrefix = folderPrefix,
                 TrustRefNumber = TrustReferenceNumber,
                 DocumentFilename = $"Trust Document for {folderPrefix}",
                 DocumentLink = $"www.linkto-{folderPrefix}.com",
-                FolderYear = 2022
+                FolderYear = 2000 + i
             });
         }
 
@@ -118,5 +119,42 @@ public class TrustDocumentRepositoryTests
         result.trustOpenDate.Should().Be(DateOnly.MinValue);
         _mockLogger.VerifyLogError(
             $"Open date was not found for trust {Uid}. This should never happen and indicates a data integrity issue with the GIAS data in Academies Db");
+    }
+
+    [Fact]
+    public async Task GetFinancialDocumentsAsync_should_return_newest_doc_when_more_than_one_in_year()
+    {
+        _mockAcademiesDb.AddTrustDocLink(new SharepointTrustDocLink
+        {
+            FolderPrefix = "AFS",
+            TrustRefNumber = TrustReferenceNumber,
+            DocumentFilename = "Old Trust Document",
+            DocumentLink = "www.old.com",
+            CreatedDateTime = new DateTime(2019, 11, 01, 11, 21, 31, DateTimeKind.Utc),
+            FolderYear = 2019
+        });
+        _mockAcademiesDb.AddTrustDocLink(new SharepointTrustDocLink
+        {
+            FolderPrefix = "AFS",
+            TrustRefNumber = TrustReferenceNumber,
+            DocumentFilename = "New Trust Document",
+            DocumentLink = "www.new.com",
+            CreatedDateTime = new DateTime(2019, 12, 30, 9, 29, 39, DateTimeKind.Utc),
+            FolderYear = 2019
+        });
+        _mockAcademiesDb.AddTrustDocLink(new SharepointTrustDocLink
+        {
+            FolderPrefix = "AFS",
+            TrustRefNumber = TrustReferenceNumber,
+            DocumentFilename = "Oldest Trust Document",
+            DocumentLink = "www.oldest.com",
+            CreatedDateTime = new DateTime(2019, 10, 01, 1, 2, 3, DateTimeKind.Utc),
+            FolderYear = 2019
+        });
+
+        var result = await _sut.GetFinancialDocumentsAsync(Uid, FinancialDocumentType.FinancialStatement);
+
+        var actualDoc = result.financialDocuments.Should().ContainSingle().Subject;
+        actualDoc.Link.Should().Be("www.new.com");
     }
 }

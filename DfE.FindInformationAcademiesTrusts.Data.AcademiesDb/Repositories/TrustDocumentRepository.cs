@@ -23,15 +23,19 @@ public class TrustDocumentRepository(IAcademiesDbContext academiesDbContext, ILo
     {
         var (trustOpenDate, trustReferenceNumber) = await GetTrustInfoFromGias(uid);
 
-        var sharepointTrustDocLinks = await academiesDbContext.SharepointTrustDocLinks
+        var allSharepointTrustDocLinksForFinancialDocType = await academiesDbContext.SharepointTrustDocLinks
             .Where(doc => doc.DocumentLink != null
                           && doc.TrustRefNumber != null
                           && doc.TrustRefNumber == trustReferenceNumber
                           && FolderPrefixes[financialDocumentType].Contains(doc.FolderPrefix))
-            .Select(doc => new { doc.FolderYear, DocumentLink = doc.DocumentLink! })
+            .Select(doc => new { doc.FolderYear, DocumentLink = doc.DocumentLink!, doc.CreatedDateTime })
             .ToArrayAsync();
 
-        var trustDocuments = sharepointTrustDocLinks
+        var yearDuplicationsRemoved = allSharepointTrustDocLinksForFinancialDocType
+            .GroupBy(doc => doc.FolderYear)
+            .Select(g => g.OrderByDescending(d => d.CreatedDateTime).First());
+
+        var trustDocuments = yearDuplicationsRemoved
             .Select(doc => new TrustDocument(doc.FolderYear, doc.DocumentLink))
             .ToArray();
 
