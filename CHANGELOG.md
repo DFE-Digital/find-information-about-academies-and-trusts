@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+## [Release-26][release-26] (production-2025-03-26.5267)
+
+### Changed
+
+- Bug fix to make ofsted grades available for new schools
+
 ## [Release-25][release-25] (production-2025-03-19.5191)
 
 ### Changed
