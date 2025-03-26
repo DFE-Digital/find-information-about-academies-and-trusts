@@ -347,3 +347,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-03-11.5152
 [release-25]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-03-19.5191
+[release-26]:
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-03-26.5267
