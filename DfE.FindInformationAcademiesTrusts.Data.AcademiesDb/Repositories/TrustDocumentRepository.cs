@@ -1,11 +1,14 @@
+using System.Globalization;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.TrustDocument;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 
-public class TrustDocumentRepository(IAcademiesDbContext academiesDbContext) : ITrustDocumentRepository
+public class TrustDocumentRepository(IAcademiesDbContext academiesDbContext, ILogger<TrustDocumentRepository> logger)
+    : ITrustDocumentRepository
 {
     private static readonly Dictionary<FinancialDocumentType, string[]> FolderPrefixes = new()
     {
@@ -15,11 +18,14 @@ public class TrustDocumentRepository(IAcademiesDbContext academiesDbContext) : I
         { FinancialDocumentType.SelfAssessmentChecklist, ["SRMSAT", "SRMSAC"] }
     };
 
-    public async Task<TrustDocument[]> GetFinancialDocumentsAsync(string trustReferenceNumber,
-        FinancialDocumentType financialDocumentType)
+    public async Task<(TrustDocument[] financialDocuments, DateOnly trustOpenDate)> GetFinancialDocumentsAsync(
+        string uid, FinancialDocumentType financialDocumentType)
     {
+        var (trustOpenDate, trustReferenceNumber) = await GetTrustInfoFromGias(uid);
+
         var sharepointTrustDocLinks = await academiesDbContext.SharepointTrustDocLinks
             .Where(doc => doc.DocumentLink != null
+                          && doc.TrustRefNumber != null
                           && doc.TrustRefNumber == trustReferenceNumber
                           && FolderPrefixes[financialDocumentType].Contains(doc.FolderPrefix))
             .Select(doc => new { doc.FolderYear, DocumentLink = doc.DocumentLink! })
@@ -29,6 +35,25 @@ public class TrustDocumentRepository(IAcademiesDbContext academiesDbContext) : I
             .Select(doc => new TrustDocument(doc.FolderYear, doc.DocumentLink))
             .ToArray();
 
-        return trustDocuments;
+        return (trustDocuments, trustOpenDate);
+    }
+
+    private async Task<(DateOnly trustOpenDate, string trustReferenceNumber)> GetTrustInfoFromGias(string uid)
+    {
+        var giasGroup = await academiesDbContext.Groups.Where(g => g.GroupUid == uid)
+            .Select(g => new { g.GroupId, g.IncorporatedOnOpenDate })
+            .SingleAsync();
+
+        if (giasGroup.IncorporatedOnOpenDate is null)
+            logger.LogError(
+                "Open date was not found for trust {uid}. This should never happen and indicates a data integrity issue with the GIAS data in Academies Db",
+                uid);
+
+        var trustOpenDate = giasGroup.IncorporatedOnOpenDate is not null
+            ? DateOnly.ParseExact(giasGroup.IncorporatedOnOpenDate, "dd/MM/yyyy", DateTimeFormatInfo.InvariantInfo)
+            : DateOnly.MinValue;
+        var trustReferenceNumber = giasGroup.GroupId!; //Enforced by EF filter
+
+        return (trustOpenDate, trustReferenceNumber);
     }
 }

@@ -387,7 +387,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
                 FolderPrefix = folderPrefix,
                 TrustRefNumber = trustReferenceNumber,
                 DocumentFilename = $"Trust Document {i}",
-                DocumentLink = $"www.trustDocumentLink{i}.com"
+                DocumentLink = $"www.trustDocumentLink{i}.com",
+                FolderYear = 2000 + i
             })
         );
     }
