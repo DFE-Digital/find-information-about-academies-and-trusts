@@ -26,12 +26,7 @@ public class TrustDocumentRepository(IAcademiesDbContext academiesDbContext) : I
             .ToArrayAsync();
 
         var trustDocuments = sharepointTrustDocLinks
-            .Select(doc =>
-                new TrustDocument(
-                    new DateOnly(doc.FolderYear - 1, 9, 1),
-                    new DateOnly(doc.FolderYear, 8, 31),
-                    doc.DocumentLink
-                ))
+            .Select(doc => new TrustDocument(doc.FolderYear, doc.DocumentLink))
             .ToArray();
 
         return trustDocuments;

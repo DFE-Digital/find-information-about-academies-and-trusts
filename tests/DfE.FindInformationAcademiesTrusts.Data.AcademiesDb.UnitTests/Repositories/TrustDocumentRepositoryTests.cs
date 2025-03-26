@@ -2,7 +2,6 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Sharepoint;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Data.Repositories.TrustDocument;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories;
 
@@ -71,11 +70,8 @@ public class TrustDocumentRepositoryTests
 
         var result = await _sut.GetFinancialDocumentsAsync("TR01234", financialDocType);
 
-        var expectedFinancialYearStart = new DateOnly(year - 1, 9, 1);
-        var expectedFinancialYearEnd = new DateOnly(year, 8, 31);
-
-        result.Should().ContainSingle()
-            .Which.Should().BeEquivalentTo(
-                new TrustDocument(expectedFinancialYearStart, expectedFinancialYearEnd, link));
+        var actualDoc = result.Should().ContainSingle().Subject;
+        actualDoc.FinancialYear.Should().Be(new FinancialYear(year));
+        actualDoc.Link.Should().Be(link);
     }
 }
