@@ -15,6 +15,7 @@ public interface IAcademiesDbContext
     DbSet<GiasGovernance> GiasGovernances { get; }
     DbSet<GiasGroupLink> GiasGroupLinks { get; }
     DbSet<GiasGroup> Groups { get; }
+    DbSet<GiasEstablishmentLink> GiasEstablishmentLink { get; }
     DbSet<MstrTrust> MstrTrusts { get; }
     DbSet<MstrFreeSchoolProject> MstrFreeSchoolProjects { get; }
     DbSet<MstrAcademyConversion> MstrAcademyConversions { get; }
@@ -46,6 +47,7 @@ public partial class AcademiesDbContext : DbContext, IAcademiesDbContext
         OnModelCreatingGiasGovernances(modelBuilder);
         OnModelCreatingGiasGroupLink(modelBuilder);
         OnModelCreatingGiasGroup(modelBuilder);
+        OnModelCreatingGiasEstablishmentLink(modelBuilder);
         OnModelCreatingCdmAccounts(modelBuilder);
         OnModelCreatingCdmSystemusers(modelBuilder);
         OnModelCreatingTadTrustGovernances(modelBuilder);

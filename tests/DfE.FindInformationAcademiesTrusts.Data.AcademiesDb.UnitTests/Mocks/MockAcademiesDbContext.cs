@@ -28,7 +28,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     private readonly List<GiasGovernance> _giasGovernances = [];
     private readonly List<GiasGroup> _giasGroups = [];
     private readonly List<GiasGroupLink> _giasGroupLinks = [];
-
+    private readonly List<GiasEstablishmentLink> _giasEstablishmentLinks = [];
+    
     //mis_mstr
     private readonly List<MisMstrEstablishmentFiat> _misMstrEstablishmentFiat = [];
     private readonly List<MisMstrFurtherEducationEstablishmentFiat> _misMstrFurtherEducationEstablishmentFiat = [];
@@ -56,6 +57,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         SetupMockDbContext(_giasGovernances, context => context.GiasGovernances);
         SetupMockDbContext(_giasGroups, context => context.Groups);
         SetupMockDbContext(_giasGroupLinks, context => context.GiasGroupLinks);
+        SetupMockDbContext(_giasEstablishmentLinks, context => context.GiasEstablishmentLink);
         //mis_mstr
         SetupMockDbContext(_misMstrEstablishmentFiat, context => context.MisMstrEstablishmentsFiat);
         SetupMockDbContext(_misMstrFurtherEducationEstablishmentFiat,
@@ -131,6 +133,16 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         {
             AddGiasGroupLink(giasEstablishment, giasGroup);
         }
+    }
+
+    public void AddGiasEstablishmentLink(GiasEstablishmentLink giasEstablishmentLink)
+    {
+      _giasEstablishmentLinks.Add(giasEstablishmentLink);  
+    }
+
+    public void AddGiasEstablishmentLinks(IEnumerable<GiasEstablishmentLink> giasEstablishmentLinks)
+    {
+        _giasEstablishmentLinks.AddRange(giasEstablishmentLinks);
     }
 
     public void AddEstablishmentFiat(MisMstrEstablishmentFiat misMstrEstablishmentFiat)
