@@ -41,10 +41,12 @@ public class ExportServiceTests
 
         AssertSpreadsheetMatches(worksheet, 3,
         [
-            "School Name", "URN", "Local authority", "Type", "Rural or Urban", "Date joined",
-            "Previous Ofsted Rating", "Before/After Joining", "Date of Previous Ofsted", "Current Ofsted Rating",
-            "Before/After Joining", "Date of Current Ofsted", "Phase of Education", "Age range", "Pupil Numbers",
-            "Capacity", "% Full", "Pupils eligible for Free School Meals"
+            "School Name", "URN", "Local authority", "Type", "Rural or Urban", "Date joined", "Current Ofsted Rating",
+            "Before/After Joining", "Date of Current Ofsted", "Previous Ofsted Rating", "Before/After Joining",
+            "Date of Previous Ofsted", "Phase of Education",
+            "Age range", "Pupil Numbers",
+            "Capacity", "% Full", "Pupils eligible for Free School Meals",
+            "LA average pupils eligible for Free School Meals", "National average pupils eligible for Free School Meals"
         ]);
     }
 
@@ -77,37 +79,46 @@ public class ExportServiceTests
             {
                 new("123456", "Academy 1", 20, 1, "Type A", "Primary")
             }));
+        _mockAcademyService.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid).Returns(
+            Task.FromResult(new AcademyFreeSchoolMealsServiceModel[]
+            {
+                new("123456", "Academy 1", 20, 25, 15)
+            })
+        );
 
         var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
         using var workbook = new XLWorkbook(new MemoryStream(result));
         var worksheet = workbook.Worksheet("Academies");
 
-        worksheet.Cell(4, 1).Value.ToString().Should().Be("Academy 1");
-        worksheet.Cell(4, 2).Value.ToString().Should().Be("123456");
-        worksheet.Cell(4, 3).Value.ToString().Should().Be("Local Authority 1");
-        worksheet.Cell(4, 4).Value.ToString().Should().Be("Type A");
-        worksheet.Cell(4, 5).Value.ToString().Should().Be("Urban");
+        AcademyCell(worksheet, 4, AcademyColumns.SchoolName).Should().Be("Academy 1");
+        AcademyCell(worksheet, 4, AcademyColumns.Urn).Should().Be("123456");
+        AcademyCell(worksheet, 4, AcademyColumns.LocalAuthority).Should().Be("Local Authority 1");
+        AcademyCell(worksheet, 4, AcademyColumns.Type).Should().Be("Type A");
+        AcademyCell(worksheet, 4, AcademyColumns.RuralOrUrban).Should().Be("Urban");
 
         // Check date joined is set as a date
         worksheet.Cell(4, 6).DataType.Should().Be(XLDataType.DateTime);
         worksheet.Cell(4, 6).GetValue<DateTime>().Should().BeCloseTo(now, TimeSpan.FromSeconds(1));
-
-        worksheet.Cell(4, 7).Value.ToString().Should().Be("Not inspected");
-        worksheet.Cell(4, 8).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(4, 9).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(4, 10).Value.ToString().Should().Be("Outstanding");
-        worksheet.Cell(4, 11).Value.ToString().Should().Be("After Joining");
-
+        
+        AcademyCell(worksheet, 4, AcademyColumns.CurrentOfstedRating).Should().Be("Outstanding");
+        AcademyCell(worksheet, 4, AcademyColumns.CurrentBeforeAfterJoining).Should().Be("After Joining");
         // Current Ofsted date also as a date
-        worksheet.Cell(4, 12).DataType.Should().Be(XLDataType.DateTime);
-        worksheet.Cell(4, 12).GetValue<DateTime>().Should().BeCloseTo(now, TimeSpan.FromSeconds(1));
-
-        worksheet.Cell(4, 13).Value.ToString().Should().Be("Primary");
-        worksheet.Cell(4, 14).Value.ToString().Should().Be("5 - 11");
-        worksheet.Cell(4, 15).Value.ToString().Should().Be("500");
-        worksheet.Cell(4, 16).Value.ToString().Should().Be("600");
-        worksheet.Cell(4, 17).Value.ToString().Should().Be("83%");
-        worksheet.Cell(4, 18).Value.ToString().Should().Be("20%");
+        worksheet.Cell(4, 9).DataType.Should().Be(XLDataType.DateTime);
+        worksheet.Cell(4, 9).GetValue<DateTime>().Should().BeCloseTo(now, TimeSpan.FromSeconds(1));
+        
+        
+        AcademyCell(worksheet, 4, AcademyColumns.PreviousOfstedRating).Should().Be("Not inspected");
+        AcademyCell(worksheet, 4, AcademyColumns.PreviousBeforeAfterJoining).Should().Be(string.Empty);
+        AcademyCell(worksheet, 4, AcademyColumns.DateOfPreviousInspection).Should().Be(string.Empty);
+        
+        AcademyCell(worksheet, 4, AcademyColumns.PhaseOfEducation).Should().Be("Primary");
+        AcademyCell(worksheet, 4, AcademyColumns.AgeRange).Should().Be("5 - 11");
+        AcademyCell(worksheet, 4, AcademyColumns.PupilNumbers).Should().Be("500");
+        AcademyCell(worksheet, 4, AcademyColumns.Capacity).Should().Be("600");
+        AcademyCell(worksheet, 4, AcademyColumns.PercentFull).Should().Be("83%");
+        AcademyCell(worksheet, 4, AcademyColumns.PupilsEligibleFreeSchoolMeals).Should().Be("20%");
+        AcademyCell(worksheet, 4, AcademyColumns.LaPupilsEligibleFreeSchoolMeals).Should().Be("25%");
+        AcademyCell(worksheet, 4, AcademyColumns.NationalPupilsEligibleFreeSchoolMeals).Should().Be("15%");
     }
 
     [Fact]
@@ -157,35 +168,40 @@ public class ExportServiceTests
                 new("123456", null, null, 1, null, null)
             }));
 
+        _mockAcademyService.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid).Returns(
+            Task.FromResult(new AcademyFreeSchoolMealsServiceModel[]
+            {
+                new("123456", null, null, 25, 35)
+            }));
+
         var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
         using var workbook = new XLWorkbook(new MemoryStream(result));
         var worksheet = workbook.Worksheet("Academies");
 
-        worksheet.Cell(4, 1).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(4, 2).Value.ToString().Should().Be("123456");
-        worksheet.Cell(4, 3).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(4, 4).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(4, 5).Value.ToString().Should().Be(string.Empty);
-
-        // Date joined as date
-        worksheet.Cell(4, 6).DataType.Should().Be(XLDataType.DateTime);
+        AcademyCell(worksheet, 4, AcademyColumns.SchoolName).Should().Be(string.Empty);
+        AcademyCell(worksheet, 4, AcademyColumns.Urn).Should().Be("123456");
+        AcademyCell(worksheet, 4, AcademyColumns.LocalAuthority).Should().Be(string.Empty);
+        AcademyCell(worksheet, 4, AcademyColumns.Type).Should().Be(string.Empty);
+        AcademyCell(worksheet, 4, AcademyColumns.RuralOrUrban).Should().Be(string.Empty);
+        
         worksheet.Cell(4, 6).GetValue<DateTime>().Should().BeCloseTo(now, TimeSpan.FromSeconds(1));
-
-        worksheet.Cell(4, 7).Value.ToString().Should().Be("Not inspected");
-        worksheet.Cell(4, 8).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(4, 9).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(4, 10).Value.ToString().Should().Be("Not yet inspected");
-        worksheet.Cell(4, 11).Value.ToString().Should().Be(string.Empty);
-
-        // Current Ofsted date is null, so cell should be empty string
-        worksheet.Cell(4, 12).Value.ToString().Should().Be(string.Empty);
-
-        worksheet.Cell(4, 13).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(4, 14).Value.ToString().Should().Be("5 - 11");
-        worksheet.Cell(4, 15).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(4, 16).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(4, 17).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(4, 18).Value.ToString().Should().Be(string.Empty);
+        
+        AcademyCell(worksheet, 4, AcademyColumns.CurrentOfstedRating).Should().Be("Not yet inspected");
+        AcademyCell(worksheet, 4, AcademyColumns.CurrentBeforeAfterJoining).Should().Be(string.Empty);
+        AcademyCell(worksheet, 4, AcademyColumns.DateOfCurrentInspection).Should().Be(string.Empty);
+        
+        AcademyCell(worksheet, 4, AcademyColumns.PreviousOfstedRating).Should().Be("Not inspected");
+        AcademyCell(worksheet, 4, AcademyColumns.PreviousBeforeAfterJoining).Should().Be(string.Empty);
+        AcademyCell(worksheet, 4, AcademyColumns.DateOfPreviousInspection).Should().Be(string.Empty);
+        
+        AcademyCell(worksheet, 4, AcademyColumns.PhaseOfEducation).Should().Be(string.Empty);
+        AcademyCell(worksheet, 4, AcademyColumns.AgeRange).Should().Be("5 - 11");
+        AcademyCell(worksheet, 4, AcademyColumns.PupilNumbers).Should().Be(string.Empty);
+        AcademyCell(worksheet, 4, AcademyColumns.Capacity).Should().Be(string.Empty);
+        AcademyCell(worksheet, 4, AcademyColumns.PercentFull).Should().Be(string.Empty);
+        AcademyCell(worksheet, 4, AcademyColumns.PupilsEligibleFreeSchoolMeals).Should().Be(string.Empty);
+        AcademyCell(worksheet, 4, AcademyColumns.LaPupilsEligibleFreeSchoolMeals).Should().Be("25%");
+        AcademyCell(worksheet, 4, AcademyColumns.NationalPupilsEligibleFreeSchoolMeals).Should().Be("35%");
     }
 
     [Fact]
@@ -284,13 +300,13 @@ public class ExportServiceTests
         var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
         using var workbook = new XLWorkbook(new MemoryStream(result));
         var worksheet = workbook.Worksheet("Academies");
-
-        worksheet.Cell(4, 7).Value.ToString().Should().Be("Not inspected");
-        worksheet.Cell(4, 8).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(4, 9).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(4, 10).Value.ToString().Should().Be("Not yet inspected");
-        worksheet.Cell(4, 11).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(4, 12).Value.ToString().Should().Be(string.Empty);
+        
+        AcademyCell(worksheet, 4, AcademyColumns.CurrentOfstedRating).Should().Be("Not yet inspected");
+        AcademyCell(worksheet, 4, AcademyColumns.CurrentBeforeAfterJoining).Should().Be(string.Empty);
+        AcademyCell(worksheet, 4, AcademyColumns.DateOfCurrentInspection).Should().Be(string.Empty);
+        AcademyCell(worksheet, 4, AcademyColumns.PreviousOfstedRating).Should().Be("Not inspected");
+        AcademyCell(worksheet, 4, AcademyColumns.PreviousBeforeAfterJoining).Should().Be(string.Empty);
+        AcademyCell(worksheet, 4, AcademyColumns.DateOfPreviousInspection).Should().Be(string.Empty);
     }
 
     [Fact]
@@ -362,6 +378,28 @@ public class ExportServiceTests
         var worksheet = workbook.Worksheet("Academies");
 
         worksheet.Cell(4, 18).Value.ToString().Should().Be(string.Empty);
+    }
+
+    [Fact]
+    public async Task ExportAcademiesToSpreadsheet_ShouldHandleMissingFreeSchoolMealsAveragesAsync()
+    {
+        var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
+        var academyUrn = "123456";
+        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid)!.Returns(Task.FromResult(new TrustSummary("Sample Trust",
+            "Multi-academy trust")));
+        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).Returns(Task.FromResult(new AcademyDetails[]
+        {
+            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
+        }));
+        _mockAcademyService.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid).Returns(
+            Task.FromResult(Array.Empty<AcademyFreeSchoolMealsServiceModel>()));
+        
+        var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
+        using var workbook = new XLWorkbook(new MemoryStream(result));
+        var worksheet = workbook.Worksheet("Academies");
+
+        AcademyCell(worksheet, 4, AcademyColumns.LaPupilsEligibleFreeSchoolMeals).Should().Be(string.Empty);
+        AcademyCell(worksheet, 4, AcademyColumns.NationalPupilsEligibleFreeSchoolMeals).Should().Be(string.Empty);
     }
 
     [Fact]
@@ -508,28 +546,28 @@ public class ExportServiceTests
         using var scope = new AssertionScope();
 
         //Current inspection
-        Cell(worksheet, 4, OfstedColumns.DateOfCurrentInspection).Should().Be(string.Empty);
-        Cell(worksheet, 4, OfstedColumns.CurrentBeforeAfterJoining).Should().Be(string.Empty);
-        Cell(worksheet, 4, OfstedColumns.CurrentQualityOfEducation).Should().Be("Not yet inspected");
-        Cell(worksheet, 4, OfstedColumns.CurrentBehaviourAndAttitudes).Should().Be("Not yet inspected");
-        Cell(worksheet, 4, OfstedColumns.CurrentPersonalDevelopment).Should().Be("Not yet inspected");
-        Cell(worksheet, 4, OfstedColumns.CurrentLeadershipAndManagement).Should().Be("Not yet inspected");
-        Cell(worksheet, 4, OfstedColumns.CurrentEarlyYearsProvision).Should().Be("Not yet inspected");
-        Cell(worksheet, 4, OfstedColumns.CurrentSixthFormProvision).Should().Be("Not yet inspected");
+        OfstedCell(worksheet, 4, OfstedColumns.DateOfCurrentInspection).Should().Be(string.Empty);
+        OfstedCell(worksheet, 4, OfstedColumns.CurrentBeforeAfterJoining).Should().Be(string.Empty);
+        OfstedCell(worksheet, 4, OfstedColumns.CurrentQualityOfEducation).Should().Be("Not yet inspected");
+        OfstedCell(worksheet, 4, OfstedColumns.CurrentBehaviourAndAttitudes).Should().Be("Not yet inspected");
+        OfstedCell(worksheet, 4, OfstedColumns.CurrentPersonalDevelopment).Should().Be("Not yet inspected");
+        OfstedCell(worksheet, 4, OfstedColumns.CurrentLeadershipAndManagement).Should().Be("Not yet inspected");
+        OfstedCell(worksheet, 4, OfstedColumns.CurrentEarlyYearsProvision).Should().Be("Not yet inspected");
+        OfstedCell(worksheet, 4, OfstedColumns.CurrentSixthFormProvision).Should().Be("Not yet inspected");
 
         //Previous inspection
-        Cell(worksheet, 4, OfstedColumns.DateOfPreviousInspection).Should().Be(string.Empty);
-        Cell(worksheet, 4, OfstedColumns.PreviousBeforeAfterJoining).Should().Be(string.Empty);
-        Cell(worksheet, 4, OfstedColumns.PreviousQualityOfEducation).Should().Be("Not inspected");
-        Cell(worksheet, 4, OfstedColumns.PreviousBehaviourAndAttitudes).Should().Be("Not inspected");
-        Cell(worksheet, 4, OfstedColumns.PreviousPersonalDevelopment).Should().Be("Not inspected");
-        Cell(worksheet, 4, OfstedColumns.PreviousLeadershipAndManagement).Should().Be("Not inspected");
-        Cell(worksheet, 4, OfstedColumns.PreviousEarlyYearsProvision).Should().Be("Not inspected");
-        Cell(worksheet, 4, OfstedColumns.PreviousSixthFormProvision).Should().Be("Not inspected");
+        OfstedCell(worksheet, 4, OfstedColumns.DateOfPreviousInspection).Should().Be(string.Empty);
+        OfstedCell(worksheet, 4, OfstedColumns.PreviousBeforeAfterJoining).Should().Be(string.Empty);
+        OfstedCell(worksheet, 4, OfstedColumns.PreviousQualityOfEducation).Should().Be("Not inspected");
+        OfstedCell(worksheet, 4, OfstedColumns.PreviousBehaviourAndAttitudes).Should().Be("Not inspected");
+        OfstedCell(worksheet, 4, OfstedColumns.PreviousPersonalDevelopment).Should().Be("Not inspected");
+        OfstedCell(worksheet, 4, OfstedColumns.PreviousLeadershipAndManagement).Should().Be("Not inspected");
+        OfstedCell(worksheet, 4, OfstedColumns.PreviousEarlyYearsProvision).Should().Be("Not inspected");
+        OfstedCell(worksheet, 4, OfstedColumns.PreviousSixthFormProvision).Should().Be("Not inspected");
 
         //Safeguarding and concerns
-        Cell(worksheet, 4, OfstedColumns.EffectiveSafeguarding).Should().Be("Not yet inspected");
-        Cell(worksheet, 4, OfstedColumns.CategoryOfConcern).Should().Be("Not yet inspected");
+        OfstedCell(worksheet, 4, OfstedColumns.EffectiveSafeguarding).Should().Be("Not yet inspected");
+        OfstedCell(worksheet, 4, OfstedColumns.CategoryOfConcern).Should().Be("Not yet inspected");
     }
 
     [Fact]
@@ -777,7 +815,12 @@ public class ExportServiceTests
         worksheet.Cell(2, 1).Value.ToString().Should().Be(string.Empty);
     }
 
-    private static string Cell(IXLWorksheet worksheet, int rowNumber, OfstedColumns column)
+    private static string OfstedCell(IXLWorksheet worksheet, int rowNumber, OfstedColumns column)
+    {
+        return worksheet.Cell(rowNumber, (int)column).Value.ToString();
+    }
+
+    private static string AcademyCell(IXLWorksheet worksheet, int rowNumber, AcademyColumns column)
     {
         return worksheet.Cell(rowNumber, (int)column).Value.ToString();
     }
@@ -806,5 +849,29 @@ public class ExportServiceTests
         PreviousSixthFormProvision = 20,
         EffectiveSafeguarding = 21,
         CategoryOfConcern = 22
+    }
+
+    private enum AcademyColumns
+    {
+        SchoolName = 1,
+        Urn = 2,
+        LocalAuthority = 3,
+        Type = 4,
+        RuralOrUrban = 5,
+        DateJoined = 6,
+        CurrentOfstedRating = 7,
+        CurrentBeforeAfterJoining = 8,
+        DateOfCurrentInspection = 9,
+        PreviousOfstedRating = 10,
+        PreviousBeforeAfterJoining = 11,
+        DateOfPreviousInspection = 12,
+        PhaseOfEducation = 13,
+        AgeRange = 14,
+        PupilNumbers = 15,
+        Capacity = 16,
+        PercentFull = 17,
+        PupilsEligibleFreeSchoolMeals = 18,
+        LaPupilsEligibleFreeSchoolMeals = 19,
+        NationalPupilsEligibleFreeSchoolMeals = 20,
     }
 }
