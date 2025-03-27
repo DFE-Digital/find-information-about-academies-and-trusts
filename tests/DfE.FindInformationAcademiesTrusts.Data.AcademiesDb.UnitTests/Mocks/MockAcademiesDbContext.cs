@@ -30,7 +30,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     private readonly List<GiasGroup> _giasGroups = [];
     private readonly List<GiasGroupLink> _giasGroupLinks = [];
     private readonly List<GiasEstablishmentLink> _giasEstablishmentLinks = [];
-    
+
     //mis_mstr
     private readonly List<MisMstrEstablishmentFiat> _misMstrEstablishmentFiat = [];
     private readonly List<MisMstrFurtherEducationEstablishmentFiat> _misMstrFurtherEducationEstablishmentFiat = [];
@@ -142,7 +142,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 
     public void AddGiasEstablishmentLink(GiasEstablishmentLink giasEstablishmentLink)
     {
-      _giasEstablishmentLinks.Add(giasEstablishmentLink);  
+        _giasEstablishmentLinks.Add(giasEstablishmentLink);
     }
 
     public void AddGiasEstablishmentLinks(IEnumerable<GiasEstablishmentLink> giasEstablishmentLinks)
@@ -379,9 +379,9 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         _sharepointTrustDocLinks.Add(sharepointTrustDocLink);
     }
 
-    public void AddTrustDocLinks(string trustReferenceNumber, string folderPrefix, int number)
+    public SharepointTrustDocLink[] AddTrustDocLinks(string trustReferenceNumber, string folderPrefix, int number)
     {
-        _sharepointTrustDocLinks.AddRange(Enumerable.Range(1, number).Select(i =>
+        var sharepointTrustDocLinks = Enumerable.Range(1, number).Select(i =>
             new SharepointTrustDocLink
             {
                 FolderPrefix = folderPrefix,
@@ -389,8 +389,10 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
                 DocumentFilename = $"Trust Document {i}",
                 DocumentLink = $"www.trustDocumentLink{i}.com",
                 FolderYear = 2000 + i
-            })
-        );
+            }).ToArray();
+
+        _sharepointTrustDocLinks.AddRange(sharepointTrustDocLinks);
+        return sharepointTrustDocLinks;
     }
 }
 
