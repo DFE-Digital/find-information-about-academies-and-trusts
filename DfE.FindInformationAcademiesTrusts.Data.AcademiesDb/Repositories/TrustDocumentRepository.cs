@@ -24,9 +24,7 @@ public class TrustDocumentRepository(IAcademiesDbContext academiesDbContext, ILo
         var (trustOpenDate, trustReferenceNumber) = await GetTrustInfoFromGias(uid);
 
         var allSharepointTrustDocLinksForFinancialDocType = await academiesDbContext.SharepointTrustDocLinks
-            .Where(doc => doc.DocumentLink != null
-                          && doc.TrustRefNumber != null
-                          && doc.TrustRefNumber == trustReferenceNumber
+            .Where(doc => doc.TrustRefNumber == trustReferenceNumber
                           && FolderPrefixes[financialDocumentType].Contains(doc.FolderPrefix))
             .Select(doc => new { doc.FolderYear, DocumentLink = doc.DocumentLink!, doc.CreatedDateTime })
             .ToArrayAsync();

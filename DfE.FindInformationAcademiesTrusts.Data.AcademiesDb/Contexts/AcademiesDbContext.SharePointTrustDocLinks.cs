@@ -38,6 +38,10 @@ public partial class AcademiesDbContext
             entity.Property(e => e.TrustRefNumber)
                 .HasMaxLength(10)
                 .IsUnicode(false);
+
+            // Query filter
+            entity.HasQueryFilter(doc => doc.DocumentLink != null
+                                         && doc.TrustRefNumber != null);
         });
     }
 }
