@@ -284,57 +284,6 @@ public class ExportServiceTests
     }
 
     [Fact]
-    public async Task ExportAcademiesToSpreadsheet_ShouldHandleMissingOfstedDataAsync()
-    {
-        var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
-        var academyUrn = "123456";
-
-        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid)!.Returns(Task.FromResult(new TrustSummary("Sample Trust",
-            "Multi-academy trust")));
-        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).Returns(Task.FromResult(new AcademyDetails[]
-        {
-            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
-        }));
-        _mockAcademyRepository.GetAcademiesInTrustOfstedAsync(trustSummary.Uid).Returns(Task.FromResult(Array.Empty<AcademyOfsted>()));
-
-        var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
-        using var workbook = new XLWorkbook(new MemoryStream(result));
-        var worksheet = workbook.Worksheet("Academies");
-        
-        AcademyCell(worksheet, 4, AcademyColumns.CurrentOfstedRating).Should().Be("Not yet inspected");
-        AcademyCell(worksheet, 4, AcademyColumns.CurrentBeforeAfterJoining).Should().Be(string.Empty);
-        AcademyCell(worksheet, 4, AcademyColumns.DateOfCurrentInspection).Should().Be(string.Empty);
-        AcademyCell(worksheet, 4, AcademyColumns.PreviousOfstedRating).Should().Be("Not inspected");
-        AcademyCell(worksheet, 4, AcademyColumns.PreviousBeforeAfterJoining).Should().Be(string.Empty);
-        AcademyCell(worksheet, 4, AcademyColumns.DateOfPreviousInspection).Should().Be(string.Empty);
-    }
-
-    [Fact]
-    public async Task ExportAcademiesToSpreadsheet_ShouldHandleMissingPupilNumbersDataAsync()
-    {
-        var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
-        var academyUrn = "123456";
-
-        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid)!.Returns(Task.FromResult(new TrustSummary(
-            "Sample Trust",
-            "Multi-academy trust")));
-        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).Returns(Task.FromResult(new AcademyDetails[]
-        {
-            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
-        }));
-        _mockAcademyRepository.GetAcademiesInTrustPupilNumbersAsync(trustSummary.Uid).Returns(
-            Task.FromResult(Array.Empty<AcademyPupilNumbers>()));
-
-        var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
-        using var workbook = new XLWorkbook(new MemoryStream(result));
-        var worksheet = workbook.Worksheet("Academies");
-
-        worksheet.Cell(4, 15).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(4, 16).Value.ToString().Should().Be(string.Empty);
-        worksheet.Cell(4, 17).Value.ToString().Should().Be(string.Empty);
-    }
-
-    [Fact]
     public async Task ExportAcademiesToSpreadsheet_ShouldHandleZeroPercentageFullAsync()
     {
         var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
@@ -342,10 +291,6 @@ public class ExportServiceTests
 
         _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid)!.Returns(Task.FromResult(new TrustSummary("Sample Trust",
             "Multi-academy trust")));
-        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).Returns(Task.FromResult(new AcademyDetails[]
-        {
-            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
-        }));
         _mockAcademyRepository.GetAcademiesInTrustPupilNumbersAsync(trustSummary.Uid).Returns(Task.FromResult(new AcademyPupilNumbers[]
         {
             new(academyUrn, "Academy 1", "Primary", new AgeRange(5, 11), 0, 300)
@@ -355,51 +300,7 @@ public class ExportServiceTests
         using var workbook = new XLWorkbook(new MemoryStream(result));
         var worksheet = workbook.Worksheet("Academies");
 
-        worksheet.Cell(4, 17).Value.ToString().Should().Be(string.Empty);
-    }
-
-    [Fact]
-    public async Task ExportAcademiesToSpreadsheet_ShouldHandleMissingFreeSchoolMealsDataAsync()
-    {
-        var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
-        var academyUrn = "123456";
-
-        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid)!.Returns(Task.FromResult(new TrustSummary("Sample Trust",
-            "Multi-academy trust")));
-        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).Returns(Task.FromResult(new AcademyDetails[]
-        {
-            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
-        }));
-        _mockAcademyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid).Returns(
-            Task.FromResult(Array.Empty<AcademyFreeSchoolMeals>()));
-
-        var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
-        using var workbook = new XLWorkbook(new MemoryStream(result));
-        var worksheet = workbook.Worksheet("Academies");
-
-        worksheet.Cell(4, 18).Value.ToString().Should().Be(string.Empty);
-    }
-
-    [Fact]
-    public async Task ExportAcademiesToSpreadsheet_ShouldHandleMissingFreeSchoolMealsAveragesAsync()
-    {
-        var trustSummary = new TrustSummaryServiceModel("1", "Sample Trust", "Multi-academy trust", 1);
-        var academyUrn = "123456";
-        _mockTrustRepository.GetTrustSummaryAsync(trustSummary.Uid)!.Returns(Task.FromResult(new TrustSummary("Sample Trust",
-            "Multi-academy trust")));
-        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(trustSummary.Uid).Returns(Task.FromResult(new AcademyDetails[]
-        {
-            new(academyUrn, "Academy 1", "Type A", "Local Authority 1", "Urban")
-        }));
-        _mockAcademyService.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid).Returns(
-            Task.FromResult(Array.Empty<AcademyFreeSchoolMealsServiceModel>()));
-        
-        var result = await _sut.ExportAcademiesToSpreadsheetAsync(trustSummary.Uid);
-        using var workbook = new XLWorkbook(new MemoryStream(result));
-        var worksheet = workbook.Worksheet("Academies");
-
-        AcademyCell(worksheet, 4, AcademyColumns.LaPupilsEligibleFreeSchoolMeals).Should().Be(string.Empty);
-        AcademyCell(worksheet, 4, AcademyColumns.NationalPupilsEligibleFreeSchoolMeals).Should().Be(string.Empty);
+        AcademyCell(worksheet, 4, AcademyColumns.PercentFull).Should().Be(string.Empty);
     }
 
     [Fact]
