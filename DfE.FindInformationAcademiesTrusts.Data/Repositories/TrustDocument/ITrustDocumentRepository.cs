@@ -4,6 +4,6 @@ namespace DfE.FindInformationAcademiesTrusts.Data.Repositories.TrustDocument;
 
 public interface ITrustDocumentRepository
 {
-    Task<TrustDocument[]> GetFinancialDocumentsAsync(string trustReferenceNumber,
+    Task<(TrustDocument[] financialDocuments, DateOnly trustOpenDate)> GetFinancialDocumentsAsync(string uid,
         FinancialDocumentType financialDocumentType);
 }
