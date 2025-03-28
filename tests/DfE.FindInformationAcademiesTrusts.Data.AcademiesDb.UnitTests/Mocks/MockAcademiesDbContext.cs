@@ -5,6 +5,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis_Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Sharepoint;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     private readonly List<GiasGroup> _giasGroups = [];
     private readonly List<GiasGroupLink> _giasGroupLinks = [];
     private readonly List<GiasEstablishmentLink> _giasEstablishmentLinks = [];
-    
+
     //mis_mstr
     private readonly List<MisMstrEstablishmentFiat> _misMstrEstablishmentFiat = [];
     private readonly List<MisMstrFurtherEducationEstablishmentFiat> _misMstrFurtherEducationEstablishmentFiat = [];
@@ -38,8 +39,10 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
     private readonly List<MstrTrust> _mstrTrusts = [];
     private readonly List<MstrAcademyConversion> _mstrAcademyConversions = [];
     private readonly List<MstrAcademyTransfer> _mstrAcademyTransfers = [];
-
     private readonly List<MstrFreeSchoolProject> _mstrFreeSchoolProjects = [];
+
+    //sharepoint
+    private readonly List<SharepointTrustDocLink> _sharepointTrustDocLinks = [];
 
     //tad
     private readonly List<TadTrustGovernance> _tadTrustGovernances = [];
@@ -67,6 +70,8 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         SetupMockDbContext(_mstrAcademyTransfers, context => context.MstrAcademyTransfers);
         SetupMockDbContext(_mstrFreeSchoolProjects, context => context.MstrFreeSchoolProjects);
         SetupMockDbContext(_mstrTrusts, context => context.MstrTrusts);
+        //sharepoint
+        SetupMockDbContext(_sharepointTrustDocLinks, context => context.SharepointTrustDocLinks);
         //tad
         SetupMockDbContext(_tadTrustGovernances, context => context.TadTrustGovernances);
 
@@ -137,7 +142,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 
     public void AddGiasEstablishmentLink(GiasEstablishmentLink giasEstablishmentLink)
     {
-      _giasEstablishmentLinks.Add(giasEstablishmentLink);  
+        _giasEstablishmentLinks.Add(giasEstablishmentLink);
     }
 
     public void AddGiasEstablishmentLinks(IEnumerable<GiasEstablishmentLink> giasEstablishmentLinks)
@@ -367,6 +372,27 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             ExpectedTransferDate = expectedTransferDate,
             LastDataRefresh = lastDataRefresh
         });
+    }
+
+    public void AddTrustDocLink(SharepointTrustDocLink sharepointTrustDocLink)
+    {
+        _sharepointTrustDocLinks.Add(sharepointTrustDocLink);
+    }
+
+    public SharepointTrustDocLink[] AddTrustDocLinks(string trustReferenceNumber, string folderPrefix, int number)
+    {
+        var sharepointTrustDocLinks = Enumerable.Range(1, number).Select(i =>
+            new SharepointTrustDocLink
+            {
+                FolderPrefix = folderPrefix,
+                TrustRefNumber = trustReferenceNumber,
+                DocumentFilename = $"Trust Document {i}",
+                DocumentLink = $"www.trustDocumentLink{i}.com",
+                FolderYear = 2000 + i
+            }).ToArray();
+
+        _sharepointTrustDocLinks.AddRange(sharepointTrustDocLinks);
+        return sharepointTrustDocLinks;
     }
 }
 

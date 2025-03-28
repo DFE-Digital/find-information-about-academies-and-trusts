@@ -115,6 +115,12 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
                 },
                 l =>
                 {
+                    l.LinkText.Should().Be(ViewConstants.FinancialDocumentsPageName);
+                    l.Page.Should().Be("/Trusts/FinancialDocuments/FinancialStatements");
+                    l.DataTestId.Should().Be("financial-documents-nav");
+                },
+                l =>
+                {
                     l.LinkText.Should().Be(ViewConstants.GovernancePageName);
                     l.Page.Should().Be("/Trusts/Governance/TrustLeadership");
                     l.DataTestId.Should().Be("governance-nav");

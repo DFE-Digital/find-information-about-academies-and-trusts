@@ -1,31 +1,36 @@
 ﻿@model ITrustsAreaModel
-<details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details" data-testid="data-source-and-updates">
-  <summary class="govuk-details__summary">
-    <span class="govuk-details__summary-text">
-      <span>Where this information came from</span>
-    </span>
-  </summary>
-  <div class="govuk-details__text">
-    @foreach (var pageSource in Model.DataSourcesPerPage)
-    {
-      <p class="govuk-heading-s">
-        @pageSource.PageName
-      </p>
-      <ul class="govuk-list govuk-list--bullet">
-        @foreach (var source in pageSource.DataSources)
-        {
-          <li data-testid="@Model.MapDataSourceToTestId(source)">
-            @if (source.DataSource.UpdatedBy is not null)
-            {
-              <span>@source.DataField was updated by @source.UpdatedByText on @source.LastUpdatedText</span>
-            }
-            else
-            {
-              <span>@source.DataField taken from @Model.MapDataSourceToName(source.DataSource) on @source.LastUpdatedText</span>
-            }
-          </li>
-        }
-      </ul>
-    }
-  </div>
-</details>
+
+@if (Model.DataSourcesPerPage.Any())
+{
+  <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details"
+           data-testid="data-source-and-updates">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        <span>Where this information came from</span>
+      </span>
+    </summary>
+    <div class="govuk-details__text">
+      @foreach (var pageSource in Model.DataSourcesPerPage)
+      {
+        <p class="govuk-heading-s">
+          @pageSource.PageName
+        </p>
+        <ul class="govuk-list govuk-list--bullet">
+          @foreach (var source in pageSource.DataSources)
+          {
+            <li data-testid="@Model.MapDataSourceToTestId(source)">
+              @if (source.DataSource.UpdatedBy is not null)
+              {
+                <span>@source.DataField was updated by @source.UpdatedByText on @source.LastUpdatedText</span>
+              }
+              else
+              {
+                <span>@source.DataField taken from @Model.MapDataSourceToName(source.DataSource) on @source.LastUpdatedText</span>
+              }
+            </li>
+          }
+        </ul>
+      }
+    </div>
+  </details>
+}

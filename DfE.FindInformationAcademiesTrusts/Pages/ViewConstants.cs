@@ -1,5 +1,5 @@
-using DfE.FindInformationAcademiesTrusts.Data;
 using System.Diagnostics.CodeAnalysis;
+using DfE.FindInformationAcademiesTrusts.Data;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages;
 
@@ -67,6 +67,12 @@ public static class ViewConstants
     public const string OfstedCurrentRatingsPageName = "Current ratings";
     public const string OfstedPreviousRatingsPageName = "Previous ratings";
     public const string OfstedSafeguardingAndConcernsPageName = "Safeguarding and concerns";
+
+    public const string FinancialDocumentsPageName = "Financial documents";
+    public const string FinancialDocumentsFinancialStatementsSubPageName = "Financial statements";
+    public const string FinancialDocumentsManagementLettersSubPageName = "Management letters";
+    public const string FinancialDocumentsInternalScrutinyReportsSubPageName = "Internal scrutiny reports";
+    public const string FinancialDocumentsSelfAssessmentChecklistsSubPageName = "Self-assessment checklists";
 
     public const string GovernancePageName = "Governance";
     public const string GovernanceTrustLeadershipPageName = "Trust leadership";

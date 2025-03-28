@@ -147,7 +147,7 @@ describe("Testing the components of the Academies page", () => {
 
     });
 
-    describe.only("Testing the academies sub navigation", () => {
+    describe("Testing the academies sub navigation", () => {
         beforeEach(() => {
             cy.login();
             cy.visit('/trusts/academies/in-trust/details?uid=5527');
