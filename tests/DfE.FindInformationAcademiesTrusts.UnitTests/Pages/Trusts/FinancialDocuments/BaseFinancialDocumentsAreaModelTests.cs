@@ -12,14 +12,15 @@ public abstract class BaseFinancialDocumentsAreaModelTests<T> : BaseTrustPageTes
 
     private readonly FinancialDocumentServiceModel[] _unsortedFinancialDocs =
     [
-        new(2023, 2024, FinancialDocumentStatus.NotYetSubmitted, null),
-        new(2022, 2023, FinancialDocumentStatus.NotExpected, null),
+        new(2023, 2024, FinancialDocumentStatus.NotYetSubmitted),
+        new(2022, 2023, FinancialDocumentStatus.NotExpected),
         new(2024, 2025, FinancialDocumentStatus.Submitted, "https://www.google.com")
     ];
 
     protected BaseFinancialDocumentsAreaModelTests(FinancialDocumentType financialDocumentType)
     {
-        MockFinancialDocumentService.GetFinancialDocumentsAsync(financialDocumentType).Returns(_unsortedFinancialDocs);
+        MockFinancialDocumentService.GetFinancialDocumentsAsync(TrustUid, financialDocumentType)
+            .Returns(_unsortedFinancialDocs);
     }
 
     [Fact]

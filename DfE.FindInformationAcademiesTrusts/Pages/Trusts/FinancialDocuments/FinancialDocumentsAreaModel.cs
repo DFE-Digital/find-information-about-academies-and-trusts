@@ -32,7 +32,8 @@ public abstract class FinancialDocumentsAreaModel(
         var pageResult = await base.OnGetAsync();
         if (pageResult is NotFoundResult) return pageResult;
 
-        FinancialDocuments = await financialDocumentService.GetFinancialDocumentsAsync(FinancialDocumentType);
+        FinancialDocuments =
+            await financialDocumentService.GetFinancialDocumentsAsync(Uid, FinancialDocumentType);
 
         SubNavigationLinks =
         [
