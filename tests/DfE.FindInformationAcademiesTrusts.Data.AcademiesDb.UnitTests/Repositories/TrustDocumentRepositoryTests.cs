@@ -58,32 +58,71 @@ public class TrustDocumentRepositoryTests
     }
 
     [Theory]
+    [InlineData(FinancialDocumentType.FinancialStatement, "AFS")]
+    [InlineData(FinancialDocumentType.FinancialStatement, "FS")]
+    [InlineData(FinancialDocumentType.ManagementLetter, "AML")]
+    [InlineData(FinancialDocumentType.ManagementLetter, "ML")]
+    [InlineData(FinancialDocumentType.InternalScrutinyReport, "ISR")]
+    public async Task GetFinancialDocumentsAsync_should_set_document_link_in_trust_documents(
+        FinancialDocumentType financialDocType, string folderPrefix)
+    {
+        var expectedLinks = _mockAcademiesDb.AddTrustDocLinks(TrustReferenceNumber, folderPrefix, 3)
+            .Select(d => d.DocumentLink);
+
+        var result = await _sut.GetFinancialDocumentsAsync(Uid, financialDocType);
+
+        result.financialDocuments.Select(d => d.Link).Should().BeEquivalentTo(expectedLinks);
+    }
+
+    [Theory]
     [InlineData(FinancialDocumentType.FinancialStatement, "AFS", 2024)]
     [InlineData(FinancialDocumentType.FinancialStatement, "FS", 2023)]
     [InlineData(FinancialDocumentType.ManagementLetter, "AML", 2022)]
     [InlineData(FinancialDocumentType.ManagementLetter, "ML", 2021)]
     [InlineData(FinancialDocumentType.InternalScrutinyReport, "ISR", 2019)]
-    [InlineData(FinancialDocumentType.SelfAssessmentChecklist, "SRMSAT", 2018)]
-    [InlineData(FinancialDocumentType.SelfAssessmentChecklist, "SRMSAC", 2017)]
-    public async Task GetFinancialDocumentsAsync_should_map_TrustDocLinks_to_TrustDocument(
-        FinancialDocumentType financialDocType, string folderPrefix, int year)
+    public async Task GetFinancialDocumentsAsync_should_set_financial_year_end_to_folder_year_for_most_doc_types(
+        FinancialDocumentType financialDocType, string folderPrefix, int folderYear)
     {
-        var link = $"www.link-to-{folderPrefix}-{year}.com";
+        var link = $"www.link-to-{folderPrefix}-{folderYear}.com";
 
         _mockAcademiesDb.AddTrustDocLink(new SharepointTrustDocLink
         {
             FolderPrefix = folderPrefix,
             TrustRefNumber = TrustReferenceNumber,
-            DocumentFilename = $"Trust Document for {folderPrefix} {year}",
+            DocumentFilename = $"Trust Document for {folderPrefix} {folderYear}",
             DocumentLink = link,
-            FolderYear = year
+            FolderYear = folderYear
         });
 
         var result = await _sut.GetFinancialDocumentsAsync(Uid, financialDocType);
 
-        var actualDoc = result.financialDocuments.Should().ContainSingle().Subject;
-        actualDoc.FinancialYear.Should().Be(new FinancialYear(year));
-        actualDoc.Link.Should().Be(link);
+        result.financialDocuments.Should().ContainSingle()
+            .Which.FinancialYear.Should().Be(new FinancialYear(folderYear));
+    }
+
+    [Theory]
+    [InlineData(FinancialDocumentType.SelfAssessmentChecklist, "SRMSAT", 2025, 2024)]
+    [InlineData(FinancialDocumentType.SelfAssessmentChecklist, "SRMSAC", 2017, 2016)]
+    public async Task
+        GetFinancialDocumentsAsync_should_set_financial_year_end_to_year_before_folder_year_for_SelfAssessmentChecklist(
+            FinancialDocumentType financialDocType, string folderPrefix, int folderYear,
+            int expectedFinancialYearEndYear)
+    {
+        var link = $"www.link-to-{folderPrefix}-{folderYear}.com";
+
+        _mockAcademiesDb.AddTrustDocLink(new SharepointTrustDocLink
+        {
+            FolderPrefix = folderPrefix,
+            TrustRefNumber = TrustReferenceNumber,
+            DocumentFilename = $"Trust Document for {folderPrefix} {folderYear}",
+            DocumentLink = link,
+            FolderYear = folderYear
+        });
+
+        var result = await _sut.GetFinancialDocumentsAsync(Uid, financialDocType);
+
+        result.financialDocuments.Should().ContainSingle()
+            .Which.FinancialYear.Should().Be(new FinancialYear(expectedFinancialYearEndYear));
     }
 
     [Fact]

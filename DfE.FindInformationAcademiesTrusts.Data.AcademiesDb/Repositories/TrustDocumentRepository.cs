@@ -34,7 +34,13 @@ public class TrustDocumentRepository(IAcademiesDbContext academiesDbContext, ILo
             .Select(g => g.OrderByDescending(d => d.CreatedDateTime).First());
 
         var trustDocuments = yearDuplicationsRemoved
-            .Select(doc => new TrustDocument(doc.FolderYear, doc.DocumentLink))
+            .Select(doc =>
+            {
+                var financialYearEnd = financialDocumentType == FinancialDocumentType.SelfAssessmentChecklist
+                    ? doc.FolderYear - 1
+                    : doc.FolderYear;
+                return new TrustDocument(financialYearEnd, doc.DocumentLink);
+            })
             .ToArray();
 
         return (trustDocuments, trustOpenDate);
