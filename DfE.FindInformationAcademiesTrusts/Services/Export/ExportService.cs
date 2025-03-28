@@ -61,8 +61,7 @@ public class ExportService(
         var academiesDetails = await academyRepository.GetAcademiesInTrustDetailsAsync(uid);
         var academiesOfstedRatings = await academyRepository.GetAcademiesInTrustOfstedAsync(uid);
         var academiesPupilNumbers = await academyRepository.GetAcademiesInTrustPupilNumbersAsync(uid);
-        var academiesFreeSchoolMeals = await academyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(uid);
-        var academiesFreeSchoolMealsAverages = await academyService.GetAcademiesInTrustFreeSchoolMealsAsync(uid);
+        var academiesFreeSchoolMeals = await academyService.GetAcademiesInTrustFreeSchoolMealsAsync(uid);
 
         return GenerateAcademiesSpreadsheet(
             trustSummary,
@@ -70,8 +69,7 @@ public class ExportService(
             headers,
             academiesOfstedRatings,
             academiesPupilNumbers,
-            academiesFreeSchoolMeals,
-            academiesFreeSchoolMealsAverages
+            academiesFreeSchoolMeals
         );
     }
 
@@ -102,8 +100,7 @@ public class ExportService(
         List<string> headers,
         AcademyOfsted[] academiesOfstedRatings,
         AcademyPupilNumbers[] academiesPupilNumbers,
-        AcademyFreeSchoolMeals[] academiesFreeSchoolMeals,
-        AcademyFreeSchoolMealsServiceModel[] academiesFreeSchoolMealsAverages)
+        AcademyFreeSchoolMealsServiceModel[] academiesFreeSchoolMeals)
     {
         using var workbook = new XLWorkbook();
         var worksheet = workbook.Worksheets.Add("Academies");
@@ -119,9 +116,8 @@ public class ExportService(
             var ofstedData = academiesOfstedRatings.Single(x => x.Urn == academy.Urn);
             var pupilData = academiesPupilNumbers.Single(x => x.Urn == academy.Urn);
             var freeMealsData = academiesFreeSchoolMeals.Single(x => x.Urn == academy.Urn);
-            var freeSchoolMealsAverages = academiesFreeSchoolMealsAverages.Single(x => x.Urn == academy.Urn);
 
-            GenerateAcademyRow(worksheet, currentRow, academy, ofstedData, pupilData, freeMealsData, freeSchoolMealsAverages);
+            GenerateAcademyRow(worksheet, currentRow, academy, ofstedData, pupilData, freeMealsData);
         }
 
         worksheet.Columns().AdjustToContents();
@@ -134,8 +130,7 @@ public class ExportService(
         AcademyDetails academy,
         AcademyOfsted ofstedData,
         AcademyPupilNumbers pupilNumbersData,
-        AcademyFreeSchoolMeals freeSchoolMealsData,
-        AcademyFreeSchoolMealsServiceModel freeSchoolMealsAverages)
+        AcademyFreeSchoolMealsServiceModel freeSchoolMealsData)
     {
         var previousRating = ofstedData.PreviousOfstedRating;
         var currentRating = ofstedData.CurrentOfstedRating;
@@ -189,13 +184,13 @@ public class ExportService(
         );
 
         SetTextCell(worksheet, rowNumber, 19,
-            freeSchoolMealsAverages.LaAveragePercentageFreeSchoolMeals > 0
-                ? $"{Math.Round(freeSchoolMealsAverages.LaAveragePercentageFreeSchoolMeals, 1)}%"
+            freeSchoolMealsData.LaAveragePercentageFreeSchoolMeals > 0
+                ? $"{Math.Round(freeSchoolMealsData.LaAveragePercentageFreeSchoolMeals, 1)}%"
                 : string.Empty
         );
         SetTextCell(worksheet, rowNumber, 20,
-            freeSchoolMealsAverages.NationalAveragePercentageFreeSchoolMeals > 0
-                ? $"{Math.Round(freeSchoolMealsAverages.NationalAveragePercentageFreeSchoolMeals, 1)}%"
+            freeSchoolMealsData.NationalAveragePercentageFreeSchoolMeals > 0
+                ? $"{Math.Round(freeSchoolMealsData.NationalAveragePercentageFreeSchoolMeals, 1)}%"
                 : string.Empty
         );
     }

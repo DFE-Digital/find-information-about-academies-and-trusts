@@ -74,11 +74,6 @@ public class ExportServiceTests
             {
                 new("123456", "Academy 1", "Primary", new AgeRange(5, 11), 500, 600)
             }));
-        _mockAcademyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid).Returns(
-            Task.FromResult(new AcademyFreeSchoolMeals[]
-            {
-                new("123456", "Academy 1", 20, 1, "Type A", "Primary")
-            }));
         _mockAcademyService.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid).Returns(
             Task.FromResult(new AcademyFreeSchoolMealsServiceModel[]
             {
@@ -160,12 +155,6 @@ public class ExportServiceTests
             Task.FromResult(new AcademyPupilNumbers[]
             {
                 new("123456", null, null, new AgeRange(5, 11), null, null)
-            }));
-
-        _mockAcademyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid).Returns(
-            Task.FromResult(new AcademyFreeSchoolMeals[]
-            {
-                new("123456", null, null, 1, null, null)
             }));
 
         _mockAcademyService.GetAcademiesInTrustFreeSchoolMealsAsync(trustSummary.Uid).Returns(
