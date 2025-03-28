@@ -1,7 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Ofsted;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
-using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
@@ -10,13 +10,17 @@ public class AcademyServiceTests
 {
     private readonly AcademyService _sut;
     private readonly IAcademyRepository _mockAcademyRepository = Substitute.For<IAcademyRepository>();
-    private readonly IPipelineEstablishmentRepository _mockPipelineEstablishmentRepository = Substitute.For<IPipelineEstablishmentRepository>();
-    private readonly IFreeSchoolMealsAverageProvider _mockFreeSchoolMealsAverageProvider = Substitute.For<IFreeSchoolMealsAverageProvider>();
+    private readonly IOfstedRepository _mockOfstedRepository = Substitute.For<IOfstedRepository>();
+
+    private readonly IPipelineEstablishmentRepository _mockPipelineEstablishmentRepository =
+        Substitute.For<IPipelineEstablishmentRepository>();
+
+    private readonly IFreeSchoolMealsAverageProvider _mockFreeSchoolMealsAverageProvider =
+        Substitute.For<IFreeSchoolMealsAverageProvider>();
 
     public AcademyServiceTests()
     {
-        _sut = new AcademyService(_mockAcademyRepository,
-            _mockPipelineEstablishmentRepository,
+        _sut = new AcademyService(_mockAcademyRepository, _mockOfstedRepository, _mockPipelineEstablishmentRepository,
             _mockFreeSchoolMealsAverageProvider);
     }
 
@@ -56,9 +60,9 @@ public class AcademyServiceTests
                 new OfstedRating((int)OfstedRatingScore.Good, new DateTime(2023, 1, 3)),
                 new OfstedRating((int)OfstedRatingScore.RequiresImprovement, new DateTime(2023, 4, 1)))
         };
-        
-        _mockAcademyRepository.GetAcademiesInTrustOfstedAsync(uid).Returns(academies);
-        
+
+        _mockOfstedRepository.GetAcademiesInTrustOfstedAsync(uid).Returns(academies);
+
         var result = await _sut.GetAcademiesInTrustOfstedAsync(uid);
 
         result.Should().BeOfType<AcademyOfstedServiceModel[]>();

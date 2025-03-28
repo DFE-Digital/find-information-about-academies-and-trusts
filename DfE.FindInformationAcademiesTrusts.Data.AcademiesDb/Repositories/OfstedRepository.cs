@@ -1,13 +1,15 @@
 using System.Globalization;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis_Mstr;
-using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Ofsted;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 
-public partial class AcademyRepository
+public class OfstedRepository(IAcademiesDbContext academiesDbContext, ILogger<AcademyRepository> logger)
+    : IOfstedRepository
 {
     private static readonly DateTime
         SingleHeadlineGradesPolicyChangeDate = new(2024, 09, 02, 0, 0, 0, DateTimeKind.Utc);

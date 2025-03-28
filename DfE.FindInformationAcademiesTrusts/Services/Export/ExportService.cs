@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Ofsted;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Extensions;
 using DfE.FindInformationAcademiesTrusts.Pages;
@@ -17,6 +18,7 @@ public interface IExportService
 
 public class ExportService(
     IAcademyRepository academyRepository,
+    IOfstedRepository ofstedRepository,
     ITrustRepository trustRepository,
     IAcademyService academyService) : IExportService
 {
@@ -59,7 +61,7 @@ public class ExportService(
 
         var trustSummary = await trustRepository.GetTrustSummaryAsync(uid);
         var academiesDetails = await academyRepository.GetAcademiesInTrustDetailsAsync(uid);
-        var academiesOfstedRatings = await academyRepository.GetAcademiesInTrustOfstedAsync(uid);
+        var academiesOfstedRatings = await ofstedRepository.GetAcademiesInTrustOfstedAsync(uid);
         var academiesPupilNumbers = await academyRepository.GetAcademiesInTrustPupilNumbersAsync(uid);
         var academiesFreeSchoolMeals = await academyService.GetAcademiesInTrustFreeSchoolMealsAsync(uid);
 
@@ -225,7 +227,7 @@ public class ExportService(
 
         var trustSummary = await trustRepository.GetTrustSummaryAsync(uid);
         var academiesDetails = await academyRepository.GetAcademiesInTrustDetailsAsync(uid);
-        var academiesOfstedRatings = await academyRepository.GetAcademiesInTrustOfstedAsync(uid);
+        var academiesOfstedRatings = await ofstedRepository.GetAcademiesInTrustOfstedAsync(uid);
 
         return GenerateOfstedSpreadsheet(trustSummary, academiesDetails, headers, academiesOfstedRatings);
     }

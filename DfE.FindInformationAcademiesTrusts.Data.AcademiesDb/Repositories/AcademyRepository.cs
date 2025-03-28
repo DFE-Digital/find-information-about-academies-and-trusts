@@ -2,11 +2,10 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 
-public partial class AcademyRepository(IAcademiesDbContext academiesDbContext, ILogger<AcademyRepository> logger)
+public class AcademyRepository(IAcademiesDbContext academiesDbContext)
     : IAcademyRepository
 {
     public async Task<AcademyDetails[]> GetAcademiesInTrustDetailsAsync(string uid)

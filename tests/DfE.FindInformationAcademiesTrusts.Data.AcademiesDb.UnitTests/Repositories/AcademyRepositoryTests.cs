@@ -3,8 +3,6 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
-using Microsoft.Extensions.Logging;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories;
 
@@ -13,11 +11,10 @@ public class AcademyRepositoryTests
     private const string GroupUid = "1234";
     private readonly AcademyRepository _sut;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
-    private readonly ILogger<AcademyRepository> _mockLogger = MockLogger.CreateLogger<AcademyRepository>();
 
     public AcademyRepositoryTests()
     {
-        _sut = new AcademyRepository(_mockAcademiesDbContext.Object, _mockLogger);
+        _sut = new AcademyRepository(_mockAcademiesDbContext.Object);
     }
 
     [Fact]

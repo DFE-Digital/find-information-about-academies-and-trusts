@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Ofsted;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
@@ -11,22 +12,18 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
 
 public class ExportServiceTests
 {
-    private readonly IDateTimeProvider _mockDateTimeProvider;
-    private readonly IAcademyRepository _mockAcademyRepository;
-    private readonly ITrustRepository _mockTrustRepository;
-    private readonly IAcademyService _mockAcademyService;
+    private readonly IDateTimeProvider _mockDateTimeProvider = Substitute.For<IDateTimeProvider>();
+    private readonly IAcademyRepository _mockAcademyRepository = Substitute.For<IAcademyRepository>();
+    private readonly ITrustRepository _mockTrustRepository = Substitute.For<ITrustRepository>();
+    private readonly IAcademyService _mockAcademyService = Substitute.For<IAcademyService>();
+    private readonly IOfstedRepository _mockOfstedRepository = Substitute.For<IOfstedRepository>();
     private readonly ExportService _sut;
 
     public ExportServiceTests()
     {
-        _mockDateTimeProvider = Substitute.For<IDateTimeProvider>();
-        _mockAcademyRepository = Substitute.For<IAcademyRepository>();
-        _mockTrustRepository = Substitute.For<ITrustRepository>();
-        _mockAcademyService = Substitute.For<IAcademyService>();
-
         _mockDateTimeProvider.Now.Returns(DateTime.Now);
 
-        _sut = new ExportService(_mockAcademyRepository, _mockTrustRepository,
+        _sut = new ExportService(_mockAcademyRepository, _mockOfstedRepository, _mockTrustRepository,
             _mockAcademyService);
     }
 
@@ -64,7 +61,7 @@ public class ExportServiceTests
             {
                 new("123456", "Academy 1", "Type A", "Local Authority 1", "Urban")
             }));
-        _mockAcademyRepository.GetAcademiesInTrustOfstedAsync(trustSummary.Uid).Returns(
+        _mockOfstedRepository.GetAcademiesInTrustOfstedAsync(trustSummary.Uid).Returns(
             Task.FromResult(new AcademyOfsted[]
             {
                 new("123456", "Academy 1", now, new OfstedRating(-1, null), new OfstedRating(1, now))
@@ -145,7 +142,7 @@ public class ExportServiceTests
             }));
 
         var now = DateTime.Now;
-        _mockAcademyRepository.GetAcademiesInTrustOfstedAsync(trustSummary.Uid).Returns(
+        _mockOfstedRepository.GetAcademiesInTrustOfstedAsync(trustSummary.Uid).Returns(
             Task.FromResult(new AcademyOfsted[]
             {
                 new("123456", null, now, new OfstedRating(-1, null), new OfstedRating(-1, null))
@@ -375,7 +372,7 @@ public class ExportServiceTests
                 new("A123", "Academy XYZ", "TypeX", "Local LA", "Urban")
             }));
 
-        _mockAcademyRepository.GetAcademiesInTrustOfstedAsync("uid")
+        _mockOfstedRepository.GetAcademiesInTrustOfstedAsync("uid")
             .Returns(Task.FromResult(new AcademyOfsted[]
             {
                 new("A123", "Academy XYZ", joinedDate,
@@ -427,7 +424,7 @@ public class ExportServiceTests
             new AcademyDetails("A123", "Academy XYZ", "TypeX", "Local LA", "Urban")
         ]));
 
-        _mockAcademyRepository.GetAcademiesInTrustOfstedAsync("uid").Returns(Task.FromResult<AcademyOfsted[]>([]));
+        _mockOfstedRepository.GetAcademiesInTrustOfstedAsync("uid").Returns(Task.FromResult<AcademyOfsted[]>([]));
 
         var result = await _sut.ExportOfstedDataToSpreadsheetAsync("uid");
         using var workbook = new XLWorkbook(new MemoryStream(result));
