@@ -116,10 +116,10 @@ public class ExportService(
         {
             var currentRow = startRow + i;
             var academy = academies[i];
-            var ofstedData = academiesOfstedRatings.SingleOrDefault(x => x.Urn == academy.Urn);
-            var pupilData = academiesPupilNumbers.SingleOrDefault(x => x.Urn == academy.Urn);
-            var freeMealsData = academiesFreeSchoolMeals.SingleOrDefault(x => x.Urn == academy.Urn);
-            var freeSchoolMealsAverages = academiesFreeSchoolMealsAverages.SingleOrDefault(x => x.Urn == academy.Urn);
+            var ofstedData = academiesOfstedRatings.Single(x => x.Urn == academy.Urn);
+            var pupilData = academiesPupilNumbers.Single(x => x.Urn == academy.Urn);
+            var freeMealsData = academiesFreeSchoolMeals.Single(x => x.Urn == academy.Urn);
+            var freeSchoolMealsAverages = academiesFreeSchoolMealsAverages.Single(x => x.Urn == academy.Urn);
 
             GenerateAcademyRow(worksheet, currentRow, academy, ofstedData, pupilData, freeMealsData, freeSchoolMealsAverages);
         }
@@ -132,15 +132,15 @@ public class ExportService(
         IXLWorksheet worksheet,
         int rowNumber,
         AcademyDetails academy,
-        AcademyOfsted? ofstedData,
-        AcademyPupilNumbers? pupilNumbersData,
-        AcademyFreeSchoolMeals? freeSchoolMealsData,
-        AcademyFreeSchoolMealsServiceModel? freeSchoolMealsAverages)
+        AcademyOfsted ofstedData,
+        AcademyPupilNumbers pupilNumbersData,
+        AcademyFreeSchoolMeals freeSchoolMealsData,
+        AcademyFreeSchoolMealsServiceModel freeSchoolMealsAverages)
     {
-        var previousRating = ofstedData?.PreviousOfstedRating ?? OfstedRating.NotInspected;
-        var currentRating = ofstedData?.CurrentOfstedRating ?? OfstedRating.NotInspected;
+        var previousRating = ofstedData.PreviousOfstedRating;
+        var currentRating = ofstedData.CurrentOfstedRating;
         var percentageFull =
-            CalculatePercentageFull(pupilNumbersData?.NumberOfPupils, pupilNumbersData?.SchoolCapacity);
+            CalculatePercentageFull(pupilNumbersData.NumberOfPupils, pupilNumbersData.SchoolCapacity);
 
         SetTextCell(worksheet, rowNumber, 1, academy.EstablishmentName ?? string.Empty);
         SetTextCell(worksheet, rowNumber, 2, academy.Urn);
@@ -148,13 +148,13 @@ public class ExportService(
         SetTextCell(worksheet, rowNumber, 4, academy.TypeOfEstablishment ?? string.Empty);
         SetTextCell(worksheet, rowNumber, 5, academy.UrbanRural ?? string.Empty);
 
-        SetDateCell(worksheet, rowNumber, 6, ofstedData?.DateAcademyJoinedTrust);
+        SetDateCell(worksheet, rowNumber, 6, ofstedData.DateAcademyJoinedTrust);
         
         SetTextCell(worksheet, rowNumber, 7, currentRating.OverallEffectiveness.ToDisplayString(true));
         SetTextCell(worksheet, rowNumber, 8,
             IsOfstedRatingBeforeOrAfterJoining(
                 currentRating.OverallEffectiveness,
-                ofstedData?.DateAcademyJoinedTrust ?? DateTime.MinValue,
+                ofstedData.DateAcademyJoinedTrust,
                 currentRating.InspectionDate
             )
         );
@@ -164,51 +164,40 @@ public class ExportService(
         SetTextCell(worksheet, rowNumber, 11,
             IsOfstedRatingBeforeOrAfterJoining(
                 previousRating.OverallEffectiveness,
-                ofstedData?.DateAcademyJoinedTrust ?? DateTime.MinValue,
+                ofstedData.DateAcademyJoinedTrust,
                 previousRating.InspectionDate
             )
         );
         SetDateCell(worksheet, rowNumber, 12, previousRating.InspectionDate);
         
-        SetTextCell(worksheet, rowNumber, 13, pupilNumbersData?.PhaseOfEducation ?? string.Empty);
+        SetTextCell(worksheet, rowNumber, 13, pupilNumbersData.PhaseOfEducation ?? string.Empty);
 
         SetTextCell(worksheet, rowNumber, 14,
-            pupilNumbersData != null
-                ? $"{pupilNumbersData.AgeRange.Minimum} - {pupilNumbersData.AgeRange.Maximum}"
-                : string.Empty
+            $"{pupilNumbersData.AgeRange.Minimum} - {pupilNumbersData.AgeRange.Maximum}"
         );
 
-        SetTextCell(worksheet, rowNumber, 15, pupilNumbersData?.NumberOfPupils?.ToString() ?? string.Empty);
-        SetTextCell(worksheet, rowNumber, 16, pupilNumbersData?.SchoolCapacity?.ToString() ?? string.Empty);
+        SetTextCell(worksheet, rowNumber, 15, pupilNumbersData.NumberOfPupils?.ToString() ?? string.Empty);
+        SetTextCell(worksheet, rowNumber, 16, pupilNumbersData.SchoolCapacity?.ToString() ?? string.Empty);
         SetTextCell(worksheet, rowNumber, 17, percentageFull > 0 ? $"{percentageFull}%" : string.Empty);
         SetTextCell(
             worksheet,
             rowNumber,
             18,
-            freeSchoolMealsData?.PercentageFreeSchoolMeals.HasValue == true
+            freeSchoolMealsData.PercentageFreeSchoolMeals.HasValue
                 ? $"{freeSchoolMealsData.PercentageFreeSchoolMeals}%"
                 : string.Empty
         );
-        if (freeSchoolMealsAverages != null)
-        {
-            SetTextCell(worksheet, rowNumber, 19,
-                freeSchoolMealsAverages.LaAveragePercentageFreeSchoolMeals != 0
-                    ? $"{Math.Round(freeSchoolMealsAverages.LaAveragePercentageFreeSchoolMeals, 1)}%"
-                    : string.Empty
-            );
-            SetTextCell(worksheet, rowNumber, 20,
-                freeSchoolMealsAverages.NationalAveragePercentageFreeSchoolMeals != 0
-                    ? $"{Math.Round(freeSchoolMealsAverages.NationalAveragePercentageFreeSchoolMeals, 1)}%"
-                    : string.Empty
-            );
-        }
-        else
-        {
-            SetTextCell(worksheet, rowNumber, 19, string.Empty
-            );
-            SetTextCell(worksheet, rowNumber, 20, string.Empty
-            );
-        }
+
+        SetTextCell(worksheet, rowNumber, 19,
+            freeSchoolMealsAverages.LaAveragePercentageFreeSchoolMeals > 0
+                ? $"{Math.Round(freeSchoolMealsAverages.LaAveragePercentageFreeSchoolMeals, 1)}%"
+                : string.Empty
+        );
+        SetTextCell(worksheet, rowNumber, 20,
+            freeSchoolMealsAverages.NationalAveragePercentageFreeSchoolMeals > 0
+                ? $"{Math.Round(freeSchoolMealsAverages.NationalAveragePercentageFreeSchoolMeals, 1)}%"
+                : string.Empty
+        );
     }
 
     public async Task<byte[]> ExportOfstedDataToSpreadsheetAsync(string uid)
