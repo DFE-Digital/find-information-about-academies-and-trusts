@@ -1,7 +1,6 @@
 using System.Globalization;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis_Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Ofsted;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -26,7 +25,7 @@ public class OfstedRepository(IAcademiesDbContext academiesDbContext, ILogger<Ac
             })
             .ToListAsync();
 
-        var ofstedRatings = await GetOfstedRatings(giasGroupLinkData.Select(gl => int.Parse(gl.Urn)).ToArray());
+        var ofstedRatings = await GetOfstedRatings(giasGroupLinkData.Select(gl => gl.Urn).ToArray());
 
         var academyOfsteds = giasGroupLinkData.Select(gl =>
                 new AcademyOfsted(gl.Urn,
@@ -40,188 +39,196 @@ public class OfstedRepository(IAcademiesDbContext academiesDbContext, ILogger<Ac
         return academyOfsteds;
     }
 
-    private static AcademyOfstedRatings SelectMisEstablishmentsOfstedRatings(MisMstrEstablishmentFiat tableData,
-        int urn)
+    private async Task<Dictionary<string, AcademyOfstedRatings>> GetOfstedRatings(string[] urns)
     {
-        return new AcademyOfstedRatings(
-            urn,
-            new OfstedRating(
-                ConvertOverallEffectivenessToOfstedRatingScore(tableData.OverallEffectiveness),
-                ConvertNullableIntToOfstedRatingScore(tableData.QualityOfEducation),
-                ConvertNullableIntToOfstedRatingScore(tableData.BehaviourAndAttitudes),
-                ConvertNullableIntToOfstedRatingScore(tableData.PersonalDevelopment),
-                ConvertNullableIntToOfstedRatingScore(tableData.EffectivenessOfLeadershipAndManagement),
-                ConvertNullableIntToOfstedRatingScore(tableData.EarlyYearsProvisionWhereApplicable),
-                ConvertNullableIntToOfstedRatingScore(tableData.SixthFormProvisionWhereApplicable),
-                ConvertStringToCategoriesOfConcern(tableData.CategoryOfConcern),
-                ConvertStringToSafeguardingScore(tableData.SafeguardingIsEffective),
-                tableData.InspectionStartDate.ParseAsNullableDate()),
-            new OfstedRating(
-                ConvertOverallEffectivenessToOfstedRatingScore(tableData.PreviousFullInspectionOverallEffectiveness),
-                ConvertNullableIntToOfstedRatingScore(tableData.PreviousQualityOfEducation),
-                ConvertNullableIntToOfstedRatingScore(tableData.PreviousBehaviourAndAttitudes),
-                ConvertNullableIntToOfstedRatingScore(tableData.PreviousPersonalDevelopment),
-                ConvertNullableIntToOfstedRatingScore(tableData.PreviousEffectivenessOfLeadershipAndManagement),
-                ConvertNullableIntToOfstedRatingScore(tableData.PreviousEarlyYearsProvisionWhereApplicable),
-                ConvertNullableStringToOfstedRatingScore(tableData.PreviousSixthFormProvisionWhereApplicable),
-                ConvertStringToCategoriesOfConcern(tableData.PreviousCategoryOfConcern),
-                ConvertStringToSafeguardingScore(tableData.PreviousSafeguardingIsEffective),
-                tableData.PreviousInspectionStartDate.ParseAsNullableDate())
-        );
-    }
+        // First pass at getting ofsted ratings from the db
+        var allOfstedRatings = await GetOfstedRatingsFromDb(urns);
 
-    private static AcademyOfstedRatings SelectMisFurtherEducationEstablishmentsOfstedRatings(
-        MisMstrFurtherEducationEstablishmentFiat tableData, int urn)
-    {
-        return new AcademyOfstedRatings(
-            urn,
-            new OfstedRating(
-                ConvertOverallEffectivenessToOfstedRatingScore(tableData.OverallEffectiveness),
-                ConvertNullableIntToOfstedRatingScore(tableData.QualityOfEducation),
-                ConvertNullableIntToOfstedRatingScore(tableData.BehaviourAndAttitudes),
-                ConvertNullableIntToOfstedRatingScore(tableData.PersonalDevelopment),
-                ConvertNullableIntToOfstedRatingScore(tableData.EffectivenessOfLeadershipAndManagement),
-                OfstedRatingScore.NotInspected,
-                OfstedRatingScore.NotInspected,
-                CategoriesOfConcern.DoesNotApply,
-                ConvertStringToSafeguardingScore(tableData.IsSafeguardingEffective),
-                tableData.LastDayOfInspection.ParseAsNullableDate()),
-            new OfstedRating(
-                ConvertOverallEffectivenessToOfstedRatingScore(tableData.PreviousOverallEffectiveness),
-                ConvertNullableIntToOfstedRatingScore(tableData.PreviousQualityOfEducation),
-                ConvertNullableIntToOfstedRatingScore(tableData.PreviousBehaviourAndAttitudes),
-                ConvertNullableIntToOfstedRatingScore(tableData.PreviousPersonalDevelopment),
-                ConvertNullableIntToOfstedRatingScore(
-                    tableData.PreviousEffectivenessOfLeadershipAndManagement),
-                OfstedRatingScore.NotInspected,
-                OfstedRatingScore.NotInspected,
-                CategoriesOfConcern.DoesNotApply,
-                ConvertStringToSafeguardingScore(tableData.PreviousSafeguarding),
-                tableData.PreviousLastDayOfInspection.ParseAsNullableDate()));
-    }
-
-    private async Task<Dictionary<string, AcademyOfstedRatings>> GetOfstedRatings(int[] urns)
-    {
-        // Ofsted data is held in MisEstablishments for most academies
-        var ofstedRatings =
-            await academiesDbContext.MisMstrEstablishmentsFiat
-                .Where(me => urns.Contains(me.Urn))
-                .Select(me => SelectMisEstablishmentsOfstedRatings(me, me.Urn))
-                .ToListAsync();
-        // Check to see if all ratings have been found in MisEstablishments, if not search in MisFurtherEducationEstablishments
-        // Note: if an entry is in MisEstablishments then it will not be in MisFurtherEducationEstablishments, even if it has no ofsted data
-        if (urns.Length != ofstedRatings.Count)
+        // If any missing then this could be a school that has recently changed URN
+        // try to get ofsted rating using predecessor URN
+        var missingUrns = urns.Except(allOfstedRatings.Keys).ToArray();
+        if (missingUrns.Length > 0)
         {
-            var urnsNotInMisEstablishments = urns.Except(ofstedRatings.Select(a => a.Urn)).ToArray();
-            ofstedRatings.AddRange(
-                await academiesDbContext.MisMstrFurtherEducationEstablishmentsFiat
-                    .Where(mfe => urnsNotInMisEstablishments.Contains(mfe.ProviderUrn))
-                    .Select(mfe => SelectMisFurtherEducationEstablishmentsOfstedRatings(mfe, mfe.ProviderUrn))
-                    .ToArrayAsync()
-            );
+            var previousUrnMapping = await GetPredecessorUrns(missingUrns);
+            var oldOfstedRatings = await GetOfstedRatingsFromDb(previousUrnMapping);
+
+            allOfstedRatings = allOfstedRatings.Concat(oldOfstedRatings).ToDictionary();
         }
 
-        if (urns.Length != ofstedRatings.Count)
+        // Validate that all the ofsted ratings are found and valid
+        foreach (var urn in urns)
         {
-            var outstandingUrns = urns.Except(ofstedRatings.Select(a => a.Urn)).ToArray();
+            allOfstedRatings.TryGetValue(urn, out var foundRating);
 
-            foreach (var urn in outstandingUrns)
+            // Log any URNs that couldn't be found and default to unknown
+            if (foundRating is null)
             {
-                var ofstedRatingsLength = ofstedRatings.Count;
+                logger.LogError(
+                    "URN {Urn} was not found in Mis.Establishments or Mis.FurtherEducationEstablishments. This indicates a data integrity issue with the Ofsted data in Academies Db.",
+                    urn);
+                allOfstedRatings.Add(urn, new AcademyOfstedRatings(int.Parse(urn), OfstedRating.Unknown, OfstedRating.Unknown, "none"));
+                continue;
+            }
 
-                var linkUrn = await academiesDbContext.GiasEstablishmentLink
-                    .Where(gel => Convert.ToInt32(gel.Urn) == urn)
-                    .Select(gel => Convert.ToInt32(gel.LinkUrn))
-                    .FirstOrDefaultAsync();
+            //Log any errors that occured during parsing
+            if (foundRating.Current.HasAnyUnknownRating || foundRating.Previous.HasAnyUnknownRating)
+            {
+                logger.LogError(
+                    "URN {Urn} has some unrecognised ofsted ratings. This could be a data integrity issue with the Ofsted data in Academies Db.",
+                    urn);
+            }
 
-                ofstedRatings.AddRange(await academiesDbContext.MisMstrEstablishmentsFiat
-                    .Where(me => me.Urn == linkUrn)
-                    .Select(me => SelectMisEstablishmentsOfstedRatings(me, urn))
-                    .ToArrayAsync());
+            // Ensure that there are no current single headline grades after policy change on 2nd September 2024 - only applies to non-further ed establishments
+            if (foundRating.FromTable == nameof(academiesDbContext.MisMstrEstablishmentsFiat) &&
+                HasShgIssuedAfterPolicyChange(foundRating.Current))
+            {
+                logger.LogError(
+                    "URN {Urn} has a current Ofsted single headline grade of {score} issued on {InspectionDate} which was after single headline grades stopped being issued on 2nd September. This could be a data integrity issue with the Ofsted data in Academies Db.",
+                    urn, foundRating.Current.OverallEffectiveness, foundRating.Current.InspectionDate);
 
-                if (ofstedRatings.Count != ofstedRatingsLength + 1)
+                allOfstedRatings[urn] = foundRating with
                 {
-                    ofstedRatings.AddRange(await academiesDbContext.MisMstrFurtherEducationEstablishmentsFiat
-                        .Where(mfe => mfe.ProviderUrn == linkUrn)
-                        .Select(mfe => SelectMisFurtherEducationEstablishmentsOfstedRatings(mfe, urn))
-                        .ToArrayAsync());
-                }
+                    Current = foundRating.Current with
+                    {
+                        OverallEffectiveness = OfstedRatingScore.SingleHeadlineGradeNotAvailable
+                    }
+                };
+            }
+
+            // Ensure that there are no previous single headline grades after policy change on 2nd September 2024 - only applies to non-further ed establishments
+            if (foundRating.FromTable == nameof(academiesDbContext.MisMstrEstablishmentsFiat) &&
+                HasShgIssuedAfterPolicyChange(foundRating.Previous))
+            {
+                logger.LogError(
+                    "URN {Urn} has a previous Ofsted single headline grade of {score} issued on {InspectionDate} which was after single headline grades stopped being issued on 2nd September. This could be a data integrity issue with the Ofsted data in Academies Db.",
+                    urn, foundRating.Previous.OverallEffectiveness, foundRating.Previous.InspectionDate);
+
+                allOfstedRatings[urn] = foundRating with
+                {
+                    Previous = foundRating.Previous with
+                    {
+                        OverallEffectiveness = OfstedRatingScore.SingleHeadlineGradeNotAvailable
+                    }
+                };
             }
         }
 
-        // Log any URNs that couldn't be found
-        foreach (var urn in urns.Except(ofstedRatings.Select(a => a.Urn)))
-        {
-            logger.LogError(
-                "URN {Urn} was not found in Mis.Establishments or Mis.FurtherEducationEstablishments. This indicates a data integrity issue with the Ofsted data in Academies Db.",
-                urn);
-            ofstedRatings.Add(new AcademyOfstedRatings(urn, OfstedRating.Unknown, OfstedRating.Unknown));
-        }
+        return allOfstedRatings;
+    }
 
-        //Log any errors that occured during parsing (we have to do this outside of the EF call)
-        foreach (var ofstedRating in ofstedRatings.Where(rating =>
-                     rating.Current.HasAnyUnknownRating || rating.Previous.HasAnyUnknownRating))
-        {
-            logger.LogError(
-                "URN {Urn} has some unrecognised ofsted ratings. This could be a data integrity issue with the Ofsted data in Academies Db.",
-                ofstedRating.Urn);
-        }
+    /// <summary>
+    /// Attempts to find previous urns for given urns
+    /// If more than one match is found then no urn is returned as we don't know which one (if any) the old Ofsted report is against
+    /// </summary>
+    /// <param name="currentUrns"></param>
+    /// <returns>Key: Previous URN, Value: Current URN</returns>
+    private async Task<Dictionary<int, int>> GetPredecessorUrns(string[] currentUrns)
+    {
+        var allPredecessorsForUrns = academiesDbContext.GiasEstablishmentLink
+            .Where(gel => gel.LinkType == "Predecessor" && currentUrns.Contains(gel.Urn));
 
-        // Ensure that there are no single headline grades after policy change on 2nd September 2024
-        if (ofstedRatings.Any(rating =>
-                HasSingleHeadlineGradeIssuedAfterPolicyChange(rating.Current) ||
-                HasSingleHeadlineGradeIssuedAfterPolicyChange(rating.Previous)))
-        {
-            LogErrorForUrnsWithSingleHeadlineGradesAfterPolicyChange(ofstedRatings);
+        var currentUrnsWithOneClearPredecessor = await allPredecessorsForUrns
+            .GroupBy(gel => Convert.ToInt32(gel.Urn))
+            .Where(group => group.Count() == 1)
+            .Select(group => new { PreviousUrn = Convert.ToInt32(group.Single().LinkUrn), CurrentUrn = group.Key })
+            .ToDictionaryAsync(u => u.PreviousUrn, u => u.CurrentUrn);
 
-            ofstedRatings = RemoveSingleHeadlineGradesIssuedAfterPolicyChange(ofstedRatings);
+        return currentUrnsWithOneClearPredecessor;
+    }
+
+    private async Task<Dictionary<string, AcademyOfstedRatings>> GetOfstedRatingsFromDb(IEnumerable<string> urns)
+    {
+        // URN to search by and URN to return are the same
+        var urnMapping = urns.ToDictionary(int.Parse, int.Parse);
+        return await GetOfstedRatingsFromDb(urnMapping);
+    }
+
+    /// <param name="urnMapping">Key: URN to search by, Value: URN to return</param>
+    private async Task<Dictionary<string, AcademyOfstedRatings>> GetOfstedRatingsFromDb(Dictionary<int, int> urnMapping)
+    {
+        // Ofsted data is held in MisEstablishments for most academies
+        var ofstedRatings = await academiesDbContext.MisMstrEstablishmentsFiat
+            .Where(me => urnMapping.Keys.Contains(me.Urn))
+            .Select(me => new AcademyOfstedRatings(
+                urnMapping[me.Urn],
+                new OfstedRating(
+                    me.OverallEffectiveness.ConvertOverallEffectivenessToOfstedRatingScore(),
+                    me.QualityOfEducation.ToOfstedRatingScore(),
+                    me.BehaviourAndAttitudes.ToOfstedRatingScore(),
+                    me.PersonalDevelopment.ToOfstedRatingScore(),
+                    me.EffectivenessOfLeadershipAndManagement.ToOfstedRatingScore(),
+                    me.EarlyYearsProvisionWhereApplicable.ToOfstedRatingScore(),
+                    me.SixthFormProvisionWhereApplicable.ToOfstedRatingScore(),
+                    me.CategoryOfConcern.ToCategoriesOfConcern(),
+                    me.SafeguardingIsEffective.ToSafeguardingScore(),
+                    me.InspectionStartDate.ParseAsNullableDate()),
+                new OfstedRating(
+                    me.PreviousFullInspectionOverallEffectiveness.ConvertOverallEffectivenessToOfstedRatingScore(),
+                    me.PreviousQualityOfEducation.ToOfstedRatingScore(),
+                    me.PreviousBehaviourAndAttitudes.ToOfstedRatingScore(),
+                    me.PreviousPersonalDevelopment.ToOfstedRatingScore(),
+                    me.PreviousEffectivenessOfLeadershipAndManagement.ToOfstedRatingScore(),
+                    me.PreviousEarlyYearsProvisionWhereApplicable.ToOfstedRatingScore(),
+                    me.PreviousSixthFormProvisionWhereApplicable.ConvertNullableStringToOfstedRatingScore(),
+                    me.PreviousCategoryOfConcern.ToCategoriesOfConcern(),
+                    me.PreviousSafeguardingIsEffective.ToSafeguardingScore(),
+                    me.PreviousInspectionStartDate.ParseAsNullableDate()),
+                nameof(academiesDbContext.MisMstrEstablishmentsFiat)
+            ))
+            .ToListAsync();
+
+        // Check to see if all ratings have been found in MisEstablishments, if not search in MisFurtherEducationEstablishments
+        // Note: if an entry is in MisEstablishments then it will not be in MisFurtherEducationEstablishments, even if it has no ofsted data
+        var missingUrns = urnMapping.Where(kvp => ofstedRatings.All(o => o.Urn != kvp.Key)).ToDictionary();
+        if (missingUrns.Count != 0)
+        {
+            ofstedRatings.AddRange(await academiesDbContext.MisMstrFurtherEducationEstablishmentsFiat
+                .Where(mfe => missingUrns.Keys.Contains(mfe.ProviderUrn))
+                .Select(mfe => new AcademyOfstedRatings(
+                    missingUrns[mfe.ProviderUrn],
+                    new OfstedRating(
+                        mfe.OverallEffectiveness.ConvertOverallEffectivenessToOfstedRatingScore(),
+                        mfe.QualityOfEducation.ToOfstedRatingScore(),
+                        mfe.BehaviourAndAttitudes.ToOfstedRatingScore(),
+                        mfe.PersonalDevelopment.ToOfstedRatingScore(),
+                        mfe.EffectivenessOfLeadershipAndManagement.ToOfstedRatingScore(),
+                        OfstedRatingScore.NotInspected,
+                        OfstedRatingScore.NotInspected,
+                        CategoriesOfConcern.DoesNotApply,
+                        mfe.IsSafeguardingEffective.ToSafeguardingScore(),
+                        mfe.LastDayOfInspection.ParseAsNullableDate()),
+                    new OfstedRating(
+                        mfe.PreviousOverallEffectiveness.ConvertOverallEffectivenessToOfstedRatingScore(),
+                        mfe.PreviousQualityOfEducation.ToOfstedRatingScore(),
+                        mfe.PreviousBehaviourAndAttitudes.ToOfstedRatingScore(),
+                        mfe.PreviousPersonalDevelopment.ToOfstedRatingScore(),
+                        mfe.PreviousEffectivenessOfLeadershipAndManagement.ToOfstedRatingScore(),
+                        OfstedRatingScore.NotInspected,
+                        OfstedRatingScore.NotInspected,
+                        CategoriesOfConcern.DoesNotApply,
+                        mfe.PreviousSafeguarding.ToSafeguardingScore(),
+                        mfe.PreviousLastDayOfInspection.ParseAsNullableDate()),
+                    nameof(academiesDbContext.MisMstrFurtherEducationEstablishmentsFiat)
+                ))
+                .ToArrayAsync()
+            );
         }
 
         return ofstedRatings.ToDictionary(o => o.Urn.ToString(), o => o);
     }
 
-    private void LogErrorForUrnsWithSingleHeadlineGradesAfterPolicyChange(List<AcademyOfstedRatings> ofstedRatings)
-    {
-        foreach (var ofstedRating in ofstedRatings)
-        {
-            if (HasSingleHeadlineGradeIssuedAfterPolicyChange(ofstedRating.Current))
-            {
-                logger.LogError(
-                    "URN {Urn} has a current Ofsted single headline grade of {score} issued on {InspectionDate} which was after single headline grades stopped being issued on 2nd September. This could be a data integrity issue with the Ofsted data in Academies Db.",
-                    ofstedRating.Urn, ofstedRating.Current.OverallEffectiveness, ofstedRating.Current.InspectionDate);
-            }
-
-            if (HasSingleHeadlineGradeIssuedAfterPolicyChange(ofstedRating.Previous))
-            {
-                logger.LogError(
-                    "URN {Urn} has a previous Ofsted single headline grade of {score} issued on {InspectionDate} which was after single headline grades stopped being issued on 2nd September. This could be a data integrity issue with the Ofsted data in Academies Db.",
-                    ofstedRating.Urn, ofstedRating.Previous.OverallEffectiveness, ofstedRating.Previous.InspectionDate);
-            }
-        }
-    }
-
-    private static bool HasSingleHeadlineGradeIssuedAfterPolicyChange(OfstedRating rating)
+    private static bool HasShgIssuedAfterPolicyChange(OfstedRating rating)
     {
         return rating.InspectionDate >= SingleHeadlineGradesPolicyChangeDate &&
                rating.OverallEffectiveness != OfstedRatingScore.SingleHeadlineGradeNotAvailable;
     }
 
-    private static List<AcademyOfstedRatings> RemoveSingleHeadlineGradesIssuedAfterPolicyChange(
-        List<AcademyOfstedRatings> ratings)
-    {
-        return ratings.Select(rating => rating with
-        {
-            Current = HasSingleHeadlineGradeIssuedAfterPolicyChange(rating.Current)
-                ? rating.Current with { OverallEffectiveness = OfstedRatingScore.SingleHeadlineGradeNotAvailable }
-                : rating.Current,
-            Previous = HasSingleHeadlineGradeIssuedAfterPolicyChange(rating.Previous)
-                ? rating.Previous with { OverallEffectiveness = OfstedRatingScore.SingleHeadlineGradeNotAvailable }
-                : rating.Previous
-        }).ToList();
-    }
+    private sealed record AcademyOfstedRatings(int Urn, OfstedRating Current, OfstedRating Previous, string FromTable);
+}
 
-
-    public static OfstedRatingScore ConvertOverallEffectivenessToOfstedRatingScore(string? rating)
+public static class OfstedExtensions
+{
+    public static OfstedRatingScore ConvertOverallEffectivenessToOfstedRatingScore(this string? rating)
     {
         // Check if it is 'Not judged' all other gradings are int based
         if (rating?.ToLower().Equals("not judged") ?? false)
@@ -232,7 +239,7 @@ public class OfstedRepository(IAcademiesDbContext academiesDbContext, ILogger<Ac
         return ConvertNullableStringToOfstedRatingScore(rating);
     }
 
-    private static OfstedRatingScore ConvertNullableIntToOfstedRatingScore(int? rating)
+    public static OfstedRatingScore ToOfstedRatingScore(this int? rating)
     {
         if (rating is null)
             return OfstedRatingScore.NotInspected;
@@ -243,7 +250,7 @@ public class OfstedRepository(IAcademiesDbContext academiesDbContext, ILogger<Ac
         return OfstedRatingScore.Unknown;
     }
 
-    private static OfstedRatingScore ConvertNullableStringToOfstedRatingScore(string? rating)
+    public static OfstedRatingScore ConvertNullableStringToOfstedRatingScore(this string? rating)
     {
         if (rating is null)
             return OfstedRatingScore.NotInspected;
@@ -257,7 +264,7 @@ public class OfstedRepository(IAcademiesDbContext academiesDbContext, ILogger<Ac
         return OfstedRatingScore.Unknown;
     }
 
-    private static CategoriesOfConcern ConvertStringToCategoriesOfConcern(string? input)
+    public static CategoriesOfConcern ToCategoriesOfConcern(this string? input)
     {
         return input switch
         {
@@ -270,7 +277,7 @@ public class OfstedRepository(IAcademiesDbContext academiesDbContext, ILogger<Ac
         };
     }
 
-    private static SafeguardingScore ConvertStringToSafeguardingScore(string? input)
+    public static SafeguardingScore ToSafeguardingScore(this string? input)
     {
         return input switch
         {
@@ -281,6 +288,4 @@ public class OfstedRepository(IAcademiesDbContext academiesDbContext, ILogger<Ac
             _ => SafeguardingScore.Unknown
         };
     }
-
-    private sealed record AcademyOfstedRatings(int Urn, OfstedRating Current, OfstedRating Previous);
 }
