@@ -9,7 +9,6 @@ public partial class AcademiesDbContext
     public DbSet<GiasEstablishmentLink> GiasEstablishmentLink { get; set; }
 
     [ExcludeFromCodeCoverage]
-
     protected static void OnModelCreatingGiasEstablishmentLink(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<GiasEstablishmentLink>(entity =>
@@ -17,7 +16,7 @@ public partial class AcademiesDbContext
             entity
                 .HasNoKey()
                 .ToTable("EstablishmentLink", "gias");
-            
+
             entity.Property(e => e.Urn)
                 .IsUnicode(false)
                 .HasColumnName("URN");
@@ -27,6 +26,13 @@ public partial class AcademiesDbContext
             entity.Property(e => e.LinkName).IsUnicode(false);
             entity.Property(e => e.LinkType).IsUnicode(false);
             entity.Property(e => e.LinkEstablishedDate).IsUnicode(false);
+
+            //query filter
+            entity.HasQueryFilter(gel =>
+                gel.Urn != null
+                && gel.LinkUrn != null
+                && gel.LinkType != null
+            );
         });
     }
 }
