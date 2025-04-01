@@ -4,6 +4,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis_Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Sharepoint;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,6 +28,7 @@ public interface IAcademiesDbContext
     DbSet<ApplicationSetting> ApplicationSettings { get; }
     DbSet<MisMstrEstablishmentFiat> MisMstrEstablishmentsFiat { get; }
     DbSet<MisMstrFurtherEducationEstablishmentFiat> MisMstrFurtherEducationEstablishmentsFiat { get; }
+    DbSet<SharepointTrustDocLink> SharepointTrustDocLinks { get; }
 }
 
 [ExcludeFromCodeCoverage]
@@ -43,21 +45,23 @@ public partial class AcademiesDbContext : DbContext, IAcademiesDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        OnModelCreatingGiasEstablishments(modelBuilder);
-        OnModelCreatingGiasGovernances(modelBuilder);
-        OnModelCreatingGiasGroupLink(modelBuilder);
-        OnModelCreatingGiasGroup(modelBuilder);
-        OnModelCreatingGiasEstablishmentLink(modelBuilder);
+        OnModelCreatingApplicationEvents(modelBuilder);
+        OnModelCreatingApplicationSettings(modelBuilder);
         OnModelCreatingCdmAccounts(modelBuilder);
         OnModelCreatingCdmSystemusers(modelBuilder);
-        OnModelCreatingTadTrustGovernances(modelBuilder);
-        OnModelCreatingMstrTrusts(modelBuilder);
-        OnModelCreatingMstrFreeSchoolProjects(modelBuilder);
+        OnModelCreatingGiasEstablishmentLink(modelBuilder);
+        OnModelCreatingGiasEstablishments(modelBuilder);
+        OnModelCreatingGiasGovernances(modelBuilder);
+        OnModelCreatingGiasGroup(modelBuilder);
+        OnModelCreatingGiasGroupLink(modelBuilder);
+        OnModelCreatingMis_Mstr(modelBuilder);
         OnModelCreatingMstrAcademyConversions(modelBuilder);
         OnModelCreatingMstrAcademyTransfers(modelBuilder);
-        OnModelCreatingApplicationSettings(modelBuilder);
-        OnModelCreatingApplicationEvents(modelBuilder);
+        OnModelCreatingMstrFreeSchoolProjects(modelBuilder);
+        OnModelCreatingMstrTrusts(modelBuilder);
+        OnModelCreatingSharePointTrustDocLinks(modelBuilder);
+        OnModelCreatingTadTrustGovernances(modelBuilder);
+
         OnModelCreatingAddFilters(modelBuilder);
-        OnModelCreatingMis_Mstr(modelBuilder);
     }
 }
