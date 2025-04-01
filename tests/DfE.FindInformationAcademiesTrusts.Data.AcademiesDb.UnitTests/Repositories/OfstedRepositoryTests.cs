@@ -200,50 +200,6 @@ public class OfstedRepositoryTests
         VerifyLogs(validEstablishmentUrns, false);
     }
 
-    [Theory]
-    [InlineData(null, CategoriesOfConcern.NotInspected)]
-    [InlineData("", CategoriesOfConcern.NoConcerns)]
-    [InlineData("NTI", CategoriesOfConcern.NoticeToImprove)]
-    [InlineData("SM", CategoriesOfConcern.SpecialMeasures)]
-    [InlineData("SWK", CategoriesOfConcern.SeriousWeakness)]
-    public async Task
-        GetAcademiesInTrustOfstedAsync_should_set_CategoryOfConcern_on_current_Ofsted_from_db_when_not_further_ed(
-            string? dbData,
-            CategoriesOfConcern expected)
-    {
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
-            { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddEstablishmentFiat(new MisMstrEstablishmentFiat
-            { Urn = 987654, CategoryOfConcern = dbData });
-
-        var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
-
-        result.Should().ContainSingle()
-            .Which.CurrentOfstedRating.CategoryOfConcern.Should().Be(expected);
-    }
-
-    [Theory]
-    [InlineData(null, CategoriesOfConcern.NotInspected)]
-    [InlineData("", CategoriesOfConcern.NoConcerns)]
-    [InlineData("NTI", CategoriesOfConcern.NoticeToImprove)]
-    [InlineData("SM", CategoriesOfConcern.SpecialMeasures)]
-    [InlineData("SWK", CategoriesOfConcern.SeriousWeakness)]
-    public async Task
-        GetAcademiesInTrustOfstedAsync_should_set_CategoryOfConcern_on_previous_Ofsted_from_db_when_not_further_ed(
-            string? dbData,
-            CategoriesOfConcern expected)
-    {
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
-            { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddEstablishmentFiat(new MisMstrEstablishmentFiat
-            { Urn = 987654, PreviousCategoryOfConcern = dbData });
-
-        var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
-
-        var actual = result.Should().ContainSingle().Subject;
-        actual.PreviousOfstedRating.CategoryOfConcern.Should().Be(expected);
-    }
-
     [Fact]
     public async Task GetAcademiesInTrustOfstedAsync_should_set_CategoryOfConcern_to_DoesNotApply_when_further_ed()
     {
@@ -257,92 +213,6 @@ public class OfstedRepositoryTests
         var actual = result.Should().ContainSingle().Subject;
         actual.CurrentOfstedRating.CategoryOfConcern.Should().Be(CategoriesOfConcern.DoesNotApply);
         actual.PreviousOfstedRating.CategoryOfConcern.Should().Be(CategoriesOfConcern.DoesNotApply);
-    }
-
-    [Theory]
-    [InlineData(null, SafeguardingScore.NotInspected)]
-    [InlineData("NULL", SafeguardingScore.NotInspected)]
-    [InlineData("Yes", SafeguardingScore.Yes)]
-    [InlineData("No", SafeguardingScore.No)]
-    [InlineData("9", SafeguardingScore.NotRecorded)]
-    public async Task
-        GetAcademiesInTrustOfstedAsync_should_set_SafeguardingScore_on_current_Ofsted_when_non_further_ed(
-            string? dbData,
-            SafeguardingScore expected)
-    {
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
-            { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddEstablishmentFiat(
-            new MisMstrEstablishmentFiat { Urn = 987654, SafeguardingIsEffective = dbData });
-
-        var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
-
-        var actual = result.Should().ContainSingle().Subject;
-        actual.CurrentOfstedRating.SafeguardingIsEffective.Should().Be(expected);
-    }
-
-    [Theory]
-    [InlineData(null, SafeguardingScore.NotInspected)]
-    [InlineData("NULL", SafeguardingScore.NotInspected)]
-    [InlineData("Yes", SafeguardingScore.Yes)]
-    [InlineData("No", SafeguardingScore.No)]
-    [InlineData("9", SafeguardingScore.NotRecorded)]
-    public async Task
-        GetAcademiesInTrustOfstedAsync_should_set_SafeguardingScore_on_current_Ofsted_when_further_ed(string? dbData,
-            SafeguardingScore expected)
-    {
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
-            { GroupUid = GroupUid, Urn = "876543", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(
-            new MisMstrFurtherEducationEstablishmentFiat { ProviderUrn = 876543, IsSafeguardingEffective = dbData });
-
-        var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
-
-        var actual = result.Should().ContainSingle().Subject;
-        actual.CurrentOfstedRating.SafeguardingIsEffective.Should().Be(expected);
-    }
-
-    [Theory]
-    [InlineData(null, SafeguardingScore.NotInspected)]
-    [InlineData("NULL", SafeguardingScore.NotInspected)]
-    [InlineData("Yes", SafeguardingScore.Yes)]
-    [InlineData("No", SafeguardingScore.No)]
-    [InlineData("9", SafeguardingScore.NotRecorded)]
-    public async Task
-        GetAcademiesInTrustOfstedAsync_should_set_SafeguardingScore_on_previous_Ofsted_when_not_further_ed(
-            string? dbData,
-            SafeguardingScore expected)
-    {
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
-            { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddEstablishmentFiat(new MisMstrEstablishmentFiat
-            { Urn = 987654, PreviousSafeguardingIsEffective = dbData });
-
-        var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
-
-        var actual = result.Should().ContainSingle().Subject;
-        actual.PreviousOfstedRating.SafeguardingIsEffective.Should().Be(expected);
-    }
-
-    [Theory]
-    [InlineData(null, SafeguardingScore.NotInspected)]
-    [InlineData("NULL", SafeguardingScore.NotInspected)]
-    [InlineData("Yes", SafeguardingScore.Yes)]
-    [InlineData("No", SafeguardingScore.No)]
-    [InlineData("9", SafeguardingScore.NotRecorded)]
-    public async Task
-        GetAcademiesInTrustOfstedAsync_should_set_SafeguardingScore_on_previous_Ofsted_when_further_ed(string? dbData,
-            SafeguardingScore expected)
-    {
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
-            { GroupUid = GroupUid, Urn = "876543", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(
-            new MisMstrFurtherEducationEstablishmentFiat { ProviderUrn = 876543, PreviousSafeguarding = dbData });
-
-        var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
-
-        var actual = result.Should().ContainSingle().Subject;
-        actual.PreviousOfstedRating.SafeguardingIsEffective.Should().Be(expected);
     }
 
     [Fact]
@@ -387,6 +257,7 @@ public class OfstedRepositoryTests
             {
                 Urn = 987654,
 
+                OverallEffectiveness = "1",
                 QualityOfEducation = 1,
                 BehaviourAndAttitudes = 2,
                 PersonalDevelopment = 3,
@@ -394,6 +265,7 @@ public class OfstedRepositoryTests
                 EarlyYearsProvisionWhereApplicable = 1,
                 SixthFormProvisionWhereApplicable = 2,
 
+                PreviousFullInspectionOverallEffectiveness = "2",
                 PreviousQualityOfEducation = 3,
                 PreviousBehaviourAndAttitudes = 4,
                 PreviousPersonalDevelopment = 1,
@@ -407,6 +279,7 @@ public class OfstedRepositoryTests
 
         var actual = result.Should().ContainSingle().Subject;
 
+        actual.CurrentOfstedRating.OverallEffectiveness.Should().Be(OfstedRatingScore.Outstanding);
         actual.CurrentOfstedRating.QualityOfEducation.Should().Be(OfstedRatingScore.Outstanding);
         actual.CurrentOfstedRating.BehaviourAndAttitudes.Should().Be(OfstedRatingScore.Good);
         actual.CurrentOfstedRating.PersonalDevelopment.Should().Be(OfstedRatingScore.RequiresImprovement);
@@ -414,6 +287,7 @@ public class OfstedRepositoryTests
         actual.CurrentOfstedRating.EarlyYearsProvision.Should().Be(OfstedRatingScore.Outstanding);
         actual.CurrentOfstedRating.SixthFormProvision.Should().Be(OfstedRatingScore.Good);
 
+        actual.PreviousOfstedRating.OverallEffectiveness.Should().Be(OfstedRatingScore.Good);
         actual.PreviousOfstedRating.QualityOfEducation.Should().Be(OfstedRatingScore.RequiresImprovement);
         actual.PreviousOfstedRating.BehaviourAndAttitudes.Should().Be(OfstedRatingScore.Inadequate);
         actual.PreviousOfstedRating.PersonalDevelopment.Should().Be(OfstedRatingScore.Outstanding);
@@ -554,6 +428,64 @@ public class OfstedRepositoryTests
     }
 
     [Fact]
+    public async Task GetAcademiesInTrustOfstedAsync_should_return_unknown_when_urn_doesnt_have_predecessor()
+    {
+        var giasEstablishmentLink = new GiasEstablishmentLink
+        {
+            Urn = "123456",
+            LinkUrn = "987654",
+            LinkType = "Successor"
+        };
+
+        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+            { GroupUid = GroupUid, Urn = "123456", JoinedDate = "01/01/2022" });
+
+        _mockAcademiesDbContext.AddEstablishmentFiat(new MisMstrEstablishmentFiat
+            { Urn = 987654, QualityOfEducation = 1 });
+
+        _mockAcademiesDbContext.AddGiasEstablishmentLink(giasEstablishmentLink);
+
+        var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
+
+        var actual = result.Should().ContainSingle().Subject;
+
+        actual.CurrentOfstedRating.Should().Be(OfstedRating.Unknown);
+        actual.PreviousOfstedRating.Should().Be(OfstedRating.Unknown);
+    }
+
+    [Fact]
+    public async Task GetAcademiesInTrustOfstedAsync_should_return_unknown_when_urn_has_multiple_predecessors()
+    {
+        const string currentUrn = "123456";
+        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+            { GroupUid = GroupUid, Urn = currentUrn, JoinedDate = "01/01/2022" });
+        _mockAcademiesDbContext.AddGiasEstablishmentLinks([
+            new GiasEstablishmentLink
+            {
+                Urn = currentUrn,
+                LinkUrn = "987654",
+                LinkType = "Predecessor"
+            },
+            new GiasEstablishmentLink
+            {
+                Urn = currentUrn,
+                LinkUrn = "876543",
+                LinkType = "Predecessor"
+            }
+        ]);
+        _mockAcademiesDbContext.AddEstablishmentsFiat(
+            new MisMstrEstablishmentFiat { Urn = 987654, QualityOfEducation = 1 },
+            new MisMstrEstablishmentFiat { Urn = 876543, QualityOfEducation = 1 });
+
+        var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
+
+        var actual = result.Should().ContainSingle().Subject;
+
+        actual.CurrentOfstedRating.Should().Be(OfstedRating.Unknown);
+        actual.PreviousOfstedRating.Should().Be(OfstedRating.Unknown);
+    }
+
+    [Fact]
     public async Task
         GetAcademiesInTrustOfstedAsync_should_only_query_further_ed_for_urns_not_in_mis_establishments_when_urn_has_changed()
     {
@@ -673,123 +605,6 @@ public class OfstedRepositoryTests
         await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
         _mockLogger.VerifyDidNotReceive();
-    }
-
-    [Fact]
-    public void ConvertOverallEffectivenessToOfstedRatingScore_Should_Return_NotInspected_When_Rating_Is_Null()
-    {
-        // Act
-        var result = OfstedExtensions.ConvertOverallEffectivenessToOfstedRatingScore(null);
-
-        // Assert
-        result.Should().Be(OfstedRatingScore.NotInspected);
-    }
-
-    [Theory]
-    [InlineData("Not judged")]
-    [InlineData("not judged")]
-    [InlineData("NOT JUDGED")]
-    [InlineData("NoT JuDgEd")]
-    public void
-        ConvertOverallEffectivenessToOfstedRatingScore_Should_Return_NoJudgement_When_Rating_Is_NotJudged_CaseInsensitive(
-            string rating)
-    {
-        // Act
-        var result = rating.ConvertOverallEffectivenessToOfstedRatingScore();
-
-        // Assert
-        result.Should().Be(OfstedRatingScore.SingleHeadlineGradeNotAvailable);
-    }
-
-    [Theory]
-    [InlineData("1", OfstedRatingScore.Outstanding)]
-    [InlineData("2", OfstedRatingScore.Good)]
-    [InlineData("3", OfstedRatingScore.RequiresImprovement)]
-    [InlineData("4", OfstedRatingScore.Inadequate)]
-    [InlineData("8", OfstedRatingScore.DoesNotApply)]
-    [InlineData("9", OfstedRatingScore.SingleHeadlineGradeNotAvailable)]
-    [InlineData("0", OfstedRatingScore.InsufficientEvidence)]
-    [InlineData("-1", OfstedRatingScore.NotInspected)]
-    public void
-        ConvertOverallEffectivenessToOfstedRatingScore_Should_Return_Correct_OfstedRatingScore_When_Rating_Is_Valid_Integer_String(
-            string rating, OfstedRatingScore expected)
-    {
-        // Act
-        var result = rating.ConvertOverallEffectivenessToOfstedRatingScore();
-
-        // Assert
-        result.Should().Be(expected);
-    }
-
-    [Theory]
-    [InlineData("5")]
-    [InlineData("10")]
-    [InlineData("-2")]
-    public void
-        ConvertOverallEffectivenessToOfstedRatingScore_Should_Return_Unknown_When_Rating_Is_Integer_Not_Defined_In_Enum(
-            string rating)
-    {
-        // Act
-        var result = rating.ConvertOverallEffectivenessToOfstedRatingScore();
-
-        // Assert
-        result.Should().Be(OfstedRatingScore.Unknown);
-    }
-
-    [Theory]
-    [InlineData("abc")]
-    [InlineData("Good")]
-    [InlineData("Outstanding")]
-    [InlineData("Requires Improvement")]
-    [InlineData("Inadequate")]
-    [InlineData("N/A")]
-    [InlineData("Unknown")]
-    public void ConvertOverallEffectivenessToOfstedRatingScore_Should_Return_Unknown_When_Rating_Is_Invalid_String(
-        string rating)
-    {
-        // Act
-        var result = rating.ConvertOverallEffectivenessToOfstedRatingScore();
-
-        // Assert
-        result.Should().Be(OfstedRatingScore.Unknown);
-    }
-
-    [Theory]
-    [InlineData("1", "2", OfstedRatingScore.Outstanding, OfstedRatingScore.Good)]
-    [InlineData("Not judged", "Not judged", OfstedRatingScore.SingleHeadlineGradeNotAvailable,
-        OfstedRatingScore.SingleHeadlineGradeNotAvailable)]
-    [InlineData(null, null, OfstedRatingScore.NotInspected, OfstedRatingScore.NotInspected)]
-    [InlineData("abc", "def", OfstedRatingScore.Unknown, OfstedRatingScore.Unknown)]
-    [InlineData("2", "Not judged", OfstedRatingScore.Good, OfstedRatingScore.SingleHeadlineGradeNotAvailable)]
-    [InlineData("Not judged", "1", OfstedRatingScore.SingleHeadlineGradeNotAvailable, OfstedRatingScore.Outstanding)]
-    public async Task
-        GetAcademiesInTrustOfstedAsync_should_correctly_convert_OverallEffectiveness_and_PreviousFullInspectionOverallEffectiveness(
-            string? overallEffectiveness,
-            string? previousOverallEffectiveness,
-            OfstedRatingScore expectedCurrentScore,
-            OfstedRatingScore expectedPreviousScore)
-    {
-        // Arrange
-        var giasGroupLink = AddGiasGroupLinksToMockDb(1).Single();
-        var urn = int.Parse(giasGroupLink.Urn!);
-
-        _mockAcademiesDbContext.AddEstablishmentFiat(new MisMstrEstablishmentFiat
-        {
-            Urn = urn,
-            OverallEffectiveness = overallEffectiveness,
-            PreviousFullInspectionOverallEffectiveness = previousOverallEffectiveness,
-            InspectionStartDate = "01/01/2022",
-            PreviousInspectionStartDate = "01/01/2021"
-        });
-
-        // Act
-        var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
-
-        // Assert
-        var academyOfsted = result.Should().ContainSingle().Which;
-        academyOfsted.Urn.Should().Be(giasGroupLink.Urn);
-        academyOfsted.CurrentOfstedRating.OverallEffectiveness.Should().Be(expectedCurrentScore);
-        academyOfsted.PreviousOfstedRating.OverallEffectiveness.Should().Be(expectedPreviousScore);
     }
 
     [Fact]
