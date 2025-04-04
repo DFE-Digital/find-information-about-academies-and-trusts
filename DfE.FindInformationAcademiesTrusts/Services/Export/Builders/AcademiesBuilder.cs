@@ -1,7 +1,7 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
+﻿using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Extensions;
+using DfE.FindInformationAcademiesTrusts.Services.Academy;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.Export.Builders
 {
@@ -23,17 +23,20 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export.Builders
                 "Type",
                 "Rural or Urban",
                 ExportHelpers.DateJoined,
-                "Previous Ofsted Rating",
-                ExportHelpers.BeforeOrAfterJoiningHeader,
-                "Date of Previous Ofsted",
                 "Current Ofsted Rating",
                 ExportHelpers.BeforeOrAfterJoiningHeader,
                 "Date of Current Ofsted",
+                "Previous Ofsted Rating",
+                ExportHelpers.BeforeOrAfterJoiningHeader,
+                "Date of Previous Ofsted",
                 "Phase of Education",
                 ExportHelpers.AgeRange,
                 "Pupil Numbers",
                 "Capacity",
                 "% Full",
+                "Pupils eligible for Free School Meals",
+                "LA average pupils eligible for Free School Meals",
+                "National average pupils eligible for Free School Meals",
                 "Pupils eligible for Free School Meals"
             };
 
@@ -44,13 +47,13 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export.Builders
 
         public AcademiesBuilder WriteRows(AcademyDetails[] academies, AcademyOfsted[] academiesOfstedRatings,
             AcademyPupilNumbers[] academiesPupilNumbers,
-            AcademyFreeSchoolMeals[] academiesFreeSchoolMeals)
+            AcademyFreeSchoolMealsServiceModel[] academiesFreeSchoolMeals)
         {
             foreach (var details in academies)
             {
-                var ofstedData = academiesOfstedRatings.SingleOrDefault(x => x.Urn == details.Urn);
-                var pupilData = academiesPupilNumbers.SingleOrDefault(x => x.Urn == details.Urn);
-                var freeMealsData = academiesFreeSchoolMeals.SingleOrDefault(x => x.Urn == details.Urn);
+                var ofstedData = academiesOfstedRatings.Single(x => x.Urn == details.Urn);
+                var pupilData = academiesPupilNumbers.Single(x => x.Urn == details.Urn);
+                var freeMealsData = academiesFreeSchoolMeals.Single(x => x.Urn == details.Urn);
 
                 GenerateAcademyRow(details, ofstedData, pupilData, freeMealsData);
                 AddRow();
@@ -58,16 +61,16 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export.Builders
 
             return this;
         }
-        
+
         private void GenerateAcademyRow(
             AcademyDetails academy,
-            AcademyOfsted? ofstedData,
-            AcademyPupilNumbers? pupilNumbersData,
-            AcademyFreeSchoolMeals? freeSchoolMealsData)
+            AcademyOfsted ofstedData,
+            AcademyPupilNumbers pupilNumbersData,
+            AcademyFreeSchoolMealsServiceModel freeSchoolMealsData)
         {
-            var previousRating = ofstedData?.PreviousOfstedRating ?? OfstedRating.NotInspected;
-            var currentRating = ofstedData?.CurrentOfstedRating ?? OfstedRating.NotInspected;
-            var percentageFull = ExportHelpers.CalculatePercentageFull(pupilNumbersData?.NumberOfPupils, pupilNumbersData?.SchoolCapacity);
+            var previousRating = ofstedData.PreviousOfstedRating;
+            var currentRating = ofstedData.CurrentOfstedRating;
+            var percentageFull = ExportHelpers.CalculatePercentageFull(pupilNumbersData.NumberOfPupils, pupilNumbersData.SchoolCapacity);
 
             SetTextCell(CurrentRow, 1, academy.EstablishmentName ?? string.Empty);
             SetTextCell(CurrentRow, 2, academy.Urn);
@@ -75,46 +78,52 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export.Builders
             SetTextCell(CurrentRow, 4, academy.TypeOfEstablishment ?? string.Empty);
             SetTextCell(CurrentRow, 5, academy.UrbanRural ?? string.Empty);
 
-            SetDateCell(CurrentRow, 6, ofstedData?.DateAcademyJoinedTrust);
+            SetDateCell(CurrentRow, 6, ofstedData.DateAcademyJoinedTrust);
 
-            SetTextCell(CurrentRow, 7, previousRating.OverallEffectiveness.ToDisplayString(false));
+            SetTextCell(CurrentRow, 7, currentRating.OverallEffectiveness.ToDisplayString(true));
             SetTextCell(CurrentRow, 8,
                 ExportHelpers.IsOfstedRatingBeforeOrAfterJoining(
-                    previousRating.OverallEffectiveness,
-                    ofstedData?.DateAcademyJoinedTrust ?? DateTime.MinValue,
-                    previousRating.InspectionDate
-                )
-            );
-
-            SetDateCell(CurrentRow, 9, previousRating.InspectionDate);
-
-            SetTextCell(CurrentRow, 10, currentRating.OverallEffectiveness.ToDisplayString(true));
-            SetTextCell(CurrentRow, 11,
-                ExportHelpers.IsOfstedRatingBeforeOrAfterJoining(
                     currentRating.OverallEffectiveness,
-                    ofstedData?.DateAcademyJoinedTrust ?? DateTime.MinValue,
+                    ofstedData.DateAcademyJoinedTrust,
                     currentRating.InspectionDate
                 )
             );
+            SetDateCell(CurrentRow, 9, currentRating.InspectionDate);
 
-            SetDateCell(CurrentRow, 12, currentRating.InspectionDate);
+            SetTextCell(CurrentRow, 10, previousRating.OverallEffectiveness.ToDisplayString(false));
+            SetTextCell(CurrentRow, 11,
+                ExportHelpers.IsOfstedRatingBeforeOrAfterJoining(
+                    previousRating.OverallEffectiveness,
+                    ofstedData.DateAcademyJoinedTrust,
+                    previousRating.InspectionDate
+                )
+            );
+            SetDateCell(CurrentRow, 12, previousRating.InspectionDate);
 
-            SetTextCell(CurrentRow, 13, pupilNumbersData?.PhaseOfEducation ?? string.Empty);
+            SetTextCell(CurrentRow, 13, pupilNumbersData.PhaseOfEducation ?? string.Empty);
 
             SetTextCell(CurrentRow, 14,
-                pupilNumbersData != null
-                    ? $"{pupilNumbersData.AgeRange.Minimum} - {pupilNumbersData.AgeRange.Maximum}"
+                $"{pupilNumbersData.AgeRange.Minimum} - {pupilNumbersData.AgeRange.Maximum}"
+            );
+
+            SetTextCell(CurrentRow, 15, pupilNumbersData.NumberOfPupils?.ToString() ?? string.Empty);
+            SetTextCell(CurrentRow, 16, pupilNumbersData.SchoolCapacity?.ToString() ?? string.Empty);
+            SetTextCell(CurrentRow, 17, percentageFull > 0 ? $"{percentageFull}%" : string.Empty);
+            SetTextCell(CurrentRow,
+                18,
+                freeSchoolMealsData.PercentageFreeSchoolMeals.HasValue
+                    ? $"{freeSchoolMealsData.PercentageFreeSchoolMeals}%"
                     : string.Empty
             );
 
-            SetTextCell(CurrentRow, 15, pupilNumbersData?.NumberOfPupils?.ToString() ?? string.Empty);
-            SetTextCell(CurrentRow, 16, pupilNumbersData?.SchoolCapacity?.ToString() ?? string.Empty);
-            SetTextCell(CurrentRow, 17, percentageFull > 0 ? $"{percentageFull}%" : string.Empty);
-            SetTextCell(
-                CurrentRow,
-                18,
-                freeSchoolMealsData?.PercentageFreeSchoolMeals.HasValue == true
-                    ? $"{freeSchoolMealsData.PercentageFreeSchoolMeals}%"
+            SetTextCell(CurrentRow, 19,
+                freeSchoolMealsData.LaAveragePercentageFreeSchoolMeals > 0
+                    ? $"{Math.Round(freeSchoolMealsData.LaAveragePercentageFreeSchoolMeals, 1)}%"
+                    : string.Empty
+            );
+            SetTextCell(CurrentRow, 20,
+                freeSchoolMealsData.NationalAveragePercentageFreeSchoolMeals > 0
+                    ? $"{Math.Round(freeSchoolMealsData.NationalAveragePercentageFreeSchoolMeals, 1)}%"
                     : string.Empty
             );
         }
