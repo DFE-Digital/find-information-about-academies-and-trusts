@@ -28,7 +28,7 @@ public class ExportService(
         var academiesDetails = await academyRepository.GetAcademiesInTrustDetailsAsync(uid);
         var academiesOfstedRatings = await ofstedRepository.GetAcademiesInTrustOfstedAsync(uid);
         var academiesPupilNumbers = await academyRepository.GetAcademiesInTrustPupilNumbersAsync(uid);
-        var academiesFreeSchoolMeals = await academyRepository.GetAcademiesInTrustFreeSchoolMealsAsync(uid);
+        var academiesFreeSchoolMeals = await academyService.GetAcademiesInTrustFreeSchoolMealsAsync(uid);
 
         return new AcademiesBuilder()
             .WriteTrustInformation(trustSummary)
