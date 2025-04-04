@@ -4,6 +4,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
+using DfE.FindInformationAcademiesTrusts.Services.Export.Builders;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using FluentAssertions.Execution;
 
@@ -196,7 +197,7 @@ public class ExportServiceTests
         DateTime? inspectionEndDate = dateJoinedTrust.AddDays(-1);
 
         var result =
-            ExportService.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, inspectionEndDate);
+            ExportHelpers.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, inspectionEndDate);
 
         result.Should().Be(string.Empty);
     }
@@ -209,7 +210,7 @@ public class ExportServiceTests
         DateTime? inspectionEndDate = dateJoinedTrust.AddDays(-10);
 
         var result =
-            ExportService.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, inspectionEndDate);
+            ExportHelpers.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, inspectionEndDate);
 
         result.Should().Be("Before Joining");
     }
@@ -222,7 +223,7 @@ public class ExportServiceTests
         DateTime? inspectionEndDate = dateJoinedTrust.AddDays(5);
 
         var result =
-            ExportService.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, inspectionEndDate);
+            ExportHelpers.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, inspectionEndDate);
 
         result.Should().Be("After Joining");
     }
@@ -233,7 +234,7 @@ public class ExportServiceTests
         var ofstedRatingScore = OfstedRatingScore.Good;
         var dateJoinedTrust = _mockDateTimeProvider.Now;
 
-        var result = ExportService.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, null);
+        var result = ExportHelpers.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, null);
 
         result.Should().Be(string.Empty);
     }
@@ -249,7 +250,7 @@ public class ExportServiceTests
     public void CalculatePercentageFull_ShouldReturnExpectedResult(int? numberOfPupils, int? schoolCapacity,
         float expected)
     {
-        var result = ExportService.CalculatePercentageFull(numberOfPupils, schoolCapacity);
+        var result = ExportHelpers.CalculatePercentageFull(numberOfPupils, schoolCapacity);
         Assert.Equal(expected, result);
     }
 
@@ -372,7 +373,7 @@ public class ExportServiceTests
         DateTime? inspectionEndDate = dateJoinedTrust;
 
         var result =
-            ExportService.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, inspectionEndDate);
+            ExportHelpers.IsOfstedRatingBeforeOrAfterJoining(ofstedRatingScore, dateJoinedTrust, inspectionEndDate);
 
         result.Should().Be("After Joining");
     }
