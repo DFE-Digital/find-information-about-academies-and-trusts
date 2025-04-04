@@ -8,6 +8,7 @@ using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Hardcoded;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Ofsted;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.TrustDocument;
@@ -49,6 +50,7 @@ public static class Dependencies
         builder.Services.AddScoped<IStringFormattingUtilities, StringFormattingUtilities>();
 
         builder.Services.AddScoped<IAcademyRepository, AcademyRepository>();
+        builder.Services.AddScoped<IOfstedRepository, OfstedRepository>();
         builder.Services.AddScoped<ITrustRepository, TrustRepository>();
         builder.Services.AddScoped<IDataSourceRepository, DataSourceRepository>();
         builder.Services.AddScoped<IContactRepository, ContactRepository>();
