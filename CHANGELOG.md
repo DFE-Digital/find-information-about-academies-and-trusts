@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+- Reordered academy download columns to match order in ofsted download
+- Added local authority and national free school meals percentages to academy download
+
 ## [Release-27][release-27] (production-2025-04-02.5314)
 
 ### Changed
