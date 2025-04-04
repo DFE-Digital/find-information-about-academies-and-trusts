@@ -1,7 +1,4 @@
-using ClosedXML.Excel;
-using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
-using DfE.FindInformationAcademiesTrusts.Data.Repositories.Ofsted;
+﻿using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Export.Builders;
