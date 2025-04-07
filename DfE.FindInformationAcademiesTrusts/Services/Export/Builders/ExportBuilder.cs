@@ -7,8 +7,8 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export.Builders
 
     public abstract class ExportBuilder
     {
-        private XLWorkbook? workbook;
-        private IXLWorksheet worksheet;
+        private readonly XLWorkbook? workbook;
+        private readonly IXLWorksheet worksheet;
 
         public int CurrentRow { get; private set; }
 
