@@ -23,10 +23,9 @@ public class PupilNumbersModel(
     dateTimeProvider
 )
 {
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with
-    {
-        TabName = ViewConstants.AcademiesInTrustPupilNumbersPageName
-    };
+    public const string TabName = "Pupil numbers";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { TabName = TabName };
 
     public AcademyPupilNumbersServiceModel[] Academies { get; set; } = default!;
 
