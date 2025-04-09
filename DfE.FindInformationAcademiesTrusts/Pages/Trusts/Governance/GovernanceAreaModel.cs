@@ -47,14 +47,10 @@ public class GovernanceAreaModel(
         var giasDataSource = await DataSourceService.GetAsync(Source.Gias);
 
         DataSourcesPerPage.AddRange([
-            new DataSourcePageListEntry(ViewConstants.GovernanceTrustLeadershipPageName,
-                [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.GovernanceTrusteesPageName,
-                [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.GovernanceMembersPageName,
-                [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.GovernanceHistoricMembersPageName,
-                [new DataSourceListEntry(giasDataSource)])
+            new DataSourcePageListEntry(TrustLeadershipModel.SubPageName, [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(TrusteesModel.SubPageName, [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(MembersModel.SubPageName, [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(HistoricMembersModel.SubPageName, [new DataSourceListEntry(giasDataSource)])
         ]);
 
         return pageResult;
