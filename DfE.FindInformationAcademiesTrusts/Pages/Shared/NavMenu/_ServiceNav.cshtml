@@ -1,0 +1,39 @@
+@model NavLink[]
+
+<div class="govuk-service-navigation"
+     data-module="govuk-service-navigation">
+  <div class="govuk-width-container">
+    <div class="govuk-service-navigation__container">
+      <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+        <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle"
+                aria-controls="navigation" hidden>
+          Menu
+        </button>
+        <ul class="govuk-service-navigation__list" id="navigation">
+          @foreach (var link in Model)
+          {
+            <li
+              class="govuk-service-navigation__item @(link.LinkIsActive ? "govuk-service-navigation__item--active" : "")"
+              data-testid="@link.TestId">
+              <a class="govuk-service-navigation__link govuk-!-font-weight-bold"
+                 asp-page="@link.AspPage"
+                 asp-all-route-data="@link.AspAllRouteData">
+                <span class="govuk-visually-hidden">@link.VisuallyHiddenLinkText </span>
+                @if (link.LinkIsActive)
+                {
+                  <strong class="govuk-service-navigation__active-fallback">
+                    @link.LinkDisplayText
+                  </strong>
+                }
+                else
+                {
+                  @link.LinkDisplayText
+                }
+              </a>
+            </li>
+          }
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
