@@ -1,12 +1,10 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Pipeline;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
-using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.Pipeline;
@@ -22,7 +20,7 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
             .Returns(new AcademyPipelineSummaryServiceModel(1, 2, 3));
     }
 
-    [Fact] 
+    [Fact]
     public override async Task OnGetExportAsync_ShouldReturnFileResult_WhenUidIsValid()
     {
         // Arrange
@@ -101,15 +99,6 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
             new DataSourcePageListEntry("Free schools",
                 [new DataSourceListEntry(Mocks.MockDataSourceService.ManageFreeSchool)])
         ]);
-    }
-
-    [Fact]
-    public override async Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage()
-    {
-        _ = await Sut.OnGetAsync();
-
-        Sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.SubPageLink.Should().Be("/Trusts/Academies/Pipeline/PreAdvisoryBoard");
     }
 
     [Fact]

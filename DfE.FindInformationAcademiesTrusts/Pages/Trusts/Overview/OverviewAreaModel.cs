@@ -22,16 +22,6 @@ public class OverviewAreaModel(
         var pageResult = await base.OnGetAsync();
         if (pageResult is NotFoundResult) return pageResult;
 
-        SubNavigationLinks =
-        [
-            new TrustSubNavigationLinkModel(ViewConstants.OverviewTrustDetailsPageName, "./TrustDetails", Uid, TrustPageMetadata.PageName!,
-                this is TrustDetailsModel),
-            new TrustSubNavigationLinkModel(ViewConstants.OverviewTrustSummaryPageName, "./TrustSummary", Uid, TrustPageMetadata.PageName!,
-                this is TrustSummaryModel),
-            new TrustSubNavigationLinkModel(ViewConstants.OverviewReferenceNumbersPageName, "./ReferenceNumbers", Uid, TrustPageMetadata.PageName!,
-                this is ReferenceNumbersModel)
-        ];
-
         // Fetch the trust overview data
         TrustOverview = await TrustService.GetTrustOverviewAsync(Uid);
 

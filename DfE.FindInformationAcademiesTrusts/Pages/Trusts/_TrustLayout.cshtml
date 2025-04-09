@@ -16,10 +16,10 @@
           <header>
             <h1 class="govuk-heading-l" data-testid="page-name">@Model.TrustPageMetadata.PageName</h1>
           </header>
-          <partial name="_TrustSubNavigation" model="@Model"/>
+          <partial name="Shared/NavMenu/_SubNav" model="@TrustNavMenu.GetSubNavLinks(Model)" />
           @RenderBody()
         </main>
-        <partial name="_SourceList"/>
+        <partial name="_SourceList" />
       </div>
     </div>
   </div>

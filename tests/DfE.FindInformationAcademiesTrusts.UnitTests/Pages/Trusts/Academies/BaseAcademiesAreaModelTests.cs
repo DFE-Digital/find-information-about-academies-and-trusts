@@ -8,7 +8,10 @@ public abstract class BaseAcademiesAreaModelTests<T> : BaseTrustPageTests<T>, IT
     where T : AcademiesAreaModel
 {
     protected readonly IAcademyService MockAcademyService = Substitute.For<IAcademyService>();
-    protected readonly IPipelineAcademiesExportService MockPipelineAcademiesExportService = Substitute.For<IPipelineAcademiesExportService>();
+
+    protected readonly IPipelineAcademiesExportService MockPipelineAcademiesExportService =
+        Substitute.For<IPipelineAcademiesExportService>();
+
     protected const string TrustReferenceNumber = "TRN00123";
 
     public BaseAcademiesAreaModelTests()
@@ -26,28 +29,6 @@ public abstract class BaseAcademiesAreaModelTests<T> : BaseTrustPageTests<T>, IT
     }
 
     [Fact]
-    public async Task OnGetAsync_should_populate_SubNavigationLinks_to_subpages()
-    {
-        _ = await Sut.OnGetAsync();
-
-        Sut.SubNavigationLinks.Should()
-            .SatisfyRespectively(
-                l =>
-                {
-                    l.LinkText.Should().Be("In this trust (3)");
-                    l.SubPageLink.Should().Be("/Trusts/Academies/InTrust/Details");
-                    l.ServiceName.Should().Be("Academies");
-                },
-                l =>
-                {
-                    l.LinkText.Should().Be("Pipeline academies (6)");
-                    l.SubPageLink.Should().Be("/Trusts/Academies/Pipeline/PreAdvisoryBoard");
-                    l.ServiceName.Should().Be("Academies");
-                }
-            );
-    }
-
-    [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_PageName()
     {
         _ = await Sut.OnGetAsync();
@@ -57,9 +38,6 @@ public abstract class BaseAcademiesAreaModelTests<T> : BaseTrustPageTests<T>, IT
 
     [Fact]
     public abstract Task OnGetAsync_sets_academies_from_academyService();
-
-    [Fact]
-    public abstract Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage();
 
     [Fact]
     public abstract Task OnGetAsync_should_configure_TrustPageMetadata_SubPageName();

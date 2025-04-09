@@ -15,6 +15,4 @@ public interface ITrustsAreaModel
 
     string MapDataSourceToName(DataSourceServiceModel dataSource);
     string MapDataSourceToTestId(DataSourceListEntry source);
-
-    TrustSubNavigationLinkModel[] SubNavigationLinks { get; }
 }

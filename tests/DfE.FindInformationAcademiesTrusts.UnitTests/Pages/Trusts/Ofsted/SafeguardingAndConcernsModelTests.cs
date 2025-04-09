@@ -18,15 +18,6 @@ public class SafeguardingAndConcernsModelTests : BaseOfstedAreaModelTests<Safegu
     }
 
     [Fact]
-    public override async Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage()
-    {
-        _ = await Sut.OnGetAsync();
-
-        Sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.SubPageLink.Should().Be("./SafeguardingAndConcerns");
-    }
-
-    [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_SubPageName()
     {
         _ = await Sut.OnGetAsync();

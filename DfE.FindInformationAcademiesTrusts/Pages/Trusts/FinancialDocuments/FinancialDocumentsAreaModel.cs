@@ -33,20 +33,7 @@ public abstract class FinancialDocumentsAreaModel(
         var pageResult = await base.OnGetAsync();
         if (pageResult is NotFoundResult) return pageResult;
 
-        FinancialDocuments =
-            await financialDocumentService.GetFinancialDocumentsAsync(Uid, FinancialDocumentType);
-
-        SubNavigationLinks =
-        [
-            GetSubPageLink<FinancialStatementsModel>
-                (ViewConstants.FinancialDocumentsFinancialStatementsSubPageName, "./FinancialStatements"),
-            GetSubPageLink<ManagementLettersModel>
-                (ViewConstants.FinancialDocumentsManagementLettersSubPageName, "./ManagementLetters"),
-            GetSubPageLink<InternalScrutinyReportsModel>
-                (ViewConstants.FinancialDocumentsInternalScrutinyReportsSubPageName, "./InternalScrutinyReports"),
-            GetSubPageLink<SelfAssessmentChecklistsModel>
-                (ViewConstants.FinancialDocumentsSelfAssessmentChecklistsSubPageName, "./SelfAssessmentChecklists")
-        ];
+        FinancialDocuments = await financialDocumentService.GetFinancialDocumentsAsync(Uid, FinancialDocumentType);
 
         return Page();
     }

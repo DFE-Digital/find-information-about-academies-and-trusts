@@ -1,13 +1,10 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Ofsted;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
-using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
-using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Ofsted;
@@ -16,7 +13,10 @@ public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITest
     where T : OfstedAreaModel
 {
     protected readonly IAcademyService MockAcademyService = Substitute.For<IAcademyService>();
-    protected readonly IOfstedDataExportService MockOfstedDataExportService = Substitute.For<IOfstedDataExportService>();
+
+    protected readonly IOfstedDataExportService
+        MockOfstedDataExportService = Substitute.For<IOfstedDataExportService>();
+
     protected readonly IDateTimeProvider MockDateTimeProvider = Substitute.For<IDateTimeProvider>();
 
     [Fact]
@@ -134,42 +134,6 @@ public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITest
         // Check that the file name doesn't contain any invalid characters
         var containsInvalidChars = fileDownloadName.Any(c => invalidFileNameChars.Contains(c));
         containsInvalidChars.Should().BeFalse("the file name should not contain any illegal characters");
-    }
-
-    [Fact]
-    public abstract Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage();
-
-    [Fact]
-    public async Task OnGetAsync_should_populate_SubNavigationLinks_to_subpages()
-    {
-        _ = await Sut.OnGetAsync();
-
-        Sut.SubNavigationLinks.Should()
-            .SatisfyRespectively(
-                l =>
-                {
-                    l.LinkText.Should().Be("Single headline grades");
-                    l.SubPageLink.Should().Be("./SingleHeadlineGrades");
-                    l.ServiceName.Should().Be("Ofsted");
-                },
-                l =>
-                {
-                    l.LinkText.Should().Be("Current ratings");
-                    l.SubPageLink.Should().Be("./CurrentRatings");
-                    l.ServiceName.Should().Be("Ofsted");
-                },
-                l =>
-                {
-                    l.LinkText.Should().Be("Previous ratings");
-                    l.SubPageLink.Should().Be("./PreviousRatings");
-                    l.ServiceName.Should().Be("Ofsted");
-                },
-                l =>
-                {
-                    l.LinkText.Should().Be("Safeguarding and concerns");
-                    l.SubPageLink.Should().Be("./SafeguardingAndConcerns");
-                    l.ServiceName.Should().Be("Ofsted");
-                });
     }
 
     [Fact]

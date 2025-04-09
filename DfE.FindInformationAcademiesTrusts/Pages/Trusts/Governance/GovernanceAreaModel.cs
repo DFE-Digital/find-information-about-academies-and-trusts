@@ -25,24 +25,6 @@ public class GovernanceAreaModel(
 
         TrustGovernance = await TrustService.GetTrustGovernanceAsync(Uid);
 
-        SubNavigationLinks =
-        [
-            new TrustSubNavigationLinkModel(
-                $"{ViewConstants.GovernanceTrustLeadershipPageName} ({TrustGovernance.CurrentTrustLeadership.Length})",
-                "./TrustLeadership", Uid, TrustPageMetadata.PageName!, this is TrustLeadershipModel),
-            new TrustSubNavigationLinkModel(
-                $"{ViewConstants.GovernanceTrusteesPageName} ({TrustGovernance.CurrentTrustees.Length})", "./Trustees",
-                Uid,
-                TrustPageMetadata.PageName!, this is TrusteesModel),
-            new TrustSubNavigationLinkModel(
-                $"{ViewConstants.GovernanceMembersPageName} ({TrustGovernance.CurrentMembers.Length})", "./Members",
-                Uid,
-                TrustPageMetadata.PageName!, this is MembersModel),
-            new TrustSubNavigationLinkModel(
-                $"{ViewConstants.GovernanceHistoricMembersPageName} ({TrustGovernance.HistoricMembers.Length})",
-                "./HistoricMembers", Uid, TrustPageMetadata.PageName!, this is HistoricMembersModel)
-        ];
-
         // Add data sources
         var giasDataSource = await DataSourceService.GetAsync(Source.Gias);
 

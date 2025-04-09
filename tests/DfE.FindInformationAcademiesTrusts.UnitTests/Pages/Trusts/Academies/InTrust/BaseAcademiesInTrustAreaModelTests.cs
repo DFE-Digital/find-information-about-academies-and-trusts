@@ -1,12 +1,9 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
-using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
-using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
@@ -98,15 +95,6 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseAcademiesAreaModel
                 new DataSourceListEntry(EesDataSource, "National average 2023/24")
             ])
         ]);
-    }
-
-    [Fact]
-    public override async Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage()
-    {
-        _ = await Sut.OnGetAsync();
-
-        Sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.SubPageLink.Should().Be("/Trusts/Academies/InTrust/Details");
     }
 
     [Fact]
