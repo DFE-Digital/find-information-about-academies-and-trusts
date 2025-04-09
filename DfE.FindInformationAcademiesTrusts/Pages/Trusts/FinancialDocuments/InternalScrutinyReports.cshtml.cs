@@ -12,10 +12,9 @@ public class InternalScrutinyReportsModel(
     IFinancialDocumentService financialDocumentService)
     : FinancialDocumentsAreaModel(dataSourceService, trustService, logger, financialDocumentService)
 {
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with
-    {
-        SubPageName = ViewConstants.FinancialDocumentsInternalScrutinyReportsSubPageName
-    };
+    public const string SubPageName = "Internal scrutiny reports";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = SubPageName };
 
     protected override FinancialDocumentType FinancialDocumentType => FinancialDocumentType.InternalScrutinyReport;
     public override string FinancialDocumentDisplayName => "scrutiny report";
