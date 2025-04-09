@@ -23,8 +23,9 @@ public class FreeSchoolMealsModel(
     dateTimeProvider
 )
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { TabName = ViewConstants.AcademiesInTrustFreeSchoolMealsPageName };
+    public const string TabName = "Free school meals";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { TabName = TabName };
 
     public AcademyFreeSchoolMealsServiceModel[] Academies { get; set; } = default!;
 
