@@ -24,12 +24,9 @@ public abstract class AcademiesInTrustAreaModel(
     dateTimeProvider
 )
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with
-        {
-            PageName = ViewConstants.AcademiesPageName,
-            SubPageName = ViewConstants.AcademiesInTrustSubNavName
-        };
+    public const string SubPageName = "In this trust";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = SubPageName };
 
     public override async Task<IActionResult> OnGetAsync()
     {

@@ -15,6 +15,7 @@ public class SafeguardingAndConcernsModel(
     ILogger<SafeguardingAndConcernsModel> logger) : OfstedAreaModel(dataSourceService, trustService,
     academyService, exportService, dateTimeProvider, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = ViewConstants.OfstedSafeguardingAndConcernsPageName };
+    public const string SubPageName = "Safeguarding and concerns";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = SubPageName };
 }

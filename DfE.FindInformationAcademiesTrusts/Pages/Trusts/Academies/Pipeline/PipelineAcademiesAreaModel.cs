@@ -24,8 +24,9 @@ public abstract class PipelineAcademiesAreaModel(
     dateTimeProvider
 )
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = "Pipeline academies" };
+    public const string SubPageName = "Pipeline academies";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = SubPageName };
 
     public override async Task<IActionResult> OnGetAsync()
     {

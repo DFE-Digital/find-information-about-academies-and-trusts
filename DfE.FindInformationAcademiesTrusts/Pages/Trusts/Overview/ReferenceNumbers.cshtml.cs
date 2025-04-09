@@ -9,6 +9,8 @@ public class ReferenceNumbersModel(
     ITrustService trustService)
     : OverviewAreaModel(dataSourceService, trustService, logger)
 {
+    public const string SubPageName = "Reference numbers";
+
     public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = ViewConstants.OverviewReferenceNumbersPageName };
+        base.TrustPageMetadata with { SubPageName = SubPageName };
 }
