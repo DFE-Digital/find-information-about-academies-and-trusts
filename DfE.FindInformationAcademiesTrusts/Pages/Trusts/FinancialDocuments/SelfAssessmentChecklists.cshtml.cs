@@ -12,10 +12,9 @@ public class SelfAssessmentChecklistsModel(
     IFinancialDocumentService financialDocumentService)
     : FinancialDocumentsAreaModel(dataSourceService, trustService, logger, financialDocumentService)
 {
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with
-    {
-        SubPageName = ViewConstants.FinancialDocumentsSelfAssessmentChecklistsSubPageName
-    };
+    public const string SubPageName = "Self-assessment checklists";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = SubPageName };
 
     protected override FinancialDocumentType FinancialDocumentType => FinancialDocumentType.SelfAssessmentChecklist;
     public override string FinancialDocumentDisplayName => "self-assessment checklist";

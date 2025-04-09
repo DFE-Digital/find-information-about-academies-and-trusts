@@ -9,6 +9,7 @@ public class InTrustModel(
     ILogger<InTrustModel> logger)
     : ContactsAreaModel(dataSourceService, trustService, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = "In this trust" };
+    public const string SubPageName = "In this trust";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = SubPageName };
 }

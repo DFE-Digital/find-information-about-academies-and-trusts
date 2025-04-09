@@ -9,6 +9,7 @@ public class TrustLeadershipModel(
     ITrustService trustService)
     : GovernanceAreaModel(dataSourceService, trustService, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = ViewConstants.GovernanceTrustLeadershipPageName };
+    public const string SubPageName = "Trust leadership";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = SubPageName };
 }
