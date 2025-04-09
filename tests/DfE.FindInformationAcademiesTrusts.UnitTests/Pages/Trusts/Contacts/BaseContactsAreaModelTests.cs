@@ -127,14 +127,14 @@ public abstract class BaseContactsAreaModelTests<T> : BaseTrustPageTests<T>, ITe
         await MockDataSourceService.Received(1).GetAsync(Source.Mstr);
 
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
-            new DataSourcePageListEntry(ViewConstants.ContactsInDfePageName, [
+            new DataSourcePageListEntry("In DfE", [
                     new DataSourceListEntry(new DataSourceServiceModel(Source.FiatDb, null, null),
                         "Trust relationship manager"),
                     new DataSourceListEntry(new DataSourceServiceModel(Source.FiatDb, null, null),
                         "SFSO (Schools financial support and oversight) lead")
                 ]
             ),
-            new DataSourcePageListEntry(ViewConstants.ContactsInTrustPageName, [
+            new DataSourcePageListEntry("In this trust", [
                     new DataSourceListEntry(GiasDataSource, "Accounting officer name"),
                     new DataSourceListEntry(GiasDataSource, "Chief financial officer name"),
                     new DataSourceListEntry(GiasDataSource, "Chair of trustees name"),
