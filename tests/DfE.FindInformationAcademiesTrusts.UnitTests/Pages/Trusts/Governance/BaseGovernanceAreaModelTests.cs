@@ -39,14 +39,10 @@ public abstract class BaseGovernanceAreaModelTests<T> : BaseTrustPageTests<T>, I
         await MockDataSourceService.Received(1).GetAsync(Source.Gias);
 
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
-            new DataSourcePageListEntry(ViewConstants.GovernanceTrustLeadershipPageName,
-                [new DataSourceListEntry(GiasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.GovernanceTrusteesPageName,
-                [new DataSourceListEntry(GiasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.GovernanceMembersPageName,
-                [new DataSourceListEntry(GiasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.GovernanceHistoricMembersPageName,
-                [new DataSourceListEntry(GiasDataSource)])
+            new DataSourcePageListEntry("Trust leadership", [new DataSourceListEntry(GiasDataSource)]),
+            new DataSourcePageListEntry("Trustees", [new DataSourceListEntry(GiasDataSource)]),
+            new DataSourcePageListEntry("Members", [new DataSourceListEntry(GiasDataSource)]),
+            new DataSourcePageListEntry("Historic members", [new DataSourceListEntry(GiasDataSource)])
         ]);
     }
 
@@ -99,8 +95,8 @@ public abstract class BaseGovernanceAreaModelTests<T> : BaseTrustPageTests<T>, I
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_PageName()
     {
         _ = await Sut.OnGetAsync();
-
-        Sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.GovernancePageName);
+        
+        Sut.TrustPageMetadata.PageName.Should().Be("Governance");
     }
 
     [Fact]

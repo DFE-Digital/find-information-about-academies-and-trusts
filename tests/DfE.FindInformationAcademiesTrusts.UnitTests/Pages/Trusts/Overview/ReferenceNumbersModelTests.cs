@@ -29,6 +29,6 @@ public class ReferenceNumbersModelTests : BaseOverviewAreaModelTests<ReferenceNu
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be(ViewConstants.OverviewReferenceNumbersPageName);
+        Sut.TrustPageMetadata.SubPageName.Should().Be("Reference numbers");
     }
 }

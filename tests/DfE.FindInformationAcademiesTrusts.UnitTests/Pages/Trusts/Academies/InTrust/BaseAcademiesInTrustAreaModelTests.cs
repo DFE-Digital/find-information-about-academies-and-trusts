@@ -84,11 +84,11 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseAcademiesAreaModel
         await MockDataSourceService.Received(1).GetAsync(Source.Gias);
 
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
-            new DataSourcePageListEntry(ViewConstants.AcademiesInTrustDetailsPageName,
+            new DataSourcePageListEntry("Details",
                 [new DataSourceListEntry(GiasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.AcademiesInTrustPupilNumbersPageName,
+            new DataSourcePageListEntry("Pupil numbers",
                 [new DataSourceListEntry(GiasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.AcademiesInTrustFreeSchoolMealsPageName,
+            new DataSourcePageListEntry("Free school meals",
             [
                 new DataSourceListEntry(GiasDataSource, "Pupils eligible for free school meals"),
                 new DataSourceListEntry(EesDataSource, "Local authority average 2023/24"),

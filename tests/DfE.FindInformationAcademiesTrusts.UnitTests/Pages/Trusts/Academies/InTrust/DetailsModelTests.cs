@@ -48,7 +48,7 @@ public class AcademiesDetailsModelTests : AcademiesInTrustAreaModelTests<Academi
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.TabName.Should().Be(ViewConstants.AcademiesInTrustDetailsPageName);
+        Sut.TrustPageMetadata.TabName.Should().Be("Details");
     }
 
     [Fact]

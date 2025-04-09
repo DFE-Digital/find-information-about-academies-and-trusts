@@ -93,11 +93,11 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
         await MockDataSourceService.Received(1).GetAsync(Source.Complete);
 
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
-            new DataSourcePageListEntry(ViewConstants.PipelineAcademiesPreAdvisoryBoardPageName,
+            new DataSourcePageListEntry("Pre advisory board",
                 [new DataSourceListEntry(Mocks.MockDataSourceService.Prepare)]),
-            new DataSourcePageListEntry(ViewConstants.PipelineAcademiesPostAdvisoryBoardPageName,
+            new DataSourcePageListEntry("Post advisory board",
                 [new DataSourceListEntry(Mocks.MockDataSourceService.Complete)]),
-            new DataSourcePageListEntry(ViewConstants.PipelineAcademiesFreeSchoolsPageName,
+            new DataSourcePageListEntry("Free schools",
                 [new DataSourceListEntry(Mocks.MockDataSourceService.ManageFreeSchool)])
         ]);
     }
