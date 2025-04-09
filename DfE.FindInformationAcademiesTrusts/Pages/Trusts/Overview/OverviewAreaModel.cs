@@ -38,9 +38,9 @@ public class OverviewAreaModel(
         // Add data sources
         var giasDataSource = await DataSourceService.GetAsync(Source.Gias);
         DataSourcesPerPage.AddRange([
-            new DataSourcePageListEntry(ViewConstants.OverviewTrustDetailsPageName, [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.OverviewTrustSummaryPageName, [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.OverviewReferenceNumbersPageName, [new DataSourceListEntry(giasDataSource)])
+            new DataSourcePageListEntry(TrustDetailsModel.SubPageName, [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(TrustSummaryModel.SubPageName, [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(ReferenceNumbersModel.SubPageName, [new DataSourceListEntry(giasDataSource)])
         ]);
 
         return Page();

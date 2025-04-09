@@ -47,11 +47,10 @@ public abstract class AcademiesInTrustAreaModel(
         ];
 
         DataSourcesPerPage.AddRange([
-            new DataSourcePageListEntry(ViewConstants.AcademiesInTrustDetailsPageName,
+            new DataSourcePageListEntry(AcademiesInTrustDetailsModel.TabName,
                 [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.AcademiesInTrustPupilNumbersPageName,
-                [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.AcademiesInTrustFreeSchoolMealsPageName, [
+            new DataSourcePageListEntry(PupilNumbersModel.TabName, [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(FreeSchoolMealsModel.TabName, [
                 new DataSourceListEntry(giasDataSource, "Pupils eligible for free school meals"),
                 new DataSourceListEntry(eesDataSource, "Local authority average 2023/24"),
                 new DataSourceListEntry(eesDataSource, "National average 2023/24")
