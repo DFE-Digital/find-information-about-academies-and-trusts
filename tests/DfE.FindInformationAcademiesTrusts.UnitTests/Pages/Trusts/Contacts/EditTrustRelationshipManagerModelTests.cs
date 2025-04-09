@@ -1,6 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -83,16 +82,6 @@ public class EditTrustRelationshipManagerModelTests
 
         result.Should().BeOfType<PageResult>();
         _sut.ContactUpdatedMessage.Should().Be(string.Empty);
-    }
-
-    [Fact]
-    public async Task OnGetAsync_should_configure_TrustPageMetadata()
-    {
-        _ = await _sut.OnGetAsync();
-
-        _sut.TrustPageMetadata.SubPageName.Should().Be("Edit Trust relationship manager details");
-        _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.ContactsPageName);
-        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
     }
 
     [Fact]

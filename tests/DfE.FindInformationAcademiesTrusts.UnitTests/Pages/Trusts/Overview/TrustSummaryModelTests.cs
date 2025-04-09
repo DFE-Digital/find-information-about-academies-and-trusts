@@ -1,5 +1,4 @@
-﻿using DfE.FindInformationAcademiesTrusts.Pages;
-using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
+﻿using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Overview;
@@ -13,15 +12,6 @@ public class TrustSummaryModelTests : BaseOverviewAreaModelTests<TrustSummaryMod
                 MockLogger.CreateLogger<TrustSummaryModel>(),
                 MockTrustService)
             { Uid = TrustUid };
-    }
-
-    [Fact]
-    public override async Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage()
-    {
-        _ = await Sut.OnGetAsync();
-
-        Sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.SubPageLink.Should().Be("./TrustSummary");
     }
 
     [Fact]

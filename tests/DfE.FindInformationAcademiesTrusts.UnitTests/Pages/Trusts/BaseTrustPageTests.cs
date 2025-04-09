@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -89,28 +88,6 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
 
     [Fact]
     public abstract Task OnGetAsync_should_configure_TrustPageMetadata_PageName();
-
-    [Theory]
-    [InlineData("1234")]
-    [InlineData("5678")]
-    public async Task OnGetAsync_should_set_SubNavigationLinks_to_trust_uid(string trustUid)
-    {
-        MockTrustService.GetTrustSummaryAsync(trustUid)!.Returns(Task.FromResult(DummyTrustSummary with { Uid = trustUid }));
-
-        Sut.Uid = trustUid;
-
-        _ = await Sut.OnGetAsync();
-
-        // Sub nav links collection should either be empty or all be for current trust uid
-        if (Sut.SubNavigationLinks.Length == 0)
-        {
-            Sut.SubNavigationLinks.Should().BeEmpty();
-        }
-        else
-        {
-            Sut.SubNavigationLinks.Should().AllSatisfy(l => l.Uid.Should().Be(trustUid));
-        }
-    }
 
     [Fact]
     public abstract Task OnGetAsync_sets_correct_data_source_list();

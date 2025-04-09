@@ -29,13 +29,6 @@ public class TrustsAreaModelTests : BaseTrustPageTests<TrustsAreaModel>
         Sut.Uid.Should().BeEquivalentTo(string.Empty);
     }
 
-    [Fact]
-    public async Task OnGetAsync_sets_SubNavigationLinks_toEmptyArray()
-    {
-        _ = await Sut.OnGetAsync();
-        Sut.SubNavigationLinks.Should().BeEmpty();
-    }
-
     [Theory]
     [InlineData(Source.Gias, "Get information about schools")]
     [InlineData(Source.Mstr, "Get information about schools (internal use only, do not share outside of DfE)")]
