@@ -239,7 +239,7 @@ public class ExportService(
         AcademyOfsted[] academiesOfstedRatings)
     {
         using var workbook = new XLWorkbook();
-        var worksheet = workbook.Worksheets.Add(ViewConstants.OfstedPageName);
+        var worksheet = workbook.Worksheets.Add("Ofsted");
 
         WriteTrustInformation(worksheet, trustSummary);
         WriteHeaders(worksheet, headers);
