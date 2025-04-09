@@ -13,8 +13,9 @@ public abstract class FinancialDocumentsAreaModel(
     IFinancialDocumentService financialDocumentService)
     : TrustsAreaModel(dataSourceService, trustService, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { PageName = ViewConstants.FinancialDocumentsPageName };
+    public const string PageName = "Financial documents";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = PageName };
 
     public virtual bool InternalUseOnly => true;
     protected abstract FinancialDocumentType FinancialDocumentType { get; }

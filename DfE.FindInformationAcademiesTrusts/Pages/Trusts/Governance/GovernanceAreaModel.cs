@@ -11,8 +11,9 @@ public class GovernanceAreaModel(
     ILogger<GovernanceAreaModel> logger)
     : TrustsAreaModel(dataSourceService, trustService, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { PageName = ViewConstants.GovernancePageName };
+    public const string PageName = "Governance";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = PageName };
 
     public TrustGovernanceServiceModel TrustGovernance { get; set; } = default!;
 
