@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Ofsted;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.Academy;
@@ -18,6 +19,7 @@ public interface IAcademyService
 
 public class AcademyService(
     IAcademyRepository academyRepository,
+    IOfstedRepository ofstedRepository,
     IPipelineEstablishmentRepository pipelineEstablishmentRepository,
     IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider) : IAcademyService
 {
@@ -32,7 +34,7 @@ public class AcademyService(
 
     public async Task<AcademyOfstedServiceModel[]> GetAcademiesInTrustOfstedAsync(string uid)
     {
-        var academies = await academyRepository.GetAcademiesInTrustOfstedAsync(uid);
+        var academies = await ofstedRepository.GetAcademiesInTrustOfstedAsync(uid);
 
         return academies.Select(a =>
             new AcademyOfstedServiceModel(a.Urn, a.EstablishmentName, a.DateAcademyJoinedTrust, a.PreviousOfstedRating,
