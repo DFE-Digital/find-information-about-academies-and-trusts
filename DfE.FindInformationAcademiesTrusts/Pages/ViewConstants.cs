@@ -52,41 +52,4 @@ public static class ViewConstants
             "Process guidance and tools for making trust-related project decisions.",
             "https://educationgovuk.sharepoint.com/sites/lvewp00299/SitePages/RG%20high%20quality%20trust%20framework.aspx")
     ];
-
-    public const string OverviewPageName = "Overview";
-    public const string OverviewTrustDetailsPageName = "Trust details";
-    public const string OverviewTrustSummaryPageName = "Trust summary";
-    public const string OverviewReferenceNumbersPageName = "Reference numbers";
-
-    public const string ContactsPageName = "Contacts";
-    public const string ContactsInDfePageName = "In DfE";
-    public const string ContactsInTrustPageName = "In this trust";
-
-    public const string OfstedPageName = "Ofsted";
-    public const string OfstedSingleHeadlineGradesPageName = "Single headline grades";
-    public const string OfstedCurrentRatingsPageName = "Current ratings";
-    public const string OfstedPreviousRatingsPageName = "Previous ratings";
-    public const string OfstedSafeguardingAndConcernsPageName = "Safeguarding and concerns";
-
-    public const string FinancialDocumentsPageName = "Financial documents";
-    public const string FinancialDocumentsFinancialStatementsSubPageName = "Financial statements";
-    public const string FinancialDocumentsManagementLettersSubPageName = "Management letters";
-    public const string FinancialDocumentsInternalScrutinyReportsSubPageName = "Internal scrutiny reports";
-    public const string FinancialDocumentsSelfAssessmentChecklistsSubPageName = "Self-assessment checklists";
-
-    public const string GovernancePageName = "Governance";
-    public const string GovernanceTrustLeadershipPageName = "Trust leadership";
-    public const string GovernanceTrusteesPageName = "Trustees";
-    public const string GovernanceMembersPageName = "Members";
-    public const string GovernanceHistoricMembersPageName = "Historic members";
-
-    public const string AcademiesPageName = "Academies";
-    public const string AcademiesInTrustSubNavName = "In this trust";
-    public const string PipelineAcademiesSubNavName = "Pipeline academies";
-    public const string AcademiesInTrustDetailsPageName = "Details";
-    public const string AcademiesInTrustPupilNumbersPageName = "Pupil numbers";
-    public const string AcademiesInTrustFreeSchoolMealsPageName = "Free school meals";
-    public const string PipelineAcademiesPreAdvisoryBoardPageName = "Pre advisory board";
-    public const string PipelineAcademiesPostAdvisoryBoardPageName = "Post advisory board";
-    public const string PipelineAcademiesFreeSchoolsPageName = "Free schools";
 }
