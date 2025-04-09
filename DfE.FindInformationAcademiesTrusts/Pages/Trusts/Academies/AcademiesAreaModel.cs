@@ -1,6 +1,8 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Pipeline;
+using DfE.FindInformationAcademiesTrusts.Extensions;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared.NavMenu;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -22,10 +24,9 @@ public abstract class AcademiesAreaModel(
     internal readonly IAcademyService AcademyService = academyService;
     public IDateTimeProvider DateTimeProvider { get; } = dateTimeProvider;
 
-    public AcademyPipelineSummaryServiceModel PipelineSummary { get; set; } = default!;
-    public string TrustReferenceNumber { get; set; } = default!;
-
-    public List<TrustTabNavigationLinkModel> TabList { get; set; } = [];
+    public AcademyPipelineSummaryServiceModel PipelineSummary { get; set; } = null!;
+    public string TrustReferenceNumber { get; set; } = null!;
+    public NavLink[] TabList { get; set; } = null!;
 
     public override async Task<IActionResult> OnGetAsync()
     {
@@ -46,5 +47,12 @@ public abstract class AcademiesAreaModel(
         ];
 
         return pageResult;
+    }
+
+    public NavLink GetTabFor<T>(string subPageName, string linkDisplayText, string aspPage)
+    {
+        return new NavLink(this is T, "Academies", linkDisplayText, aspPage,
+            $"{subPageName}-{linkDisplayText}-tab".Kebabify(),
+            new Dictionary<string, string> { { "uid", Uid } });
     }
 }

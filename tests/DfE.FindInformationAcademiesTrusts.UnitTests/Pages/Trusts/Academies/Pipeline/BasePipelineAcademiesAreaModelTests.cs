@@ -129,21 +129,21 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
             .SatisfyRespectively(
                 l =>
                 {
-                    l.LinkText.Should().Be("Pre advisory board (1)");
-                    l.TabPageLink.Should().Be("./PreAdvisoryBoard");
-                    l.TabNavName.Should().Be("Pipeline");
+                    l.LinkDisplayText.Should().Be("Pre advisory board (1)");
+                    l.AspPage.Should().Be("./PreAdvisoryBoard");
+                    l.TestId.Should().Be("pipeline-pre-advisory-board-tab");
                 },
                 l =>
                 {
-                    l.LinkText.Should().Be("Post advisory board (2)");
-                    l.TabPageLink.Should().Be("./PostAdvisoryBoard");
-                    l.TabNavName.Should().Be("Pipeline");
+                    l.LinkDisplayText.Should().Be("Post advisory board (2)");
+                    l.AspPage.Should().Be("./PostAdvisoryBoard");
+                    l.TestId.Should().Be("pipeline-post-advisory-board-tab");
                 },
                 l =>
                 {
-                    l.LinkText.Should().Be("Free schools (3)");
-                    l.TabPageLink.Should().Be("./FreeSchools");
-                    l.TabNavName.Should().Be("Pipeline");
+                    l.LinkDisplayText.Should().Be("Free schools (3)");
+                    l.AspPage.Should().Be("./FreeSchools");
+                    l.TestId.Should().Be("pipeline-free-schools-tab");
                 }
             );
     }

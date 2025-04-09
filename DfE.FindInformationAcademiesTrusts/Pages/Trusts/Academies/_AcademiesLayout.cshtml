@@ -12,30 +12,19 @@
     <ul class="govuk-tabs__list">
         @foreach (var tab in Model.TabList)
         {
-            @if (tab.LinkIsActive)
-            {
-                <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-                    <a id="@tab.TestId-link" class="govuk-tabs__tab" asp-page="@tab.TabPageLink"
-                       asp-route-uid="@Model.TrustSummary.Uid" data-testid="@tab.TestId">
-                        <span class="govuk-visually-hidden">Academies </span>@tab.LinkText
-                    </a>
-                </li>
-            }
-            else
-            {
-                <li class="govuk-tabs__list-item ">
-                    <a id="@tab.TestId-link" class="govuk-tabs__tab" asp-page="@tab.TabPageLink"
-                       asp-route-uid="@Model.TrustSummary.Uid" data-testid="@tab.TestId">
-                        <span class="govuk-visually-hidden">Academies </span>@tab.LinkText
-                    </a>
-                </li>
-            }
+            <li class="govuk-tabs__list-item @(tab.LinkIsActive ? "govuk-tabs__list-item--selected" : "")">
+                <a class="govuk-tabs__tab" asp-page="@tab.AspPage" asp-all-route-data="@tab.AspAllRouteData"
+                   data-testid="@tab.TestId">
+                    <span class="govuk-visually-hidden">@tab.VisuallyHiddenLinkText </span>@tab.LinkDisplayText
+                </a>
+            </li>
         }
     </ul>
     <div class="govuk-tabs__panel">
         @RenderBody()
     </div>
 </div>
+
 @await RenderSectionAsync("Export", false)
 
 @section Scripts {

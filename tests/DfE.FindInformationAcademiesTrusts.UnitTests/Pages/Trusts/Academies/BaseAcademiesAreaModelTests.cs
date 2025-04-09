@@ -79,6 +79,33 @@ public abstract class BaseAcademiesAreaModelTests<T> : BaseTrustPageTests<T>, IT
     [Fact]
     public abstract Task OnGetAsync_should_populate_TabList_to_tabs();
 
+    [Theory]
+    [InlineData("1234")]
+    [InlineData("5678")]
+    public async Task OnGetAsync_should_populate_TabList_route_data_with_uid(string expectedUid)
+    {
+        MockTrustService.GetTrustSummaryAsync(expectedUid).Returns(DummyTrustSummary);
+        MockTrustService.GetTrustReferenceNumberAsync(expectedUid).Returns(TrustReferenceNumber);
+        Sut.Uid = expectedUid;
+
+        _ = await Sut.OnGetAsync();
+
+        Sut.TabList.Should().AllSatisfy(link =>
+        {
+            var route = link.AspAllRouteData.Should().ContainSingle().Subject;
+            route.Key.Should().Be("uid");
+            route.Value.Should().Be(expectedUid);
+        });
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_populate_TabList_hidden_text_to_academies()
+    {
+        _ = await Sut.OnGetAsync();
+
+        Sut.TabList.Should().AllSatisfy(link => { link.VisuallyHiddenLinkText.Should().Be("Academies"); });
+    }
+
     [Fact]
     public abstract Task OnGetAsync_should_configure_TrustPageMetadata_TabPageName();
 

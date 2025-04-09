@@ -1,4 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -48,6 +47,6 @@ public class FreeSchoolMealsModelTests : AcademiesInTrustAreaModelTests<FreeScho
         _ = await Sut.OnGetAsync();
 
         Sut.TabList.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.TabPageLink.Should().Be("./FreeSchoolMeals");
+            .Which.AspPage.Should().Be("./FreeSchoolMeals");
     }
 }

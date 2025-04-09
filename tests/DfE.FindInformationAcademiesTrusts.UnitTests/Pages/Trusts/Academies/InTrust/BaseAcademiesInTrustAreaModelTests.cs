@@ -126,21 +126,21 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseAcademiesAreaModel
             .SatisfyRespectively(
                 l =>
                 {
-                    l.LinkText.Should().Be("Details");
-                    l.TabPageLink.Should().Be("./Details");
-                    l.TabNavName.Should().Be("In this trust");
+                    l.LinkDisplayText.Should().Be("Details");
+                    l.AspPage.Should().Be("./Details");
+                    l.TestId.Should().Be("in-this-trust-details-tab");
                 },
                 l =>
                 {
-                    l.LinkText.Should().Be("Pupil numbers");
-                    l.TabPageLink.Should().Be("./PupilNumbers");
-                    l.TabNavName.Should().Be("In this trust");
+                    l.LinkDisplayText.Should().Be("Pupil numbers");
+                    l.AspPage.Should().Be("./PupilNumbers");
+                    l.TestId.Should().Be("in-this-trust-pupil-numbers-tab");
                 },
                 l =>
                 {
-                    l.LinkText.Should().Be("Free school meals");
-                    l.TabPageLink.Should().Be("./FreeSchoolMeals");
-                    l.TabNavName.Should().Be("In this trust");
+                    l.LinkDisplayText.Should().Be("Free school meals");
+                    l.AspPage.Should().Be("./FreeSchoolMeals");
+                    l.TestId.Should().Be("in-this-trust-free-school-meals-tab");
                 });
     }
 }
