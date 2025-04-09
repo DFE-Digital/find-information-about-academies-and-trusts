@@ -29,13 +29,6 @@ public class TrustsAreaModelTests : BaseTrustPageTests<TrustsAreaModel>
         Sut.Uid.Should().BeEquivalentTo(string.Empty);
     }
 
-    [Fact]
-    public async Task OnGetAsync_sets_SubNavigationLinks_toEmptyArray()
-    {
-        _ = await Sut.OnGetAsync();
-        Sut.SubNavigationLinks.Should().BeEmpty();
-    }
-
     [Theory]
     [InlineData(Source.Gias, "Get information about schools")]
     [InlineData(Source.Mstr, "Get information about schools (internal use only, do not share outside of DfE)")]
@@ -121,15 +114,6 @@ public class TrustsAreaModelTests : BaseTrustPageTests<TrustsAreaModel>
 
         // Assert
         Assert.Equal("data-source-fiatdb-fieldone-fieldtwo", result);
-    }
-
-    [Fact]
-    public override async Task OnGetAsync_should_set_active_NavigationLink_to_current_page()
-    {
-        _ = await Sut.OnGetAsync();
-
-        // Default is no current page
-        Sut.NavigationLinks.Should().AllSatisfy(l => l.LinkIsActive.Should().BeFalse());
     }
 
     [Fact]

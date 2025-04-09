@@ -13,15 +13,6 @@ public class MembersModelTests : BaseGovernanceAreaModelTests<MembersModel>
     }
 
     [Fact]
-    public override async Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage()
-    {
-        _ = await Sut.OnGetAsync();
-
-        Sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.SubPageLink.Should().Be("./Members");
-    }
-
-    [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_SubPageName()
     {
         _ = await Sut.OnGetAsync();

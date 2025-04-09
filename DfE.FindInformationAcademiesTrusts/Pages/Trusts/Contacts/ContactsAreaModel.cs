@@ -30,14 +30,6 @@ public class ContactsAreaModel(
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
-        SubNavigationLinks =
-        [
-            new TrustSubNavigationLinkModel(ViewConstants.ContactsInDfePageName, "./InDfE", Uid,
-                TrustPageMetadata.PageName!, this is InDfeModel),
-            new TrustSubNavigationLinkModel("In this trust", "./InTrust", Uid, TrustPageMetadata.PageName!,
-                this is InTrustModel)
-        ];
-
         (TrustRelationshipManager, SfsoLead, AccountingOfficer, ChairOfTrustees, ChiefFinancialOfficer) =
             await TrustService.GetTrustContactsAsync(Uid);
 

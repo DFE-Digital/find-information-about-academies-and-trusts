@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -80,68 +79,6 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
     }
 
     [Fact]
-    public abstract Task OnGetAsync_should_set_active_NavigationLink_to_current_page();
-
-    [Fact]
-    public async Task OnGetAsync_should_populate_NavigationLinks()
-    {
-        _ = await Sut.OnGetAsync();
-
-        Sut.NavigationLinks.Should()
-            .SatisfyRespectively(
-                l =>
-                {
-                    l.LinkText.Should().Be(ViewConstants.OverviewPageName);
-                    l.Page.Should().Be("/Trusts/Overview/TrustDetails");
-                    l.DataTestId.Should().Be("overview-nav");
-                },
-                l =>
-                {
-                    l.LinkText.Should().Be(ViewConstants.ContactsPageName);
-                    l.Page.Should().Be("/Trusts/Contacts/InDfe");
-                    l.DataTestId.Should().Be("contacts-nav");
-                },
-                l =>
-                {
-                    l.LinkText.Should().Be("Academies (3)");
-                    l.Page.Should().Be("/Trusts/Academies/InTrust/Details");
-                    l.DataTestId.Should().Be("academies-nav");
-                },
-                l =>
-                {
-                    l.LinkText.Should().Be(ViewConstants.OfstedPageName);
-                    l.Page.Should().Be("/Trusts/Ofsted/SingleHeadlineGrades");
-                    l.DataTestId.Should().Be("ofsted-nav");
-                },
-                l =>
-                {
-                    l.LinkText.Should().Be(ViewConstants.FinancialDocumentsPageName);
-                    l.Page.Should().Be("/Trusts/FinancialDocuments/FinancialStatements");
-                    l.DataTestId.Should().Be("financial-documents-nav");
-                },
-                l =>
-                {
-                    l.LinkText.Should().Be(ViewConstants.GovernancePageName);
-                    l.Page.Should().Be("/Trusts/Governance/TrustLeadership");
-                    l.DataTestId.Should().Be("governance-nav");
-                }
-            );
-    }
-
-    [Theory]
-    [InlineData("1234")]
-    [InlineData("5678")]
-    public async Task OnGetAsync_should_set_NavigationLinks_to_trust_uid(string trustUid)
-    {
-        MockTrustService.GetTrustSummaryAsync(trustUid)!.Returns(Task.FromResult(DummyTrustSummary with { Uid = trustUid }));
-        Sut.Uid = trustUid;
-
-        _ = await Sut.OnGetAsync();
-
-        Sut.NavigationLinks.Should().AllSatisfy(l => l.Uid.Should().Be(trustUid));
-    }
-
-    [Fact]
     public async Task OnGetAsync_should_configure_TrustPageMetadata_TrustName()
     {
         _ = await Sut.OnGetAsync();
@@ -151,28 +88,6 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
 
     [Fact]
     public abstract Task OnGetAsync_should_configure_TrustPageMetadata_PageName();
-
-    [Theory]
-    [InlineData("1234")]
-    [InlineData("5678")]
-    public async Task OnGetAsync_should_set_SubNavigationLinks_to_trust_uid(string trustUid)
-    {
-        MockTrustService.GetTrustSummaryAsync(trustUid)!.Returns(Task.FromResult(DummyTrustSummary with { Uid = trustUid }));
-
-        Sut.Uid = trustUid;
-
-        _ = await Sut.OnGetAsync();
-
-        // Sub nav links collection should either be empty or all be for current trust uid
-        if (Sut.SubNavigationLinks.Length == 0)
-        {
-            Sut.SubNavigationLinks.Should().BeEmpty();
-        }
-        else
-        {
-            Sut.SubNavigationLinks.Should().AllSatisfy(l => l.Uid.Should().Be(trustUid));
-        }
-    }
 
     [Fact]
     public abstract Task OnGetAsync_sets_correct_data_source_list();

@@ -1,11 +1,9 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
-using NSubstitute;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
 
@@ -98,15 +96,6 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseAcademiesAreaModel
     }
 
     [Fact]
-    public override async Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage()
-    {
-        _ = await Sut.OnGetAsync();
-
-        Sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.SubPageLink.Should().Be("/Trusts/Academies/InTrust/Details");
-    }
-
-    [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_SubPageName()
     {
         _ = await Sut.OnGetAsync();
@@ -123,21 +112,21 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseAcademiesAreaModel
             .SatisfyRespectively(
                 l =>
                 {
-                    l.LinkText.Should().Be("Details");
-                    l.TabPageLink.Should().Be("./Details");
-                    l.TabNavName.Should().Be("In this trust");
+                    l.LinkDisplayText.Should().Be("Details");
+                    l.AspPage.Should().Be("./Details");
+                    l.TestId.Should().Be("in-this-trust-details-tab");
                 },
                 l =>
                 {
-                    l.LinkText.Should().Be("Pupil numbers");
-                    l.TabPageLink.Should().Be("./PupilNumbers");
-                    l.TabNavName.Should().Be("In this trust");
+                    l.LinkDisplayText.Should().Be("Pupil numbers");
+                    l.AspPage.Should().Be("./PupilNumbers");
+                    l.TestId.Should().Be("in-this-trust-pupil-numbers-tab");
                 },
                 l =>
                 {
-                    l.LinkText.Should().Be("Free school meals");
-                    l.TabPageLink.Should().Be("./FreeSchoolMeals");
-                    l.TabNavName.Should().Be("In this trust");
+                    l.LinkDisplayText.Should().Be("Free school meals");
+                    l.AspPage.Should().Be("./FreeSchoolMeals");
+                    l.TestId.Should().Be("in-this-trust-free-school-meals-tab");
                 });
     }
 }

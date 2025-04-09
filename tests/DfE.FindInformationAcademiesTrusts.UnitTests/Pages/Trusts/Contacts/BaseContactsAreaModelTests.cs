@@ -1,10 +1,8 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
-using NSubstitute;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Contacts;
 
@@ -184,39 +182,6 @@ public abstract class BaseContactsAreaModelTests<T> : BaseTrustPageTests<T>, ITe
         _ = await Sut.OnGetAsync();
 
         Sut.TrustPageMetadata.PageName.Should().Be("Contacts");
-    }
-
-    [Fact]
-    public override async Task OnGetAsync_should_set_active_NavigationLink_to_current_page()
-    {
-        _ = await Sut.OnGetAsync();
-
-        Sut.NavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.LinkText.Should().Be("Contacts");
-    }
-
-    [Fact]
-    public abstract Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage();
-
-    [Fact]
-    public async Task OnGetAsync_should_populate_SubNavigationLinks_to_subpages()
-    {
-        _ = await Sut.OnGetAsync();
-
-        Sut.SubNavigationLinks.Should()
-            .SatisfyRespectively(
-                l =>
-                {
-                    l.LinkText.Should().Be("In DfE");
-                    l.SubPageLink.Should().Be("./InDfE");
-                    l.ServiceName.Should().Be("Contacts");
-                },
-                l =>
-                {
-                    l.LinkText.Should().Be("In this trust");
-                    l.SubPageLink.Should().Be("./InTrust");
-                    l.ServiceName.Should().Be("Contacts");
-                });
     }
 
     [Fact]
