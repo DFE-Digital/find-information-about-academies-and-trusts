@@ -17,8 +17,9 @@ public class PostAdvisoryBoardModel(
     : PipelineAcademiesAreaModel(dataSourceService, trustService, academyService, exportService, logger,
         dateTimeProvider)
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { TabName = "Post advisory board" };
+    public const string TabName = "Post advisory board";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { TabName = TabName };
 
     public AcademyPipelineServiceModel[] PostAdvisoryPipelineEstablishments { get; set; } = [];
 
