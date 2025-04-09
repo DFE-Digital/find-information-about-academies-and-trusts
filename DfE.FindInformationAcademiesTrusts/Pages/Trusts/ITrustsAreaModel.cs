@@ -5,6 +5,8 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public interface ITrustsAreaModel
 {
+    string Uid { get; }
+
     TrustSummaryServiceModel TrustSummary { get; }
 
     List<DataSourcePageListEntry> DataSourcesPerPage { get; }
@@ -14,6 +16,5 @@ public interface ITrustsAreaModel
     string MapDataSourceToName(DataSourceServiceModel dataSource);
     string MapDataSourceToTestId(DataSourceListEntry source);
 
-    TrustNavigationLinkModel[] NavigationLinks { get; }
     TrustSubNavigationLinkModel[] SubNavigationLinks { get; }
 }

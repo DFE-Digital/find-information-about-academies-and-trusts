@@ -124,15 +124,6 @@ public class TrustsAreaModelTests : BaseTrustPageTests<TrustsAreaModel>
     }
 
     [Fact]
-    public override async Task OnGetAsync_should_set_active_NavigationLink_to_current_page()
-    {
-        _ = await Sut.OnGetAsync();
-
-        // Default is no current page
-        Sut.NavigationLinks.Should().AllSatisfy(l => l.LinkIsActive.Should().BeFalse());
-    }
-
-    [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_PageName()
     {
         await Sut.OnGetAsync();
