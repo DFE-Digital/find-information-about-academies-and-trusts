@@ -42,15 +42,6 @@ public abstract class BaseFinancialDocumentsAreaModelTests<T> : BaseTrustPageTes
     }
 
     [Fact]
-    public override async Task OnGetAsync_should_set_active_NavigationLink_to_current_page()
-    {
-        _ = await Sut.OnGetAsync();
-
-        Sut.NavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.LinkText.Should().Be("Financial documents");
-    }
-
-    [Fact]
     public abstract Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage();
 
     [Fact]

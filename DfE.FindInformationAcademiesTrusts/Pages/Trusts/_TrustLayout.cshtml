@@ -5,8 +5,8 @@
   ViewData["Title"] = Model.TrustPageMetadata.BrowserTitle;
 }
 
-<partial name="_TrustBanner" model="@Model"/>
-<partial name="_TrustNavigation" model="@Model"/>
+<partial name="_TrustBanner" model="@Model" />
+<partial name="Shared/NavMenu/_ServiceNav" model="@TrustNavMenu.GetServiceNavLinks(Model)" />
 <div class="govuk-main-wrapper govuk-!-padding-top-6">
   <div class="dfe-width-container">
     <div class="govuk-grid-row">

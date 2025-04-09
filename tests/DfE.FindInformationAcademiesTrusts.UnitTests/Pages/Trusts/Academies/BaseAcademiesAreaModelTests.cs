@@ -26,15 +26,6 @@ public abstract class BaseAcademiesAreaModelTests<T> : BaseTrustPageTests<T>, IT
     }
 
     [Fact]
-    public override async Task OnGetAsync_should_set_active_NavigationLink_to_current_page()
-    {
-        _ = await Sut.OnGetAsync();
-
-        Sut.NavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.LinkText.Should().Be("Academies (3)");
-    }
-
-    [Fact]
     public async Task OnGetAsync_should_populate_SubNavigationLinks_to_subpages()
     {
         _ = await Sut.OnGetAsync();
