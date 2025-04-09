@@ -14,8 +14,9 @@ public class ContactsAreaModel(
 )
     : TrustsAreaModel(dataSourceService, trustService, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { PageName = ViewConstants.ContactsPageName };
+    public const string PageName = "Contacts";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = PageName };
 
     public Person? ChairOfTrustees { get; set; }
     public Person? AccountingOfficer { get; set; }
