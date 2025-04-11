@@ -1,4 +1,5 @@
-﻿using DfE.FindInformationAcademiesTrusts.Services.Academy;
+﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Exceptions;
+using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using static DfE.FindInformationAcademiesTrusts.Services.Export.ExportColumns;
 
@@ -18,7 +19,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
 
             if (trustSummary is null)
             {
-                throw new Exception($"Trust summary is null for trust uid - {uid}");
+                throw new DataIntegrityException($"Trust summary not found for UID {uid}");
             }
 
             var trustReferenceNumber = await trustService.GetTrustReferenceNumberAsync(uid);
