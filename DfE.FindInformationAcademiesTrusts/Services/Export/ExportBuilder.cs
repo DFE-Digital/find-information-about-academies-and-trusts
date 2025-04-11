@@ -1,48 +1,42 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Pages;
+using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
-namespace DfE.FindInformationAcademiesTrusts.Services.Export.Builders
+namespace DfE.FindInformationAcademiesTrusts.Services.Export
 {
     using ClosedXML.Excel;
-    using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 
     public abstract class ExportBuilder
     {
-        private readonly XLWorkbook? workbook;
+        private readonly XLWorkbook workbook = new();
         private readonly IXLWorksheet worksheet;
 
-        public int CurrentRow { get; private set; }
+        public int CurrentRow { get; set; }
 
         protected ExportBuilder(string sheetName)
         {
-            this.workbook = new XLWorkbook();
             worksheet = workbook.Worksheets.Add(sheetName);
         }
 
-        public void AddRow(int number = 1)
-        {
-            CurrentRow += number;
-        }
-
-        public byte[] Build()
+        internal byte[] Build()
         {
             worksheet.Columns().AdjustToContents();
             using var stream = new MemoryStream();
-            workbook?.SaveAs(stream);
+            workbook.SaveAs(stream);
             return stream.ToArray();
         }
 
-        public T WriteTrustInformation<T>(TrustSummary? trustSummary) where T : ExportBuilder
+        internal ExportBuilder WriteTrustInformation(TrustSummaryServiceModel trustSummary)
         {
-            worksheet.Cell(1, 1).Value = trustSummary?.Name ?? string.Empty;
+            worksheet.Cell(1, 1).Value = trustSummary.Name;
             worksheet.Row(1).Style.Font.Bold = true;
-            worksheet.Cell(2, 1).Value = trustSummary?.Type ?? string.Empty;
+            worksheet.Cell(2, 1).Value = trustSummary.Type;
 
             CurrentRow += 3;
 
-            return (T)this;
+            return this;
         }
 
-        public ExportBuilder WriteHeaders(List<string> headers)
+        internal ExportBuilder WriteHeaders(List<string> headers)
         {
             for (var i = 0; i < headers.Count; i++)
             {
@@ -56,12 +50,12 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export.Builders
             return this;
         }
 
-        public void SetTextCell(int row, int column, string value)
+        internal void SetTextCell(int row, int column, string value)
         {
             worksheet.Cell(row, column).SetValue(value);
         }
 
-        public void SetDateCell(int row, int column, DateTime? dateValue)
+        internal void SetDateCell(int row, int column, DateTime? dateValue)
         {
             var cell = worksheet.Cell(row, column);
             if (dateValue.HasValue)
@@ -73,6 +67,13 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export.Builders
             {
                 cell.Value = string.Empty;
             }
+        }
+
+        internal ExportBuilder WriteRows(Action action)
+        {
+            action.Invoke();
+
+            return this;
         }
     }
 }

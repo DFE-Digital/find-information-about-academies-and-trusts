@@ -3,6 +3,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
@@ -13,6 +14,7 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseAcademiesAreaModel
     where T : AcademiesInTrustAreaModel
 {
     protected readonly IDateTimeProvider MockDateTimeProvider = Substitute.For<IDateTimeProvider>();
+    protected readonly IAcademiesExportService MockAcademiesExportService = Substitute.For<IAcademiesExportService>();
 
     [Fact]
     public override async Task OnGetExportAsync_ShouldReturnFileResult_WhenUidIsValid()
@@ -20,7 +22,7 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseAcademiesAreaModel
         // Arrange
         byte[] expectedBytes = [1, 2, 3];
 
-        MockExportService.ExportAcademiesToSpreadsheetAsync(TrustUid).Returns(Task.FromResult(expectedBytes));
+        MockAcademiesExportService.Build(TrustUid).Returns(Task.FromResult(expectedBytes));
 
         // Act
         var result = await Sut.OnGetExportAsync(TrustUid);
@@ -55,7 +57,7 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseAcademiesAreaModel
         var expectedBytes = new byte[] { 1, 2, 3 };
 
         MockTrustService.GetTrustSummaryAsync(uid)!.Returns(Task.FromResult(DummyTrustSummary with { Name = "Sample/Trust:Name?" }));
-        MockExportService.ExportAcademiesToSpreadsheetAsync(uid).Returns(Task.FromResult(expectedBytes));
+        MockAcademiesExportService.Build(uid).Returns(Task.FromResult(expectedBytes));
 
         // Act
         var result = await Sut.OnGetExportAsync(uid);

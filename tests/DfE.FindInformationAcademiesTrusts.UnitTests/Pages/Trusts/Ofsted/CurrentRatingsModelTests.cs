@@ -10,7 +10,7 @@ public class CurrentRatingsModelTests : BaseOfstedAreaModelTests<CurrentRatingsM
         Sut = new CurrentRatingsModel(MockDataSourceService,
                 MockTrustService,
                 MockAcademyService,
-                MockExportService,
+                MockOfstedDataExportService,
                 MockDateTimeProvider,
                 MockLogger.CreateLogger<CurrentRatingsModel>()
             )

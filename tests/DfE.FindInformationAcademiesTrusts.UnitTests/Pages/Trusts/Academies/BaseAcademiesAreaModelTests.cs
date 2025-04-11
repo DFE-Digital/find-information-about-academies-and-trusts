@@ -8,7 +8,7 @@ public abstract class BaseAcademiesAreaModelTests<T> : BaseTrustPageTests<T>, IT
     where T : AcademiesAreaModel
 {
     protected readonly IAcademyService MockAcademyService = Substitute.For<IAcademyService>();
-    protected readonly IExportService MockExportService = Substitute.For<IExportService>();
+    protected readonly IPipelineAcademiesExportService MockPipelineAcademiesExportService = Substitute.For<IPipelineAcademiesExportService>();
     protected const string TrustReferenceNumber = "TRN00123";
 
     public BaseAcademiesAreaModelTests()

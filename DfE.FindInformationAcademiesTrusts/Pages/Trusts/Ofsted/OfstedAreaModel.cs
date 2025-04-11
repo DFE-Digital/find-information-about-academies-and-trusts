@@ -12,7 +12,7 @@ public class OfstedAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
     IAcademyService academyService,
-    IExportService exportService,
+    IOfstedDataExportService ofstedDataExportService,
     IDateTimeProvider dateTimeProvider,
     ILogger<OfstedAreaModel> logger)
     : TrustsAreaModel(dataSourceService, trustService, logger)
@@ -23,7 +23,6 @@ public class OfstedAreaModel(
 
     public AcademyOfstedServiceModel[] Academies { get; set; } = default!;
     private IAcademyService AcademyService { get; } = academyService;
-    protected IExportService ExportService { get; } = exportService;
     public IDateTimeProvider DateTimeProvider { get; } = dateTimeProvider;
 
     public override async Task<IActionResult> OnGetAsync()
@@ -91,7 +90,7 @@ public class OfstedAreaModel(
         var sanitizedTrustName =
             string.Concat(trustSummary.Name.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
 
-        var fileContents = await ExportService.ExportOfstedDataToSpreadsheetAsync(uid);
+        var fileContents = await ofstedDataExportService.Build(uid);
         var fileName = $"Ofsted-{sanitizedTrustName}-{DateTimeProvider.Now:yyyy-MM-dd}.xlsx";
         var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 

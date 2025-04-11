@@ -12,14 +12,13 @@ public abstract class PipelineAcademiesAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
     IAcademyService academyService,
-    IExportService exportService,
+    IPipelineAcademiesExportService pipelineAcademiesExportService,
     ILogger<PipelineAcademiesAreaModel> logger,
     IDateTimeProvider dateTimeProvider
 ) : AcademiesAreaModel(
     dataSourceService,
     trustService,
     academyService,
-    exportService,
     logger,
     dateTimeProvider
 )
@@ -68,7 +67,7 @@ public abstract class PipelineAcademiesAreaModel(
         var sanitizedTrustName =
             string.Concat(trustSummary.Name.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
 
-        var fileContents = await ExportService.ExportPipelineAcademiesToSpreadsheetAsync(uid);
+        var fileContents = await pipelineAcademiesExportService.Build(uid);
         var fileName = $"pipeline-{sanitizedTrustName}-{DateTimeProvider.Now:yyyy-MM-dd}.xlsx";
         var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 

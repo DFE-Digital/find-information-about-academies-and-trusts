@@ -3,7 +3,6 @@ using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Pipeline;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
-using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +12,6 @@ public abstract class AcademiesAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
     IAcademyService academyService,
-    IExportService exportService,
     ILogger<AcademiesAreaModel> logger,
     IDateTimeProvider dateTimeProvider
 ) : TrustsAreaModel(dataSourceService, trustService, logger)
@@ -22,8 +20,6 @@ public abstract class AcademiesAreaModel(
     public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = PageName };
 
     internal readonly IAcademyService AcademyService = academyService;
-
-    protected IExportService ExportService { get; } = exportService;
     public IDateTimeProvider DateTimeProvider { get; } = dateTimeProvider;
 
     public AcademyPipelineSummaryServiceModel PipelineSummary { get; set; } = default!;

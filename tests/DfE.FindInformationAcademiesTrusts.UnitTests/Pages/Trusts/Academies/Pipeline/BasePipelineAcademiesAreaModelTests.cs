@@ -21,13 +21,13 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
             .Returns(Task.FromResult(new AcademyPipelineSummaryServiceModel(1, 2, 3)));
     }
 
-    [Fact]
+    [Fact] 
     public override async Task OnGetExportAsync_ShouldReturnFileResult_WhenUidIsValid()
     {
         // Arrange
         byte[] expectedBytes = [1, 2, 3];
 
-        MockExportService.ExportPipelineAcademiesToSpreadsheetAsync(TrustUid).Returns(Task.FromResult(expectedBytes));
+        MockPipelineAcademiesExportService.Build(TrustUid).Returns(Task.FromResult(expectedBytes));
 
         // Act
         var result = await Sut.OnGetExportAsync(TrustUid);
@@ -62,7 +62,7 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
         var expectedBytes = new byte[] { 1, 2, 3 };
 
         MockTrustService.GetTrustSummaryAsync(TrustUid)!.Returns(Task.FromResult(trustSummary));
-        MockExportService.ExportPipelineAcademiesToSpreadsheetAsync(TrustUid).Returns(Task.FromResult(expectedBytes));
+        MockPipelineAcademiesExportService.Build(TrustUid).Returns(Task.FromResult(expectedBytes));
 
         // Act
         var result = await Sut.OnGetExportAsync(TrustUid);
