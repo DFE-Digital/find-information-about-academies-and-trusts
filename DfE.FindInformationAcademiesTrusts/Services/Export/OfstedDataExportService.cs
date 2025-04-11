@@ -49,13 +49,8 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
                 throw new DataIntegrityException($"Trust summary not found for UID {uid}");
             }
 
-            var academiesDetailsTask = academyService.GetAcademiesInTrustDetailsAsync(uid);
-            var academiesOfstedRatingsTask = academyService.GetAcademiesInTrustOfstedAsync(uid);
-
-            await Task.WhenAll(academiesDetailsTask, academiesOfstedRatingsTask);
-
-            var academiesDetails = await academiesDetailsTask;
-            var academiesOfstedRatings = await academiesOfstedRatingsTask;
+            var academiesDetails = await academyService.GetAcademiesInTrustDetailsAsync(uid);
+            var academiesOfstedRatings = await academyService.GetAcademiesInTrustOfstedAsync(uid);
 
             return WriteTrustInformation(trustSummary)
                 .WriteHeaders(headers)
