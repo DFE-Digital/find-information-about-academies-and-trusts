@@ -10,7 +10,7 @@ public class SingleHeadlineGradesModelTests : BaseOfstedAreaModelTests<SingleHea
         Sut = new SingleHeadlineGradesModel(MockDataSourceService,
                 MockTrustService,
                 MockAcademyService,
-                MockExportService,
+                MockOfstedDataExportService,
                 MockDateTimeProvider,
                 MockLogger.CreateLogger<SingleHeadlineGradesModel>()
             )

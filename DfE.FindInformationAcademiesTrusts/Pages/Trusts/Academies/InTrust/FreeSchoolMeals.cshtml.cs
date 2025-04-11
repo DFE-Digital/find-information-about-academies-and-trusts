@@ -12,13 +12,13 @@ public class FreeSchoolMealsModel(
     ILogger<FreeSchoolMealsModel> logger,
     ITrustService trustService,
     IAcademyService academyService,
-    IExportService exportService,
+    IAcademiesExportService academiesExportService,
     IDateTimeProvider dateTimeProvider
 ) : AcademiesInTrustAreaModel(
     dataSourceService,
     trustService,
     academyService,
-    exportService,
+    academiesExportService,
     logger,
     dateTimeProvider
 )

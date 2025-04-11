@@ -13,7 +13,7 @@ public class PupilNumbersModelTests : AcademiesInTrustAreaModelTests<PupilNumber
                 MockLogger.CreateLogger<PupilNumbersModel>(),
                 MockTrustService,
                 MockAcademyService,
-                MockExportService,
+                MockAcademiesExportService,
                 MockDateTimeProvider)
             { Uid = TrustUid };
     }

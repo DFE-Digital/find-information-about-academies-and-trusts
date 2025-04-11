@@ -12,13 +12,13 @@ public class PupilNumbersModel(
     ILogger<PupilNumbersModel> logger,
     ITrustService trustService,
     IAcademyService academyService,
-    IExportService exportService,
+    IAcademiesExportService academiesExportService,
     IDateTimeProvider dateTimeProvider
 ) : AcademiesInTrustAreaModel(
     dataSourceService,
     trustService,
     academyService,
-    exportService,
+    academiesExportService,
     logger,
     dateTimeProvider
 )

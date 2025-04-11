@@ -60,8 +60,11 @@ public static class Dependencies
         builder.Services.AddScoped<IDataSourceService, DataSourceService>();
         builder.Services.AddScoped<ITrustService, TrustService>();
         builder.Services.AddScoped<IAcademyService, AcademyService>();
-        builder.Services.AddScoped<IExportService, ExportService>();
         builder.Services.AddScoped<IFinancialDocumentService, FinancialDocumentService>();
+
+        builder.Services.AddScoped<IPipelineAcademiesExportService, PipelineAcademiesExportService>();
+        builder.Services.AddScoped<IOfstedDataExportService, OfstedDataExportService>();
+        builder.Services.AddScoped<IAcademiesExportService, AcademiesExportService>();
 
         builder.Services.AddScoped<IOtherServicesLinkBuilder, OtherServicesLinkBuilder>();
         builder.Services.AddScoped<IFreeSchoolMealsAverageProvider, FreeSchoolMealsAverageProvider>();

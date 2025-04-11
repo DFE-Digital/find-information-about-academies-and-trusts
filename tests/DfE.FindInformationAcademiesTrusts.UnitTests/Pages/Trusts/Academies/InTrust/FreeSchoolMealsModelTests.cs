@@ -13,7 +13,7 @@ public class FreeSchoolMealsModelTests : AcademiesInTrustAreaModelTests<FreeScho
                 MockLogger.CreateLogger<FreeSchoolMealsModel>(),
                 MockTrustService,
                 MockAcademyService,
-                MockExportService,
+                MockAcademiesExportService,
                 MockDateTimeProvider)
             { Uid = TrustUid };
     }

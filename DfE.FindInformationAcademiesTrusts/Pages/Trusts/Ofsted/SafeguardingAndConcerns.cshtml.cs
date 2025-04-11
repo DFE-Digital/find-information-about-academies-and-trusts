@@ -10,10 +10,10 @@ public class SafeguardingAndConcernsModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
     IAcademyService academyService,
-    IExportService exportService,
+    IOfstedDataExportService ofstedDataExportService,
     IDateTimeProvider dateTimeProvider,
     ILogger<SafeguardingAndConcernsModel> logger) : OfstedAreaModel(dataSourceService, trustService,
-    academyService, exportService, dateTimeProvider, logger)
+    academyService, ofstedDataExportService, dateTimeProvider, logger)
 {
     public override TrustPageMetadata TrustPageMetadata =>
         base.TrustPageMetadata with { SubPageName = ViewConstants.OfstedSafeguardingAndConcernsPageName };
