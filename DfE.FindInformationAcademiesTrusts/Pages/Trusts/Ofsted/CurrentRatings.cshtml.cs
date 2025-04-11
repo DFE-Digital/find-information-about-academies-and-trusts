@@ -10,10 +10,10 @@ public class CurrentRatingsModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
     IAcademyService academyService,
-    IExportService exportService,
+    IOfstedDataExportService ofstedDataExportService,
     IDateTimeProvider dateTimeProvider,
     ILogger<CurrentRatingsModel> logger) : OfstedAreaModel(dataSourceService, trustService,
-    academyService, exportService, dateTimeProvider, logger)
+    academyService, ofstedDataExportService, dateTimeProvider, logger)
 {
     public override TrustPageMetadata TrustPageMetadata =>
         base.TrustPageMetadata with { SubPageName = ViewConstants.OfstedCurrentRatingsPageName };

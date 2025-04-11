@@ -10,7 +10,7 @@ public class SafeguardingAndConcernsModelTests : BaseOfstedAreaModelTests<Safegu
         Sut = new SafeguardingAndConcernsModel(MockDataSourceService,
                 MockTrustService,
                 MockAcademyService,
-                MockExportService,
+                MockOfstedDataExportService,
                 MockDateTimeProvider,
                 MockLogger.CreateLogger<SafeguardingAndConcernsModel>()
             )
