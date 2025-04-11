@@ -17,8 +17,9 @@ public class OfstedAreaModel(
     ILogger<OfstedAreaModel> logger)
     : TrustsAreaModel(dataSourceService, trustService, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { PageName = ViewConstants.OfstedPageName };
+    public const string PageName = "Ofsted";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = PageName };
 
     public AcademyOfstedServiceModel[] Academies { get; set; } = default!;
     private IAcademyService AcademyService { get; } = academyService;
@@ -50,23 +51,23 @@ public class OfstedAreaModel(
         var misDataSource = await DataSourceService.GetAsync(Source.Mis);
 
         DataSourcesPerPage.AddRange([
-            new DataSourcePageListEntry(ViewConstants.OfstedSingleHeadlineGradesPageName, [
+            new DataSourcePageListEntry(SingleHeadlineGradesModel.SubPageName, [
                     new DataSourceListEntry(giasDataSource, "Date joined trust"),
                     new DataSourceListEntry(misDataSource, "All single headline grades"),
                     new DataSourceListEntry(misDataSource, "All inspection dates")
                 ]
             ),
-            new DataSourcePageListEntry(ViewConstants.OfstedCurrentRatingsPageName, [
+            new DataSourcePageListEntry(CurrentRatingsModel.SubPageName, [
                     new DataSourceListEntry(misDataSource, "Current Ofsted rating"),
                     new DataSourceListEntry(misDataSource, "Date of current inspection")
                 ]
             ),
-            new DataSourcePageListEntry(ViewConstants.OfstedPreviousRatingsPageName, [
+            new DataSourcePageListEntry(PreviousRatingsModel.SubPageName, [
                     new DataSourceListEntry(misDataSource, "Previous Ofsted rating"),
                     new DataSourceListEntry(misDataSource, "Date of previous inspection")
                 ]
             ),
-            new DataSourcePageListEntry(ViewConstants.OfstedSafeguardingAndConcernsPageName, [
+            new DataSourcePageListEntry(SafeguardingAndConcernsModel.SubPageName, [
                     new DataSourceListEntry(misDataSource, "Effective safeguarding"),
                     new DataSourceListEntry(misDataSource, "Category of concern"),
                     new DataSourceListEntry(misDataSource, "Date of current inspection")

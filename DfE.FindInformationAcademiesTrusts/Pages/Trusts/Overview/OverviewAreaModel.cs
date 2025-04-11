@@ -11,7 +11,10 @@ public class OverviewAreaModel(
     ILogger<OverviewAreaModel> logger)
     : TrustsAreaModel(dataSourceService, trustService, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = ViewConstants.OverviewPageName };
+    public const string PageName = "Overview";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = PageName };
+
     public TrustOverviewServiceModel TrustOverview { get; set; } = default!;
 
     public override async Task<IActionResult> OnGetAsync()
@@ -35,9 +38,9 @@ public class OverviewAreaModel(
         // Add data sources
         var giasDataSource = await DataSourceService.GetAsync(Source.Gias);
         DataSourcesPerPage.AddRange([
-            new DataSourcePageListEntry(ViewConstants.OverviewTrustDetailsPageName, [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.OverviewTrustSummaryPageName, [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.OverviewReferenceNumbersPageName, [new DataSourceListEntry(giasDataSource)])
+            new DataSourcePageListEntry(TrustDetailsModel.SubPageName, [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(TrustSummaryModel.SubPageName, [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(ReferenceNumbersModel.SubPageName, [new DataSourceListEntry(giasDataSource)])
         ]);
 
         return Page();

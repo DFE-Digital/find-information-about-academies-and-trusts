@@ -12,8 +12,9 @@ public class FinancialStatementsModel(
     IFinancialDocumentService financialDocumentService)
     : FinancialDocumentsAreaModel(dataSourceService, trustService, logger, financialDocumentService)
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = ViewConstants.FinancialDocumentsFinancialStatementsSubPageName };
+    public const string SubPageName = "Financial statements";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = SubPageName };
 
     public override bool InternalUseOnly => false;
     protected override FinancialDocumentType FinancialDocumentType => FinancialDocumentType.FinancialStatement;

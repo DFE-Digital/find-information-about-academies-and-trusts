@@ -15,6 +15,7 @@ public class SingleHeadlineGradesModel(
     ILogger<SingleHeadlineGradesModel> logger) : OfstedAreaModel(dataSourceService, trustService,
     academyService, exportService, dateTimeProvider, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = ViewConstants.OfstedSingleHeadlineGradesPageName };
+    public const string SubPageName = "Single headline grades";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = SubPageName };
 }
