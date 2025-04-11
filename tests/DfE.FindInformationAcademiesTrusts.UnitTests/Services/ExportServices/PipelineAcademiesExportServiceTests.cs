@@ -3,6 +3,7 @@
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
 {
     using ClosedXML.Excel;
+    using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Exceptions;
     using DfE.FindInformationAcademiesTrusts.Services.Academy;
     using DfE.FindInformationAcademiesTrusts.Services.Export;
     using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -35,8 +36,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
 
             var result = async () => { await _sut.Build(unknownTrustId); };
 
-            await result.Should().ThrowAsync<Exception>()
-                .WithMessage($"Trust summary is null for trust uid - {unknownTrustId}");
+            await result.Should().ThrowAsync<DataIntegrityException>().WithMessage($"Trust summary not found for UID {unknownTrustId}");
         }
 
         [Fact]

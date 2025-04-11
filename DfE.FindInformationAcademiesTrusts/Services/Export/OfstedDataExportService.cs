@@ -1,4 +1,5 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Exceptions;
 using DfE.FindInformationAcademiesTrusts.Extensions;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -13,7 +14,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
 
     public class OfstedDataExportService(IAcademyService academyService, ITrustService trustService) : ExportBuilder("Ofsted"), IOfstedDataExportService
     {
-        private List<string> headers =
+        private readonly List<string> headers =
         [
             CommonColumnNames.SchoolName,
             CommonColumnNames.DateJoined,
@@ -45,7 +46,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
  
             if (trustSummary is null)
             {
-                throw new Exception($"Trust summary is null for trust uid - {uid}");
+                throw new DataIntegrityException($"Trust summary not found for UID {uid}");
             }
 
             var academiesDetailsTask = academyService.GetAcademiesInTrustDetailsAsync(uid);
