@@ -23,17 +23,10 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
             }
 
             var trustReferenceNumber = await trustService.GetTrustReferenceNumberAsync(uid);
-
-            var preAdvisoryAcademiesTask = academyService.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber);
-            var postAdvisoryAcademiesTask = academyService.GetAcademiesPipelinePostAdvisoryAsync(trustReferenceNumber);
-            var freeSchoolsTask = academyService.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber);
-
-            await Task.WhenAll(preAdvisoryAcademiesTask, postAdvisoryAcademiesTask, freeSchoolsTask);
-
-            var preAdvisoryAcademies = await preAdvisoryAcademiesTask;
-            var postAdvisoryAcademies = await postAdvisoryAcademiesTask;
-            var freeSchools = await freeSchoolsTask;
-
+            var preAdvisoryAcademies = await academyService.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber);
+            var postAdvisoryAcademies = await academyService.GetAcademiesPipelinePostAdvisoryAsync(trustReferenceNumber);
+            var freeSchools = await academyService.GetAcademiesPipelineFreeSchoolsAsync(trustReferenceNumber);
+            
             return WriteTrustInformation(trustSummary)
                 .WriteRows(WriteHeadersForPreAdvisory)
                 .WriteRows(() => WriteRows(preAdvisoryAcademies))

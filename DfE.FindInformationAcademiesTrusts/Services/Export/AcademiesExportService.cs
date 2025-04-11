@@ -47,18 +47,10 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
                 throw new DataIntegrityException($"Trust summary not found for UID {uid}");
             }
 
-            var academiesDetailsTask = academyService.GetAcademiesInTrustDetailsAsync(uid);
-            var academiesOfstedRatingsTask =  academyService.GetAcademiesInTrustOfstedAsync(uid);
-            var academiesPupilNumbersTask = academyService.GetAcademiesInTrustPupilNumbersAsync(uid);
-            var academiesFreeSchoolMealsTask = academyService.GetAcademiesInTrustFreeSchoolMealsAsync(uid);
-
-            await Task.WhenAll(academiesDetailsTask, academiesOfstedRatingsTask, academiesPupilNumbersTask,
-                academiesFreeSchoolMealsTask);
-
-            var academiesDetails = await academiesDetailsTask;
-            var academiesOfstedRatings = await academiesOfstedRatingsTask;
-            var academiesPupilNumbers = await academiesPupilNumbersTask;
-            var academiesFreeSchoolMeals = await academiesFreeSchoolMealsTask;
+            var academiesDetails = await academyService.GetAcademiesInTrustDetailsAsync(uid);
+            var academiesOfstedRatings =  await academyService.GetAcademiesInTrustOfstedAsync(uid);
+            var academiesPupilNumbers = await academyService.GetAcademiesInTrustPupilNumbersAsync(uid);
+            var academiesFreeSchoolMeals = await academyService.GetAcademiesInTrustFreeSchoolMealsAsync(uid);
 
             return WriteTrustInformation(trustSummary)
                 .WriteHeaders(headers)
