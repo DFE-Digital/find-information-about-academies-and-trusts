@@ -7,6 +7,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
     using DfE.FindInformationAcademiesTrusts.Services.Academy;
     using DfE.FindInformationAcademiesTrusts.Services.Export;
     using DfE.FindInformationAcademiesTrusts.Services.Trust;
+    using static DfE.FindInformationAcademiesTrusts.Services.Export.ExportColumns;
 
     public class OfstedDataExportServiceTests
     {
@@ -86,7 +87,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
         }
 
         [Fact]
-        public async Task ExportOfstedDataToSpreadsheet_ShouldWriteDateCellsAsDatesAsync()
+        public async Task ExportOfstedDataToSpreadsheet_ShouldCorrectlyExtractDataAsync()
         {
             var joinedDate = new DateTime(2020, 1, 1);
             var currentInspectionDate = new DateTime(2021, 5, 20);
@@ -107,22 +108,33 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
             var worksheet = workbook.Worksheet("Ofsted");
 
             // Row with data is row 4
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.SchoolName).Should().Be("Academy XYZ");
-
+            worksheet.CellValue(4, (int)OfstedColumns.SchoolName).Should().Be("Academy XYZ");
+            
             // Date Joined as date
-            worksheet.Cell(4, (int)ExportColumns.OfstedColumns.DateJoined).DataType.Should().Be(XLDataType.DateTime);
-            worksheet.Cell(4, (int)ExportColumns.OfstedColumns.DateJoined).GetValue<DateTime>().Should().Be(joinedDate);
+            worksheet.Cell(4, (int)OfstedColumns.DateJoined).DataType.Should().Be(XLDataType.DateTime);
+            worksheet.Cell(4, (int)OfstedColumns.DateJoined).GetValue<DateTime>().Should().Be(joinedDate);
+
+            //Current Single headline grade
+            worksheet.CellValue(4, (int)OfstedColumns.CurrentSingleHeadlineGrade).Should().Be("Outstanding");
+            worksheet.CellValue(4, (int)OfstedColumns.CurrentBeforeAfterJoining).Should().Be("After joining");
 
             // Current Inspection Date as date
-            worksheet.Cell(4, (int)ExportColumns.OfstedColumns.DateOfCurrentInspection).DataType.Should().Be(XLDataType.DateTime);
-            worksheet.Cell(4, (int)ExportColumns.OfstedColumns.DateOfCurrentInspection).GetValue<DateTime>().Should().Be(currentInspectionDate);
+            worksheet.Cell(4, (int)OfstedColumns.DateOfCurrentInspection).DataType.Should().Be(XLDataType.DateTime);
+            worksheet.Cell(4, (int)OfstedColumns.DateOfCurrentInspection).GetValue<DateTime>().Should().Be(currentInspectionDate);
+
+            //Current Single headline grade
+            worksheet.CellValue(4, (int)OfstedColumns.PreviousSingleHeadlineGrade).Should().Be("Good");
+            worksheet.CellValue(4, (int)OfstedColumns.PreviousBeforeAfterJoining).Should().Be("Before joining");
 
             // Previous Inspection Date as date
-            worksheet.Cell(4, (int)ExportColumns.OfstedColumns.DateOfPreviousInspection).DataType.Should().Be(XLDataType.DateTime);
-            worksheet.Cell(4, (int)ExportColumns.OfstedColumns.DateOfPreviousInspection).GetValue<DateTime>().Should().Be(previousInspectionDate);
+            worksheet.Cell(4, (int)OfstedColumns.DateOfPreviousInspection).DataType.Should().Be(XLDataType.DateTime);
+            worksheet.Cell(4, (int)OfstedColumns.DateOfPreviousInspection).GetValue<DateTime>().Should().Be(previousInspectionDate);
+
+            var expectedCurrentRow = _sut.TrustRows + _sut.HeaderRows + 1;
+
+            _sut.CurrentRow.Should().Be(expectedCurrentRow);
         }
-
-
+        
         [Fact]
         public async Task ExportOfstedDataToSpreadsheet_ShouldHandleNoOfstedDataAsync()
         {
@@ -134,29 +146,55 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
             using var workbook = new XLWorkbook(new MemoryStream(result));
             var worksheet = workbook.Worksheet("Ofsted");
 
+
             //Current inspection
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.DateOfCurrentInspection).Should().Be(string.Empty);
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.CurrentBeforeAfterJoining).Should().Be(string.Empty);
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.CurrentQualityOfEducation).Should().Be("Not yet inspected");
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.CurrentBehaviourAndAttitudes).Should().Be("Not yet inspected");
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.CurrentPersonalDevelopment).Should().Be("Not yet inspected");
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.CurrentLeadershipAndManagement).Should().Be("Not yet inspected");
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.CurrentEarlyYearsProvision).Should().Be("Not yet inspected");
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.CurrentSixthFormProvision).Should().Be("Not yet inspected");
+            worksheet.CellValue(4, (int)OfstedColumns.DateOfCurrentInspection).Should().Be(string.Empty);
+            worksheet.CellValue(4, (int)OfstedColumns.CurrentBeforeAfterJoining).Should().Be(string.Empty);
+            worksheet.CellValue(4, (int)OfstedColumns.CurrentQualityOfEducation).Should().Be("Not yet inspected");
+            worksheet.CellValue(4, (int)OfstedColumns.CurrentBehaviourAndAttitudes).Should().Be("Not yet inspected");
+            worksheet.CellValue(4, (int)OfstedColumns.CurrentPersonalDevelopment).Should().Be("Not yet inspected");
+            worksheet.CellValue(4, (int)OfstedColumns.CurrentLeadershipAndManagement).Should().Be("Not yet inspected");
+            worksheet.CellValue(4, (int)OfstedColumns.CurrentEarlyYearsProvision).Should().Be("Not yet inspected");
+            worksheet.CellValue(4, (int)OfstedColumns.CurrentSixthFormProvision).Should().Be("Not yet inspected");
 
             //Previous inspection
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.DateOfPreviousInspection).Should().Be(string.Empty);
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.PreviousBeforeAfterJoining).Should().Be(string.Empty);
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.PreviousQualityOfEducation).Should().Be("Not inspected");
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.PreviousBehaviourAndAttitudes).Should().Be("Not inspected");
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.PreviousPersonalDevelopment).Should().Be("Not inspected");
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.PreviousLeadershipAndManagement).Should().Be("Not inspected");
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.PreviousEarlyYearsProvision).Should().Be("Not inspected");
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.PreviousSixthFormProvision).Should().Be("Not inspected");
+            worksheet.CellValue(4, (int)OfstedColumns.DateOfPreviousInspection).Should().Be(string.Empty);
+            worksheet.CellValue(4, (int)OfstedColumns.PreviousBeforeAfterJoining).Should().Be(string.Empty);
+            worksheet.CellValue(4, (int)OfstedColumns.PreviousQualityOfEducation).Should().Be("Not inspected");
+            worksheet.CellValue(4, (int)OfstedColumns.PreviousBehaviourAndAttitudes).Should().Be("Not inspected");
+            worksheet.CellValue(4, (int)OfstedColumns.PreviousPersonalDevelopment).Should().Be("Not inspected");
+            worksheet.CellValue(4, (int)OfstedColumns.PreviousLeadershipAndManagement).Should().Be("Not inspected");
+            worksheet.CellValue(4, (int)OfstedColumns.PreviousEarlyYearsProvision).Should().Be("Not inspected");
+            worksheet.CellValue(4, (int)OfstedColumns.PreviousSixthFormProvision).Should().Be("Not inspected");
 
             //Safeguarding and concerns
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.EffectiveSafeguarding).Should().Be("Not yet inspected");
-            worksheet.CellValue(4, (int)ExportColumns.OfstedColumns.CategoryOfConcern).Should().Be("Not yet inspected");
+            worksheet.CellValue(4, (int)OfstedColumns.EffectiveSafeguarding).Should().Be("Not yet inspected");
+            worksheet.CellValue(4, (int)OfstedColumns.CategoryOfConcern).Should().Be("Not yet inspected");
+        }
+
+        [Fact]
+        public async Task ExportOfstedDataToSpreadsheet_ShouldCorrectlyHandleNullValuesAsync()
+        {
+            var joinedDate = new DateTime(2020, 1, 1);
+            var currentInspectionDate = new DateTime(2021, 5, 20);
+            var previousInspectionDate = new DateTime(2019, 12, 31);
+
+            _mockAcademyService.GetAcademiesInTrustDetailsAsync(trustUid)
+                .Returns([new("A123", null, "TypeX", "Local LA", "Urban")]);
+
+            _mockAcademyService.GetAcademiesInTrustOfstedAsync(trustUid)
+                .Returns([
+                    new("A123", "Academy XYZ", joinedDate,
+                        new OfstedRating((int)OfstedRatingScore.Good, previousInspectionDate),
+                        new OfstedRating((int)OfstedRatingScore.Outstanding, currentInspectionDate))
+                ]);
+
+            var result = await _sut.Build(trustUid);
+            using var workbook = new XLWorkbook(new MemoryStream(result));
+            var worksheet = workbook.Worksheet("Ofsted");
+
+            worksheet.CellValue(4, (int)OfstedColumns.SchoolName).Should().Be(string.Empty);
+
         }
     }
 }

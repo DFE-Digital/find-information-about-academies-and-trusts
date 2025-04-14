@@ -7,6 +7,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
     using DfE.FindInformationAcademiesTrusts.Services.Academy;
     using DfE.FindInformationAcademiesTrusts.Services.Export;
     using DfE.FindInformationAcademiesTrusts.Services.Trust;
+    using static DfE.FindInformationAcademiesTrusts.Services.Export.ExportColumns;
 
     public class PipelineAcademiesExportServiceTests
     {
@@ -36,7 +37,8 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
 
             var result = async () => { await _sut.Build(unknownTrustId); };
 
-            await result.Should().ThrowAsync<DataIntegrityException>().WithMessage($"Trust summary not found for UID {unknownTrustId}");
+            await result.Should().ThrowAsync<DataIntegrityException>()
+                .WithMessage($"Trust summary not found for UID {unknownTrustId}");
         }
 
         [Fact]
@@ -171,6 +173,32 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
                 ["Xxx Academy", "11", "6 - 12", "Local Authority 3", "Free school", new DateTime(2025, 4, 3)],
                 ["Zzz Academy", "10", "5 - 11", "Local Authority 2", "Free school", new DateTime(2024, 3, 2)]
             );
+        }
+
+        [Fact]
+        public async Task Export_ShouldCorrectlyHandleNullValuesAsync()
+        {
+            _mockTrustService.GetTrustReferenceNumberAsync(trustUid).Returns(trustReferenceNumber);
+
+            _mockAcademyService.GetAcademiesPipelinePreAdvisoryAsync(trustReferenceNumber)
+                .Returns(
+                [
+                    new AcademyPipelineServiceModel(null, null, null, null,
+                        null, null)
+                ]);
+
+
+            var result = await _sut.Build(trustUid);
+
+            using var workbook = new XLWorkbook(new MemoryStream(result));
+            var worksheet = workbook.Worksheet("Pipeline Academies");
+
+            worksheet.CellValue(6, (int)PipelineAcademiesColumns.SchoolName).Should().Be(string.Empty);
+            worksheet.CellValue(6, (int)PipelineAcademiesColumns.Urn).Should().Be(string.Empty);
+            worksheet.CellValue(6, (int)PipelineAcademiesColumns.AgeRange).Should().Be("Unconfirmed");
+            worksheet.CellValue(6, (int)PipelineAcademiesColumns.LocalAuthority).Should().Be(string.Empty);
+            worksheet.CellValue(6, (int)PipelineAcademiesColumns.ProjectType).Should().Be(string.Empty);
+            worksheet.CellValue(6, (int)PipelineAcademiesColumns.ChangeDate).Should().Be("Unconfirmed");
         }
     }
 }
