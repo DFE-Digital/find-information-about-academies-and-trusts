@@ -45,6 +45,7 @@ jobs:
       run: dotnet stryker --reporter "markdown" --reporter "html" --output "${{ github.workspace }}"
 
     - name: Print stryker report
+      if: ${{ !cancelled() }}
       run: |
         # Construct the full path to the markdown file
         REPORT_FILE="${{ github.workspace }}/reports/mutation-report.md"
@@ -60,6 +61,7 @@ jobs:
 
     - name: Upload Stryker report
       uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
       with:
         name: stryker-report
         path: ${{ github.workspace }}/reports/mutation-report.html
