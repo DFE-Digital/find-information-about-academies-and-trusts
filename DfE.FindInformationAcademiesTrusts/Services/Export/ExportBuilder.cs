@@ -9,12 +9,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
     {
         private readonly XLWorkbook workbook = new();
 
-        private IXLWorksheet _worksheet;
-        public IXLWorksheet Worksheet
-        {
-            get => _worksheet;
-            set => _worksheet = value;
-        }
+        public IXLWorksheet Worksheet { get; set; }
 
         public readonly int TrustRows = 3;
         public readonly int HeaderRows = 1;
@@ -23,7 +18,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
 
         protected ExportBuilder(string sheetName)
         {
-            _worksheet = workbook.Worksheets.Add(sheetName);
+            Worksheet = workbook.Worksheets.Add(sheetName);
         }
 
         public byte[] Build()
