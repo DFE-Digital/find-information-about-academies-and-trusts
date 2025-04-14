@@ -58,7 +58,7 @@ jobs:
       - name: Categorise changed files
         id: categorise-files
         run: |
-          MARKDOWN_FILES=$(cat "changed_files.txt" | grep -E '*.md$' 2>/dev/null || true)
+          MARKDOWN_FILES=$(cat "changed_files.txt" | grep -E '^(?!terraform/).*\.md$' 2>/dev/null || true)
           FRONTEND_ASSET_FILES=$(cat "changed_files.txt" | grep -E '^DfE.FindInformationAcademiesTrusts/(package*.json|assets|.stylelintrc.json|.prettierignore)' 2>/dev/null || true)
 
           if [ -n "$MARKDOWN_FILES" ]; then
