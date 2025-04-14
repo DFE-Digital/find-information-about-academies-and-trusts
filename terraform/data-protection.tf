@@ -1,5 +1,5 @@
 module "data_protection" {
-  source = "github.com/DFE-Digital/terraform-azurerm-aspnet-data-protection?ref=v1.2.0"
+  source = "github.com/DFE-Digital/terraform-azurerm-aspnet-data-protection?ref=v1.3.0"
 
   data_protection_key_vault_assign_role                 = false
   data_protection_key_vault_subnet_prefix               = "172.16.100.0/28"
