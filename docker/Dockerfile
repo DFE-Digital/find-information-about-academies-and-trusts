@@ -40,7 +40,7 @@ RUN dotnet build DfE.FindInformationAcademiesTrusts --no-restore -c Release && \
     dotnet publish DfE.FindInformationAcademiesTrusts --no-build -o /app
 
 ### Entity Framework: Migration Runner ###
-FROM ubuntu:22.04 AS initcontainer
+FROM ubuntu:22.04@sha256:d80997daaa3811b175119350d84305e1ec9129e1799bba0bd1e3120da3ff52c3 AS initcontainer
 RUN apt-get update && \
     apt-get install ca-certificates -y
 
