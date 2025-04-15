@@ -27,23 +27,23 @@ public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITest
         await MockDataSourceService.Received(1).GetAsync(Source.Mis);
 
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
-            new DataSourcePageListEntry(ViewConstants.OfstedSingleHeadlineGradesPageName, [
+            new DataSourcePageListEntry("Single headline grades", [
                     new DataSourceListEntry(GiasDataSource, "Date joined trust"),
                     new DataSourceListEntry(MisDataSource, "All single headline grades"),
                     new DataSourceListEntry(MisDataSource, "All inspection dates")
                 ]
             ),
-            new DataSourcePageListEntry(ViewConstants.OfstedCurrentRatingsPageName, [
+            new DataSourcePageListEntry("Current ratings", [
                     new DataSourceListEntry(MisDataSource, "Current Ofsted rating"),
                     new DataSourceListEntry(MisDataSource, "Date of current inspection")
                 ]
             ),
-            new DataSourcePageListEntry(ViewConstants.OfstedPreviousRatingsPageName, [
+            new DataSourcePageListEntry("Previous ratings", [
                     new DataSourceListEntry(MisDataSource, "Previous Ofsted rating"),
                     new DataSourceListEntry(MisDataSource, "Date of previous inspection")
                 ]
             ),
-            new DataSourcePageListEntry(ViewConstants.OfstedSafeguardingAndConcernsPageName, [
+            new DataSourcePageListEntry("Safeguarding and concerns", [
                     new DataSourceListEntry(MisDataSource, "Effective safeguarding"),
                     new DataSourceListEntry(MisDataSource, "Category of concern"),
                     new DataSourceListEntry(MisDataSource, "Date of current inspection")

@@ -30,14 +30,11 @@ public abstract class BaseOverviewAreaModelTests<T> : BaseTrustPageTests<T>, ITe
     {
         _ = await Sut.OnGetAsync();
         await MockDataSourceService.Received(1).GetAsync(Source.Gias);
-        
+
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
-            new DataSourcePageListEntry(ViewConstants.OverviewTrustDetailsPageName,
-                [new DataSourceListEntry(GiasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.OverviewTrustSummaryPageName,
-                [new DataSourceListEntry(GiasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.OverviewReferenceNumbersPageName,
-                [new DataSourceListEntry(GiasDataSource)])
+            new DataSourcePageListEntry("Trust details", [new DataSourceListEntry(GiasDataSource)]),
+            new DataSourcePageListEntry("Trust summary", [new DataSourceListEntry(GiasDataSource)]),
+            new DataSourcePageListEntry("Reference numbers", [new DataSourceListEntry(GiasDataSource)])
         ]);
     }
 
@@ -85,7 +82,7 @@ public abstract class BaseOverviewAreaModelTests<T> : BaseTrustPageTests<T>, ITe
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.OverviewPageName);
+        Sut.TrustPageMetadata.PageName.Should().Be("Overview");
     }
 
     [Fact]

@@ -24,8 +24,9 @@ public abstract class PipelineAcademiesAreaModel(
     dateTimeProvider
 )
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = "Pipeline academies" };
+    public const string SubPageName = "Pipeline academies";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = SubPageName };
 
     public override async Task<IActionResult> OnGetAsync()
     {
@@ -46,12 +47,9 @@ public abstract class PipelineAcademiesAreaModel(
         var completeSource = await DataSourceService.GetAsync(Source.Complete);
         var manageFreeSchoolSource = await DataSourceService.GetAsync(Source.ManageFreeSchoolProjects);
         DataSourcesPerPage.AddRange([
-            new DataSourcePageListEntry(ViewConstants.PipelineAcademiesPreAdvisoryBoardPageName,
-                [new DataSourceListEntry(prepareSource)]),
-            new DataSourcePageListEntry(ViewConstants.PipelineAcademiesPostAdvisoryBoardPageName,
-                [new DataSourceListEntry(completeSource)]),
-            new DataSourcePageListEntry(ViewConstants.PipelineAcademiesFreeSchoolsPageName,
-                [new DataSourceListEntry(manageFreeSchoolSource)])
+            new DataSourcePageListEntry(PreAdvisoryBoardModel.TabName, [new DataSourceListEntry(prepareSource)]),
+            new DataSourcePageListEntry(PostAdvisoryBoardModel.TabName, [new DataSourceListEntry(completeSource)]),
+            new DataSourcePageListEntry(FreeSchoolsModel.TabName, [new DataSourceListEntry(manageFreeSchoolSource)])
         ]);
 
         return pageResult;

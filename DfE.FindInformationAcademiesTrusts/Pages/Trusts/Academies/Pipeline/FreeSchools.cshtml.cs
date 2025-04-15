@@ -17,8 +17,9 @@ public class FreeSchoolsModel(
     : PipelineAcademiesAreaModel(dataSourceService, trustService, academyService, exportService, logger,
         dateTimeProvider)
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { TabName = "Free schools" };
+    public const string TabName = "Free schools";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { TabName = TabName };
 
     public AcademyPipelineServiceModel[] PipelineFreeSchools { get; set; } = [];
 

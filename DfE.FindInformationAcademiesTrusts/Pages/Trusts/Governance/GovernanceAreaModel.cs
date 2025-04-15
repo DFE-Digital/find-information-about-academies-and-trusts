@@ -11,8 +11,9 @@ public class GovernanceAreaModel(
     ILogger<GovernanceAreaModel> logger)
     : TrustsAreaModel(dataSourceService, trustService, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { PageName = ViewConstants.GovernancePageName };
+    public const string PageName = "Governance";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = PageName };
 
     public TrustGovernanceServiceModel TrustGovernance { get; set; } = default!;
 
@@ -46,14 +47,10 @@ public class GovernanceAreaModel(
         var giasDataSource = await DataSourceService.GetAsync(Source.Gias);
 
         DataSourcesPerPage.AddRange([
-            new DataSourcePageListEntry(ViewConstants.GovernanceTrustLeadershipPageName,
-                [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.GovernanceTrusteesPageName,
-                [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.GovernanceMembersPageName,
-                [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(ViewConstants.GovernanceHistoricMembersPageName,
-                [new DataSourceListEntry(giasDataSource)])
+            new DataSourcePageListEntry(TrustLeadershipModel.SubPageName, [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(TrusteesModel.SubPageName, [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(MembersModel.SubPageName, [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(HistoricMembersModel.SubPageName, [new DataSourceListEntry(giasDataSource)])
         ]);
 
         return pageResult;

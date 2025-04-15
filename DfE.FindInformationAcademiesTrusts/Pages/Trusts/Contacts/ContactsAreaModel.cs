@@ -14,8 +14,9 @@ public class ContactsAreaModel(
 )
     : TrustsAreaModel(dataSourceService, trustService, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { PageName = ViewConstants.ContactsPageName };
+    public const string PageName = "Contacts";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = PageName };
 
     public Person? ChairOfTrustees { get; set; }
     public Person? AccountingOfficer { get; set; }
@@ -45,7 +46,7 @@ public class ContactsAreaModel(
         var mstrDataSource = await DataSourceService.GetAsync(Source.Mstr);
 
         DataSourcesPerPage.AddRange([
-            new DataSourcePageListEntry(ViewConstants.ContactsInDfePageName, [
+            new DataSourcePageListEntry(InDfeModel.SubPageName, [
                     new DataSourceListEntry(new DataSourceServiceModel(Source.FiatDb,
                             TrustRelationshipManager?.LastModifiedAtTime, null,
                             TrustRelationshipManager?.LastModifiedByEmail),
@@ -55,7 +56,7 @@ public class ContactsAreaModel(
                         SfsoLead?.LastModifiedByEmail), ContactRole.SfsoLead.MapRoleToViewString())
                 ]
             ),
-            new DataSourcePageListEntry("In this trust", [
+            new DataSourcePageListEntry(InTrustModel.SubPageName, [
                     new DataSourceListEntry(giasDataSource, "Accounting officer name"),
                     new DataSourceListEntry(giasDataSource, "Chief financial officer name"),
                     new DataSourceListEntry(giasDataSource, "Chair of trustees name"),

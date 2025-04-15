@@ -15,6 +15,6 @@ public class PreviousRatingsModel(
     ILogger<PreviousRatingsModel> logger) : OfstedAreaModel(dataSourceService, trustService,
     academyService, exportService, dateTimeProvider, logger)
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = ViewConstants.OfstedPreviousRatingsPageName };
+    public const string SubPageName = "Previous ratings";
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = SubPageName };
 }

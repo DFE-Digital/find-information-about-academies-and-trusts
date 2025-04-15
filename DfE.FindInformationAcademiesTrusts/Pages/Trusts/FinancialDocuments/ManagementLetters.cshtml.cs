@@ -12,8 +12,9 @@ public class ManagementLettersModel(
     IFinancialDocumentService financialDocumentService)
     : FinancialDocumentsAreaModel(dataSourceService, trustService, logger, financialDocumentService)
 {
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = ViewConstants.FinancialDocumentsManagementLettersSubPageName };
+    public const string SubPageName = "Management letters";
+
+    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = SubPageName };
 
     protected override FinancialDocumentType FinancialDocumentType => FinancialDocumentType.ManagementLetter;
     public override string FinancialDocumentDisplayName => "management letter";
