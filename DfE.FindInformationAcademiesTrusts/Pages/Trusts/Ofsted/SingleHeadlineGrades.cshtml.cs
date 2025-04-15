@@ -10,10 +10,10 @@ public class SingleHeadlineGradesModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
     IAcademyService academyService,
-    IExportService exportService,
+    IOfstedDataExportService ofstedDataExportService,
     IDateTimeProvider dateTimeProvider,
     ILogger<SingleHeadlineGradesModel> logger) : OfstedAreaModel(dataSourceService, trustService,
-    academyService, exportService, dateTimeProvider, logger)
+    academyService, ofstedDataExportService, dateTimeProvider, logger)
 {
     public const string SubPageName = "Single headline grades";
 

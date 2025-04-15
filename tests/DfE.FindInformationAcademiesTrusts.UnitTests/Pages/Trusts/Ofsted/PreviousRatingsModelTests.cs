@@ -10,7 +10,7 @@ public class PreviousRatingsModelTests : BaseOfstedAreaModelTests<PreviousRating
         Sut = new PreviousRatingsModel(MockDataSourceService,
                 MockTrustService,
                 MockAcademyService,
-                MockExportService,
+                MockOfstedDataExportService,
                 MockDateTimeProvider,
                 MockLogger.CreateLogger<PreviousRatingsModel>()
             )

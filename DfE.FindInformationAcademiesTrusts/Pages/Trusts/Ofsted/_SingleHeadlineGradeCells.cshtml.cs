@@ -11,12 +11,7 @@ public record SingleHeadlineGradeCellsModel(
 {
     public bool HasInspection => SingleHeadlineGradeRating.OverallEffectiveness != OfstedRatingScore.NotInspected;
 
-    public string TagLabel => BeforeOrAfterJoining switch
-    {
-        BeforeOrAfterJoining.Before => "Before joining",
-        BeforeOrAfterJoining.After => "After joining",
-        _ => "Unknown"
-    };
+    public string TagLabel => BeforeOrAfterJoining.ToDisplayString();
 
     public bool IsBeforeJoining => BeforeOrAfterJoining == BeforeOrAfterJoining.Before;
 

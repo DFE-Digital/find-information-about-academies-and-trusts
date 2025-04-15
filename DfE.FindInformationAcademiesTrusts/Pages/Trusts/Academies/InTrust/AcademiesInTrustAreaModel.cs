@@ -12,14 +12,13 @@ public abstract class AcademiesInTrustAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
     IAcademyService academyService,
-    IExportService exportService,
+    IAcademiesExportService academiesExportService,
     ILogger<AcademiesInTrustAreaModel> logger,
     IDateTimeProvider dateTimeProvider
 ) : AcademiesAreaModel(
     dataSourceService,
     trustService,
     academyService,
-    exportService,
     logger,
     dateTimeProvider
 )
@@ -73,7 +72,7 @@ public abstract class AcademiesInTrustAreaModel(
         var sanitizedTrustName =
             string.Concat(trustSummary.Name.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
 
-        var fileContents = await ExportService.ExportAcademiesToSpreadsheetAsync(uid);
+        var fileContents = await academiesExportService.BuildAsync(uid);
         var fileName = $"{sanitizedTrustName}-{DateTimeProvider.Now:yyyy-MM-dd}.xlsx";
         var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 

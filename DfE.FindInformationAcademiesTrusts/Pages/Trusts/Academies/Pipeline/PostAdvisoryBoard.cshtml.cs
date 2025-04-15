@@ -12,9 +12,9 @@ public class PostAdvisoryBoardModel(
     ILogger<PostAdvisoryBoardModel> logger,
     ITrustService trustService,
     IAcademyService academyService,
-    IExportService exportService,
+    IPipelineAcademiesExportService pipelineAcademiesExportService,
     IDateTimeProvider dateTimeProvider)
-    : PipelineAcademiesAreaModel(dataSourceService, trustService, academyService, exportService, logger,
+    : PipelineAcademiesAreaModel(dataSourceService, trustService, academyService, pipelineAcademiesExportService, logger,
         dateTimeProvider)
 {
     public const string TabName = "Post advisory board";
