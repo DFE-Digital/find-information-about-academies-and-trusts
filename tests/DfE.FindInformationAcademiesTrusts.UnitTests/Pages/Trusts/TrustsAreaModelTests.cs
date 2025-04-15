@@ -1,4 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -27,93 +26,6 @@ public class TrustsAreaModelTests : BaseTrustPageTests<TrustsAreaModel>
     {
         Sut = new TrustsAreaModelImpl(MockDataSourceService, MockTrustService, _logger);
         Sut.Uid.Should().BeEquivalentTo(string.Empty);
-    }
-
-    [Theory]
-    [InlineData(Source.Gias, "Get information about schools")]
-    [InlineData(Source.Mstr, "Get information about schools (internal use only, do not share outside of DfE)")]
-    [InlineData(Source.Cdm, "RSD (Regional Services Division) service support team")]
-    [InlineData(Source.Mis, "State-funded school inspections and outcomes: management information")]
-    [InlineData(Source.ExploreEducationStatistics, "Explore education statistics")]
-    [InlineData(Source.FiatDb, "Find information about academies and trusts")]
-    public void MapDataSourceToName_should_return_the_correct_string_for_each_source(Source source, string expected)
-    {
-        var result = Sut.MapDataSourceToName(new DataSourceServiceModel(source, null, UpdateFrequency.Daily));
-        result.Should().Be(expected);
-    }
-
-    [Fact]
-    public void MapDataSourceToName_should_return_Unknown_when_source_is_not_recognised()
-    {
-        var dataSource = new DataSourceServiceModel((Source)10, null, UpdateFrequency.Daily);
-        var result = Sut.MapDataSourceToName(dataSource);
-        _logger.VerifyLogError($"Data source {dataSource} does not map to known type");
-        result.Should().Be("Unknown");
-    }
-
-    [Fact]
-    public void MapDataSourceToTestId_ShouldMapSourceAndDataFieldCorrectly()
-    {
-        // Arrange
-        var source = new DataSourceServiceModel(Source.Cdm, null, null);
-
-        // Act
-        var result = Sut.MapDataSourceToTestId(new DataSourceListEntry(source));
-
-        // Assert
-        Assert.Equal("data-source-cdm-all-information-was", result);
-    }
-
-    [Fact]
-    public void MapDataSourceToTestId_ShouldHandleEmptyFields()
-    {
-        // Arrange
-        var source = new DataSourceServiceModel(Source.Gias, null, null);
-
-        // Act
-        var result = Sut.MapDataSourceToTestId(new DataSourceListEntry(source, ""));
-
-        // Assert
-        Assert.Equal("data-source-gias", result); // Field is empty, but source should still be present
-    }
-
-    [Fact]
-    public void MapDataSourceToTestId_ShouldHandleFieldsWithSpaces()
-    {
-        // Arrange
-        var source = new DataSourceServiceModel(Source.Mis, null, null);
-
-        // Act
-        var result = Sut.MapDataSourceToTestId(new DataSourceListEntry(source, "fields"));
-
-        // Assert
-        Assert.Equal("data-source-mis-fields", result);
-    }
-
-    [Fact]
-    public void MapDataSourceToTestId_ShouldHandleMixedCaseFields()
-    {
-        // Arrange
-        var source = new DataSourceServiceModel(Source.FiatDb, null, null);
-
-        // Act
-        var result = Sut.MapDataSourceToTestId(new DataSourceListEntry(source, "FiElDOne FiELDTwo"));
-
-        // Assert
-        Assert.Equal("data-source-fiatdb-fieldone-fieldtwo", result);
-    }
-
-    [Fact]
-    public void MapDataSourceToTestId_ShouldRemovePunctuation_and_PreseveWordsAndNumbers()
-    {
-        // Arrange
-        var source = new DataSourceServiceModel(Source.FiatDb, null, null);
-
-        // Act
-        var result = Sut.MapDataSourceToTestId(new DataSourceListEntry(source, "#FiElDOne @FiELDTwo!"));
-
-        // Assert
-        Assert.Equal("data-source-fiatdb-fieldone-fieldtwo", result);
     }
 
     [Fact]
