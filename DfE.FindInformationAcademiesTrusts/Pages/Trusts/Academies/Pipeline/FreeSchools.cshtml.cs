@@ -9,12 +9,11 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Pipeline;
 
 public class FreeSchoolsModel(
     IDataSourceService dataSourceService,
-    ILogger<FreeSchoolsModel> logger,
     ITrustService trustService,
     IAcademyService academyService,
     IPipelineAcademiesExportService pipelineAcademiesExportService,
     IDateTimeProvider dateTimeProvider)
-    : PipelineAcademiesAreaModel(dataSourceService, trustService, academyService, pipelineAcademiesExportService, logger,
+    : PipelineAcademiesAreaModel(dataSourceService, trustService, academyService, pipelineAcademiesExportService,
         dateTimeProvider)
 {
     public const string TabName = "Free schools";

@@ -7,10 +7,9 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.FinancialDocuments;
 
 public class FinancialStatementsModel(
     IDataSourceService dataSourceService,
-    ILogger<FinancialStatementsModel> logger,
     ITrustService trustService,
     IFinancialDocumentService financialDocumentService)
-    : FinancialDocumentsAreaModel(dataSourceService, trustService, logger, financialDocumentService)
+    : FinancialDocumentsAreaModel(dataSourceService, trustService, financialDocumentService)
 {
     public const string SubPageName = "Financial statements";
 

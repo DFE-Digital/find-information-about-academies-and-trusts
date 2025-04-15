@@ -14,13 +14,11 @@ public abstract class AcademiesInTrustAreaModel(
     ITrustService trustService,
     IAcademyService academyService,
     IAcademiesExportService academiesExportService,
-    ILogger<AcademiesInTrustAreaModel> logger,
     IDateTimeProvider dateTimeProvider
 ) : AcademiesAreaModel(
     dataSourceService,
     trustService,
     academyService,
-    logger,
     dateTimeProvider
 )
 {

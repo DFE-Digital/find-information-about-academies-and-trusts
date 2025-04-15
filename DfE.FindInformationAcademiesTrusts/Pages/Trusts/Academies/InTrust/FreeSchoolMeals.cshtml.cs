@@ -9,7 +9,6 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 
 public class FreeSchoolMealsModel(
     IDataSourceService dataSourceService,
-    ILogger<FreeSchoolMealsModel> logger,
     ITrustService trustService,
     IAcademyService academyService,
     IAcademiesExportService academiesExportService,
@@ -19,7 +18,6 @@ public class FreeSchoolMealsModel(
     trustService,
     academyService,
     academiesExportService,
-    logger,
     dateTimeProvider
 )
 {

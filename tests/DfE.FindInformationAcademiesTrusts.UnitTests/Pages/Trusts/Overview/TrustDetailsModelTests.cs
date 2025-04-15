@@ -1,6 +1,5 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Overview;
 
@@ -12,7 +11,6 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
     {
         Sut = new TrustDetailsModel(
                 MockDataSourceService,
-                MockLogger.CreateLogger<TrustDetailsModel>(),
                 MockTrustService,
                 _mockLinksToOtherServices)
             { Uid = TrustUid };

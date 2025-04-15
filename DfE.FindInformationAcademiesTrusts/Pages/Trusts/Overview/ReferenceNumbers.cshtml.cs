@@ -5,9 +5,8 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
 
 public class ReferenceNumbersModel(
     IDataSourceService dataSourceService,
-    ILogger<ReferenceNumbersModel> logger,
     ITrustService trustService)
-    : OverviewAreaModel(dataSourceService, trustService, logger)
+    : OverviewAreaModel(dataSourceService, trustService)
 {
     public const string SubPageName = "Reference numbers";
 

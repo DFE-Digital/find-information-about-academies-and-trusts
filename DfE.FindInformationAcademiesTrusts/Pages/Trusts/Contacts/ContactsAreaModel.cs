@@ -10,10 +10,9 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 
 public class ContactsAreaModel(
     IDataSourceService dataSourceService,
-    ITrustService trustService,
-    ILogger<ContactsAreaModel> logger
+    ITrustService trustService
 )
-    : TrustsAreaModel(dataSourceService, trustService, logger)
+    : TrustsAreaModel(dataSourceService, trustService)
 {
     public const string PageName = "Contacts";
 

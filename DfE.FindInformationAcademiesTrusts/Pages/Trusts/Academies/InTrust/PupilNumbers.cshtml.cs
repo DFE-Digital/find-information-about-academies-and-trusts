@@ -9,7 +9,6 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 
 public class PupilNumbersModel(
     IDataSourceService dataSourceService,
-    ILogger<PupilNumbersModel> logger,
     ITrustService trustService,
     IAcademyService academyService,
     IAcademiesExportService academiesExportService,
@@ -19,7 +18,6 @@ public class PupilNumbersModel(
     trustService,
     academyService,
     academiesExportService,
-    logger,
     dateTimeProvider
 )
 {

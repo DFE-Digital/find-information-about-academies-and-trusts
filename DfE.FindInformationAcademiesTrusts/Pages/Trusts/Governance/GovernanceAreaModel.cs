@@ -8,9 +8,8 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Governance;
 
 public class GovernanceAreaModel(
     IDataSourceService dataSourceService,
-    ITrustService trustService,
-    ILogger<GovernanceAreaModel> logger)
-    : TrustsAreaModel(dataSourceService, trustService, logger)
+    ITrustService trustService)
+    : TrustsAreaModel(dataSourceService, trustService)
 {
     public const string PageName = "Governance";
 

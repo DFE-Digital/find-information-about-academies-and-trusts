@@ -1,5 +1,4 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Overview;
 
@@ -9,7 +8,6 @@ public class TrustSummaryModelTests : BaseOverviewAreaModelTests<TrustSummaryMod
     {
         Sut = new TrustSummaryModel(
                 MockDataSourceService,
-                MockLogger.CreateLogger<TrustSummaryModel>(),
                 MockTrustService)
             { Uid = TrustUid };
     }

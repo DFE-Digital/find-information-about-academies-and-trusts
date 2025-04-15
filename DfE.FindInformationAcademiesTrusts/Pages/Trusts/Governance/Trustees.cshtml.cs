@@ -5,9 +5,8 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Governance;
 
 public class TrusteesModel(
     IDataSourceService dataSourceService,
-    ILogger<TrusteesModel> logger,
     ITrustService trustService)
-    : GovernanceAreaModel(dataSourceService, trustService, logger)
+    : GovernanceAreaModel(dataSourceService, trustService)
 {
     public const string SubPageName = "Trustees";
 

@@ -14,13 +14,11 @@ public abstract class PipelineAcademiesAreaModel(
     ITrustService trustService,
     IAcademyService academyService,
     IPipelineAcademiesExportService pipelineAcademiesExportService,
-    ILogger<PipelineAcademiesAreaModel> logger,
     IDateTimeProvider dateTimeProvider
 ) : AcademiesAreaModel(
     dataSourceService,
     trustService,
     academyService,
-    logger,
     dateTimeProvider
 )
 {

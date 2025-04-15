@@ -8,11 +8,9 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 
 public abstract class TrustsAreaModel(
     IDataSourceService dataSourceService,
-    ITrustService trustService,
-    ILogger<TrustsAreaModel> logger)
+    ITrustService trustService)
     : BasePageModel, ITrustsAreaModel
 {
-    public ILogger<TrustsAreaModel> Logger { get; } = logger;
     protected readonly IDataSourceService DataSourceService = dataSourceService;
     protected readonly ITrustService TrustService = trustService;
 

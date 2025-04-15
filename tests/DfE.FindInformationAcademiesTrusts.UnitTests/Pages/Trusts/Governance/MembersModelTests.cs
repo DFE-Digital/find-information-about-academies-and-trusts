@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Governance;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Governance;
 
@@ -7,8 +6,7 @@ public class MembersModelTests : BaseGovernanceAreaModelTests<MembersModel>
 {
     public MembersModelTests()
     {
-        Sut = new MembersModel(MockDataSourceService,
-                MockLogger.CreateLogger<MembersModel>(), MockTrustService)
+        Sut = new MembersModel(MockDataSourceService, MockTrustService)
             { Uid = TrustUid };
     }
 

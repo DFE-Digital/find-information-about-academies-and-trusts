@@ -9,9 +9,8 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.FinancialDocuments;
 public abstract class FinancialDocumentsAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
-    ILogger<FinancialDocumentsAreaModel> logger,
     IFinancialDocumentService financialDocumentService)
-    : TrustsAreaModel(dataSourceService, trustService, logger)
+    : TrustsAreaModel(dataSourceService, trustService)
 {
     public const string PageName = "Financial documents";
 

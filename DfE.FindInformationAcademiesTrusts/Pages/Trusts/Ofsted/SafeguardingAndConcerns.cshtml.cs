@@ -11,9 +11,8 @@ public class SafeguardingAndConcernsModel(
     ITrustService trustService,
     IAcademyService academyService,
     IOfstedDataExportService ofstedDataExportService,
-    IDateTimeProvider dateTimeProvider,
-    ILogger<SafeguardingAndConcernsModel> logger) : OfstedAreaModel(dataSourceService, trustService,
-    academyService, ofstedDataExportService, dateTimeProvider, logger)
+    IDateTimeProvider dateTimeProvider) : OfstedAreaModel(dataSourceService, trustService,
+    academyService, ofstedDataExportService, dateTimeProvider)
 {
     public const string SubPageName = "Safeguarding and concerns";
 

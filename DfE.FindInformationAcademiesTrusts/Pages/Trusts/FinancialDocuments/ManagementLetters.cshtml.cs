@@ -7,10 +7,9 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.FinancialDocuments;
 
 public class ManagementLettersModel(
     IDataSourceService dataSourceService,
-    ILogger<ManagementLettersModel> logger,
     ITrustService trustService,
     IFinancialDocumentService financialDocumentService)
-    : FinancialDocumentsAreaModel(dataSourceService, trustService, logger, financialDocumentService)
+    : FinancialDocumentsAreaModel(dataSourceService, trustService, financialDocumentService)
 {
     public const string SubPageName = "Management letters";
 

@@ -1,7 +1,6 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Pipeline;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.Pipeline;
 
@@ -10,7 +9,7 @@ public class PostAdvisoryBoardModelTests : BasePipelineAcademiesAreaModelTests<P
     public PostAdvisoryBoardModelTests()
     {
         Sut = new PostAdvisoryBoardModel(
-                MockDataSourceService, MockLogger.CreateLogger<PostAdvisoryBoardModel>(),
+                MockDataSourceService,
                 MockTrustService, MockAcademyService, MockPipelineAcademiesExportService,
                 MockDateTimeProvider)
             { Uid = TrustUid };
@@ -28,7 +27,8 @@ public class PostAdvisoryBoardModelTests : BasePipelineAcademiesAreaModelTests<P
             new(null, null, null, null, null, null)
         ];
 
-        MockAcademyService.GetAcademiesPipelinePostAdvisoryAsync(TrustReferenceNumber).Returns(Task.FromResult(academies));
+        MockAcademyService.GetAcademiesPipelinePostAdvisoryAsync(TrustReferenceNumber)
+            .Returns(Task.FromResult(academies));
 
         _ = await Sut.OnGetAsync();
 

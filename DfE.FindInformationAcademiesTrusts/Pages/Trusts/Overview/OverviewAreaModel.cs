@@ -8,9 +8,8 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
 
 public class OverviewAreaModel(
     IDataSourceService dataSourceService,
-    ITrustService trustService,
-    ILogger<OverviewAreaModel> logger)
-    : TrustsAreaModel(dataSourceService, trustService, logger)
+    ITrustService trustService)
+    : TrustsAreaModel(dataSourceService, trustService)
 {
     public const string PageName = "Overview";
 

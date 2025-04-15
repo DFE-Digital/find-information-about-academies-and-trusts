@@ -1,6 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.FinancialDocuments;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.FinancialDocuments;
 
@@ -8,8 +7,7 @@ public class InternalScrutinyReportsModelTests : BaseFinancialDocumentsAreaModel
 {
     public InternalScrutinyReportsModelTests() : base(FinancialDocumentType.InternalScrutinyReport)
     {
-        Sut = new InternalScrutinyReportsModel(MockDataSourceService,
-                MockLogger.CreateLogger<InternalScrutinyReportsModel>(), MockTrustService,
+        Sut = new InternalScrutinyReportsModel(MockDataSourceService, MockTrustService,
                 MockFinancialDocumentService)
             { Uid = TrustUid };
     }

@@ -14,9 +14,8 @@ public class OfstedAreaModel(
     ITrustService trustService,
     IAcademyService academyService,
     IOfstedDataExportService ofstedDataExportService,
-    IDateTimeProvider dateTimeProvider,
-    ILogger<OfstedAreaModel> logger)
-    : TrustsAreaModel(dataSourceService, trustService, logger)
+    IDateTimeProvider dateTimeProvider)
+    : TrustsAreaModel(dataSourceService, trustService)
 {
     public const string PageName = "Ofsted";
 
