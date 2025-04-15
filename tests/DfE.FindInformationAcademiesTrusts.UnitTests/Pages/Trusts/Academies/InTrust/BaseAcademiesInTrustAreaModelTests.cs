@@ -7,6 +7,7 @@ using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
 
@@ -22,7 +23,7 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseAcademiesAreaModel
         // Arrange
         byte[] expectedBytes = [1, 2, 3];
 
-        MockAcademiesExportService.Build(TrustUid).Returns(Task.FromResult(expectedBytes));
+        MockAcademiesExportService.BuildAsync(TrustUid).Returns(expectedBytes);
 
         // Act
         var result = await Sut.OnGetExportAsync(TrustUid);
@@ -40,7 +41,7 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseAcademiesAreaModel
         // Arrange
         var uid = "invalid-uid";
 
-        MockTrustService.GetTrustSummaryAsync(uid).Returns(Task.FromResult((TrustSummaryServiceModel?)null));
+        MockTrustService.GetTrustSummaryAsync(uid).ReturnsNull();
 
         // Act
         var result = await Sut.OnGetExportAsync(uid);
@@ -56,8 +57,8 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseAcademiesAreaModel
         var uid = TrustUid;
         var expectedBytes = new byte[] { 1, 2, 3 };
 
-        MockTrustService.GetTrustSummaryAsync(uid)!.Returns(Task.FromResult(DummyTrustSummary with { Name = "Sample/Trust:Name?" }));
-        MockAcademiesExportService.Build(uid).Returns(Task.FromResult(expectedBytes));
+        MockTrustService.GetTrustSummaryAsync(uid).Returns(DummyTrustSummary with { Name = "Sample/Trust:Name?" });
+        MockAcademiesExportService.BuildAsync(uid).Returns(expectedBytes);
 
         // Act
         var result = await Sut.OnGetExportAsync(uid);

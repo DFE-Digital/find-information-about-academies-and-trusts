@@ -9,7 +9,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
 {
     public interface IAcademiesExportService
     {
-        Task<byte[]> Build(string uid);
+        Task<byte[]> BuildAsync(string uid);
     }
 
     public class AcademiesExportService(ITrustService trustService, IAcademyService academyService) : ExportBuilder("Academies"), IAcademiesExportService
@@ -38,7 +38,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
             "National average pupils eligible for Free School Meals",
         ];
 
-        public async Task<byte[]> Build(string uid)
+        public async Task<byte[]> BuildAsync(string uid)
         {
             var trustSummary = await trustService.GetTrustSummaryAsync(uid);
 
@@ -82,46 +82,46 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
             var currentRating = ofstedData?.CurrentOfstedRating;
             var percentageFull = pupilNumbersData?.PercentageFull ?? 0;
 
-            SetTextCell(CurrentRow, (int)AcademyColumns.SchoolName, academy.EstablishmentName ?? string.Empty);
-            SetTextCell(CurrentRow, (int)AcademyColumns.Urn, academy.Urn);
-            SetTextCell(CurrentRow, (int)AcademyColumns.LocalAuthority, academy.LocalAuthority ?? string.Empty);
-            SetTextCell(CurrentRow, (int)AcademyColumns.Type, academy.TypeOfEstablishment ?? string.Empty);
-            SetTextCell(CurrentRow, (int)AcademyColumns.RuralOrUrban, academy.UrbanRural ?? string.Empty);
-
-            SetDateCell(CurrentRow, (int)AcademyColumns.DateJoined, ofstedData?.DateAcademyJoinedTrust);
-
-            SetTextCell(CurrentRow, (int)AcademyColumns.CurrentOfstedRating, currentRating?.OverallEffectiveness.ToDisplayString(true) ?? string.Empty);
-            SetTextCell(CurrentRow, (int)AcademyColumns.CurrentBeforeAfterJoining, ofstedData?.WhenDidCurrentInspectionHappen == BeforeOrAfterJoining.NotYetInspected ? string.Empty : ofstedData?.WhenDidCurrentInspectionHappen.ToDisplayString() ?? string.Empty);
-            SetDateCell(CurrentRow, (int)AcademyColumns.DateOfCurrentInspection, currentRating?.InspectionDate);
-
-            SetTextCell(CurrentRow, (int)AcademyColumns.PreviousOfstedRating, previousRating?.OverallEffectiveness.ToDisplayString(false) ?? string.Empty);
-
-            SetTextCell(CurrentRow, (int)AcademyColumns.PreviousBeforeAfterJoining, ofstedData?.WhenDidPreviousInspectionHappen == BeforeOrAfterJoining.NotYetInspected ? string.Empty : ofstedData?.WhenDidPreviousInspectionHappen.ToDisplayString() ?? string.Empty);
-
-            SetDateCell(CurrentRow, (int)AcademyColumns.DateOfPreviousInspection, previousRating?.InspectionDate);
-
-            SetTextCell(CurrentRow, (int)AcademyColumns.PhaseOfEducation, pupilNumbersData?.PhaseOfEducation ?? string.Empty);
-
-            SetTextCell(CurrentRow, (int)AcademyColumns.AgeRange,
+            SetTextCell(AcademyColumns.SchoolName, academy.EstablishmentName ?? string.Empty);
+            SetTextCell(AcademyColumns.Urn, academy.Urn);
+            SetTextCell(AcademyColumns.LocalAuthority, academy.LocalAuthority ?? string.Empty);
+            SetTextCell(AcademyColumns.Type, academy.TypeOfEstablishment ?? string.Empty);
+            SetTextCell(AcademyColumns.RuralOrUrban, academy.UrbanRural ?? string.Empty);
+                                    
+            SetDateCell(AcademyColumns.DateJoined, ofstedData?.DateAcademyJoinedTrust);
+                                    
+            SetTextCell(AcademyColumns.CurrentOfstedRating, currentRating?.OverallEffectiveness.ToDisplayString(true) ?? string.Empty);
+            SetTextCell(AcademyColumns.CurrentBeforeAfterJoining, ofstedData?.WhenDidCurrentInspectionHappen == BeforeOrAfterJoining.NotYetInspected ? string.Empty : ofstedData?.WhenDidCurrentInspectionHappen.ToDisplayString() ?? string.Empty);
+            SetDateCell(AcademyColumns.DateOfCurrentInspection, currentRating?.InspectionDate);
+                                    
+            SetTextCell(AcademyColumns.PreviousOfstedRating, previousRating?.OverallEffectiveness.ToDisplayString(false) ?? string.Empty);
+                                    
+            SetTextCell(AcademyColumns.PreviousBeforeAfterJoining, ofstedData?.WhenDidPreviousInspectionHappen == BeforeOrAfterJoining.NotYetInspected ? string.Empty : ofstedData?.WhenDidPreviousInspectionHappen.ToDisplayString() ?? string.Empty);
+                                    
+            SetDateCell(AcademyColumns.DateOfPreviousInspection, previousRating?.InspectionDate);
+                                    
+            SetTextCell(AcademyColumns.PhaseOfEducation, pupilNumbersData?.PhaseOfEducation ?? string.Empty);
+                                    
+            SetTextCell( AcademyColumns.AgeRange,
                 pupilNumbersData is null
                     ? string.Empty
                     : $"{pupilNumbersData.AgeRange.Minimum} - {pupilNumbersData.AgeRange.Maximum}");
 
-            SetTextCell(CurrentRow, (int)AcademyColumns.PupilNumbers, pupilNumbersData?.NumberOfPupils?.ToString() ?? string.Empty);
-            SetTextCell(CurrentRow, (int)AcademyColumns.Capacity, pupilNumbersData?.SchoolCapacity?.ToString() ?? string.Empty);
-            SetTextCell(CurrentRow, (int)AcademyColumns.PercentFull, percentageFull > 0 ? $"{percentageFull}%" : string.Empty);
-            SetTextCell(CurrentRow, (int)AcademyColumns.PupilsEligibleFreeSchoolMeals,
+            SetTextCell(AcademyColumns.PupilNumbers, pupilNumbersData?.NumberOfPupils?.ToString() ?? string.Empty);
+            SetTextCell(AcademyColumns.Capacity, pupilNumbersData?.SchoolCapacity?.ToString() ?? string.Empty);
+            SetTextCell(AcademyColumns.PercentFull, percentageFull > 0 ? $"{percentageFull}%" : string.Empty);
+            SetTextCell(AcademyColumns.PupilsEligibleFreeSchoolMeals,
                 freeSchoolMealsData is { PercentageFreeSchoolMeals: not null }
                     ? $"{freeSchoolMealsData.PercentageFreeSchoolMeals}%"
                     : string.Empty
             );
 
-            SetTextCell(CurrentRow, (int)AcademyColumns.LaPupilsEligibleFreeSchoolMeals,
+            SetTextCell(AcademyColumns.LaPupilsEligibleFreeSchoolMeals,
                 freeSchoolMealsData is { LaAveragePercentageFreeSchoolMeals: > 0 }
                     ? $"{Math.Round(freeSchoolMealsData.LaAveragePercentageFreeSchoolMeals, 1)}%"
                     : string.Empty
             );
-            SetTextCell(CurrentRow, (int)AcademyColumns.NationalPupilsEligibleFreeSchoolMeals,
+            SetTextCell(AcademyColumns.NationalPupilsEligibleFreeSchoolMeals,
                 freeSchoolMealsData is { NationalAveragePercentageFreeSchoolMeals: > 0 }
                     ? $"{Math.Round(freeSchoolMealsData.NationalAveragePercentageFreeSchoolMeals, 1)}%"
                     : string.Empty

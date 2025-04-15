@@ -29,9 +29,19 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
             }
         }
 
+        public static string CellValue(this IXLWorksheet worksheet, int rowNumber, Enum column)
+        {
+            return worksheet.Cell(rowNumber, (int)(object)column).Value.ToString();
+        }
+
         public static string CellValue(this IXLWorksheet worksheet, int rowNumber, int column)
         {
-            return worksheet.Cell(rowNumber, (int)column).Value.ToString();
+            return worksheet.Cell(rowNumber, column).Value.ToString();
+        }
+
+        public static IXLCell Cell(this IXLWorksheet worksheet, int rowNumber, Enum column)
+        {
+            return worksheet.Cell(rowNumber, (int)(object)column);
         }
     }
 }

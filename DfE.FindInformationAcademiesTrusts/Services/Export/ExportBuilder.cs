@@ -1,10 +1,9 @@
-﻿using DfE.FindInformationAcademiesTrusts.Pages;
+﻿using ClosedXML.Excel;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.Export
 {
-    using ClosedXML.Excel;
-
     public abstract class ExportBuilder
     {
         private readonly XLWorkbook workbook = new();
@@ -54,14 +53,14 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
             return this;
         }
 
-        internal void SetTextCell(int row, int column, string value)
+        internal void SetTextCell(Enum column, string value)
         {
-            Worksheet.Cell(row, column).SetValue(value);
+            Worksheet.Cell(CurrentRow, (int)(object)column).SetValue(value);
         }
 
-        public void SetDateCell(int row, int column, DateTime? dateValue)
+        public void SetDateCell(Enum column, DateTime? dateValue)
         {
-            var cell = Worksheet.Cell(row, column);
+            var cell = Worksheet.Cell(CurrentRow, (int)(object)column);
             if (dateValue.HasValue)
             {
                 cell.Value = dateValue.Value;

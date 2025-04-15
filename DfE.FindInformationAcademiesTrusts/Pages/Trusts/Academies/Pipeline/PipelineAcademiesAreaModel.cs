@@ -67,7 +67,7 @@ public abstract class PipelineAcademiesAreaModel(
         var sanitizedTrustName =
             string.Concat(trustSummary.Name.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
 
-        var fileContents = await pipelineAcademiesExportService.Build(uid);
+        var fileContents = await pipelineAcademiesExportService.BuildAsync(uid);
         var fileName = $"pipeline-{sanitizedTrustName}-{DateTimeProvider.Now:yyyy-MM-dd}.xlsx";
         var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 

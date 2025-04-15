@@ -9,7 +9,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
 {
     public interface IOfstedDataExportService
     {
-        Task<byte[]> Build(string uid);
+        Task<byte[]> BuildAsync(string uid);
     }
 
     public class OfstedDataExportService(IAcademyService academyService, ITrustService trustService) : ExportBuilder("Ofsted"), IOfstedDataExportService
@@ -40,7 +40,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
             "Category of Concern"
         ];
         
-        public async Task<byte[]> Build(string uid)
+        public async Task<byte[]> BuildAsync(string uid)
         {
             var trustSummary = await trustService.GetTrustSummaryAsync(uid);
  
@@ -73,54 +73,34 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
             var previousRating = ofstedData?.PreviousOfstedRating ?? OfstedRating.NotInspected;
             var currentRating = ofstedData?.CurrentOfstedRating ?? OfstedRating.NotInspected;
 
-            // School Name
-            SetTextCell(CurrentRow, (int)OfstedColumns.SchoolName, academy.EstablishmentName ?? string.Empty);
+            SetTextCell(OfstedColumns.SchoolName, academy.EstablishmentName ?? string.Empty);
+            SetDateCell(OfstedColumns.DateJoined, ofstedData?.DateAcademyJoinedTrust);
+            SetTextCell(OfstedColumns.CurrentSingleHeadlineGrade, currentRating.OverallEffectiveness.ToDisplayString(true));
+            SetTextCell(OfstedColumns.CurrentBeforeAfterJoining, ofstedData?.WhenDidCurrentInspectionHappen.ToDisplayString() ?? string.Empty);
+            SetDateCell(OfstedColumns.DateOfCurrentInspection, currentRating.InspectionDate);
+            SetTextCell(OfstedColumns.PreviousSingleHeadlineGrade, previousRating.OverallEffectiveness.ToDisplayString(false));
+            SetTextCell(OfstedColumns.PreviousBeforeAfterJoining, ofstedData?.WhenDidPreviousInspectionHappen.ToDisplayString() ?? string.Empty);
+            SetDateCell(OfstedColumns.DateOfPreviousInspection, previousRating.InspectionDate);
+            SetTextCell(OfstedColumns.CurrentQualityOfEducation, currentRating.QualityOfEducation.ToDisplayString(true));
+            SetTextCell(OfstedColumns.CurrentBehaviourAndAttitudes, currentRating.BehaviourAndAttitudes.ToDisplayString(true)); 
+            SetTextCell(OfstedColumns.CurrentPersonalDevelopment, currentRating.PersonalDevelopment.ToDisplayString(true)); 
+            SetTextCell(OfstedColumns.CurrentLeadershipAndManagement, currentRating.EffectivenessOfLeadershipAndManagement.ToDisplayString(true));
+            SetTextCell(OfstedColumns.CurrentEarlyYearsProvision, currentRating.EarlyYearsProvision.ToDisplayString(true)); 
+            SetTextCell(OfstedColumns.CurrentSixthFormProvision, currentRating.SixthFormProvision.ToDisplayString(true));
 
-            // Date Joined Trust
-            SetDateCell(CurrentRow, (int)OfstedColumns.DateJoined, ofstedData?.DateAcademyJoinedTrust);
+ 
+            SetTextCell(OfstedColumns.PreviousQualityOfEducation, previousRating.QualityOfEducation.ToDisplayString(false));
+            SetTextCell(OfstedColumns.PreviousBehaviourAndAttitudes, previousRating.BehaviourAndAttitudes.ToDisplayString(false));
+            SetTextCell(OfstedColumns.PreviousPersonalDevelopment, previousRating.PersonalDevelopment.ToDisplayString(false));
+            SetTextCell(OfstedColumns.PreviousLeadershipAndManagement, previousRating.EffectivenessOfLeadershipAndManagement.ToDisplayString(false));
+            SetTextCell(OfstedColumns.PreviousEarlyYearsProvision, previousRating.EarlyYearsProvision.ToDisplayString(false));
+            SetTextCell(OfstedColumns.PreviousSixthFormProvision, previousRating.SixthFormProvision.ToDisplayString(false));
 
-            // Current Single Headline Grade
-            SetTextCell(CurrentRow, (int)OfstedColumns.CurrentSingleHeadlineGrade, currentRating.OverallEffectiveness.ToDisplayString(true));
+            SetTextCell(OfstedColumns.EffectiveSafeguarding, currentRating.SafeguardingIsEffective.ToDisplayString());
 
-            // Before/After Joining (Current)
-            SetTextCell(CurrentRow, (int)OfstedColumns.CurrentBeforeAfterJoining, ofstedData?.WhenDidCurrentInspectionHappen.ToDisplayString() ?? string.Empty);
-
-            // Current Inspection Date
-            SetDateCell(CurrentRow, (int)OfstedColumns.DateOfCurrentInspection, currentRating.InspectionDate);
-
-            // Previous Single Headline Grade
-            SetTextCell(CurrentRow, (int)OfstedColumns.PreviousSingleHeadlineGrade, previousRating.OverallEffectiveness.ToDisplayString(false));
-
-            // Before/After Joining (Previous)
-            SetTextCell(CurrentRow, (int)OfstedColumns.PreviousBeforeAfterJoining, ofstedData?.WhenDidPreviousInspectionHappen.ToDisplayString()?? string.Empty);
-
-            // Previous Inspection Date
-            SetDateCell(CurrentRow, (int)OfstedColumns.DateOfPreviousInspection, previousRating.InspectionDate);
-
-            // Current Ratings
-            SetTextCell(CurrentRow, (int)OfstedColumns.CurrentQualityOfEducation, currentRating.QualityOfEducation.ToDisplayString(true));
-            SetTextCell(CurrentRow, (int)OfstedColumns.CurrentBehaviourAndAttitudes, currentRating.BehaviourAndAttitudes.ToDisplayString(true));
-            SetTextCell(CurrentRow, (int)OfstedColumns.CurrentPersonalDevelopment, currentRating.PersonalDevelopment.ToDisplayString(true));
-            SetTextCell(CurrentRow, (int)OfstedColumns.CurrentLeadershipAndManagement, currentRating.EffectivenessOfLeadershipAndManagement.ToDisplayString(true));
-            SetTextCell(CurrentRow, (int)OfstedColumns.CurrentEarlyYearsProvision, currentRating.EarlyYearsProvision.ToDisplayString(true));
-            SetTextCell(CurrentRow, (int)OfstedColumns.CurrentSixthFormProvision, currentRating.SixthFormProvision.ToDisplayString(true));
-
-            // Previous Ratings
-            SetTextCell(CurrentRow, (int)OfstedColumns.PreviousQualityOfEducation, previousRating.QualityOfEducation.ToDisplayString(false));
-            SetTextCell(CurrentRow, (int)OfstedColumns.PreviousBehaviourAndAttitudes, previousRating.BehaviourAndAttitudes.ToDisplayString(false));
-            SetTextCell(CurrentRow, (int)OfstedColumns.PreviousPersonalDevelopment, previousRating.PersonalDevelopment.ToDisplayString(false));
-            SetTextCell(CurrentRow, (int)OfstedColumns.PreviousLeadershipAndManagement, previousRating.EffectivenessOfLeadershipAndManagement.ToDisplayString(false));
-            SetTextCell(CurrentRow, (int)OfstedColumns.PreviousEarlyYearsProvision, previousRating.EarlyYearsProvision.ToDisplayString(false));
-            SetTextCell(CurrentRow, (int)OfstedColumns.PreviousSixthFormProvision, previousRating.SixthFormProvision.ToDisplayString(false));
-
-            // Safeguarding Effective
-            SetTextCell(CurrentRow, (int)OfstedColumns.EffectiveSafeguarding, currentRating.SafeguardingIsEffective.ToDisplayString());
-
-            // Category of Concern
-            SetTextCell(CurrentRow, (int)OfstedColumns.CategoryOfConcern, currentRating.CategoryOfConcern.ToDisplayString());
+            SetTextCell(OfstedColumns.CategoryOfConcern, currentRating.CategoryOfConcern.ToDisplayString());
 
             CurrentRow++;
         }
-
     }
 }

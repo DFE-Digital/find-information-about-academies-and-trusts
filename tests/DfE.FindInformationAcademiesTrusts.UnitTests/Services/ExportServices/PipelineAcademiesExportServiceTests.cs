@@ -1,13 +1,13 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data;
+﻿using ClosedXML.Excel;
+using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Exceptions;
+using DfE.FindInformationAcademiesTrusts.Services.Academy;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
+using DfE.FindInformationAcademiesTrusts.Services.Trust;
+using static DfE.FindInformationAcademiesTrusts.Services.Export.ExportColumns;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
 {
-    using ClosedXML.Excel;
-    using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Exceptions;
-    using DfE.FindInformationAcademiesTrusts.Services.Academy;
-    using DfE.FindInformationAcademiesTrusts.Services.Export;
-    using DfE.FindInformationAcademiesTrusts.Services.Trust;
-    using static DfE.FindInformationAcademiesTrusts.Services.Export.ExportColumns;
 
     public class PipelineAcademiesExportServiceTests
     {
@@ -35,7 +35,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
         {
             string unknownTrustId = "Unknown";
 
-            var result = async () => { await _sut.Build(unknownTrustId); };
+            var result = async () => { await _sut.BuildAsync(unknownTrustId); };
 
             await result.Should().ThrowAsync<DataIntegrityException>()
                 .WithMessage($"Trust summary not found for UID {unknownTrustId}");
@@ -64,7 +64,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
                         "Free school", new DateTime(2025, 6, 21))
                 ]);
 
-            var result = await _sut.Build(trustUid);
+            var result = await _sut.BuildAsync(trustUid);
 
             using var workbook = new XLWorkbook(new MemoryStream(result));
             var worksheet = workbook.Worksheet("Pipeline Academies");
@@ -137,7 +137,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
                         "Free school", new DateTime(2026, 5, 4))
                 ]);
 
-            var result = await _sut.Build(trustUid);
+            var result = await _sut.BuildAsync(trustUid);
 
             using var workbook = new XLWorkbook(new MemoryStream(result));
             var worksheet = workbook.Worksheet("Pipeline Academies");
@@ -188,17 +188,17 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
                 ]);
 
 
-            var result = await _sut.Build(trustUid);
+            var result = await _sut.BuildAsync(trustUid);
 
             using var workbook = new XLWorkbook(new MemoryStream(result));
             var worksheet = workbook.Worksheet("Pipeline Academies");
 
-            worksheet.CellValue(6, (int)PipelineAcademiesColumns.SchoolName).Should().Be(string.Empty);
-            worksheet.CellValue(6, (int)PipelineAcademiesColumns.Urn).Should().Be(string.Empty);
-            worksheet.CellValue(6, (int)PipelineAcademiesColumns.AgeRange).Should().Be("Unconfirmed");
-            worksheet.CellValue(6, (int)PipelineAcademiesColumns.LocalAuthority).Should().Be(string.Empty);
-            worksheet.CellValue(6, (int)PipelineAcademiesColumns.ProjectType).Should().Be(string.Empty);
-            worksheet.CellValue(6, (int)PipelineAcademiesColumns.ChangeDate).Should().Be("Unconfirmed");
+            worksheet.CellValue(6, PipelineAcademiesColumns.SchoolName).Should().Be(string.Empty);
+            worksheet.CellValue(6, PipelineAcademiesColumns.Urn).Should().Be(string.Empty);
+            worksheet.CellValue(6, PipelineAcademiesColumns.AgeRange).Should().Be("Unconfirmed");
+            worksheet.CellValue(6, PipelineAcademiesColumns.LocalAuthority).Should().Be(string.Empty);
+            worksheet.CellValue(6, PipelineAcademiesColumns.ProjectType).Should().Be(string.Empty);
+            worksheet.CellValue(6, PipelineAcademiesColumns.ChangeDate).Should().Be("Unconfirmed");
         }
     }
 }

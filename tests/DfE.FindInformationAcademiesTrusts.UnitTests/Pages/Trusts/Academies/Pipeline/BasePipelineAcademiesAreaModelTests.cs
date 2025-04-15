@@ -7,6 +7,7 @@ using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.Pipeline;
 
@@ -18,7 +19,7 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
     protected BasePipelineAcademiesAreaModelTests()
     {
         MockAcademyService.GetAcademiesPipelineSummaryAsync(TrustUid)
-            .Returns(Task.FromResult(new AcademyPipelineSummaryServiceModel(1, 2, 3)));
+            .Returns(new AcademyPipelineSummaryServiceModel(1, 2, 3));
     }
 
     [Fact] 
@@ -27,7 +28,7 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
         // Arrange
         byte[] expectedBytes = [1, 2, 3];
 
-        MockPipelineAcademiesExportService.Build(TrustUid).Returns(Task.FromResult(expectedBytes));
+        MockPipelineAcademiesExportService.BuildAsync(TrustUid).Returns(expectedBytes);
 
         // Act
         var result = await Sut.OnGetExportAsync(TrustUid);
@@ -45,7 +46,7 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
         // Arrange
         var uid = "invalid-uid";
 
-        MockTrustService.GetTrustSummaryAsync(uid).Returns(Task.FromResult((TrustSummaryServiceModel?)null));
+        MockTrustService.GetTrustSummaryAsync(uid).ReturnsNull();
 
         // Act
         var result = await Sut.OnGetExportAsync(uid);
@@ -61,8 +62,8 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
         var trustSummary = new TrustSummaryServiceModel(TrustUid, "Sample/Trust:Name?", "Multi-academy trust", 0);
         var expectedBytes = new byte[] { 1, 2, 3 };
 
-        MockTrustService.GetTrustSummaryAsync(TrustUid)!.Returns(Task.FromResult(trustSummary));
-        MockPipelineAcademiesExportService.Build(TrustUid).Returns(Task.FromResult(expectedBytes));
+        MockTrustService.GetTrustSummaryAsync(TrustUid).Returns(trustSummary);
+        MockPipelineAcademiesExportService.BuildAsync(TrustUid).Returns(expectedBytes);
 
         // Act
         var result = await Sut.OnGetExportAsync(TrustUid);

@@ -7,13 +7,13 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
 {
     public interface IPipelineAcademiesExportService
     {
-        Task<byte[]> Build(string uid);
+        Task<byte[]> BuildAsync(string uid);
     }
 
     public class PipelineAcademiesExportService(ITrustService trustService,
         IAcademyService academyService) : ExportBuilder("Pipeline Academies"), IPipelineAcademiesExportService
     {
-        public async Task<byte[]> Build(string uid)
+        public async Task<byte[]> BuildAsync(string uid)
         {
             var trustSummary = await trustService.GetTrustSummaryAsync(uid);
 
@@ -71,22 +71,22 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Export
 
         private void GeneratePipelineAcademyRow(AcademyPipelineServiceModel pipelineAcademy)
         {
-            SetTextCell(CurrentRow, (int)PipelineAcademiesColumns.SchoolName, pipelineAcademy.EstablishmentName ?? string.Empty);
-            SetTextCell(CurrentRow, (int)PipelineAcademiesColumns.Urn, pipelineAcademy.Urn ?? string.Empty);
-            SetTextCell(CurrentRow, (int)PipelineAcademiesColumns.AgeRange, pipelineAcademy.AgeRange != null
+            SetTextCell(PipelineAcademiesColumns.SchoolName, pipelineAcademy.EstablishmentName ?? string.Empty);
+            SetTextCell(PipelineAcademiesColumns.Urn, pipelineAcademy.Urn ?? string.Empty);
+            SetTextCell(PipelineAcademiesColumns.AgeRange, pipelineAcademy.AgeRange != null
                 ? $"{pipelineAcademy.AgeRange.Minimum} - {pipelineAcademy.AgeRange.Maximum}"
                 : "Unconfirmed"
             );
-            SetTextCell(CurrentRow, (int)PipelineAcademiesColumns.LocalAuthority, pipelineAcademy.LocalAuthority ?? string.Empty);
-            SetTextCell(CurrentRow, (int)PipelineAcademiesColumns.ProjectType, pipelineAcademy.ProjectType ?? string.Empty);
+            SetTextCell(PipelineAcademiesColumns.LocalAuthority, pipelineAcademy.LocalAuthority ?? string.Empty);
+            SetTextCell(PipelineAcademiesColumns.ProjectType, pipelineAcademy.ProjectType ?? string.Empty);
 
             if (pipelineAcademy.ChangeDate != null)
             {
-                SetDateCell(CurrentRow, (int)PipelineAcademiesColumns.ChangeDate, pipelineAcademy.ChangeDate);
+                SetDateCell(PipelineAcademiesColumns.ChangeDate, pipelineAcademy.ChangeDate);
             }
             else
             {
-                SetTextCell(CurrentRow, (int)PipelineAcademiesColumns.ChangeDate, "Unconfirmed");
+                SetTextCell(PipelineAcademiesColumns.ChangeDate, "Unconfirmed");
             }
 
             CurrentRow++;

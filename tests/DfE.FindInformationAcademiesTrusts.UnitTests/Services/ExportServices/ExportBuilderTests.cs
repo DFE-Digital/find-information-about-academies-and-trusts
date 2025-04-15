@@ -1,10 +1,12 @@
-﻿namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
+﻿using ClosedXML.Excel;
+using DfE.FindInformationAcademiesTrusts.Pages;
+using DfE.FindInformationAcademiesTrusts.Services.Academy;
+using DfE.FindInformationAcademiesTrusts.Services.Export;
+using DfE.FindInformationAcademiesTrusts.Services.Trust;
+using static DfE.FindInformationAcademiesTrusts.Services.Export.ExportColumns;
+
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
 {
-    using ClosedXML.Excel;
-    using DfE.FindInformationAcademiesTrusts.Pages;
-    using DfE.FindInformationAcademiesTrusts.Services.Academy;
-    using DfE.FindInformationAcademiesTrusts.Services.Export;
-    using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
     public class ExportBuilderTests
     {
@@ -51,10 +53,11 @@
         public void WhenWritingDateCell_ShouldSetCorrectDateFormat()
         {
             var dateValue = DateTime.Now;
+            var column = AcademyColumns.DateOfCurrentInspection;
 
-            _sut.SetDateCell(1, 1, dateValue);
+            _sut.SetDateCell(column, dateValue);
 
-            var cell = _sut.Worksheet.Cell(1, 1);
+            var cell = _sut.Worksheet.Cell(0, (int)column);
             cell.Style.NumberFormat.Received().SetFormat(StringFormatConstants.DisplayDateFormat);
         }
     }
