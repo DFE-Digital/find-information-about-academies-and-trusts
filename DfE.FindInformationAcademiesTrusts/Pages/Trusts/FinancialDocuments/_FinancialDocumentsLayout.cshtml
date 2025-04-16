@@ -7,13 +7,13 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m" data-testid="subpage-header">
-      @Model.TrustPageMetadata.SubPageName
+      @Model.PageMetadata.SubPageName
     </h2>
     <p class="govuk-body" data-testid="you-must-have-permission-message">You must have permission to view these
       documents.</p>
     @if (Model.InternalUseOnly)
     {
-      <partial name="Shared/_InternalUseOnlyWarning" model="@Model.TrustPageMetadata.SubPageName" />
+      <partial name="Shared/_InternalUseOnlyWarning" model="@Model.PageMetadata.SubPageName" />
     }
     <dl class="govuk-summary-list">
       @foreach (var doc in Model.FinancialDocuments)

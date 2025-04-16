@@ -2,6 +2,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Extensions;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ public abstract class EditContactModel(
     ContactRole role)
     : TrustsAreaModel(dataSourceService, trustService)
 {
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with
+    public override PageMetadata PageMetadata => base.PageMetadata with
     {
         SubPageName = $"Edit {role.MapRoleToViewString()} details",
         PageName = ContactsAreaModel.PageName

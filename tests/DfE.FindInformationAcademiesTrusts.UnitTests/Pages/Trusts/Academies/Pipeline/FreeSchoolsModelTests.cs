@@ -47,7 +47,7 @@ public class FreeSchoolsModelTests : BasePipelineAcademiesAreaModelTests<FreeSch
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.TabName.Should().Be("Free schools");
+        Sut.PageMetadata.TabName.Should().Be("Free schools");
     }
 
     [Fact]

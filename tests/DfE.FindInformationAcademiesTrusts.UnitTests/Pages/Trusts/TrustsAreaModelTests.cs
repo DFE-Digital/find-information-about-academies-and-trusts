@@ -27,7 +27,7 @@ public class TrustsAreaModelTests : BaseTrustPageTests<TrustsAreaModel>
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_PageName()
     {
         await Sut.OnGetAsync();
-        Sut.TrustPageMetadata.PageName.Should().BeNull();
+        Sut.PageMetadata.PageName.Should().BeNull();
     }
 
     public override async Task OnGetAsync_sets_correct_data_source_list()

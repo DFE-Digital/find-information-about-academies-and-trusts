@@ -20,6 +20,6 @@ public class PreviousRatingsModelTests : BaseOfstedAreaModelTests<PreviousRating
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("Previous ratings");
+        Sut.PageMetadata.SubPageName.Should().Be("Previous ratings");
     }
 }

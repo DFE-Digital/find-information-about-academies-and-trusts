@@ -40,7 +40,7 @@ public class PostAdvisoryBoardModelTests : BasePipelineAcademiesAreaModelTests<P
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.TabName.Should().Be("Post advisory board");
+        Sut.PageMetadata.TabName.Should().Be("Post advisory board");
     }
 
     [Fact]

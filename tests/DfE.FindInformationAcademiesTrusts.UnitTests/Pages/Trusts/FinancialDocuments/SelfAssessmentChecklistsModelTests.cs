@@ -17,7 +17,7 @@ public class SelfAssessmentChecklistsModelTests : BaseFinancialDocumentsAreaMode
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("Self-assessment checklists");
+        Sut.PageMetadata.SubPageName.Should().Be("Self-assessment checklists");
     }
 
     [Fact]

@@ -15,6 +15,6 @@ public class TrusteesModelTests : BaseGovernanceAreaModelTests<TrusteesModel>
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("Trustees");
+        Sut.PageMetadata.SubPageName.Should().Be("Trustees");
     }
 }

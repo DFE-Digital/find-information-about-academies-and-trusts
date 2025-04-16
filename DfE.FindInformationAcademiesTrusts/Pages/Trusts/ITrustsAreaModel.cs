@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
@@ -11,5 +12,5 @@ public interface ITrustsAreaModel
 
     List<DataSourcePageListEntry> DataSourcesPerPage { get; }
 
-    TrustPageMetadata TrustPageMetadata { get; }
+    PageMetadata PageMetadata { get; }
 }

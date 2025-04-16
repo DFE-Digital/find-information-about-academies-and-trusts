@@ -1,5 +1,6 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Extensions;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared.NavMenu;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
@@ -16,7 +17,7 @@ public abstract class AcademiesAreaModel(
 ) : TrustsAreaModel(dataSourceService, trustService)
 {
     public const string PageName = "Academies";
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = PageName };
+    public override PageMetadata PageMetadata => base.PageMetadata with { PageName = PageName };
 
     internal readonly IAcademyService AcademyService = academyService;
     public IDateTimeProvider DateTimeProvider { get; } = dateTimeProvider;

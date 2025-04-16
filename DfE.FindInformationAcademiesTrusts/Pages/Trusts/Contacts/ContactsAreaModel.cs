@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Extensions;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -16,7 +17,7 @@ public class ContactsAreaModel(
 {
     public const string PageName = "Contacts";
 
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = PageName };
+    public override PageMetadata PageMetadata => base.PageMetadata with { PageName = PageName };
 
     public Person? ChairOfTrustees { get; set; }
     public Person? AccountingOfficer { get; set; }

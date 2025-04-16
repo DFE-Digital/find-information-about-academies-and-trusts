@@ -16,6 +16,6 @@ public class InTrustModelTests : BaseContactsAreaModelTests<InTrustModel>
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("In this trust");
+        Sut.PageMetadata.SubPageName.Should().Be("In this trust");
     }
 }

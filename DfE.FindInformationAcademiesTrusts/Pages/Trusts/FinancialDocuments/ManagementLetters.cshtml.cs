@@ -1,4 +1,5 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.FinancialDocument;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -13,7 +14,7 @@ public class ManagementLettersModel(
 {
     public const string SubPageName = "Management letters";
 
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = SubPageName };
+    public override PageMetadata PageMetadata => base.PageMetadata with { SubPageName = SubPageName };
 
     protected override FinancialDocumentType FinancialDocumentType => FinancialDocumentType.ManagementLetter;
     public override string FinancialDocumentDisplayName => "management letter";

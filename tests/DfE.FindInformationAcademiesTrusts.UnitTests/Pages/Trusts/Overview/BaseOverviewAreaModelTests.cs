@@ -41,7 +41,7 @@ public abstract class BaseOverviewAreaModelTests<T> : BaseTrustPageTests<T>, ITe
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.PageName.Should().Be("Overview");
+        Sut.PageMetadata.PageName.Should().Be("Overview");
     }
 
     [Fact]

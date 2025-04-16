@@ -15,6 +15,6 @@ public class MembersModelTests : BaseGovernanceAreaModelTests<MembersModel>
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("Members");
+        Sut.PageMetadata.SubPageName.Should().Be("Members");
     }
 }

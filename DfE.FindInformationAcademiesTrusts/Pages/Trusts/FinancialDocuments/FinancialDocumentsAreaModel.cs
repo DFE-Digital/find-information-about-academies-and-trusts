@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.FinancialDocument;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -14,7 +15,7 @@ public abstract class FinancialDocumentsAreaModel(
 {
     public const string PageName = "Financial documents";
 
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = PageName };
+    public override PageMetadata PageMetadata => base.PageMetadata with { PageName = PageName };
 
     public virtual bool InternalUseOnly => true;
     protected abstract FinancialDocumentType FinancialDocumentType { get; }

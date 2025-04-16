@@ -46,7 +46,7 @@ public abstract class BaseFinancialDocumentsAreaModelTests<T> : BaseTrustPageTes
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.PageName.Should().Be("Financial documents");
+        Sut.PageMetadata.PageName.Should().Be("Financial documents");
     }
 
     [Fact]

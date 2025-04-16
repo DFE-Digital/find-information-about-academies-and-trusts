@@ -59,7 +59,7 @@ public class PupilNumbersModelTests : AcademiesInTrustAreaModelTests<PupilNumber
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.TabName.Should().Be("Pupil numbers");
+        Sut.PageMetadata.TabName.Should().Be("Pupil numbers");
     }
 
     [Fact]

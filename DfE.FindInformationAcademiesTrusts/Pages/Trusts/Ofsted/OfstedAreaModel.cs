@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
@@ -19,7 +20,7 @@ public class OfstedAreaModel(
 {
     public const string PageName = "Ofsted";
 
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = PageName };
+    public override PageMetadata PageMetadata => base.PageMetadata with { PageName = PageName };
 
     public AcademyOfstedServiceModel[] Academies { get; set; } = default!;
     private IAcademyService AcademyService { get; } = academyService;

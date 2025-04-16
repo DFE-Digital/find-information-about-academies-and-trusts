@@ -49,6 +49,6 @@ public class TrustSummaryModelTests : BaseOverviewAreaModelTests<TrustSummaryMod
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("Trust summary");
+        Sut.PageMetadata.SubPageName.Should().Be("Trust summary");
     }
 }

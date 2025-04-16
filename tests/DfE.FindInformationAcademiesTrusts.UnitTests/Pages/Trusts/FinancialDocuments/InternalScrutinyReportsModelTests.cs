@@ -17,7 +17,7 @@ public class InternalScrutinyReportsModelTests : BaseFinancialDocumentsAreaModel
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("Internal scrutiny reports");
+        Sut.PageMetadata.SubPageName.Should().Be("Internal scrutiny reports");
     }
 
     [Fact]

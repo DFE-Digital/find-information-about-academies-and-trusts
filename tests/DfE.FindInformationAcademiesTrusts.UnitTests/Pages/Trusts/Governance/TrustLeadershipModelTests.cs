@@ -15,6 +15,6 @@ public class TrustLeadershipModelTests : BaseGovernanceAreaModelTests<TrustLeade
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("Trust leadership");
+        Sut.PageMetadata.SubPageName.Should().Be("Trust leadership");
     }
 }

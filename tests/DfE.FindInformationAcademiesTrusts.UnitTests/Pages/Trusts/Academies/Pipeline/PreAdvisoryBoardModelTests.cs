@@ -39,7 +39,7 @@ public class PreAdvisoryBoardModelTests : BasePipelineAcademiesAreaModelTests<Pr
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.TabName.Should().Be("Pre advisory board");
+        Sut.PageMetadata.TabName.Should().Be("Pre advisory board");
     }
 
     [Fact]

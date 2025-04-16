@@ -15,6 +15,6 @@ public class HistoricMembersModelTests : BaseGovernanceAreaModelTests<HistoricMe
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("Historic members");
+        Sut.PageMetadata.SubPageName.Should().Be("Historic members");
     }
 }
