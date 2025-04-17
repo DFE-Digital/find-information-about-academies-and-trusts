@@ -7,7 +7,7 @@ public class DetailsModelTests : BaseOverviewAreaModelTests<DetailsModel>
 {
     public DetailsModelTests()
     {
-        Sut = new DetailsModel();
+        Sut = new DetailsModel(MockSchoolService) { Urn = Urn };
     }
 
     [Fact]
@@ -17,18 +17,24 @@ public class DetailsModelTests : BaseOverviewAreaModelTests<DetailsModel>
         await OnGetAsync_should_configure_PageMetadata_SubPageName_for_academy();
     }
 
-    private Task OnGetAsync_should_configure_PageMetadata_SubPageName_for_school()
+    private async Task OnGetAsync_should_configure_PageMetadata_SubPageName_for_school()
     {
-        Sut.Urn = "222222";
+        MockSchoolService.GetSchoolSummaryAsync(Urn)
+            .Returns(DummySchoolSummary with { Category = SchoolCategory.LaMaintainedSchool });
+
+        await Sut.OnGetAsync();
+
         Sut.PageMetadata.SubPageName.Should().Be("School details");
-        return Task.CompletedTask;
     }
 
-    private Task OnGetAsync_should_configure_PageMetadata_SubPageName_for_academy()
+    private async Task OnGetAsync_should_configure_PageMetadata_SubPageName_for_academy()
     {
-        Sut.Urn = "123456";
+        MockSchoolService.GetSchoolSummaryAsync(Urn)
+            .Returns(DummySchoolSummary with { Category = SchoolCategory.Academy });
+
+        await Sut.OnGetAsync();
+
         Sut.PageMetadata.SubPageName.Should().Be("Academy details");
-        return Task.CompletedTask;
     }
 
     [Theory]

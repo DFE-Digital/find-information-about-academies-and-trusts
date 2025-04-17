@@ -17,6 +17,7 @@ using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.FinancialDocument;
+using DfE.FindInformationAcademiesTrusts.Services.School;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.EntityFrameworkCore;
 
@@ -61,6 +62,7 @@ public static class Dependencies
         builder.Services.AddScoped<ITrustService, TrustService>();
         builder.Services.AddScoped<IAcademyService, AcademyService>();
         builder.Services.AddScoped<IFinancialDocumentService, FinancialDocumentService>();
+        builder.Services.AddScoped<ISchoolService, SchoolService>();
 
         builder.Services.AddScoped<IPipelineAcademiesExportService, PipelineAcademiesExportService>();
         builder.Services.AddScoped<IOfstedDataExportService, OfstedDataExportService>();
