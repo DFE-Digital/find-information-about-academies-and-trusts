@@ -85,7 +85,7 @@ public abstract class BaseTrustPageTests<T> where T : TrustsAreaModel
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
+        Sut.PageMetadata.EntityName.Should().Be("My Trust");
     }
 
     [Fact]

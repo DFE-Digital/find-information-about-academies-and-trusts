@@ -1,4 +1,5 @@
-﻿using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+﻿using DfE.FindInformationAcademiesTrusts.Pages.Shared;
+using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
@@ -10,6 +11,6 @@ public class ReferenceNumbersModel(
 {
     public const string SubPageName = "Reference numbers";
 
-    public override TrustPageMetadata TrustPageMetadata =>
-        base.TrustPageMetadata with { SubPageName = SubPageName };
+    public override PageMetadata PageMetadata =>
+        base.PageMetadata with { SubPageName = SubPageName };
 }

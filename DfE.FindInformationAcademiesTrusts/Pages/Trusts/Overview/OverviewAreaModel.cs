@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -13,7 +14,7 @@ public class OverviewAreaModel(
 {
     public const string PageName = "Overview";
 
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = PageName };
+    public override PageMetadata PageMetadata => base.PageMetadata with { PageName = PageName };
 
     public TrustOverviewServiceModel TrustOverview { get; set; } = default!;
 

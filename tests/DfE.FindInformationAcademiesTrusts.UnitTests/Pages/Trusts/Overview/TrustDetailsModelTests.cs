@@ -112,6 +112,6 @@ public class TrustDetailsModelTests : BaseOverviewAreaModelTests<TrustDetailsMod
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("Trust details");
+        Sut.PageMetadata.SubPageName.Should().Be("Trust details");
     }
 }

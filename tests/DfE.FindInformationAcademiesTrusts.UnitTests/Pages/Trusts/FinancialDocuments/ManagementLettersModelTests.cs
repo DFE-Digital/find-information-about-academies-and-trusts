@@ -17,7 +17,7 @@ public class ManagementLettersModelTests : BaseFinancialDocumentsAreaModelTests<
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("Management letters");
+        Sut.PageMetadata.SubPageName.Should().Be("Management letters");
     }
 
     [Fact]

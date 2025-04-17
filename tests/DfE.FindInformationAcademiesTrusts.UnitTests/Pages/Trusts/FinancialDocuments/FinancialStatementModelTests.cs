@@ -17,7 +17,7 @@ public class FinancialStatementModelTests : BaseFinancialDocumentsAreaModelTests
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("Financial statements");
+        Sut.PageMetadata.SubPageName.Should().Be("Financial statements");
     }
 
     [Fact]

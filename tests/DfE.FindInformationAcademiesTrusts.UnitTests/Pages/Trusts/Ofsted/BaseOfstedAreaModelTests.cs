@@ -141,7 +141,7 @@ public abstract class BaseOfstedAreaModelTests<T> : BaseTrustPageTests<T>, ITest
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.PageName.Should().Be("Ofsted");
+        Sut.PageMetadata.PageName.Should().Be("Ofsted");
     }
 
     [Fact]

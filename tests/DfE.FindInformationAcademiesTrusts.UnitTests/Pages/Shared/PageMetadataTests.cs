@@ -1,14 +1,14 @@
-using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 
-namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts;
+namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Shared;
 
-public class TrustPageMetadataTests
+public class PageMetadataTests
 {
     [Fact]
     public void TrustPageMetadata_can_be_composed_in_parts()
     {
         //This is similar to how it is being used in the page object models
-        var sut = new TrustPageMetadata("MY TRUST", true);
+        var sut = new PageMetadata("MY TRUST", true);
         sut.BrowserTitle.Should().Be("MY TRUST");
 
         sut = sut with { PageName = "Page" };
@@ -43,7 +43,7 @@ public class TrustPageMetadataTests
         string? subPageName,
         string? tabName, string expected)
     {
-        var sut = new TrustPageMetadata(trustName, modelStateIsValid, pageName, subPageName, tabName);
+        var sut = new PageMetadata(trustName, modelStateIsValid, pageName, subPageName, tabName);
 
         sut.BrowserTitle.Should().Be(expected);
     }

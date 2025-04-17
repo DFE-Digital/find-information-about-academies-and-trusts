@@ -1,5 +1,6 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
@@ -24,7 +25,7 @@ public abstract class PipelineAcademiesAreaModel(
 {
     public const string SubPageName = "Pipeline academies";
 
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = SubPageName };
+    public override PageMetadata PageMetadata => base.PageMetadata with { SubPageName = SubPageName };
 
     public override async Task<IActionResult> OnGetAsync()
     {

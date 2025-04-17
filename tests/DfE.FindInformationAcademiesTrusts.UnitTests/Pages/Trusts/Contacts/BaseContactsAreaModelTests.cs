@@ -192,7 +192,7 @@ public abstract class BaseContactsAreaModelTests<T> : BaseTrustPageTests<T>, ITe
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.PageName.Should().Be("Contacts");
+        Sut.PageMetadata.PageName.Should().Be("Contacts");
     }
 
     [Fact]

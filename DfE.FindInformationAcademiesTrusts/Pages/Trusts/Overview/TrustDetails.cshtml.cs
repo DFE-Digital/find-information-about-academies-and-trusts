@@ -1,4 +1,5 @@
-﻿using DfE.FindInformationAcademiesTrusts.Services.DataSource;
+﻿using DfE.FindInformationAcademiesTrusts.Pages.Shared;
+using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +13,7 @@ public class TrustDetailsModel(
 {
     public const string SubPageName = "Trust details";
 
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { SubPageName = SubPageName };
+    public override PageMetadata PageMetadata => base.PageMetadata with { SubPageName = SubPageName };
 
     public string? CompaniesHouseLink { get; set; }
     public string? GetInformationAboutSchoolsLink { get; set; }

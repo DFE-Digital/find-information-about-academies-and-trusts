@@ -36,7 +36,7 @@ public class FreeSchoolMealsModelTests : AcademiesInTrustAreaModelTests<FreeScho
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.TabName.Should().Be("Free school meals");
+        Sut.PageMetadata.TabName.Should().Be("Free school meals");
     }
 
     [Fact]

@@ -17,7 +17,7 @@ public abstract class TrustsAreaModel(
     [BindProperty(SupportsGet = true)] public string Uid { get; set; } = "";
     public TrustSummaryServiceModel TrustSummary { get; set; } = default!;
     public List<DataSourcePageListEntry> DataSourcesPerPage { get; set; } = [];
-    public virtual TrustPageMetadata TrustPageMetadata => new(TrustSummary.Name, ModelState.IsValid);
+    public virtual PageMetadata PageMetadata => new(TrustSummary.Name, ModelState.IsValid);
 
     public virtual async Task<IActionResult> OnGetAsync()
     {

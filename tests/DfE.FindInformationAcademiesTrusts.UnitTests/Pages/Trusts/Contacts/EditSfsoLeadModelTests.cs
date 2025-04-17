@@ -91,11 +91,11 @@ public class EditSfsoLeadModelTests
             .Returns(Task.FromResult(new TrustContactUpdatedServiceModel(true, true)));
         _ = await _sut.OnPostAsync();
 
-        _sut.TrustPageMetadata.SubPageName.Should()
+        _sut.PageMetadata.SubPageName.Should()
             .Be("Edit SFSO (Schools financial support and oversight) lead details");
-        _sut.TrustPageMetadata.PageName.Should().Be("Contacts");
-        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
-        _sut.TrustPageMetadata.ModelStateIsValid.Should().BeTrue();
+        _sut.PageMetadata.PageName.Should().Be("Contacts");
+        _sut.PageMetadata.EntityName.Should().Be("My Trust");
+        _sut.PageMetadata.ModelStateIsValid.Should().BeTrue();
     }
 
     [Fact]
@@ -104,10 +104,10 @@ public class EditSfsoLeadModelTests
         _sut.ModelState.AddModelError("Test", "Test");
         _ = await _sut.OnPostAsync();
 
-        _sut.TrustPageMetadata.SubPageName.Should()
+        _sut.PageMetadata.SubPageName.Should()
             .Be("Edit SFSO (Schools financial support and oversight) lead details");
-        _sut.TrustPageMetadata.PageName.Should().Be("Contacts");
-        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
-        _sut.TrustPageMetadata.ModelStateIsValid.Should().BeFalse();
+        _sut.PageMetadata.PageName.Should().Be("Contacts");
+        _sut.PageMetadata.EntityName.Should().Be("My Trust");
+        _sut.PageMetadata.ModelStateIsValid.Should().BeFalse();
     }
 }

@@ -33,7 +33,7 @@ public abstract class BaseAcademiesAreaModelTests<T> : BaseTrustPageTests<T>, IT
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.PageName.Should().Be("Academies");
+        Sut.PageMetadata.PageName.Should().Be("Academies");
     }
 
     [Fact]

@@ -20,6 +20,6 @@ public class CurrentRatingsModelTests : BaseOfstedAreaModelTests<CurrentRatingsM
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("Current ratings");
+        Sut.PageMetadata.SubPageName.Should().Be("Current ratings");
     }
 }

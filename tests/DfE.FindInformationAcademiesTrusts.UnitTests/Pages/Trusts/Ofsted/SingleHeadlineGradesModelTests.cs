@@ -20,6 +20,6 @@ public class SingleHeadlineGradesModelTests : BaseOfstedAreaModelTests<SingleHea
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("Single headline grades");
+        Sut.PageMetadata.SubPageName.Should().Be("Single headline grades");
     }
 }

@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
@@ -18,7 +19,7 @@ public class FreeSchoolsModel(
 {
     public const string TabName = "Free schools";
 
-    public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { TabName = TabName };
+    public override PageMetadata PageMetadata => base.PageMetadata with { TabName = TabName };
 
     public AcademyPipelineServiceModel[] PipelineFreeSchools { get; set; } = [];
 

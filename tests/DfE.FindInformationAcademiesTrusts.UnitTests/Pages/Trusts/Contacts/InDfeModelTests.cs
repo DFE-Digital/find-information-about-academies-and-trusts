@@ -16,6 +16,6 @@ public class InDfeModelTests : BaseContactsAreaModelTests<InDfeModel>
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("In DfE");
+        Sut.PageMetadata.SubPageName.Should().Be("In DfE");
     }
 }

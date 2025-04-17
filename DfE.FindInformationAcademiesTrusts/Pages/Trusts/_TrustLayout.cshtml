@@ -2,7 +2,7 @@
 
 @{
   Layout = "_Layout";
-  ViewData["Title"] = Model.TrustPageMetadata.BrowserTitle;
+  ViewData["Title"] = Model.PageMetadata.BrowserTitle;
 }
 
 <partial name="_TrustBanner" model="@Model" />
@@ -14,7 +14,7 @@
         <main id="main-content">
           @await RenderSectionAsync("TrustPageMessage", false)
           <header>
-            <h1 class="govuk-heading-l" data-testid="page-name">@Model.TrustPageMetadata.PageName</h1>
+            <h1 class="govuk-heading-l" data-testid="page-name">@Model.PageMetadata.PageName</h1>
           </header>
           <partial name="Shared/NavMenu/_SubNav" model="@TrustNavMenu.GetSubNavLinks(Model)" />
           @RenderBody()

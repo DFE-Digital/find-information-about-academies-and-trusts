@@ -20,6 +20,6 @@ public class SafeguardingAndConcernsModelTests : BaseOfstedAreaModelTests<Safegu
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("Safeguarding and concerns");
+        Sut.PageMetadata.SubPageName.Should().Be("Safeguarding and concerns");
     }
 }

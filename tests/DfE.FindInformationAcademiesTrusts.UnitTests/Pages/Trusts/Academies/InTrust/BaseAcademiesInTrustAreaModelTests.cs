@@ -102,7 +102,7 @@ public abstract class AcademiesInTrustAreaModelTests<T> : BaseAcademiesAreaModel
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("In this trust");
+        Sut.PageMetadata.SubPageName.Should().Be("In this trust");
     }
 
     [Fact]

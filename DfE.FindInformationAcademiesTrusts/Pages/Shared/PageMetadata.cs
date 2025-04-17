@@ -1,7 +1,7 @@
-namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts;
+namespace DfE.FindInformationAcademiesTrusts.Pages.Shared;
 
-public record TrustPageMetadata(
-    string TrustName,
+public record PageMetadata(
+    string EntityName,
     bool ModelStateIsValid,
     string? PageName = null,
     string? SubPageName = null,
@@ -11,7 +11,7 @@ public record TrustPageMetadata(
     {
         get
         {
-            var orderedTitleParts = new[] { TabName, SubPageName, PageName, TrustName }.Where(s => s is not null);
+            var orderedTitleParts = new[] { TabName, SubPageName, PageName, EntityName }.Where(s => s is not null);
             var browserTitle = string.Join(" - ", orderedTitleParts);
 
             if (!ModelStateIsValid)

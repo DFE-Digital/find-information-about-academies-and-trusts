@@ -106,7 +106,7 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.SubPageName.Should().Be("Pipeline academies");
+        Sut.PageMetadata.SubPageName.Should().Be("Pipeline academies");
     }
 
     [Fact]

@@ -68,7 +68,7 @@ public abstract class BaseGovernanceAreaModelTests<T> : BaseTrustPageTests<T>, I
     {
         _ = await Sut.OnGetAsync();
 
-        Sut.TrustPageMetadata.PageName.Should().Be("Governance");
+        Sut.PageMetadata.PageName.Should().Be("Governance");
     }
 
     [Fact]
