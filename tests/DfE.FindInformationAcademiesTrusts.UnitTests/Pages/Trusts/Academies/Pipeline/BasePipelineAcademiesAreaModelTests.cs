@@ -1,12 +1,10 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Pipeline;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
-using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.Pipeline;
@@ -22,7 +20,7 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
             .Returns(new AcademyPipelineSummaryServiceModel(1, 2, 3));
     }
 
-    [Fact] 
+    [Fact]
     public override async Task OnGetExportAsync_ShouldReturnFileResult_WhenUidIsValid()
     {
         // Arrange
@@ -104,15 +102,6 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
     }
 
     [Fact]
-    public override async Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage()
-    {
-        _ = await Sut.OnGetAsync();
-
-        Sut.SubNavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.SubPageLink.Should().Be("/Trusts/Academies/Pipeline/PreAdvisoryBoard");
-    }
-
-    [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_SubPageName()
     {
         _ = await Sut.OnGetAsync();
@@ -129,21 +118,21 @@ public abstract class BasePipelineAcademiesAreaModelTests<T> : BaseAcademiesArea
             .SatisfyRespectively(
                 l =>
                 {
-                    l.LinkText.Should().Be("Pre advisory board (1)");
-                    l.TabPageLink.Should().Be("./PreAdvisoryBoard");
-                    l.TabNavName.Should().Be("Pipeline");
+                    l.LinkDisplayText.Should().Be("Pre advisory board (1)");
+                    l.AspPage.Should().Be("./PreAdvisoryBoard");
+                    l.TestId.Should().Be("pipeline-pre-advisory-board-tab");
                 },
                 l =>
                 {
-                    l.LinkText.Should().Be("Post advisory board (2)");
-                    l.TabPageLink.Should().Be("./PostAdvisoryBoard");
-                    l.TabNavName.Should().Be("Pipeline");
+                    l.LinkDisplayText.Should().Be("Post advisory board (2)");
+                    l.AspPage.Should().Be("./PostAdvisoryBoard");
+                    l.TestId.Should().Be("pipeline-post-advisory-board-tab");
                 },
                 l =>
                 {
-                    l.LinkText.Should().Be("Free schools (3)");
-                    l.TabPageLink.Should().Be("./FreeSchools");
-                    l.TabNavName.Should().Be("Pipeline");
+                    l.LinkDisplayText.Should().Be("Free schools (3)");
+                    l.AspPage.Should().Be("./FreeSchools");
+                    l.TestId.Should().Be("pipeline-free-schools-tab");
                 }
             );
     }

@@ -8,7 +8,10 @@ public abstract class BaseAcademiesAreaModelTests<T> : BaseTrustPageTests<T>, IT
     where T : AcademiesAreaModel
 {
     protected readonly IAcademyService MockAcademyService = Substitute.For<IAcademyService>();
-    protected readonly IPipelineAcademiesExportService MockPipelineAcademiesExportService = Substitute.For<IPipelineAcademiesExportService>();
+
+    protected readonly IPipelineAcademiesExportService MockPipelineAcademiesExportService =
+        Substitute.For<IPipelineAcademiesExportService>();
+
     protected const string TrustReferenceNumber = "TRN00123";
 
     public BaseAcademiesAreaModelTests()
@@ -26,37 +29,6 @@ public abstract class BaseAcademiesAreaModelTests<T> : BaseTrustPageTests<T>, IT
     }
 
     [Fact]
-    public override async Task OnGetAsync_should_set_active_NavigationLink_to_current_page()
-    {
-        _ = await Sut.OnGetAsync();
-
-        Sut.NavigationLinks.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.LinkText.Should().Be("Academies (3)");
-    }
-
-    [Fact]
-    public async Task OnGetAsync_should_populate_SubNavigationLinks_to_subpages()
-    {
-        _ = await Sut.OnGetAsync();
-
-        Sut.SubNavigationLinks.Should()
-            .SatisfyRespectively(
-                l =>
-                {
-                    l.LinkText.Should().Be("In this trust (3)");
-                    l.SubPageLink.Should().Be("/Trusts/Academies/InTrust/Details");
-                    l.ServiceName.Should().Be("Academies");
-                },
-                l =>
-                {
-                    l.LinkText.Should().Be("Pipeline academies (6)");
-                    l.SubPageLink.Should().Be("/Trusts/Academies/Pipeline/PreAdvisoryBoard");
-                    l.ServiceName.Should().Be("Academies");
-                }
-            );
-    }
-
-    [Fact]
     public override async Task OnGetAsync_should_configure_TrustPageMetadata_PageName()
     {
         _ = await Sut.OnGetAsync();
@@ -68,9 +40,6 @@ public abstract class BaseAcademiesAreaModelTests<T> : BaseTrustPageTests<T>, IT
     public abstract Task OnGetAsync_sets_academies_from_academyService();
 
     [Fact]
-    public abstract Task OnGetAsync_should_set_active_SubNavigationLink_to_current_subpage();
-
-    [Fact]
     public abstract Task OnGetAsync_should_configure_TrustPageMetadata_SubPageName();
 
     [Fact]
@@ -78,6 +47,33 @@ public abstract class BaseAcademiesAreaModelTests<T> : BaseTrustPageTests<T>, IT
 
     [Fact]
     public abstract Task OnGetAsync_should_populate_TabList_to_tabs();
+
+    [Theory]
+    [InlineData("1234")]
+    [InlineData("5678")]
+    public async Task OnGetAsync_should_populate_TabList_route_data_with_uid(string expectedUid)
+    {
+        MockTrustService.GetTrustSummaryAsync(expectedUid).Returns(DummyTrustSummary);
+        MockTrustService.GetTrustReferenceNumberAsync(expectedUid).Returns(TrustReferenceNumber);
+        Sut.Uid = expectedUid;
+
+        _ = await Sut.OnGetAsync();
+
+        Sut.TabList.Should().AllSatisfy(link =>
+        {
+            var route = link.AspAllRouteData.Should().ContainSingle().Subject;
+            route.Key.Should().Be("uid");
+            route.Value.Should().Be(expectedUid);
+        });
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_populate_TabList_hidden_text_to_academies()
+    {
+        _ = await Sut.OnGetAsync();
+
+        Sut.TabList.Should().AllSatisfy(link => { link.VisuallyHiddenLinkText.Should().Be("Academies"); });
+    }
 
     [Fact]
     public abstract Task OnGetAsync_should_configure_TrustPageMetadata_TabPageName();

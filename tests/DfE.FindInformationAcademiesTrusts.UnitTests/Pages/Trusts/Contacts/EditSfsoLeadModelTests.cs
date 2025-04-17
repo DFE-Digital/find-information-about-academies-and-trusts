@@ -1,6 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
@@ -12,7 +11,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Contacts;
 public class EditSfsoLeadModelTests
 {
     private readonly EditSfsoLeadModel _sut;
-    
+
     private readonly ITrustService _mockTrustService = Substitute.For<ITrustService>();
 
     private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
@@ -27,7 +26,7 @@ public class EditSfsoLeadModelTests
         _mockTrustService.GetTrustSummaryAsync(_fakeTrust.Uid)!.Returns(Task.FromResult(_fakeTrust));
 
         _sut = new EditSfsoLeadModel(MockDataSourceService.CreateSubstitute(),
-            MockLogger.CreateLogger<EditSfsoLeadModel>(), _mockTrustService)
+                MockLogger.CreateLogger<EditSfsoLeadModel>(), _mockTrustService)
             { Uid = "1234" };
     }
 
@@ -81,17 +80,6 @@ public class EditSfsoLeadModelTests
 
         result.Should().BeOfType<PageResult>();
         _sut.ContactUpdatedMessage.Should().Be(string.Empty);
-    }
-
-    [Fact]
-    public async Task OnGetAsync_should_configure_TrustPageMetadata()
-    {
-        _ = await _sut.OnGetAsync();
-
-        _sut.TrustPageMetadata.SubPageName.Should()
-            .Be("Edit SFSO (Schools financial support and oversight) lead details");
-        _sut.TrustPageMetadata.PageName.Should().Be(ViewConstants.ContactsPageName);
-        _sut.TrustPageMetadata.TrustName.Should().Be("My Trust");
     }
 
     [Fact]

@@ -57,6 +57,6 @@ public class FreeSchoolsModelTests : BasePipelineAcademiesAreaModelTests<FreeSch
         _ = await Sut.OnGetAsync();
 
         Sut.TabList.Should().ContainSingle(l => l.LinkIsActive)
-            .Which.TabPageLink.Should().Be("./FreeSchools");
+            .Which.AspPage.Should().Be("./FreeSchools");
     }
 }

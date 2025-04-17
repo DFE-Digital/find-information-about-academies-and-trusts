@@ -35,13 +35,16 @@ public abstract class PipelineAcademiesAreaModel(
 
         TabList =
         [
-            new TrustTabNavigationLinkModel($"Pre advisory board ({PipelineSummary.PreAdvisoryCount})",
-                "./PreAdvisoryBoard", "Pipeline", this is PreAdvisoryBoardModel),
-            new TrustTabNavigationLinkModel($"Post advisory board ({PipelineSummary.PostAdvisoryCount})",
-                "./PostAdvisoryBoard", "Pipeline", this is PostAdvisoryBoardModel),
-            new TrustTabNavigationLinkModel($"Free schools ({PipelineSummary.FreeSchoolsCount})", "./FreeSchools",
-                "Pipeline", this is FreeSchoolsModel)
+            GetTabFor<PreAdvisoryBoardModel>("Pipeline",
+                $"{PreAdvisoryBoardModel.TabName} ({PipelineSummary.PreAdvisoryCount})",
+                "./PreAdvisoryBoard"),
+            GetTabFor<PostAdvisoryBoardModel>("Pipeline",
+                $"{PostAdvisoryBoardModel.TabName} ({PipelineSummary.PostAdvisoryCount})",
+                "./PostAdvisoryBoard"),
+            GetTabFor<FreeSchoolsModel>("Pipeline", $"{FreeSchoolsModel.TabName} ({PipelineSummary.FreeSchoolsCount})",
+                "./FreeSchools")
         ];
+
         var prepareSource = await DataSourceService.GetAsync(Source.Prepare);
         var completeSource = await DataSourceService.GetAsync(Source.Complete);
         var manageFreeSchoolSource = await DataSourceService.GetAsync(Source.ManageFreeSchoolProjects);

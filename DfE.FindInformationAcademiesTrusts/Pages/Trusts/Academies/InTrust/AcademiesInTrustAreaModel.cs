@@ -37,12 +37,9 @@ public abstract class AcademiesInTrustAreaModel(
 
         TabList =
         [
-            new TrustTabNavigationLinkModel("Details", "./Details", "In this trust",
-                this is AcademiesInTrustDetailsModel),
-            new TrustTabNavigationLinkModel("Pupil numbers", "./PupilNumbers", "In this trust",
-                this is PupilNumbersModel),
-            new TrustTabNavigationLinkModel("Free school meals", "./FreeSchoolMeals", "In this trust",
-                this is FreeSchoolMealsModel)
+            GetTabFor<AcademiesInTrustDetailsModel>(SubPageName, "Details", "./Details"),
+            GetTabFor<PupilNumbersModel>(SubPageName, "Pupil numbers", "./PupilNumbers"),
+            GetTabFor<FreeSchoolMealsModel>(SubPageName, "Free school meals", "./FreeSchoolMeals")
         ];
 
         DataSourcesPerPage.AddRange([

@@ -33,18 +33,6 @@ public class OfstedAreaModel(
 
         Academies = await AcademyService.GetAcademiesInTrustOfstedAsync(Uid);
 
-        SubNavigationLinks =
-        [
-            new TrustSubNavigationLinkModel(ViewConstants.OfstedSingleHeadlineGradesPageName, "./SingleHeadlineGrades",
-                Uid, TrustPageMetadata.PageName!, this is SingleHeadlineGradesModel),
-            new TrustSubNavigationLinkModel(ViewConstants.OfstedCurrentRatingsPageName, "./CurrentRatings", Uid,
-                TrustPageMetadata.PageName!, this is CurrentRatingsModel),
-            new TrustSubNavigationLinkModel(ViewConstants.OfstedPreviousRatingsPageName, "./PreviousRatings", Uid,
-                TrustPageMetadata.PageName!, this is PreviousRatingsModel),
-            new TrustSubNavigationLinkModel(ViewConstants.OfstedSafeguardingAndConcernsPageName,
-                "./SafeguardingAndConcerns", Uid, TrustPageMetadata.PageName!, this is SafeguardingAndConcernsModel)
-        ];
-
         // Add data sources
         var giasDataSource = await DataSourceService.GetAsync(Source.Gias);
         var misDataSource = await DataSourceService.GetAsync(Source.Mis);
