@@ -10,6 +10,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Ofsted;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.TrustDocument;
 using DfE.FindInformationAcademiesTrusts.Pages;
@@ -57,6 +58,7 @@ public static class Dependencies
         builder.Services.AddScoped<IContactRepository, ContactRepository>();
         builder.Services.AddScoped<IPipelineEstablishmentRepository, PipelineEstablishmentRepository>();
         builder.Services.AddScoped<ITrustDocumentRepository, TrustDocumentRepository>();
+        builder.Services.AddScoped<ISchoolRepository, SchoolRepository>();
 
         builder.Services.AddScoped<IDataSourceService, DataSourceService>();
         builder.Services.AddScoped<ITrustService, TrustService>();
