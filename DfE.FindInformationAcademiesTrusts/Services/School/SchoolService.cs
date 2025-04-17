@@ -1,4 +1,5 @@
-using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.School;
 
@@ -7,14 +8,30 @@ public interface ISchoolService
     Task<SchoolSummaryServiceModel?> GetSchoolSummaryAsync(string urn);
 }
 
-public class SchoolService : ISchoolService
+public class SchoolService(IMemoryCache memoryCache, ISchoolRepository schoolRepository) : ISchoolService
 {
-    public Task<SchoolSummaryServiceModel?> GetSchoolSummaryAsync(string urn)
+    public async Task<SchoolSummaryServiceModel?> GetSchoolSummaryAsync(string urn)
     {
-        var schoolName = urn.EndsWith('2') ? $"Super Cool School {urn}" : $"Super Chill Academy {urn}";
-        var schoolType = urn.EndsWith('2') ? "Community school" : "Academy sponsor led";
-        var schoolCategory = urn.EndsWith('2') ? SchoolCategory.LaMaintainedSchool : SchoolCategory.Academy;
+        var cacheKey = $"{nameof(GetSchoolSummaryAsync)}:{urn}";
 
-        return Task.FromResult(new SchoolSummaryServiceModel(urn, schoolName, schoolType, schoolCategory))!;
+        if (memoryCache.TryGetValue(cacheKey, out SchoolSummaryServiceModel? cachedTrustSummary))
+        {
+            return cachedTrustSummary;
+        }
+
+        var summary = await schoolRepository.GetSchoolSummaryAsync(urn);
+
+        if (summary is null)
+        {
+            return null;
+        }
+
+        var schoolSummaryServiceModel =
+            new SchoolSummaryServiceModel(urn, summary.Name, summary.Type, summary.Category);
+
+        memoryCache.Set(cacheKey, schoolSummaryServiceModel,
+            new MemoryCacheEntryOptions { SlidingExpiration = TimeSpan.FromMinutes(10) });
+
+        return schoolSummaryServiceModel;
     }
 }
