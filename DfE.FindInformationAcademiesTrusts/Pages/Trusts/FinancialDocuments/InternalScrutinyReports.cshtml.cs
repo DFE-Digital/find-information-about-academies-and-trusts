@@ -7,10 +7,9 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.FinancialDocuments;
 
 public class InternalScrutinyReportsModel(
     IDataSourceService dataSourceService,
-    ILogger<InternalScrutinyReportsModel> logger,
     ITrustService trustService,
     IFinancialDocumentService financialDocumentService)
-    : FinancialDocumentsAreaModel(dataSourceService, trustService, logger, financialDocumentService)
+    : FinancialDocumentsAreaModel(dataSourceService, trustService, financialDocumentService)
 {
     public const string SubPageName = "Internal scrutiny reports";
 

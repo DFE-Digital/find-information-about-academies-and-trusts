@@ -9,12 +9,11 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Pipeline;
 
 public class PostAdvisoryBoardModel(
     IDataSourceService dataSourceService,
-    ILogger<PostAdvisoryBoardModel> logger,
     ITrustService trustService,
     IAcademyService academyService,
     IPipelineAcademiesExportService pipelineAcademiesExportService,
     IDateTimeProvider dateTimeProvider)
-    : PipelineAcademiesAreaModel(dataSourceService, trustService, academyService, pipelineAcademiesExportService, logger,
+    : PipelineAcademiesAreaModel(dataSourceService, trustService, academyService, pipelineAcademiesExportService,
         dateTimeProvider)
 {
     public const string TabName = "Post advisory board";

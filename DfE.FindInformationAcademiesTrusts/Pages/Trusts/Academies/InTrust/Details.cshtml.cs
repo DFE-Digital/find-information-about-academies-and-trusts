@@ -10,7 +10,6 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 public class AcademiesInTrustDetailsModel(
     IDataSourceService dataSourceService,
     IOtherServicesLinkBuilder linkBuilder,
-    ILogger<AcademiesInTrustDetailsModel> logger,
     ITrustService trustService,
     IAcademyService academyService,
     IAcademiesExportService academiesExportService,
@@ -20,7 +19,6 @@ public class AcademiesInTrustDetailsModel(
     trustService,
     academyService,
     academiesExportService,
-    logger,
     dateTimeProvider
 )
 {

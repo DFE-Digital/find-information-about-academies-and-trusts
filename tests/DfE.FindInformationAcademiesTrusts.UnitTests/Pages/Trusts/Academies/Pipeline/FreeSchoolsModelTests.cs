@@ -1,7 +1,6 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Pipeline;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.Pipeline;
 
@@ -10,7 +9,7 @@ public class FreeSchoolsModelTests : BasePipelineAcademiesAreaModelTests<FreeSch
     public FreeSchoolsModelTests()
     {
         Sut = new FreeSchoolsModel(
-                MockDataSourceService, MockLogger.CreateLogger<FreeSchoolsModel>(),
+                MockDataSourceService,
                 MockTrustService, MockAcademyService, MockPipelineAcademiesExportService,
                 MockDateTimeProvider)
             { Uid = TrustUid };

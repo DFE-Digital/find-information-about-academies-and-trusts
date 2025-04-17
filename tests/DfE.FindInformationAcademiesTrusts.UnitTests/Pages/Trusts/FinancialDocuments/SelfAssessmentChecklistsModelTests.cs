@@ -1,6 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.FinancialDocuments;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.FinancialDocuments;
 
@@ -8,8 +7,7 @@ public class SelfAssessmentChecklistsModelTests : BaseFinancialDocumentsAreaMode
 {
     public SelfAssessmentChecklistsModelTests() : base(FinancialDocumentType.SelfAssessmentChecklist)
     {
-        Sut = new SelfAssessmentChecklistsModel(MockDataSourceService,
-                MockLogger.CreateLogger<SelfAssessmentChecklistsModel>(), MockTrustService,
+        Sut = new SelfAssessmentChecklistsModel(MockDataSourceService, MockTrustService,
                 MockFinancialDocumentService)
             { Uid = TrustUid };
     }

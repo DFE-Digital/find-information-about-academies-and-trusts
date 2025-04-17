@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Ofsted;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Ofsted;
 
@@ -11,8 +10,7 @@ public class PreviousRatingsModelTests : BaseOfstedAreaModelTests<PreviousRating
                 MockTrustService,
                 MockAcademyService,
                 MockOfstedDataExportService,
-                MockDateTimeProvider,
-                MockLogger.CreateLogger<PreviousRatingsModel>()
+                MockDateTimeProvider
             )
             { Uid = TrustUid };
     }

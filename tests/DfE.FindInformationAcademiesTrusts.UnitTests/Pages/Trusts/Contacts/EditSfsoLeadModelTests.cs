@@ -25,8 +25,7 @@ public class EditSfsoLeadModelTests
             Task.FromResult(new TrustContactsServiceModel(null, _sfsoLead, null, null, null)));
         _mockTrustService.GetTrustSummaryAsync(_fakeTrust.Uid)!.Returns(Task.FromResult(_fakeTrust));
 
-        _sut = new EditSfsoLeadModel(MockDataSourceService.CreateSubstitute(),
-                MockLogger.CreateLogger<EditSfsoLeadModel>(), _mockTrustService)
+        _sut = new EditSfsoLeadModel(MockDataSourceService.CreateSubstitute(), _mockTrustService)
             { Uid = "1234" };
     }
 

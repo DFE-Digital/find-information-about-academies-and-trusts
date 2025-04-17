@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
@@ -7,9 +8,8 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
 
 public class OverviewAreaModel(
     IDataSourceService dataSourceService,
-    ITrustService trustService,
-    ILogger<OverviewAreaModel> logger)
-    : TrustsAreaModel(dataSourceService, trustService, logger)
+    ITrustService trustService)
+    : TrustsAreaModel(dataSourceService, trustService)
 {
     public const string PageName = "Overview";
 

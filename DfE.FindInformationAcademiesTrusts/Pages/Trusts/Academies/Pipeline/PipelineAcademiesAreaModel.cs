@@ -1,5 +1,6 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
@@ -13,13 +14,11 @@ public abstract class PipelineAcademiesAreaModel(
     ITrustService trustService,
     IAcademyService academyService,
     IPipelineAcademiesExportService pipelineAcademiesExportService,
-    ILogger<PipelineAcademiesAreaModel> logger,
     IDateTimeProvider dateTimeProvider
 ) : AcademiesAreaModel(
     dataSourceService,
     trustService,
     academyService,
-    logger,
     dateTimeProvider
 )
 {

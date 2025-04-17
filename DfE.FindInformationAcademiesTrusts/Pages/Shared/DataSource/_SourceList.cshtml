@@ -1,6 +1,6 @@
-﻿@model ITrustsAreaModel
+﻿@model List<DataSourcePageListEntry>
 
-@if (Model.DataSourcesPerPage.Any())
+@if (Model.Any())
 {
   <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details"
            data-testid="data-source-and-updates">
@@ -10,7 +10,7 @@
       </span>
     </summary>
     <div class="govuk-details__text">
-      @foreach (var pageSource in Model.DataSourcesPerPage)
+      @foreach (var pageSource in Model)
       {
         <p class="govuk-heading-s">
           @pageSource.PageName
@@ -18,14 +18,14 @@
         <ul class="govuk-list govuk-list--bullet">
           @foreach (var source in pageSource.DataSources)
           {
-            <li data-testid="@Model.MapDataSourceToTestId(source)">
+            <li data-testid="@source.TestId">
               @if (source.DataSource.UpdatedBy is not null)
               {
                 <span>@source.DataField was updated by @source.UpdatedByText on @source.LastUpdatedText</span>
               }
               else
               {
-                <span>@source.DataField taken from @Model.MapDataSourceToName(source.DataSource) on @source.LastUpdatedText</span>
+                <span>@source.DataField taken from @source.Name on @source.LastUpdatedText</span>
               }
             </li>
           }

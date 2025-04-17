@@ -1,6 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.FinancialDocuments;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.FinancialDocuments;
 
@@ -8,7 +7,7 @@ public class ManagementLettersModelTests : BaseFinancialDocumentsAreaModelTests<
 {
     public ManagementLettersModelTests() : base(FinancialDocumentType.ManagementLetter)
     {
-        Sut = new ManagementLettersModel(MockDataSourceService, MockLogger.CreateLogger<ManagementLettersModel>(),
+        Sut = new ManagementLettersModel(MockDataSourceService,
                 MockTrustService, MockFinancialDocumentService)
             { Uid = TrustUid };
     }

@@ -26,8 +26,7 @@ public class EditTrustRelationshipManagerModelTests
             Task.FromResult(new TrustContactsServiceModel(_trustRelationshipManager, null, null, null, null)));
         _mockTrustService.GetTrustSummaryAsync(_fakeTrust.Uid)!.Returns(Task.FromResult(_fakeTrust));
 
-        _sut = new EditTrustRelationshipManagerModel(MockDataSourceService.CreateSubstitute(),
-                MockLogger.CreateLogger<EditTrustRelationshipManagerModel>(), _mockTrustService)
+        _sut = new EditTrustRelationshipManagerModel(MockDataSourceService.CreateSubstitute(), _mockTrustService)
             { Uid = "1234" };
     }
 

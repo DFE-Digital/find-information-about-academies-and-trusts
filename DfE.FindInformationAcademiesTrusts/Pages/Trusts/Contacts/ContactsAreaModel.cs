@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Extensions;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +10,9 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 
 public class ContactsAreaModel(
     IDataSourceService dataSourceService,
-    ITrustService trustService,
-    ILogger<ContactsAreaModel> logger
+    ITrustService trustService
 )
-    : TrustsAreaModel(dataSourceService, trustService, logger)
+    : TrustsAreaModel(dataSourceService, trustService)
 {
     public const string PageName = "Contacts";
 

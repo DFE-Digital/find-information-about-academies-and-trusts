@@ -6,10 +6,9 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
 
 public class TrustDetailsModel(
     IDataSourceService dataSourceService,
-    ILogger<TrustDetailsModel> logger,
     ITrustService trustService,
     IOtherServicesLinkBuilder otherServicesLinkBuilder)
-    : OverviewAreaModel(dataSourceService, trustService, logger)
+    : OverviewAreaModel(dataSourceService, trustService)
 {
     public const string SubPageName = "Trust details";
 

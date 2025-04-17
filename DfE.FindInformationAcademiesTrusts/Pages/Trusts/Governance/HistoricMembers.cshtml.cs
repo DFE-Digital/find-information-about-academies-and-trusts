@@ -5,9 +5,8 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Governance;
 
 public class HistoricMembersModel(
     IDataSourceService dataSourceService,
-    ILogger<HistoricMembersModel> logger,
     ITrustService trustService)
-    : GovernanceAreaModel(dataSourceService, trustService, logger)
+    : GovernanceAreaModel(dataSourceService, trustService)
 {
     public const string SubPageName = "Historic members";
 

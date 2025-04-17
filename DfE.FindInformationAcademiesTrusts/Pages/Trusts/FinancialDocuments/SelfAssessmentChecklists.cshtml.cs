@@ -7,10 +7,9 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.FinancialDocuments;
 
 public class SelfAssessmentChecklistsModel(
     IDataSourceService dataSourceService,
-    ILogger<SelfAssessmentChecklistsModel> logger,
     ITrustService trustService,
     IFinancialDocumentService financialDocumentService)
-    : FinancialDocumentsAreaModel(dataSourceService, trustService, logger, financialDocumentService)
+    : FinancialDocumentsAreaModel(dataSourceService, trustService, financialDocumentService)
 {
     public const string SubPageName = "Self-assessment checklists";
 

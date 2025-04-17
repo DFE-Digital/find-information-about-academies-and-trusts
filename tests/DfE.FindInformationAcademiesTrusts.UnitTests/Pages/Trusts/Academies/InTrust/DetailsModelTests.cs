@@ -1,7 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Academies.InTrust;
 
@@ -13,7 +12,6 @@ public class AcademiesDetailsModelTests : AcademiesInTrustAreaModelTests<Academi
     {
         Sut = new AcademiesInTrustDetailsModel(MockDataSourceService,
                 _mockLinkBuilder,
-                MockLogger.CreateLogger<AcademiesInTrustDetailsModel>(),
                 MockTrustService,
                 MockAcademyService,
                 MockAcademiesExportService,

@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.Contacts;
 
@@ -8,8 +7,7 @@ public class InDfeModelTests : BaseContactsAreaModelTests<InDfeModel>
     public InDfeModelTests()
     {
         Sut = new InDfeModel(MockDataSourceService,
-                MockTrustService,
-                MockLogger.CreateLogger<InDfeModel>())
+                MockTrustService)
             { Uid = TrustUid };
     }
 

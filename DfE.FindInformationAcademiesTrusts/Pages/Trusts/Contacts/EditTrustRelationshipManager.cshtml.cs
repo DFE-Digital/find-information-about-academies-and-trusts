@@ -7,10 +7,8 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 
 public class EditTrustRelationshipManagerModel(
     IDataSourceService dataSourceService,
-    ILogger<EditTrustRelationshipManagerModel> logger,
     ITrustService trustService)
-    : EditContactModel(dataSourceService, trustService,
-        logger, ContactRole.TrustRelationshipManager)
+    : EditContactModel(dataSourceService, trustService, ContactRole.TrustRelationshipManager)
 {
     protected override InternalContact? GetContactFromServiceModel(TrustContactsServiceModel contacts)
     {

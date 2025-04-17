@@ -11,9 +11,8 @@ public class CurrentRatingsModel(
     ITrustService trustService,
     IAcademyService academyService,
     IOfstedDataExportService ofstedDataExportService,
-    IDateTimeProvider dateTimeProvider,
-    ILogger<CurrentRatingsModel> logger) : OfstedAreaModel(dataSourceService, trustService,
-    academyService, ofstedDataExportService, dateTimeProvider, logger)
+    IDateTimeProvider dateTimeProvider) : OfstedAreaModel(dataSourceService, trustService,
+    academyService, ofstedDataExportService, dateTimeProvider)
 {
     public const string SubPageName = "Current ratings";
 

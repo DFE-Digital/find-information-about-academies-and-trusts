@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
@@ -13,9 +14,8 @@ public class OfstedAreaModel(
     ITrustService trustService,
     IAcademyService academyService,
     IOfstedDataExportService ofstedDataExportService,
-    IDateTimeProvider dateTimeProvider,
-    ILogger<OfstedAreaModel> logger)
-    : TrustsAreaModel(dataSourceService, trustService, logger)
+    IDateTimeProvider dateTimeProvider)
+    : TrustsAreaModel(dataSourceService, trustService)
 {
     public const string PageName = "Ofsted";
 

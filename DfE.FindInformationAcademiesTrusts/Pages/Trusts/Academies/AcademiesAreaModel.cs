@@ -12,9 +12,8 @@ public abstract class AcademiesAreaModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
     IAcademyService academyService,
-    ILogger<AcademiesAreaModel> logger,
     IDateTimeProvider dateTimeProvider
-) : TrustsAreaModel(dataSourceService, trustService, logger)
+) : TrustsAreaModel(dataSourceService, trustService)
 {
     public const string PageName = "Academies";
     public override TrustPageMetadata TrustPageMetadata => base.TrustPageMetadata with { PageName = PageName };
