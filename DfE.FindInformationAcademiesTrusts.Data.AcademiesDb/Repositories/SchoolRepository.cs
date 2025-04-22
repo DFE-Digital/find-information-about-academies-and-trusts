@@ -1,19 +1,24 @@
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
+using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 
-public class SchoolRepository : ISchoolRepository
+public class SchoolRepository(IAcademiesDbContext academiesDbContext) : ISchoolRepository
 {
-    public Task<SchoolSummary?> GetSchoolSummaryAsync(string urn)
+    public async Task<SchoolSummary?> GetSchoolSummaryAsync(string urn)
     {
-        if (urn.StartsWith('3'))
-            return Task.FromResult<SchoolSummary?>(null);
+        var intUrn = int.Parse(urn);
 
-        var schoolName = urn.EndsWith('2') ? $"Cool School {urn}" : $"Chill Academy {urn}";
-        var schoolType = urn.EndsWith('2') ? "Community school" : "Academy sponsor led";
-        var schoolCategory = urn.EndsWith('2') ? SchoolCategory.LaMaintainedSchool : SchoolCategory.Academy;
-
-        return Task.FromResult(new SchoolSummary(schoolName, schoolType, schoolCategory))!;
+        return await academiesDbContext.GiasEstablishments
+            .Where(e => e.Urn == intUrn)
+            .Select(e => new SchoolSummary(
+                e.EstablishmentName!,
+                e.TypeOfEstablishmentName!,
+                e.EstablishmentTypeGroupName == "Academies"
+                    ? SchoolCategory.Academy
+                    : SchoolCategory.LaMaintainedSchool))
+            .SingleOrDefaultAsync();
     }
 }
