@@ -1,6 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
 
@@ -33,22 +32,46 @@ public class SchoolRepositoryTests
         SchoolCategory expectedCategory)
     {
         var name = $"School {urn}";
-        _mockAcademiesDbContext.AddGiasEstablishment(new GiasEstablishment
+        _mockAcademiesDbContext.GiasEstablishments.AddRange(
+        [
+            new GiasEstablishment
+            {
+                Urn = urn,
+                EstablishmentName = name,
+                TypeOfEstablishmentName = type,
+                EstablishmentTypeGroupName = typeGroup
+            },
+            new GiasEstablishment
+            {
+                Urn = urn + 1,
+                EstablishmentName = "Different school",
+                TypeOfEstablishmentName = type,
+                EstablishmentTypeGroupName = typeGroup
+            }
+        ]);
+
+        var result = await _sut.GetSchoolSummaryAsync(urn);
+        result.Should().BeEquivalentTo(new SchoolSummary(name, type, expectedCategory));
+    }
+
+    [Theory]
+    [InlineData("City technology college", "Independent schools")]
+    [InlineData("Online provider", "Online provider")]
+    [InlineData("Miscellaneous", "Other types")]
+    [InlineData("Higher education institutions", "Universities")]
+    public async Task GetSchoolSummaryAsync_should_not_return_schoolSummarys_for_unsupported_establishment_types(
+        string type,
+        string typeGroup)
+    {
+        _mockAcademiesDbContext.GiasEstablishments.Add(new GiasEstablishment
         {
-            Urn = urn,
-            EstablishmentName = name,
-            TypeOfEstablishmentName = type,
-            EstablishmentTypeGroupName = typeGroup
-        });
-        _mockAcademiesDbContext.AddGiasEstablishment(new GiasEstablishment
-        {
-            Urn = urn + 1,
-            EstablishmentName = "Different school",
+            Urn = 123456,
+            EstablishmentName = "Unsupported Establishment",
             TypeOfEstablishmentName = type,
             EstablishmentTypeGroupName = typeGroup
         });
 
-        var result = await _sut.GetSchoolSummaryAsync(urn);
-        result.Should().BeEquivalentTo(new SchoolSummary(name, type, expectedCategory));
+        var result = await _sut.GetSchoolSummaryAsync(123456);
+        result.Should().BeNull();
     }
 }
