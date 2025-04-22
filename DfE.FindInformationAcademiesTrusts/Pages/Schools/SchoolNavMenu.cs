@@ -22,7 +22,7 @@ public static class SchoolNavMenu
             linkDisplayText,
             aspPage,
             $"{linkDisplayText}-nav".Kebabify(),
-            new Dictionary<string, string> { { "urn", activePage.Urn } });
+            new Dictionary<string, string> { { "urn", activePage.Urn.ToString() } });
     }
 
     public static NavLink[] GetSubNavLinks(ISchoolAreaModel activePage)
@@ -52,7 +52,7 @@ public static class SchoolNavMenu
             linkDisplayText,
             aspPage,
             testIdOverride ?? $"{serviceName}-{linkDisplayText}-subnav".Kebabify(),
-            new Dictionary<string, string> { { "urn", activePage.Urn } }
+            new Dictionary<string, string> { { "urn", activePage.Urn.ToString() } }
         );
     }
 }

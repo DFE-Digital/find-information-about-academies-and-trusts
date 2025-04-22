@@ -19,7 +19,7 @@ public class SchoolRepositoryTests
     [Fact]
     public async Task GetSchoolSummaryAsync_should_return_null_if_not_found()
     {
-        var result = await _sut.GetSchoolSummaryAsync("999999");
+        var result = await _sut.GetSchoolSummaryAsync(999999);
         result.Should().BeNull();
     }
 
@@ -48,7 +48,7 @@ public class SchoolRepositoryTests
             EstablishmentTypeGroupName = typeGroup
         });
 
-        var result = await _sut.GetSchoolSummaryAsync(urn.ToString());
+        var result = await _sut.GetSchoolSummaryAsync(urn);
         result.Should().BeEquivalentTo(new SchoolSummary(name, type, expectedCategory));
     }
 }

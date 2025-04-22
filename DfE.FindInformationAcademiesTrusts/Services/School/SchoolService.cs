@@ -5,12 +5,12 @@ namespace DfE.FindInformationAcademiesTrusts.Services.School;
 
 public interface ISchoolService
 {
-    Task<SchoolSummaryServiceModel?> GetSchoolSummaryAsync(string urn);
+    Task<SchoolSummaryServiceModel?> GetSchoolSummaryAsync(int urn);
 }
 
 public class SchoolService(IMemoryCache memoryCache, ISchoolRepository schoolRepository) : ISchoolService
 {
-    public async Task<SchoolSummaryServiceModel?> GetSchoolSummaryAsync(string urn)
+    public async Task<SchoolSummaryServiceModel?> GetSchoolSummaryAsync(int urn)
     {
         var cacheKey = $"{nameof(GetSchoolSummaryAsync)}:{urn}";
 

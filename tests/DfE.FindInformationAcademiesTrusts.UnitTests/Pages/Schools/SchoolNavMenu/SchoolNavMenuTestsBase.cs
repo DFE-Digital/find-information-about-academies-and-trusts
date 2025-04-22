@@ -13,7 +13,7 @@ public abstract class SchoolNavMenuTestsBase
         typeof(DetailsModel)
     ];
 
-    protected static SchoolAreaModel GetMockSchoolPage(Type pageType, string urn = "123456",
+    protected static SchoolAreaModel GetMockSchoolPage(Type pageType, int urn = 123456,
         SchoolCategory schoolCategory = SchoolCategory.LaMaintainedSchool)
     {
         //Create a mock page

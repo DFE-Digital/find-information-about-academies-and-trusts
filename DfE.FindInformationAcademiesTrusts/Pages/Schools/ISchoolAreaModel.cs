@@ -6,7 +6,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Schools;
 
 public interface ISchoolAreaModel
 {
-    string Urn { get; }
+    int Urn { get; }
     SchoolCategory SchoolCategory { get; }
     List<DataSourcePageListEntry> DataSourcesPerPage { get; }
     PageMetadata PageMetadata { get; }

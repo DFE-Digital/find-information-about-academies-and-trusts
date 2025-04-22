@@ -10,7 +10,7 @@ public abstract class BaseSchoolPageTests<T> where T : SchoolAreaModel
 {
     protected T Sut = null!;
     protected readonly ISchoolService MockSchoolService = Substitute.For<ISchoolService>();
-    protected const string Urn = "1234";
+    protected const int Urn = 123456;
 
     protected readonly SchoolSummaryServiceModel DummySchoolSummary =
         new(Urn, "Cool school", "Community school", SchoolCategory.LaMaintainedSchool);
@@ -47,9 +47,9 @@ public abstract class BaseSchoolPageTests<T> where T : SchoolAreaModel
     [Fact]
     public async Task OnGetAsync_should_return_not_found_result_if_school_is_not_found()
     {
-        MockSchoolService.GetSchoolSummaryAsync("1111").Returns((SchoolSummaryServiceModel?)null);
+        MockSchoolService.GetSchoolSummaryAsync(111111).Returns((SchoolSummaryServiceModel?)null);
 
-        Sut.Urn = "1111";
+        Sut.Urn = 111111;
         var result = await Sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }
@@ -57,9 +57,9 @@ public abstract class BaseSchoolPageTests<T> where T : SchoolAreaModel
     [Fact]
     public async Task OnGetAsync_should_return_not_found_result_if_urn_is_not_provided()
     {
-        MockSchoolService.GetSchoolSummaryAsync("").Returns((SchoolSummaryServiceModel?)null);
+        MockSchoolService.GetSchoolSummaryAsync(0).Returns((SchoolSummaryServiceModel?)null);
 
-        Sut.Urn = "";
+        Sut.Urn = 0;
         var result = await Sut.OnGetAsync();
         result.Should().BeOfType<NotFoundResult>();
     }

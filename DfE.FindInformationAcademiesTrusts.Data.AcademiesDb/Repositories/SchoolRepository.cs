@@ -7,12 +7,10 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 
 public class SchoolRepository(IAcademiesDbContext academiesDbContext) : ISchoolRepository
 {
-    public async Task<SchoolSummary?> GetSchoolSummaryAsync(string urn)
+    public async Task<SchoolSummary?> GetSchoolSummaryAsync(int urn)
     {
-        var intUrn = int.Parse(urn);
-
         return await academiesDbContext.GiasEstablishments
-            .Where(e => e.Urn == intUrn)
+            .Where(e => e.Urn == urn)
             .Select(e => new SchoolSummary(
                 e.EstablishmentName!,
                 e.TypeOfEstablishmentName!,

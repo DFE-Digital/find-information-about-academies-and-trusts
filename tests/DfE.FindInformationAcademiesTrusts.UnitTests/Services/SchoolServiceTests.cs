@@ -19,8 +19,8 @@ public class SchoolServiceTests
     [Fact]
     public async Task GetSchoolSummaryAsync_cached_should_return_cached_result()
     {
-        const string urn = "123456";
-        const string key = $"{nameof(SchoolService.GetSchoolSummaryAsync)}:{urn}";
+        const int urn = 123456;
+        var key = $"{nameof(SchoolService.GetSchoolSummaryAsync)}:{urn}";
         var cachedResult = new SchoolSummaryServiceModel(urn, "Chill primary school", "Academy sponsor led",
             SchoolCategory.LaMaintainedSchool);
         _mockMemoryCache.AddMockCacheEntry(key, cachedResult);
@@ -34,16 +34,16 @@ public class SchoolServiceTests
     [Fact]
     public async Task GetSchoolSummaryAsync_should_return_null_if_not_found()
     {
-        _mockSchoolRepository.GetSchoolSummaryAsync("this urn doesn't exist").Returns((SchoolSummary?)null);
+        _mockSchoolRepository.GetSchoolSummaryAsync(999999).Returns((SchoolSummary?)null);
 
-        var result = await _sut.GetSchoolSummaryAsync("this urn doesn't exist");
+        var result = await _sut.GetSchoolSummaryAsync(999999);
         result.Should().BeNull();
     }
 
     [Theory]
-    [InlineData("280689", "My School", "Foundation school", SchoolCategory.LaMaintainedSchool)]
-    [InlineData("900855", "My Academy", "Academy converter", SchoolCategory.Academy)]
-    public async Task GetSchoolSummaryAsync_should_return_schoolSummary_if_found(string urn, string name, string type,
+    [InlineData(280689, "My School", "Foundation school", SchoolCategory.LaMaintainedSchool)]
+    [InlineData(900855, "My Academy", "Academy converter", SchoolCategory.Academy)]
+    public async Task GetSchoolSummaryAsync_should_return_schoolSummary_if_found(int urn, string name, string type,
         SchoolCategory category)
     {
         _mockSchoolRepository.GetSchoolSummaryAsync(urn).Returns(new SchoolSummary(name, type, category));
@@ -53,9 +53,9 @@ public class SchoolServiceTests
     }
 
     [Theory]
-    [InlineData("280689", "My School", "Foundation school", SchoolCategory.LaMaintainedSchool)]
-    [InlineData("900855", "My Academy", "Academy converter", SchoolCategory.Academy)]
-    public async Task GetSchoolSummaryAsync_uncached_should_cache_result(string urn, string name, string type,
+    [InlineData(280689, "My School", "Foundation school", SchoolCategory.LaMaintainedSchool)]
+    [InlineData(900855, "My Academy", "Academy converter", SchoolCategory.Academy)]
+    public async Task GetSchoolSummaryAsync_uncached_should_cache_result(int urn, string name, string type,
         SchoolCategory category)
     {
         var key = $"{nameof(SchoolService.GetSchoolSummaryAsync)}:{urn}";
