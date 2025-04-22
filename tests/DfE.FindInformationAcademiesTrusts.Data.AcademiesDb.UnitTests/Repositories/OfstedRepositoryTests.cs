@@ -5,6 +5,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using FluentAssertions.Execution;
 using Microsoft.Extensions.Logging;
+using NSubstitute;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories;
 
@@ -559,7 +560,7 @@ public class OfstedRepositoryTests
 
         await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
-        _mockAcademiesDbContext.Verify(x => x.GiasEstablishmentLink, Times.Never());
+        _ = _mockAcademiesDbContext.Object.DidNotReceive().GiasEstablishmentLink;
     }
 
     [Fact]

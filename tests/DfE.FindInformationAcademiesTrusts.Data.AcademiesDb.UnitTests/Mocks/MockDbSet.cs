@@ -1,72 +1,52 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using NSubstitute;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 
 /// <summary>
-/// Use this to create a mock DbSet from a collection of items. The mock DbSet points to the collection so changes to
-/// the original collection will be reflected in the mock DbSet and vice versa
 /// Adapted from https://jason-ge.medium.com/mock-async-data-repository-in-asp-net-core-3-1-634cb19a3013
 /// </summary>
 /// <typeparam name="TEntity"></typeparam>
-public class MockDbSet<TEntity> : Mock<DbSet<TEntity>> where TEntity : class
+public class MockDbSet<TEntity> where TEntity : class
 {
-    public MockDbSet(IEnumerable<TEntity> items)
-    {
-        var itemsAsQueryable = items.AsQueryable();
+    private readonly List<TEntity> _items = [];
+    public DbSet<TEntity> Object { get; } = Substitute.For<DbSet<TEntity>, IAsyncEnumerable<TEntity>, IQueryable>();
 
-        As<IAsyncEnumerable<TEntity>>()
-            .Setup(x => x.GetAsyncEnumerator(default))
+    public MockDbSet()
+    {
+        var itemsAsQueryable = _items.AsQueryable();
+
+        ((IAsyncEnumerable<TEntity>)Object).GetAsyncEnumerator()
             .Returns(new TestAsyncEnumerator<TEntity>(itemsAsQueryable.GetEnumerator()));
-        As<IQueryable<TEntity>>()
-            .Setup(m => m.Provider)
-            .Returns(new TestAsyncQueryProvider<TEntity>(itemsAsQueryable.Provider));
-        As<IQueryable<TEntity>>()
-            .Setup(m => m.Expression).Returns(itemsAsQueryable.Expression);
-        As<IQueryable<TEntity>>()
-            .Setup(m => m.ElementType).Returns(itemsAsQueryable.ElementType);
-        As<IQueryable<TEntity>>()
-            .Setup(m => m.GetEnumerator()).Returns(itemsAsQueryable.GetEnumerator());
+        ((IQueryable)Object).Provider.Returns(new TestAsyncQueryProvider<TEntity>(itemsAsQueryable.Provider));
+        ((IQueryable)Object).Expression.Returns(itemsAsQueryable.Expression);
+        ((IQueryable)Object).ElementType.Returns(itemsAsQueryable.ElementType);
+        ((IQueryable)Object).GetEnumerator().Returns(itemsAsQueryable.GetEnumerator());
     }
 
-    public sealed override Mock<TInterface> As<TInterface>()
+    private class TestAsyncEnumerator<T>(IEnumerator<T> enumerator) : IAsyncEnumerator<T>
     {
-        return base.As<TInterface>();
-    }
-
-    private class TestAsyncEnumerator<T> : IAsyncEnumerator<T>
-    {
-        private readonly IEnumerator<T> _enumerator;
-
-        public TestAsyncEnumerator(IEnumerator<T> enumerator)
-        {
-            _enumerator = enumerator;
-        }
-
-        public T Current => _enumerator.Current;
+        public T Current => enumerator.Current;
 
         public ValueTask DisposeAsync()
         {
-            return new ValueTask(Task.Run(() => _enumerator.Dispose()));
+            return new ValueTask(Task.Run(enumerator.Dispose));
         }
 
         public ValueTask<bool> MoveNextAsync()
         {
-            return new ValueTask<bool>(_enumerator.MoveNext());
+            return new ValueTask<bool>(enumerator.MoveNext());
         }
     }
 
-    private class TestAsyncEnumerable<T> : EnumerableQuery<T>, IAsyncEnumerable<T>, IQueryable<T>
+    private class TestAsyncEnumerable<T>(Expression expression)
+        : EnumerableQuery<T>(expression), IAsyncEnumerable<T>, IQueryable<T>
     {
-        public TestAsyncEnumerable(Expression expression)
-            : base(expression)
-        {
-        }
-
         IQueryProvider IQueryable.Provider => new TestAsyncQueryProvider<T>(this);
 
-        public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken token)
+        public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default)
         {
             return new TestAsyncEnumerator<T>(this.AsEnumerable().GetEnumerator());
         }
@@ -108,7 +88,41 @@ public class MockDbSet<TEntity> : Mock<DbSet<TEntity>> where TEntity : class
 
             return (TResult)(typeof(Task).GetMethod(nameof(Task.FromResult))!
                 .MakeGenericMethod(expectedResultType)
-                .Invoke(null, new[] { executionResult }) ?? throw new Exception());
+                .Invoke(null, [executionResult]) ?? throw new Exception());
         }
+    }
+
+    public int Count => _items.Count;
+
+    public void Add(TEntity item)
+    {
+        _items.Add(item);
+    }
+
+    public void AddRange(IEnumerable<TEntity> items)
+    {
+        _items.AddRange(items);
+    }
+
+    public int GetNextId(Func<TEntity, int> identifier, int? specifiedId = null)
+    {
+        var nextId = specifiedId ?? _items.Count + 1;
+
+        //Don't allow duplicate IDs
+        if (_items.Any(entity => identifier(entity) == nextId))
+            _items.Remove(_items.Single(entity => identifier(entity) == nextId));
+
+        return nextId;
+    }
+
+    public string GetNextId(Func<TEntity, string> identifier, string? specifiedId = null)
+    {
+        var nextId = specifiedId ?? (_items.Count + 1).ToString();
+
+        //Don't allow duplicate IDs
+        if (_items.Any(entity => identifier(entity) == nextId))
+            _items.Remove(_items.Single(entity => identifier(entity) == nextId));
+
+        return nextId;
     }
 }

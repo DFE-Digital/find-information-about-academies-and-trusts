@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
+using NSubstitute;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
 
@@ -240,7 +241,7 @@ public class TrustSearchTests
     public async Task SearchAsync_should_not_call_database_if_empty_search_term(string? term)
     {
         await _sut.SearchAsync(term);
-        _mockAcademiesDbContext.Verify(academiesDbContext => academiesDbContext.Groups, Times.Never);
+        _ = _mockAcademiesDbContext.Object.DidNotReceive().Groups;
     }
 
     [Theory]
@@ -250,7 +251,7 @@ public class TrustSearchTests
     public async Task SearchAutocompleteAsync_should_not_call_database_if_empty_search_term(string? term)
     {
         await _sut.SearchAutocompleteAsync(term);
-        _mockAcademiesDbContext.Verify(academiesDbContext => academiesDbContext.Groups, Times.Never);
+        _ = _mockAcademiesDbContext.Object.DidNotReceive().Groups;
     }
 
     [Theory]

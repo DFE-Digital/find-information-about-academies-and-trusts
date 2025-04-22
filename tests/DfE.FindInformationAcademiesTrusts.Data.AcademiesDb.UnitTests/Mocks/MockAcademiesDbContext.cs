@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
@@ -8,72 +7,74 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Sharepoint;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
-using Microsoft.EntityFrameworkCore;
+using NSubstitute;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 
-public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
+public class MockAcademiesDbContext
 {
-    //application
-    private readonly List<ApplicationEvent> _applicationEvents = [];
+    public readonly IAcademiesDbContext Object = Substitute.For<IAcademiesDbContext>();
 
-    private readonly List<ApplicationSetting> _applicationSettings = [];
+    //application
+    private readonly MockDbSet<ApplicationEvent> _applicationEvents = new();
+    private readonly MockDbSet<ApplicationSetting> _applicationSettings = new();
 
     //cdm
-    private readonly List<CdmSystemuser> _cdmSystemusers = [];
-
-    private readonly List<CdmAccount> _cdmAccounts = [];
+    private readonly MockDbSet<CdmSystemuser> _cdmSystemusers = new();
+    private readonly MockDbSet<CdmAccount> _cdmAccounts = new();
 
     //gias
-    private readonly List<GiasEstablishment> _giasEstablishments = [];
-    private readonly List<GiasGovernance> _giasGovernances = [];
-    private readonly List<GiasGroup> _giasGroups = [];
-    private readonly List<GiasGroupLink> _giasGroupLinks = [];
-    private readonly List<GiasEstablishmentLink> _giasEstablishmentLinks = [];
+    private readonly MockDbSet<GiasEstablishment> _giasEstablishments = new();
+    private readonly MockDbSet<GiasGovernance> _giasGovernances = new();
+    private readonly MockDbSet<GiasGroup> _giasGroups = new();
+    private readonly MockDbSet<GiasGroupLink> _giasGroupLinks = new();
+    private readonly MockDbSet<GiasEstablishmentLink> _giasEstablishmentLinks = new();
 
     //mis_mstr
-    private readonly List<MisMstrEstablishmentFiat> _misMstrEstablishmentFiat = [];
-    private readonly List<MisMstrFurtherEducationEstablishmentFiat> _misMstrFurtherEducationEstablishmentFiat = [];
+    private readonly MockDbSet<MisMstrEstablishmentFiat> _misMstrEstablishmentFiat = new();
+
+    private readonly MockDbSet<MisMstrFurtherEducationEstablishmentFiat> _misMstrFurtherEducationEstablishmentFiat =
+        new();
 
     //mstr
-    private readonly List<MstrTrust> _mstrTrusts = [];
-    private readonly List<MstrAcademyConversion> _mstrAcademyConversions = [];
-    private readonly List<MstrAcademyTransfer> _mstrAcademyTransfers = [];
-    private readonly List<MstrFreeSchoolProject> _mstrFreeSchoolProjects = [];
+    private readonly MockDbSet<MstrTrust> _mstrTrusts = new();
+    private readonly MockDbSet<MstrAcademyConversion> _mstrAcademyConversions = new();
+    private readonly MockDbSet<MstrAcademyTransfer> _mstrAcademyTransfers = new();
+    private readonly MockDbSet<MstrFreeSchoolProject> _mstrFreeSchoolProjects = new();
 
     //sharepoint
-    private readonly List<SharepointTrustDocLink> _sharepointTrustDocLinks = [];
+    private readonly MockDbSet<SharepointTrustDocLink> _sharepointTrustDocLinks = new();
 
     //tad
-    private readonly List<TadTrustGovernance> _tadTrustGovernances = [];
+    private readonly MockDbSet<TadTrustGovernance> _tadTrustGovernances = new();
+
 
     public MockAcademiesDbContext()
     {
         //application
-        SetupMockDbContext(_applicationEvents, context => context.ApplicationEvents);
-        SetupMockDbContext(_applicationSettings, context => context.ApplicationSettings);
+        Object.ApplicationEvents.Returns(_applicationEvents.Object);
+        Object.ApplicationSettings.Returns(_applicationSettings.Object);
         //cdm
-        SetupMockDbContext(_cdmSystemusers, context => context.CdmSystemusers);
-        SetupMockDbContext(_cdmAccounts, context => context.CdmAccounts);
+        Object.CdmSystemusers.Returns(_cdmSystemusers.Object);
+        Object.CdmAccounts.Returns(_cdmAccounts.Object);
         //gias
-        SetupMockDbContext(_giasEstablishments, context => context.GiasEstablishments);
-        SetupMockDbContext(_giasGovernances, context => context.GiasGovernances);
-        SetupMockDbContext(_giasGroups, context => context.Groups);
-        SetupMockDbContext(_giasGroupLinks, context => context.GiasGroupLinks);
-        SetupMockDbContext(_giasEstablishmentLinks, context => context.GiasEstablishmentLink);
+        Object.GiasEstablishments.Returns(_giasEstablishments.Object);
+        Object.GiasGovernances.Returns(_giasGovernances.Object);
+        Object.Groups.Returns(_giasGroups.Object);
+        Object.GiasGroupLinks.Returns(_giasGroupLinks.Object);
+        Object.GiasEstablishmentLink.Returns(_giasEstablishmentLinks.Object);
         //mis_mstr
-        SetupMockDbContext(_misMstrEstablishmentFiat, context => context.MisMstrEstablishmentsFiat);
-        SetupMockDbContext(_misMstrFurtherEducationEstablishmentFiat,
-            context => context.MisMstrFurtherEducationEstablishmentsFiat);
+        Object.MisMstrEstablishmentsFiat.Returns(_misMstrEstablishmentFiat.Object);
+        Object.MisMstrFurtherEducationEstablishmentsFiat.Returns(_misMstrFurtherEducationEstablishmentFiat.Object);
         //mstr
-        SetupMockDbContext(_mstrAcademyConversions, context => context.MstrAcademyConversions);
-        SetupMockDbContext(_mstrAcademyTransfers, context => context.MstrAcademyTransfers);
-        SetupMockDbContext(_mstrFreeSchoolProjects, context => context.MstrFreeSchoolProjects);
-        SetupMockDbContext(_mstrTrusts, context => context.MstrTrusts);
+        Object.MstrAcademyConversions.Returns(_mstrAcademyConversions.Object);
+        Object.MstrAcademyTransfers.Returns(_mstrAcademyTransfers.Object);
+        Object.MstrFreeSchoolProjects.Returns(_mstrFreeSchoolProjects.Object);
+        Object.MstrTrusts.Returns(_mstrTrusts.Object);
         //sharepoint
-        SetupMockDbContext(_sharepointTrustDocLinks, context => context.SharepointTrustDocLinks);
+        Object.SharepointTrustDocLinks.Returns(_sharepointTrustDocLinks.Object);
         //tad
-        SetupMockDbContext(_tadTrustGovernances, context => context.TadTrustGovernances);
+        Object.TadTrustGovernances.Returns(_tadTrustGovernances.Object);
 
         //Set up some unused data to ensure we are actually retrieving the right data in our tests
         var otherTrust = AddGiasGroup(groupName: "Some other trust");
@@ -92,12 +93,6 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             AddTadTrustGovernance(new TadTrustGovernance { Gid = $"{i}", Email = $"governor{i}@othertrust.com" });
             AddMstrFreeSchoolProject(otherTrust.GroupId!);
         }
-    }
-
-    public void SetupMockDbContext<T>(List<T> items, Expression<Func<IAcademiesDbContext, DbSet<T>>> dbContextTable)
-        where T : class
-    {
-        Setup(dbContextTable).Returns(new MockDbSet<T>(items).Object);
     }
 
     public MstrTrust AddMstrTrust(string? groupUid = null, string? region = "North East")
@@ -393,30 +388,5 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 
         _sharepointTrustDocLinks.AddRange(sharepointTrustDocLinks);
         return sharepointTrustDocLinks;
-    }
-}
-
-file static class MockDbSetExtensions
-{
-    public static int GetNextId<T>(this List<T> entities, Func<T, int> identifier, int? specifiedId = null)
-    {
-        var nextId = specifiedId ?? entities.Count + 1;
-
-        //Don't allow duplicate IDs
-        if (entities.Any(entity => identifier(entity) == nextId))
-            entities.Remove(entities.Single(entity => identifier(entity) == nextId));
-
-        return nextId;
-    }
-
-    public static string GetNextId<T>(this List<T> entities, Func<T, string> identifier, string? specifiedId = null)
-    {
-        var nextId = specifiedId ?? (entities.Count + 1).ToString();
-
-        //Don't allow duplicate IDs
-        if (entities.Any(entity => identifier(entity) == nextId))
-            entities.Remove(entities.Single(entity => identifier(entity) == nextId));
-
-        return nextId;
     }
 }
