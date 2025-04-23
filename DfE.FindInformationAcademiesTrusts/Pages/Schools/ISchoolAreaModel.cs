@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared.DataSource;
+using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Schools;
 
@@ -12,4 +13,5 @@ public interface ISchoolAreaModel
     PageMetadata PageMetadata { get; }
     string SchoolName { get; }
     string SchoolType { get; }
+    TrustSummaryServiceModel? TrustSummary { get; }
 }

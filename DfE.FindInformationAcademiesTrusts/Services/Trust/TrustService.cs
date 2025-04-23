@@ -10,6 +10,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Trust;
 public interface ITrustService
 {
     Task<TrustSummaryServiceModel?> GetTrustSummaryAsync(string uid);
+    Task<TrustSummaryServiceModel?> GetTrustSummaryAsync(int urn);
     Task<TrustGovernanceServiceModel> GetTrustGovernanceAsync(string uid);
     Task<TrustContactsServiceModel> GetTrustContactsAsync(string uid);
     Task<TrustOverviewServiceModel> GetTrustOverviewAsync(string uid);
@@ -28,6 +29,18 @@ public class TrustService(
     IDateTimeProvider dateTimeProvider)
     : ITrustService
 {
+    public async Task<TrustSummaryServiceModel?> GetTrustSummaryAsync(int urn)
+    {
+        var uid = await academyRepository.GetTrustUidFromAcademyUrnAsync(urn);
+
+        if (uid is null)
+        {
+            return null;
+        }
+
+        return await GetTrustSummaryAsync(uid);
+    }
+
     public async Task<TrustSummaryServiceModel?> GetTrustSummaryAsync(string uid)
     {
         var cacheKey = $"{nameof(TrustService)}:{uid}";

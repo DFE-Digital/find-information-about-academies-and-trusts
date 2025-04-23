@@ -1,15 +1,31 @@
-﻿@model ISchoolAreaModel
+﻿@using DfE.FindInformationAcademiesTrusts.Data.Enums
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ISchoolAreaModel
 
-<aside class="app-banner" data-testid="app-school-header">
-  <div class="dfe-width-container">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-three-quarters">
-        <partial name="_SchoolBreadcrumbs" model="@Model" />
-        <h2 class="govuk-heading-l app-banner--heading govuk-!-margin-top-3 govuk-!-margin-bottom-3"
-            data-testid="school-name-heading">@Model.SchoolName</h2>
-        <p class="govuk-body app-banner--body govuk-!-margin-bottom-0"
-           data-testid="school-type">@Model.SchoolType</p>
-      </div>
+<aside class="app-banner school" data-testid="app-school-header">
+    <div class="dfe-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-three-quarters">
+                <partial name="_SchoolBreadcrumbs" model="@Model"/>
+                <h2 class="govuk-heading-l app-banner--heading govuk-!-margin-top-3 govuk-!-margin-bottom-3"
+                    data-testid="school-name-heading">
+                    @Model.SchoolName
+                </h2>
+                <p class="govuk-body app-banner--body govuk-!-margin-bottom-0"
+                   data-testid="school-type">
+                    @Model.SchoolType
+                </p>
+
+                @if (Model is { SchoolCategory: SchoolCategory.Academy, TrustSummary: not null })
+                {
+                    <p class="govuk-caption-m govuk-!-margin-top-2 govuk-!-margin-bottom-0">
+                        Trust:
+                        <a data-testid="header-trust-link" class="govuk-link" asp-page="/Trusts/Overview/TrustDetails" asp-route-uid="@Model.TrustSummary.Uid">
+                            @Model.TrustSummary.Name
+                        </a>
+                    </p>
+                }
+            </div>
+        </div>
     </div>
-  </div>
 </aside>

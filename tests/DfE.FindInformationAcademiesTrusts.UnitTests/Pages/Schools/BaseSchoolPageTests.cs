@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools;
 using DfE.FindInformationAcademiesTrusts.Services.School;
+using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -10,14 +11,20 @@ public abstract class BaseSchoolPageTests<T> where T : SchoolAreaModel
 {
     protected T Sut = null!;
     protected readonly ISchoolService MockSchoolService = Substitute.For<ISchoolService>();
-    protected const int Urn = 123456;
+    protected readonly ITrustService MockTrustService = Substitute.For<ITrustService>();
+    protected const int SchoolUrn = 123456;
+    protected const int AcademyUrn = 888888;
 
     protected readonly SchoolSummaryServiceModel DummySchoolSummary =
-        new(Urn, "Cool school", "Community school", SchoolCategory.LaMaintainedSchool);
+        new(SchoolUrn, "Cool school", "Community school", SchoolCategory.LaMaintainedSchool);
+
+    protected readonly SchoolSummaryServiceModel DummyAcademySummary =
+        new(AcademyUrn, "Cool academy", "Academy school", SchoolCategory.Academy);
 
     protected BaseSchoolPageTests()
     {
-        MockSchoolService.GetSchoolSummaryAsync(Urn).Returns(DummySchoolSummary);
+        MockSchoolService.GetSchoolSummaryAsync(SchoolUrn).Returns(DummySchoolSummary);
+        MockSchoolService.GetSchoolSummaryAsync(AcademyUrn).Returns(DummyAcademySummary);
     }
 
     [Fact]
@@ -67,7 +74,36 @@ public abstract class BaseSchoolPageTests<T> where T : SchoolAreaModel
     [Fact]
     public async Task OnGetAsync_should_return_page_result_if_urn_exists()
     {
+        Sut.Urn = DummySchoolSummary.Urn;
+
         var result = await Sut.OnGetAsync();
         result.Should().BeOfType<PageResult>();
+    }
+
+    [Fact]
+    public async Task OnGetAsync_if_school_is_an_academy_should_get_trust_summary()
+    {
+        MockTrustService.GetTrustSummaryAsync(DummyAcademySummary.Urn)
+            .Returns(new TrustSummaryServiceModel("TRUST", "Cool trust", "Multi-academy trust", 1));
+
+        Sut.Urn = DummyAcademySummary.Urn;
+
+        await Sut.OnGetAsync();
+
+        await MockTrustService.Received(1).GetTrustSummaryAsync(DummyAcademySummary.Urn);
+
+        Sut.TrustSummary.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task OnGetAsync_if_school_is_not_an_academy_should_not_get_trust_summary()
+    {
+        Sut.Urn = DummySchoolSummary.Urn;
+
+        await Sut.OnGetAsync();
+
+        await MockTrustService.Received(0).GetTrustSummaryAsync(Sut.Urn);
+
+        Sut.TrustSummary.Should().BeNull();
     }
 }

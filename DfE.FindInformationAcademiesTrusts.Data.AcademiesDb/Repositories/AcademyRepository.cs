@@ -69,6 +69,16 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext)
             .FirstOrDefaultAsync();
     }
 
+    public async Task<string?> GetTrustUidFromAcademyUrnAsync(int urn)
+    {
+        return await academiesDbContext.GiasGroupLinks
+            .Where(gl => 
+                gl.Urn == urn.ToString() && 
+                (gl.GroupType == "Multi-academy trust" || gl.GroupType == "Single-academy trust"))
+            .Select(gl => gl.GroupUid)
+            .SingleOrDefaultAsync();
+    }
+
     public async Task<AcademyOverview[]> GetOverviewOfAcademiesInTrustAsync(string uid)
     {
         return await academiesDbContext.GiasGroupLinks

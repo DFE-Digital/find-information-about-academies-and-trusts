@@ -12,6 +12,10 @@
   @include govuk-responsive-padding(3, "bottom");
   background-color: $app-color-blue-light;
 
+  &.school {
+    background-color: $app-color-purple-light;
+  }
+
   .app-banner--heading {
     color: $app-color-dfe-blue;
   }
