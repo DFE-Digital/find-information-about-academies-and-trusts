@@ -80,7 +80,7 @@ public class TrustRepositoryTests
         const string postcode = "a postcode";
         const string expectedAddress = "an address";
 
-        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        _mockAcademiesDbContext.GiasGroups.Add(new GiasGroup
         {
             GroupUid = "2806",
             GroupType = "Multi-academy trust",
@@ -100,7 +100,7 @@ public class TrustRepositoryTests
     [Fact]
     public async Task GetTrustOverviewAsync_should_set_properties_from_giasGroup()
     {
-        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        _mockAcademiesDbContext.GiasGroups.Add(new GiasGroup
         {
             GroupUid = "2806",
             GroupId = "TR0012",
@@ -284,7 +284,7 @@ public class TrustRepositoryTests
             AppointingBody = "Nick Warms"
         };
 
-        _mockAcademiesDbContext.AddGiasGovernance(input);
+        _mockAcademiesDbContext.GiasGovernances.Add(input);
         var result = await _sut.GetTrustContactsAsync("1234");
         result.ChairOfTrustees.Should().NotBeNull();
         result.ChairOfTrustees!.FullName.Should().Be("First Second Last");
@@ -350,8 +350,8 @@ public class TrustRepositoryTests
             Email = email
         };
 
-        _mockAcademiesDbContext.AddGiasGovernance(giasGovernance);
-        _mockAcademiesDbContext.AddTadTrustGovernance(tadTrustGovernance);
+        _mockAcademiesDbContext.GiasGovernances.Add(giasGovernance);
+        _mockAcademiesDbContext.TadTrustGovernances.Add(tadTrustGovernance);
 
         return governor;
     }
@@ -406,7 +406,7 @@ public class TrustRepositoryTests
     [Fact]
     public async Task GetTrustReferenceNumberAsync_should_throw_if_trustReferenceNumber_is_null()
     {
-        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        _mockAcademiesDbContext.GiasGroups.Add(new GiasGroup
         {
             GroupUid = "0401",
             GroupId = null,

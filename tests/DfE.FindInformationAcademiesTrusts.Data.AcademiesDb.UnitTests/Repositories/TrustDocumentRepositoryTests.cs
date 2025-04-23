@@ -40,7 +40,7 @@ public class TrustDocumentRepositoryTests
         for (var i = 0; i < folderPrefixes.Length; i++)
         {
             var folderPrefix = folderPrefixes[i];
-            _mockAcademiesDb.AddTrustDocLink(new SharepointTrustDocLink
+            _mockAcademiesDb.SharepointTrustDocLinks.Add(new SharepointTrustDocLink
             {
                 FolderPrefix = folderPrefix,
                 TrustRefNumber = TrustReferenceNumber,
@@ -83,7 +83,7 @@ public class TrustDocumentRepositoryTests
     {
         var link = $"www.link-to-{folderPrefix}-{folderYear}.com";
 
-        _mockAcademiesDb.AddTrustDocLink(new SharepointTrustDocLink
+        _mockAcademiesDb.SharepointTrustDocLinks.Add(new SharepointTrustDocLink
         {
             FolderPrefix = folderPrefix,
             TrustRefNumber = TrustReferenceNumber,
@@ -108,7 +108,7 @@ public class TrustDocumentRepositoryTests
     {
         var link = $"www.link-to-{folderPrefix}-{folderYear}.com";
 
-        _mockAcademiesDb.AddTrustDocLink(new SharepointTrustDocLink
+        _mockAcademiesDb.SharepointTrustDocLinks.Add(new SharepointTrustDocLink
         {
             FolderPrefix = folderPrefix,
             TrustRefNumber = TrustReferenceNumber,
@@ -161,33 +161,35 @@ public class TrustDocumentRepositoryTests
     [Fact]
     public async Task GetFinancialDocumentsAsync_should_return_newest_doc_when_more_than_one_in_year()
     {
-        _mockAcademiesDb.AddTrustDocLink(new SharepointTrustDocLink
-        {
-            FolderPrefix = "AFS",
-            TrustRefNumber = TrustReferenceNumber,
-            DocumentFilename = "Old Trust Document",
-            DocumentLink = "www.old.com",
-            CreatedDateTime = new DateTime(2019, 11, 01, 11, 21, 31, DateTimeKind.Utc),
-            FolderYear = 2019
-        });
-        _mockAcademiesDb.AddTrustDocLink(new SharepointTrustDocLink
-        {
-            FolderPrefix = "AFS",
-            TrustRefNumber = TrustReferenceNumber,
-            DocumentFilename = "New Trust Document",
-            DocumentLink = "www.new.com",
-            CreatedDateTime = new DateTime(2019, 12, 30, 9, 29, 39, DateTimeKind.Utc),
-            FolderYear = 2019
-        });
-        _mockAcademiesDb.AddTrustDocLink(new SharepointTrustDocLink
-        {
-            FolderPrefix = "AFS",
-            TrustRefNumber = TrustReferenceNumber,
-            DocumentFilename = "Oldest Trust Document",
-            DocumentLink = "www.oldest.com",
-            CreatedDateTime = new DateTime(2019, 10, 01, 1, 2, 3, DateTimeKind.Utc),
-            FolderYear = 2019
-        });
+        _mockAcademiesDb.SharepointTrustDocLinks.AddRange([
+            new SharepointTrustDocLink()
+            {
+                FolderPrefix = "AFS",
+                TrustRefNumber = TrustReferenceNumber,
+                DocumentFilename = "Old Trust Document",
+                DocumentLink = "www.old.com",
+                CreatedDateTime = new DateTime(2019, 11, 01, 11, 21, 31, DateTimeKind.Utc),
+                FolderYear = 2019
+            },
+            new SharepointTrustDocLink
+            {
+                FolderPrefix = "AFS",
+                TrustRefNumber = TrustReferenceNumber,
+                DocumentFilename = "New Trust Document",
+                DocumentLink = "www.new.com",
+                CreatedDateTime = new DateTime(2019, 12, 30, 9, 29, 39, DateTimeKind.Utc),
+                FolderYear = 2019
+            },
+            new SharepointTrustDocLink
+            {
+                FolderPrefix = "AFS",
+                TrustRefNumber = TrustReferenceNumber,
+                DocumentFilename = "Oldest Trust Document",
+                DocumentLink = "www.oldest.com",
+                CreatedDateTime = new DateTime(2019, 10, 01, 1, 2, 3, DateTimeKind.Utc),
+                FolderYear = 2019
+            }
+        ]);
 
         var result = await _sut.GetFinancialDocumentsAsync(Uid, FinancialDocumentType.FinancialStatement);
 

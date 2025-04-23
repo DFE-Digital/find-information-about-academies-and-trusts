@@ -29,7 +29,7 @@ public class OfstedRepositoryTests
             JoinedDate = "13/06/2023"
         }).ToArray();
 
-        _mockAcademiesDbContext.AddGiasGroupLinks(giasGroupLinks);
+        _mockAcademiesDbContext.GiasGroupLinks.AddRange(giasGroupLinks);
 
         return giasGroupLinks;
     }
@@ -44,7 +44,7 @@ public class OfstedRepositoryTests
     [Fact]
     public async Task GetAcademiesInTrustOfstedAsync_should_only_return_academies_linked_to_trust()
     {
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+        _mockAcademiesDbContext.GiasGroupLinks.Add(new GiasGroupLink
             { GroupUid = "some other trust", Urn = "some other academy" });
 
         var giasGroupLinks = AddGiasGroupLinksToMockDb(6);
@@ -89,7 +89,7 @@ public class OfstedRepositoryTests
     [Fact]
     public async Task GetAcademiesInTrustOfstedAsync_should_set_InspectionDate_when_not_further_ed()
     {
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+        _mockAcademiesDbContext.GiasGroupLinks.Add(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
         _mockAcademiesDbContext.AddEstablishmentFiat(987654, "15/05/2023");
 
@@ -103,10 +103,13 @@ public class OfstedRepositoryTests
     [Fact]
     public async Task GetAcademiesInTrustOfstedAsync_should_set_InspectionDate_when_further_ed()
     {
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+        _mockAcademiesDbContext.GiasGroupLinks.Add(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(new MisMstrFurtherEducationEstablishmentFiat
-            { ProviderUrn = 987654, LastDayOfInspection = "15/05/2023", PreviousLastDayOfInspection = "01/02/2013" });
+        _mockAcademiesDbContext.MisMstrFurtherEducationEstablishmentFiat.Add(
+            new MisMstrFurtherEducationEstablishmentFiat
+            {
+                ProviderUrn = 987654, LastDayOfInspection = "15/05/2023", PreviousLastDayOfInspection = "01/02/2013"
+            });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
@@ -168,8 +171,9 @@ public class OfstedRepositoryTests
         ]);
 
         //Add invalid establishments to mock db
-        _mockAcademiesDbContext.AddEstablishmentsFiat(invalidEstablishmentsFiat);
-        _mockAcademiesDbContext.AddFurtherEducationEstablishmentsFiat(invalidFurtherEducationEstablishmentsFiat);
+        _mockAcademiesDbContext.MisMstrEstablishmentFiat.AddRange(invalidEstablishmentsFiat);
+        _mockAcademiesDbContext.MisMstrFurtherEducationEstablishmentFiat.AddRange(
+            invalidFurtherEducationEstablishmentsFiat);
 
         //Get urns of invalid entries added
         var invalidEstablishmentUrns = invalidEstablishmentsFiat.Select(e => e.Urn)
@@ -178,14 +182,16 @@ public class OfstedRepositoryTests
 
         //Add some valid establishments to ensure we're not just logging everything
         int[] validEstablishmentUrns = [123, 456];
-        _mockAcademiesDbContext.AddEstablishmentFiat(new MisMstrEstablishmentFiat { Urn = validEstablishmentUrns[0] });
-        _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(new MisMstrFurtherEducationEstablishmentFiat
-            { ProviderUrn = validEstablishmentUrns[1] });
+        _mockAcademiesDbContext.MisMstrEstablishmentFiat.Add(new MisMstrEstablishmentFiat
+            { Urn = validEstablishmentUrns[0] });
+        _mockAcademiesDbContext.MisMstrFurtherEducationEstablishmentFiat.Add(
+            new MisMstrFurtherEducationEstablishmentFiat
+                { ProviderUrn = validEstablishmentUrns[1] });
 
         //Create group links
         foreach (var urn in validEstablishmentUrns.Concat(invalidEstablishmentUrns))
         {
-            _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+            _mockAcademiesDbContext.GiasGroupLinks.Add(new GiasGroupLink
                 { GroupUid = GroupUid, Urn = urn.ToString(), JoinedDate = "01/01/2022" });
         }
 
@@ -201,10 +207,11 @@ public class OfstedRepositoryTests
     [Fact]
     public async Task GetAcademiesInTrustOfstedAsync_should_set_CategoryOfConcern_to_DoesNotApply_when_further_ed()
     {
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+        _mockAcademiesDbContext.GiasGroupLinks.Add(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(new MisMstrFurtherEducationEstablishmentFiat
-            { ProviderUrn = 987654 });
+        _mockAcademiesDbContext.MisMstrFurtherEducationEstablishmentFiat.Add(
+            new MisMstrFurtherEducationEstablishmentFiat
+                { ProviderUrn = 987654 });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
@@ -216,9 +223,9 @@ public class OfstedRepositoryTests
     [Fact]
     public async Task GetAcademiesInTrustOfstedAsync_should_handle_not_inspected_when_not_further_ed()
     {
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+        _mockAcademiesDbContext.GiasGroupLinks.Add(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddEstablishmentFiat(new MisMstrEstablishmentFiat { Urn = 987654 });
+        _mockAcademiesDbContext.MisMstrEstablishmentFiat.Add(new MisMstrEstablishmentFiat { Urn = 987654 });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
@@ -230,10 +237,10 @@ public class OfstedRepositoryTests
     [Fact]
     public async Task GetAcademiesInTrustOfstedAsync_should_handle_not_inspected_when_further_ed()
     {
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+        _mockAcademiesDbContext.GiasGroupLinks.Add(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(new MisMstrFurtherEducationEstablishmentFiat
-            { ProviderUrn = 987654 });
+        _mockAcademiesDbContext.MisMstrFurtherEducationEstablishmentFiat.Add(
+            new MisMstrFurtherEducationEstablishmentFiat { ProviderUrn = 987654 });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
@@ -247,31 +254,29 @@ public class OfstedRepositoryTests
     [Fact]
     public async Task GetAcademiesInTrustOfstedAsync_should_set_ofsted_sub_judgements_when_not_further_ed()
     {
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+        _mockAcademiesDbContext.GiasGroupLinks.Add(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
 
-        _mockAcademiesDbContext.AddEstablishmentFiat(
-            new MisMstrEstablishmentFiat
-            {
-                Urn = 987654,
+        _mockAcademiesDbContext.MisMstrEstablishmentFiat.Add(new MisMstrEstablishmentFiat
+        {
+            Urn = 987654,
 
-                OverallEffectiveness = "1",
-                QualityOfEducation = 1,
-                BehaviourAndAttitudes = 2,
-                PersonalDevelopment = 3,
-                EffectivenessOfLeadershipAndManagement = 4,
-                EarlyYearsProvisionWhereApplicable = 1,
-                SixthFormProvisionWhereApplicable = 2,
+            OverallEffectiveness = "1",
+            QualityOfEducation = 1,
+            BehaviourAndAttitudes = 2,
+            PersonalDevelopment = 3,
+            EffectivenessOfLeadershipAndManagement = 4,
+            EarlyYearsProvisionWhereApplicable = 1,
+            SixthFormProvisionWhereApplicable = 2,
 
-                PreviousFullInspectionOverallEffectiveness = "2",
-                PreviousQualityOfEducation = 3,
-                PreviousBehaviourAndAttitudes = 4,
-                PreviousPersonalDevelopment = 1,
-                PreviousEffectivenessOfLeadershipAndManagement = 2,
-                PreviousEarlyYearsProvisionWhereApplicable = 3,
-                PreviousSixthFormProvisionWhereApplicable = "4"
-            }
-        );
+            PreviousFullInspectionOverallEffectiveness = "2",
+            PreviousQualityOfEducation = 3,
+            PreviousBehaviourAndAttitudes = 4,
+            PreviousPersonalDevelopment = 1,
+            PreviousEffectivenessOfLeadershipAndManagement = 2,
+            PreviousEarlyYearsProvisionWhereApplicable = 3,
+            PreviousSixthFormProvisionWhereApplicable = "4"
+        });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
@@ -297,10 +302,10 @@ public class OfstedRepositoryTests
     [Fact]
     public async Task GetAcademiesInTrustOfstedAsync_should_set_ofsted_judgements_when_further_ed()
     {
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+        _mockAcademiesDbContext.GiasGroupLinks.Add(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
 
-        _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(
+        _mockAcademiesDbContext.MisMstrFurtherEducationEstablishmentFiat.Add(
             new MisMstrFurtherEducationEstablishmentFiat
             {
                 ProviderUrn = 987654,
@@ -316,8 +321,7 @@ public class OfstedRepositoryTests
                 PreviousBehaviourAndAttitudes = 4,
                 PreviousPersonalDevelopment = 1,
                 PreviousEffectivenessOfLeadershipAndManagement = 2
-            }
-        );
+            });
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
@@ -344,13 +348,13 @@ public class OfstedRepositoryTests
 
         // The first three urns are set up in non-further establishments with a non-further only property
         var nonFurtherUrns = allUrns.Take(3).ToArray();
-        _mockAcademiesDbContext.AddEstablishmentsFiat(
-            nonFurtherUrns.Select(urn => new MisMstrEstablishmentFiat
+        _mockAcademiesDbContext.MisMstrEstablishmentFiat.AddRange(nonFurtherUrns.Select(urn =>
+            new MisMstrEstablishmentFiat
                 { Urn = urn, EarlyYearsProvisionWhereApplicable = 1 }));
 
         // All urns are set up in further (note that this wouldn't occur in the actual db)
-        _mockAcademiesDbContext.AddFurtherEducationEstablishmentsFiat(
-            allUrns.Select(urn => new MisMstrFurtherEducationEstablishmentFiat { ProviderUrn = urn }));
+        _mockAcademiesDbContext.MisMstrFurtherEducationEstablishmentFiat.AddRange(allUrns.Select(urn =>
+            new MisMstrFurtherEducationEstablishmentFiat { ProviderUrn = urn }));
 
         //--Act--
         var results = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
@@ -380,31 +384,29 @@ public class OfstedRepositoryTests
             LinkType = "Predecessor"
         };
 
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+        _mockAcademiesDbContext.GiasGroupLinks.Add(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "123456", JoinedDate = "01/01/2022" });
 
-        _mockAcademiesDbContext.AddEstablishmentFiat(
-            new MisMstrEstablishmentFiat
-            {
-                Urn = 987654,
+        _mockAcademiesDbContext.MisMstrEstablishmentFiat.Add(new MisMstrEstablishmentFiat
+        {
+            Urn = 987654,
 
-                QualityOfEducation = 1,
-                BehaviourAndAttitudes = 2,
-                PersonalDevelopment = 3,
-                EffectivenessOfLeadershipAndManagement = 4,
-                EarlyYearsProvisionWhereApplicable = 1,
-                SixthFormProvisionWhereApplicable = 2,
+            QualityOfEducation = 1,
+            BehaviourAndAttitudes = 2,
+            PersonalDevelopment = 3,
+            EffectivenessOfLeadershipAndManagement = 4,
+            EarlyYearsProvisionWhereApplicable = 1,
+            SixthFormProvisionWhereApplicable = 2,
 
-                PreviousQualityOfEducation = 3,
-                PreviousBehaviourAndAttitudes = 4,
-                PreviousPersonalDevelopment = 1,
-                PreviousEffectivenessOfLeadershipAndManagement = 2,
-                PreviousEarlyYearsProvisionWhereApplicable = 3,
-                PreviousSixthFormProvisionWhereApplicable = "4"
-            }
-        );
+            PreviousQualityOfEducation = 3,
+            PreviousBehaviourAndAttitudes = 4,
+            PreviousPersonalDevelopment = 1,
+            PreviousEffectivenessOfLeadershipAndManagement = 2,
+            PreviousEarlyYearsProvisionWhereApplicable = 3,
+            PreviousSixthFormProvisionWhereApplicable = "4"
+        });
 
-        _mockAcademiesDbContext.AddGiasEstablishmentLink(giasEstablishmentLink);
+        _mockAcademiesDbContext.GiasEstablishmentLinks.Add(giasEstablishmentLink);
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
@@ -435,13 +437,13 @@ public class OfstedRepositoryTests
             LinkType = "Successor"
         };
 
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+        _mockAcademiesDbContext.GiasGroupLinks.Add(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "123456", JoinedDate = "01/01/2022" });
 
-        _mockAcademiesDbContext.AddEstablishmentFiat(new MisMstrEstablishmentFiat
+        _mockAcademiesDbContext.MisMstrEstablishmentFiat.Add(new MisMstrEstablishmentFiat
             { Urn = 987654, QualityOfEducation = 1 });
 
-        _mockAcademiesDbContext.AddGiasEstablishmentLink(giasEstablishmentLink);
+        _mockAcademiesDbContext.GiasEstablishmentLinks.Add(giasEstablishmentLink);
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
@@ -455,9 +457,9 @@ public class OfstedRepositoryTests
     public async Task GetAcademiesInTrustOfstedAsync_should_return_unknown_when_urn_has_multiple_predecessors()
     {
         const string currentUrn = "123456";
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+        _mockAcademiesDbContext.GiasGroupLinks.Add(new GiasGroupLink
             { GroupUid = GroupUid, Urn = currentUrn, JoinedDate = "01/01/2022" });
-        _mockAcademiesDbContext.AddGiasEstablishmentLinks([
+        _mockAcademiesDbContext.GiasEstablishmentLinks.AddRange([
             new GiasEstablishmentLink
             {
                 Urn = currentUrn,
@@ -471,9 +473,10 @@ public class OfstedRepositoryTests
                 LinkType = "Predecessor"
             }
         ]);
-        _mockAcademiesDbContext.AddEstablishmentsFiat(
+        _mockAcademiesDbContext.MisMstrEstablishmentFiat.AddRange([
             new MisMstrEstablishmentFiat { Urn = 987654, QualityOfEducation = 1 },
-            new MisMstrEstablishmentFiat { Urn = 876543, QualityOfEducation = 1 });
+            new MisMstrEstablishmentFiat { Urn = 876543, QualityOfEducation = 1 }
+        ]);
 
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
@@ -504,13 +507,13 @@ public class OfstedRepositoryTests
             LinkType = "Predecessor"
         });
 
-        _mockAcademiesDbContext.AddGiasEstablishmentLinks(giasEstablishmentLinks);
+        _mockAcademiesDbContext.GiasEstablishmentLinks.AddRange(giasEstablishmentLinks);
 
-        _mockAcademiesDbContext.AddEstablishmentsFiat(
-            nonFurtherLinkUrns.Select(urn => new MisMstrEstablishmentFiat
+        _mockAcademiesDbContext.MisMstrEstablishmentFiat.AddRange(nonFurtherLinkUrns.Select(urn =>
+            new MisMstrEstablishmentFiat
                 { Urn = urn, EarlyYearsProvisionWhereApplicable = 1 }));
 
-        _mockAcademiesDbContext.AddFurtherEducationEstablishmentsFiat(
+        _mockAcademiesDbContext.MisMstrFurtherEducationEstablishmentFiat.AddRange(
             furtherLinkUrns.Select(urn => new MisMstrFurtherEducationEstablishmentFiat { ProviderUrn = urn }));
 
         //--Act--
@@ -531,29 +534,27 @@ public class OfstedRepositoryTests
     [Fact]
     public async Task GetAcademiesInTrustOfstedAsync_should_not_query_gias_establishment_link_when_urn_is_found_in_mis()
     {
-        _mockAcademiesDbContext.AddGiasGroupLink(new GiasGroupLink
+        _mockAcademiesDbContext.GiasGroupLinks.Add(new GiasGroupLink
             { GroupUid = GroupUid, Urn = "987654", JoinedDate = "01/01/2022" });
 
-        _mockAcademiesDbContext.AddEstablishmentFiat(
-            new MisMstrEstablishmentFiat
-            {
-                Urn = 987654,
+        _mockAcademiesDbContext.MisMstrEstablishmentFiat.Add(new MisMstrEstablishmentFiat
+        {
+            Urn = 987654,
 
-                QualityOfEducation = 1,
-                BehaviourAndAttitudes = 2,
-                PersonalDevelopment = 3,
-                EffectivenessOfLeadershipAndManagement = 4,
-                EarlyYearsProvisionWhereApplicable = 1,
-                SixthFormProvisionWhereApplicable = 2,
+            QualityOfEducation = 1,
+            BehaviourAndAttitudes = 2,
+            PersonalDevelopment = 3,
+            EffectivenessOfLeadershipAndManagement = 4,
+            EarlyYearsProvisionWhereApplicable = 1,
+            SixthFormProvisionWhereApplicable = 2,
 
-                PreviousQualityOfEducation = 3,
-                PreviousBehaviourAndAttitudes = 4,
-                PreviousPersonalDevelopment = 1,
-                PreviousEffectivenessOfLeadershipAndManagement = 2,
-                PreviousEarlyYearsProvisionWhereApplicable = 3,
-                PreviousSixthFormProvisionWhereApplicable = "4"
-            }
-        );
+            PreviousQualityOfEducation = 3,
+            PreviousBehaviourAndAttitudes = 4,
+            PreviousPersonalDevelopment = 1,
+            PreviousEffectivenessOfLeadershipAndManagement = 2,
+            PreviousEarlyYearsProvisionWhereApplicable = 3,
+            PreviousSixthFormProvisionWhereApplicable = "4"
+        });
 
         await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
 
@@ -583,7 +584,7 @@ public class OfstedRepositoryTests
         var giasGroupLinks = AddGiasGroupLinksToMockDb(2);
         var urns = giasGroupLinks.Select(gl => int.Parse(gl.Urn!)).ToArray();
 
-        _mockAcademiesDbContext.AddEstablishmentFiat(
+        _mockAcademiesDbContext.MisMstrEstablishmentFiat.Add(
             new MisMstrEstablishmentFiat
             {
                 Urn = urns[0],
@@ -591,7 +592,7 @@ public class OfstedRepositoryTests
                 PreviousInspectionStartDate = "01/01/2022"
             }
         );
-        _mockAcademiesDbContext.AddFurtherEducationEstablishmentFiat(
+        _mockAcademiesDbContext.MisMstrFurtherEducationEstablishmentFiat.Add(
             new MisMstrFurtherEducationEstablishmentFiat
             {
                 ProviderUrn = urns[1],
@@ -613,7 +614,7 @@ public class OfstedRepositoryTests
         var giasGroupLinks = AddGiasGroupLinksToMockDb(5);
         var urns = giasGroupLinks.Select(gl => int.Parse(gl.Urn!)).ToArray();
 
-        _mockAcademiesDbContext.AddEstablishmentsFiat(
+        _mockAcademiesDbContext.MisMstrEstablishmentFiat.AddRange([
             new MisMstrEstablishmentFiat // OverallEffectiveness set after policy change date
             {
                 Urn = urns[0],
@@ -652,7 +653,7 @@ public class OfstedRepositoryTests
                 InspectionStartDate = "01/09/2024",
                 PreviousInspectionStartDate = "01/01/2021"
             }
-        );
+        ]);
 
         // Act
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
@@ -715,7 +716,7 @@ public class OfstedRepositoryTests
         var giasGroupLinks = AddGiasGroupLinksToMockDb(5);
         var urns = giasGroupLinks.Select(gl => int.Parse(gl.Urn!)).ToArray();
 
-        _mockAcademiesDbContext.AddFurtherEducationEstablishmentsFiat(
+        _mockAcademiesDbContext.MisMstrFurtherEducationEstablishmentFiat.AddRange([
             new MisMstrFurtherEducationEstablishmentFiat // OverallEffectiveness set after policy change date
             {
                 ProviderUrn = urns[0],
@@ -756,7 +757,7 @@ public class OfstedRepositoryTests
                 LastDayOfInspection = "01/09/2024",
                 PreviousLastDayOfInspection = "01/01/2021"
             }
-        );
+        ]);
 
         // Act
         var result = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);
@@ -781,7 +782,7 @@ public class OfstedRepositoryTests
             AddGiasGroupLinksToMockDb(8);
 
         // - Add non-further eds
-        _mockAcademiesDbContext.AddEstablishmentsFiat(
+        _mockAcademiesDbContext.MisMstrEstablishmentFiat.AddRange([
             new MisMstrEstablishmentFiat // OverallEffectiveness before policy change date
             {
                 Urn = int.Parse(giasGroupLinks[0].Urn!),
@@ -810,10 +811,10 @@ public class OfstedRepositoryTests
             {
                 Urn = int.Parse(giasGroupLinks[3].Urn!)
             }
-        );
+        ]);
 
         // - Add further eds
-        _mockAcademiesDbContext.AddFurtherEducationEstablishmentsFiat(
+        _mockAcademiesDbContext.MisMstrFurtherEducationEstablishmentFiat.AddRange([
             new MisMstrFurtherEducationEstablishmentFiat // OverallEffectiveness before policy change date
             {
                 ProviderUrn = int.Parse(giasGroupLinks[4].Urn!),
@@ -842,7 +843,7 @@ public class OfstedRepositoryTests
             {
                 ProviderUrn = int.Parse(giasGroupLinks[7].Urn!)
             }
-        );
+        ]);
 
         // Act
         _ = await _sut.GetAcademiesInTrustOfstedAsync(GroupUid);

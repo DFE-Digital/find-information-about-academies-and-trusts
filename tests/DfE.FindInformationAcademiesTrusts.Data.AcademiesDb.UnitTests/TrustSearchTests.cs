@@ -6,7 +6,9 @@ public class TrustSearchTests
 {
     private readonly TrustSearch _sut;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
-    private readonly IStringFormattingUtilities _mockStringFormattingUtilities = Substitute.For<IStringFormattingUtilities>();
+
+    private readonly IStringFormattingUtilities _mockStringFormattingUtilities =
+        Substitute.For<IStringFormattingUtilities>();
 
     public TrustSearchTests()
     {
@@ -112,7 +114,7 @@ public class TrustSearchTests
     [Fact]
     public async Task SearchAsync_should_map_properties()
     {
-        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        _mockAcademiesDbContext.GiasGroups.Add(new GiasGroup
         {
             GroupUid = "1234",
             GroupType = "Multi-academy trust",
@@ -133,7 +135,7 @@ public class TrustSearchTests
     [Fact]
     public async Task SearchAutocompleteAsync_should_map_properties()
     {
-        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        _mockAcademiesDbContext.GiasGroups.Add(new GiasGroup
         {
             GroupUid = "1234",
             GroupType = "Multi-academy trust",
@@ -159,7 +161,7 @@ public class TrustSearchTests
         const string town = "a town";
         const string postcode = "a postcode";
         const string expectedAddress = "an address";
-        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        _mockAcademiesDbContext.GiasGroups.Add(new GiasGroup
         {
             GroupUid = "1234",
             GroupType = "Multi-academy trust",
@@ -186,7 +188,7 @@ public class TrustSearchTests
         const string town = "a town";
         const string postcode = "a postcode";
         const string expectedAddress = "an address";
-        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        _mockAcademiesDbContext.GiasGroups.Add(new GiasGroup
         {
             GroupUid = "1234",
             GroupType = "Multi-academy trust",
