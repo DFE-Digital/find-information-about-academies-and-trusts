@@ -2,8 +2,8 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Exceptions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
+using Moq;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories;
 
@@ -433,12 +433,13 @@ public class TrustRepositoryTests
         var startDateOfNewChair = DateTime.Now.AddDays(2);
         var endDateOfCurrent = DateTime.Now.AddDays(1);
 
-        string currentName = "James";
-        string newName = "Pete";
-;       string newChairId = "5678";
+        var currentName = "James";
+        var newName = "Pete";
+        ;
+        var newChairId = "5678";
 
-        _ = CreateGovernor("1234", newChairId, startDateOfNewChair, null, "Chair of Trustees", forename1: newName);
-        _ = CreateGovernor("1234", "9999", null, endDateOfCurrent, "Chair of Trustees", forename1: currentName);
+        _ = CreateGovernor("1234", newChairId, startDateOfNewChair, null, "Chair of Trustees", newName);
+        _ = CreateGovernor("1234", "9999", null, endDateOfCurrent, "Chair of Trustees", currentName);
 
         var result = await _sut.GetTrustContactsAsync("1234");
         result.ChairOfTrustees.Should().NotBeNull();

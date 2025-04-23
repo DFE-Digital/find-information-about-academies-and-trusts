@@ -1,5 +1,4 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
-using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
+﻿using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories.PipelineEstablishmentRepository;
 
