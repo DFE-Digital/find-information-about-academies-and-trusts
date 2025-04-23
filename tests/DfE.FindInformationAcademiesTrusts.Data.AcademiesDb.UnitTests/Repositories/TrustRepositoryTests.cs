@@ -3,7 +3,6 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
-using Moq;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories;
 
@@ -11,7 +10,9 @@ public class TrustRepositoryTests
 {
     private readonly TrustRepository _sut;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
-    private readonly Mock<IStringFormattingUtilities> _mockStringFormattingUtilities = new();
+
+    private readonly IStringFormattingUtilities _mockStringFormattingUtilities =
+        Substitute.For<IStringFormattingUtilities>();
 
     private readonly DateTime _lastYear = DateTime.Today.AddYears(-1);
     private readonly DateTime _nextYear = DateTime.Today.AddYears(1);
@@ -22,12 +23,7 @@ public class TrustRepositoryTests
 
     public TrustRepositoryTests()
     {
-        _mockStringFormattingUtilities
-            .Setup(u => u.BuildAddressString(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
-                It.IsAny<string>()))
-            .Returns(string.Empty);
-
-        _sut = new TrustRepository(_mockAcademiesDbContext.Object, _mockStringFormattingUtilities.Object);
+        _sut = new TrustRepository(_mockAcademiesDbContext.Object, _mockStringFormattingUtilities);
     }
 
     [Theory]
@@ -94,8 +90,7 @@ public class TrustRepositoryTests
             GroupContactPostcode = postcode
         });
 
-        _mockStringFormattingUtilities.Setup(u => u.BuildAddressString(street, locality, town, postcode))
-            .Returns(expectedAddress);
+        _mockStringFormattingUtilities.BuildAddressString(street, locality, town, postcode).Returns(expectedAddress);
 
         var result = await _sut.GetTrustOverviewAsync("2806");
 
@@ -124,7 +119,7 @@ public class TrustRepositoryTests
             "Multi-academy trust",
             "",
             "",
-            new DateTime(2007, 6, 28)
+            new DateTime(2007, 6, 28, 0, 0, 0, DateTimeKind.Utc)
         ));
     }
 
@@ -435,7 +430,7 @@ public class TrustRepositoryTests
 
         var currentName = "James";
         var newName = "Pete";
-        ;
+
         var newChairId = "5678";
 
         _ = CreateGovernor("1234", newChairId, startDateOfNewChair, null, "Chair of Trustees", newName);
