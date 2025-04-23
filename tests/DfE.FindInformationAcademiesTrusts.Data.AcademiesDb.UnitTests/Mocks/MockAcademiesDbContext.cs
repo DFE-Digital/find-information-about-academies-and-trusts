@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis_Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
@@ -17,10 +16,6 @@ public class MockAcademiesDbContext
     //application
     private readonly MockDbSet<ApplicationEvent> _applicationEvents = new();
     private readonly MockDbSet<ApplicationSetting> _applicationSettings = new();
-
-    //cdm
-    private readonly MockDbSet<CdmSystemuser> _cdmSystemusers = new();
-    private readonly MockDbSet<CdmAccount> _cdmAccounts = new();
 
     //gias
     private readonly MockDbSet<GiasEstablishment> _giasEstablishments = new();
@@ -47,15 +42,11 @@ public class MockAcademiesDbContext
     //tad
     private readonly MockDbSet<TadTrustGovernance> _tadTrustGovernances = new();
 
-
     public MockAcademiesDbContext()
     {
         //application
         Object.ApplicationEvents.Returns(_applicationEvents.Object);
         Object.ApplicationSettings.Returns(_applicationSettings.Object);
-        //cdm
-        Object.CdmSystemusers.Returns(_cdmSystemusers.Object);
-        Object.CdmAccounts.Returns(_cdmAccounts.Object);
         //gias
         Object.GiasEstablishments.Returns(_giasEstablishments.Object);
         Object.GiasGovernances.Returns(_giasGovernances.Object);
