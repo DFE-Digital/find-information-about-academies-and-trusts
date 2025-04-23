@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
-using Moq;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
 
@@ -7,16 +6,11 @@ public class TrustSearchTests
 {
     private readonly TrustSearch _sut;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
-    private readonly Mock<IStringFormattingUtilities> _mockStringFormattingUtilities = new();
+    private readonly IStringFormattingUtilities _mockStringFormattingUtilities = Substitute.For<IStringFormattingUtilities>();
 
     public TrustSearchTests()
     {
-        _mockStringFormattingUtilities
-            .Setup(u => u.BuildAddressString(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
-                It.IsAny<string>()))
-            .Returns(string.Empty);
-
-        _sut = new TrustSearch(_mockAcademiesDbContext.Object, _mockStringFormattingUtilities.Object);
+        _sut = new TrustSearch(_mockAcademiesDbContext.Object, _mockStringFormattingUtilities);
     }
 
     [Theory]
@@ -176,8 +170,7 @@ public class TrustSearchTests
             GroupContactTown = town,
             GroupContactPostcode = postcode
         });
-        _mockStringFormattingUtilities.Setup(u => u.BuildAddressString(street, locality, town, postcode))
-            .Returns(expectedAddress);
+        _mockStringFormattingUtilities.BuildAddressString(street, locality, town, postcode).Returns(expectedAddress);
 
         var result = await _sut.SearchAsync("Inspire");
 
@@ -204,8 +197,7 @@ public class TrustSearchTests
             GroupContactTown = town,
             GroupContactPostcode = postcode
         });
-        _mockStringFormattingUtilities.Setup(u => u.BuildAddressString(street, locality, town, postcode))
-            .Returns(expectedAddress);
+        _mockStringFormattingUtilities.BuildAddressString(street, locality, town, postcode).Returns(expectedAddress);
 
         var result = await _sut.SearchAutocompleteAsync("Inspire");
 
