@@ -1,6 +1,7 @@
 import contactsPage from "../../../pages/trusts/contactsPage";
 import commonPage from "../../../pages/commonPage";
 import navigation from "../../../pages/navigation";
+import { testTrustData } from "../../../support/test-data-store";
 
 function generateNameAndEmail() {
     const randomNumber = Math.floor(Math.random() * 9999);
@@ -9,17 +10,6 @@ function generateNameAndEmail() {
         email: `email${randomNumber}@education.gov.uk`
     };
 }
-
-const testTrustData = [
-    {
-        typeOfTrust: "single academy trust with contacts",
-        uid: 5527
-    },
-    {
-        typeOfTrust: "multi academy trust with contacts",
-        uid: 5712
-    }
-];
 
 describe("Testing the components of the Trust contacts page", () => {
     testTrustData.forEach(({ typeOfTrust, uid }) => {

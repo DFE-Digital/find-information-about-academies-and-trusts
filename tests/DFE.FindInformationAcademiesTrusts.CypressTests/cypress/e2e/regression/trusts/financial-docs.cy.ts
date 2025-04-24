@@ -42,7 +42,7 @@ testFinanceData.forEach(({ uid }) => {
 
         });
 
-        describe.only(`On the Management letters page for a trust`, () => {
+        describe(`On the Management letters page for a trust`, () => {
 
             beforeEach(() => {
                 cy.login();
