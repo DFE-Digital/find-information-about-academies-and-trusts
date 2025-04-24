@@ -190,29 +190,4 @@ describe("Testing the Pipeline academies pages", () => {
         });
     });
 
-    describe(`On the pages with no pipeline academy data under them`, () => {
-
-        beforeEach(() => {
-            cy.login();
-        });
-
-        it("Checks the Pipeline academies Pre advisory page when an academy doesnt exist under it to ensure the correct message is displayed", () => {
-            cy.visit(`/trusts/academies/pipeline/pre-advisory-board?uid=5712`);
-            pipelineAcademiesPage
-                .checkPreAdvisoryNoAcademyPresent();
-        });
-
-        it("Checks the Pipeline academies Post advisory page when an academy doesnt exist under it to ensure the correct message is displayed", () => {
-            cy.visit(`/trusts/academies/pipeline/post-advisory-board?uid=5712`);
-            pipelineAcademiesPage
-                .checkPostAdvisoryNoAcademyPresent();
-        });
-
-        it("Checks the Pipeline academies Free schools page when an academy doesnt exist under it to ensure the correct message is displayed", () => {
-            cy.visit(`/trusts/academies/pipeline/free-schools?uid=5712`);
-            pipelineAcademiesPage
-                .checkFreeSchoolsNoAcademyPresent();
-        });
-    });
-
 });

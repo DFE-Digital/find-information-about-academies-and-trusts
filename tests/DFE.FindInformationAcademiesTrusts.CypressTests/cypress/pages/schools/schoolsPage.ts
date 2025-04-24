@@ -1,4 +1,3 @@
-import { TableUtility } from "../tableUtility";
 
 class SchoolsPage {
 
