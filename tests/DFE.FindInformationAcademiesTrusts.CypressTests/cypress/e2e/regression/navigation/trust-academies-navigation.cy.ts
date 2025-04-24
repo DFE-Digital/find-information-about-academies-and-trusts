@@ -6,7 +6,7 @@ import overviewPage from "../../../pages/trusts/overviewPage";
 import financialDocumentsPage from "../../../pages/trusts/financialDocumentsPage";
 import ofstedPage from "../../../pages/trusts/ofstedPage";
 
-describe('Testing trust academies navigation and sub navigation', () => {
+describe('Testing trust service navigation and sub navigation', () => {
 
     describe("Testing the trusts service navigation", () => {
         // Test each link from a different page in round robin

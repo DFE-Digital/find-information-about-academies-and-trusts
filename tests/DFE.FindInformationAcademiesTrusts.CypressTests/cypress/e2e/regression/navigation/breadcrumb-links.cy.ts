@@ -73,7 +73,7 @@ describe('Testing Navigation', () => {
                 cy.login();
             });
 
-            [`/schools/overview/details?uid=${urn}`].forEach((url) => {
+            [`/schools/overview/details?urn=${urn}`].forEach((url) => {
                 it("Checks the breadcrumb shows the correct page name", () => {
                     cy.visit(url);
                     navigation
