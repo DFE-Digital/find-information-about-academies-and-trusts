@@ -46,3 +46,60 @@ export class TestDataStore {
             },
         ];
 }
+
+export const testSchoolData = [
+    {
+        typeOfSchool: "Community school",
+        urn: 123452
+    },
+    {
+        typeOfSchool: "Academy sponsor led",
+        urn: 5712
+    }
+]; export const testPreAdvisoryData = [
+    {
+        uid: 16002
+    },
+    {
+        uid: 4921
+    }
+];
+export const testPostAdvisoryData = [
+    {
+        uid: 17584
+    },
+    {
+        uid: 16857
+    }
+];
+export const testFreeSchoolsData = [
+    {
+        uid: 17538
+    },
+    {
+        uid: 15786
+    }
+];
+export const testTrustData = [
+    {
+        trustName: "Ashton West End Primary Academy",
+        typeOfTrust: "single academy trust with contacts",
+        uid: 5527
+    },
+    {
+        trustName: "Aspire North East Multi Academy Trust",
+        typeOfTrust: "multi academy trust with contacts",
+        uid: 5712
+    }
+];
+export const trustsWithGovernanceData = [
+    {
+        typeOfTrust: "single academy trust with governance data",
+        uid: 5527
+    },
+    {
+        typeOfTrust: "multi academy trust with governance data",
+        uid: 5712
+    }
+];
+
