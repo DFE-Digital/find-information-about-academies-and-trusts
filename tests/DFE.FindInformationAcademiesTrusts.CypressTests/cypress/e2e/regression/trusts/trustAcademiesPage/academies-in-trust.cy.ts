@@ -1,17 +1,6 @@
-import academiesInTrustPage from "../../../pages/trusts/academiesInTrustPage";
-import navigation from "../../../pages/navigation";
-import commonPage from "../../../pages/commonPage";
-
-const testTrustData = [
-    {
-        typeOfTrust: "single academy trust with contacts",
-        uid: 5527
-    },
-    {
-        typeOfTrust: "multi academy trust with contacts",
-        uid: 5712
-    }
-];
+import academiesInTrustPage from "../../../../pages/trusts/academiesInTrustPage";
+import commonPage from "../../../../pages/commonPage";
+import { testTrustData } from "../../../../support/test-data-store";
 
 describe("Testing the components of the Academies page", () => {
 
@@ -145,50 +134,6 @@ describe("Testing the components of the Academies page", () => {
                 .checkFreeSchoolMealsSorting();
         });
 
-    });
-
-    describe("Testing the academies sub navigation", () => {
-        beforeEach(() => {
-            cy.login();
-            cy.visit('/trusts/academies/in-trust/details?uid=5527');
-        });
-
-        it('Should check that the academies Pupil numbers navigation button takes me to the correct page', () => {
-            navigation
-                .clickPupilNumbersAcadmiesTrustButton()
-                .checkCurrentURLIsCorrect('/trusts/academies/in-trust/pupil-numbers?uid=5527')
-                .checkAllServiceNavItemsPresent()
-                .checkAllAcademiesNavItemsPresent();
-            academiesInTrustPage
-                .checkPupilNumbersHeadersPresent();
-        });
-
-        it('Should check that the academies Free school meals navigation button takes me to the correct page', () => {
-            navigation
-                .clickFreeSchoolMealsAcadmiesTrustButton()
-                .checkCurrentURLIsCorrect('/trusts/academies/in-trust/free-school-meals?uid=5527')
-                .checkAllServiceNavItemsPresent()
-                .checkAllAcademiesNavItemsPresent();
-            academiesInTrustPage
-                .checkFreeSchoolMealsHeadersPresent();
-        });
-
-        it('Should check that the academies Details navigation button takes me to the correct page', () => {
-            cy.visit('/trusts/academies/in-trust/free-school-meals?uid=5527');
-            navigation
-                .clickDetailsAcadmiesTrustButton()
-                .checkCurrentURLIsCorrect('/trusts/academies/in-trust/details?uid=5527')
-                .checkAllServiceNavItemsPresent()
-                .checkAllAcademiesNavItemsPresent();
-            academiesInTrustPage
-                .checkDetailsHeadersPresent();
-        });
-
-        it('Should check that the academies sub nav items are not present when I am not in the relevant academies page', () => {
-            cy.visit('/trusts/overview/trust-details?uid=5527');
-            navigation
-                .checkAcademiesSubNavNotPresent();
-        });
     });
 
     describe("Testing a trust that has no academies within it to ensure the issue of a 500 page appearing does not happen", () => {

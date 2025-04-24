@@ -1,34 +1,7 @@
-import commonPage from "../../../pages/commonPage";
-import pipelineAcademiesPage from "../../../pages/trusts/pipelineAcademiesPage";
-import dataDownload from "../../../pages/trusts/dataDownload";
-import navigation from "../../../pages/navigation";
-
-const testPreAdvisoryData = [
-    {
-        uid: 16002
-    },
-    {
-        uid: 4921
-    }
-];
-
-const testPostAdvisoryData = [
-    {
-        uid: 17584
-    },
-    {
-        uid: 16857
-    }
-];
-
-const testFreeSchoolsData = [
-    {
-        uid: 17538
-    },
-    {
-        uid: 15786
-    }
-];
+import commonPage from "../../../../pages/commonPage";
+import pipelineAcademiesPage from "../../../../pages/trusts/pipelineAcademiesPage";
+import dataDownload from "../../../../pages/trusts/dataDownload";
+import { testPreAdvisoryData, testPostAdvisoryData, testFreeSchoolsData } from "../../../../support/test-data-store";
 
 describe("Testing the Pipeline academies pages", () => {
 
@@ -47,11 +20,6 @@ describe("Testing the Pipeline academies pages", () => {
             it("Checks the Pre advisory board Pipeline academies subpage header is present", () => {
                 pipelineAcademiesPage
                     .checkPreAdvisoryPageHeaderPresent();
-            });
-
-            it("Checks the breadcrumb shows the correct page name", () => {
-                navigation
-                    .checkPageNameBreadcrumbPresent("Academies");
             });
 
             it("Checks the correct Pipeline academies Pre advisory board table headers are present", () => {
@@ -104,11 +72,6 @@ describe("Testing the Pipeline academies pages", () => {
                     .checkPostAdvisoryPageHeaderPresent();
             });
 
-            it("Checks the breadcrumb shows the correct page name", () => {
-                navigation
-                    .checkPageNameBreadcrumbPresent("Academies");
-            });
-
             it("Checks the correct Pipeline academies Post advisory board table headers are present", () => {
                 pipelineAcademiesPage
                     .checkPostAdvisoryTableHeadersPresent();
@@ -152,11 +115,6 @@ describe("Testing the Pipeline academies pages", () => {
             it("Checks the Free schools Pipeline academies subpage header is present", () => {
                 pipelineAcademiesPage
                     .checkFreeSchoolsPageHeaderPresent();
-            });
-
-            it("Checks the breadcrumb shows the correct page name", () => {
-                navigation
-                    .checkPageNameBreadcrumbPresent("Academies");
             });
 
             it("Checks the correct Pipeline academies Free schools table headers are present", () => {
