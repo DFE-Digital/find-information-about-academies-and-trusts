@@ -1,6 +1,7 @@
 import commonPage from "../../../pages/commonPage";
 import navigation from "../../../pages/navigation";
 import governancePage from "../../../pages/trusts/governancePage";
+import { trustsWithGovernanceData } from "../../../support/test-data-store";
 
 describe("Testing the components of the Governance page", () => {
 
@@ -8,16 +9,6 @@ describe("Testing the components of the Governance page", () => {
         cy.login();
     });
 
-    const trustsWithGovernanceData = [
-        {
-            typeOfTrust: "single academy trust with governance data",
-            uid: 5527
-        },
-        {
-            typeOfTrust: "multi academy trust with governance data",
-            uid: 5712
-        }
-    ];
     trustsWithGovernanceData.forEach(({ typeOfTrust, uid }) => {
         describe(`On the Governance pages for a ${typeOfTrust}`, () => {
 

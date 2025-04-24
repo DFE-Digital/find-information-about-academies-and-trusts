@@ -1,94 +1,12 @@
-import navigation from "../../pages/navigation";
-import academiesInTrustPage from "../../pages/trusts/academiesInTrustPage";
-import governancePage from "../../pages/trusts/governancePage";
-import contactsPage from "../../pages/trusts/contactsPage";
-import overviewPage from "../../pages/trusts/overviewPage";
-import financialDocumentsPage from "../../pages/trusts/financialDocumentsPage";
-import ofstedPage from "../../pages/trusts/ofstedPage";
+import navigation from "../../../pages/navigation";
+import academiesInTrustPage from "../../../pages/trusts/academiesInTrustPage";
+import governancePage from "../../../pages/trusts/governancePage";
+import contactsPage from "../../../pages/trusts/contactsPage";
+import overviewPage from "../../../pages/trusts/overviewPage";
+import financialDocumentsPage from "../../../pages/trusts/financialDocumentsPage";
+import ofstedPage from "../../../pages/trusts/ofstedPage";
 
-describe('Testing Navigation', () => {
-
-    describe("Testing the footer-links", () => {
-        beforeEach(() => {
-            cy.login();
-        });
-
-        it("Should check that the home page footer bar privacy link is present and functional", () => {
-            navigation
-                .checkPrivacyLinkPresent()
-                .clickPrivacyLink();
-
-            navigation
-                .checkCurrentURLIsCorrect('privacy');
-
-        });
-
-        it("Should check that the home page footer bar cookies link is present and functional", () => {
-            navigation
-                .checkCookiesLinkPresent()
-                .clickCookiesLink();
-
-            navigation
-                .checkCurrentURLIsCorrect('cookies');
-
-        });
-
-        it("Should check that the home page footer bar accessibility statement link is present and functional", () => {
-            navigation
-                .checkAccessibilityStatementLinkPresent()
-                .clickAccessibilityStatementLink();
-
-            navigation
-                .checkCurrentURLIsCorrect('accessibility');
-        });
-    });
-
-    describe("Testing the breadcrumb links and their relevant functionality", () => {
-        beforeEach(() => {
-            cy.login();
-        });
-
-        ['/search', '/accessibility', '/cookies', '/privacy', '/notfound'].forEach((url) => {
-            it(`Should have Home breadcrumb only on ${url}`, () => {
-                cy.visit(url, { failOnStatusCode: false });
-
-                navigation
-                    .checkCurrentURLIsCorrect(url)
-                    .checkHomeBreadcrumbPresent()
-                    .clickHomeBreadcrumbButton()
-                    .checkBrowserPageTitleContains('Home page');
-            });
-        });
-
-        ['/', '/error'].forEach((url) => {
-            it(`Should have no breadcrumb on ${url}`, () => {
-                cy.visit(url);
-
-                navigation
-                    .checkCurrentURLIsCorrect(url)
-                    .checkAccessibilityStatementLinkPresent() // ensure page content has loaded - all pages have an a11y statement link
-                    .checkBreadcrumbNotPresent();
-            });
-        });
-
-        it('Should check that a trusts name breadcrumb is displayed on the trusts page', () => {
-            cy.visit('/trusts/overview/trust-details?uid=5712');
-
-            navigation
-                .checkTrustNameBreadcrumbPresent('Aspire North East Multi Academy Trust')
-                .clickHomeBreadcrumbButton()
-                .checkBrowserPageTitleContains('Home page');
-        });
-
-        it('Should check a different trusts name breadcrumb is displayed on the trusts page', () => {
-            cy.visit('/trusts/overview/trust-details?uid=5527');
-
-            navigation
-                .checkTrustNameBreadcrumbPresent('Ashton West End Primary Academy')
-                .clickHomeBreadcrumbButton()
-                .checkBrowserPageTitleContains('Home page');
-        });
-    });
+describe('Testing trust service navigation and sub navigation', () => {
 
     describe("Testing the trusts service navigation", () => {
         // Test each link from a different page in round robin
@@ -254,6 +172,54 @@ describe('Testing Navigation', () => {
             navigation
                 .clickFinancialDocsFinancialStatementsButton()
                 .checkCurrentURLIsCorrect('/trusts/financial-documents/financial-statements?uid=5527');
+        });
+    });
+
+    describe("Testing the trust academies page sub navigation", () => {
+        beforeEach(() => {
+            cy.login();
+        });
+
+        // details -> pupil numbers        
+        it('Should check that the academies Pupil numbers navigation button takes me to the correct page', () => {
+            cy.visit('/trusts/academies/in-trust/details?uid=5527');
+            navigation
+                .clickPupilNumbersAcadmiesTrustButton()
+                .checkCurrentURLIsCorrect('/trusts/academies/in-trust/pupil-numbers?uid=5527')
+                .checkAllServiceNavItemsPresent()
+                .checkAllAcademiesNavItemsPresent();
+            academiesInTrustPage
+                .checkPupilNumbersHeadersPresent();
+        });
+
+        // pupil numbers -> free school meals 
+        it('Should check that the academies Free school meals navigation button takes me to the correct page', () => {
+            cy.visit('/trusts/academies/in-trust/pupil-numbers?uid=5527');
+            navigation
+                .clickFreeSchoolMealsAcadmiesTrustButton()
+                .checkCurrentURLIsCorrect('/trusts/academies/in-trust/free-school-meals?uid=5527')
+                .checkAllServiceNavItemsPresent()
+                .checkAllAcademiesNavItemsPresent();
+            academiesInTrustPage
+                .checkFreeSchoolMealsHeadersPresent();
+        });
+
+        // free school meals -> details  
+        it('Should check that the academies Details navigation button takes me to the correct page', () => {
+            cy.visit('/trusts/academies/in-trust/free-school-meals?uid=5527');
+            navigation
+                .clickDetailsAcadmiesTrustButton()
+                .checkCurrentURLIsCorrect('/trusts/academies/in-trust/details?uid=5527')
+                .checkAllServiceNavItemsPresent()
+                .checkAllAcademiesNavItemsPresent();
+            academiesInTrustPage
+                .checkDetailsHeadersPresent();
+        });
+
+        it('Should check that the academies sub nav items are not present when I am not in the relevant academies page', () => {
+            cy.visit('/trusts/overview/trust-details?uid=5527');
+            navigation
+                .checkAcademiesSubNavNotPresent();
         });
     });
 });
