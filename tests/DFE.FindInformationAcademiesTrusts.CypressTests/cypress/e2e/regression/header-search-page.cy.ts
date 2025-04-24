@@ -3,7 +3,7 @@ import headerPage from '../../pages/headerPage';
 
 describe(`Testing the components of the header search`, () => {
 
-    [`/schools/overview/details?uid=5712`, `/trusts/overview/trust-details?uid=5527`].forEach((url) => {
+    [`/schools/overview/details?urn=123452`, `/trusts/overview/trust-details?uid=5527`].forEach((url) => {
 
         beforeEach(() => {
             cy.login();
