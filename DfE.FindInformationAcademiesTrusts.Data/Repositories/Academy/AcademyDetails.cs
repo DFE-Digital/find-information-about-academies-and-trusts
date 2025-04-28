@@ -5,5 +5,6 @@ public record AcademyDetails(
     string? EstablishmentName,
     string? TypeOfEstablishment,
     string? LocalAuthority,
-    string? UrbanRural
+    string? UrbanRural,
+    DateOnly DateAcademyJoinedTrust
 );

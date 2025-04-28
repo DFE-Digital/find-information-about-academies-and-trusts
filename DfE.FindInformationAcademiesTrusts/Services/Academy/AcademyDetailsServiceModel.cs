@@ -5,5 +5,6 @@ public record AcademyDetailsServiceModel(
     string? EstablishmentName,
     string? LocalAuthority,
     string? TypeOfEstablishment,
-    string? UrbanRural
+    string? UrbanRural,
+    DateOnly DateAcademyJoinedTrust
 );
