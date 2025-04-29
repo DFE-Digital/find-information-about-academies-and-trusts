@@ -22,9 +22,11 @@ public class MockAcademiesDbContext
         new(AcademiesDbContext.GiasEstablishmentsQueryFilter);
 
     public MockDbSet<GiasGovernance> GiasGovernances { get; } = new();
-    public MockDbSet<GiasGroup> GiasGroups { get; } = new();
-    public MockDbSet<GiasGroupLink> GiasGroupLinks { get; } = new();
-    public MockDbSet<GiasEstablishmentLink> GiasEstablishmentLinks { get; } = new();
+    public MockDbSet<GiasGroup> GiasGroups { get; } = new(AcademiesDbContext.GiasGroupQueryFilter);
+    public MockDbSet<GiasGroupLink> GiasGroupLinks { get; } = new(AcademiesDbContext.GiasGroupLinkQueryFilter);
+
+    public MockDbSet<GiasEstablishmentLink> GiasEstablishmentLinks { get; } =
+        new(AcademiesDbContext.GiasEstablishmentLinkQueryFilter);
 
     //mis_mstr
     public MockDbSet<MisMstrEstablishmentFiat> MisMstrEstablishmentFiat { get; } = new();
@@ -39,7 +41,8 @@ public class MockAcademiesDbContext
     public MockDbSet<MstrFreeSchoolProject> MstrFreeSchoolProjects { get; } = new();
 
     //sharepoint
-    public MockDbSet<SharepointTrustDocLink> SharepointTrustDocLinks { get; } = new();
+    public MockDbSet<SharepointTrustDocLink> SharepointTrustDocLinks { get; } =
+        new(AcademiesDbContext.SharepointTrustDocLinkQueryFilter);
 
     //tad
     public MockDbSet<TadTrustGovernance> TadTrustGovernances { get; } = new();
@@ -179,7 +182,8 @@ public class MockAcademiesDbContext
             GroupId = groupId ?? $"TR0{nextGroupUid}",
             GroupName = groupName ?? $"Trust {nextGroupUid}",
             GroupUid = nextGroupUid,
-            GroupType = groupType ?? "Multi-academy trust"
+            GroupType = groupType ?? "Multi-academy trust",
+            GroupStatusCode = "OPEN"
         };
         GiasGroups.Add(giasGroup);
 

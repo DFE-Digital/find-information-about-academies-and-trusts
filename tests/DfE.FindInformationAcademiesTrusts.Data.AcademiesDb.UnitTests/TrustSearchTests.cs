@@ -119,7 +119,8 @@ public class TrustSearchTests
             GroupUid = "1234",
             GroupType = "Multi-academy trust",
             GroupId = "TR01234",
-            GroupName = "Inspire 1234"
+            GroupName = "Inspire 1234",
+            GroupStatusCode = "OPEN"
         });
 
         var result = await _sut.SearchAsync("Inspire 1234");
@@ -140,7 +141,8 @@ public class TrustSearchTests
             GroupUid = "1234",
             GroupType = "Multi-academy trust",
             GroupId = "TR01234",
-            GroupName = "Inspire 1234"
+            GroupName = "Inspire 1234",
+            GroupStatusCode = "OPEN"
         });
 
         var result = await _sut.SearchAutocompleteAsync("Inspire 1234");
@@ -170,7 +172,8 @@ public class TrustSearchTests
             GroupContactStreet = street,
             GroupContactLocality = locality,
             GroupContactTown = town,
-            GroupContactPostcode = postcode
+            GroupContactPostcode = postcode,
+            GroupStatusCode = "OPEN"
         });
         _mockStringFormattingUtilities.BuildAddressString(street, locality, town, postcode).Returns(expectedAddress);
 
@@ -197,7 +200,8 @@ public class TrustSearchTests
             GroupContactStreet = street,
             GroupContactLocality = locality,
             GroupContactTown = town,
-            GroupContactPostcode = postcode
+            GroupContactPostcode = postcode,
+            GroupStatusCode = "OPEN"
         });
         _mockStringFormattingUtilities.BuildAddressString(street, locality, town, postcode).Returns(expectedAddress);
 
