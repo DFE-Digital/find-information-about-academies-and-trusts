@@ -42,6 +42,16 @@ export class TestDataStore {
                     { subpageName: "Trustees", url: `/trusts/governance/trustees?uid=${uid}` },
                     { subpageName: "Members", url: `/trusts/governance/members?uid=${uid}` },
                     { subpageName: "Historic members", url: `/trusts/governance/historic-members?uid=${uid}` }
+            ]
+        },
+    ];
+
+    public static readonly GetAllSchoolSubpagesForUrn = (urn: number) =>
+        [
+            {
+                pageName: "Overview",
+                subpages: [
+                    { subpageName: "School details", url: `/schools/overview/details?urn=${urn}` },
                 ]
             },
         ];
@@ -54,7 +64,7 @@ export const testSchoolData = [
     },
     {
         typeOfSchool: "Academy sponsor led",
-        urn: 5712
+        urn: 137083
     }
 ]; export const testPreAdvisoryData = [
     {
