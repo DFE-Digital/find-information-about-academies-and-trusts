@@ -76,9 +76,10 @@ public class MockAcademiesDbContext
         for (var i = 0; i < 15; i++)
         {
             //Completely unused
-            AddGiasGroupForTrust(name: $"Unused {i}");
+            AddGiasGroupForTrust(name: $"Unused Trust {i}");
+            AddGiasGroupForFederation(name: $"Unused Federation{i}");
             AddMstrTrust(region: $"S{i}shire");
-            AddGiasEstablishment(establishmentName: $"Unused {i}");
+            AddGiasEstablishment(establishmentName: $"Unused academy {i}");
 
             //Entities linked to some other trust
             var otherAcademy = AddGiasEstablishment(establishmentName: $"Some other academy {i}");
@@ -172,8 +173,24 @@ public class MockAcademiesDbContext
         });
     }
 
+    public GiasGroup AddGiasGroupForFederation(string? uid = null, string? name = null, bool open = true)
+    {
+        var nextGroupUid = GiasGroups.GetNextId(g => g.GroupUid!, uid);
+
+        var giasGroup = new GiasGroup
+        {
+            GroupName = name ?? $"Federation {nextGroupUid}",
+            GroupUid = nextGroupUid,
+            GroupType = "Federation",
+            GroupStatusCode = open ? "OPEN" : "CLOSED"
+        };
+        GiasGroups.Add(giasGroup);
+
+        return giasGroup;
+    }
+
     public GiasGroup AddGiasGroupForTrust(string? uid = null, string? name = null, string? trustReferenceNumber = null,
-        string? groupType = null)
+        string? groupType = null, bool open = true)
     {
         var nextGroupUid = GiasGroups.GetNextId(g => g.GroupUid!, uid);
 
@@ -183,7 +200,7 @@ public class MockAcademiesDbContext
             GroupName = name ?? $"Trust {nextGroupUid}",
             GroupUid = nextGroupUid,
             GroupType = groupType ?? "Multi-academy trust",
-            GroupStatusCode = "OPEN"
+            GroupStatusCode = open ? "OPEN" : "CLOSED"
         };
         GiasGroups.Add(giasGroup);
 
