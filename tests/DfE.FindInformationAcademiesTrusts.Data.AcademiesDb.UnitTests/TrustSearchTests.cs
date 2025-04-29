@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests;
 
@@ -7,16 +6,13 @@ public class TrustSearchTests
 {
     private readonly TrustSearch _sut;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
-    private readonly Mock<IStringFormattingUtilities> _mockStringFormattingUtilities = new();
+
+    private readonly IStringFormattingUtilities _mockStringFormattingUtilities =
+        Substitute.For<IStringFormattingUtilities>();
 
     public TrustSearchTests()
     {
-        _mockStringFormattingUtilities
-            .Setup(u => u.BuildAddressString(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
-                It.IsAny<string>()))
-            .Returns(string.Empty);
-
-        _sut = new TrustSearch(_mockAcademiesDbContext.Object, _mockStringFormattingUtilities.Object);
+        _sut = new TrustSearch(_mockAcademiesDbContext.Object, _mockStringFormattingUtilities);
     }
 
     [Theory]
@@ -118,7 +114,7 @@ public class TrustSearchTests
     [Fact]
     public async Task SearchAsync_should_map_properties()
     {
-        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        _mockAcademiesDbContext.GiasGroups.Add(new GiasGroup
         {
             GroupUid = "1234",
             GroupType = "Multi-academy trust",
@@ -139,7 +135,7 @@ public class TrustSearchTests
     [Fact]
     public async Task SearchAutocompleteAsync_should_map_properties()
     {
-        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        _mockAcademiesDbContext.GiasGroups.Add(new GiasGroup
         {
             GroupUid = "1234",
             GroupType = "Multi-academy trust",
@@ -165,7 +161,7 @@ public class TrustSearchTests
         const string town = "a town";
         const string postcode = "a postcode";
         const string expectedAddress = "an address";
-        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        _mockAcademiesDbContext.GiasGroups.Add(new GiasGroup
         {
             GroupUid = "1234",
             GroupType = "Multi-academy trust",
@@ -176,8 +172,7 @@ public class TrustSearchTests
             GroupContactTown = town,
             GroupContactPostcode = postcode
         });
-        _mockStringFormattingUtilities.Setup(u => u.BuildAddressString(street, locality, town, postcode))
-            .Returns(expectedAddress);
+        _mockStringFormattingUtilities.BuildAddressString(street, locality, town, postcode).Returns(expectedAddress);
 
         var result = await _sut.SearchAsync("Inspire");
 
@@ -193,7 +188,7 @@ public class TrustSearchTests
         const string town = "a town";
         const string postcode = "a postcode";
         const string expectedAddress = "an address";
-        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        _mockAcademiesDbContext.GiasGroups.Add(new GiasGroup
         {
             GroupUid = "1234",
             GroupType = "Multi-academy trust",
@@ -204,8 +199,7 @@ public class TrustSearchTests
             GroupContactTown = town,
             GroupContactPostcode = postcode
         });
-        _mockStringFormattingUtilities.Setup(u => u.BuildAddressString(street, locality, town, postcode))
-            .Returns(expectedAddress);
+        _mockStringFormattingUtilities.BuildAddressString(street, locality, town, postcode).Returns(expectedAddress);
 
         var result = await _sut.SearchAutocompleteAsync("Inspire");
 
@@ -240,7 +234,7 @@ public class TrustSearchTests
     public async Task SearchAsync_should_not_call_database_if_empty_search_term(string? term)
     {
         await _sut.SearchAsync(term);
-        _mockAcademiesDbContext.Verify(academiesDbContext => academiesDbContext.Groups, Times.Never);
+        _ = _mockAcademiesDbContext.Object.DidNotReceive().Groups;
     }
 
     [Theory]
@@ -250,7 +244,7 @@ public class TrustSearchTests
     public async Task SearchAutocompleteAsync_should_not_call_database_if_empty_search_term(string? term)
     {
         await _sut.SearchAutocompleteAsync(term);
-        _mockAcademiesDbContext.Verify(academiesDbContext => academiesDbContext.Groups, Times.Never);
+        _ = _mockAcademiesDbContext.Object.DidNotReceive().Groups;
     }
 
     [Theory]

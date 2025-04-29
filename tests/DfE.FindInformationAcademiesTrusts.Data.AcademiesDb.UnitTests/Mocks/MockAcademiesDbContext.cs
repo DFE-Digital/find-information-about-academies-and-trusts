@@ -1,6 +1,4 @@
-using System.Linq.Expressions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis_Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
@@ -8,72 +6,65 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Ops;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Sharepoint;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
-using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 
-public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
+public class MockAcademiesDbContext
 {
+    public readonly IAcademiesDbContext Object = Substitute.For<IAcademiesDbContext>();
+
     //application
-    private readonly List<ApplicationEvent> _applicationEvents = [];
-
-    private readonly List<ApplicationSetting> _applicationSettings = [];
-
-    //cdm
-    private readonly List<CdmSystemuser> _cdmSystemusers = [];
-
-    private readonly List<CdmAccount> _cdmAccounts = [];
+    public MockDbSet<ApplicationEvent> ApplicationEvents { get; } = new();
+    public MockDbSet<ApplicationSetting> ApplicationSettings { get; } = new();
 
     //gias
-    private readonly List<GiasEstablishment> _giasEstablishments = [];
-    private readonly List<GiasGovernance> _giasGovernances = [];
-    private readonly List<GiasGroup> _giasGroups = [];
-    private readonly List<GiasGroupLink> _giasGroupLinks = [];
-    private readonly List<GiasEstablishmentLink> _giasEstablishmentLinks = [];
+    public MockDbSet<GiasEstablishment> GiasEstablishments { get; } = new();
+    public MockDbSet<GiasGovernance> GiasGovernances { get; } = new();
+    public MockDbSet<GiasGroup> GiasGroups { get; } = new();
+    public MockDbSet<GiasGroupLink> GiasGroupLinks { get; } = new();
+    public MockDbSet<GiasEstablishmentLink> GiasEstablishmentLinks { get; } = new();
 
     //mis_mstr
-    private readonly List<MisMstrEstablishmentFiat> _misMstrEstablishmentFiat = [];
-    private readonly List<MisMstrFurtherEducationEstablishmentFiat> _misMstrFurtherEducationEstablishmentFiat = [];
+    public MockDbSet<MisMstrEstablishmentFiat> MisMstrEstablishmentFiat { get; } = new();
+
+    public MockDbSet<MisMstrFurtherEducationEstablishmentFiat> MisMstrFurtherEducationEstablishmentFiat { get; } =
+        new();
 
     //mstr
-    private readonly List<MstrTrust> _mstrTrusts = [];
-    private readonly List<MstrAcademyConversion> _mstrAcademyConversions = [];
-    private readonly List<MstrAcademyTransfer> _mstrAcademyTransfers = [];
-    private readonly List<MstrFreeSchoolProject> _mstrFreeSchoolProjects = [];
+    public MockDbSet<MstrTrust> MstrTrusts { get; } = new();
+    public MockDbSet<MstrAcademyConversion> MstrAcademyConversions { get; } = new();
+    public MockDbSet<MstrAcademyTransfer> MstrAcademyTransfers { get; } = new();
+    public MockDbSet<MstrFreeSchoolProject> MstrFreeSchoolProjects { get; } = new();
 
     //sharepoint
-    private readonly List<SharepointTrustDocLink> _sharepointTrustDocLinks = [];
+    public MockDbSet<SharepointTrustDocLink> SharepointTrustDocLinks { get; } = new();
 
     //tad
-    private readonly List<TadTrustGovernance> _tadTrustGovernances = [];
+    public MockDbSet<TadTrustGovernance> TadTrustGovernances { get; } = new();
 
     public MockAcademiesDbContext()
     {
         //application
-        SetupMockDbContext(_applicationEvents, context => context.ApplicationEvents);
-        SetupMockDbContext(_applicationSettings, context => context.ApplicationSettings);
-        //cdm
-        SetupMockDbContext(_cdmSystemusers, context => context.CdmSystemusers);
-        SetupMockDbContext(_cdmAccounts, context => context.CdmAccounts);
+        Object.ApplicationEvents.Returns(ApplicationEvents.Object);
+        Object.ApplicationSettings.Returns(ApplicationSettings.Object);
         //gias
-        SetupMockDbContext(_giasEstablishments, context => context.GiasEstablishments);
-        SetupMockDbContext(_giasGovernances, context => context.GiasGovernances);
-        SetupMockDbContext(_giasGroups, context => context.Groups);
-        SetupMockDbContext(_giasGroupLinks, context => context.GiasGroupLinks);
-        SetupMockDbContext(_giasEstablishmentLinks, context => context.GiasEstablishmentLink);
+        Object.GiasEstablishments.Returns(GiasEstablishments.Object);
+        Object.GiasGovernances.Returns(GiasGovernances.Object);
+        Object.Groups.Returns(GiasGroups.Object);
+        Object.GiasGroupLinks.Returns(GiasGroupLinks.Object);
+        Object.GiasEstablishmentLink.Returns(GiasEstablishmentLinks.Object);
         //mis_mstr
-        SetupMockDbContext(_misMstrEstablishmentFiat, context => context.MisMstrEstablishmentsFiat);
-        SetupMockDbContext(_misMstrFurtherEducationEstablishmentFiat,
-            context => context.MisMstrFurtherEducationEstablishmentsFiat);
+        Object.MisMstrEstablishmentsFiat.Returns(MisMstrEstablishmentFiat.Object);
+        Object.MisMstrFurtherEducationEstablishmentsFiat.Returns(MisMstrFurtherEducationEstablishmentFiat.Object);
         //mstr
-        SetupMockDbContext(_mstrAcademyConversions, context => context.MstrAcademyConversions);
-        SetupMockDbContext(_mstrAcademyTransfers, context => context.MstrAcademyTransfers);
-        SetupMockDbContext(_mstrFreeSchoolProjects, context => context.MstrFreeSchoolProjects);
-        SetupMockDbContext(_mstrTrusts, context => context.MstrTrusts);
+        Object.MstrAcademyConversions.Returns(MstrAcademyConversions.Object);
+        Object.MstrAcademyTransfers.Returns(MstrAcademyTransfers.Object);
+        Object.MstrFreeSchoolProjects.Returns(MstrFreeSchoolProjects.Object);
+        Object.MstrTrusts.Returns(MstrTrusts.Object);
         //sharepoint
-        SetupMockDbContext(_sharepointTrustDocLinks, context => context.SharepointTrustDocLinks);
+        Object.SharepointTrustDocLinks.Returns(SharepointTrustDocLinks.Object);
         //tad
-        SetupMockDbContext(_tadTrustGovernances, context => context.TadTrustGovernances);
+        Object.TadTrustGovernances.Returns(TadTrustGovernances.Object);
 
         //Set up some unused data to ensure we are actually retrieving the right data in our tests
         var otherTrust = AddGiasGroup(groupName: "Some other trust");
@@ -87,48 +78,32 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             //Entities linked to some other trust
             var otherAcademy = AddGiasEstablishment(establishmentName: $"Some other academy {i}");
             AddGiasGroupLink(otherAcademy, otherTrust);
-            AddGiasGovernance(new GiasGovernance
+            GiasGovernances.Add(new GiasGovernance
                 { Gid = $"{i}", Uid = otherTrust.GroupUid!, Forename1 = $"Governor {i}" });
-            AddTadTrustGovernance(new TadTrustGovernance { Gid = $"{i}", Email = $"governor{i}@othertrust.com" });
+            TadTrustGovernances.Add(new TadTrustGovernance { Gid = $"{i}", Email = $"governor{i}@othertrust.com" });
             AddMstrFreeSchoolProject(otherTrust.GroupId!);
         }
-    }
-
-    public void SetupMockDbContext<T>(List<T> items, Expression<Func<IAcademiesDbContext, DbSet<T>>> dbContextTable)
-        where T : class
-    {
-        Setup(dbContextTable).Returns(new MockDbSet<T>(items).Object);
     }
 
     public MstrTrust AddMstrTrust(string? groupUid = null, string? region = "North East")
     {
         var mstrTrust = new MstrTrust
         {
-            GroupUid = groupUid ?? (_mstrTrusts.Count + 1).ToString(),
+            GroupUid = groupUid ?? (MstrTrusts.Count + 1).ToString(),
             GORregion = region
         };
-        _mstrTrusts.Add(mstrTrust);
+        MstrTrusts.Add(mstrTrust);
         return mstrTrust;
     }
 
     public void AddGiasGroupLink(GiasEstablishment giasEstablishment, GiasGroup giasGroup)
     {
-        AddGiasGroupLink(new GiasGroupLink
+        GiasGroupLinks.Add(new GiasGroupLink
         {
             GroupUid = giasGroup.GroupUid,
             Urn = giasEstablishment.Urn.ToString(),
             GroupType = giasGroup.GroupType
         });
-    }
-
-    public void AddGiasGroupLink(GiasGroupLink giasGroupLink)
-    {
-        _giasGroupLinks.Add(giasGroupLink);
-    }
-
-    public void AddGiasGroupLinks(IEnumerable<GiasGroupLink> giasGroupLink)
-    {
-        _giasGroupLinks.AddRange(giasGroupLink);
     }
 
     public void AddGiasGroupLinksForGiasEstablishmentsToGiasGroup(IEnumerable<GiasEstablishment> giasEstablishments,
@@ -140,88 +115,34 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         }
     }
 
-    public void AddGiasEstablishmentLink(GiasEstablishmentLink giasEstablishmentLink)
-    {
-        _giasEstablishmentLinks.Add(giasEstablishmentLink);
-    }
-
-    public void AddGiasEstablishmentLinks(IEnumerable<GiasEstablishmentLink> giasEstablishmentLinks)
-    {
-        _giasEstablishmentLinks.AddRange(giasEstablishmentLinks);
-    }
-
-    public void AddEstablishmentFiat(MisMstrEstablishmentFiat misMstrEstablishmentFiat)
-    {
-        _misMstrEstablishmentFiat.Add(misMstrEstablishmentFiat);
-    }
-
     public void AddEstablishmentFiat(int urn, string? inspectionStartDate = null)
     {
-        AddEstablishmentFiat(new MisMstrEstablishmentFiat
+        MisMstrEstablishmentFiat.Add(new MisMstrEstablishmentFiat
         {
             Urn = urn,
             InspectionStartDate = inspectionStartDate
         });
     }
 
-    public void AddEstablishmentsFiat(params MisMstrEstablishmentFiat[] establishmentsFiat)
-    {
-        AddEstablishmentsFiat((IEnumerable<MisMstrEstablishmentFiat>)establishmentsFiat);
-    }
-
-    public void AddEstablishmentsFiat(IEnumerable<MisMstrEstablishmentFiat> establishmentsFiat)
-    {
-        _misMstrEstablishmentFiat.AddRange(establishmentsFiat);
-    }
-
-    public void AddFurtherEducationEstablishmentFiat(
-        MisMstrFurtherEducationEstablishmentFiat misMstrFurtherEducationEstablishmentFiat)
-    {
-        _misMstrFurtherEducationEstablishmentFiat.Add(misMstrFurtherEducationEstablishmentFiat);
-    }
-
-    public void AddFurtherEducationEstablishmentsFiat(
-        IEnumerable<MisMstrFurtherEducationEstablishmentFiat> furtherEducationEstablishmentsFiat)
-    {
-        _misMstrFurtherEducationEstablishmentFiat.AddRange(furtherEducationEstablishmentsFiat);
-    }
-
-    public void AddFurtherEducationEstablishmentsFiat(
-        params MisMstrFurtherEducationEstablishmentFiat[] furtherEducationEstablishmentsFiat)
-    {
-        AddFurtherEducationEstablishmentsFiat(
-            (IEnumerable<MisMstrFurtherEducationEstablishmentFiat>)furtherEducationEstablishmentsFiat);
-    }
-
-    public void AddGiasEstablishment(GiasEstablishment giasEstablishment)
-    {
-        _giasEstablishments.Add(giasEstablishment);
-    }
-
     public GiasEstablishment AddGiasEstablishment(int? urn = null, string? establishmentName = null)
     {
         var giasEstablishment = new GiasEstablishment
         {
-            Urn = _giasEstablishments.GetNextId(e => e.Urn, urn),
-            EstablishmentName = establishmentName ?? $"Academy {_giasEstablishments.Count + 1}"
+            Urn = GiasEstablishments.GetNextId(e => e.Urn, urn),
+            EstablishmentName = establishmentName ?? $"Academy {GiasEstablishments.Count + 1}"
         };
-        AddGiasEstablishment(giasEstablishment);
+        GiasEstablishments.Add(giasEstablishment);
 
         return giasEstablishment;
-    }
-
-    public void AddGiasEstablishments(IEnumerable<GiasEstablishment> giasEstablishments)
-    {
-        _giasEstablishments.AddRange(giasEstablishments);
     }
 
     public void AddApplicationEvent(string description,
         DateTime? dateTime,
         string? message = "Finished", char? eventType = 'I')
     {
-        _applicationEvents.Add(new ApplicationEvent
+        ApplicationEvents.Add(new ApplicationEvent
         {
-            Id = _applicationEvents.GetNextId(e => e.Id),
+            Id = ApplicationEvents.GetNextId(e => e.Id),
             DateTime = dateTime,
             Source = "source",
             UserName = "Test User",
@@ -239,22 +160,17 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
 
     public void AddApplicationSetting(string key, DateTime? modified)
     {
-        _applicationSettings.Add(new ApplicationSetting
+        ApplicationSettings.Add(new ApplicationSetting
         {
             Key = key,
             Modified = modified
         });
     }
 
-    public void AddGiasGroup(GiasGroup giasGroup)
-    {
-        _giasGroups.Add(giasGroup);
-    }
-
     public GiasGroup AddGiasGroup(string? groupUid = null, string? groupName = null, string? groupId = null,
         string? groupType = null)
     {
-        var nextGroupUid = _giasGroups.GetNextId(g => g.GroupUid!, groupUid);
+        var nextGroupUid = GiasGroups.GetNextId(g => g.GroupUid!, groupUid);
 
         var giasGroup = new GiasGroup
         {
@@ -263,19 +179,9 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
             GroupUid = nextGroupUid,
             GroupType = groupType ?? "Multi-academy trust"
         };
-        AddGiasGroup(giasGroup);
+        GiasGroups.Add(giasGroup);
 
         return giasGroup;
-    }
-
-    public void AddGiasGovernance(GiasGovernance governance)
-    {
-        _giasGovernances.Add(governance);
-    }
-
-    public void AddTadTrustGovernance(TadTrustGovernance tadTrustGovernance)
-    {
-        _tadTrustGovernances.Add(tadTrustGovernance);
     }
 
     public void AddMstrFreeSchoolProject(string trustId,
@@ -289,9 +195,9 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         DateTime? provisionalOpeningDate = null,
         DateTime? lastDataRefresh = null)
     {
-        _mstrFreeSchoolProjects.Add(new MstrFreeSchoolProject
+        MstrFreeSchoolProjects.Add(new MstrFreeSchoolProject
         {
-            SK = _mstrFreeSchoolProjects.GetNextId(e => e.SK),
+            SK = MstrFreeSchoolProjects.GetNextId(e => e.SK),
             TrustID = trustId,
             Stage = stage,
             RouteOfProject = "Free School",
@@ -328,9 +234,9 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         DateTime? expectedOpeningDate = null,
         string? daoProgress = null)
     {
-        _mstrAcademyConversions.Add(new MstrAcademyConversion
+        MstrAcademyConversions.Add(new MstrAcademyConversion
         {
-            SK = _mstrAcademyConversions.GetNextId(e => e.SK),
+            SK = MstrAcademyConversions.GetNextId(e => e.SK),
             TrustID = trustId,
             ProjectStatus = projectStatus,
             InPrepare = inPrepare,
@@ -357,9 +263,9 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         DateTime? expectedTransferDate = null,
         DateTime? lastDataRefresh = null)
     {
-        _mstrAcademyTransfers.Add(new MstrAcademyTransfer
+        MstrAcademyTransfers.Add(new MstrAcademyTransfer
         {
-            SK = _mstrAcademyTransfers.GetNextId(e => e.SK),
+            SK = MstrAcademyTransfers.GetNextId(e => e.SK),
             NewProvisionalTrustID = newProvisionalTrustId,
             AcademyTransferStatus = academyTransferStatus,
             InPrepare = inPrepare,
@@ -374,11 +280,6 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
         });
     }
 
-    public void AddTrustDocLink(SharepointTrustDocLink sharepointTrustDocLink)
-    {
-        _sharepointTrustDocLinks.Add(sharepointTrustDocLink);
-    }
-
     public SharepointTrustDocLink[] AddTrustDocLinks(string trustReferenceNumber, string folderPrefix, int number)
     {
         var sharepointTrustDocLinks = Enumerable.Range(1, number).Select(i =>
@@ -391,32 +292,7 @@ public class MockAcademiesDbContext : Mock<IAcademiesDbContext>
                 FolderYear = 2000 + i
             }).ToArray();
 
-        _sharepointTrustDocLinks.AddRange(sharepointTrustDocLinks);
+        SharepointTrustDocLinks.AddRange(sharepointTrustDocLinks);
         return sharepointTrustDocLinks;
-    }
-}
-
-file static class MockDbSetExtensions
-{
-    public static int GetNextId<T>(this List<T> entities, Func<T, int> identifier, int? specifiedId = null)
-    {
-        var nextId = specifiedId ?? entities.Count + 1;
-
-        //Don't allow duplicate IDs
-        if (entities.Any(entity => identifier(entity) == nextId))
-            entities.Remove(entities.Single(entity => identifier(entity) == nextId));
-
-        return nextId;
-    }
-
-    public static string GetNextId<T>(this List<T> entities, Func<T, string> identifier, string? specifiedId = null)
-    {
-        var nextId = specifiedId ?? (entities.Count + 1).ToString();
-
-        //Don't allow duplicate IDs
-        if (entities.Any(entity => identifier(entity) == nextId))
-            entities.Remove(entities.Single(entity => identifier(entity) == nextId));
-
-        return nextId;
     }
 }

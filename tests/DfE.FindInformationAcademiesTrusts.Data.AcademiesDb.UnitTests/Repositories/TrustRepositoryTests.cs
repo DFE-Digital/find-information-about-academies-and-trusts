@@ -2,7 +2,6 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Exceptions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories;
@@ -11,7 +10,9 @@ public class TrustRepositoryTests
 {
     private readonly TrustRepository _sut;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
-    private readonly Mock<IStringFormattingUtilities> _mockStringFormattingUtilities = new();
+
+    private readonly IStringFormattingUtilities _mockStringFormattingUtilities =
+        Substitute.For<IStringFormattingUtilities>();
 
     private readonly DateTime _lastYear = DateTime.Today.AddYears(-1);
     private readonly DateTime _nextYear = DateTime.Today.AddYears(1);
@@ -22,12 +23,7 @@ public class TrustRepositoryTests
 
     public TrustRepositoryTests()
     {
-        _mockStringFormattingUtilities
-            .Setup(u => u.BuildAddressString(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
-                It.IsAny<string>()))
-            .Returns(string.Empty);
-
-        _sut = new TrustRepository(_mockAcademiesDbContext.Object, _mockStringFormattingUtilities.Object);
+        _sut = new TrustRepository(_mockAcademiesDbContext.Object, _mockStringFormattingUtilities);
     }
 
     [Theory]
@@ -84,7 +80,7 @@ public class TrustRepositoryTests
         const string postcode = "a postcode";
         const string expectedAddress = "an address";
 
-        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        _mockAcademiesDbContext.GiasGroups.Add(new GiasGroup
         {
             GroupUid = "2806",
             GroupType = "Multi-academy trust",
@@ -94,8 +90,7 @@ public class TrustRepositoryTests
             GroupContactPostcode = postcode
         });
 
-        _mockStringFormattingUtilities.Setup(u => u.BuildAddressString(street, locality, town, postcode))
-            .Returns(expectedAddress);
+        _mockStringFormattingUtilities.BuildAddressString(street, locality, town, postcode).Returns(expectedAddress);
 
         var result = await _sut.GetTrustOverviewAsync("2806");
 
@@ -105,7 +100,7 @@ public class TrustRepositoryTests
     [Fact]
     public async Task GetTrustOverviewAsync_should_set_properties_from_giasGroup()
     {
-        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        _mockAcademiesDbContext.GiasGroups.Add(new GiasGroup
         {
             GroupUid = "2806",
             GroupId = "TR0012",
@@ -124,7 +119,7 @@ public class TrustRepositoryTests
             "Multi-academy trust",
             "",
             "",
-            new DateTime(2007, 6, 28)
+            new DateTime(2007, 6, 28, 0, 0, 0, DateTimeKind.Utc)
         ));
     }
 
@@ -289,7 +284,7 @@ public class TrustRepositoryTests
             AppointingBody = "Nick Warms"
         };
 
-        _mockAcademiesDbContext.AddGiasGovernance(input);
+        _mockAcademiesDbContext.GiasGovernances.Add(input);
         var result = await _sut.GetTrustContactsAsync("1234");
         result.ChairOfTrustees.Should().NotBeNull();
         result.ChairOfTrustees!.FullName.Should().Be("First Second Last");
@@ -355,8 +350,8 @@ public class TrustRepositoryTests
             Email = email
         };
 
-        _mockAcademiesDbContext.AddGiasGovernance(giasGovernance);
-        _mockAcademiesDbContext.AddTadTrustGovernance(tadTrustGovernance);
+        _mockAcademiesDbContext.GiasGovernances.Add(giasGovernance);
+        _mockAcademiesDbContext.TadTrustGovernances.Add(tadTrustGovernance);
 
         return governor;
     }
@@ -411,7 +406,7 @@ public class TrustRepositoryTests
     [Fact]
     public async Task GetTrustReferenceNumberAsync_should_throw_if_trustReferenceNumber_is_null()
     {
-        _mockAcademiesDbContext.AddGiasGroup(new GiasGroup
+        _mockAcademiesDbContext.GiasGroups.Add(new GiasGroup
         {
             GroupUid = "0401",
             GroupId = null,
@@ -433,12 +428,13 @@ public class TrustRepositoryTests
         var startDateOfNewChair = DateTime.Now.AddDays(2);
         var endDateOfCurrent = DateTime.Now.AddDays(1);
 
-        string currentName = "James";
-        string newName = "Pete";
-;       string newChairId = "5678";
+        var currentName = "James";
+        var newName = "Pete";
 
-        _ = CreateGovernor("1234", newChairId, startDateOfNewChair, null, "Chair of Trustees", forename1: newName);
-        _ = CreateGovernor("1234", "9999", null, endDateOfCurrent, "Chair of Trustees", forename1: currentName);
+        var newChairId = "5678";
+
+        _ = CreateGovernor("1234", newChairId, startDateOfNewChair, null, "Chair of Trustees", newName);
+        _ = CreateGovernor("1234", "9999", null, endDateOfCurrent, "Chair of Trustees", currentName);
 
         var result = await _sut.GetTrustContactsAsync("1234");
         result.ChairOfTrustees.Should().NotBeNull();
