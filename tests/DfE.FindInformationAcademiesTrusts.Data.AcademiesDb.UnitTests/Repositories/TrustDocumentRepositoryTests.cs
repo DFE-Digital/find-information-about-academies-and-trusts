@@ -17,7 +17,7 @@ public class TrustDocumentRepositoryTests
 
     public TrustDocumentRepositoryTests()
     {
-        _giasGroup = _mockAcademiesDb.AddGiasGroup();
+        _giasGroup = _mockAcademiesDb.AddGiasGroupForTrust();
         _giasGroup.IncorporatedOnOpenDate = "01/01/2020";
 
         _sut = new TrustDocumentRepository(_mockAcademiesDb.Object, _mockLogger);

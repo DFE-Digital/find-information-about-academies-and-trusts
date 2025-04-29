@@ -19,7 +19,7 @@ public class AcademyRepositoryTests
     [Fact]
     public async Task GetAcademiesInTrustDetailsAsync_should_return_academies_linked_to_trust()
     {
-        var giasGroup = _mockAcademiesDbContext.AddGiasGroup(GroupUid);
+        var giasGroup = _mockAcademiesDbContext.AddGiasGroupForTrust(GroupUid);
         var giasEstablishments = Enumerable.Range(1000, 6).Select(n => new GiasEstablishment
         {
             Urn = n,
@@ -80,7 +80,7 @@ public class AcademyRepositoryTests
     public async Task
         GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyTrustAcademyUrn_to_null_when_multi_academy_trust()
     {
-        var mat = _mockAcademiesDbContext.AddGiasGroup("2806", groupType: "Multi-academy trust");
+        var mat = _mockAcademiesDbContext.AddGiasGroupForTrust("2806", groupType: "Multi-academy trust");
         var academy = _mockAcademiesDbContext.AddGiasEstablishment(1234);
         _mockAcademiesDbContext.AddGiasGroupLink(academy, mat);
 
@@ -93,7 +93,7 @@ public class AcademyRepositoryTests
     public async Task
         GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyTrustAcademyUrn_to_null_when_SAT_with_no_academies()
     {
-        _ = _mockAcademiesDbContext.AddGiasGroup("2806", groupType: "Single-academy trust");
+        _ = _mockAcademiesDbContext.AddGiasGroupForTrust("2806", groupType: "Single-academy trust");
 
         var result = await _sut.GetSingleAcademyTrustAcademyUrnAsync("2806");
 
@@ -103,7 +103,7 @@ public class AcademyRepositoryTests
     [Fact]
     public async Task GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyTrustAcademyUrn_to_urn_of_SAT_academy()
     {
-        var sat = _mockAcademiesDbContext.AddGiasGroup("2806", groupType: "Single-academy trust");
+        var sat = _mockAcademiesDbContext.AddGiasGroupForTrust("2806", groupType: "Single-academy trust");
         var academy = _mockAcademiesDbContext.AddGiasEstablishment(1234);
         _mockAcademiesDbContext.AddGiasGroupLink(academy, sat);
 
@@ -115,7 +115,7 @@ public class AcademyRepositoryTests
     [Fact]
     public async Task GetAcademiesInTrustPupilNumbersAsync_should_return_academies_linked_to_trust()
     {
-        var giasGroup = _mockAcademiesDbContext.AddGiasGroup(GroupUid);
+        var giasGroup = _mockAcademiesDbContext.AddGiasGroupForTrust(GroupUid);
         var giasEstablishments = Enumerable.Range(1000, 6).Select(n => new GiasEstablishment
         {
             Urn = n,
@@ -156,7 +156,7 @@ public class AcademyRepositoryTests
     [Fact]
     public async Task GetAcademiesInTrustFreeSchoolMealsAsync_should_return_academies_linked_to_trust()
     {
-        var giasGroup = _mockAcademiesDbContext.AddGiasGroup(GroupUid);
+        var giasGroup = _mockAcademiesDbContext.AddGiasGroupForTrust(GroupUid);
         var giasEstablishments = Enumerable.Range(1000, 6).Select(n => new GiasEstablishment
         {
             Urn = n,
@@ -193,7 +193,7 @@ public class AcademyRepositoryTests
     public async Task GetOverviewOfAcademiesInTrustAsync_should_return_academies_linked_to_trust()
     {
         // Arrange
-        var giasGroup = _mockAcademiesDbContext.AddGiasGroup(GroupUid);
+        var giasGroup = _mockAcademiesDbContext.AddGiasGroupForTrust(GroupUid);
         var giasEstablishments = Enumerable.Range(1000, 3).Select(n => new GiasEstablishment
         {
             Urn = n,
@@ -222,7 +222,7 @@ public class AcademyRepositoryTests
     [Fact]
     public async Task GetOverviewOfAcademiesInTrustAsync_should_handle_academies_with_missing_data()
     {
-        var giasGroup = _mockAcademiesDbContext.AddGiasGroup(GroupUid);
+        var giasGroup = _mockAcademiesDbContext.AddGiasGroupForTrust(GroupUid);
         var giasEstablishment = new GiasEstablishment
         {
             Urn = 2000,

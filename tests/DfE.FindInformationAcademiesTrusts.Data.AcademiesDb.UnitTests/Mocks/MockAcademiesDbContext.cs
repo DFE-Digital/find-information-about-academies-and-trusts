@@ -72,11 +72,11 @@ public class MockAcademiesDbContext
         Object.TadTrustGovernances.Returns(TadTrustGovernances.Object);
 
         //Set up some unused data to ensure we are actually retrieving the right data in our tests
-        var otherTrust = AddGiasGroup(groupName: "Some other trust");
+        var otherTrust = AddGiasGroupForTrust(name: "Some other trust");
         for (var i = 0; i < 15; i++)
         {
             //Completely unused
-            AddGiasGroup(groupName: $"Unused {i}");
+            AddGiasGroupForTrust(name: $"Unused {i}");
             AddMstrTrust(region: $"S{i}shire");
             AddGiasEstablishment(establishmentName: $"Unused {i}");
 
@@ -172,15 +172,15 @@ public class MockAcademiesDbContext
         });
     }
 
-    public GiasGroup AddGiasGroup(string? groupUid = null, string? groupName = null, string? groupId = null,
+    public GiasGroup AddGiasGroupForTrust(string? uid = null, string? name = null, string? trustReferenceNumber = null,
         string? groupType = null)
     {
-        var nextGroupUid = GiasGroups.GetNextId(g => g.GroupUid!, groupUid);
+        var nextGroupUid = GiasGroups.GetNextId(g => g.GroupUid!, uid);
 
         var giasGroup = new GiasGroup
         {
-            GroupId = groupId ?? $"TR0{nextGroupUid}",
-            GroupName = groupName ?? $"Trust {nextGroupUid}",
+            GroupId = trustReferenceNumber ?? $"TR0{nextGroupUid}",
+            GroupName = name ?? $"Trust {nextGroupUid}",
             GroupUid = nextGroupUid,
             GroupType = groupType ?? "Multi-academy trust",
             GroupStatusCode = "OPEN"

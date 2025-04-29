@@ -32,7 +32,7 @@ public class TrustRepositoryTests
     [InlineData("9008", "Trust with no academies", "Multi-academy trust")]
     public async Task GetTrustSummaryAsync_should_return_trustSummary_if_found(string uid, string name, string type)
     {
-        _ = _mockAcademiesDbContext.AddGiasGroup(uid, name, groupType: type);
+        _ = _mockAcademiesDbContext.AddGiasGroupForTrust(uid, name, groupType: type);
 
         var result = await _sut.GetTrustSummaryAsync(uid);
         result.Should().BeEquivalentTo(new TrustSummary(name, type));
@@ -41,7 +41,7 @@ public class TrustRepositoryTests
     [Fact]
     public async Task GetTrustOverviewAsync_should_get_regionAndTerritory_from_mstrTrusts()
     {
-        _ = _mockAcademiesDbContext.AddGiasGroup("2806");
+        _ = _mockAcademiesDbContext.AddGiasGroupForTrust("2806");
         _ = _mockAcademiesDbContext.AddMstrTrust("2806", "My Region");
 
         var result = await _sut.GetTrustOverviewAsync("2806");
@@ -52,7 +52,7 @@ public class TrustRepositoryTests
     [Fact]
     public async Task GetTrustOverviewAsync_should_set_regionAndTerritory_to_empty_string_when_mstrTrust_not_available()
     {
-        _ = _mockAcademiesDbContext.AddGiasGroup("2806");
+        _ = _mockAcademiesDbContext.AddGiasGroupForTrust("2806");
 
         var result = await _sut.GetTrustOverviewAsync("2806");
 
@@ -63,7 +63,7 @@ public class TrustRepositoryTests
     public async Task
         GetTrustOverviewAsync_should_set_regionAndTerritory_to_empty_string_when_GORregion_in_mstrTrust_null()
     {
-        _ = _mockAcademiesDbContext.AddGiasGroup("2806");
+        _ = _mockAcademiesDbContext.AddGiasGroupForTrust("2806");
         _ = _mockAcademiesDbContext.AddMstrTrust("2806", null);
 
         var result = await _sut.GetTrustOverviewAsync("2806");
@@ -402,7 +402,7 @@ public class TrustRepositoryTests
     [Fact]
     public async Task GetTrustReferenceNumberAsync_should_return_trustReferenceNumber_for_uid()
     {
-        _ = _mockAcademiesDbContext.AddGiasGroup("2806", groupId: "My trust reference number");
+        _ = _mockAcademiesDbContext.AddGiasGroupForTrust("2806", trustReferenceNumber: "My trust reference number");
 
         var result = await _sut.GetTrustReferenceNumberAsync("2806");
         result.Should().BeEquivalentTo("My trust reference number");
