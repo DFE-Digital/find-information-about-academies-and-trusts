@@ -56,7 +56,5 @@ public partial class AcademiesDbContext : DbContext, IAcademiesDbContext
         OnModelCreatingMstrTrusts(modelBuilder);
         OnModelCreatingSharePointTrustDocLinks(modelBuilder);
         OnModelCreatingTadTrustGovernances(modelBuilder);
-
-        OnModelCreatingAddFilters(modelBuilder);
     }
 }

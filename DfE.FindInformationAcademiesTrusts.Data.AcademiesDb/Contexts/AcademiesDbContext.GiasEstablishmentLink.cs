@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,7 +8,12 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 public partial class AcademiesDbContext
 {
     public DbSet<GiasEstablishmentLink> GiasEstablishmentLink { get; set; }
-
+    
+    public static readonly Expression<Func<GiasEstablishmentLink, bool>> GiasEstablishmentLinkQueryFilter =
+        gel => gel.Urn != null
+               && gel.LinkUrn != null
+               && gel.LinkType != null;
+    
     [ExcludeFromCodeCoverage]
     protected static void OnModelCreatingGiasEstablishmentLink(ModelBuilder modelBuilder)
     {
@@ -27,12 +33,7 @@ public partial class AcademiesDbContext
             entity.Property(e => e.LinkType).IsUnicode(false);
             entity.Property(e => e.LinkEstablishedDate).IsUnicode(false);
 
-            //query filter
-            entity.HasQueryFilter(gel =>
-                gel.Urn != null
-                && gel.LinkUrn != null
-                && gel.LinkType != null
-            );
+            entity.HasQueryFilter(GiasEstablishmentLinkQueryFilter);
         });
     }
 }

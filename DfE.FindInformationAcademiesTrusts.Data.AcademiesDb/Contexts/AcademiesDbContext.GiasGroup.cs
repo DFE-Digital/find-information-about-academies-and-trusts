@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +8,18 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 public partial class AcademiesDbContext
 {
     public DbSet<GiasGroup> Groups { get; set; }
+
+    // This filters out all groups with invalid fields
+    // Also filters to only MATs and SATs
+    // filters out all closed groups (trusts)
+    public static readonly Expression<Func<GiasGroup, bool>> GiasGroupQueryFilter =
+        g => g.GroupUid != null &&
+             g.GroupId != null &&
+             g.GroupName != null &&
+             g.GroupType != null &&
+             g.GroupStatusCode == "OPEN" &&
+             (g.GroupType == "Multi-academy trust" ||
+              g.GroupType == "Single-academy trust");
 
     [ExcludeFromCodeCoverage]
     protected static void OnModelCreatingGiasGroup(ModelBuilder modelBuilder)
@@ -72,6 +85,8 @@ public partial class AcademiesDbContext
                 .IsUnicode(false)
                 .HasColumnName("Open date");
             entity.Property(e => e.Ukprn).HasColumnName("UKPRN");
+
+            entity.HasQueryFilter(GiasGroupQueryFilter);
         });
     }
 }
