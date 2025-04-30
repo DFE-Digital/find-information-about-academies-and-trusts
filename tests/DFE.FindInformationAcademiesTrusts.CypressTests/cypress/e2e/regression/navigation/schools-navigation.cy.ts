@@ -1,7 +1,20 @@
 import { TestDataStore } from "../../../support/test-data-store";
 import commonPage from "../../../pages/commonPage";
+import schoolsPage from "../../../pages/schools/schoolsPage";
+import navigation from "../../../pages/navigation";
+import overviewPage from "../../../pages/trusts/overviewPage";
 
 describe('Schools Navigation Tests', () => {
+    const navTestAcademy = {
+        academyURN: 140214,
+        trustAcademyName: "ABBEY ACADEMIES TRUST",
+    };
+
+    const navTestSchool = {
+        schoolURN: 123452,
+        trustAcademyName: "ABBEY ACADEMIES TRUST",
+    };
+
     beforeEach(() => {
         cy.login();
     });
@@ -32,6 +45,24 @@ describe('Schools Navigation Tests', () => {
                     });
                 });
             });
+        });
+
+        it('Should check that an academy has the link to the trust in the header and it takes me to the correct trust', () => {
+            cy.visit(`/schools/overview/details?urn=${navTestAcademy.academyURN}`);
+            schoolsPage
+                .checkAcademyLinkPresentAndCorrect(`${navTestAcademy.trustAcademyName}`)
+                .clickAcademyTrustLink();
+            navigation
+                .checkCurrentURLIsCorrect('/trusts/overview/trust-details?uid=2044');
+            overviewPage
+                .checkTrustDetailsSubHeaderPresent();
+
+        });
+
+        it('Should check that an school does not have the link to the trust in the header', () => {
+            cy.visit(`/schools/overview/details?urn=${navTestSchool.schoolURN}`);
+            schoolsPage
+                .checkAcademyLinkNotPresentForSchool();
         });
     });
 });
