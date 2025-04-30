@@ -91,6 +91,19 @@ public class AcademyRepositoryTests
 
     [Fact]
     public async Task
+        GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyTrustAcademyUrn_to_null_when_Federation()
+    {
+        var mat = _mockAcademiesDbContext.AddGiasGroupForFederation("2806");
+        var academy = _mockAcademiesDbContext.AddGiasEstablishment(1234);
+        _mockAcademiesDbContext.AddGiasGroupLink(academy, mat);
+
+        var result = await _sut.GetSingleAcademyTrustAcademyUrnAsync("2806");
+
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task
         GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyTrustAcademyUrn_to_null_when_SAT_with_no_academies()
     {
         _ = _mockAcademiesDbContext.AddGiasGroupForTrust("2806", groupType: "Single-academy trust");

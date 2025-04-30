@@ -298,6 +298,30 @@ public class TrustSearchTests
     }
 
     [Fact]
+    public async Task SearchAsync_should_not_return_groups_which_are_not_trusts()
+    {
+        _mockAcademiesDbContext.AddGiasGroupForFederation(name: "Federation ABC");
+        _mockAcademiesDbContext.AddGiasGroupForTrust(name: "Trust ABC");
+
+        var result = await _sut.SearchAsync("ABC");
+
+        result.Should().ContainSingle()
+            .Which.Name.Should().Be("Trust ABC");
+    }
+
+    [Fact]
+    public async Task SearchAutocompleteAsync_should_not_return_groups_which_are_not_trusts()
+    {
+        _mockAcademiesDbContext.AddGiasGroupForFederation(name: "Federation ABC");
+        _mockAcademiesDbContext.AddGiasGroupForTrust(name: "Trust ABC");
+
+        var result = await _sut.SearchAutocompleteAsync("ABC");
+
+        result.Should().ContainSingle()
+            .Which.Name.Should().Be("Trust ABC");
+    }
+
+    [Fact]
     public async Task SearchAsync_Should_Return_Trust_When_Searching_By_TrustId()
     {
         // Arrange

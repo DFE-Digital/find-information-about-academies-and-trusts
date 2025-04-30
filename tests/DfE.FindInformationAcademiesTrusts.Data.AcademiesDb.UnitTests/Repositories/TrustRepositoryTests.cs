@@ -37,6 +37,15 @@ public class TrustRepositoryTests
         var result = await _sut.GetTrustSummaryAsync(uid);
         result.Should().BeEquivalentTo(new TrustSummary(name, type));
     }
+    
+    [Fact]
+    public async Task GetTrustSummaryAsync_should_return_null_if_not_sat_or_mat()
+    {
+        _ = _mockAcademiesDbContext.AddGiasGroupForFederation("2806");
+
+        var result = await _sut.GetTrustSummaryAsync("2806");
+        result.Should().BeNull();
+    }
 
     [Fact]
     public async Task GetTrustOverviewAsync_should_get_regionAndTerritory_from_mstrTrusts()
