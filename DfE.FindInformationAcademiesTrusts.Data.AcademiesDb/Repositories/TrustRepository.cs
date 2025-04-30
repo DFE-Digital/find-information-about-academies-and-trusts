@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Exceptions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
@@ -11,9 +10,11 @@ public class TrustRepository(
     IAcademiesDbContext academiesDbContext,
     IStringFormattingUtilities stringFormattingUtilities) : ITrustRepository
 {
+    private IQueryable<GiasGroup> Trusts { get; } = academiesDbContext.Groups.Trusts();
+
     public async Task<TrustSummary?> GetTrustSummaryAsync(string uid)
     {
-        var details = await academiesDbContext.Groups
+        var details = await Trusts
             .Where(g => g.GroupUid == uid)
             .Select(g => new
                 {
@@ -28,7 +29,7 @@ public class TrustRepository(
 
     public async Task<TrustOverview> GetTrustOverviewAsync(string uid)
     {
-        var giasGroup = await academiesDbContext.Groups
+        var giasGroup = await Trusts
             .Where(g => g.GroupUid == uid)
             .Select(giasGroup => new
             {
@@ -49,10 +50,10 @@ public class TrustRepository(
 
         var trustOverview = new TrustOverview(
             giasGroup.GroupUid!, //Searched by this field so it must be present
-            giasGroup.GroupId!, //Enforced by EF filter
+            giasGroup.GroupId!, // GroupId cannot be null for a trust
             giasGroup.Ukprn,
             giasGroup.CompaniesHouseNumber,
-            giasGroup.GroupType!, //Enforced by EF filter
+            giasGroup.GroupType!, //Enforced by global EF filter
             stringFormattingUtilities.BuildAddressString(
                 giasGroup.GroupContactStreet,
                 giasGroup.GroupContactLocality,
@@ -172,7 +173,7 @@ public class TrustRepository(
 
     public async Task<string> GetTrustReferenceNumberAsync(string uid)
     {
-        var trustReferenceNumber = await academiesDbContext.Groups
+        var trustReferenceNumber = await Trusts
             .Where(gl => gl.GroupUid == uid)
             .Select(gl => gl.GroupId)
             .SingleAsync();

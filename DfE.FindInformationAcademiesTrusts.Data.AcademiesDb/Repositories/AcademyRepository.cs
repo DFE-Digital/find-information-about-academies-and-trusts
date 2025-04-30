@@ -62,9 +62,8 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext)
 
     public async Task<string?> GetSingleAcademyTrustAcademyUrnAsync(string uid)
     {
-        return await academiesDbContext.GiasGroupLinks
-            .Where(gl => gl.GroupUid == uid
-                         && gl.GroupType == "Single-academy trust")
+        return await academiesDbContext.GiasGroupLinks.SingleAcademyTrusts()
+            .Where(gl => gl.GroupUid == uid)
             .Select(gl => gl.Urn)
             .FirstOrDefaultAsync();
     }

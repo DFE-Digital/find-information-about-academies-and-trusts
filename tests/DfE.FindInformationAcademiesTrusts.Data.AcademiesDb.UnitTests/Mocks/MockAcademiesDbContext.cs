@@ -108,7 +108,8 @@ public class MockAcademiesDbContext
         {
             GroupUid = giasGroup.GroupUid,
             Urn = giasEstablishment.Urn.ToString(),
-            GroupType = giasGroup.GroupType
+            GroupType = giasGroup.GroupType,
+            GroupId = giasGroup.GroupId
         });
     }
 

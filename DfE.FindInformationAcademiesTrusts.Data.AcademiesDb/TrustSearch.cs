@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,14 +27,14 @@ public class TrustSearch(IAcademiesDbContext academiesDbContext, IStringFormatti
             .Take(PageSize)
             .Select(g =>
                 new TrustSearchEntry(
-                    g.GroupName!, //Enforced by EF filter
+                    g.GroupName!, //Enforced by global EF filter
                     stringFormattingUtilities.BuildAddressString(
                         g.GroupContactStreet,
                         g.GroupContactLocality,
                         g.GroupContactTown,
                         g.GroupContactPostcode),
-                    g.GroupUid!, //Enforced by EF filter
-                    g.GroupId! //Enforced by EF filter
+                    g.GroupUid!, //Enforced by global EF filter
+                    g.GroupId! // GroupId cannot be null for a trust
                 ))
             .ToArrayAsync();
 
@@ -44,11 +45,11 @@ public class TrustSearch(IAcademiesDbContext academiesDbContext, IStringFormatti
     {
         var lowerSearchTerm = searchTerm.ToLower();
 
-        var query = academiesDbContext.Groups
+        var query = academiesDbContext.Groups.Trusts()
             .Where(g =>
-                g.GroupId!.ToLower().Contains(lowerSearchTerm)
-                || g.GroupName!.ToLower().Contains(lowerSearchTerm)
-            ); // GroupId and GroupName cannot be null because they are in EF query filters
+                    g.GroupId!.ToLower().Contains(lowerSearchTerm) // GroupId cannot be null for a trust
+                    || g.GroupName!.ToLower().Contains(lowerSearchTerm) // Enforced by global EF query filter
+            );
         return query;
     }
 
@@ -65,14 +66,14 @@ public class TrustSearch(IAcademiesDbContext academiesDbContext, IStringFormatti
                 .Take(5)
                 .Select(g =>
                     new TrustSearchEntry(
-                        g.GroupName!, //Enforced by EF filter
+                        g.GroupName!, //Enforced by global EF filter
                         stringFormattingUtilities.BuildAddressString(
                             g.GroupContactStreet,
                             g.GroupContactLocality,
                             g.GroupContactTown,
                             g.GroupContactPostcode),
-                        g.GroupUid!, //Enforced by EF filter
-                        g.GroupId! //Enforced by EF filter
+                        g.GroupUid!, //Enforced by global EF filter
+                        g.GroupId! // GroupId cannot be null for a trust
                     ))
                 .ToArrayAsync();
 

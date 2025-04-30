@@ -9,17 +9,14 @@ public partial class AcademiesDbContext
 {
     public DbSet<GiasGroup> Groups { get; set; }
 
-    // This filters out all groups with invalid fields
-    // Also filters to only MATs and SATs
-    // filters out all closed groups (trusts)
+    // We specifically filter out nulls to improve SQL Server query performance and reliability when searching for a
+    // value in a nullable column - https://learn.microsoft.com/en-us/ef/core/querying/null-comparisons
     public static readonly Expression<Func<GiasGroup, bool>> GiasGroupQueryFilter =
         g => g.GroupUid != null &&
-             g.GroupId != null &&
              g.GroupName != null &&
              g.GroupType != null &&
-             g.GroupStatusCode == "OPEN" &&
-             (g.GroupType == "Multi-academy trust" ||
-              g.GroupType == "Single-academy trust");
+             g.GroupStatusCode != null &&
+             g.GroupStatusCode == "OPEN";
 
     [ExcludeFromCodeCoverage]
     protected static void OnModelCreatingGiasGroup(ModelBuilder modelBuilder)
