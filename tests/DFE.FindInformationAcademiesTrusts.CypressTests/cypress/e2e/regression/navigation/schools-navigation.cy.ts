@@ -12,7 +12,6 @@ describe('Schools Navigation Tests', () => {
 
     const navTestSchool = {
         schoolURN: 123452,
-        trustAcademyName: "ABBEY ACADEMIES TRUST",
     };
 
     beforeEach(() => {
