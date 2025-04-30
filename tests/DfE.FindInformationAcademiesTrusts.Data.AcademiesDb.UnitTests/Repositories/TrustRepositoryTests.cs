@@ -1,4 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Exceptions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
@@ -37,7 +36,7 @@ public class TrustRepositoryTests
         var result = await _sut.GetTrustSummaryAsync(uid);
         result.Should().BeEquivalentTo(new TrustSummary(name, type));
     }
-    
+
     [Fact]
     public async Task GetTrustSummaryAsync_should_return_null_if_not_sat_or_mat()
     {
@@ -415,27 +414,6 @@ public class TrustRepositoryTests
 
         var result = await _sut.GetTrustReferenceNumberAsync("2806");
         result.Should().BeEquivalentTo("My trust reference number");
-    }
-
-    [Fact(Skip = "Group ID needs to be removed from global filters before this test can run and pass again")]
-    public async Task GetTrustReferenceNumberAsync_should_throw_if_trustReferenceNumber_is_null()
-    {
-        _mockAcademiesDbContext.GiasGroups.Add(new GiasGroup
-        {
-            GroupUid = "0401",
-            GroupId = null,
-            Ukprn = "10012345",
-            GroupType = "Multi-academy trust",
-            CompaniesHouseNumber = "123456",
-            IncorporatedOnOpenDate = "28/06/2007",
-            GroupStatusCode = "OPEN",
-            GroupName = "SOME TRUST"
-        });
-        var exception =
-            await Assert.ThrowsAsync<DataIntegrityException>(() => _sut.GetTrustReferenceNumberAsync("0401"));
-        exception.Message.Should()
-            .Be(
-                "Trust reference number not found for UID 0401. This record is broken in Academies Db GIAS groups table.");
     }
 
     [Fact]

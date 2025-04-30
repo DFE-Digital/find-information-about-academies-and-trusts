@@ -175,14 +175,8 @@ public class TrustRepository(
     {
         var trustReferenceNumber = await Trusts
             .Where(gl => gl.GroupUid == uid)
-            .Select(gl => gl.GroupId)
+            .Select(gl => gl.GroupId!) // GroupId cannot be null for a trust
             .SingleAsync();
-
-        if (trustReferenceNumber is null)
-        {
-            throw new DataIntegrityException(
-                $"Trust reference number not found for UID {uid}. This record is broken in Academies Db GIAS groups table.");
-        }
 
         return trustReferenceNumber;
     }
