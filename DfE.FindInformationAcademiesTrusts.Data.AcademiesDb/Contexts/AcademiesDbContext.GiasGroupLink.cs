@@ -8,9 +8,11 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 public partial class AcademiesDbContext
 {
     public DbSet<GiasGroupLink> GiasGroupLinks { get; set; }
-    
-    public static readonly Expression<Func<GiasGroupLink, bool>> GiasGroupLinkQueryFilter = gl => gl.Urn != null;
-    
+
+    public static readonly Expression<Func<GiasGroupLink, bool>> GiasGroupLinkQueryFilter =
+        gl => gl.Urn != null &&
+              gl.GroupUid != null;
+
     [ExcludeFromCodeCoverage]
     protected static void OnModelCreatingGiasGroupLink(ModelBuilder modelBuilder)
     {
