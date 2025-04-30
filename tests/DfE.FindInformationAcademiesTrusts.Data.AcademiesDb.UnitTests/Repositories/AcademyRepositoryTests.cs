@@ -26,7 +26,8 @@ public class AcademyRepositoryTests
             EstablishmentName = $"Academy {n}",
             TypeOfEstablishmentName = $"Academy type {n}",
             LaName = $"Local authority {n}",
-            UrbanRuralName = $"UrbanRuralName {n}"
+            UrbanRuralName = $"UrbanRuralName {n}",
+            EstablishmentTypeGroupName = "Academies"
         }).ToArray();
         _mockAcademiesDbContext.GiasEstablishments.AddRange(giasEstablishments);
         _mockAcademiesDbContext.AddGiasGroupLinksForGiasEstablishmentsToGiasGroup(giasEstablishments, giasGroup);
@@ -120,6 +121,7 @@ public class AcademyRepositoryTests
             Urn = n,
             EstablishmentName = $"Academy {n}",
             PhaseOfEducationName = $"Phase of Education {n}",
+            EstablishmentTypeGroupName = "Academies",
             NumberOfPupils = $"{n}",
             SchoolCapacity = $"{n}",
             StatutoryLowAge = $"{n + 1}",
@@ -161,6 +163,7 @@ public class AcademyRepositoryTests
             EstablishmentName = $"Academy {n}",
             PhaseOfEducationName = $"Phase of Education {n}",
             TypeOfEstablishmentName = $"Type of Education {n}",
+            EstablishmentTypeGroupName = "Academies",
             LaCode = $"{n}",
             PercentageFsm = $"{n - 950.5}"
         }).ToArray();
@@ -196,6 +199,7 @@ public class AcademyRepositoryTests
             Urn = n,
             EstablishmentName = $"Academy {n}",
             LaName = $"Local authority {n}",
+            EstablishmentTypeGroupName = "Academies",
             NumberOfPupils = (n * 10).ToString(),
             SchoolCapacity = (n * 15).ToString()
         }).ToArray();
@@ -223,6 +227,7 @@ public class AcademyRepositoryTests
         {
             Urn = 2000,
             EstablishmentName = "Academy Missing Data",
+            EstablishmentTypeGroupName = "Academies",
             LaName = null,
             NumberOfPupils = null,
             SchoolCapacity = null
@@ -239,7 +244,7 @@ public class AcademyRepositoryTests
         result.Should().NotBeNull();
         result.Length.Should().Be(1);
 
-        var academy = result.First();
+        var academy = result[0];
         academy.Urn.Should().Be("2000");
         academy.LocalAuthority.Should().Be(string.Empty);
         academy.NumberOfPupils.Should().BeNull();

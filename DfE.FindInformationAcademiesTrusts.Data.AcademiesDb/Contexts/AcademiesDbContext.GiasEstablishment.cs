@@ -1,12 +1,25 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 
 public partial class AcademiesDbContext
 {
     public DbSet<GiasEstablishment> GiasEstablishments { get; set; }
+
+    private static readonly string[] SupportedEstablishmentTypeGroups =
+    [
+        "Academies",
+        "Colleges",
+        "Free Schools",
+        "Local authority maintained schools",
+        "Special schools"
+    ];
+
+    public static readonly Expression<Func<GiasEstablishment, bool>> GiasEstablishmentsQueryFilter =
+        e => SupportedEstablishmentTypeGroups.Contains(e.EstablishmentTypeGroupName);
 
     [ExcludeFromCodeCoverage]
     protected static void OnModelCreatingGiasEstablishments(ModelBuilder modelBuilder)
@@ -363,6 +376,8 @@ public partial class AcademiesDbContext
             entity.Property(e => e.UrbanRuralName)
                 .IsUnicode(false)
                 .HasColumnName("UrbanRural (name)");
+
+            entity.HasQueryFilter(GiasEstablishmentsQueryFilter);
         });
     }
 }

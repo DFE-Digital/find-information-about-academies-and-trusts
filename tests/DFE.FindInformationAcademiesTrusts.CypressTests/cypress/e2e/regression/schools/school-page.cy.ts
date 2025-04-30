@@ -1,24 +1,34 @@
 import schoolsPage from "../../../pages/schools/schoolsPage";
-import { testSchoolData } from "../../../support/test-data-store";
+import { TestDataStore, testSchoolData } from "../../../support/test-data-store";
 
-describe("Testing the components of the Schools page", () => {
+describe("Testing the common components of the Schools pages", () => {
+    beforeEach(() => {
+        cy.login();
+    });
 
     describe("Header items", () => {
         testSchoolData.forEach(({ typeOfSchool, urn }) => {
-            beforeEach(() => {
-                cy.login();
-            });
 
-            [`/schools/overview/details?urn=${urn}`].forEach((url) => {
-                it(`Checks the school type is correct on a ${typeOfSchool} on the urn ${urn}`, () => {
-                    cy.visit(url);
-                    schoolsPage
-                        .checkCorrectSchoolTypePresent();
+            TestDataStore.GetAllSchoolSubpagesForUrn(urn).forEach(({ pageName, subpages }) => {
+
+                describe(`${pageName} - ${typeOfSchool}`, () => {
+
+                    subpages.forEach(({ subpageName, url }) => {
+                        it(`Checks the school type is correct on ${pageName} > ${subpageName} for a ${typeOfSchool} on the urn ${urn}`, () => {
+                            cy.visit(url);
+                            schoolsPage
+                                .checkCorrectSchoolTypePresent();
+                        });
+                    });
                 });
             });
+        });
+    });
 
-            it(`Checks the page name is correct on a ${typeOfSchool} on the urn ${urn}`, () => {
-                cy.visit(`/schools/overview/details?uid=${urn}`);
+    describe("Overview", () => {
+        testSchoolData.forEach(({ typeOfSchool, urn }) => {
+            it(`Checks the page name is correct for a ${typeOfSchool} on the urn ${urn}`, () => {
+                cy.visit(`/schools/overview/details?urn=${urn}`);
                 schoolsPage
                     .checkOverviewPageNamePresent();
             });

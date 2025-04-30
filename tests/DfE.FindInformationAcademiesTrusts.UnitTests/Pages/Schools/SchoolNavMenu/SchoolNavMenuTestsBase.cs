@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
+using DfE.FindInformationAcademiesTrusts.Services.School;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Schools.SchoolNavMenu;
 
@@ -12,7 +13,7 @@ public abstract class SchoolNavMenuTestsBase
         typeof(DetailsModel)
     ];
 
-    protected static SchoolAreaModel GetMockSchoolPage(Type pageType, string? urn = null,
+    protected static SchoolAreaModel GetMockSchoolPage(Type pageType, int urn = 123456,
         SchoolCategory schoolCategory = SchoolCategory.LaMaintainedSchool)
     {
         //Create a mock page
@@ -26,7 +27,8 @@ public abstract class SchoolNavMenuTestsBase
                        throw new ArgumentException("Couldn't create mock for given page type", nameof(pageType));
 
         //Set properties applicable to all types
-        mockPage.Urn = urn ?? (schoolCategory == SchoolCategory.Academy ? "123456" : "222222");
+        mockPage.Urn = urn;
+        mockPage.SchoolSummary = new SchoolSummaryServiceModel(urn, "Chill primary school", "", schoolCategory);
 
         return mockPage;
     }

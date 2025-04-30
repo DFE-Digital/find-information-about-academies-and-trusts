@@ -18,7 +18,9 @@ public class MockAcademiesDbContext
     public MockDbSet<ApplicationSetting> ApplicationSettings { get; } = new();
 
     //gias
-    public MockDbSet<GiasEstablishment> GiasEstablishments { get; } = new();
+    public MockDbSet<GiasEstablishment> GiasEstablishments { get; } =
+        new(AcademiesDbContext.GiasEstablishmentsQueryFilter);
+
     public MockDbSet<GiasGovernance> GiasGovernances { get; } = new();
     public MockDbSet<GiasGroup> GiasGroups { get; } = new();
     public MockDbSet<GiasGroupLink> GiasGroupLinks { get; } = new();

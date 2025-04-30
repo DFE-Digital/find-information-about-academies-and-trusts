@@ -1,30 +1,34 @@
-using System.Diagnostics.CodeAnalysis;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared.DataSource;
+using DfE.FindInformationAcademiesTrusts.Services.School;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Schools;
 
-[ExcludeFromCodeCoverage] //Temporary exclusion while this contains dummy data
-public class SchoolAreaModel : BasePageModel, ISchoolAreaModel
+public class SchoolAreaModel(ISchoolService schoolService) : BasePageModel, ISchoolAreaModel
 {
-    [BindProperty(SupportsGet = true)] public string Urn { get; set; } = "";
-
-    public SchoolCategory SchoolCategory => Urn.EndsWith('2')
-        ? SchoolCategory.LaMaintainedSchool
-        : SchoolCategory.Academy;
+    [BindProperty(SupportsGet = true)] public int Urn { get; set; }
 
     public List<DataSourcePageListEntry> DataSourcesPerPage { get; set; } = [];
     public virtual PageMetadata PageMetadata => new(SchoolName, ModelState.IsValid);
 
-    public string SchoolName
-        => Urn.EndsWith('2')
-            ? $"Cool School {Urn}"
-            : $"Chill Academy {Urn}";
+    public SchoolSummaryServiceModel SchoolSummary { get; set; } = null!;
+    public string SchoolName => SchoolSummary.Name;
+    public string SchoolType => SchoolSummary.Type;
+    public SchoolCategory SchoolCategory => SchoolSummary.Category;
 
-    public string SchoolType
-        => Urn.EndsWith('2')
-            ? "Community school"
-            : "Academy sponsor led";
+    public virtual async Task<IActionResult> OnGetAsync()
+    {
+        var schoolSummary = await schoolService.GetSchoolSummaryAsync(Urn);
+
+        if (schoolSummary == null)
+        {
+            return new NotFoundResult();
+        }
+
+        SchoolSummary = schoolSummary;
+
+        return Page();
+    }
 }

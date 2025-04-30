@@ -115,6 +115,16 @@ class CommonPage {
             .should('not.contain', 'unknown');
     }
 
+    public check404PageDisplayed(): this {
+        cy.get('h1').should('contain.text', 'Page not found');
+        cy.intercept('**', (req) => {
+            req.on('response', (res) => {
+                expect(res.statusCode).to.eq(404);
+            });
+        }).as('check404Response');
+        return this;
+    }
+
 }
 
 const commonPage = new CommonPage();

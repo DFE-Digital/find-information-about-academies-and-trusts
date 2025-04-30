@@ -45,6 +45,16 @@ export class TestDataStore {
                 ]
             },
         ];
+
+    public static readonly GetAllSchoolSubpagesForUrn = (urn: number) =>
+        [
+            {
+                pageName: "Overview",
+                subpages: [
+                    { subpageName: "School details", url: `/schools/overview/details?urn=${urn}` },
+                ]
+            },
+        ];
 }
 
 export const testSchoolData = [
@@ -53,8 +63,8 @@ export const testSchoolData = [
         urn: 123452
     },
     {
-        typeOfSchool: "Academy sponsor led",
-        urn: 5712
+        typeOfSchool: "Academy converter",
+        urn: 137083
     }
 ]; export const testPreAdvisoryData = [
     {
@@ -102,4 +112,3 @@ export const trustsWithGovernanceData = [
         uid: 5712
     }
 ];
-

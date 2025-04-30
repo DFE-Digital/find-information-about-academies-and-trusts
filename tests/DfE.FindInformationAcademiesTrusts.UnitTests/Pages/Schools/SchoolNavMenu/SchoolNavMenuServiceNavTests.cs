@@ -7,9 +7,9 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Schools.SchoolNavMe
 public class SchoolNavMenuServiceNavTests : SchoolNavMenuTestsBase
 {
     [Theory]
-    [InlineData("1234")]
-    [InlineData("5678")]
-    public void GetServiceNavLinks_should_set_route_data_to_urn(string expectedUrn)
+    [InlineData(123456)]
+    [InlineData(567878)]
+    public void GetServiceNavLinks_should_set_route_data_to_urn(int expectedUrn)
     {
         var activePage = GetMockSchoolPage(typeof(DetailsModel), expectedUrn);
 
@@ -19,7 +19,7 @@ public class SchoolNavMenuServiceNavTests : SchoolNavMenuTestsBase
         {
             var route = link.AspAllRouteData.Should().ContainSingle().Subject;
             route.Key.Should().Be("urn");
-            route.Value.Should().Be(expectedUrn);
+            route.Value.Should().Be(expectedUrn.ToString());
         });
     }
 

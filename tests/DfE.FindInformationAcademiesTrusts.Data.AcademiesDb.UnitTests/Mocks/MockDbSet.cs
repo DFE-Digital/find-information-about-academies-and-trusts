@@ -13,10 +13,13 @@ public class MockDbSet<TEntity> where TEntity : class
     private readonly List<TEntity> _items = [];
     public DbSet<TEntity> Object { get; } = Substitute.For<DbSet<TEntity>, IAsyncEnumerable<TEntity>, IQueryable>();
 
-    public MockDbSet()
+    public MockDbSet(Expression<Func<TEntity, bool>>? filter = null)
     {
         var itemsAsQueryable = _items.AsQueryable();
 
+        if (filter is not null)
+            itemsAsQueryable = itemsAsQueryable.Where(filter);
+        
         ((IAsyncEnumerable<TEntity>)Object).GetAsyncEnumerator()
             .Returns(new TestAsyncEnumerator<TEntity>(itemsAsQueryable.GetEnumerator()));
         ((IQueryable)Object).Provider.Returns(new TestAsyncQueryProvider<TEntity>(itemsAsQueryable.Provider));
