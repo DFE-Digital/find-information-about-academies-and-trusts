@@ -19,7 +19,7 @@ public class MockDbSet<TEntity> where TEntity : class
 
         if (filter is not null)
             itemsAsQueryable = itemsAsQueryable.Where(filter);
-        
+
         ((IAsyncEnumerable<TEntity>)Object).GetAsyncEnumerator()
             .Returns(new TestAsyncEnumerator<TEntity>(itemsAsQueryable.GetEnumerator()));
         ((IQueryable)Object).Provider.Returns(new TestAsyncQueryProvider<TEntity>(itemsAsQueryable.Provider));
@@ -106,25 +106,25 @@ public class MockDbSet<TEntity> where TEntity : class
         _items.AddRange(items);
     }
 
-    public int GetNextId(Func<TEntity, int> identifier, int? specifiedId = null)
+    public int GetNextId(Func<TEntity, int> identifier)
     {
-        var nextId = specifiedId ?? _items.Count + 1;
+        var nextId = _items.Count + 1;
 
         //Don't allow duplicate IDs
-        if (_items.Any(entity => identifier(entity) == nextId))
-            _items.Remove(_items.Single(entity => identifier(entity) == nextId));
+        while (_items.Any(entity => identifier(entity) == nextId))
+            nextId++;
 
         return nextId;
     }
 
-    public string GetNextId(Func<TEntity, string> identifier, string? specifiedId = null)
+    public string GetNextId(Func<TEntity, string> identifier)
     {
-        var nextId = specifiedId ?? (_items.Count + 1).ToString();
+        var nextId = _items.Count + 1;
 
         //Don't allow duplicate IDs
-        if (_items.Any(entity => identifier(entity) == nextId))
-            _items.Remove(_items.Single(entity => identifier(entity) == nextId));
+        while (_items.Any(entity => identifier(entity) == nextId.ToString()))
+            nextId++;
 
-        return nextId;
+        return nextId.ToString();
     }
 }

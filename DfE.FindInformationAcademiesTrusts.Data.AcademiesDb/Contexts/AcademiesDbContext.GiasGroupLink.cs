@@ -11,7 +11,8 @@ public partial class AcademiesDbContext
 
     public static readonly Expression<Func<GiasGroupLink, bool>> GiasGroupLinkQueryFilter =
         gl => gl.Urn != null &&
-              gl.GroupUid != null;
+              gl.GroupUid != null &&
+              (gl.GroupStatusCode == "OPEN" || gl.GroupStatusCode == "PROPOSED_TO_CLOSE");
 
     [ExcludeFromCodeCoverage]
     protected static void OnModelCreatingGiasGroupLink(ModelBuilder modelBuilder)
