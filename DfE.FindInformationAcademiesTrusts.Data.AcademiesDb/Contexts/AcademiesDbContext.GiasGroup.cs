@@ -16,7 +16,7 @@ public partial class AcademiesDbContext
              g.GroupName != null &&
              g.GroupType != null &&
              g.GroupStatusCode != null &&
-             g.GroupStatusCode == "OPEN";
+             (g.GroupStatusCode == "OPEN" || g.GroupStatusCode == "PROPOSED_TO_CLOSE");
 
     [ExcludeFromCodeCoverage]
     protected static void OnModelCreatingGiasGroup(ModelBuilder modelBuilder)
