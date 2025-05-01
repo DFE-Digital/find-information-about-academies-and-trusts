@@ -24,7 +24,9 @@ describe('Schools Navigation Tests', () => {
             { urn: 136083, unsupportedSchoolType: "Independent schools" },
             { urn: 150163, unsupportedSchoolType: "Online provider" },
             { urn: 131832, unsupportedSchoolType: "Other types" },
-            { urn: 133793, unsupportedSchoolType: "Universities" }
+            { urn: 133793, unsupportedSchoolType: "Universities" },
+            { urn: 137210, unsupportedSchoolType: "Closed academy" },
+            { urn: 142109, unsupportedSchoolType: "Closed school" },
         ];
 
         schoolTypesNotToShow.forEach(({ urn, unsupportedSchoolType }) => {
@@ -33,7 +35,7 @@ describe('Schools Navigation Tests', () => {
                 describe(pageName, () => {
 
                     subpages.forEach(({ subpageName, url }) => {
-                        it(`Should check that navigating to subpages for unsupported school type displays the 404 not found page ${pageName} > ${subpageName} > ${unsupportedSchoolType}`, () => {
+                        it(`Should check that navigating to subpages for unsupported and closed school types display the 404 not found page ${pageName} > ${subpageName} > ${unsupportedSchoolType}`, () => {
                             // Set up an interceptor to check that the page response is a 404
                             commonPage.interceptAndVerifyResponseHas404Status(url);
 
