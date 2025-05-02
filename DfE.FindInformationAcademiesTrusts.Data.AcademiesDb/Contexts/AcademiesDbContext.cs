@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Cdm;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mis_Mstr;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Mstr;
@@ -21,8 +20,6 @@ public interface IAcademiesDbContext
     DbSet<MstrFreeSchoolProject> MstrFreeSchoolProjects { get; }
     DbSet<MstrAcademyConversion> MstrAcademyConversions { get; }
     DbSet<MstrAcademyTransfer> MstrAcademyTransfers { get; }
-    DbSet<CdmAccount> CdmAccounts { get; }
-    DbSet<CdmSystemuser> CdmSystemusers { get; }
     DbSet<TadTrustGovernance> TadTrustGovernances { get; }
     DbSet<ApplicationEvent> ApplicationEvents { get; }
     DbSet<ApplicationSetting> ApplicationSettings { get; }
@@ -47,8 +44,6 @@ public partial class AcademiesDbContext : DbContext, IAcademiesDbContext
     {
         OnModelCreatingApplicationEvents(modelBuilder);
         OnModelCreatingApplicationSettings(modelBuilder);
-        OnModelCreatingCdmAccounts(modelBuilder);
-        OnModelCreatingCdmSystemusers(modelBuilder);
         OnModelCreatingGiasEstablishmentLink(modelBuilder);
         OnModelCreatingGiasEstablishments(modelBuilder);
         OnModelCreatingGiasGovernances(modelBuilder);
