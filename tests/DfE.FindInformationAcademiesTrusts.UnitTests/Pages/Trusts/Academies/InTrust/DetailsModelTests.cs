@@ -30,10 +30,10 @@ public class AcademiesDetailsModelTests : AcademiesInTrustAreaModelTests<Academi
     {
         var academies = new[]
         {
-            new AcademyDetailsServiceModel("1", "", "", "", ""),
-            new AcademyDetailsServiceModel("2", "", "", "", ""),
-            new AcademyDetailsServiceModel("3", "", "", "", "")
-        };
+           new AcademyDetailsServiceModel("1", "", "", "", "", DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-10))),
+           new AcademyDetailsServiceModel("2", "", "", "", "", DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-10))),
+           new AcademyDetailsServiceModel("3", "", "", "", "", DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-10)))
+       };
         MockAcademyService.GetAcademiesInTrustDetailsAsync(Sut.Uid).Returns(Task.FromResult(academies));
 
         _ = await Sut.OnGetAsync();

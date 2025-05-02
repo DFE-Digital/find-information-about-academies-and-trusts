@@ -29,7 +29,7 @@ public class AcademyService(
 
         return academies.Select(a =>
             new AcademyDetailsServiceModel(a.Urn, a.EstablishmentName, a.LocalAuthority, a.TypeOfEstablishment,
-                a.UrbanRural)).ToArray();
+                a.UrbanRural?.Replace("(England/Wales) ", ""), a.DateAcademyJoinedTrust)).ToArray();
     }
 
     public async Task<AcademyOfstedServiceModel[]> GetAcademiesInTrustOfstedAsync(string uid)

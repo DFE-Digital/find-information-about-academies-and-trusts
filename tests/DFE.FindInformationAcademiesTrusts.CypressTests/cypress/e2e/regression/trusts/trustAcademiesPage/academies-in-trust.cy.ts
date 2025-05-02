@@ -31,10 +31,20 @@ describe("Testing the components of the Academies page", () => {
                 .checkSchoolTypesOnDetailsTable();
         });
 
+        it("Checks that the removed England/Wales is not present on the trust details page", () => {
+            academiesInTrustPage
+                .checkEnglandWalesIdentifierNotPresent();
+        });
+
         it("Checks the detail page sorting", () => {
             cy.visit('/trusts/academies/in-trust/details?uid=5143');
             academiesInTrustPage
                 .checkTrustDetailsSorting();
+        });
+
+        it("Checks the trust joined date is present and valid", () => {
+            academiesInTrustPage
+                .checkTrustJoinedDatePresentAndValid();
         });
 
         it('should match the academy count in the sidebar with the actual table row count on the Details page', () => {

@@ -28,12 +28,13 @@ public class AcademyServiceTests
     public async Task GetAcademiesInTrustDetailsAsync_should_return_mapped_result_from_repository()
     {
         const string uid = "1234";
+
         AcademyDetails[] academies =
         [
-            new AcademyDetails("9876", "Academy 1", "Academy converter", "Oxfordshire",
-                "(England/Wales) Urban city and town"),
-            new AcademyDetails("9876", "Academy 2", "Academy sponsor led", "Lincolnshire",
-                "(England/Wales) Rural town and fringe")
+            new("9876", "Academy 1", "Academy converter", "Oxfordshire",
+                "Urban city and town", DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-10))),
+            new("9876", "Academy 2", "Academy sponsor led", "Lincolnshire",
+                "Rural town and fringe", DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-5)))
         ];
         
         _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(uid).Returns(academies);
@@ -407,5 +408,26 @@ public class AcademyServiceTests
         result[1].LocalAuthority.Should().Be("Authority FS2");
         result[1].ProjectType.Should().Be("FreeSchool");
         result[1].ChangeDate.Should().Be(new DateTime(2023, 6, 1));
+    }
+
+    [Fact]
+    public async Task GetAcademiesInTrustDetailsAsync_ShouldRemoveEnglandWalesFromUrbanRural()
+    {
+        const string uid = "1234";
+        
+        AcademyDetails[] academies =
+        [
+            new("9876", "Academy 1", "Academy converter", "Oxfordshire",
+                "(England/Wales) Urban city and town", DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-10))),
+            new("9876", "Academy 2", "Academy sponsor led", "Lincolnshire",
+                "(England/Wales) Rural town and fringe", DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-10)))
+        ];
+
+        _mockAcademyRepository.GetAcademiesInTrustDetailsAsync(uid).Returns(academies);
+
+        AcademyDetailsServiceModel[] result = await _sut.GetAcademiesInTrustDetailsAsync(uid);
+
+        result[0].UrbanRural.Should().Be("Urban city and town");
+        result[1].UrbanRural.Should().Be("Rural town and fringe");
     }
 }
