@@ -282,9 +282,9 @@ public class AcademyRepositoryTests
     }
 
     [Fact]
-    public async Task GetTrustUidFromAcademyUrnAsync_should_return_found_trust_uid()
+    public async Task GetTrustUidFromAcademyUrnAsync_should_return_found_trust_uid_when_single_academy_trust()
     {
-        var mat = _mockAcademiesDbContext.AddGiasGroupForTrust(GroupUid);
+        var mat = _mockAcademiesDbContext.AddGiasGroupForTrust(GroupUid, groupType:"Single-academy trust");
         var academy = _mockAcademiesDbContext.AddGiasEstablishment();
         _mockAcademiesDbContext.AddGiasGroupLinks(mat, academy);
 
@@ -294,7 +294,23 @@ public class AcademyRepositoryTests
     }
 
     [Fact]
-    public async Task GetTrustUidFromAcademyUrnAsync_should_throw_if_more_than_one_link()
+    public async Task GetTrustUidFromAcademyUrnAsync_should_return_found_trust_uid_when_multi_academy_trust()
+    {
+        var mat = _mockAcademiesDbContext.AddGiasGroupForTrust(GroupUid, groupType:"Multi-academy trust");
+        var academies =  Enumerable.Range(1000, 6).Select(n => new GiasEstablishment
+        {
+            Urn = n,
+            EstablishmentName = $"Academy {n}"
+        }).ToArray();
+        _mockAcademiesDbContext.AddGiasGroupLinks(mat, academies);
+    
+        var result = await _sut.GetTrustUidFromAcademyUrnAsync(academies[0].Urn);
+    
+        result.Should().Be(GroupUid);
+    }
+
+    [Fact]
+    public async Task GetTrustUidFromAcademyUrnAsync_should_throw_if_more_than_one_link_between_academy_and_trust()
     {
         var mat = _mockAcademiesDbContext.AddGiasGroupForTrust(GroupUid);
         var academy = _mockAcademiesDbContext.AddGiasEstablishment();

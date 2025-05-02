@@ -14,6 +14,14 @@ public static class IQueryableExtensions
             (g.GroupType == MultiAcademyTrust || g.GroupType == SingleAcademyTrust)
         );
     }
+    
+    public static IQueryable<GiasGroupLink> Trusts(this IQueryable<GiasGroupLink> giasGroups)
+    {
+        return giasGroups.Where(g =>
+            g.GroupId != null &&
+            (g.GroupType == MultiAcademyTrust || g.GroupType == SingleAcademyTrust)
+        );
+    }
 
     public static IQueryable<GiasGroupLink> SingleAcademyTrusts(this IQueryable<GiasGroupLink> giasGroups)
     {
