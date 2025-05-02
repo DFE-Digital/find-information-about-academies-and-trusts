@@ -31,6 +31,11 @@ describe("Testing the components of the Academies page", () => {
                 .checkSchoolTypesOnDetailsTable();
         });
 
+        it("Checks that the removed England/Wales is not present on the trust details page", () => {
+            academiesInTrustPage
+                .checkEnglandWalesIdentifierNotPresent();
+        });
+
         it("Checks the detail page sorting", () => {
             cy.visit('/trusts/academies/in-trust/details?uid=5143');
             academiesInTrustPage

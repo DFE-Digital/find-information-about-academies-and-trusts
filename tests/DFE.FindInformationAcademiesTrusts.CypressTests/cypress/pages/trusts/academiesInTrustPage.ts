@@ -20,6 +20,8 @@ class AcademiesInTrustPage {
             schoolNameHeader: () => table().find("th:contains('School name')"),
             urn: () => table().find('[data-testid="urn"]'),
             urnHeader: () => table().find("th:contains('URN')"),
+            dateJoinedTrust: () => table().find('[data-testid="academy-date-joined"]'),
+            dateJoinedTrustHeader: () => table().find("th:contains('Date joined trust')"),
             localAuthority: () => table().find('[data-testid="local-authority"]'),
             localAuthorityHeader: () => table().find("th:contains('Local authority')"),
             schoolType: () => table().find('[data-testid="type-of-establishment"]'),
@@ -125,6 +127,7 @@ class AcademiesInTrustPage {
         const { detailsPage } = this.elements;
         TableUtility.checkStringSorting(detailsPage.schoolName, detailsPage.schoolNameHeader);
         TableUtility.checkStringSorting(detailsPage.urn, detailsPage.urnHeader);
+        TableUtility.checkStringSorting(detailsPage.dateJoinedTrust, detailsPage.dateJoinedTrustHeader);
         TableUtility.checkStringSorting(detailsPage.localAuthority, detailsPage.localAuthorityHeader);
         TableUtility.checkStringSorting(detailsPage.schoolType, detailsPage.schoolTypeHeader);
         TableUtility.checkStringSorting(detailsPage.ruralOrUrban, detailsPage.ruralOrUrbanHeader);
@@ -146,6 +149,11 @@ class AcademiesInTrustPage {
         TableUtility.checkNumericSorting(freeSchoolMeals.pupilsEligible, freeSchoolMeals.pupilsEligibleHeader);
         TableUtility.checkNumericSorting(freeSchoolMeals.localAuthorityAverage, freeSchoolMeals.localAuthorityAverageHeader);
         TableUtility.checkNumericSorting(freeSchoolMeals.nationalAverage, freeSchoolMeals.nationalAverageHeader);
+    }
+
+    public checkEnglandWalesIdentifierNotPresent() {
+        this.elements.detailsPage.table().should('not.contain', 'England and Wales');
+        return this;
     }
 }
 
