@@ -34,12 +34,18 @@ describe('Schools Navigation Tests', () => {
 
                     subpages.forEach(({ subpageName, url }) => {
                         it(`Should check that navigating to subpages for unsupported school type displays the 404 not found page ${pageName} > ${subpageName} > ${unsupportedSchoolType}`, () => {
+                            // Set up an interceptor to check that the page response is a 404
+                            commonPage.interceptAndVerifyResponseHas404Status(url);
+
                             // Go to the given subpage
                             cy.visit(url, { failOnStatusCode: false });
 
+                            // Check that the 404 response interceptor was called
+                            cy.wait('@checkTheResponseIs404');
+
                             // Check that the data sources component has a subheading for each subnav
                             commonPage
-                                .check404PageDisplayed();
+                                .checkPageNotFoundDisplayed();
                         });
                     });
                 });
