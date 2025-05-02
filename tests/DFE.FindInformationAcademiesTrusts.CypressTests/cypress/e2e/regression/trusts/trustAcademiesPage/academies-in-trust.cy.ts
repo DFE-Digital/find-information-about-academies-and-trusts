@@ -42,6 +42,11 @@ describe("Testing the components of the Academies page", () => {
                 .checkTrustDetailsSorting();
         });
 
+        it("Checks the trust joined date is present and valid", () => {
+            academiesInTrustPage
+                .checkTrustJoinedDatePresentAndValid();
+        });
+
         it('should match the academy count in the sidebar with the actual table row count on the Details page', () => {
             academiesInTrustPage.getAcademyCountFromSidebar().then(expectedCount => {
                 academiesInTrustPage.getTableRowCountOnDetailsPage().should('eq', expectedCount);

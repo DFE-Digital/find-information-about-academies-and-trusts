@@ -1,3 +1,4 @@
+import commonPage from "../commonPage";
 import { TableUtility } from "../tableUtility";
 
 class AcademiesInTrustPage {
@@ -155,6 +156,12 @@ class AcademiesInTrustPage {
         this.elements.detailsPage.table().should('not.contain', 'England and Wales');
         return this;
     }
+
+    public checkTrustJoinedDatePresentAndValid(): this {
+        this.elements.detailsPage.dateJoinedTrust().each(commonPage.checkValueIsValidDate);
+        return this;
+    }
+
 }
 
 const academiesInTrustPage = new AcademiesInTrustPage();
