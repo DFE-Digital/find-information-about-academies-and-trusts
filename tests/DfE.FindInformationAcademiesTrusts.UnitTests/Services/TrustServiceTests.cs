@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
@@ -6,6 +7,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories.Contacts;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
+using NSubstitute.ReturnsExtensions;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
 
@@ -331,5 +333,32 @@ public class TrustServiceTests
 
         // Assert
         result.Should().Be(expectedTrustReferenceNumber);
+    }
+
+    [Fact]
+    public async Task GetTrustSummaryAsync_should_return_null_if_trust_uid_is_null()
+    {
+        int urn = 123;
+
+        _mockAcademyRepository.GetTrustUidFromAcademyUrnAsync(urn).ReturnsNull();
+
+        var result = await _sut.GetTrustSummaryAsync(urn);
+
+        result.Should().BeNull();
+        await _mockTrustRepository.Received(0).GetTrustSummaryAsync(Arg.Any<string>());
+    }
+
+    [Theory]
+    [InlineData(123, "2806", "My Trust", "Multi-academy trust", 3)]
+    public async Task GetTrustSummaryAsync_should_return_trust_summary_if_found(int urn, string uid, string name, string type,
+        int numAcademies)
+    {
+        _mockAcademyRepository.GetTrustUidFromAcademyUrnAsync(urn).Returns(uid);
+
+        _mockTrustRepository.GetTrustSummaryAsync(uid).Returns(new TrustSummary(name, type));
+        _mockAcademyRepository.GetNumberOfAcademiesInTrustAsync(uid).Returns(numAcademies);
+
+        var result = await _sut.GetTrustSummaryAsync(urn);
+        result.Should().BeEquivalentTo(new TrustSummaryServiceModel(uid, name, type, numAcademies));
     }
 }

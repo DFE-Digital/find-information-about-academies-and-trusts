@@ -7,6 +7,8 @@ public abstract class BaseOverviewAreaModelTests<T> : BaseSchoolPageTests<T> whe
     [Fact]
     public override async Task OnGetAsync_should_configure_PageMetadata_PageName()
     {
+        Sut.Urn = DummySchoolSummary.Urn;
+
         await Sut.OnGetAsync();
 
         Sut.PageMetadata.PageName.Should().Be("Overview");
