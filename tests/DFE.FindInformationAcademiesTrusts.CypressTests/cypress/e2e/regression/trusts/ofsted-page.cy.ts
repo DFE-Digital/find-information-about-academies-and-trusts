@@ -19,7 +19,6 @@ describe("Testing the Ofsted page and its subpages ", () => {
 
     describe(`Testing the single headline grades page `, () => {
         beforeEach(() => {
-            cy.login();
             cy.task('checkForFiles', 'cypress/downloads').then((files) => {
                 if (files) {
                     cy.task('clearDownloads', 'cypress/downloads');
@@ -82,7 +81,6 @@ describe("Testing the Ofsted page and its subpages ", () => {
 
     describe("Testing the Ofsted current ratings page ", () => {
         beforeEach(() => {
-            cy.login();
             cy.visit('/trusts/ofsted/current-ratings?uid=5143');
 
             cy.task('checkForFiles', 'cypress/downloads').then((files) => {
@@ -152,7 +150,6 @@ describe("Testing the Ofsted page and its subpages ", () => {
 
     describe("Testing the Ofsted previous ratings page ", () => {
         beforeEach(() => {
-            cy.login();
             cy.visit('/trusts/ofsted/previous-ratings?uid=5143');
 
             cy.task('checkForFiles', 'cypress/downloads').then((files) => {
@@ -222,7 +219,6 @@ describe("Testing the Ofsted page and its subpages ", () => {
 
     describe("Testing the Ofsted Safeguarding and concerns page", () => {
         beforeEach(() => {
-            cy.login();
             cy.visit('/trusts/ofsted/safeguarding-and-concerns?uid=5143');
 
             cy.task('checkForFiles', 'cypress/downloads').then((files) => {
@@ -284,7 +280,6 @@ describe("Testing the Ofsted page and its subpages ", () => {
 
     describe("Testing a trust that has no ofsted data within it to ensure the issue of a 500 page appearing does not happen", () => {
         beforeEach(() => {
-            cy.login();
             commonPage
                 .interceptAndVerifyNo500Errors();
         });
@@ -298,9 +293,6 @@ describe("Testing the Ofsted page and its subpages ", () => {
 
     describe("Testing that no unknown entries are found for ofsteds various tables/pages", () => {
         testTrustOfstedData.forEach(({ typeOfTrust, uid }) => {
-            beforeEach(() => {
-                cy.login();
-            });
 
             [`trusts/ofsted/single-headline-grades?uid=${uid}`, `trusts/ofsted/current-ratings?uid=${uid}`, `trusts/ofsted/previous-ratings?uid=${uid}`, `/trusts/ofsted/safeguarding-and-concerns?uid=${uid}`].forEach((url) => {
                 it(`Should have no unknown entries on ${url} for a ${typeOfTrust}`, () => {

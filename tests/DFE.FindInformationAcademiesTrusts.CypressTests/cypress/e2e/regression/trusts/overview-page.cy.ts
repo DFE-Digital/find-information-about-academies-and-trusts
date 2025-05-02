@@ -6,7 +6,6 @@ describe("Testing the components of the Trust overview page", () => {
 
     describe("Trust details", () => {
         beforeEach(() => {
-            cy.login();
             cy.visit('/trusts/overview/trust-details?uid=5712');
         });
 
@@ -26,7 +25,6 @@ describe("Testing the components of the Trust overview page", () => {
 
     describe("Trust summary", () => {
         beforeEach(() => {
-            cy.login();
             cy.visit('/trusts/overview/trust-summary?uid=5712');
         });
 
@@ -47,7 +45,6 @@ describe("Testing the components of the Trust overview page", () => {
 
     describe("Reference numbers", () => {
         beforeEach(() => {
-            cy.login();
             cy.visit('/trusts/overview/reference-numbers?uid=5712');
         });
 
@@ -66,9 +63,6 @@ describe("Testing the components of the Trust overview page", () => {
     });
 
     describe("Testing the Overview sub navigation", () => {
-        beforeEach(() => {
-            cy.login();
-        });
 
         it('Should check that the trust details navigation button takes me to the correct page', () => {
             cy.visit('/trusts/overview/trust-summary?uid=5527');

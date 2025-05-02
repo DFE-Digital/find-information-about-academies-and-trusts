@@ -5,10 +5,6 @@ import { trustsWithGovernanceData } from "../../../support/test-data-store";
 
 describe("Testing the components of the Governance page", () => {
 
-    beforeEach(() => {
-        cy.login();
-    });
-
     trustsWithGovernanceData.forEach(({ typeOfTrust, uid }) => {
         describe(`On the Governance pages for a ${typeOfTrust}`, () => {
 
@@ -236,9 +232,6 @@ describe("Testing the components of the Governance page", () => {
 
         describe("Testing that no unknown entries are found for an academies governance tables/pages", () => {
             trustsWithGovernanceData.forEach(({ typeOfTrust, uid }) => {
-                beforeEach(() => {
-                    cy.login();
-                });
 
                 [`/trusts/governance/trust-leadership?uid=${uid}`, `/trusts/governance/trustees?uid=${uid}`, `/trusts/governance/members?uid=${uid}`, `/trusts/governance/historic-members?uid=${uid}`].forEach((url) => {
                     it(`Should have no unknown entries on ${url} for a ${typeOfTrust}`, () => {

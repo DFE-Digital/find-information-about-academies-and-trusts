@@ -5,7 +5,6 @@ import navigation from "../../pages/navigation";
 describe('Cookie page and consent tests', () => {
 
     beforeEach(() => {
-        cy.login();
         cy.clearAllCookies();
 
         cy.visit('/cookies');

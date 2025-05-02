@@ -4,7 +4,6 @@ describe('Testing Navigation', () => {
 
     describe("Testing the footer-links", () => {
         beforeEach(() => {
-            cy.login();
             cy.visit('/');
         });
 

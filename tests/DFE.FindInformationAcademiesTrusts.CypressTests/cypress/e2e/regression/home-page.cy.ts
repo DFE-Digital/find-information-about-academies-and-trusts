@@ -7,7 +7,6 @@ import commonPage from "../../pages/commonPage";
 describe("Testing the components of the home page", () => {
 
     beforeEach(() => {
-        cy.login();
         cy.visit('/');
     });
 

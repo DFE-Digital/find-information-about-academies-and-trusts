@@ -9,9 +9,6 @@ import commonPage from "../../../pages/commonPage";
 import { TestDataStore } from "../../../support/test-data-store";
 
 describe('Trust Navigation Tests', () => {
-    beforeEach(() => {
-        cy.login();
-    });
 
     describe('Testing trust service navigation and sub navigation', () => {
 

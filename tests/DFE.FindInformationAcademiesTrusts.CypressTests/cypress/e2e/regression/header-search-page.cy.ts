@@ -6,7 +6,6 @@ describe(`Testing the components of the header search`, () => {
     [`/schools/overview/details?urn=123452`, `/trusts/overview/trust-details?uid=5527`].forEach((url) => {
 
         beforeEach(() => {
-            cy.login();
             cy.visit(url);
         });
 

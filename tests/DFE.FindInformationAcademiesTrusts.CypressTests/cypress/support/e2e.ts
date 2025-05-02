@@ -16,3 +16,8 @@ declare global {
         }
     }
 }
+
+//Always log in before every test
+beforeEach(() => {
+    cy.login();
+});

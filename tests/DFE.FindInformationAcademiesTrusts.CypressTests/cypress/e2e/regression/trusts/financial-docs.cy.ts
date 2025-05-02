@@ -15,7 +15,6 @@ testFinanceData.forEach(({ uid }) => {
         describe(`On the Finance statements page for a trust`, () => {
 
             beforeEach(() => {
-                cy.login();
                 cy.visit(`/trusts/financial-documents/financial-statements?uid=${uid}`);
             });
 
@@ -45,7 +44,6 @@ testFinanceData.forEach(({ uid }) => {
         describe(`On the Management letters page for a trust`, () => {
 
             beforeEach(() => {
-                cy.login();
                 cy.visit(`/trusts/financial-documents/management-letters?uid=${uid}`);
             });
 
@@ -75,7 +73,6 @@ testFinanceData.forEach(({ uid }) => {
         describe(`On the Internal scrutiny reports page for a trust`, () => {
 
             beforeEach(() => {
-                cy.login();
                 cy.visit(`/trusts/financial-documents/internal-scrutiny-reports?uid=${uid}`);
             });
 
@@ -105,7 +102,6 @@ testFinanceData.forEach(({ uid }) => {
         describe(`On the Self-assessment checklist page for a trust`, () => {
 
             beforeEach(() => {
-                cy.login();
                 cy.visit(`/trusts/financial-documents/self-assessment-checklists?uid=${uid}`);
             });
 
@@ -135,7 +131,6 @@ testFinanceData.forEach(({ uid }) => {
         describe(`On every financial documents page`, () => {
             [`/trusts/financial-documents/financial-statements?uid=${uid}`, `/trusts/financial-documents/management-letters?uid=${uid}`, `/trusts/financial-documents/internal-scrutiny-reports?uid=${uid}`, `/trusts/financial-documents/self-assessment-checklists?uid=${uid}`].forEach((url) => {
                 beforeEach(() => {
-                    cy.login();
                     cy.visit(url);
                 });
 

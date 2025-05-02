@@ -14,10 +14,6 @@ describe('Schools Navigation Tests', () => {
         schoolURN: 123452,
     };
 
-    beforeEach(() => {
-        cy.login();
-    });
-
     describe("Routing tests", () => {
 
         const schoolTypesNotToShow = [
