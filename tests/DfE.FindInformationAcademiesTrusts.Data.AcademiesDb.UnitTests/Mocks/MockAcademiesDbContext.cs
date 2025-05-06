@@ -112,7 +112,9 @@ public class MockAcademiesDbContext
                 Urn = giasEstablishment.Urn.ToString(),
                 GroupType = giasGroup.GroupType,
                 GroupId = giasGroup.GroupId,
-                GroupStatusCode = giasGroup.GroupStatusCode
+                GroupStatusCode = giasGroup.GroupStatusCode,
+                GroupType = giasGroup.GroupType,
+                JoinedDate = "01/01/2022"
             });
         }
     }

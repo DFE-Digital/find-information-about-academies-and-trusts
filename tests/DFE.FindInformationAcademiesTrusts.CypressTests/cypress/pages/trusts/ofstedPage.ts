@@ -1,3 +1,4 @@
+import commonPage from "../commonPage";
 import { TableUtility } from "../tableUtility";
 
 class OfstedPage {
@@ -98,14 +99,6 @@ class OfstedPage {
         expect(text).to.match(/^(Good|Not available|Outstanding|Requires improvement|Inadequate|Not inspected|Insufficient evidence|Does not apply)$/);
     };
 
-    private readonly checkValueIsValidDate = (element: JQuery<HTMLElement>) => {
-        const text = element.text().trim();
-
-        // Resolves to a date ({2 digits} {month} {4 digits}) or "No data" string
-        // Tech debt - We are allowing Sep and Sept due to different cultures set on remote vs local builds
-        expect(text).to.match(/^\d{1,2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec) \d{4}$|^No data$/);
-    };
-
     private readonly checkValueIsValidBeforeOrAfterJoiningTag = (element: JQuery<HTMLElement>) => {
         const text = element.text().trim();
         expect(text).to.match(/^(Before|After|Not yet inspected)$/);
@@ -167,17 +160,17 @@ class OfstedPage {
     }
 
     public checkSHGDateJoinedPresent(): this {
-        this.elements.singleHeadlineGrades.dateJoined().each(this.checkValueIsValidDate);
+        this.elements.singleHeadlineGrades.dateJoined().each(commonPage.checkValueIsValidDate);
         return this;
     }
 
     public checkSHGDateOfCurrentInspectionPresent(): this {
-        this.elements.singleHeadlineGrades.dateOfCurrentInspection().each(this.checkValueIsValidDate);
+        this.elements.singleHeadlineGrades.dateOfCurrentInspection().each(commonPage.checkValueIsValidDate);
         return this;
     }
 
     public checkSHGDateOfPreviousInspectionPresent(): this {
-        this.elements.singleHeadlineGrades.dateOfPreviousInspection().each(this.checkValueIsValidDate);
+        this.elements.singleHeadlineGrades.dateOfPreviousInspection().each(commonPage.checkValueIsValidDate);
         return this;
     }
 

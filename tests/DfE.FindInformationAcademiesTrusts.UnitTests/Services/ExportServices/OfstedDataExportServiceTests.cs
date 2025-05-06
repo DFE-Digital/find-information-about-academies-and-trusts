@@ -94,7 +94,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
             var previousInspectionDate = new DateTime(2019, 12, 31);
 
             _mockAcademyService.GetAcademiesInTrustDetailsAsync(trustUid)
-                .Returns([new("A123", "Academy XYZ", "TypeX", "Local LA", "Urban")]);
+                .Returns([new("A123", "Academy XYZ", "TypeX", "Local LA", "Urban", DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-10)))]);
 
             _mockAcademyService.GetAcademiesInTrustOfstedAsync(trustUid)
                 .Returns([
@@ -138,7 +138,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
         [Fact]
         public async Task ExportOfstedDataToSpreadsheet_ShouldHandleNoOfstedDataAsync()
         {
-            _mockAcademyService.GetAcademiesInTrustDetailsAsync(trustUid).Returns([new ("A123", "Academy XYZ", "Local LA", "TypeX", "Urban")]);
+            _mockAcademyService.GetAcademiesInTrustDetailsAsync(trustUid).Returns([new ("A123", "Academy XYZ", "Local LA", "TypeX", "Urban", DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-10)))]);
 
             _mockAcademyService.GetAcademiesInTrustOfstedAsync(trustUid).Returns([]);
 
@@ -180,7 +180,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
             var previousInspectionDate = new DateTime(2019, 12, 31);
 
             _mockAcademyService.GetAcademiesInTrustDetailsAsync(trustUid)
-                .Returns([new("A123", null, "TypeX", "Local LA", "Urban")]);
+                .Returns([new("A123", null, "TypeX", "Local LA", "Urban", DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-10)))]);
 
             _mockAcademyService.GetAcademiesInTrustOfstedAsync(trustUid)
                 .Returns([

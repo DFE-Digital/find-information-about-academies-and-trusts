@@ -2,6 +2,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Academy;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 
@@ -19,7 +20,8 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext)
                         e.EstablishmentName,
                         e.TypeOfEstablishmentName,
                         e.LaName,
-                        e.UrbanRuralName))
+                        e.UrbanRuralName,
+                        DateOnly.ParseExact(gl.JoinedDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None)))
             .ToArrayAsync();
     }
 

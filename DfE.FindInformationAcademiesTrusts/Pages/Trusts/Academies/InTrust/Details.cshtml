@@ -16,6 +16,7 @@
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-body govuk-table__header" aria-sort="ascending">School name</th>
         <th scope="col" class="govuk-body govuk-table__header" aria-sort="none">URN</th>
+        <th scope="col" class="govuk-body govuk-table__header column-header-date" aria-sort="none">Date joined trust</th>
         <th scope="col" class="govuk-body govuk-table__header" aria-sort="none">Local authority</th>
         <th scope="col" class="govuk-body govuk-table__header" aria-sort="none">Type</th>
         <th scope="col" class="govuk-body govuk-table__header" aria-sort="none">Rural or urban</th>
@@ -30,6 +31,9 @@
             @academy.EstablishmentName
           </td>
           <td class="govuk-body govuk-table__cell" data-testid="urn">@academy.Urn</td>
+        <td class="govuk-body govuk-table__cell" data-sort-value="@academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.SortableDateFormat)" data-testid="academy-date-joined">
+              @academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.DisplayDateFormat)
+          </td>
           <td class="govuk-body govuk-table__cell" data-testid="local-authority">@academy.LocalAuthority</td>
           <td class="govuk-body govuk-table__cell" data-testid="type-of-establishment">@academy.TypeOfEstablishment</td>
           <td class="govuk-body govuk-table__cell" data-testid="urban-or-rural">@academy.UrbanRural</td>
