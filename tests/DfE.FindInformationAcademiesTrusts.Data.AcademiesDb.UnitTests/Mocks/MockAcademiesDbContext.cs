@@ -113,7 +113,6 @@ public class MockAcademiesDbContext
                 GroupType = giasGroup.GroupType,
                 GroupId = giasGroup.GroupId,
                 GroupStatusCode = giasGroup.GroupStatusCode,
-                GroupType = giasGroup.GroupType,
                 JoinedDate = "01/01/2022"
             });
         }
