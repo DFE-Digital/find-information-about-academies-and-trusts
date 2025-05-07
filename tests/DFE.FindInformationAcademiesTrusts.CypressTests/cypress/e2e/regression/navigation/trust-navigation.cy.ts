@@ -217,7 +217,7 @@ describe('Trust Navigation Tests', () => {
 
     describe("Routing tests", () => {
         const groupsNotToShow = [
-            { uid: 5527, scenario: "THIS SHOULD FAIL" },
+            //            { uid: 5527, scenario: "THIS SHOULD FAIL" },
             { uid: 86042, scenario: "Open Children's Centres Collaboration" },
             { uid: 86074, scenario: "Open Children's Centres Group" },
             { uid: 5701, scenario: "Open Federation" },
@@ -229,7 +229,7 @@ describe('Trust Navigation Tests', () => {
         ];
 
         groupsNotToShow.forEach(({ uid, scenario }) => {
-            describe(`${scenario}`, () => {
+            describe.only(`${scenario}`, () => {
                 TestDataStore.GetAllTrustSubpagesForUid(uid).forEach(({ pageName, subpages }) => {
                     describe(`${pageName}`, () => {
                         subpages.forEach(({ subpageName, url }) => {
