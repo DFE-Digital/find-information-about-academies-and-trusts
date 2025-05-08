@@ -90,4 +90,21 @@ public class OtherServicesLinkBuilderTests
         result.Should()
             .Be(expected);
     }
+
+    [Fact]
+    public void FinancialBenchmarkingLinkForSchool_should_be_to_the_correct_link()
+    {
+        var result = _sut.FinancialBenchmarkingLinkForSchool(111);
+        result.Should()
+            .Be($"https://financial-benchmarking-and-insights-tool.education.gov.uk/school/111/spending-and-costs");
+    }
+
+
+    [Fact]
+    public void FindSchoolPerformanceDataListingLink_should_be_to_the_correct_link()
+    {
+        var result = _sut.FindSchoolPerformanceDataListingLink(111);
+        result.Should()
+            .Be($"https://www.find-school-performance-data.service.gov.uk/school/111");
+    }
 }
