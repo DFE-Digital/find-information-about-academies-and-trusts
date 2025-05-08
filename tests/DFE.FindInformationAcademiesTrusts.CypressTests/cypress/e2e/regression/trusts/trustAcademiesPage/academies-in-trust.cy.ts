@@ -159,7 +159,7 @@ describe("Testing the components of the Academies page", () => {
         });
     });
 
-    describe("Testing that no unown entries are found for an academies various tables/pages", () => {
+    describe("Testing that no unknown entries are found for an academies various tables/pages", () => {
         testTrustData.forEach(({ typeOfTrust, uid }) => {
             beforeEach(() => {
                 cy.login();
