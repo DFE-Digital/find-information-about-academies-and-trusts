@@ -120,6 +120,10 @@ public class SchoolRepositoryTests
     [Fact]
     public async Task GetDateJoinedTrust_should_return_correct_date()
     {
+        var mat = _mockAcademiesDbContext.AddGiasGroupForTrust("2806", groupType: "Multi-academy trust");
+        var academy = _mockAcademiesDbContext.AddGiasEstablishment(1234);
+        _mockAcademiesDbContext.AddGiasGroupLinks(mat, academy);
+
         int urn = 45678;
         string joinedDate = "24/05/2024";
         DateOnly expectedJoinedDate = new DateOnly(2024, 05, 24);
@@ -129,6 +133,8 @@ public class SchoolRepositoryTests
             new GiasGroupLink
             {
                 Urn = urn.ToString(),
+                GroupUid = "TR123",
+                GroupStatusCode = "OPEN",
                 JoinedDate = joinedDate
             }
         ]);
