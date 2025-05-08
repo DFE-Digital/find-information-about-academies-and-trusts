@@ -38,7 +38,7 @@ describe('Trust Navigation Tests', () => {
 
                 navigation
                     .clickContactsServiceNavButton()
-                    .checkContactsServiceNavButtonIsHighlighed()
+                    .checkContactsServiceNavButtonIsHighlighted()
                     .checkCurrentURLIsCorrect('/trusts/contacts/in-dfe?uid=5527')
                     .checkAllServiceNavItemsPresent();
                 contactsPage
@@ -175,7 +175,7 @@ describe('Trust Navigation Tests', () => {
             it('Should check that the academies Pupil numbers navigation button takes me to the correct page', () => {
                 cy.visit('/trusts/academies/in-trust/details?uid=5527');
                 navigation
-                    .clickPupilNumbersAcadmiesTrustButton()
+                    .clickPupilNumbersAcademiesTrustButton()
                     .checkCurrentURLIsCorrect('/trusts/academies/in-trust/pupil-numbers?uid=5527')
                     .checkAllServiceNavItemsPresent()
                     .checkAllAcademiesNavItemsPresent();
@@ -187,7 +187,7 @@ describe('Trust Navigation Tests', () => {
             it('Should check that the academies Free school meals navigation button takes me to the correct page', () => {
                 cy.visit('/trusts/academies/in-trust/pupil-numbers?uid=5527');
                 navigation
-                    .clickFreeSchoolMealsAcadmiesTrustButton()
+                    .clickFreeSchoolMealsAcademiesTrustButton()
                     .checkCurrentURLIsCorrect('/trusts/academies/in-trust/free-school-meals?uid=5527')
                     .checkAllServiceNavItemsPresent()
                     .checkAllAcademiesNavItemsPresent();
@@ -199,7 +199,7 @@ describe('Trust Navigation Tests', () => {
             it('Should check that the academies Details navigation button takes me to the correct page', () => {
                 cy.visit('/trusts/academies/in-trust/free-school-meals?uid=5527');
                 navigation
-                    .clickDetailsAcadmiesTrustButton()
+                    .clickDetailsAcademiesTrustButton()
                     .checkCurrentURLIsCorrect('/trusts/academies/in-trust/details?uid=5527')
                     .checkAllServiceNavItemsPresent()
                     .checkAllAcademiesNavItemsPresent();

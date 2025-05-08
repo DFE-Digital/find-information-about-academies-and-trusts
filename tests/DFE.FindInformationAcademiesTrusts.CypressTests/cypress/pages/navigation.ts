@@ -17,7 +17,7 @@ class Navigation {
             governanceServiceNavButton: () => cy.get('[data-testid="governance-nav"]'),
         },
         currentPageSubnavLinks: () => cy.get('.moj-sub-navigation__link'),
-        acadmiesInTrustSubNav: {
+        academiesInTrustSubNav: {
             academiesInTrustPupilNumbersButton: () => cy.get('[data-testid="in-this-trust-pupil-numbers-tab"]'),
             academiesInTrustFreeSchoolMealsButton: () => cy.get('[data-testid="in-this-trust-free-school-meals-tab"]'),
             academiesInTrustDetailsButton: () => cy.get('[data-testid="in-this-trust-details-tab"]'),
@@ -137,7 +137,7 @@ class Navigation {
         return this;
     }
 
-    public checkContactsServiceNavButtonIsHighlighed(): this {
+    public checkContactsServiceNavButtonIsHighlighted(): this {
         this.elements.serviceNav.contactsServiceNavButton().should('have.class', 'govuk-service-navigation__item--active');
         return this;
     }
@@ -182,32 +182,32 @@ class Navigation {
         return this;
     }
 
-    public clickPupilNumbersAcadmiesTrustButton(): this {
-        this.elements.acadmiesInTrustSubNav.academiesInTrustPupilNumbersButton().click();
+    public clickPupilNumbersAcademiesTrustButton(): this {
+        this.elements.academiesInTrustSubNav.academiesInTrustPupilNumbersButton().click();
         return this;
     }
 
-    public clickFreeSchoolMealsAcadmiesTrustButton(): this {
-        this.elements.acadmiesInTrustSubNav.academiesInTrustFreeSchoolMealsButton().click();
+    public clickFreeSchoolMealsAcademiesTrustButton(): this {
+        this.elements.academiesInTrustSubNav.academiesInTrustFreeSchoolMealsButton().click();
         return this;
     }
 
-    public clickDetailsAcadmiesTrustButton(): this {
-        this.elements.acadmiesInTrustSubNav.academiesInTrustDetailsButton().click();
+    public clickDetailsAcademiesTrustButton(): this {
+        this.elements.academiesInTrustSubNav.academiesInTrustDetailsButton().click();
         return this;
     }
 
     public checkAcademiesSubNavNotPresent(): this {
-        this.elements.acadmiesInTrustSubNav.academiesInTrustDetailsButton().should('not.exist');
-        this.elements.acadmiesInTrustSubNav.academiesInTrustPupilNumbersButton().should('not.exist');
-        this.elements.acadmiesInTrustSubNav.academiesInTrustFreeSchoolMealsButton().should('not.exist');
+        this.elements.academiesInTrustSubNav.academiesInTrustDetailsButton().should('not.exist');
+        this.elements.academiesInTrustSubNav.academiesInTrustPupilNumbersButton().should('not.exist');
+        this.elements.academiesInTrustSubNav.academiesInTrustFreeSchoolMealsButton().should('not.exist');
         return this;
     }
 
     public checkAllAcademiesNavItemsPresent(): this {
-        this.elements.acadmiesInTrustSubNav.academiesInTrustDetailsButton().should('be.visible');
-        this.elements.acadmiesInTrustSubNav.academiesInTrustPupilNumbersButton().should('be.visible');
-        this.elements.acadmiesInTrustSubNav.academiesInTrustFreeSchoolMealsButton().should('be.visible');
+        this.elements.academiesInTrustSubNav.academiesInTrustDetailsButton().should('be.visible');
+        this.elements.academiesInTrustSubNav.academiesInTrustPupilNumbersButton().should('be.visible');
+        this.elements.academiesInTrustSubNav.academiesInTrustFreeSchoolMealsButton().should('be.visible');
         return this;
     }
 

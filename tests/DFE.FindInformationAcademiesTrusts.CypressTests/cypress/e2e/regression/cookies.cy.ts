@@ -95,8 +95,8 @@ describe('Cookie page and consent tests', () => {
 
     it('should check that both cookie accept and reject radio buttons are in their empty state when coming in from scratch', () => {
         cookiesPage
-            .checkCookiesAcceptIsUninteracted()
-            .checkCookiesRejectIsUninteracted();
+            .checkCookiesAcceptIsNotChecked()
+            .checkCookiesRejectIsNotChecked();
     });
 
     it('should check that the accept cookies button stays checked after enabling it', () => {

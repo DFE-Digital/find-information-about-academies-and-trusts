@@ -126,7 +126,7 @@ describe("Testing the components of the Governance page", () => {
     const trustsWithNoGovernanceData = [
         {
             typeOfTrust: "single academy trust with no governance data",
-            uid: 2171
+            uid: 17022
         },
         {
             typeOfTrust: "multi academy trust with no governance data",
@@ -234,7 +234,7 @@ describe("Testing the components of the Governance page", () => {
                 .checkSubNavNotPresent();
         });
 
-        describe("Testing that no unown entries are found for an academies governance tables/pages", () => {
+        describe("Testing that no unknown entries are found for an academies governance tables/pages", () => {
             trustsWithGovernanceData.forEach(({ typeOfTrust, uid }) => {
                 beforeEach(() => {
                     cy.login();

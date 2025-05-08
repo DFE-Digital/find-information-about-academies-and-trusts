@@ -296,7 +296,7 @@ describe("Testing the Ofsted page and its subpages ", () => {
         });
     });
 
-    describe("Testing that no unown entries are found for ofsteds various tables/pages", () => {
+    describe("Testing that no unknown entries are found for ofsteds various tables/pages", () => {
         testTrustOfstedData.forEach(({ typeOfTrust, uid }) => {
             beforeEach(() => {
                 cy.login();

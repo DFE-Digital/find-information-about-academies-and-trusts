@@ -44,7 +44,7 @@ class SearchPage {
         return this;
     }
 
-    public clicSearchPageSearchButton(): this {
+    public clickSearchPageSearchButton(): this {
         this.elements.searchPageSearchButton().click();
         return this;
     }

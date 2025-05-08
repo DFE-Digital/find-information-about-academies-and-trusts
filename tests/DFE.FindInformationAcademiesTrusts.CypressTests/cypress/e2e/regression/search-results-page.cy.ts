@@ -11,84 +11,84 @@ describe("Testing the components of the search results page", () => {
 
         homePage
             .enterMainSearchText("KnowWhere")
-            .clickMainSearchButton()
+            .clickMainSearchButton();
 
         searchPage
-            .checkNoSearchResultsFound()
+            .checkNoSearchResultsFound();
     });
 
     it("Checks that the user can edit their search and search for a new trust from the search page", () => {
 
         homePage
             .enterMainSearchText("West")
-            .clickMainSearchButton()
+            .clickMainSearchButton();
 
         searchPage
-            .checkSearchResultsReturned("West")
+            .checkSearchResultsReturned("West");
 
         searchPage
             .enterSearchResultsSearchText("East")
-            .clicSearchPageSearchButton()
+            .clickSearchPageSearchButton();
 
         searchPage
-            .checkSearchResultsReturned("East")
+            .checkSearchResultsReturned("East");
     });
 
     it("Validates that it returns the amount of results stated in the search text", () => {
 
         homePage
             .enterMainSearchText("West")
-            .clickMainSearchButton()
+            .clickMainSearchButton();
 
         searchPage
-            .validateSearchResultsCountWithPagination()
+            .validateSearchResultsCountWithPagination();
     });
 
     it("Should return the correct trust when searching by TRN", () => {
 
         homePage
             .enterMainSearchText("TR02343") // Enter the TRN
-            .clickMainSearchButton()
+            .clickMainSearchButton();
 
         searchPage
-            .checkSearchResultsReturned("UNITED LEARNING TRUST") // Validate that the TRN appears in the results
+            .checkSearchResultsReturned("UNITED LEARNING TRUST"); // Validate that the TRN appears in the results
     });
 
     it("Should display 'no results found' when searching with a non-existent TRN", () => {
 
         homePage
             .enterMainSearchText("TR99999") // Enter a TRN that doesn't exist
-            .clickMainSearchButton()
+            .clickMainSearchButton();
 
         searchPage
-            .checkNoSearchResultsFound() // Validate that no results were found
+            .checkNoSearchResultsFound(); // Validate that no results were found
     });
 
     it("Should allow searching by TRN from the search results page", () => {
 
         homePage
             .enterMainSearchText("West")
-            .clickMainSearchButton()
+            .clickMainSearchButton();
 
         searchPage
-            .checkSearchResultsReturned("West")
+            .checkSearchResultsReturned("West");
 
         searchPage
             .enterSearchResultsSearchText("TR02343")
-            .clicSearchPageSearchButton()
+            .clickSearchPageSearchButton();
 
         searchPage
-            .checkSearchResultsReturned("UNITED LEARNING TRUST") 
+            .checkSearchResultsReturned("UNITED LEARNING TRUST");
     });
 
     it("Should return the correct trust when searching with a partial TRN", () => {
 
         homePage
-            .enterMainSearchText("TR0234") 
-            .clickMainSearchButton()
+            .enterMainSearchText("TR0234")
+            .clickMainSearchButton();
 
         searchPage
-            .checkSearchResultsReturned("UNITED LEARNING TRUST") // Validate that partial TRN returns correct results
+            .checkSearchResultsReturned("UNITED LEARNING TRUST"); // Validate that partial TRN returns correct results
     });
 
-})
+});

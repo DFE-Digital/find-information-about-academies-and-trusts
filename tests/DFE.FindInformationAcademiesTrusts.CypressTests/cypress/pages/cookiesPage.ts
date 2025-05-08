@@ -29,23 +29,23 @@ export class CookiesPage {
         return this;
     }
 
-    public checkCookiesAcceptIsUninteracted(): this {
-        this.elements.buttons.accept().should('not.be.checked')
+    public checkCookiesAcceptIsNotChecked(): this {
+        this.elements.buttons.accept().should('not.be.checked');
         return this;
     }
 
     public checkCookiesAcceptIsInteracted(): this {
-        this.elements.buttons.accept().should('be.checked')
+        this.elements.buttons.accept().should('be.checked');
         return this;
     }
 
-    public checkCookiesRejectIsUninteracted(): this {
-        this.elements.buttons.reject().should('not.be.checked')
+    public checkCookiesRejectIsNotChecked(): this {
+        this.elements.buttons.reject().should('not.be.checked');
         return this;
     }
 
     public checkCookiesRejectIsInteracted(): this {
-        this.elements.buttons.reject().should('be.checked')
+        this.elements.buttons.reject().should('be.checked');
         return this;
     }
 
