@@ -60,7 +60,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
             result!.DateJoinedTrust.Should().NotBeNull();
         }
 
-        public static TheoryData<SchoolDetails, NurseryProvision> expectedResults => new()
+        public static TheoryData<object, NurseryProvision> expectedResults => new()
         {
             { academySchoolDetails with {NurseryProvision = ""}, NurseryProvision.NotRecorded },
             { academySchoolDetails with {NurseryProvision = "has nursery classes"}, NurseryProvision.HasClasses },
@@ -71,14 +71,13 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
         };
 
         [Theory, MemberData(nameof(expectedResults))]
-        public async Task Should_return_correct_nursery_provision(SchoolDetails schoolDetails, NurseryProvision expectedNurseryProvision)
+        public async Task Should_return_correct_nursery_provision(object schoolDetails, NurseryProvision expectedNurseryProvision)
         {
-            _mockSchoolRepository.GetSchoolDetailsAsync(_academySchoolUrn).Returns(schoolDetails);
+            _mockSchoolRepository.GetSchoolDetailsAsync(_academySchoolUrn).Returns((SchoolDetails)schoolDetails);
 
             var result = await _sut.GetSchoolOverviewDetailsAsync(_academySchoolUrn, SchoolCategory.Academy);
 
             result?.NurseryProvision.Should().Be(expectedNurseryProvision);
         }
-
     }
 }
