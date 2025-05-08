@@ -1,7 +1,9 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories;
 
@@ -10,9 +12,11 @@ public class SchoolRepositoryTests
     private readonly SchoolRepository _sut;
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
 
+    private readonly IStringFormattingUtilities _stringFormattingUtilities = new StringFormattingUtilities();
+
     public SchoolRepositoryTests()
     {
-        _sut = new SchoolRepository(_mockAcademiesDbContext.Object);
+        _sut = new SchoolRepository(_mockAcademiesDbContext.Object, _stringFormattingUtilities);
     }
 
     [Fact]
@@ -73,5 +77,64 @@ public class SchoolRepositoryTests
 
         var result = await _sut.GetSchoolSummaryAsync(123456);
         result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetSchoolDetailsAsync_should_return_null_if_not_found()
+    {
+        var result = await _sut.GetSchoolDetailsAsync(999999);
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetSchoolSummaryAsync_should_return_school_details_if_found()
+    {
+        int urn = 123456;
+
+        _mockAcademiesDbContext.GiasEstablishments.AddRange(
+        [
+            new GiasEstablishment
+            {
+                Urn = urn,
+                TypeOfEstablishmentName = "Foundation school",
+                EstablishmentTypeGroupName = "Local authority maintained schools",
+                EstablishmentName = "cool school",
+                Street = "1st line",
+                Town = "Funky Town",
+                Postcode = "BBL 123",
+                GorName = "Yorkshire",
+                LaName = "Leeds",
+                PhaseOfEducationName = "Secondary",
+                StatutoryLowAge = "5",
+                StatutoryHighAge = "16",
+                NurseryProvisionName = "None"
+            }
+        ]);
+
+        var result = await _sut.GetSchoolDetailsAsync(urn);
+
+        result.Should().BeEquivalentTo(new SchoolDetails("cool school", "1st line, Funky Town, BBL 123", "Yorkshire",
+            "Leeds", "Secondary", new AgeRange(5, 16), "None"));
+    }
+
+    [Fact]
+    public async Task GetDateJoinedTrust_should_return_correct_date()
+    {
+        int urn = 45678;
+        string joinedDate = "24/05/2024";
+        DateOnly expectedJoinedDate = new DateOnly(2024, 05, 24);
+
+        _mockAcademiesDbContext.GiasGroupLinks.AddRange(
+        [
+            new GiasGroupLink
+            {
+                Urn = urn.ToString(),
+                JoinedDate = joinedDate
+            }
+        ]);
+
+        var result = await _sut.GetDateJoinedTrustAsync(urn);
+
+        result.Should().Be(expectedJoinedDate);
     }
 }

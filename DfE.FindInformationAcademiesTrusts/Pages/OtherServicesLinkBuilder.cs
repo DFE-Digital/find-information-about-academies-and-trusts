@@ -7,10 +7,13 @@ public interface IOtherServicesLinkBuilder
     string? CompaniesHouseListingLink(string? companiesHouseNumber);
     string? FindSchoolPerformanceDataListingLink(string uid, TrustType trustType, string? satAcademyUrn);
     string GetInformationAboutSchoolsListingLinkForTrust(string trustUid);
-    string GetInformationAboutSchoolsListingLinkForAcademy(string urn);
+    string GetInformationAboutSchoolsListingLinkForSchool(string urn);
     string SharepointFolderLink(string groupId);
 
     string? FinancialBenchmarkingInsightsToolListingLink(string? companiesHouseNumber);
+    string? FinancialBenchmarkingLinkForSchool(int urn);
+
+    string FindSchoolPerformanceDataListingLink(int urn);
 }
 
 public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
@@ -33,7 +36,7 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
         return $"{GetInformationAboutSchoolsBaseUrl}/Groups/Group/Details/{trustUid}";
     }
 
-    public string GetInformationAboutSchoolsListingLinkForAcademy(string urn)
+    public string GetInformationAboutSchoolsListingLinkForSchool(string urn)
     {
         return $"{GetInformationAboutSchoolsBaseUrl}/Establishments/Establishment/Details/{urn}";
     }
@@ -52,6 +55,11 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
             : $"{FinancialBenchmarkingInsightsToolBaseUrl}/trust/{companiesHouseNumber}";
     }
 
+    public string? FinancialBenchmarkingLinkForSchool(int urn)
+    {
+        return $"{FinancialBenchmarkingInsightsToolBaseUrl}/school/{urn}/spending-and-costs";
+    }
+
     public string? FindSchoolPerformanceDataListingLink(string uid, TrustType trustType, string? satAcademyUrn)
     {
         return trustType switch
@@ -61,6 +69,11 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
                 $"{FindSchoolPerformanceDataBaseUrl}/school/{satAcademyUrn}",
             _ => null
         };
+    }
+
+    public string FindSchoolPerformanceDataListingLink(int urn)
+    {
+        return $"{FindSchoolPerformanceDataBaseUrl}/school/{urn}";
     }
 
     public string SharepointFolderLink(string groupId)

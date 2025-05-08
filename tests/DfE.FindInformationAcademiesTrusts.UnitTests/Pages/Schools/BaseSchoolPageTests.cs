@@ -1,5 +1,9 @@
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Pages;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared.DataSource;
+using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.School;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +16,19 @@ public abstract class BaseSchoolPageTests<T> where T : SchoolAreaModel
     protected T Sut = null!;
     protected readonly ISchoolService MockSchoolService = Substitute.For<ISchoolService>();
     protected readonly ITrustService MockTrustService = Substitute.For<ITrustService>();
+    protected readonly ISchoolOverviewDetailsService MockSchoolOverviewDetailsService = Substitute.For<ISchoolOverviewDetailsService>();
+    protected readonly IOtherServicesLinkBuilder MockOtherServicesLinkBuilder = Substitute.For<IOtherServicesLinkBuilder>();
+    protected readonly IDataSourceService MockDataSourceService = Mocks.MockDataSourceService.CreateSubstitute();
+
     protected const int SchoolUrn = 123456;
     protected const int AcademyUrn = 888888;
 
     protected readonly SchoolSummaryServiceModel DummySchoolSummary =
         new(SchoolUrn, "Cool school", "Community school", SchoolCategory.LaMaintainedSchool);
+
+    protected readonly SchoolOverviewServiceModel DummySchoolDetails =
+        new("Cool school", "some street, in a town", "Yorkshire", "Leeds", "Secondary", new AgeRange(11, 18),
+            NurseryProvision.NotRecorded);
 
     protected readonly SchoolSummaryServiceModel DummyAcademySummary =
         new(AcademyUrn, "Cool academy", "Academy school", SchoolCategory.Academy);
@@ -74,6 +86,9 @@ public abstract class BaseSchoolPageTests<T> where T : SchoolAreaModel
     [Fact]
     public async Task OnGetAsync_should_return_page_result_if_urn_exists()
     {
+        MockSchoolOverviewDetailsService.GetSchoolOverviewDetailsAsync(DummySchoolSummary.Urn,
+            SchoolCategory.LaMaintainedSchool).Returns(DummySchoolDetails);
+
         Sut.Urn = DummySchoolSummary.Urn;
 
         var result = await Sut.OnGetAsync();
