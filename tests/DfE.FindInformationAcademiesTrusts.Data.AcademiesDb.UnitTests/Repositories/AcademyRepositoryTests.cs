@@ -19,7 +19,7 @@ public class AcademyRepositoryTests
     [Fact]
     public async Task GetAcademiesInTrustDetailsAsync_should_return_academies_linked_to_trust()
     {
-        var giasGroup = _mockAcademiesDbContext.AddGiasGroup(GroupUid);
+        var giasGroup = _mockAcademiesDbContext.AddGiasGroupForTrust(GroupUid);
         var giasEstablishments = Enumerable.Range(1000, 6).Select(n => new GiasEstablishment
         {
             Urn = n,
@@ -30,7 +30,7 @@ public class AcademyRepositoryTests
             EstablishmentTypeGroupName = "Academies"
         }).ToArray();
         _mockAcademiesDbContext.GiasEstablishments.AddRange(giasEstablishments);
-        _mockAcademiesDbContext.AddGiasGroupLinksForGiasEstablishmentsToGiasGroup(giasEstablishments, giasGroup);
+        _mockAcademiesDbContext.AddGiasGroupLinks(giasGroup, giasEstablishments);
 
         var result = await _sut.GetAcademiesInTrustDetailsAsync(GroupUid);
 
@@ -64,13 +64,8 @@ public class AcademyRepositoryTests
     [InlineData(3)]
     public async Task GetNumberOfAcademiesInTrustAsync_should_return_number_of_grouplinks_for_uid(int numAcademies)
     {
-        _mockAcademiesDbContext.GiasGroupLinks.Add(new GiasGroupLink
-            { GroupUid = "some other trust", Urn = "some other academy" });
-
-        for (var i = 0; i < numAcademies; i++)
-        {
-            _mockAcademiesDbContext.GiasGroupLinks.Add(new GiasGroupLink { GroupUid = GroupUid, Urn = $"{i}" });
-        }
+        _mockAcademiesDbContext.AddGiasGroupLinks("some other trust", "some other academy");
+        _mockAcademiesDbContext.AddGiasGroupLinks(GroupUid, numAcademies);
 
         var result = await _sut.GetNumberOfAcademiesInTrustAsync(GroupUid);
         result.Should().Be(numAcademies);
@@ -80,9 +75,22 @@ public class AcademyRepositoryTests
     public async Task
         GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyTrustAcademyUrn_to_null_when_multi_academy_trust()
     {
-        var mat = _mockAcademiesDbContext.AddGiasGroup("2806", groupType: "Multi-academy trust");
+        var mat = _mockAcademiesDbContext.AddGiasGroupForTrust("2806", groupType: "Multi-academy trust");
         var academy = _mockAcademiesDbContext.AddGiasEstablishment(1234);
-        _mockAcademiesDbContext.AddGiasGroupLink(academy, mat);
+        _mockAcademiesDbContext.AddGiasGroupLinks(mat, academy);
+
+        var result = await _sut.GetSingleAcademyTrustAcademyUrnAsync("2806");
+
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task
+        GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyTrustAcademyUrn_to_null_when_Federation()
+    {
+        var mat = _mockAcademiesDbContext.AddGiasGroupForFederation("2806");
+        var academy = _mockAcademiesDbContext.AddGiasEstablishment(1234);
+        _mockAcademiesDbContext.AddGiasGroupLinks(mat, academy);
 
         var result = await _sut.GetSingleAcademyTrustAcademyUrnAsync("2806");
 
@@ -93,7 +101,7 @@ public class AcademyRepositoryTests
     public async Task
         GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyTrustAcademyUrn_to_null_when_SAT_with_no_academies()
     {
-        _ = _mockAcademiesDbContext.AddGiasGroup("2806", groupType: "Single-academy trust");
+        _ = _mockAcademiesDbContext.AddGiasGroupForTrust("2806", groupType: "Single-academy trust");
 
         var result = await _sut.GetSingleAcademyTrustAcademyUrnAsync("2806");
 
@@ -103,19 +111,19 @@ public class AcademyRepositoryTests
     [Fact]
     public async Task GetUrnForSingleAcademyTrustAsync_should_set_singleAcademyTrustAcademyUrn_to_urn_of_SAT_academy()
     {
-        var sat = _mockAcademiesDbContext.AddGiasGroup("2806", groupType: "Single-academy trust");
-        var academy = _mockAcademiesDbContext.AddGiasEstablishment(1234);
-        _mockAcademiesDbContext.AddGiasGroupLink(academy, sat);
+        var sat = _mockAcademiesDbContext.AddGiasGroupForTrust("2806", groupType: "Single-academy trust");
+        var academy = _mockAcademiesDbContext.AddGiasEstablishment(123456);
+        _mockAcademiesDbContext.AddGiasGroupLinks(sat, academy);
 
         var result = await _sut.GetSingleAcademyTrustAcademyUrnAsync("2806");
 
-        result.Should().Be(GroupUid);
+        result.Should().Be("123456");
     }
 
     [Fact]
     public async Task GetAcademiesInTrustPupilNumbersAsync_should_return_academies_linked_to_trust()
     {
-        var giasGroup = _mockAcademiesDbContext.AddGiasGroup(GroupUid);
+        var giasGroup = _mockAcademiesDbContext.AddGiasGroupForTrust(GroupUid);
         var giasEstablishments = Enumerable.Range(1000, 6).Select(n => new GiasEstablishment
         {
             Urn = n,
@@ -128,7 +136,7 @@ public class AcademyRepositoryTests
             StatutoryHighAge = $"{n + 10}"
         }).ToArray();
         _mockAcademiesDbContext.GiasEstablishments.AddRange(giasEstablishments);
-        _mockAcademiesDbContext.AddGiasGroupLinksForGiasEstablishmentsToGiasGroup(giasEstablishments, giasGroup);
+        _mockAcademiesDbContext.AddGiasGroupLinks(giasGroup, giasEstablishments);
 
         var result = await _sut.GetAcademiesInTrustPupilNumbersAsync(GroupUid);
 
@@ -156,7 +164,7 @@ public class AcademyRepositoryTests
     [Fact]
     public async Task GetAcademiesInTrustFreeSchoolMealsAsync_should_return_academies_linked_to_trust()
     {
-        var giasGroup = _mockAcademiesDbContext.AddGiasGroup(GroupUid);
+        var giasGroup = _mockAcademiesDbContext.AddGiasGroupForTrust(GroupUid);
         var giasEstablishments = Enumerable.Range(1000, 6).Select(n => new GiasEstablishment
         {
             Urn = n,
@@ -168,7 +176,7 @@ public class AcademyRepositoryTests
             PercentageFsm = $"{n - 950.5}"
         }).ToArray();
         _mockAcademiesDbContext.GiasEstablishments.AddRange(giasEstablishments);
-        _mockAcademiesDbContext.AddGiasGroupLinksForGiasEstablishmentsToGiasGroup(giasEstablishments, giasGroup);
+        _mockAcademiesDbContext.AddGiasGroupLinks(giasGroup, giasEstablishments);
 
         var result = await _sut.GetAcademiesInTrustFreeSchoolMealsAsync(GroupUid);
         result.Should()
@@ -193,7 +201,7 @@ public class AcademyRepositoryTests
     public async Task GetOverviewOfAcademiesInTrustAsync_should_return_academies_linked_to_trust()
     {
         // Arrange
-        var giasGroup = _mockAcademiesDbContext.AddGiasGroup(GroupUid);
+        var giasGroup = _mockAcademiesDbContext.AddGiasGroupForTrust(GroupUid);
         var giasEstablishments = Enumerable.Range(1000, 3).Select(n => new GiasEstablishment
         {
             Urn = n,
@@ -205,7 +213,7 @@ public class AcademyRepositoryTests
         }).ToArray();
 
         _mockAcademiesDbContext.GiasEstablishments.AddRange(giasEstablishments);
-        _mockAcademiesDbContext.AddGiasGroupLinksForGiasEstablishmentsToGiasGroup(giasEstablishments, giasGroup);
+        _mockAcademiesDbContext.AddGiasGroupLinks(giasGroup, giasEstablishments);
 
         // Act
         var result = await _sut.GetOverviewOfAcademiesInTrustAsync(GroupUid);
@@ -222,7 +230,7 @@ public class AcademyRepositoryTests
     [Fact]
     public async Task GetOverviewOfAcademiesInTrustAsync_should_handle_academies_with_missing_data()
     {
-        var giasGroup = _mockAcademiesDbContext.AddGiasGroup(GroupUid);
+        var giasGroup = _mockAcademiesDbContext.AddGiasGroupForTrust(GroupUid);
         var giasEstablishment = new GiasEstablishment
         {
             Urn = 2000,
@@ -233,11 +241,7 @@ public class AcademyRepositoryTests
             SchoolCapacity = null
         };
         _mockAcademiesDbContext.GiasEstablishments.Add(giasEstablishment);
-        _mockAcademiesDbContext.GiasGroupLinks.Add(new GiasGroupLink
-        {
-            GroupUid = giasGroup.GroupUid,
-            Urn = giasEstablishment.Urn.ToString()
-        });
+        _mockAcademiesDbContext.AddGiasGroupLinks(giasGroup, giasEstablishment);
 
         var result = await _sut.GetOverviewOfAcademiesInTrustAsync(GroupUid);
 
@@ -270,12 +274,7 @@ public class AcademyRepositoryTests
     [Fact]
     public async Task GetTrustUidFromAcademyUrnAsync_should_return_null_when_not_found()
     {
-        int unknownUrn = 1234;
-        int knownUrn = 666;
-
-        var mat = _mockAcademiesDbContext.AddGiasGroup("2806", groupType: "Multi-academy trust");
-        var academy = _mockAcademiesDbContext.AddGiasEstablishment(knownUrn);
-        _mockAcademiesDbContext.AddGiasGroupLink(academy, mat);
+        const int unknownUrn = 999999;
 
         var result = await _sut.GetTrustUidFromAcademyUrnAsync(unknownUrn);
 
@@ -283,51 +282,59 @@ public class AcademyRepositoryTests
     }
 
     [Fact]
-    public async Task GetTrustUidFromAcademyUrnAsync_should_return_found_trust_uid()
+    public async Task GetTrustUidFromAcademyUrnAsync_should_return_found_trust_uid_when_single_academy_trust()
     {
-        string groupUid = "5657";
+        var mat = _mockAcademiesDbContext.AddGiasGroupForTrust(GroupUid, groupType:"Single-academy trust");
+        var academy = _mockAcademiesDbContext.AddGiasEstablishment();
+        _mockAcademiesDbContext.AddGiasGroupLinks(mat, academy);
 
-        var mat = _mockAcademiesDbContext.AddGiasGroup(groupUid, groupType: "Multi-academy trust");
-        var academy = _mockAcademiesDbContext.AddGiasEstablishment(123);
-        _mockAcademiesDbContext.AddGiasGroupLink(academy, mat);
+        var result = await _sut.GetTrustUidFromAcademyUrnAsync(academy.Urn);
 
-        var result = await _sut.GetTrustUidFromAcademyUrnAsync(123);
-
-        result.Should().Be(groupUid);
+        result.Should().Be(GroupUid);
     }
 
     [Fact]
-    public async Task GetTrustUidFromAcademyUrnAsync_should_throw_if_more_than_one()
+    public async Task GetTrustUidFromAcademyUrnAsync_should_return_found_trust_uid_when_multi_academy_trust()
     {
-        string groupUid = "5657";
+        var mat = _mockAcademiesDbContext.AddGiasGroupForTrust(GroupUid, groupType:"Multi-academy trust");
+        var academies =  Enumerable.Range(1000, 6).Select(n => new GiasEstablishment
+        {
+            Urn = n,
+            EstablishmentName = $"Academy {n}"
+        }).ToArray();
+        _mockAcademiesDbContext.AddGiasGroupLinks(mat, academies);
+    
+        var result = await _sut.GetTrustUidFromAcademyUrnAsync(academies[0].Urn);
+    
+        result.Should().Be(GroupUid);
+    }
 
-        var mat = _mockAcademiesDbContext.AddGiasGroup(groupUid, groupType: "Multi-academy trust");
-        var academy = _mockAcademiesDbContext.AddGiasEstablishment(123);
-        _mockAcademiesDbContext.AddGiasGroupLink(academy, mat);
+    [Fact]
+    public async Task GetTrustUidFromAcademyUrnAsync_should_throw_if_more_than_one_link_between_academy_and_trust()
+    {
+        var mat = _mockAcademiesDbContext.AddGiasGroupForTrust(GroupUid);
+        var academy = _mockAcademiesDbContext.AddGiasEstablishment();
 
-        var duplicateMat = _mockAcademiesDbContext.AddGiasGroup(groupUid, groupType: "Multi-academy trust");
-        _mockAcademiesDbContext.AddGiasGroupLink(academy, duplicateMat);
+        _mockAcademiesDbContext.AddGiasGroupLinks(mat, academy);
+        _mockAcademiesDbContext.AddGiasGroupLinks(mat, academy);
 
-        var action = () => _sut.GetTrustUidFromAcademyUrnAsync(123);
+        var action = () => _sut.GetTrustUidFromAcademyUrnAsync(academy.Urn);
 
         await action.Should().ThrowAsync<InvalidOperationException>();
     }
 
     [Theory]
-    [InlineData("Multi-academy trust","123")]
+    [InlineData("Multi-academy trust", "123")]
     [InlineData("Single-academy trust", "456")]
     [InlineData("unknown trust", null)]
-    public async Task GetTrustUidFromAcademyUrnAsync_should_return_for_trust_types(string trustType, string? returnValue)
+    public async Task GetTrustUidFromAcademyUrnAsync_should_return_for_trust_types(string trustType, string? uid)
     {
+        var trust = _mockAcademiesDbContext.AddGiasGroupForTrust(uid, groupType: trustType);
+        var academy = _mockAcademiesDbContext.AddGiasEstablishment();
+        _mockAcademiesDbContext.AddGiasGroupLinks(trust, academy);
 
-        var mat = _mockAcademiesDbContext.AddGiasGroup(returnValue, groupType: trustType);
-        var academy = _mockAcademiesDbContext.AddGiasEstablishment(123);
-        _mockAcademiesDbContext.AddGiasGroupLink(academy, mat);
+        var result = await _sut.GetTrustUidFromAcademyUrnAsync(academy.Urn);
 
-        var result = await _sut.GetTrustUidFromAcademyUrnAsync(123);
-
-        result.Should().Be(returnValue);
-
-
+        result.Should().Be(uid);
     }
 }

@@ -64,19 +64,16 @@ public class AcademyRepository(IAcademiesDbContext academiesDbContext)
 
     public async Task<string?> GetSingleAcademyTrustAcademyUrnAsync(string uid)
     {
-        return await academiesDbContext.GiasGroupLinks
-            .Where(gl => gl.GroupUid == uid
-                         && gl.GroupType == "Single-academy trust")
+        return await academiesDbContext.GiasGroupLinks.SingleAcademyTrusts()
+            .Where(gl => gl.GroupUid == uid)
             .Select(gl => gl.Urn)
             .FirstOrDefaultAsync();
     }
 
     public async Task<string?> GetTrustUidFromAcademyUrnAsync(int urn)
     {
-        return await academiesDbContext.GiasGroupLinks
-            .Where(gl => 
-                gl.Urn == urn.ToString() && 
-                (gl.GroupType == "Multi-academy trust" || gl.GroupType == "Single-academy trust"))
+        return await academiesDbContext.GiasGroupLinks.Trusts()
+            .Where(gl => gl.Urn == urn.ToString())
             .Select(gl => gl.GroupUid)
             .SingleOrDefaultAsync();
     }

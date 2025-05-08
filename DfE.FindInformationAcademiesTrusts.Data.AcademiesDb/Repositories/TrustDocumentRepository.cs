@@ -1,5 +1,6 @@
 using System.Globalization;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.TrustDocument;
 using Microsoft.EntityFrameworkCore;
@@ -48,8 +49,9 @@ public class TrustDocumentRepository(IAcademiesDbContext academiesDbContext, ILo
 
     private async Task<(DateOnly trustOpenDate, string trustReferenceNumber)> GetTrustInfoFromGias(string uid)
     {
-        var giasGroup = await academiesDbContext.Groups.Where(g => g.GroupUid == uid)
-            .Select(g => new { g.GroupId, g.IncorporatedOnOpenDate })
+        var giasGroup = await academiesDbContext.Groups.Trusts()
+            .Where(g => g.GroupUid == uid)
+            .Select(g => new { GroupId = g.GroupId!, g.IncorporatedOnOpenDate }) // GroupId cannot be null for a trust
             .SingleAsync();
 
         if (giasGroup.IncorporatedOnOpenDate is null)
@@ -60,7 +62,7 @@ public class TrustDocumentRepository(IAcademiesDbContext academiesDbContext, ILo
         var trustOpenDate = giasGroup.IncorporatedOnOpenDate is not null
             ? DateOnly.ParseExact(giasGroup.IncorporatedOnOpenDate, "dd/MM/yyyy", DateTimeFormatInfo.InvariantInfo)
             : DateOnly.MinValue;
-        var trustReferenceNumber = giasGroup.GroupId!; //Enforced by EF filter
+        var trustReferenceNumber = giasGroup.GroupId;
 
         return (trustOpenDate, trustReferenceNumber);
     }

@@ -1,4 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Exceptions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
@@ -32,16 +31,25 @@ public class TrustRepositoryTests
     [InlineData("9008", "Trust with no academies", "Multi-academy trust")]
     public async Task GetTrustSummaryAsync_should_return_trustSummary_if_found(string uid, string name, string type)
     {
-        _ = _mockAcademiesDbContext.AddGiasGroup(uid, name, groupType: type);
+        _ = _mockAcademiesDbContext.AddGiasGroupForTrust(uid, name, groupType: type);
 
         var result = await _sut.GetTrustSummaryAsync(uid);
         result.Should().BeEquivalentTo(new TrustSummary(name, type));
     }
 
     [Fact]
+    public async Task GetTrustSummaryAsync_should_return_null_if_not_sat_or_mat()
+    {
+        _ = _mockAcademiesDbContext.AddGiasGroupForFederation("2806");
+
+        var result = await _sut.GetTrustSummaryAsync("2806");
+        result.Should().BeNull();
+    }
+
+    [Fact]
     public async Task GetTrustOverviewAsync_should_get_regionAndTerritory_from_mstrTrusts()
     {
-        _ = _mockAcademiesDbContext.AddGiasGroup("2806");
+        _ = _mockAcademiesDbContext.AddGiasGroupForTrust("2806");
         _ = _mockAcademiesDbContext.AddMstrTrust("2806", "My Region");
 
         var result = await _sut.GetTrustOverviewAsync("2806");
@@ -52,7 +60,7 @@ public class TrustRepositoryTests
     [Fact]
     public async Task GetTrustOverviewAsync_should_set_regionAndTerritory_to_empty_string_when_mstrTrust_not_available()
     {
-        _ = _mockAcademiesDbContext.AddGiasGroup("2806");
+        _ = _mockAcademiesDbContext.AddGiasGroupForTrust("2806");
 
         var result = await _sut.GetTrustOverviewAsync("2806");
 
@@ -63,7 +71,7 @@ public class TrustRepositoryTests
     public async Task
         GetTrustOverviewAsync_should_set_regionAndTerritory_to_empty_string_when_GORregion_in_mstrTrust_null()
     {
-        _ = _mockAcademiesDbContext.AddGiasGroup("2806");
+        _ = _mockAcademiesDbContext.AddGiasGroupForTrust("2806");
         _ = _mockAcademiesDbContext.AddMstrTrust("2806", null);
 
         var result = await _sut.GetTrustOverviewAsync("2806");
@@ -83,11 +91,14 @@ public class TrustRepositoryTests
         _mockAcademiesDbContext.GiasGroups.Add(new GiasGroup
         {
             GroupUid = "2806",
+            GroupId = "TR0012",
             GroupType = "Multi-academy trust",
             GroupContactStreet = street,
             GroupContactLocality = locality,
             GroupContactTown = town,
-            GroupContactPostcode = postcode
+            GroupContactPostcode = postcode,
+            GroupStatusCode = "OPEN",
+            GroupName = "SOME TRUST"
         });
 
         _mockStringFormattingUtilities.BuildAddressString(street, locality, town, postcode).Returns(expectedAddress);
@@ -107,7 +118,9 @@ public class TrustRepositoryTests
             Ukprn = "10012345",
             GroupType = "Multi-academy trust",
             CompaniesHouseNumber = "123456",
-            IncorporatedOnOpenDate = "28/06/2007"
+            IncorporatedOnOpenDate = "28/06/2007",
+            GroupStatusCode = "OPEN",
+            GroupName = "SOME TRUST"
         });
 
         var result = await _sut.GetTrustOverviewAsync("2806");
@@ -397,29 +410,10 @@ public class TrustRepositoryTests
     [Fact]
     public async Task GetTrustReferenceNumberAsync_should_return_trustReferenceNumber_for_uid()
     {
-        _ = _mockAcademiesDbContext.AddGiasGroup("2806", groupId: "My trust reference number");
+        _ = _mockAcademiesDbContext.AddGiasGroupForTrust("2806", trustReferenceNumber: "My trust reference number");
 
         var result = await _sut.GetTrustReferenceNumberAsync("2806");
         result.Should().BeEquivalentTo("My trust reference number");
-    }
-
-    [Fact]
-    public async Task GetTrustReferenceNumberAsync_should_throw_if_trustReferenceNumber_is_null()
-    {
-        _mockAcademiesDbContext.GiasGroups.Add(new GiasGroup
-        {
-            GroupUid = "0401",
-            GroupId = null,
-            Ukprn = "10012345",
-            GroupType = "Multi-academy trust",
-            CompaniesHouseNumber = "123456",
-            IncorporatedOnOpenDate = "28/06/2007"
-        });
-        var exception =
-            await Assert.ThrowsAsync<DataIntegrityException>(() => _sut.GetTrustReferenceNumberAsync("0401"));
-        exception.Message.Should()
-            .Be(
-                "Trust reference number not found for UID 0401. This record is broken in Academies Db GIAS groups table.");
     }
 
     [Fact]

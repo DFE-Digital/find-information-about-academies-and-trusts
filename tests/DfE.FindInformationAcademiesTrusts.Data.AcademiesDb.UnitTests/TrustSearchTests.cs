@@ -47,7 +47,7 @@ public class TrustSearchTests
         {
             for (var i = 0; i < 20; i++)
             {
-                _mockAcademiesDbContext.AddGiasGroup(groupName: $"Page {page}");
+                _mockAcademiesDbContext.AddGiasGroupForTrust(name: $"Page {page}");
             }
         }
 
@@ -119,7 +119,8 @@ public class TrustSearchTests
             GroupUid = "1234",
             GroupType = "Multi-academy trust",
             GroupId = "TR01234",
-            GroupName = "Inspire 1234"
+            GroupName = "Inspire 1234",
+            GroupStatusCode = "OPEN"
         });
 
         var result = await _sut.SearchAsync("Inspire 1234");
@@ -140,7 +141,8 @@ public class TrustSearchTests
             GroupUid = "1234",
             GroupType = "Multi-academy trust",
             GroupId = "TR01234",
-            GroupName = "Inspire 1234"
+            GroupName = "Inspire 1234",
+            GroupStatusCode = "OPEN"
         });
 
         var result = await _sut.SearchAutocompleteAsync("Inspire 1234");
@@ -170,7 +172,8 @@ public class TrustSearchTests
             GroupContactStreet = street,
             GroupContactLocality = locality,
             GroupContactTown = town,
-            GroupContactPostcode = postcode
+            GroupContactPostcode = postcode,
+            GroupStatusCode = "OPEN"
         });
         _mockStringFormattingUtilities.BuildAddressString(street, locality, town, postcode).Returns(expectedAddress);
 
@@ -197,7 +200,8 @@ public class TrustSearchTests
             GroupContactStreet = street,
             GroupContactLocality = locality,
             GroupContactTown = town,
-            GroupContactPostcode = postcode
+            GroupContactPostcode = postcode,
+            GroupStatusCode = "OPEN"
         });
         _mockStringFormattingUtilities.BuildAddressString(street, locality, town, postcode).Returns(expectedAddress);
 
@@ -261,7 +265,7 @@ public class TrustSearchTests
         };
         foreach (var name in names)
         {
-            _mockAcademiesDbContext.AddGiasGroup(groupName: name);
+            _mockAcademiesDbContext.AddGiasGroupForTrust(name: name);
         }
 
         var result = await _sut.SearchAsync(searchTerm);
@@ -282,7 +286,7 @@ public class TrustSearchTests
             { "education trust", "beta trust", "zetta trust", "derbyshire academies", "chelsea learning", "all stars" };
         foreach (var name in names)
         {
-            _mockAcademiesDbContext.AddGiasGroup(groupName: name);
+            _mockAcademiesDbContext.AddGiasGroupForTrust(name: name);
         }
 
         var result = await _sut.SearchAutocompleteAsync(searchTerm);
@@ -294,10 +298,34 @@ public class TrustSearchTests
     }
 
     [Fact]
+    public async Task SearchAsync_should_not_return_groups_which_are_not_trusts()
+    {
+        _mockAcademiesDbContext.AddGiasGroupForFederation(name: "Federation ABC");
+        _mockAcademiesDbContext.AddGiasGroupForTrust(name: "Trust ABC");
+
+        var result = await _sut.SearchAsync("ABC");
+
+        result.Should().ContainSingle()
+            .Which.Name.Should().Be("Trust ABC");
+    }
+
+    [Fact]
+    public async Task SearchAutocompleteAsync_should_not_return_groups_which_are_not_trusts()
+    {
+        _mockAcademiesDbContext.AddGiasGroupForFederation(name: "Federation ABC");
+        _mockAcademiesDbContext.AddGiasGroupForTrust(name: "Trust ABC");
+
+        var result = await _sut.SearchAutocompleteAsync("ABC");
+
+        result.Should().ContainSingle()
+            .Which.Name.Should().Be("Trust ABC");
+    }
+
+    [Fact]
     public async Task SearchAsync_Should_Return_Trust_When_Searching_By_TrustId()
     {
         // Arrange
-        _mockAcademiesDbContext.AddGiasGroup(groupId: "TR01234");
+        _mockAcademiesDbContext.AddGiasGroupForTrust(trustReferenceNumber: "TR01234");
 
         // Act
         var result = await _sut.SearchAsync("TR01234");
@@ -311,7 +339,7 @@ public class TrustSearchTests
     public async Task SearchAutocompleteAsync_Should_Return_Trust_When_Searching_By_TrustId()
     {
         // Arrange
-        _mockAcademiesDbContext.AddGiasGroup(groupId: "TR01234");
+        _mockAcademiesDbContext.AddGiasGroupForTrust(trustReferenceNumber: "TR01234");
 
         // Act
         var result = await _sut.SearchAutocompleteAsync("TR01234");
@@ -341,8 +369,8 @@ public class TrustSearchTests
     public async Task SearchAsync_Should_Return_Trusts_When_SearchTerm_Matches_Both_TrustId_And_TrustName()
     {
         // Arrange
-        _mockAcademiesDbContext.AddGiasGroup(groupId: "TR01234", groupName: "A Trust");
-        _mockAcademiesDbContext.AddGiasGroup(groupId: "TR05678", groupName: "Trust 1234");
+        _mockAcademiesDbContext.AddGiasGroupForTrust(trustReferenceNumber: "TR01234", name: "A Trust");
+        _mockAcademiesDbContext.AddGiasGroupForTrust(trustReferenceNumber: "TR05678", name: "Trust 1234");
 
         // Act
         var result = await _sut.SearchAsync("1234");
@@ -357,8 +385,8 @@ public class TrustSearchTests
     public async Task SearchAutocompleteAsync_Should_Return_Trusts_When_SearchTerm_Matches_Both_TrustId_And_TrustName()
     {
         // Arrange
-        _mockAcademiesDbContext.AddGiasGroup(groupId: "TR01234", groupName: "A Trust");
-        _mockAcademiesDbContext.AddGiasGroup(groupId: "TR05678", groupName: "Trust 1234");
+        _mockAcademiesDbContext.AddGiasGroupForTrust(trustReferenceNumber: "TR01234", name: "A Trust");
+        _mockAcademiesDbContext.AddGiasGroupForTrust(trustReferenceNumber: "TR05678", name: "Trust 1234");
 
         // Act
         var result = await _sut.SearchAutocompleteAsync("1234");
@@ -373,7 +401,7 @@ public class TrustSearchTests
     public async Task SearchAsync_Should_Be_Case_Insensitive_When_Searching_By_TrustId()
     {
         // Arrange
-        _mockAcademiesDbContext.AddGiasGroup(groupId: "TR01234");
+        _mockAcademiesDbContext.AddGiasGroupForTrust(trustReferenceNumber: "TR01234");
 
         // Act
         var result = await _sut.SearchAsync("tr01234"); // Lowercase search term
@@ -387,7 +415,7 @@ public class TrustSearchTests
     public async Task SearchAutocompleteAsync_Should_Be_Case_Insensitive_When_Searching_By_TrustId()
     {
         // Arrange
-        _mockAcademiesDbContext.AddGiasGroup(groupId: "TR01234");
+        _mockAcademiesDbContext.AddGiasGroupForTrust(trustReferenceNumber: "TR01234");
 
         // Act
         var result = await _sut.SearchAutocompleteAsync("tr01234"); // Lowercase search term
@@ -401,7 +429,7 @@ public class TrustSearchTests
     {
         for (var i = 0; i < num; i++)
         {
-            _mockAcademiesDbContext.AddGiasGroup(groupName: $"Trust {term} {i}");
+            _mockAcademiesDbContext.AddGiasGroupForTrust(name: $"Trust {term} {i}");
         }
     }
 }

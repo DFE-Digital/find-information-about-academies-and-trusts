@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +8,11 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 public partial class AcademiesDbContext
 {
     public DbSet<GiasGroupLink> GiasGroupLinks { get; set; }
+
+    public static readonly Expression<Func<GiasGroupLink, bool>> GiasGroupLinkQueryFilter =
+        gl => gl.Urn != null &&
+              gl.GroupUid != null &&
+              (gl.GroupStatusCode == "OPEN" || gl.GroupStatusCode == "PROPOSED_TO_CLOSE");
 
     [ExcludeFromCodeCoverage]
     protected static void OnModelCreatingGiasGroupLink(ModelBuilder modelBuilder)
@@ -78,6 +84,8 @@ public partial class AcademiesDbContext
             entity.Property(e => e.UrnGroupUid)
                 .IsUnicode(false)
                 .HasColumnName("URN_GroupUID");
+
+            entity.HasQueryFilter(GiasGroupLinkQueryFilter);
         });
     }
 }

@@ -115,13 +115,16 @@ class CommonPage {
             .should('not.contain', 'unknown');
     }
 
-    public check404PageDisplayed(): this {
-        cy.get('h1').should('contain.text', 'Page not found');
-        cy.intercept('**', (req) => {
+    public interceptAndVerifyResponseHas404Status(url: string): void {
+        cy.intercept(url, (req) => {
             req.on('response', (res) => {
                 expect(res.statusCode).to.eq(404);
             });
-        }).as('check404Response');
+        }).as('checkTheResponseIs404');
+    }
+
+    public checkPageNotFoundDisplayed(): this {
+        cy.get('h1').should('contain.text', 'Page not found');
         return this;
     }
 
@@ -132,7 +135,6 @@ class CommonPage {
         // Tech debt - We are allowing Sep and Sept due to different cultures set on remote vs local builds
         expect(text).to.match(/^\d{1,2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec) \d{4}$|^No data$/);
     };
-
 }
 
 const commonPage = new CommonPage();

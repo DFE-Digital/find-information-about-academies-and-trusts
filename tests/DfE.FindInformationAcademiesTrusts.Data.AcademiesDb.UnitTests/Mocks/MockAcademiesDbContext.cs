@@ -22,9 +22,11 @@ public class MockAcademiesDbContext
         new(AcademiesDbContext.GiasEstablishmentsQueryFilter);
 
     public MockDbSet<GiasGovernance> GiasGovernances { get; } = new();
-    public MockDbSet<GiasGroup> GiasGroups { get; } = new();
-    public MockDbSet<GiasGroupLink> GiasGroupLinks { get; } = new();
-    public MockDbSet<GiasEstablishmentLink> GiasEstablishmentLinks { get; } = new();
+    public MockDbSet<GiasGroup> GiasGroups { get; } = new(AcademiesDbContext.GiasGroupQueryFilter);
+    public MockDbSet<GiasGroupLink> GiasGroupLinks { get; } = new(AcademiesDbContext.GiasGroupLinkQueryFilter);
+
+    public MockDbSet<GiasEstablishmentLink> GiasEstablishmentLinks { get; } =
+        new(AcademiesDbContext.GiasEstablishmentLinkQueryFilter);
 
     //mis_mstr
     public MockDbSet<MisMstrEstablishmentFiat> MisMstrEstablishmentFiat { get; } = new();
@@ -39,7 +41,8 @@ public class MockAcademiesDbContext
     public MockDbSet<MstrFreeSchoolProject> MstrFreeSchoolProjects { get; } = new();
 
     //sharepoint
-    public MockDbSet<SharepointTrustDocLink> SharepointTrustDocLinks { get; } = new();
+    public MockDbSet<SharepointTrustDocLink> SharepointTrustDocLinks { get; } =
+        new(AcademiesDbContext.SharepointTrustDocLinkQueryFilter);
 
     //tad
     public MockDbSet<TadTrustGovernance> TadTrustGovernances { get; } = new();
@@ -69,17 +72,18 @@ public class MockAcademiesDbContext
         Object.TadTrustGovernances.Returns(TadTrustGovernances.Object);
 
         //Set up some unused data to ensure we are actually retrieving the right data in our tests
-        var otherTrust = AddGiasGroup(groupName: "Some other trust");
+        var otherTrust = AddGiasGroupForTrust(name: "Some other trust");
         for (var i = 0; i < 15; i++)
         {
             //Completely unused
-            AddGiasGroup(groupName: $"Unused {i}");
+            AddGiasGroupForTrust(name: $"Unused Trust {i}");
+            AddGiasGroupForFederation(name: $"Unused Federation{i}");
             AddMstrTrust(region: $"S{i}shire");
-            AddGiasEstablishment(establishmentName: $"Unused {i}");
+            AddGiasEstablishment(establishmentName: $"Unused academy {i}");
 
             //Entities linked to some other trust
             var otherAcademy = AddGiasEstablishment(establishmentName: $"Some other academy {i}");
-            AddGiasGroupLink(otherAcademy, otherTrust);
+            AddGiasGroupLinks(otherTrust, otherAcademy);
             GiasGovernances.Add(new GiasGovernance
                 { Gid = $"{i}", Uid = otherTrust.GroupUid!, Forename1 = $"Governor {i}" });
             TadTrustGovernances.Add(new TadTrustGovernance { Gid = $"{i}", Email = $"governor{i}@othertrust.com" });
@@ -98,24 +102,45 @@ public class MockAcademiesDbContext
         return mstrTrust;
     }
 
-    public void AddGiasGroupLink(GiasEstablishment giasEstablishment, GiasGroup giasGroup)
-    {
-        GiasGroupLinks.Add(new GiasGroupLink
-        {
-            GroupUid = giasGroup.GroupUid,
-            Urn = giasEstablishment.Urn.ToString(),
-            GroupType = giasGroup.GroupType,
-            JoinedDate = "01/01/2022"
-        });
-    }
-
-    public void AddGiasGroupLinksForGiasEstablishmentsToGiasGroup(IEnumerable<GiasEstablishment> giasEstablishments,
-        GiasGroup giasGroup)
+    public void AddGiasGroupLinks(GiasGroup giasGroup, params GiasEstablishment[] giasEstablishments)
     {
         foreach (var giasEstablishment in giasEstablishments)
         {
-            AddGiasGroupLink(giasEstablishment, giasGroup);
+            GiasGroupLinks.Add(new GiasGroupLink
+            {
+                GroupUid = giasGroup.GroupUid,
+                Urn = giasEstablishment.Urn.ToString(),
+                GroupType = giasGroup.GroupType,
+                GroupId = giasGroup.GroupId,
+                GroupStatusCode = giasGroup.GroupStatusCode,
+                JoinedDate = "01/01/2022"
+            });
         }
+    }
+
+    public GiasGroupLink[] AddGiasGroupLinks(string uid, int count)
+    {
+        var offset = int.Parse(GiasGroupLinks.GetNextId(g => g.Urn!));
+
+        var urns = Enumerable.Range(0, count).Select(n => $"{n + offset}").ToArray();
+
+        return AddGiasGroupLinks(uid, urns);
+    }
+
+    public GiasGroupLink[] AddGiasGroupLinks(string uid, params string[] urns)
+    {
+        var giasGroupLinks = urns.Select(urn => new GiasGroupLink
+        {
+            GroupUid = uid,
+            Urn = urn,
+            EstablishmentName = $"Academy {urn}",
+            JoinedDate = "13/06/2023",
+            GroupStatusCode = "OPEN"
+        }).ToArray();
+
+        GiasGroupLinks.AddRange(giasGroupLinks);
+
+        return giasGroupLinks;
     }
 
     public void AddEstablishmentFiat(int urn, string? inspectionStartDate = null)
@@ -131,7 +156,7 @@ public class MockAcademiesDbContext
     {
         var giasEstablishment = new GiasEstablishment
         {
-            Urn = GiasEstablishments.GetNextId(e => e.Urn, urn),
+            Urn = urn ?? GiasEstablishments.GetNextId(e => e.Urn),
             EstablishmentName = establishmentName ?? $"Academy {GiasEstablishments.Count + 1}"
         };
         GiasEstablishments.Add(giasEstablishment);
@@ -170,17 +195,34 @@ public class MockAcademiesDbContext
         });
     }
 
-    public GiasGroup AddGiasGroup(string? groupUid = null, string? groupName = null, string? groupId = null,
-        string? groupType = null)
+    public GiasGroup AddGiasGroupForFederation(string? uid = null, string? name = null, bool open = true)
     {
-        var nextGroupUid = GiasGroups.GetNextId(g => g.GroupUid!, groupUid);
+        var nextGroupUid = uid ?? GiasGroups.GetNextId(g => g.GroupUid!);
 
         var giasGroup = new GiasGroup
         {
-            GroupId = groupId ?? $"TR0{nextGroupUid}",
-            GroupName = groupName ?? $"Trust {nextGroupUid}",
+            GroupName = name ?? $"Federation {nextGroupUid}",
             GroupUid = nextGroupUid,
-            GroupType = groupType ?? "Multi-academy trust"
+            GroupType = "Federation",
+            GroupStatusCode = open ? "OPEN" : "CLOSED"
+        };
+        GiasGroups.Add(giasGroup);
+
+        return giasGroup;
+    }
+
+    public GiasGroup AddGiasGroupForTrust(string? uid = null, string? name = null, string? trustReferenceNumber = null,
+        string? groupType = null, bool open = true)
+    {
+        var nextGroupUid = uid ?? GiasGroups.GetNextId(g => g.GroupUid!);
+
+        var giasGroup = new GiasGroup
+        {
+            GroupId = trustReferenceNumber ?? $"TR0{nextGroupUid}",
+            GroupName = name ?? $"Trust {nextGroupUid}",
+            GroupUid = nextGroupUid,
+            GroupType = groupType ?? "Multi-academy trust",
+            GroupStatusCode = open ? "OPEN" : "CLOSED"
         };
         GiasGroups.Add(giasGroup);
 
