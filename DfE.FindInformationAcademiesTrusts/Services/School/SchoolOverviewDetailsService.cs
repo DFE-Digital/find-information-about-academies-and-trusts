@@ -35,7 +35,7 @@ public class SchoolOverviewDetailsService(ISchoolRepository schoolRepository) : 
         return overviewModel with { DateJoinedTrust = dateJoinedTrust };
     }
 
-    private NurseryProvision GetNurseryProvision(string? nurseryProvisionString)
+    private static NurseryProvision GetNurseryProvision(string? nurseryProvisionString)
     {
         return nurseryProvisionString?.ToLower() switch
         {

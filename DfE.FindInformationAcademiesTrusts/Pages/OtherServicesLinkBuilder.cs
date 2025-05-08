@@ -6,14 +6,13 @@ public interface IOtherServicesLinkBuilder
 {
     string? CompaniesHouseListingLink(string? companiesHouseNumber);
     string? FindSchoolPerformanceDataListingLink(string uid, TrustType trustType, string? satAcademyUrn);
+    string FindSchoolPerformanceDataListingLink(int urn);
     string GetInformationAboutSchoolsListingLinkForTrust(string trustUid);
     string GetInformationAboutSchoolsListingLinkForSchool(string urn);
     string SharepointFolderLink(string groupId);
 
     string? FinancialBenchmarkingInsightsToolListingLink(string? companiesHouseNumber);
     string? FinancialBenchmarkingLinkForSchool(int urn);
-
-    string FindSchoolPerformanceDataListingLink(int urn);
 }
 
 public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
