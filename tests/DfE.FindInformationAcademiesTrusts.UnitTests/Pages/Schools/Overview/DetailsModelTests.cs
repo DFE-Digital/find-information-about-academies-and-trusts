@@ -1,5 +1,7 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
+using Microsoft.AspNetCore.Mvc;
+using NSubstitute.ReturnsExtensions;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Schools.Overview;
 
@@ -7,7 +9,7 @@ public class DetailsModelTests : BaseOverviewAreaModelTests<DetailsModel>
 {
     public DetailsModelTests()
     {
-        Sut = new DetailsModel(MockSchoolService, MockTrustService);
+        Sut = new DetailsModel(MockSchoolService, MockTrustService, MockSchoolOverviewDetailsService, MockOtherServicesLinkBuilder, MockDataSourceService);
     }
 
     [Fact]
@@ -16,7 +18,7 @@ public class DetailsModelTests : BaseOverviewAreaModelTests<DetailsModel>
         await OnGetAsync_should_configure_PageMetadata_SubPageName_for_school();
         await OnGetAsync_should_configure_PageMetadata_SubPageName_for_academy();
     }
-
+    
     private async Task OnGetAsync_should_configure_PageMetadata_SubPageName_for_school()
     {
         Sut.Urn = SchoolUrn;
@@ -54,5 +56,15 @@ public class DetailsModelTests : BaseOverviewAreaModelTests<DetailsModel>
     {
         var act = () => DetailsModel.SubPageName((SchoolCategory)999);
         act.Should().Throw<ArgumentOutOfRangeException>();
+    }
+
+    [Fact]
+    public async Task Should_return_not_found_result_if_school_details_dont_exist()
+    {
+        MockSchoolOverviewDetailsService.GetSchoolOverviewDetailsAsync(Arg.Any<int>(), Arg.Any<SchoolCategory>())
+            .ReturnsNull();
+
+        var result = await Sut.OnGetAsync();
+        result.Should().BeOfType<NotFoundResult>();
     }
 }

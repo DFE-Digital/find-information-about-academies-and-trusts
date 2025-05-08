@@ -34,9 +34,9 @@ public class OtherServicesLinkBuilderTests
     }
 
     [Fact]
-    public void GetInformationAboutSchoolsListingLink_should_return_academy_urn_in_link()
+    public void GetInformationAboutSchoolsListingLink_should_return_school_urn_in_link()
     {
-        var result = _sut.GetInformationAboutSchoolsListingLinkForAcademy("111");
+        var result = _sut.GetInformationAboutSchoolsListingLinkForSchool("111");
         result.Should()
             .Be("https://www.get-information-schools.service.gov.uk/Establishments/Establishment/Details/111");
     }
