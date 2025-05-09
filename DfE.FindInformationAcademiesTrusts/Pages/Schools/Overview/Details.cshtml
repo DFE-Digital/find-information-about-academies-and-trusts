@@ -1,7 +1,114 @@
 @page
+@using DfE.FindInformationAcademiesTrusts.Data.Enums
+@using DfE.FindInformationAcademiesTrusts.Services.School
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 
 @{
-  Layout = "_SchoolLayout";
+    Layout = "_SchoolLayout";
 }
 
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h3 class="govuk-heading-m" data-testid="subpage-header">
+            @Model.PageMetadata.SubPageName
+        </h3>
+
+        <dl class="govuk-summary-list govuk-!-margin-bottom-0">
+
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Address
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.SchoolOverviewModel.Name, @Model.SchoolOverviewModel.Address
+                </dd>
+            </div>
+
+            @if (Model.SchoolCategory == SchoolCategory.Academy)
+            {
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Date joined the trust
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        @Model.SchoolOverviewModel.DateJoinedTrust?.ToString(StringFormatConstants.DisplayDateFormat)
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Trust
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        <a data-testid="academy-trust-link" class="govuk-link" asp-page="/Trusts/Overview/TrustDetails" asp-route-uid="@Model.TrustSummary?.Uid">
+                            @Model.TrustSummary?.Name
+                        </a>
+                    </dd>
+                </div>
+            }
+
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Region and territory
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.SchoolOverviewModel.Region
+                </dd>
+            </div>
+
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Local authority
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.SchoolOverviewModel.LocalAuthority
+                </dd>
+            </div>
+
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Phase and age range
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.SchoolOverviewModel.PhaseOfEducationName @Model.SchoolOverviewModel.AgeRange.Minimum-@Model.SchoolOverviewModel.AgeRange.Maximum
+                </dd>
+            </div>
+
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Has nursery classes
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.SchoolOverviewModel.NurseryProvision.ToText()
+                </dd>
+            </div>
+        </dl>
+
+        <hr class="govuk-section-break govuk-section-break--m">
+        <h3 class="govuk-heading-m">Information from other services</h3>
+        <p class="govuk-body">Links open in a new tab</p>
+        <ul class="govuk-list govuk-list--bullet">
+
+            @if (Model.GetInformationAboutSchoolsLink is not null)
+            {
+                <li>
+                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.GetInformationAboutSchoolsLink">Get information about schools</a>
+                </li>
+            }
+            @if (Model.FinancialBenchmarkingInsightsToolLink is not null)
+            {
+                <li>
+                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.FinancialBenchmarkingInsightsToolLink">Financial benchmarking</a>
+                </li>
+            }
+            @if (Model.FindSchoolPerformanceLink is not null)
+            {
+                <li>
+                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.FindSchoolPerformanceLink">Find school college and performance data</a>
+                </li>
+            }
+        </ul>
+        <hr class="govuk-section-break govuk-section-break--m">
+    </div>
+</div>

@@ -34,9 +34,9 @@ public class OtherServicesLinkBuilderTests
     }
 
     [Fact]
-    public void GetInformationAboutSchoolsListingLink_should_return_academy_urn_in_link()
+    public void GetInformationAboutSchoolsListingLink_should_return_school_urn_in_link()
     {
-        var result = _sut.GetInformationAboutSchoolsListingLinkForAcademy("111");
+        var result = _sut.GetInformationAboutSchoolsListingLinkForSchool("111");
         result.Should()
             .Be("https://www.get-information-schools.service.gov.uk/Establishments/Establishment/Details/111");
     }
@@ -89,5 +89,22 @@ public class OtherServicesLinkBuilderTests
 
         result.Should()
             .Be(expected);
+    }
+
+    [Fact]
+    public void FinancialBenchmarkingLinkForSchool_should_be_to_the_correct_link()
+    {
+        var result = _sut.FinancialBenchmarkingLinkForSchool(111);
+        result.Should()
+            .Be($"https://financial-benchmarking-and-insights-tool.education.gov.uk/school/111/spending-and-costs");
+    }
+
+
+    [Fact]
+    public void FindSchoolPerformanceDataListingLink_should_be_to_the_correct_link()
+    {
+        var result = _sut.FindSchoolPerformanceDataListingLink(111);
+        result.Should()
+            .Be($"https://www.find-school-performance-data.service.gov.uk/school/111");
     }
 }
