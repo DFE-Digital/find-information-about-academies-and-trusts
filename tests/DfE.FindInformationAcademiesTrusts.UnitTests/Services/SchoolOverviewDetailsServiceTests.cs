@@ -73,7 +73,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
         [Theory, MemberData(nameof(nurseryProvisionCombinations))]
         public void Should_return_correct_nursery_provision(string text, NurseryProvision expectedNurseryProvision)
         {
-            var result = _sut.GetNurseryProvision(text);
+            var result = SchoolOverviewDetailsService.GetNurseryProvision(text);
 
             result.Should().Be(expectedNurseryProvision);
         }
