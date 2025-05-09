@@ -60,24 +60,22 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
             result!.DateJoinedTrust.Should().NotBeNull();
         }
 
-        public static TheoryData<object, NurseryProvision> expectedResults => new()
+        public static TheoryData<string, NurseryProvision> nurseryProvisionCombinations => new()
         {
-            { academySchoolDetails with {NurseryProvision = ""}, NurseryProvision.NotRecorded },
-            { academySchoolDetails with {NurseryProvision = "has nursery classes"}, NurseryProvision.HasClasses },
-            { academySchoolDetails with {NurseryProvision = "haS Nursery classes"}, NurseryProvision.HasClasses },
-            { academySchoolDetails with {NurseryProvision = "no nursery classes"}, NurseryProvision.NoClasses },
-            { academySchoolDetails with {NurseryProvision = "No Nursery Classes"}, NurseryProvision.NoClasses },
-            { academySchoolDetails with {NurseryProvision = "not recorded"}, NurseryProvision.NotRecorded }
+            { "", NurseryProvision.NotRecorded },
+            { "has nursery classes", NurseryProvision.HasClasses },
+            { "haS Nursery classes", NurseryProvision.HasClasses },
+            { "no nursery classes", NurseryProvision.NoClasses },
+            { "No Nursery Classes", NurseryProvision.NoClasses },
+            { "not recorded", NurseryProvision.NotRecorded }
         };
 
-        [Theory, MemberData(nameof(expectedResults))]
-        public async Task Should_return_correct_nursery_provision(object schoolDetails, NurseryProvision expectedNurseryProvision)
+        [Theory, MemberData(nameof(nurseryProvisionCombinations))]
+        public void Should_return_correct_nursery_provision(string text, NurseryProvision expectedNurseryProvision)
         {
-            _mockSchoolRepository.GetSchoolDetailsAsync(_academySchoolUrn).Returns((SchoolDetails)schoolDetails);
+            var result = _sut.GetNurseryProvision(text);
 
-            var result = await _sut.GetSchoolOverviewDetailsAsync(_academySchoolUrn, SchoolCategory.Academy);
-
-            result?.NurseryProvision.Should().Be(expectedNurseryProvision);
+            result.Should().Be(expectedNurseryProvision);
         }
     }
 }
