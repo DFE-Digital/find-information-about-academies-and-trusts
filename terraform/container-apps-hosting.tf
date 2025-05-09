@@ -21,6 +21,7 @@ module "azure_container_apps_hosting" {
   mssql_server_public_access_enabled   = local.mssql_server_public_access_enabled
   mssql_azuread_admin_username         = local.mssql_azuread_admin_username
   mssql_azuread_admin_object_id        = local.mssql_azuread_admin_object_id
+  mssql_sku_name                       = local.mssql_sku_name
   mssql_managed_identity_assign_role   = local.mssql_managed_identity_assign_role
   mssql_maintenance_configuration_name = local.mssql_maintenance_configuration_name
 
