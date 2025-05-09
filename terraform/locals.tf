@@ -22,6 +22,7 @@ locals {
   enable_redis_cache                              = var.enable_redis_cache
   enable_mssql_database                           = var.enable_mssql_database
   mssql_server_admin_password                     = var.mssql_server_admin_password
+  mssql_sku_name                                  = var.mssql_sku_name
   mssql_database_name                             = var.mssql_database_name
   mssql_firewall_ipv4_allow_list                  = var.mssql_firewall_ipv4_allow_list
   mssql_server_public_access_enabled              = var.mssql_server_public_access_enabled
