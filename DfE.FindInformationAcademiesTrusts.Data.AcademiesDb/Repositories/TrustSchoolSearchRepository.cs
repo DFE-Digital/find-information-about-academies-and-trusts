@@ -2,11 +2,27 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Extensions;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Search;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
 {
     public class TrustSchoolSearchRepository(IAcademiesDbContext academiesDbContext) : ITrustSchoolSearchRepository
     {
+        public async Task<(SearchResult[] results, int numberOfResults)> GetSearchResultsAsync(string text, int page, int pageSize)
+        {
+            var searchQuery = CreateTrustSearchQuery(text).Union(CreateSchoolSearchQuery(text));
+
+            var count = await searchQuery.CountAsync();
+
+            var results = await searchQuery.OrderBy(g => g.Name)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Take(5)
+                .ToArrayAsync();
+
+            return (results, count);
+        }
+
         public async Task<SearchResult[]> GetSearchResultsAsync(string text)
         {
             var searchQuery = CreateTrustSearchQuery(text).Union(CreateSchoolSearchQuery(text));
@@ -27,11 +43,14 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
                         g.GroupId!.ToLower().Contains(lowerSearchTerm) // GroupId cannot be null for a trust
                         || g.GroupName!.ToLower().Contains(lowerSearchTerm) // Enforced by global EF query filter
                 )
-                .Select(r => new SearchResult
+                .Select(g => new SearchResult
                 {
-                    Address = r.GroupContactStreet!,
-                    Name = r.GroupName!,
-                    Identifier = r.GroupUid!.ToString(),
+                    Street = g.GroupContactStreet,
+                    Locality = g.GroupContactLocality,
+                    Town = g.GroupContactTown,
+                    PostCode = g.GroupContactPostcode,
+                    Name = g.GroupName!,
+                    Identifier = g.GroupUid!.ToString(),
                     IsTrust = true
                 });
             return query;
@@ -43,11 +62,14 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
 
             var query = academiesDbContext.GiasEstablishments
                 .Where(x => x.EstablishmentName!.ToLower().Contains(lowerSearchTerm))
-                .Select(r => new SearchResult
+                .Select(e => new SearchResult
                 {
-                    Address = r.Postcode!,
-                    Name = r.EstablishmentName!,
-                    Identifier = r.Urn.ToString(),
+                    Street = e.Street,
+                    Locality = e.Locality,
+                    Town = e.Town,
+                    PostCode = e.Postcode,
+                    Name = e.EstablishmentName!,
+                    Identifier = e.Urn.ToString(),
                     IsTrust = false
                 });
             return query;
