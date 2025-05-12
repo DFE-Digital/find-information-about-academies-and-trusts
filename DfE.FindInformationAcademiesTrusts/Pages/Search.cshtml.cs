@@ -25,7 +25,7 @@ public class SearchModel : ContentPageModel, IPageSearchFormModel, IPaginationMo
     [BindProperty(SupportsGet = true)] public ResultType ResultType { get; set; }
     [BindProperty(SupportsGet = true)] public int PageNumber { get; set; } = 1;
 
-    public IPaginatedList<TrustSearchEntry> Trusts { get; set; } = PaginatedList<TrustSearchEntry>.Empty();
+    public IPaginatedList<SearchResult> Trusts { get; set; } = PaginatedList<SearchResult>.Empty();
 
     public SearchModel(ITrustService trustService, ITrustSearch trustSearch, ISearchService searchService, ISchoolService schoolService)
     {
@@ -64,7 +64,7 @@ public class SearchModel : ContentPageModel, IPageSearchFormModel, IPaginationMo
             }
         }
 
-        Trusts = await _trustSearch.SearchAsync(KeyWords, PageNumber);
+        Trusts = await _searchService.GetSearchResultsForPageAsync(KeyWords, PageNumber);
 
         PaginationRouteData = new Dictionary<string, string> { { "Keywords", KeyWords ?? string.Empty } };
         return new PageResult();
