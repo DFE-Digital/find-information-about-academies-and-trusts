@@ -17,7 +17,7 @@
         <dl class="govuk-summary-list govuk-!-margin-bottom-0">
 
             <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
+                <dt class="govuk-summary-list__key" data-testid="details-address-header">
                     Address
                 </dt>
                 <dd class="govuk-summary-list__value">
@@ -28,7 +28,7 @@
             @if (Model.SchoolCategory == SchoolCategory.Academy)
             {
                 <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
+                    <dt class="govuk-summary-list__key" data-testid="details-date-joined-trust-header">
                         Date joined the trust
                     </dt>
                     <dd class="govuk-summary-list__value">
@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
+                    <dt class="govuk-summary-list__key" data-testid="details-trust-header">
                         Trust
                     </dt>
                     <dd class="govuk-summary-list__value">
@@ -49,7 +49,7 @@
             }
 
             <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
+                <dt class="govuk-summary-list__key" data-testid="details-region-and-territory-header">
                     Region and territory
                 </dt>
                 <dd class="govuk-summary-list__value">
@@ -58,7 +58,7 @@
             </div>
 
             <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
+                <dt class="govuk-summary-list__key" data-testid="details-local-authority-header">
                     Local authority
                 </dt>
                 <dd class="govuk-summary-list__value">
@@ -67,7 +67,7 @@
             </div>
 
             <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
+                <dt class="govuk-summary-list__key" data-testid="details-phase-and-age-range-header">
                     Phase and age range
                 </dt>
                 <dd class="govuk-summary-list__value">
@@ -76,7 +76,7 @@
             </div>
 
             <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
+                <dt class="govuk-summary-list__key" data-testid="details-has-nursery-classes-header">
                     Has nursery classes
                 </dt>
                 <dd class="govuk-summary-list__value">
@@ -86,26 +86,27 @@
         </dl>
 
         <hr class="govuk-section-break govuk-section-break--m">
-        <h3 class="govuk-heading-m">Information from other services</h3>
+        <h3 class="govuk-heading-m" data-testid="details-information-from-other-services-header">Information from other
+            services</h3>
         <p class="govuk-body">Links open in a new tab</p>
         <ul class="govuk-list govuk-list--bullet">
 
             @if (Model.GetInformationAboutSchoolsLink is not null)
             {
                 <li>
-                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.GetInformationAboutSchoolsLink">Get information about schools</a>
+                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" data-testid="details-gias-link" href="@Model.GetInformationAboutSchoolsLink">Get information about schools</a>
                 </li>
             }
             @if (Model.FinancialBenchmarkingInsightsToolLink is not null)
             {
                 <li>
-                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.FinancialBenchmarkingInsightsToolLink">Financial benchmarking</a>
+                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" data-testid="details-financial-benchmarking-link" href="@Model.FinancialBenchmarkingInsightsToolLink">Financial benchmarking</a>
                 </li>
             }
             @if (Model.FindSchoolPerformanceLink is not null)
             {
                 <li>
-                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" href="@Model.FindSchoolPerformanceLink">Find school college and performance data</a>
+                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" data-testid="details-find-school-performance-link" href="@Model.FindSchoolPerformanceLink">Find school college and performance data</a>
                 </li>
             }
         </ul>
