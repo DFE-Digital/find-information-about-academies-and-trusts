@@ -51,7 +51,8 @@ export class TestDataStore {
             {
                 pageName: "Overview",
                 subpages: [
-                    { subpageName: "School details", url: `/schools/overview/details?urn=${urn}` },
+                    { subpageName: "School/academy details", url: `/schools/overview/details?urn=${urn}` },
+
                 ]
             },
         ];
@@ -66,7 +67,8 @@ export const testSchoolData = [
         typeOfSchool: "Academy converter",
         urn: 137083
     }
-]; export const testPreAdvisoryData = [
+];
+export const testPreAdvisoryData = [
     {
         uid: 16002
     },
