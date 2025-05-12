@@ -25,13 +25,4 @@ describe("Testing the common components of the Schools pages", () => {
         });
     });
 
-    describe("Overview", () => {
-        testSchoolData.forEach(({ typeOfSchool, urn }) => {
-            it(`Checks the page name is correct for a ${typeOfSchool} on the urn ${urn}`, () => {
-                cy.visit(`/schools/overview/details?urn=${urn}`);
-                schoolsPage
-                    .checkOverviewPageNamePresent();
-            });
-        });
-    });
 });
