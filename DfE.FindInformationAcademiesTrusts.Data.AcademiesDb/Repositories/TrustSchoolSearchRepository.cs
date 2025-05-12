@@ -17,7 +17,6 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
             var results = await searchQuery.OrderBy(g => g.Name)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .Take(5)
                 .ToArrayAsync();
 
             return (results, count);
