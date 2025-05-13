@@ -48,7 +48,7 @@
                 <tr class="govuk-table__row" data-testid="academy-row">
                     <td class="govuk-body govuk-table__cell" data-sort-value="@academy.EstablishmentName"
                         data-testid="pre-advisory-board-school-name">@academy.EstablishmentName.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
-                    <td class="govuk-body govuk-table__cell"
+                    <td class="govuk-body govuk-table__cell" data-sort-value="@academy.Urn"
                         data-testid="pre-advisory-board-URN">@academy.Urn.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
                     <td class="govuk-body govuk-table__cell" data-sort-value="@academy.AgeRange.ToDataSortValue()"
                         data-testid="pre-advisory-board-age-range">@(academy.AgeRange?.ToTabularDisplayString() ?? ViewConstants.UnconfirmedDateText)</td>

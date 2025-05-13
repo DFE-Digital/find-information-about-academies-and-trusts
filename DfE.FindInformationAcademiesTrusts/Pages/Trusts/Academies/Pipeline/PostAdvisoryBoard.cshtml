@@ -50,7 +50,7 @@
                         data-testid="post-advisory-board-school-name">
                         @academy.EstablishmentName.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)
                     </td>
-                    <td class="govuk-body govuk-table__cell"
+                    <td class="govuk-body govuk-table__cell" data-sort-value="@academy.Urn"
                         data-testid="post-advisory-board-URN">@academy.Urn.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
                     <td class="govuk-body govuk-table__cell" data-sort-value="@academy.AgeRange.ToDataSortValue()"
                         data-testid="post-advisory-board-age-range">
