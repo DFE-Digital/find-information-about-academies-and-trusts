@@ -15,16 +15,17 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
         private readonly ISchoolRepository _mockSchoolRepository = Substitute.For<ISchoolRepository>();
 
         private readonly SchoolDetails laMaintainedSchoolDetails = new("Cool school",
-            "some address", "yorkshire", "leeds", "secondary", new AgeRange(2, 6), "none");
+            "some address", "yorkshire", "leeds", "secondary", new AgeRange(2, 6), "no nursery classes");
 
         private static readonly SchoolDetails academySchoolDetails = new("Cool academy",
-            "some address", "yorkshire", "leeds", "secondary", new AgeRange(2, 6), "none");
+            "some address", "yorkshire", "leeds", "secondary", new AgeRange(2, 6), "no nursery classes");
 
 
         public SchoolOverviewDetailsServiceTests()
         {
             _sut = new SchoolOverviewDetailsService(_mockSchoolRepository);
         }
+
 
         [Fact]
         public async Task GetSchoolOverviewDetailsAsync_should_return_null_if_details_not_found()
@@ -39,25 +40,39 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services
         [Fact]
         public async Task If_school_is_la_maintained_should_not_get_date_joined_trust()
         {
+            var expectedResult = new SchoolOverviewServiceModel("Cool school",
+                "some address", "yorkshire", "leeds", "secondary", new AgeRange(2, 6), NurseryProvision.NoClasses);
+
             _mockSchoolRepository.GetSchoolDetailsAsync(_laMaintainedSchoolUrn).Returns(laMaintainedSchoolDetails);
 
             var result = await _sut.GetSchoolOverviewDetailsAsync(_laMaintainedSchoolUrn, SchoolCategory.LaMaintainedSchool);
 
             result.Should().NotBeNull();
             result!.DateJoinedTrust.Should().BeNull();
+            result.Should().BeEquivalentTo(expectedResult);
+
             await _mockSchoolRepository.Received(0).GetDateJoinedTrustAsync(_laMaintainedSchoolUrn);
         }
 
         [Fact]
         public async Task If_school_is_academy_should_return_with_date_joined_trust()
         {
+            var dateJoined = new DateOnly(2024, 01, 25);
+
+            var expectedResult = new SchoolOverviewServiceModel("Cool academy",
+                "some address", "yorkshire", "leeds", "secondary", new AgeRange(2, 6), NurseryProvision.NoClasses)
+            {
+                DateJoinedTrust = dateJoined
+            };
+
             _mockSchoolRepository.GetSchoolDetailsAsync(_academySchoolUrn).Returns(academySchoolDetails);
-            _mockSchoolRepository.GetDateJoinedTrustAsync(_academySchoolUrn).Returns(new DateOnly(2024, 01, 25));
+            _mockSchoolRepository.GetDateJoinedTrustAsync(_academySchoolUrn).Returns(dateJoined);
 
             var result = await _sut.GetSchoolOverviewDetailsAsync(_academySchoolUrn, SchoolCategory.Academy);
 
             result.Should().NotBeNull();
             result!.DateJoinedTrust.Should().NotBeNull();
+            result.Should().BeEquivalentTo(expectedResult);
         }
 
         public static TheoryData<string, NurseryProvision> nurseryProvisionCombinations => new()
