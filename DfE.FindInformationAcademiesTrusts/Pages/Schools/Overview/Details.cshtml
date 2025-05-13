@@ -1,5 +1,6 @@
 @page
 @using DfE.FindInformationAcademiesTrusts.Data.Enums
+@using DfE.FindInformationAcademiesTrusts.Extensions
 @using DfE.FindInformationAcademiesTrusts.Services.School
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
@@ -41,7 +42,8 @@
                         Trust
                     </dt>
                     <dd class="govuk-summary-list__value">
-                        <a data-testid="academy-trust-link" class="govuk-link" asp-page="/Trusts/Overview/TrustDetails" asp-route-uid="@Model.TrustSummary?.Uid">
+                        <a data-testid="academy-trust-link" class="govuk-link" asp-page="/Trusts/Overview/TrustDetails"
+                           asp-route-uid="@Model.TrustSummary?.Uid">
                             @Model.TrustSummary?.Name
                         </a>
                     </dd>
@@ -71,7 +73,8 @@
                     Phase and age range
                 </dt>
                 <dd class="govuk-summary-list__value">
-                    @Model.SchoolOverviewModel.PhaseOfEducationName @Model.SchoolOverviewModel.AgeRange.Minimum-@Model.SchoolOverviewModel.AgeRange.Maximum
+                    @Model.SchoolOverviewModel.PhaseOfEducationName,
+                    ages @Model.SchoolOverviewModel.AgeRange.ToFullDisplayString()
                 </dd>
             </div>
 
@@ -94,19 +97,24 @@
             @if (Model.GetInformationAboutSchoolsLink is not null)
             {
                 <li>
-                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" data-testid="details-gias-link" href="@Model.GetInformationAboutSchoolsLink">Get information about schools</a>
+                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" data-testid="details-gias-link"
+                       href="@Model.GetInformationAboutSchoolsLink">Get information about schools</a>
                 </li>
             }
             @if (Model.FinancialBenchmarkingInsightsToolLink is not null)
             {
                 <li>
-                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" data-testid="details-financial-benchmarking-link" href="@Model.FinancialBenchmarkingInsightsToolLink">Financial benchmarking</a>
+                    <a class="govuk-link" rel="noreferrer noopener" target="_blank"
+                       data-testid="details-financial-benchmarking-link"
+                       href="@Model.FinancialBenchmarkingInsightsToolLink">Financial benchmarking</a>
                 </li>
             }
             @if (Model.FindSchoolPerformanceLink is not null)
             {
                 <li>
-                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" data-testid="details-find-school-performance-link" href="@Model.FindSchoolPerformanceLink">Find school college and performance data</a>
+                    <a class="govuk-link" rel="noreferrer noopener" target="_blank"
+                       data-testid="details-find-school-performance-link" href="@Model.FindSchoolPerformanceLink">Find
+                        school college and performance data</a>
                 </li>
             }
         </ul>
