@@ -20,4 +20,37 @@ public class DateTimeExtensionsTests
         var result = testTime.ShowDateStringOrReplaceWithText();
         result.Should().Be("No data");
     }
+
+    [Theory]
+    [InlineData(2024, 12, 31, "20241231")]
+    [InlineData(2024, 12, 03, "20241203")]
+    [InlineData(2025, 01, 01, "20250101")]
+    [InlineData(2025, 05, 13, "20250513")]
+    public void ToDataSortValue_returns_numerical_representation_of_date(int year, int month, int day, string expected)
+    {
+        var testTime = new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc);
+        var result = testTime.ToDataSortValue();
+        result.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData(2024, 12, 31, "20241231")]
+    [InlineData(2024, 12, 03, "20241203")]
+    [InlineData(2025, 01, 01, "20250101")]
+    [InlineData(2025, 05, 13, "20250513")]
+    public void ToDataSortValue_nullable_returns_numerical_representation_of_date(int year, int month, int day,
+        string expected)
+    {
+        DateTime? testTime = new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc);
+        var result = testTime.ToDataSortValue();
+        result.Should().Be(expected);
+    }
+
+    [Fact]
+    public void ToDataSortValue_nullable_returns_empty_string_when_null()
+    {
+        DateTime? testTime = null;
+        var result = testTime.ToDataSortValue();
+        result.Should().BeEmpty();
+    }
 }
