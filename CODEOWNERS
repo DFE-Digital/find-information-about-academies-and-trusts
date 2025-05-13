@@ -1,5 +1,5 @@
 # This sets the default owner for all code.
-* @dynamictulip @SteBradbury
+* @dynamictulip @SteBradbury @nimblelinzi
 
 # This sets the owner for DevOps related code
 .github/workflows/* @drizzlyowl @stretch96 @dynamictulip @SteBradbury @nimblelinzi
