@@ -49,7 +49,7 @@
                         data-testid="free-schools-board-school-name">
                         @academy.EstablishmentName.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)
                     </td>
-                    <td class="govuk-body govuk-table__cell"
+                    <td class="govuk-body govuk-table__cell" data-sort-value="@academy.Urn"
                         data-testid="free-schools-URN">@academy.Urn.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
                     <td class="govuk-body govuk-table__cell" data-sort-value="@academy.AgeRange.ToDataSortValue()"
                         data-testid="free-schools-age-range">
