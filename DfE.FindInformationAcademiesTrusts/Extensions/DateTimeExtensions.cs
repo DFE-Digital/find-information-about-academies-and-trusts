@@ -14,4 +14,14 @@ public static class DateTimeExtensions
 
         return replacementText;
     }
+
+    public static string ToDataSortValue(this DateTime date)
+    {
+        return date.ToString(StringFormatConstants.SortableDateFormat);
+    }
+
+    public static string ToDataSortValue(this DateTime? date)
+    {
+        return date?.ToDataSortValue() ?? string.Empty;
+    }
 }

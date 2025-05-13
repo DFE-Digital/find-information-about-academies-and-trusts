@@ -56,7 +56,7 @@
                         data-testid="pre-advisory-board-local-authority">@academy.LocalAuthority.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
                     <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ProjectType"
                         data-testid="pre-advisory-board-project-type">@academy.ProjectType.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
-                    <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ChangeDate"
+                    <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ChangeDate.ToDataSortValue()"
                         data-testid="pre-advisory-board-date">@academy.ChangeDate.ShowDateStringOrReplaceWithText(ViewConstants.UnconfirmedDateText)</td>
                 </tr>
             }
