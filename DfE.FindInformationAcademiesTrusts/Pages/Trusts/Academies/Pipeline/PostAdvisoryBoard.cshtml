@@ -16,37 +16,58 @@
     else
     {
         <table class="govuk-table" data-module="moj-sortable-table" aria-describedby="post-advisory-caption">
-            <caption class="govuk-table__caption govuk-table__caption--m" id="post-advisory-caption" data-testid="subpage-header">Post advisory board</caption>
-        <thead class="govuk-table__head">
+            <caption class="govuk-table__caption govuk-table__caption--m" id="post-advisory-caption"
+                     data-testid="subpage-header">Post advisory board
+            </caption>
+            <thead class="govuk-table__head">
             <tr class="govuk-table__row">
-                    <th scope="col" class="govuk-body govuk-table__header" data-testid="post-advisory-board-school-name-header" aria-sort="ascending">School name</th>
-                    <th scope="col" class="govuk-body govuk-table__header" data-testid="post-advisory-board-URN-header" aria-sort="none">URN</th>
-                    <th scope="col" class="govuk-body govuk-table__header" data-testid="post-advisory-board-age-range-header"  aria-sort="none">Age range</th>
-                    <th scope="col" class="govuk-body govuk-table__header" data-testid="post-advisory-board-local-authority-header" aria-sort="none">Local authority</th>
-                    <th scope="col" class="govuk-body govuk-table__header" data-testid="post-advisory-board-project-type-header" aria-sort="none">Project type</th>
-                    <th scope="col" class="govuk-body govuk-table__header govuk-!-width-one-quarter" data-testid="post-advisory-board-proposed-conversion-transfer-date-header" aria-sort="none">Proposed conversion or transfer date</th>
+                <th scope="col" class="govuk-body govuk-table__header"
+                    data-testid="post-advisory-board-school-name-header" aria-sort="ascending">School name
+                </th>
+                <th scope="col" class="govuk-body govuk-table__header" data-testid="post-advisory-board-URN-header"
+                    aria-sort="none">URN
+                </th>
+                <th scope="col" class="govuk-body govuk-table__header"
+                    data-testid="post-advisory-board-age-range-header" aria-sort="none">Age range
+                </th>
+                <th scope="col" class="govuk-body govuk-table__header"
+                    data-testid="post-advisory-board-local-authority-header" aria-sort="none">Local authority
+                </th>
+                <th scope="col" class="govuk-body govuk-table__header"
+                    data-testid="post-advisory-board-project-type-header" aria-sort="none">Project type
+                </th>
+                <th scope="col" class="govuk-body govuk-table__header govuk-!-width-one-quarter"
+                    data-testid="post-advisory-board-proposed-conversion-transfer-date-header" aria-sort="none">Proposed
+                    conversion or transfer date
+                </th>
             </tr>
-        </thead>
-        <tbody class="govuk-table__body">
+            </thead>
+            <tbody class="govuk-table__body">
             @foreach (var academy in Model.PostAdvisoryPipelineEstablishments)
             {
                 <tr class="govuk-table__row" data-testid="academy-row">
-                        <td class="govuk-body govuk-table__cell" data-sort-value="@academy.EstablishmentName" data-testid="post-advisory-board-school-name">
+                    <td class="govuk-body govuk-table__cell" data-sort-value="@academy.EstablishmentName"
+                        data-testid="post-advisory-board-school-name">
                         @academy.EstablishmentName.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)
                     </td>
-                        <td class="govuk-body govuk-table__cell" data-testid="post-advisory-board-URN">@academy.Urn.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
-                        <td class="govuk-body govuk-table__cell" data-sort-value="@PipelineAcademiesAreaModel.AgeRangeSortValue(academy)" data-testid="post-advisory-board-age-range">
-                        @(academy.AgeRange is null ? ViewConstants.UnconfirmedDateText : $"{academy.AgeRange.Minimum} - {academy.AgeRange.Maximum}")
+                    <td class="govuk-body govuk-table__cell"
+                        data-testid="post-advisory-board-URN">@academy.Urn.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
+                    <td class="govuk-body govuk-table__cell" data-sort-value="@academy.AgeRange.ToDataSortValue()"
+                        data-testid="post-advisory-board-age-range">
+                        @(academy.AgeRange?.ToTabularDisplayString() ?? ViewConstants.UnconfirmedDateText)
                     </td>
-                        <td class="govuk-body govuk-table__cell" data-sort-value="@academy.LocalAuthority" data-testid="post-advisory-board-local-authority">@academy.LocalAuthority.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
-                        <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ProjectType" data-testid="post-advisory-board-project-type">@academy.ProjectType.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
-                        <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ChangeDate" data-testid="post-advisory-board-conversion-transfer-date">
+                    <td class="govuk-body govuk-table__cell" data-sort-value="@academy.LocalAuthority"
+                        data-testid="post-advisory-board-local-authority">@academy.LocalAuthority.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
+                    <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ProjectType"
+                        data-testid="post-advisory-board-project-type">@academy.ProjectType.DefaultIfNullOrWhiteSpace(ViewConstants.UnconfirmedDateText)</td>
+                    <td class="govuk-body govuk-table__cell" data-sort-value="@academy.ChangeDate"
+                        data-testid="post-advisory-board-conversion-transfer-date">
                         @academy.ChangeDate.ShowDateStringOrReplaceWithText(ViewConstants.UnconfirmedDateText)
                     </td>
                 </tr>
             }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
     }
 </section>
 
@@ -55,5 +76,5 @@
     @{
         var exportModel = new AcademiesExportButtonModel(Model.TrustSummary.Uid, "Download all pipeline academy data", "download-all-pipeline-data-button");
     }
-    <partial name="Trusts/Academies/_AcademiesExportButton" model="exportModel"/>
+    <partial name="Trusts/Academies/_AcademiesExportButton" model="exportModel" />
 }
