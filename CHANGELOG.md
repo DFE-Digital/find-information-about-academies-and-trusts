@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+## [Release-30][release-30] (production-2025-05-06.5593)
+
+### Changed
+
+- Added date joined trust within the 'Details' page of the Academies 'In this trust' page
+- Removed England/Wales from the Rural or URban column within the 'Details' page of the Academies 'In this trust' page.
+
 ## [Release-29][release-29] (production-2025-04-10.5387)
 
 ### Changed
@@ -315,7 +322,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated text on "404 - Not Found" page to adhere to DfE design pattern and added the not found url to the support email template.
 
 [unreleased]:
-  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/compare/production-2025-04-10.5387...HEAD
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/compare/production-2025-05-06.5593...HEAD
 [release-1]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-07-18.2517
 [release-2]:
@@ -374,3 +381,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-04-04.5337
 [release-29]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-04-10.5387
+[release-30]:
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-05-06.5593
