@@ -116,7 +116,7 @@ jobs:
           - stage: "initcontainer"
             tag-prefix: "init-"
     steps:
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/build@4548d8b811891c406a35bcc8d109ff6cebac8af9 # v5.0.0
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/build@23ab6d515b6d3e5cea917134f56c19ce2e93be47 # v5.2.0
         with:
           build-file-name: 'docker/Dockerfile'
           build-args: CI=true
@@ -125,7 +125,7 @@ jobs:
           tag-prefix: ${{ matrix.tag-prefix }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/import@4548d8b811891c406a35bcc8d109ff6cebac8af9 # v5.0.0
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/import@23ab6d515b6d3e5cea917134f56c19ce2e93be47 # v5.2.0
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
@@ -147,7 +147,7 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/deploy@4548d8b811891c406a35bcc8d109ff6cebac8af9 # v5.0.0
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/deploy@23ab6d515b6d3e5cea917134f56c19ce2e93be47 # v5.2.0
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
