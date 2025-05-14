@@ -19,7 +19,8 @@ public partial class AcademiesDbContext
     ];
 
     public static readonly Expression<Func<GiasEstablishment, bool>> GiasEstablishmentsQueryFilter =
-        e => SupportedEstablishmentTypeGroups.Contains(e.EstablishmentTypeGroupName);
+        e => SupportedEstablishmentTypeGroups.Contains(e.EstablishmentTypeGroupName) &&
+             e.EstablishmentStatusName != "Closed";
 
     [ExcludeFromCodeCoverage]
     protected static void OnModelCreatingGiasEstablishments(ModelBuilder modelBuilder)
