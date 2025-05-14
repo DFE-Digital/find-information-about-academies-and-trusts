@@ -6,6 +6,7 @@
 }
 
 <section class="app-table-container" data-testid="ofsted-single-headline-grades-school-name-table">
+  <p class="govuk-body">The following grades are taken from the current and previous full inspection.</p>
   <details class="govuk-details">
     <summary class="govuk-details__summary">
       <span class="govuk-details__summary-text">
@@ -57,19 +58,19 @@
     </tr>
     </thead>
     <tbody class="govuk-table__body">
-      @foreach (var academy in Model.Academies)
-      {
-        <tr class="govuk-table__row" data-testid="academy-row">
-          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.EstablishmentName" data-testid="ofsted-single-headline-grades-school-name">
-            @academy.EstablishmentName<br/>
-          </td>
-          <td class="govuk-table__cell govuk-body" data-sort-value="@academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.SortableDateFormat)" data-testid="ofsted-single-headline-grades-date-joined">
-            @academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.DisplayDateFormat)
-          </td>
-          <partial name="_SingleHeadlineGradeCells" model="new SingleHeadlineGradeCellsModel(academy.CurrentOfstedRating, academy.WhenDidCurrentInspectionHappen, true)"/>
-          <partial name="_SingleHeadlineGradeCells" model="new SingleHeadlineGradeCellsModel(academy.PreviousOfstedRating, academy.WhenDidPreviousInspectionHappen, false)"/>
-        </tr>
-      }
+    @foreach (var academy in Model.Academies)
+    {
+      <tr class="govuk-table__row" data-testid="academy-row">
+        <td class="govuk-table__cell govuk-body" data-sort-value="@academy.EstablishmentName" data-testid="ofsted-single-headline-grades-school-name">
+          @academy.EstablishmentName<br/>
+        </td>
+        <td class="govuk-table__cell govuk-body" data-sort-value="@academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.SortableDateFormat)" data-testid="ofsted-single-headline-grades-date-joined">
+          @academy.DateAcademyJoinedTrust.ToString(StringFormatConstants.DisplayDateFormat)
+        </td>
+        <partial name="_SingleHeadlineGradeCells" model="new SingleHeadlineGradeCellsModel(academy.CurrentOfstedRating, academy.WhenDidCurrentInspectionHappen, true)"/>
+        <partial name="_SingleHeadlineGradeCells" model="new SingleHeadlineGradeCellsModel(academy.PreviousOfstedRating, academy.WhenDidPreviousInspectionHappen, false)"/>
+      </tr>
+    }
     </tbody>
   </table>
 </section>
