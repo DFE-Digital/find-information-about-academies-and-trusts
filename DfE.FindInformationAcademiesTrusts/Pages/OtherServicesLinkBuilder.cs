@@ -12,7 +12,7 @@ public interface IOtherServicesLinkBuilder
     string SharepointFolderLink(string groupId);
 
     string? FinancialBenchmarkingInsightsToolListingLink(string? companiesHouseNumber);
-    string? FinancialBenchmarkingLinkForSchool(int urn);
+    string FinancialBenchmarkingLinkForSchool(int urn);
 }
 
 public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
@@ -54,7 +54,7 @@ public class OtherServicesLinkBuilder : IOtherServicesLinkBuilder
             : $"{FinancialBenchmarkingInsightsToolBaseUrl}/trust/{companiesHouseNumber}";
     }
 
-    public string? FinancialBenchmarkingLinkForSchool(int urn)
+    public string FinancialBenchmarkingLinkForSchool(int urn)
     {
         return $"{FinancialBenchmarkingInsightsToolBaseUrl}/school/{urn}/spending-and-costs";
     }
