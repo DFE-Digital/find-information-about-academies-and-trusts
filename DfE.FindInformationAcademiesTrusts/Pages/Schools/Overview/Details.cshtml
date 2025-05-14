@@ -93,30 +93,25 @@
             services</h3>
         <p class="govuk-body">Links open in a new tab</p>
         <ul class="govuk-list govuk-list--bullet">
-
-            @if (Model.GetInformationAboutSchoolsLink is not null)
-            {
-                <li>
-                    <a class="govuk-link" rel="noreferrer noopener" target="_blank" data-testid="details-gias-link"
-                       href="@Model.GetInformationAboutSchoolsLink">Get information about schools</a>
-                </li>
-            }
-            @if (Model.FinancialBenchmarkingInsightsToolLink is not null)
-            {
-                <li>
-                    <a class="govuk-link" rel="noreferrer noopener" target="_blank"
-                       data-testid="details-financial-benchmarking-link"
-                       href="@Model.FinancialBenchmarkingInsightsToolLink">Financial benchmarking</a>
-                </li>
-            }
-            @if (Model.FindSchoolPerformanceLink is not null)
-            {
-                <li>
-                    <a class="govuk-link" rel="noreferrer noopener" target="_blank"
-                       data-testid="details-find-school-performance-link" href="@Model.FindSchoolPerformanceLink">Find
-                        school college and performance data</a>
-                </li>
-            }
+            <li>
+                <a class="govuk-link" rel="noreferrer noopener" target="_blank" data-testid="details-gias-link"
+                   href="@Model.GetInformationAboutSchoolsLink">
+                    Get information about schools
+                </a>
+            </li>
+            <li>
+                <a class="govuk-link" rel="noreferrer noopener" target="_blank"
+                   data-testid="details-financial-benchmarking-link"
+                   href="@Model.FinancialBenchmarkingInsightsToolLink">
+                    Financial benchmarking
+                </a>
+            </li>
+            <li>
+                <a class="govuk-link" rel="noreferrer noopener" target="_blank"
+                   data-testid="details-find-school-performance-link" href="@Model.FindSchoolPerformanceLink">
+                    Find school college and performance data
+                </a>
+            </li>
         </ul>
         <hr class="govuk-section-break govuk-section-break--m">
     </div>

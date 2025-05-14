@@ -31,9 +31,9 @@ public class DetailsModel(
 
     public SchoolOverviewServiceModel SchoolOverviewModel { get; private set; } = null!;
 
-    public string? GetInformationAboutSchoolsLink { get; set; }
-    public string? FinancialBenchmarkingInsightsToolLink { get; set; }
-    public string? FindSchoolPerformanceLink { get; set; }
+    public string GetInformationAboutSchoolsLink { get; private set; } = null!;
+    public string FinancialBenchmarkingInsightsToolLink { get; private set; } = null!;
+    public string FindSchoolPerformanceLink { get; private set; } = null!;
 
     public override async Task<IActionResult> OnGetAsync()
     {
