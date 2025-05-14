@@ -6,40 +6,38 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Contexts
 public class GiasEstablishmentsQueryFilterTests
 {
     [Theory]
-    [InlineData("Academies", "Open", true)]
-    [InlineData("Colleges", "Open",true)]
-    [InlineData("Free Schools", "Open",true)]
-    [InlineData("Local authority maintained schools", "Open",true)]
-    [InlineData("Special schools", "Open",true)]
-    [InlineData("Independent schools", "Open",false)]
-    [InlineData("Online provider", "Open",false)]
-    [InlineData("Other types", "Open",false)]
-    [InlineData("Universities", "Open",false)]
+    [InlineData("Academies", true)]
+    [InlineData("Colleges", true)]
+    [InlineData("Free Schools", true)]
+    [InlineData("Local authority maintained schools", true)]
+    [InlineData("Special schools", true)]
+    [InlineData("Independent schools", false)]
+    [InlineData("Online provider", false)]
+    [InlineData("Other types", false)]
+    [InlineData("Universities", false)]
     public void GiasEstablishmentsQueryFilter_should_filter_for_supported_school_types(string schoolType,
-        string establishmentStatusName,
         bool expectedResult)
     {
         var filterFunction = AcademiesDbContext.GiasEstablishmentsQueryFilter.Compile();
 
         filterFunction(new GiasEstablishment
-                { EstablishmentTypeGroupName = schoolType, EstablishmentStatusName = establishmentStatusName })
+                { EstablishmentTypeGroupName = schoolType, EstablishmentStatusName = "Open" })
             .Should()
             .Be(expectedResult);
     }
 
     [Theory]
-    [InlineData("Academies", "Open", true)]
-    [InlineData("Academies","Closed", false)]
-    [InlineData("Academies","Open, but proposed to close", true)]
-    [InlineData("Academies","Proposed to open", true)]
-    public void GiasEstablishmentQueryFilter_should_filter_for_establishment_status(string schoolType,
-        string establishmentStatusName,
+    [InlineData("Open", true)]
+    [InlineData("Closed", false)]
+    [InlineData("Open, but proposed to close", true)]
+    [InlineData("Proposed to open", true)]
+    public void GiasEstablishmentQueryFilter_should_filter_for_establishment_status(string establishmentStatusName,
         bool expectedResult)
     {
         var filterFunction = AcademiesDbContext.GiasEstablishmentsQueryFilter.Compile();
 
         filterFunction(new GiasEstablishment
-                { EstablishmentTypeGroupName = schoolType, EstablishmentStatusName = establishmentStatusName })
+                { EstablishmentTypeGroupName = "Academies", EstablishmentStatusName = establishmentStatusName })
             .Should()
             .Be(expectedResult);
     }
