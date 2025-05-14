@@ -1,12 +1,12 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
-using NSubstitute;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 
 public static class MockDataSourceService
 {
-    private static readonly DateTime StaticTime = new(2023, 11, 9);
+    private static readonly DateTime StaticTime = new(2023, 11, 9, 0, 0, 0, DateTimeKind.Utc);
+
     public static IDataSourceService CreateSubstitute()
     {
         var mockDataSourceService = Substitute.For<IDataSourceService>();
@@ -36,8 +36,11 @@ public static class MockDataSourceService
             _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
         });
     }
-    
-    public static DataSourceServiceModel Prepare { get; } = GetDummyDataSource(Source.Prepare);
+
     public static DataSourceServiceModel Complete { get; } = GetDummyDataSource(Source.Complete);
-    public static DataSourceServiceModel ManageFreeSchool { get; } = GetDummyDataSource(Source.ManageFreeSchoolProjects);
+    public static DataSourceServiceModel Gias { get; } = GetDummyDataSource(Source.Gias);
+    public static DataSourceServiceModel Prepare { get; } = GetDummyDataSource(Source.Prepare);
+
+    public static DataSourceServiceModel ManageFreeSchool { get; } =
+        GetDummyDataSource(Source.ManageFreeSchoolProjects);
 }

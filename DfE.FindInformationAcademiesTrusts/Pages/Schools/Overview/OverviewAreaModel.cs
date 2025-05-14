@@ -8,7 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
 
-public abstract class OverviewAreaModel(ISchoolService schoolService, ITrustService trustService, IDataSourceService dataSourceService) : SchoolAreaModel(schoolService, trustService)
+public abstract class OverviewAreaModel(
+    ISchoolService schoolService,
+    ITrustService trustService,
+    IDataSourceService dataSourceService) : SchoolAreaModel(schoolService, trustService)
 {
     public const string PageName = "Overview";
     public override PageMetadata PageMetadata => base.PageMetadata with { PageName = PageName };
@@ -21,9 +24,11 @@ public abstract class OverviewAreaModel(ISchoolService schoolService, ITrustServ
         // Add data sources
         var giasDataSource = await dataSourceService.GetAsync(Source.Gias);
 
-        DataSourcesPerPage.AddRange([
-            new DataSourcePageListEntry(DetailsModel.SubPageName(SchoolCategory), [new DataSourceListEntry(giasDataSource)]),
-        ]);
+        DataSourcesPerPage =
+        [
+            new DataSourcePageListEntry(DetailsModel.SubPageName(SchoolCategory),
+                [new DataSourceListEntry(giasDataSource)])
+        ];
 
         return Page();
     }
