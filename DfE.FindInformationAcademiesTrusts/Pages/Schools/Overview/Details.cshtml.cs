@@ -7,7 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
 
-public class DetailsModel(ISchoolService schoolService, ITrustService trustService, ISchoolOverviewDetailsService schoolOverviewDetailsService, IOtherServicesLinkBuilder otherServicesLinkBuilder, IDataSourceService dataSourceService) : OverviewAreaModel(schoolService, trustService, dataSourceService)
+public class DetailsModel(
+    ISchoolService schoolService,
+    ITrustService trustService,
+    ISchoolOverviewDetailsService schoolOverviewDetailsService,
+    IOtherServicesLinkBuilder otherServicesLinkBuilder,
+    IDataSourceService dataSourceService) : OverviewAreaModel(schoolService, trustService, dataSourceService)
 {
     public override PageMetadata PageMetadata => base.PageMetadata with
     {
@@ -35,18 +40,13 @@ public class DetailsModel(ISchoolService schoolService, ITrustService trustServi
         var pageResult = await base.OnGetAsync();
         if (pageResult is NotFoundResult) return pageResult;
 
-        var schoolOverviewDetails = await schoolOverviewDetailsService.GetSchoolOverviewDetailsAsync(Urn, SchoolCategory);
+        SchoolOverviewModel = await schoolOverviewDetailsService.GetSchoolOverviewDetailsAsync(Urn, SchoolCategory);
 
-        if (schoolOverviewDetails is null)
-        {
-            return new NotFoundResult();
-        }
-
-        SchoolOverviewModel = schoolOverviewDetails;
-
-        GetInformationAboutSchoolsLink = otherServicesLinkBuilder.GetInformationAboutSchoolsListingLinkForSchool(Urn.ToString());
+        GetInformationAboutSchoolsLink =
+            otherServicesLinkBuilder.GetInformationAboutSchoolsListingLinkForSchool(Urn.ToString());
         FinancialBenchmarkingInsightsToolLink = otherServicesLinkBuilder.FinancialBenchmarkingLinkForSchool(Urn);
         FindSchoolPerformanceLink = otherServicesLinkBuilder.FindSchoolPerformanceDataListingLink(Urn);
+
         return pageResult;
     }
 }

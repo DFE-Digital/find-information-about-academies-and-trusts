@@ -1,9 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Mocks;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
-using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories;
 
@@ -80,16 +78,9 @@ public class SchoolRepositoryTests
     }
 
     [Fact]
-    public async Task GetSchoolDetailsAsync_should_return_null_if_not_found()
+    public async Task GetSchoolDetailsAsync_should_return_school_details()
     {
-        var result = await _sut.GetSchoolDetailsAsync(999999);
-        result.Should().BeNull();
-    }
-
-    [Fact]
-    public async Task GetSchoolSummaryAsync_should_return_school_details_if_found()
-    {
-        int urn = 123456;
+        var urn = 123456;
 
         _mockAcademiesDbContext.GiasEstablishments.AddRange(
         [
@@ -120,9 +111,9 @@ public class SchoolRepositoryTests
     [Fact]
     public async Task GetDateJoinedTrust_should_return_correct_date()
     {
-        int urn = 45678;
-        string joinedDate = "24/05/2024";
-        DateOnly expectedJoinedDate = new DateOnly(2024, 05, 24);
+        var urn = 45678;
+        var joinedDate = "24/05/2024";
+        var expectedJoinedDate = new DateOnly(2024, 05, 24);
 
         _mockAcademiesDbContext.GiasGroupLinks.AddRange(
         [

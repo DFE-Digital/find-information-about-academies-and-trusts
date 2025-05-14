@@ -5,19 +5,14 @@ namespace DfE.FindInformationAcademiesTrusts.Services.School;
 
 public interface ISchoolOverviewDetailsService
 {
-    Task<SchoolOverviewServiceModel?> GetSchoolOverviewDetailsAsync(int urn, SchoolCategory schoolCategory);
+    Task<SchoolOverviewServiceModel> GetSchoolOverviewDetailsAsync(int urn, SchoolCategory schoolCategory);
 }
 
 public class SchoolOverviewDetailsService(ISchoolRepository schoolRepository) : ISchoolOverviewDetailsService
 {
-    public async Task<SchoolOverviewServiceModel?> GetSchoolOverviewDetailsAsync(int urn, SchoolCategory schoolCategory)
+    public async Task<SchoolOverviewServiceModel> GetSchoolOverviewDetailsAsync(int urn, SchoolCategory schoolCategory)
     {
         var schoolDetails = await schoolRepository.GetSchoolDetailsAsync(urn);
-
-        if (schoolDetails is null)
-        {
-            return null;
-        }
 
         var nurseryProvision = GetNurseryProvision(schoolDetails.NurseryProvision);
 
