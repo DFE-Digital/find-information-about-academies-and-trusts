@@ -20,6 +20,25 @@ public class GiasEstablishmentsQueryFilterTests
     {
         var filterFunction = AcademiesDbContext.GiasEstablishmentsQueryFilter.Compile();
 
-        filterFunction(new GiasEstablishment { EstablishmentTypeGroupName = schoolType }).Should().Be(expectedResult);
+        filterFunction(new GiasEstablishment
+                { EstablishmentTypeGroupName = schoolType, EstablishmentStatusName = "Open" })
+            .Should()
+            .Be(expectedResult);
+    }
+
+    [Theory]
+    [InlineData("Open", true)]
+    [InlineData("Closed", false)]
+    [InlineData("Open, but proposed to close", true)]
+    [InlineData("Proposed to open", true)]
+    public void GiasEstablishmentQueryFilter_should_filter_for_establishment_status(string establishmentStatusName,
+        bool expectedResult)
+    {
+        var filterFunction = AcademiesDbContext.GiasEstablishmentsQueryFilter.Compile();
+
+        filterFunction(new GiasEstablishment
+                { EstablishmentTypeGroupName = "Academies", EstablishmentStatusName = establishmentStatusName })
+            .Should()
+            .Be(expectedResult);
     }
 }
