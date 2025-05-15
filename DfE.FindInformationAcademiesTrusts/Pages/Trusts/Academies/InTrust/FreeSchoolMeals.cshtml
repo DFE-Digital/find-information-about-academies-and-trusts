@@ -28,9 +28,7 @@
                     <td class="govuk-body govuk-table__cell" data-sort-value="@academy.PercentageFreeSchoolMeals" data-testid="pupils-eligible">
                         @if (academy.PercentageFreeSchoolMeals is not null)
                         {
-                            @academy.PercentageFreeSchoolMeals?.ToString("N1")
-
-                            <span>%</span>
+                            @academy.PercentageFreeSchoolMeals?.ToString("N1")<span>%</span>
                         }
                     </td>
                     <td class="govuk-body govuk-table__cell" data-sort-value="@academy.LaAveragePercentageFreeSchoolMeals" data-testid="local-authority-average">
