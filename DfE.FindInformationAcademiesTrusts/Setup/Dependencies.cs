@@ -47,8 +47,6 @@ public static class Dependencies
         builder.Services.AddScoped<SetChangedByInterceptor>();
         builder.Services.AddScoped<IUserDetailsProvider, HttpContextUserDetailsProvider>();
 
-        builder.Services.AddScoped<ITrustSearch, TrustSearch>();
-
         builder.Services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 
         builder.Services.AddScoped<IStringFormattingUtilities, StringFormattingUtilities>();
