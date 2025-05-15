@@ -1,0 +1,58 @@
+﻿@page "/managemycasework/overview/"
+@model DfE.FindInformationAcademiesTrusts.Pages.ManageMyCasework.Overview.IndexModel
+@{
+    Layout = "_MMCLayout";
+    ViewData["Title"] = "hi";
+
+    // string PageOrPages()
+    // {
+    //     if (Model.Pagination.TotalPages == 1)
+    //     {
+    //         return "page";
+    //     }
+    //     return "pages";
+    // }
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        @if (Model.Filters.IsVisible) 
+        { 
+            <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner" data-cy="filter-success-notification"> 
+                <div class="govuk-notification-banner__header"> 
+                    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title"> 
+                        Success 
+                    </h2> 
+                </div> 
+                <div class="govuk-notification-banner__content"> 
+                    <h3 class="govuk-notification-banner__heading"> 
+                        Filters applied 
+                    </h3> 
+                    <p class="govuk-body"> 
+                        @* @Model.TotalProjects schools found on @Model.Pagination.TotalPages @PageOrPages() of results  *@
+                    </p> 
+                </div> 
+            </div> 
+        } 
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <partial name="Shared/_ProjectListFilters" model="Model.Filters" />
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+
+        <h2 class="govuk-heading-l" test-id="projectCount" data-cy="select-projectlist-filter-count">@Model.TotalProjects schools found</h2>
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th class="govuk-table__header app-!-width-three-fifths">School information</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                @{
+                    // <partial name="Shared/_ProjectListRows" model="Model.SupportProjects" />
+                }
+            </tbody>
+        </table>
+        @*         <partial name="Shared/_Pagination" model="Model.Pagination" /> *@
+    </div>
+</div>
