@@ -1,9 +1,13 @@
 using DfE.FindInformationAcademiesTrusts.Data;
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages;
+using DfE.FindInformationAcademiesTrusts.Services.School;
+using DfE.FindInformationAcademiesTrusts.Services.Search;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using FluentAssertions.Execution;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using NSubstitute.ReturnsExtensions;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages;
 
@@ -11,31 +15,35 @@ public class SearchModelTests
 {
     private const string SearchTermThatMatchesAllFakeTrusts = "trust";
     private readonly SearchModel _sut;
-    private readonly ITrustSearch _mockTrustSearch;
+    private readonly ISearchService _mockSearchService;
 
-    private readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
+    private static readonly TrustSummaryServiceModel _fakeTrust = new("1234", "My Trust", "Multi-academy trust", 3);
+    private static readonly SchoolSummaryServiceModel _fakeSchool = new(5678, "A school", "Community school", SchoolCategory.LaMaintainedSchool);
 
-    private readonly TrustSearchEntry[] _fakeTrusts =
+    private ITrustService _mockTrustService = Substitute.For<ITrustService>();
+    private ISchoolService _mockSchoolService = Substitute.For<ISchoolService>();
+
+    private readonly SearchResultServiceModel[] _fakeResults =
     [
-        new TrustSearchEntry("trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC", "2044", ""),
-        new TrustSearchEntry("trust 2", "Grant Course, North East Lincolnshire, QH96 9WV", "2044", ""),
-        new TrustSearchEntry("trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ", "2044", "")
+        new("111", "trust 1", "Dorthy Inlet, Kingston upon Hull, City of, JY36 9VC", "1033", "Multi-academy trust", ResultType.Trust),
+        new("222", "school 1", "12 Halifax road, Whitby, WH96 9WV", null, "Community school", ResultType.School),
+        new("333", "trust 2", "Grant Course, North East Lincolnshire, QH96 9WV", "1022", "Single-academy trust", ResultType.Trust),
+        new("444", "trust 3", "Abbott Turnpike, East Riding of Yorkshire, BI86 4LZ", "1011", "Multi-academy trust", ResultType.Trust)
     ];
 
     public SearchModelTests()
     {
-        ITrustService mockTrustService = Substitute.For<ITrustService>();
-        _mockTrustSearch = Substitute.For<ITrustSearch>();
+        _mockSearchService = Substitute.For<ISearchService>();
         
-        mockTrustService.GetTrustSummaryAsync(_fakeTrust.Uid).Returns(_fakeTrust);
+        _mockTrustService.GetTrustSummaryAsync(_fakeTrust.Uid).Returns(_fakeTrust);
+        _mockSchoolService.GetSchoolSummaryAsync(_fakeSchool.Urn).Returns(_fakeSchool);
 
-        _mockTrustSearch.SearchAsync(Arg.Any<string?>(), Arg.Any<int>()).Returns(Task.FromResult<IPaginatedList<TrustSearchEntry>>(PaginatedList<TrustSearchEntry>.Empty()));
-        _mockTrustSearch.SearchAsync(SearchTermThatMatchesAllFakeTrusts, Arg.Any<int>())
-            .Returns(Task.FromResult<IPaginatedList<TrustSearchEntry>>(new PaginatedList<TrustSearchEntry>(_fakeTrusts, _fakeTrusts.Length, 1, 1)));
-        _mockTrustSearch.SearchAutocompleteAsync(Arg.Any<string?>()).Returns(Task.FromResult<TrustSearchEntry[]>([]));
-        _mockTrustSearch.SearchAutocompleteAsync(SearchTermThatMatchesAllFakeTrusts).Returns(Task.FromResult(_fakeTrusts));
+        _mockSearchService.GetSearchResultsForPageAsync(Arg.Any<string?>(), Arg.Any<int>()).Returns(new PagedSearchResults(PaginatedList<SearchResultServiceModel>.Empty(), new SearchResultsOverview()));
+        _mockSearchService.GetSearchResultsForPageAsync(SearchTermThatMatchesAllFakeTrusts, Arg.Any<int>()).Returns(new PagedSearchResults(new PaginatedList<SearchResultServiceModel>(_fakeResults, _fakeResults.Length, 1, 1), new SearchResultsOverview(3, 1)));
+        _mockSearchService.GetSearchResultsForAutocompleteAsync(Arg.Any<string>()).Returns([]);
+        _mockSearchService.GetSearchResultsForAutocompleteAsync(SearchTermThatMatchesAllFakeTrusts).Returns(_fakeResults);
 
-        _sut = new SearchModel(mockTrustService, _mockTrustSearch);
+        _sut = new SearchModel(_mockSearchService, _mockTrustService, _mockSchoolService);
     }
 
     [Fact]
@@ -45,16 +53,16 @@ public class SearchModelTests
 
         await _sut.OnGetAsync();
 
-        _sut.Trusts.Should().BeEquivalentTo(_fakeTrusts);
+        _sut.SearchResults.Should().BeEquivalentTo(_fakeResults);
     }
 
     [Fact]
-    public async Task OnGetAsync_should_return_no_results_page_if_no_trusts_found_for_term()
+    public async Task OnGetAsync_set_keywords()
     {
         _sut.KeyWords = "no matching trusts";
         await _sut.OnGetAsync();
 
-        _sut.Trusts.Should().BeEmpty();
+        _sut.SearchResults.Should().BeEmpty();
         _sut.PaginationRouteData["Keywords"].Should().Be("no matching trusts");
     }
 
@@ -64,52 +72,74 @@ public class SearchModelTests
         _sut.KeyWords = null;
         await _sut.OnGetAsync();
 
-        _sut.Trusts.Should().BeEmpty();
+        _sut.SearchResults.Should().BeEmpty();
         _sut.PaginationRouteData["Keywords"].Should().Be(string.Empty);
     }
-
-    [Fact]
-    public async Task OnGetAsync_should_redirect_to_trust_overview_if_given_uid_and_query_is_trust_name()
+    
+    [Theory]
+    [InlineData(ResultType.Trust)]
+    [InlineData(ResultType.School)]
+    public async Task OnGetAsync_should_redirect_to_overview_if_given_identifier_and_query_is_trust_name(ResultType resultType)
     {
-        _sut.Uid = _fakeTrust.Uid;
-        _sut.KeyWords = _fakeTrust.Name;
+        _sut.SearchResultType = resultType;
+
+        if (resultType == ResultType.Trust)
+        {
+            _sut.Id = _fakeTrust.Uid;
+            _sut.KeyWords = _fakeTrust.Name;
+        }
+        else
+        {
+            _sut.Id = _fakeSchool.Urn.ToString();
+            _sut.KeyWords = _fakeSchool.Name;
+        }
 
         var result = await _sut.OnGetAsync();
 
         var redirectResult = result.Should().BeOfType<RedirectToPageResult>().Subject;
-        redirectResult.PageName.Should().Be("/Trusts/Overview/TrustDetails");
-        redirectResult.RouteValues.Should().ContainKey("Uid").WhoseValue.Should().Be(_fakeTrust.Uid);
+
+        if (resultType == ResultType.Trust)
+        {
+            redirectResult.PageName.Should().Be("/trusts/overview/trustdetails");
+            redirectResult.RouteValues.Should().ContainKey("Uid").WhoseValue.Should().Be(_fakeTrust.Uid);
+        }
+        else
+        {
+            redirectResult.PageName.Should().Be("/schools/overview/details");
+            redirectResult.RouteValues.Should().ContainKey("urn").WhoseValue.Should().Be(_fakeSchool.Urn);
+        }
     }
 
     [Fact]
     public async Task OnGetAsync_should_not_redirect_to_trust_overview_if_trustId_does_not_match_query()
     {
-        var differentFakeTrust = new TrustSearchEntry("other trust", "Some address", "987", "TR0987");
-        _mockTrustSearch.SearchAsync(differentFakeTrust.Name, Arg.Any<int>())
-            .Returns(Task.FromResult<IPaginatedList<TrustSearchEntry>>(new PaginatedList<TrustSearchEntry>(new[] { differentFakeTrust }, 1, 1, 1)));
+        var differentFakeTrust = new SearchResultServiceModel("123", "other trust", "Some address", "TR0987", "Single-academy trust", ResultType.Trust);
+        _mockSearchService.GetSearchResultsForPageAsync(differentFakeTrust.Name, Arg.Any<int>())
+            .Returns(new PagedSearchResults(new PaginatedList<SearchResultServiceModel>([differentFakeTrust], 1, 1, 1), new SearchResultsOverview(1)));
 
         _sut.KeyWords = differentFakeTrust.Name;
-        _sut.Uid = _fakeTrust.Uid;
+        _sut.Id = _fakeTrust.Uid;
 
         var result = await _sut.OnGetAsync();
 
         result.Should().BeOfType<PageResult>();
-        _sut.Trusts.Should().ContainSingle(t => t == differentFakeTrust);
+        _sut.SearchResults.Should().ContainSingle(t => t == differentFakeTrust);
     }
 
     [Fact]
-    public async Task OnGetPopulateAutocompleteAsync_should_return_trusts_matching_keyword()
+    public async Task OnGetPopulateAutocompleteAsync_should_return_results_matching_keyword()
     {
         _sut.KeyWords = SearchTermThatMatchesAllFakeTrusts;
 
         var result = await _sut.OnGetPopulateAutocompleteAsync();
 
         var jsonResult = result.Should().BeOfType<JsonResult>().Subject;
-        jsonResult.Value.Should().BeEquivalentTo(_fakeTrusts.Select(trust =>
+        jsonResult.Value.Should().BeEquivalentTo(_fakeResults.Select(r =>
             new SearchModel.AutocompleteEntry(
-                trust.Address,
-                trust.Name,
-                trust.Uid
+                r.Id,
+                r.Address,
+                r.Name,
+                r.ResultType
             )
         ));
     }
@@ -139,7 +169,8 @@ public class SearchModelTests
 
         result.PageName.Should().BeEquivalentTo("/Search");
         result.RouteValues?["KeyWords"].Should().BeEquivalentTo(string.Empty);
-        result.RouteValues?["Uid"].Should().BeEquivalentTo(string.Empty);
+        result.RouteValues?["Id"].Should().BeEquivalentTo(string.Empty);
+        result.RouteValues?["SearchResultType"].Should().BeNull();
     }
 
     [Fact]
@@ -155,9 +186,15 @@ public class SearchModelTests
     }
 
     [Fact]
-    public void TrustId_property_is_empty_by_default()
+    public void Identifier_property_is_empty_by_default()
     {
-        _sut.Uid.Should().Be("");
+        _sut.Id.Should().Be("");
+    }
+
+    [Fact]
+    public void SearchResultType_property_is_null_by_default()
+    {
+        _sut.SearchResultType.Should().BeNull();
     }
 
     [Fact]
@@ -193,28 +230,25 @@ public class SearchModelTests
     [Fact]
     public async Task When_a_different_page_is_requested_return_a_different_page()
     {
-        _mockTrustSearch.SearchAsync(SearchTermThatMatchesAllFakeTrusts, 1).Returns(
-            Task.FromResult<IPaginatedList<TrustSearchEntry>>(
-                new PaginatedList<TrustSearchEntry>(_fakeTrusts, 4, 1, 3)));
-        var differentFakeTrust =
-            new TrustSearchEntry(SearchTermThatMatchesAllFakeTrusts, "Some address", "987", "TR0987");
-        _mockTrustSearch.SearchAsync(differentFakeTrust.Name, 2).Returns(
-            Task.FromResult<IPaginatedList<TrustSearchEntry>>(
-                new PaginatedList<TrustSearchEntry>(new[] { differentFakeTrust }, 4, 2, 3)));
+        _mockSearchService.GetSearchResultsForPageAsync(SearchTermThatMatchesAllFakeTrusts, 1).Returns(
+                new PagedSearchResults(new PaginatedList<SearchResultServiceModel>(_fakeResults, 4, 1, 3), new SearchResultsOverview(3, 1)));
+        
+        var differentFakeResult = new SearchResultServiceModel("111", SearchTermThatMatchesAllFakeTrusts, "Some address", "TR0987", "Single-academy trust", ResultType.Trust);
+        _mockSearchService.GetSearchResultsForPageAsync(differentFakeResult.Name, 2).Returns(new PagedSearchResults(new PaginatedList<SearchResultServiceModel>([differentFakeResult], 4, 2, 3), new SearchResultsOverview(1)));
 
         _sut.KeyWords = SearchTermThatMatchesAllFakeTrusts;
         _sut.PageNumber = 1;
 
         var result = await _sut.OnGetAsync();
         result.Should().BeOfType<PageResult>();
-        _sut.Trusts.Should().BeEquivalentTo(_fakeTrusts);
+        _sut.SearchResults.Should().BeEquivalentTo(_fakeResults);
         _sut.PaginationRouteData["Keywords"].Should().Be(SearchTermThatMatchesAllFakeTrusts);
 
 
         _sut.PageNumber = 2;
         result = await _sut.OnGetAsync();
         result.Should().BeOfType<PageResult>();
-        _sut.Trusts.Should().ContainSingle(t => t == differentFakeTrust);
+        _sut.SearchResults.Should().ContainSingle(t => t == differentFakeResult);
         _sut.PaginationRouteData["Keywords"].Should().Be(SearchTermThatMatchesAllFakeTrusts);
     }
 
@@ -235,7 +269,7 @@ public class SearchModelTests
     public void Title_Should_Include_The_Keywords_When_they_Are_Set_And_There_Is_Only_one_page()
     {
         _sut.KeyWords = "Test";
-        _sut.Trusts = new PaginatedList<TrustSearchEntry>(Array.Empty<TrustSearchEntry>(), 1, 1, 1);
+        _sut.SearchResults = new PaginatedList<SearchResultServiceModel>(Array.Empty<SearchResultServiceModel>(), 1, 1, 1);
         _sut.Title.Should().BeEquivalentTo("Search - Test");
     }
 
@@ -243,7 +277,51 @@ public class SearchModelTests
     public void Title_Should_Include_The_Keywords_And_Page_Number_When_They_Are_Set()
     {
         _sut.KeyWords = "Test";
-        _sut.Trusts = new PaginatedList<TrustSearchEntry>(Array.Empty<TrustSearchEntry>(), 46, 2, 20);
+        _sut.SearchResults = new PaginatedList<SearchResultServiceModel>(Array.Empty<SearchResultServiceModel>(), 46, 2, 20);
         _sut.Title.Should().BeEquivalentTo("Search (page 2 of 3) - Test");
+    }
+
+    [Fact]
+    public async Task IfSchoolSelected_ButSchoolSummaryIsNull_ShouldRedirectToSearchPage()
+    {
+        _sut.KeyWords = "a school";
+        _sut.SearchResultType = ResultType.School;
+        _sut.Id = "123";
+
+        _mockSchoolService.GetSchoolSummaryAsync(int.Parse(_sut.Id)).ReturnsNull();
+
+        var result = await _sut.OnGetAsync();
+        result.Should().BeOfType<PageResult>();
+
+        await _mockSearchService.Received(1).GetSearchResultsForPageAsync(_sut.KeyWords, Arg.Any<int>());
+    }
+
+    [Fact]
+    public async Task IfSchoolSelected_ButCannotParseId_for_URN_ShouldRedirectToSearchPage()
+    {
+        _sut.KeyWords = "a school";
+        _sut.SearchResultType = ResultType.School;
+        _sut.Id = "bad id";
+
+        var result = await _sut.OnGetAsync();
+        result.Should().BeOfType<PageResult>();
+
+        await _mockSchoolService.DidNotReceiveWithAnyArgs().GetSchoolSummaryAsync(Arg.Any<int>());
+        await _mockSearchService.Received(1).GetSearchResultsForPageAsync(_sut.KeyWords, 1);
+    }
+
+    [Fact]
+    public async Task IfTrustSelected_ButTrustSummaryIsNull_ShouldRedirectToSearchPage()
+    {
+        _sut.KeyWords = "a trust";
+        _sut.SearchResultType = ResultType.Trust;
+        _sut.Id = "trustid";
+
+        _mockTrustService.GetTrustSummaryAsync(_sut.Id).ReturnsNull();
+
+        var result = await _sut.OnGetAsync();
+        result.Should().BeOfType<PageResult>();
+
+        await _mockSearchService.Received(1).GetSearchResultsForPageAsync(_sut.KeyWords, 1);
     }
 }
