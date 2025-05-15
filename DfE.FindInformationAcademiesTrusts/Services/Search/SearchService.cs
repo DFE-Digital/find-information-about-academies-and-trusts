@@ -6,36 +6,48 @@ namespace DfE.FindInformationAcademiesTrusts.Services.Search;
 
 public interface ISearchService
 {
-    Task<SearchResult[]> GetSearchResultsForAutocompleteAsync(string text);
-    Task<IPaginatedList<SearchResult>> GetSearchResultsForPageAsync(string? keyWords, int pageNumber);
+    Task<SearchResultServiceModel[]> GetSearchResultsForAutocompleteAsync(string? keyWords);
+    Task<PagedSearchResults> GetSearchResultsForPageAsync(string? keyWords, int pageNumber);
 }
 
 public class SearchService(ITrustSchoolSearchRepository trustSchoolSearchRepository, IStringFormattingUtilities stringFormattingUtilities) : ISearchService
 {
-    private int PageSize = 20;
+    private const int PageSize = 20;
 
-    public async Task<SearchResult[]> GetSearchResultsForAutocompleteAsync(string text)
-    {
-        var results = await trustSchoolSearchRepository.GetSearchResultsAsync(text);
-
-        return results.Select(x =>
-                new SearchResult(x.Name, stringFormattingUtilities.BuildAddressString(x.Street, x.Locality, x.Town, x.PostCode), x.Identifier, x.IsTrust ? ResultType.Trust : ResultType.School))
-            .ToArray();
-    }
-
-    public async Task<IPaginatedList<SearchResult>> GetSearchResultsForPageAsync(string? keyWords, int pageNumber)
+    public async Task<SearchResultServiceModel[]> GetSearchResultsForAutocompleteAsync(string? keyWords)
     {
         if (string.IsNullOrWhiteSpace(keyWords))
         {
-            return PaginatedList<SearchResult>.Empty();
+            return [];
         }
 
-        var searchResults = await trustSchoolSearchRepository.GetSearchResultsAsync(keyWords, pageNumber, PageSize);
+        var results = await trustSchoolSearchRepository.GetAutoCompleteSearchResultsAsync(keyWords);
 
-        var results = searchResults.results.Select(x =>
-                new SearchResult(x.Name, stringFormattingUtilities.BuildAddressString(x.Street, x.Locality, x.Town, x.PostCode), x.Identifier, x.IsTrust ? ResultType.Trust : ResultType.School))
+        return BuildResults(results);
+    }
+
+    public async Task<PagedSearchResults> GetSearchResultsForPageAsync(string? keyWords, int pageNumber)
+    {
+        if (string.IsNullOrWhiteSpace(keyWords))
+        {
+            return new PagedSearchResults(PaginatedList<SearchResultServiceModel>.Empty(), new SearchResultsOverview());
+        }
+
+        var searchResults = await trustSchoolSearchRepository.GetSearchResultsAsync(keyWords, PageSize, pageNumber);
+
+        var results = BuildResults(searchResults.Results);
+
+        return new PagedSearchResults(new PaginatedList<SearchResultServiceModel>(results,
+                searchResults.NumberOfResults.TotalRecords, pageNumber,
+                PageSize),
+            new SearchResultsOverview(searchResults.NumberOfResults.NumberOfTrusts,
+                searchResults.NumberOfResults.NumberOfSchools));
+    }
+
+    private SearchResultServiceModel[] BuildResults(SearchResult[] results)
+    {
+        return results.Select(x =>
+                new SearchResultServiceModel(x.Id, x.Name, stringFormattingUtilities.BuildAddressString(x.Street, x.Locality, x.Town, x.PostCode), x.TrustGroupId, x.Type, x.IsTrust ? ResultType.Trust : ResultType.School))
             .ToArray();
-
-        return new PaginatedList<SearchResult>(results, searchResults.numberOfResults, pageNumber, PageSize);
     }
 }

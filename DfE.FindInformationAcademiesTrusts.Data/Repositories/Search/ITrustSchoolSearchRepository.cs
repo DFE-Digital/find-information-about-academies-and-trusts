@@ -2,7 +2,7 @@
 
 public interface ITrustSchoolSearchRepository
 {
-    Task<SearchResult[]> GetSearchResultsAsync(string text);
+    Task<SearchResult[]> GetAutoCompleteSearchResultsAsync(string text);
 
-    Task<(SearchResult[] results, int numberOfResults)> GetSearchResultsAsync(string text, int page, int pageSize);
+    Task<(SearchResult[] Results, SearchResultCount NumberOfResults)> GetSearchResultsAsync(string text, int pageSize, int page = 1);
 }

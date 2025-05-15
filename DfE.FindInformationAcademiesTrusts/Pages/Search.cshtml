@@ -1,72 +1,94 @@
 @page
+@using DfE.FindInformationAcademiesTrusts.Services.Search
 @model SearchModel
 
 @{
-  Layout = "_ContentLayout";
-  ViewData["Title"] = Model.Title;
+    Layout = "_ContentLayout";
+    ViewData["Title"] = Model.Title;
 }
-
 <div class="govuk-grid-row govuk-!-margin-bottom-6">
-  <div class="govuk-grid-column-one-half">
-    <form class="govuk-form-group app-search" role="search" aria-label="sitewide" method="post">
-      <h1 class="govuk-label-wrapper">
-        <label class="govuk-label govuk-label--l" for="@Model.PageSearchFormInputId">
-          Search
-        </label>
-      </h1>
-      <partial name="_PageSearchForm" model="Model"/>
-    </form>
-  </div>
+    <div class="govuk-grid-column-one-half">
+        <form class="govuk-form-group app-search" role="search" aria-label="sitewide" method="post">
+            <h1 class="govuk-label-wrapper">
+                <label class="govuk-label govuk-label--l" for="@Model.PageSearchFormInputId">
+                    Search
+                </label>
+            </h1>
+            <partial name="_PageSearchForm" model="Model" />
+        </form>
+    </div>
 </div>
 <div class="govuk-grid-row">
-  <section aria-labelledby="results-details" class="govuk-grid-column-three-quarters">
-    <h2 id="results-details" class="govuk-heading-m">@Model.PageStatus.TotalResults result@(Model.PageStatus.TotalResults != 1 ? "s" : "") for "@Model.KeyWords"</h2>
-    @if (Model.Trusts.Any())
-    {
-      <ul class="govuk-list">
-        @foreach (var trust in Model.Trusts)
+    <section aria-labelledby="results-details" class="govuk-grid-column-three-quarters">
+       @if (Model.SearchResults.Any())
         {
-          <li class="govuk-!-margin-bottom-6" data-testid="trust-result">
-            <a asp-page="./Trusts/Overview/TrustDetails" asp-route-uid="@trust.Identifier" class="govuk-!-font-weight-bold govuk-link govuk-!-font-size-24" data-testid="trust-name">@Html.DisplayFor(modelItem => trust.Name)</a>
-            <dl class="govuk-summary-list govuk-summary-list--no-border app-search-results-summary-list">
-              <div class="govuk-summary-list__row govuk-body app-search-results-summary-list__row">
-                <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
-                  Address:
-                </dt>
-                <dd class="govuk-summary-list__value app-search-results-summary-list__item" data-testid="address">
-                  @Html.DisplayFor(modelItem => trust.Address)
-                </dd>
-              </div>
-              <div class="govuk-summary-list__row govuk-body app-search-results-summary-list__row">
-                <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
-                  Group ID/TRN:
-                </dt>
-                <dd class="govuk-summary-list__value app-search-results-summary-list__item" data-testid="trn">
-                  @Html.DisplayFor(modelItem => trust.Name)
-                </dd>
-              </div>
-              <div class="govuk-summary-list__row govuk-body app-search-results-summary-list__row">
-                <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
-                  UID:
-                </dt>
-                <dd class="govuk-summary-list__value app-search-results-summary-list__item" data-testid="uid">
-                  @Html.DisplayFor(modelItem => trust.Identifier)
-                </dd>
-              </div>
-            </dl>
-            <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6">
-          </li>
-        }
-      </ul>
-    }
-    else
-    {
-      <p class="govuk-body">Check the spelling of the trust name. Make sure you include the right punctuation.</p>
-    }
+            <h2 id="results-details" class="govuk-heading-m">Found @Model.ResultCount.NumberOfTrusts trusts and @Model.ResultCount.NumberOfSchools schools, including academies</h2>
+            <ul class="govuk-list">
+                @foreach (var result in Model.SearchResults)
+                {
+                    <li class="govuk-!-margin-bottom-6" data-testid="trust-result">
 
-  </section>
+                        @if (result.ResultType == ResultType.Trust)
+                        {
+                            <a asp-page="./trusts/overview/trustdetails" asp-route-uid="@result.Id" class="govuk-!-font-weight-bold govuk-link govuk-!-font-size-24" data-testid="trust-name">@Html.DisplayFor(modelItem => result.Name)</a>
+                        }
+                        else
+                        {
+                            <a asp-page="./schools/overview/details" asp-route-uid="@result.Id" class="govuk-!-font-weight-bold govuk-link govuk-!-font-size-24" data-testid="school-name">@Html.DisplayFor(modelItem => result.Name)</a>
+                        }
+
+                        <dl class="govuk-summary-list govuk-summary-list--no-border app-search-results-summary-list">
+                            <div class="govuk-summary-list__row govuk-body app-search-results-summary-list__row">
+                                <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
+                                    Address:
+                                </dt>
+                                <dd class="govuk-summary-list__value app-search-results-summary-list__item" data-testid="address">
+                                    @Html.DisplayFor(modelItem => result.Address)
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row govuk-body app-search-results-summary-list__row">
+                                @if (result.ResultType == ResultType.Trust)
+                                {
+                                    <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
+                                        Group ID/TRN:
+                                    </dt>
+                                    <dd class="govuk-summary-list__value app-search-results-summary-list__item" data-testid="trn">
+                                        @Html.DisplayFor(modelItem => result.TrustGroupId)
+                                    </dd>
+                                }
+                                else
+                                {
+                                    <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
+                                        URN:
+                                    </dt>
+                                    <dd class="govuk-summary-list__value app-search-results-summary-list__item" data-testid="urn">
+                                        @Html.DisplayFor(modelItem => result.Id)
+                                    </dd>
+                                }
+                            </div>
+                            <div class="govuk-summary-list__row govuk-body app-search-results-summary-list__row">
+                                <dt class="govuk-summary-list__key app-search-results-summary-list__key app-search-results-summary-list__item">
+                                    Type:
+                                </dt>
+                                <dd class="govuk-summary-list__value app-search-results-summary-list__item" data-testid="establishment-type">
+                                    @Html.DisplayFor(modelItem => result.Type)
+                                </dd>
+                            </div>
+                        </dl>
+                        <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6">
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <h2 id="results-details" class="govuk-heading-m">No results for "@Model.KeyWords"</h2>
+            <p class="govuk-body">Check you've entered the name or reference number correctly and included any punctuation.</p>
+        }
+
+    </section>
 </div>
 @if (Model.PageStatus.TotalResults > 0)
 {
-  <partial name="Shared/_Pagination"/>
+    <partial name="Shared/_Pagination" />
 }
