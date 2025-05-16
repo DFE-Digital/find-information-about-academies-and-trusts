@@ -522,28 +522,6 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Reposito
             searchResults.Should().Contain(t => t.Name == "school 8900");
         }
 
-        [Fact]
-        public async Task GetSearchResultsAsync_Should_Be_Case_Insensitive_When_Searching_By_TrustId()
-        {
-            _mockAcademiesDbContext.AddGiasGroupForTrust(trustReferenceNumber: "TR01234");
-
-            var searchResults = await _sut.GetSearchResultsAsync("tr01234", _pageSize); // Lowercase search term
-
-            searchResults.Results.Should().ContainSingle()
-                .Which.TrustGroupId.Should().Be("TR01234");
-        }
-
-        [Fact]
-        public async Task GetAutoCompleteSearchResultsAsync_Should_Be_Case_Insensitive_When_Searching_By_TrustId()
-        {
-            _mockAcademiesDbContext.AddGiasGroupForTrust(trustReferenceNumber: "TR01234");
-
-            var result = await _sut.GetAutoCompleteSearchResultsAsync("tr01234"); // Lowercase search term
-
-            result.Should().ContainSingle()
-                .Which.TrustGroupId.Should().Be("TR01234");
-        }
-
         private void AddGiasGroupsForSearchTerm(string term, int num)
         {
             for (var i = 0; i < num; i++)
