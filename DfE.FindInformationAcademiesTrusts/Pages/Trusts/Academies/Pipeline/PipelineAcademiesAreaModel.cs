@@ -76,11 +76,4 @@ public abstract class PipelineAcademiesAreaModel(
 
         return File(fileContents, contentType, fileName);
     }
-
-    public static string AgeRangeSortValue(AcademyPipelineServiceModel academy)
-    {
-        return academy.AgeRange is not null
-            ? $"{academy.AgeRange.Minimum:D2}{academy.AgeRange.Maximum:D2}"
-            : string.Empty;
-    }
 }

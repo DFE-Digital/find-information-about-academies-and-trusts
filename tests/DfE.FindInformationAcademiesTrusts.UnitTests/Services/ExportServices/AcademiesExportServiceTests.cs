@@ -105,7 +105,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
                 .BeCloseTo(now.AddDays(-1), TimeSpan.FromSeconds(1));
 
             worksheet.CellValue(4, AcademyColumns.PhaseOfEducation).Should().Be("Primary");
-            worksheet.CellValue(4, AcademyColumns.AgeRange).Should().Be("5 - 11");
+            worksheet.CellValue(4, AcademyColumns.AgeRange).Should().Be("5-11");
             worksheet.CellValue(4, AcademyColumns.PupilNumbers).Should().Be("500");
             worksheet.CellValue(4, AcademyColumns.Capacity).Should().Be("600");
             worksheet.CellValue(4, AcademyColumns.PercentFull).Should().Be("83%");
@@ -168,7 +168,7 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
             worksheet.CellValue(4, AcademyColumns.DateOfPreviousInspection).Should().Be(string.Empty);
 
             worksheet.CellValue(4, AcademyColumns.PhaseOfEducation).Should().Be(string.Empty);
-            worksheet.CellValue(4, AcademyColumns.AgeRange).Should().Be("5 - 11");
+            worksheet.CellValue(4, AcademyColumns.AgeRange).Should().Be("5-11");
             worksheet.CellValue(4, AcademyColumns.PupilNumbers).Should().Be(string.Empty);
             worksheet.CellValue(4, AcademyColumns.Capacity).Should().Be(string.Empty);
             worksheet.CellValue(4, AcademyColumns.PercentFull).Should().Be(string.Empty);
