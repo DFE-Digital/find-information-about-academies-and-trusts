@@ -152,12 +152,13 @@ public class MockAcademiesDbContext
         });
     }
 
-    public GiasEstablishment AddGiasEstablishment(int? urn = null, string? establishmentName = null)
+    public GiasEstablishment AddGiasEstablishment(int? urn = null, string? establishmentName = null, string? establishmentType = null)
     {
         var giasEstablishment = new GiasEstablishment
         {
             Urn = urn ?? GiasEstablishments.GetNextId(e => e.Urn),
-            EstablishmentName = establishmentName ?? $"Academy {GiasEstablishments.Count + 1}"
+            EstablishmentName = establishmentName ?? $"Academy {GiasEstablishments.Count + 1}",
+            EstablishmentTypeGroupName = establishmentType
         };
         GiasEstablishments.Add(giasEstablishment);
 
