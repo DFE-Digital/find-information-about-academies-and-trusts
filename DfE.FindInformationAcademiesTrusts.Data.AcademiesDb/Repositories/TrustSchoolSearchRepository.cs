@@ -51,12 +51,11 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
 
         private IQueryable<SearchResult> CreateTrustSearchQuery(string searchTerm)
         {
-            var lowerSearchTerm = searchTerm.ToLower();
 
             var query = academiesDbContext.Groups.Trusts()
                 .Where(g =>
-                        g.GroupId!.ToLower().Contains(lowerSearchTerm) // GroupId cannot be null for a trust
-                        || g.GroupName!.ToLower().Contains(lowerSearchTerm) // Enforced by global EF query filter
+                        g.GroupId!.Contains(searchTerm) // GroupId cannot be null for a trust
+                        || g.GroupName!.Contains(searchTerm) // Enforced by global EF query filter
                 )
                 .Select(g => new SearchResult
                 {
@@ -75,12 +74,10 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories
 
         private IQueryable<SearchResult> CreateSchoolSearchQuery(string searchTerm)
         {
-            var lowerSearchTerm = searchTerm.ToLower();
-
             var query = academiesDbContext.GiasEstablishments
                 .Where(x => 
-                    x.EstablishmentName!.ToLower().Contains(lowerSearchTerm)
-                    || x.Urn.ToString().ToLower().Contains(lowerSearchTerm))
+                    x.EstablishmentName!.Contains(searchTerm)
+                    || x.Urn.ToString().Contains(searchTerm))
                 .Select(e => new SearchResult
                 {
                     Street = e.Street,

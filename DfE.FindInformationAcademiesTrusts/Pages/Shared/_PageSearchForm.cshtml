@@ -1,6 +1,7 @@
 @model IPageSearchFormModel
 @{
     var placeholderText = Html.Raw("e.g. st mary's primary school");
+    var keywords = Html.Raw(@Model.KeyWords);
 }
 
 <div data-testid="app-search-form">
@@ -35,8 +36,10 @@
 </template>
 
 <script asp-add-nonce type="application/javascript">
-  const loadPageFormAutocomplete = async () => {
-      await Autocomplete.loadTrustSearch("@Model.PageSearchFormInputId", "@Model.KeyWords", "@placeholderText")
+    
+ const loadPageFormAutocomplete = async () => {
+    await Autocomplete.loadTrustSearch("@Model.PageSearchFormInputId", "@keywords", "@placeholderText")
   }
   window.addEventListener("load", loadPageFormAutocomplete);
+
 </script>
