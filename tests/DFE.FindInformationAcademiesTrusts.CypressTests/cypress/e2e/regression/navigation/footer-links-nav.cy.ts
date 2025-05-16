@@ -4,7 +4,7 @@ describe('Testing Navigation', () => {
 
     describe("Testing the footer-links", () => {
         beforeEach(() => {
-            cy.login();
+            cy.visit('/');
         });
 
         it("Should check that the home page footer bar privacy link is present and functional", () => {

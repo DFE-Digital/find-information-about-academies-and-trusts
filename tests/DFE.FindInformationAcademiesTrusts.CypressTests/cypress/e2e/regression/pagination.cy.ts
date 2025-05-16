@@ -6,7 +6,6 @@ describe('Pagination Tests', () => {
 
 
     beforeEach(() => {
-        cy.login();
         cy.visit('/search?keywords=west');
     });
 

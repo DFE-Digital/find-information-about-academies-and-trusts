@@ -4,14 +4,8 @@ import { testSchoolData, testTrustData } from "../../../support/test-data-store"
 describe('Testing Navigation', () => {
 
     describe("Testing the breadcrumb-links", () => {
-        beforeEach(() => {
-            cy.login();
-        });
 
         describe("Testing the general page breadcrumb links and their relevant functionality", () => {
-            beforeEach(() => {
-                cy.login();
-            });
 
             ['/search', '/accessibility', '/cookies', '/privacy', '/notfound'].forEach((url) => {
                 it(`Should have Home breadcrumb only on ${url}`, () => {
@@ -38,9 +32,6 @@ describe('Testing Navigation', () => {
         });
 
         describe("Testing the breadcrumb links on the trust academy details page", () => {
-            beforeEach(() => {
-                cy.login();
-            });
 
             describe("Testing the breadcrumb links on the trust page", () => {
                 testTrustData.forEach(({ uid, trustName }) => {
@@ -69,9 +60,6 @@ describe('Testing Navigation', () => {
 
     describe("Testing the breadcrumb links on the schools overview pages", () => {
         testSchoolData.forEach(({ urn }) => {
-            beforeEach(() => {
-                cy.login();
-            });
 
             [`/schools/overview/details?urn=${urn}`].forEach((url) => {
                 it("Checks the breadcrumb shows the correct page name", () => {

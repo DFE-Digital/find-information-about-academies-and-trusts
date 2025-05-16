@@ -4,7 +4,7 @@ import homePage from "../../pages/homePage";
 describe("Testing the components of the search results page", () => {
 
     beforeEach(() => {
-        cy.login();
+        cy.visit('/');
     });
 
     it("Should check that the search page returns result no found when something does not exist", () => {

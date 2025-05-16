@@ -15,7 +15,6 @@ describe("Testing the components of the Trust contacts page", () => {
     testTrustData.forEach(({ typeOfTrust, uid }) => {
         describe(`On the contacts in DfE page for a ${typeOfTrust}`, () => {
             beforeEach(() => {
-                cy.login();
                 cy.visit(`/trusts/contacts/in-dfe?uid=${uid}`);
             });
 
@@ -78,7 +77,6 @@ describe("Testing the components of the Trust contacts page", () => {
 
         describe(`On the edit Trust relationship manager contact details page for a ${typeOfTrust}`, () => {
             beforeEach(() => {
-                cy.login();
                 cy.visit(`/trusts/contacts/edittrustrelationshipmanager?uid=${uid}`);
             });
 
@@ -90,7 +88,6 @@ describe("Testing the components of the Trust contacts page", () => {
 
         describe(`On the edit SFSO lead contact details page for a ${typeOfTrust}`, () => {
             beforeEach(() => {
-                cy.login();
                 cy.visit(`/trusts/contacts/editsfsolead?uid=${uid}`);
             });
 
@@ -102,7 +99,6 @@ describe("Testing the components of the Trust contacts page", () => {
 
         describe(`On the contacts in the trust page for a ${typeOfTrust}`, () => {
             beforeEach(() => {
-                cy.login();
                 cy.visit(`/trusts/contacts/in-the-trust?uid=${uid}`);
             });
 
@@ -127,7 +123,6 @@ describe("Testing the components of the Trust contacts page", () => {
 
     describe('Checks the update error handling', () => {
         beforeEach(() => {
-            cy.login();
             cy.visit('/trusts/contacts/in-dfe?uid=5527');
         });
 
@@ -207,9 +202,6 @@ describe("Testing the components of the Trust contacts page", () => {
     });
 
     describe("Testing the contacts sub navigation", () => {
-        beforeEach(() => {
-            cy.login();
-        });
 
         it('Should check that the contacts in dfe navigation button takes me to the correct page', () => {
             cy.visit('/trusts/contacts/in-the-trust?uid=5527');
@@ -253,7 +245,6 @@ describe("Testing the components of the Trust contacts page", () => {
 
         describe("Testing a trust that has no contacts within it to ensure the issue of a 500 page appearing does not happen", () => {
             beforeEach(() => {
-                cy.login();
                 commonPage.interceptAndVerifyNo500Errors();
             });
 

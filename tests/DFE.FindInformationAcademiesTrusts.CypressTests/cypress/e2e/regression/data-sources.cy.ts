@@ -4,10 +4,6 @@ import { TestDataStore } from "../../support/test-data-store";
 
 describe("Testing the data sources component", () => {
 
-    beforeEach(() => {
-        cy.login();
-    });
-
     describe("Content pages", () => {
         ['/', '/search', '/accessibility', '/cookies', '/privacy', '/error'].forEach((url) => {
             it(`Should not have a data sources component on ${url}`, () => {

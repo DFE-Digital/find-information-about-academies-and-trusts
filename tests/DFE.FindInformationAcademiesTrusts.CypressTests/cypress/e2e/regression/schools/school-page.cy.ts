@@ -2,9 +2,6 @@ import schoolsPage from "../../../pages/schools/schoolsPage";
 import { TestDataStore, testSchoolData } from "../../../support/test-data-store";
 
 describe("Testing the common components of the Schools pages", () => {
-    beforeEach(() => {
-        cy.login();
-    });
 
     describe("Header items", () => {
         testSchoolData.forEach(({ typeOfSchool, urn }) => {
