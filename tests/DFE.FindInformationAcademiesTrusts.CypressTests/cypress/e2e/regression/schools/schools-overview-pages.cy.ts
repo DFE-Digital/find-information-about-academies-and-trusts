@@ -2,9 +2,6 @@ import schoolsPage from "../../../pages/schools/schoolsPage";
 import { testSchoolData } from "../../../support/test-data-store";
 
 describe("Testing the Schools Overview pages", () => {
-    beforeEach(() => {
-        cy.login();
-    });
 
     describe("Overview tabs", () => {
         testSchoolData.forEach(({ typeOfSchool, urn }) => {
