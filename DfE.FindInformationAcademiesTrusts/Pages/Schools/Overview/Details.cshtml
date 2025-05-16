@@ -1,7 +1,118 @@
 @page
+@using DfE.FindInformationAcademiesTrusts.Data.Enums
+@using DfE.FindInformationAcademiesTrusts.Extensions
+@using DfE.FindInformationAcademiesTrusts.Services.School
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 
 @{
-  Layout = "_SchoolLayout";
+    Layout = "_SchoolLayout";
 }
 
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h3 class="govuk-heading-m" data-testid="subpage-header">
+            @Model.PageMetadata.SubPageName
+        </h3>
+
+        <dl class="govuk-summary-list govuk-!-margin-bottom-0">
+
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key" data-testid="details-address-header">
+                    Address
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.SchoolOverviewModel.Name, @Model.SchoolOverviewModel.Address
+                </dd>
+            </div>
+
+            @if (Model.SchoolCategory == SchoolCategory.Academy)
+            {
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key" data-testid="details-date-joined-trust-header">
+                        Date joined the trust
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        @Model.SchoolOverviewModel.DateJoinedTrust?.ToString(StringFormatConstants.DisplayFullDateFormat)
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key" data-testid="details-trust-header">
+                        Trust
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        <a data-testid="academy-trust-link" class="govuk-link" asp-page="/Trusts/Overview/TrustDetails"
+                           asp-route-uid="@Model.TrustSummary?.Uid">
+                            @Model.TrustSummary?.Name
+                        </a>
+                    </dd>
+                </div>
+            }
+
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key" data-testid="details-region-and-territory-header">
+                    Region and territory
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.SchoolOverviewModel.Region
+                </dd>
+            </div>
+
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key" data-testid="details-local-authority-header">
+                    Local authority
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.SchoolOverviewModel.LocalAuthority
+                </dd>
+            </div>
+
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key" data-testid="details-phase-and-age-range-header">
+                    Phase and age range
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.SchoolOverviewModel.PhaseOfEducationName,
+                    ages @Model.SchoolOverviewModel.AgeRange.ToFullDisplayString()
+                </dd>
+            </div>
+
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key" data-testid="details-has-nursery-classes-header">
+                    Has nursery classes
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.SchoolOverviewModel.NurseryProvision.ToText()
+                </dd>
+            </div>
+        </dl>
+
+        <hr class="govuk-section-break govuk-section-break--m">
+        <h3 class="govuk-heading-m" data-testid="details-information-from-other-services-header">Information from other
+            services</h3>
+        <p class="govuk-body">Links open in a new tab</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>
+                <a class="govuk-link" rel="noreferrer noopener" target="_blank" data-testid="details-gias-link"
+                   href="@Model.GetInformationAboutSchoolsLink">
+                    Get information about schools
+                </a>
+            </li>
+            <li>
+                <a class="govuk-link" rel="noreferrer noopener" target="_blank"
+                   data-testid="details-financial-benchmarking-link"
+                   href="@Model.FinancialBenchmarkingInsightsToolLink">
+                    Financial benchmarking
+                </a>
+            </li>
+            <li>
+                <a class="govuk-link" rel="noreferrer noopener" target="_blank"
+                   data-testid="details-find-school-performance-link" href="@Model.FindSchoolPerformanceLink">
+                    Find school college and performance data
+                </a>
+            </li>
+        </ul>
+        <hr class="govuk-section-break govuk-section-break--m">
+    </div>
+</div>

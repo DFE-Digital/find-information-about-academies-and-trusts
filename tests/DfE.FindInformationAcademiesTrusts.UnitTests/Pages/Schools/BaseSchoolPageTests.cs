@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools;
+using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.School;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,8 @@ public abstract class BaseSchoolPageTests<T> where T : SchoolAreaModel
     protected T Sut = null!;
     protected readonly ISchoolService MockSchoolService = Substitute.For<ISchoolService>();
     protected readonly ITrustService MockTrustService = Substitute.For<ITrustService>();
+    protected readonly IDataSourceService MockDataSourceService = Mocks.MockDataSourceService.CreateSubstitute();
+
     protected const int SchoolUrn = 123456;
     protected const int AcademyUrn = 888888;
 
