@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - Moved single and multi academy trust filters out of global filters
-- Added text to signle headline grades page to clarify where the data came from
+- Added text to single headline grades page to clarify where the data came from
 - Added filter to only show schools that are not closed
 - Overview pages for academy and schools
 
