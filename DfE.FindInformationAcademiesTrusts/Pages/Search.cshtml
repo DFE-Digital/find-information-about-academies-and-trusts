@@ -34,7 +34,7 @@
                         }
                         else
                         {
-                            <a asp-page="./schools/overview/details" asp-route-uid="@result.Id" class="govuk-!-font-weight-bold govuk-link govuk-!-font-size-24" data-testid="school-name">@Html.DisplayFor(modelItem => result.Name)</a>
+                            <a asp-page="./schools/overview/details" asp-route-urn="@result.Id" class="govuk-!-font-weight-bold govuk-link govuk-!-font-size-24" data-testid="school-name">@Html.DisplayFor(modelItem => result.Name)</a>
                         }
 
                         <dl class="govuk-summary-list govuk-summary-list--no-border app-search-results-summary-list">
