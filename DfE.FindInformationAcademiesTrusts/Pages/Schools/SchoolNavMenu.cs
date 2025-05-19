@@ -37,7 +37,13 @@ public static class SchoolNavMenu
                     "/Schools/Overview/Details",
                     activePage,
                     "overview-details-subnav"
-                )
+                ),
+                GetSubNavLinkTo<SenModel>(
+                    OverviewAreaModel.PageName,
+                    SenModel.SubPageName(),
+                    "/Schools/Overview/Sen",
+                    activePage,
+                    "overview-sen-subnav")
             ],
             _ => throw new ArgumentOutOfRangeException(nameof(activePage), activePage, "Page type is not supported.")
         };
