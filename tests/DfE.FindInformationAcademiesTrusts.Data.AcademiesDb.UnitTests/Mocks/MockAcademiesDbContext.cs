@@ -158,7 +158,8 @@ public class MockAcademiesDbContext
         {
             Urn = urn ?? GiasEstablishments.GetNextId(e => e.Urn),
             EstablishmentName = establishmentName ?? $"Academy {GiasEstablishments.Count + 1}",
-            EstablishmentTypeGroupName = establishmentType
+            EstablishmentTypeGroupName = establishmentType,
+            EstablishmentStatusName = "Open"
         };
         GiasEstablishments.Add(giasEstablishment);
 

@@ -178,7 +178,8 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Reposito
                 EstablishmentName = "Inspire 1234",
                 Urn = 99999,
                 EstablishmentTypeGroupName = "Local authority maintained schools",
-                TypeOfEstablishmentName = "Community school"
+                TypeOfEstablishmentName = "Community school",
+                EstablishmentStatusName = "Open"
             });
 
             var searchResults = await _sut.GetSearchResultsAsync("Inspire", _pageSize);
@@ -226,7 +227,8 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Reposito
                 EstablishmentName = "Inspire 1234",
                 Urn = 99999,
                 EstablishmentTypeGroupName = "Local authority maintained schools",
-                TypeOfEstablishmentName = "Community school"
+                TypeOfEstablishmentName = "Community school",
+                EstablishmentStatusName = "Open"
             });
 
             var searchResults = await _sut.GetAutoCompleteSearchResultsAsync("Inspire");
