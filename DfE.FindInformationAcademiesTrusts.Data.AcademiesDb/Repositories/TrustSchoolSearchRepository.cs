@@ -26,8 +26,7 @@ public class TrustSchoolSearchRepository(IAcademiesDbContext academiesDbContext)
             return ([], new SearchResultCount(0, 0, 0));
 
         //Now get all the results
-        var searchQuery = BuildSearchQueryWithSelect(text);
-        var results = await searchQuery.OrderBy(g => g.Name)
+        var results = await BuildOrderedSearchResultQuery(text)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToArrayAsync();
@@ -42,9 +41,7 @@ public class TrustSchoolSearchRepository(IAcademiesDbContext academiesDbContext)
             return [];
         }
 
-        var searchQuery = BuildSearchQueryWithSelect(text);
-
-        var results = await searchQuery.OrderBy(g => g.Name)
+        var results = await BuildOrderedSearchResultQuery(text)
             .Take(5)
             .ToArrayAsync();
 
@@ -68,10 +65,14 @@ public class TrustSchoolSearchRepository(IAcademiesDbContext academiesDbContext)
                 || x.Urn.ToString().Contains(searchTerm));
     }
 
-    private IQueryable<SearchResult> BuildSearchQueryWithSelect(string text)
+    private IQueryable<SearchResult> BuildOrderedSearchResultQuery(string text)
     {
         return SelectTrusts(CreateTrustSearchQuery(text))
-            .Union(SelectSchools(CreateSchoolSearchQuery(text)));
+            .Union(SelectSchools(CreateSchoolSearchQuery(text)))
+            //Two entities could have the same (case-insensitive) name (e.g. a single academy trust or a school with a
+            //common name like "St. Mary's") so ensure that we order by another property too for consistent returns
+            .OrderBy(g => g.Name)
+            .ThenBy(g => g.Id);
     }
 
     private static IQueryable<SearchResult> SelectTrusts(IQueryable<GiasGroup> trustsBaseQuery)
