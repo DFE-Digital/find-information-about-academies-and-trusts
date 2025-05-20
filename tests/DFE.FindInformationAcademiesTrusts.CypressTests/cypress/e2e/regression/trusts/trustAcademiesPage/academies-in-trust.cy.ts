@@ -100,6 +100,10 @@ describe("Testing the components of the Academies page", () => {
                 .checkPupilNumbersSorting();
         });
 
+        it("Checks the valid phase types are present on an age range", () => {
+            academiesInTrustPage
+                .checkCorrectPhaseTypePresent();
+        });
     });
 
     describe("Free school meals", () => {
