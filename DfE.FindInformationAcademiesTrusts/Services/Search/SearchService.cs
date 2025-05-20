@@ -1,5 +1,4 @@
 ﻿using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Search;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.Search;
@@ -10,7 +9,7 @@ public interface ISearchService
     Task<PagedSearchResults> GetSearchResultsForPageAsync(string? keyWords, int pageNumber);
 }
 
-public class SearchService(ITrustSchoolSearchRepository trustSchoolSearchRepository, IStringFormattingUtilities stringFormattingUtilities) : ISearchService
+public class SearchService(ITrustSchoolSearchRepository trustSchoolSearchRepository) : ISearchService
 {
     private const int PageSize = 20;
 
@@ -44,10 +43,11 @@ public class SearchService(ITrustSchoolSearchRepository trustSchoolSearchReposit
                 searchResults.NumberOfResults.NumberOfSchools));
     }
 
-    private SearchResultServiceModel[] BuildResults(SearchResult[] results)
+    private static SearchResultServiceModel[] BuildResults(SearchResult[] results)
     {
         return results.Select(x =>
-                new SearchResultServiceModel(x.Id, x.Name, stringFormattingUtilities.BuildAddressString(x.Street, x.Locality, x.Town, x.PostCode), x.TrustGroupId, x.Type, x.IsTrust ? ResultType.Trust : ResultType.School))
+                new SearchResultServiceModel(x.Id, x.Name, x.Address, x.TrustGroupId, x.Type,
+                    x.IsTrust ? ResultType.Trust : ResultType.School))
             .ToArray();
     }
 }

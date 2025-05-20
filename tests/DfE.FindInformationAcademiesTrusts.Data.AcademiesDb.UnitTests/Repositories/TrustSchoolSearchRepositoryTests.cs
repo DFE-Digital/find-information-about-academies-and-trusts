@@ -13,7 +13,7 @@ public class TrustSchoolSearchRepositoryTests
 
     public TrustSchoolSearchRepositoryTests()
     {
-        _sut = new TrustSchoolSearchRepository(_mockAcademiesDbContext.Object);
+        _sut = new TrustSchoolSearchRepository(_mockAcademiesDbContext.Object, new StringFormattingUtilities());
     }
 
     [Theory]
@@ -158,7 +158,11 @@ public class TrustSchoolSearchRepositoryTests
             GroupType = "Multi-academy trust",
             GroupId = "TR01234",
             GroupName = "Inspire 1234",
-            GroupStatusCode = "OPEN"
+            GroupStatusCode = "OPEN",
+            GroupContactStreet = "A street",
+            GroupContactTown = "Town",
+            GroupContactLocality = "Station Road",
+            GroupContactPostcode = "GH1 8JH"
         });
 
         var searchResults = await _sut.GetSearchResultsAsync("Inspire 1234", PageSize);
@@ -170,7 +174,8 @@ public class TrustSchoolSearchRepositoryTests
                 Name = "Inspire 1234",
                 TrustGroupId = "TR01234",
                 IsTrust = true,
-                Type = "Multi-academy trust"
+                Type = "Multi-academy trust",
+                Address = "A street, Station Road, Town, GH1 8JH"
             });
     }
 
@@ -183,7 +188,11 @@ public class TrustSchoolSearchRepositoryTests
             Urn = 99999,
             EstablishmentTypeGroupName = "Local authority maintained schools",
             TypeOfEstablishmentName = "Community school",
-            EstablishmentStatusName = "Open"
+            EstablishmentStatusName = "Open",
+            Street = "A street",
+            Town = "Town",
+            Locality = "Station Road",
+            Postcode = "GH1 8JH"
         });
 
         var searchResults = await _sut.GetSearchResultsAsync("Inspire", PageSize);
@@ -194,7 +203,8 @@ public class TrustSchoolSearchRepositoryTests
                 Id = "99999",
                 Name = "Inspire 1234",
                 IsTrust = false,
-                Type = "Community school"
+                Type = "Community school",
+                Address = "A street, Station Road, Town, GH1 8JH"
             });
     }
 
@@ -207,7 +217,11 @@ public class TrustSchoolSearchRepositoryTests
             GroupType = "Multi-academy trust",
             GroupId = "TR01234",
             GroupName = "Inspire 1234",
-            GroupStatusCode = "OPEN"
+            GroupStatusCode = "OPEN",
+            GroupContactStreet = "A street",
+            GroupContactTown = "Town",
+            GroupContactLocality = "Station Road",
+            GroupContactPostcode = "GH1 8JH"
         });
 
         var result = await _sut.GetAutoCompleteSearchResultsAsync("Inspire 1234");
@@ -219,7 +233,8 @@ public class TrustSchoolSearchRepositoryTests
                 Name = "Inspire 1234",
                 TrustGroupId = "TR01234",
                 IsTrust = true,
-                Type = "Multi-academy trust"
+                Type = "Multi-academy trust",
+                Address = "A street, Station Road, Town, GH1 8JH"
             });
     }
 
@@ -232,7 +247,11 @@ public class TrustSchoolSearchRepositoryTests
             Urn = 99999,
             EstablishmentTypeGroupName = "Local authority maintained schools",
             TypeOfEstablishmentName = "Community school",
-            EstablishmentStatusName = "Open"
+            EstablishmentStatusName = "Open",
+            Street = "A street",
+            Town = "Town",
+            Locality = "Station Road",
+            Postcode = "GH1 8JH"
         });
 
         var searchResults = await _sut.GetAutoCompleteSearchResultsAsync("Inspire");
@@ -243,7 +262,8 @@ public class TrustSchoolSearchRepositoryTests
                 Id = "99999",
                 Name = "Inspire 1234",
                 IsTrust = false,
-                Type = "Community school"
+                Type = "Community school",
+                Address = "A street, Station Road, Town, GH1 8JH"
             });
     }
 

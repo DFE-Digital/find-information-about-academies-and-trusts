@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 
-public class TrustSchoolSearchRepository(IAcademiesDbContext academiesDbContext) : ITrustSchoolSearchRepository
+public class TrustSchoolSearchRepository(
+    IAcademiesDbContext academiesDbContext,
+    IStringFormattingUtilities stringFormattingUtilities) : ITrustSchoolSearchRepository
 {
     public async Task<(SearchResult[] Results, SearchResultCount NumberOfResults)> GetSearchResultsAsync(string? text,
         int pageSize, int page = 1)
@@ -72,13 +74,26 @@ public class TrustSchoolSearchRepository(IAcademiesDbContext academiesDbContext)
             //Two entities could have the same (case-insensitive) name (e.g. a single academy trust or a school with a
             //common name like "St. Mary's") so ensure that we order by another property too for consistent returns
             .OrderBy(g => g.Name)
-            .ThenBy(g => g.Id);
+            .ThenBy(g => g.Id)
+            .Select(x => new SearchResult
+            {
+                Name = x.Name,
+                Id = x.Id,
+                TrustGroupId = x.TrustGroupId,
+                Type = x.Type,
+                IsTrust = x.IsTrust,
+                Address = stringFormattingUtilities.BuildAddressString(
+                    x.Street,
+                    x.Locality,
+                    x.Town,
+                    x.PostCode)
+            });
     }
 
-    private static IQueryable<SearchResult> SelectTrusts(IQueryable<GiasGroup> trustsBaseQuery)
+    private static IQueryable<TempSearchResult> SelectTrusts(IQueryable<GiasGroup> trustsBaseQuery)
     {
         var query = trustsBaseQuery
-            .Select(g => new SearchResult
+            .Select(g => new TempSearchResult
             {
                 Street = g.GroupContactStreet,
                 Locality = g.GroupContactLocality,
@@ -93,10 +108,10 @@ public class TrustSchoolSearchRepository(IAcademiesDbContext academiesDbContext)
         return query;
     }
 
-    private static IQueryable<SearchResult> SelectSchools(IQueryable<GiasEstablishment> schoolsBaseQuery)
+    private static IQueryable<TempSearchResult> SelectSchools(IQueryable<GiasEstablishment> schoolsBaseQuery)
     {
         var query = schoolsBaseQuery
-            .Select(e => new SearchResult
+            .Select(e => new TempSearchResult
             {
                 Street = e.Street,
                 Locality = e.Locality,
@@ -109,5 +124,18 @@ public class TrustSchoolSearchRepository(IAcademiesDbContext academiesDbContext)
                 IsTrust = false
             });
         return query;
+    }
+
+    private sealed class TempSearchResult
+    {
+        public string Id { get; init; } = null!;
+        public string Name { get; init; } = null!;
+        public string? Street { get; init; }
+        public string? Locality { get; init; }
+        public string? Town { get; init; }
+        public string? PostCode { get; init; }
+        public string? TrustGroupId { get; init; }
+        public string Type { get; init; } = null!;
+        public bool IsTrust { get; init; }
     }
 }
