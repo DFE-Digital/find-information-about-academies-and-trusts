@@ -33,9 +33,9 @@ public class AgeRangeExtensionsTests
     }
 
     [Fact]
-    public void ToDataSortValue_should_return_empty_when_null()
+    public void ToDataSortValue_should_return_negative_1_when_null()
     {
         AgeRange? nullAge = null;
-        nullAge.ToDataSortValue().Should().BeEmpty();
+        nullAge.ToDataSortValue().Should().Be("-1");
     }
 }

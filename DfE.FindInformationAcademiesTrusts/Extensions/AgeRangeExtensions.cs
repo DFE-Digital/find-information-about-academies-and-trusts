@@ -16,6 +16,6 @@ public static class AgeRangeExtensions
 
     public static string ToDataSortValue(this AgeRange? ageRange)
     {
-        return ageRange is null ? string.Empty : $"{ageRange.Minimum:D2}{ageRange.Maximum:D2}";
+        return ageRange is null ? "-1" : $"{ageRange.Minimum:D2}{ageRange.Maximum:D2}";
     }
 }
