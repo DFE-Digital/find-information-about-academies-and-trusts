@@ -43,7 +43,7 @@
             data-testid="percentage-full">
           @if (academy.PercentageFull is not null)
           {
-            @academy.PercentageFull?.ToString("N0")<span>%</span>
+            @($"{academy.PercentageFull?.ToString("N1")}%")
           }
         </td>
       </tr>
