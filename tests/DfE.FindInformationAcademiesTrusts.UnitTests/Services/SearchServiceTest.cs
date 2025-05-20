@@ -48,34 +48,19 @@ public class SearchServiceTest
     {
         var searchText = "a";
 
-        SearchResult trustResult = new()
-        {
-            Id = "123456",
-            Name = "A Cool Trust",
-            IsTrust = true,
-            TrustGroupId = "TR123",
-            Address = "A street, Station Road, Town, GH1 8JH",
-            Type = "Multi-academy"
-        };
+        SearchResult trustResult = new("123456", "A Cool Trust", "Multi-academy",
+            "A street, Station Road, Town, GH1 8JH", true, "TR123");
 
-        SearchResult schoolResult = new()
-        {
-            Id = "65432",
-            Name = "A Cool School",
-            IsTrust = false,
-            Address = "Another street, Station Road, Town, GH1 8JH",
-            Type = "Community school"
-        };
+        SearchResult schoolResult = new("65432", "A Cool School", "Community school",
+            "Another street, Station Road, Town, GH1 8JH", false, null);
 
         SearchResult[] results = [trustResult, schoolResult];
 
-        var expectedTrustResult = new SearchResultServiceModel(trustResult.Id, trustResult.Name,
-            "A street, Station Road, Town, GH1 8JH", trustResult.TrustGroupId, trustResult.Type,
-            ResultType.Trust);
+        var expectedTrustResult = new SearchResultServiceModel(trustResult.Id, trustResult.Name, trustResult.Address,
+            trustResult.TrustReferenceNumber, trustResult.Type, ResultType.Trust);
 
         var expectedSchoolResult = new SearchResultServiceModel(schoolResult.Id, schoolResult.Name,
-            "Another street, Station Road, Town, GH1 8JH", null, schoolResult.Type,
-            ResultType.School);
+            schoolResult.Address, null, schoolResult.Type, ResultType.School);
 
         _mockTrustSchoolSearchRepository.GetSearchResultsAsync(searchText, _pageSize)
             .Returns((results, new SearchResultCount(results.Length, 1, 1)));
@@ -94,29 +79,16 @@ public class SearchServiceTest
     {
         var searchText = "a";
 
-        SearchResult trustResult = new()
-        {
-            Id = "123456",
-            Name = "A Cool Trust",
-            IsTrust = true,
-            TrustGroupId = "TR123",
-            Address = "A street, Station Road, Town, GH1 8JH",
-            Type = "Multi-academy"
-        };
+        SearchResult trustResult = new("123456", "A Cool Trust", "Multi-academy",
+            "A street, Station Road, Town, GH1 8JH", true, "TR123");
 
-        SearchResult schoolResult = new()
-        {
-            Id = "65432",
-            Name = "A Cool School",
-            IsTrust = false,
-            Address = "Another street, Station Road, Town, GH1 8JH",
-            Type = "Community school"
-        };
+        SearchResult schoolResult = new("65432", "A Cool School", "Community school",
+            "Another street, Station Road, Town, GH1 8JH", false, null);
 
         SearchResult[] results = [trustResult, schoolResult];
 
         var expectedTrustResult = new SearchResultServiceModel(trustResult.Id, trustResult.Name,
-            "A street, Station Road, Town, GH1 8JH", trustResult.TrustGroupId, trustResult.Type,
+            "A street, Station Road, Town, GH1 8JH", trustResult.TrustReferenceNumber, trustResult.Type,
             ResultType.Trust);
 
         var expectedSchoolResult = new SearchResultServiceModel(schoolResult.Id, schoolResult.Name,

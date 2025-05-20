@@ -75,19 +75,11 @@ public class TrustSchoolSearchRepository(
             //common name like "St. Mary's") so ensure that we order by another property too for consistent returns
             .OrderBy(g => g.Name)
             .ThenBy(g => g.Id)
-            .Select(x => new SearchResult
-            {
-                Name = x.Name,
-                Id = x.Id,
-                TrustGroupId = x.TrustGroupId,
-                Type = x.Type,
-                IsTrust = x.IsTrust,
-                Address = stringFormattingUtilities.BuildAddressString(
-                    x.Street,
-                    x.Locality,
-                    x.Town,
-                    x.PostCode)
-            });
+            .Select(x => new SearchResult(x.Id, x.Name, x.Type, stringFormattingUtilities.BuildAddressString(
+                x.Street,
+                x.Locality,
+                x.Town,
+                x.PostCode), x.IsTrust, x.TrustGroupId));
     }
 
     private static IQueryable<TempSearchResult> SelectTrusts(IQueryable<GiasGroup> trustsBaseQuery)

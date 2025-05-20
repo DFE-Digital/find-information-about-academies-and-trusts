@@ -168,15 +168,8 @@ public class TrustSchoolSearchRepositoryTests
         var searchResults = await _sut.GetSearchResultsAsync("Inspire 1234", PageSize);
 
         searchResults.Results.Should().ContainSingle()
-            .Which.Should().BeEquivalentTo(new SearchResult
-            {
-                Id = "1234",
-                Name = "Inspire 1234",
-                TrustGroupId = "TR01234",
-                IsTrust = true,
-                Type = "Multi-academy trust",
-                Address = "A street, Station Road, Town, GH1 8JH"
-            });
+            .Which.Should().BeEquivalentTo(new SearchResult("1234", "Inspire 1234", "Multi-academy trust",
+                "A street, Station Road, Town, GH1 8JH", true, "TR01234"));
     }
 
     [Fact]
@@ -198,14 +191,8 @@ public class TrustSchoolSearchRepositoryTests
         var searchResults = await _sut.GetSearchResultsAsync("Inspire", PageSize);
 
         searchResults.Results.Should().ContainSingle()
-            .Which.Should().BeEquivalentTo(new SearchResult
-            {
-                Id = "99999",
-                Name = "Inspire 1234",
-                IsTrust = false,
-                Type = "Community school",
-                Address = "A street, Station Road, Town, GH1 8JH"
-            });
+            .Which.Should().BeEquivalentTo(new SearchResult(Id: "99999", Name: "Inspire 1234",
+                Type: "Community school", Address: "A street, Station Road, Town, GH1 8JH", IsTrust: false, TrustReferenceNumber: null));
     }
 
     [Fact]
@@ -227,15 +214,8 @@ public class TrustSchoolSearchRepositoryTests
         var result = await _sut.GetAutoCompleteSearchResultsAsync("Inspire 1234");
 
         result.Should().ContainSingle()
-            .Which.Should().BeEquivalentTo(new SearchResult
-            {
-                Id = "1234",
-                Name = "Inspire 1234",
-                TrustGroupId = "TR01234",
-                IsTrust = true,
-                Type = "Multi-academy trust",
-                Address = "A street, Station Road, Town, GH1 8JH"
-            });
+            .Which.Should().BeEquivalentTo(new SearchResult("1234", "Inspire 1234", "Multi-academy trust",
+                "A street, Station Road, Town, GH1 8JH", true, "TR01234"));
     }
 
     [Fact]
@@ -257,14 +237,8 @@ public class TrustSchoolSearchRepositoryTests
         var searchResults = await _sut.GetAutoCompleteSearchResultsAsync("Inspire");
 
         searchResults.Should().ContainSingle()
-            .Which.Should().BeEquivalentTo(new SearchResult
-            {
-                Id = "99999",
-                Name = "Inspire 1234",
-                IsTrust = false,
-                Type = "Community school",
-                Address = "A street, Station Road, Town, GH1 8JH"
-            });
+            .Which.Should().BeEquivalentTo(new SearchResult(Id: "99999", Name: "Inspire 1234",
+                Type: "Community school", Address: "A street, Station Road, Town, GH1 8JH", IsTrust: false, TrustReferenceNumber: null));
     }
 
     [Theory]
@@ -487,7 +461,7 @@ public class TrustSchoolSearchRepositoryTests
         var searchResults = await _sut.GetSearchResultsAsync("TR01234", PageSize);
 
         searchResults.Results.Should().ContainSingle()
-            .Which.TrustGroupId.Should().Be("TR01234");
+            .Which.TrustReferenceNumber.Should().Be("TR01234");
     }
 
     [Fact]
@@ -511,7 +485,7 @@ public class TrustSchoolSearchRepositoryTests
         var result = await _sut.GetAutoCompleteSearchResultsAsync("TR01234");
 
         result.Should().ContainSingle()
-            .Which.TrustGroupId.Should().Be("TR01234");
+            .Which.TrustReferenceNumber.Should().Be("TR01234");
     }
 
     [Fact]
@@ -553,7 +527,7 @@ public class TrustSchoolSearchRepositoryTests
 
         // Assert
         searchResults.Results.Should().HaveCount(2);
-        searchResults.Results.Should().Contain(t => t.TrustGroupId == "TR01234");
+        searchResults.Results.Should().Contain(t => t.TrustReferenceNumber == "TR01234");
         searchResults.Results.Should().Contain(t => t.Name == "Trust 1234");
     }
 
@@ -580,7 +554,7 @@ public class TrustSchoolSearchRepositoryTests
         var result = await _sut.GetAutoCompleteSearchResultsAsync("1234");
 
         result.Should().HaveCount(2);
-        result.Should().Contain(t => t.TrustGroupId == "TR01234");
+        result.Should().Contain(t => t.TrustReferenceNumber == "TR01234");
         result.Should().Contain(t => t.Name == "Trust 1234");
     }
 
