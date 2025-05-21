@@ -1,0 +1,44 @@
+@model ContactModel
+
+<div class="govuk-summary-card" data-testid="@Model.DataTestId">
+  <div class="govuk-summary-card__title-wrapper">
+    <h3 class="govuk-summary-card__title">
+      @Model.ContactType
+    </h3>
+  </div>
+
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Name
+        </dt>
+        @if (!string.IsNullOrWhiteSpace(Model.Person.FullName))
+        {
+          <dd class="govuk-summary-list__value" data-testid="contact-name">@Model.Person.FullName</dd>
+        }
+        else
+        {
+          <dd class="govuk-summary-list__value" data-testid="contact-name">No contact name available</dd>
+        }
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Email address
+        </dt>
+        @if (!string.IsNullOrWhiteSpace(Model.Person.Email))
+        {
+          <dd class="govuk-summary-list__value">
+            <a class="govuk-link" href="mailto:@Model.Person.Email" rel="noopener" target="_blank"
+               data-testid="contact-email">@Model.Person.Email</a>
+          </dd>
+        }
+        else
+        {
+          <dd class="govuk-summary-list__value" data-testid="contact-email">No contact email available</dd>
+        }
+      </div>
+    </dl>
+  </div>
+
+</div>
