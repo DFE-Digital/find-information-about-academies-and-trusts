@@ -40,7 +40,7 @@ public static class SchoolNavMenu
                 ),
                 GetSubNavLinkTo<SenModel>(
                     OverviewAreaModel.PageName,
-                    SenModel.SubPageName(),
+                    SenModel.SubPageName,
                     "/Schools/Overview/Sen",
                     activePage,
                     "overview-sen-subnav")

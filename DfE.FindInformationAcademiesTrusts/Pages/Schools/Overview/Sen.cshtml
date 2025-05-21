@@ -14,25 +14,25 @@
         <dt class="govuk-summary-list__key govuk-!-width-two-thirds">
           Resourced provision number on roll
         </dt>
-        <dd class="govuk-summary-list__value">57</dd>
+        <dd class="govuk-summary-list__value">@Model.ResourcedProvisionOnRoll</dd>
       </div>
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key govuk-!-width-two-thirds">
           Resourced provision capacity
         </dt>
-        <dd class="govuk-summary-list__value">68</dd>
+        <dd class="govuk-summary-list__value">@Model.ResourcedProvisionCapacity</dd>
       </div>
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key govuk-!-width-two-thirds">
           Special Educational Needs (SEN) unit number on roll
         </dt>
-        <dd class="govuk-summary-list__value">17</dd>
+        <dd class="govuk-summary-list__value">@Model.SenOnRoll</dd>
       </div>
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key govuk-!-width-two-thirds">
           Special Educational Needs (SEN) unit number capacity
         </dt>
-        <dd class="govuk-summary-list__value">20</dd>
+        <dd class="govuk-summary-list__value">@Model.SenCapacity</dd>
       </div>
     </dl>
     <hr class="govuk-section-break govuk-section-break--m"/>
@@ -43,8 +43,7 @@
           Type of resourced provision
         </dt>
         <dd class="govuk-summary-list__value">
-          @* value goes here *@
-          Resourced provision and SEN unit
+          @Model.ResourcedProvisionType
         </dd>
       </div>
       <div class="govuk-summary-list__row">
@@ -53,58 +52,52 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <ul class="govuk-list">
-            @* loop goes here *@
-            <li>SpLD - Specific Learning Difficulty</li>
-            <li>VI - Visual Impairment</li>
-            <li>OTH - Other Difficulty/Disability</li>
-            <li>HI - Hearing Impairment</li>
-            <li>SLCN - Speech, Language and Communication</li>
-            <li>ASD - Autistic Spectrum Disorder</li>
-            <li>SEMH - Social, Emotional and Mental Health</li>
-            <li>MSI - Multi-Sensory Impairment</li>
-            <li>PD - Physical Disability</li>
-            <li>MLD - Moderate Learning Difficulty</li>
-            <li>SLD - Severe Learning Difficulty</li>
-            <li>PMLD - Profound and Multiple Learning Difficulty</li>
+            @if (Model.SenProvisionTypes.Count > 0)
+            {
+              foreach (var SenType in Model.SenProvisionTypes)
+              {
+                <li>@SenType</li>
+              }
+            }
           </ul>
         </dd>
       </div>
     </dl>
     <hr class="govuk-section-break govuk-section-break--m"/>
-    <details class="govuk-details">
-      <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">Where this information came from</span>
-      </summary>
-      <div class="govuk-details__text">
-        <p class="govuk-body">
-          <span class="govuk-!-font-weight-bold">Academy details:</span>
-        </p>
-        <ul class="govuk-list govuk-list--bullet">
-          @*insert actual dates*@
-          <li>All information was taken from Get information about schools on 17 February 2025.</li>
-        </ul>
-
-        <p class="govuk-body">
-          <span class="govuk-!-font-weight-bold">Reference numbers:</span>
-        </p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>All information was taken from Get information about schools on 17 February 2025.</li>
-        </ul>
-
-        <p class="govuk-body">
-          <span class="govuk-!-font-weight-bold">Federation details:</span>
-        </p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>All information was taken from Get information about schools on 17 February 2025.</li>
-        </ul>
-
-        <p class="govuk-body">
-          <span class="govuk-!-font-weight-bold">SEN (special educational needs):</span>
-        </p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>All information was taken from Get information about schools on 17 February 2025.</li>
-        </ul>
-      </div>
-    </details>
+    @* <details class="govuk-details"> *@
+    @*   <summary class="govuk-details__summary"> *@
+    @*     <span class="govuk-details__summary-text">Where this information came from</span> *@
+    @*   </summary> *@
+    @*   <div class="govuk-details__text"> *@
+    @*     <p class="govuk-body"> *@
+    @*       <span class="govuk-!-font-weight-bold">Academy details:</span> *@
+    @*     </p> *@
+    @*     <ul class="govuk-list govuk-list--bullet"> *@
+    @*       $1$insert actual dates#1# *@
+    @*       <li>All information was taken from Get information about schools on 17 February 2025.</li> *@
+    @*     </ul> *@
+    @* *@
+    @*     <p class="govuk-body"> *@
+    @*       <span class="govuk-!-font-weight-bold">Reference numbers:</span> *@
+    @*     </p> *@
+    @*     <ul class="govuk-list govuk-list--bullet"> *@
+    @*       <li>All information was taken from Get information about schools on 17 February 2025.</li> *@
+    @*     </ul> *@
+    @* *@
+    @*     <p class="govuk-body"> *@
+    @*       <span class="govuk-!-font-weight-bold">Federation details:</span> *@
+    @*     </p> *@
+    @*     <ul class="govuk-list govuk-list--bullet"> *@
+    @*       <li>All information was taken from Get information about schools on 17 February 2025.</li> *@
+    @*     </ul> *@
+    @* *@
+    @*     <p class="govuk-body"> *@
+    @*       <span class="govuk-!-font-weight-bold">SEN (special educational needs):</span> *@
+    @*     </p> *@
+    @*     <ul class="govuk-list govuk-list--bullet"> *@
+    @*       <li>All information was taken from Get information about schools on 17 February 2025.</li> *@
+    @*     </ul> *@
+    @*   </div> *@
+    @* </details> *@
   </div>
 </div>
