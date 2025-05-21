@@ -324,4 +324,15 @@ public class SearchModelTests
 
         await _mockSearchService.Received(1).GetSearchResultsForPageAsync(_sut.KeyWords, 1);
     }
+
+    [Fact]
+    public async Task IfPageNumber_IsGreaterThanNumberOfResultsPages_Should404()
+    {
+        _sut.PageNumber = 99;
+        _sut.KeyWords = SearchTermThatMatchesAllFakeTrusts;
+
+        var result = await _sut.OnGetAsync();
+
+        result.Should().BeOfType<NotFoundResult>();
+    }
 }

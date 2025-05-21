@@ -45,34 +45,52 @@ public class SearchModel : ContentPageModel, IPageSearchFormModel, IPaginationMo
     {
         if (!string.IsNullOrWhiteSpace(Id))
         {
-            if (SearchResultType is ResultType.Trust)
+            var redirectResult = await GetRedirectToSchoolOrTrustAsync();
+            if (redirectResult is not null)
             {
-                var trust = await _trustService.GetTrustSummaryAsync(Id);
-
-                if (trust != null && string.Equals(trust.Name, KeyWords, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return RedirectToPage("/trusts/overview/trustdetails", new { Uid = Id });
-                }
-            }
-
-            if (SearchResultType is ResultType.School && int.TryParse(Id, out var schoolUrn))
-            {
-                var school = await _schoolService.GetSchoolSummaryAsync(schoolUrn);
-                if (school != null && string.Equals(school.Name, KeyWords, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return RedirectToPage("/schools/overview/details", new { urn = schoolUrn });
-                }
+                return redirectResult;
             }
         }
 
         var searchResults = await _searchService.GetSearchResultsForPageAsync(KeyWords, PageNumber);
+
+        // if there are results but the entered page number is higher than there should be
+        if (searchResults.ResultsList.PageStatus.TotalResults > 0 && PageNumber > searchResults.ResultsList.PageStatus.TotalPages)
+        {
+            return NotFound();
+        }
+
         SearchResults = searchResults.ResultsList;
         ResultCount = searchResults.ResultsOverview;
 
         PaginationRouteData = new Dictionary<string, string> { { "Keywords", KeyWords ?? string.Empty } };
         return new PageResult();
     }
-    
+
+    private async Task<IActionResult?> GetRedirectToSchoolOrTrustAsync()
+    {
+        if (SearchResultType is ResultType.Trust)
+        {
+            var trust = await _trustService.GetTrustSummaryAsync(Id);
+
+            if (trust != null && string.Equals(trust.Name, KeyWords, StringComparison.CurrentCultureIgnoreCase))
+            {
+                return RedirectToPage("/trusts/overview/trustdetails", new { Uid = Id });
+            }
+        }
+
+        if (SearchResultType is ResultType.School && int.TryParse(Id, out var schoolUrn))
+        {
+            var school = await _schoolService.GetSchoolSummaryAsync(schoolUrn);
+            if (school != null && string.Equals(school.Name, KeyWords, StringComparison.CurrentCultureIgnoreCase))
+            {
+                return RedirectToPage("/schools/overview/details", new { urn = schoolUrn });
+            }
+        }
+
+        return null;
+    }
+
     public async Task<IActionResult> OnGetPopulateAutocompleteAsync()
     {
         var result = (await _searchService.GetSearchResultsForAutocompleteAsync(KeyWords!))
