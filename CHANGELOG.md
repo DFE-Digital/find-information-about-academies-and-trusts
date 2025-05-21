@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+## [Release-32][release-32] (production-2025-05-21.5738)
+
+### Changed
+
+- Fix to set phase and age range in the format 'Phase 1-100'
+- Fix to set age range in the format '1-100'
+- Accessibility fixes for percentage sign being in a span or having a space after the number
+- Date columns all sort correctly by date value
+- Fixed missing pipeline academy sort by URN
+
 ## [Release-31][release-31] (production-2025-05-19.5713)
 
 ### Changed
@@ -331,7 +341,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated text on "404 - Not Found" page to adhere to DfE design pattern and added the not found url to the support email template.
 
 [unreleased]:
-  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/compare/production-2025-05-19.5713...HEAD
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/compare/production-2025-05-21.5738...HEAD
 [release-1]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-07-18.2517
 [release-2]:
@@ -394,3 +404,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-05-06.5593
 [release-31]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-05-19.5713
+[release-32]:
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-05-21.5738
