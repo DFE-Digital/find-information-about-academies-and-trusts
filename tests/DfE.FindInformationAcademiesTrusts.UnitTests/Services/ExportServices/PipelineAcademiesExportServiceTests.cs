@@ -78,18 +78,18 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
                     "School Name", "URN", "Age range", "Local authority", "Project type",
                     "Proposed conversion or transfer date"
                 ],
-                ["Academy 1", "1", "4 - 11", "Local Authority 1", "Pre-advisory", new DateTime(2025, 2, 19)],
+                ["Academy 1", "1", "4-11", "Local Authority 1", "Pre-advisory", new DateTime(2025, 2, 19)],
                 [],
                 ["Post-advisory academies"],
                 [
                     "School Name", "URN", "Age range", "Local authority", "Project type",
                     "Proposed conversion or transfer date"
                 ],
-                ["Academy 2", "2", "2 - 11", "Local Authority 2", "Post-advisory", new DateTime(2026, 2, 20)],
+                ["Academy 2", "2", "2-11", "Local Authority 2", "Post-advisory", new DateTime(2026, 2, 20)],
                 [],
                 ["Free schools"],
                 ["School Name", "URN", "Age range", "Local authority", "Project type", "Provisional opening date"],
-                ["Academy 3", "3", "11 - 18", "Local Authority 3", "Free school", new DateTime(2025, 6, 21)]
+                ["Academy 3", "3", "11-18", "Local Authority 3", "Free school", new DateTime(2025, 6, 21)]
             );
         }
 
@@ -151,27 +151,27 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services.ExportServices
                     "School Name", "URN", "Age range", "Local authority", "Project type",
                     "Proposed conversion or transfer date"
                 ],
-                ["B Academy", "2", "5 - 11", "Local Authority 2", "Pre-advisory", new DateTime(2024, 3, 2)],
-                ["S Academy 1", "3", "6 - 12", "Local Authority 3", "Pre-advisory", new DateTime(2025, 4, 3)],
-                ["S Academy 2", "4", "7 - 13", "Local Authority 4", "Pre-advisory", new DateTime(2026, 5, 4)],
-                ["z Academy", "1", "4 - 10", "Local Authority 1", "Pre-advisory", new DateTime(2023, 2, 1)],
+                ["B Academy", "2", "5-11", "Local Authority 2", "Pre-advisory", new DateTime(2024, 3, 2)],
+                ["S Academy 1", "3", "6-12", "Local Authority 3", "Pre-advisory", new DateTime(2025, 4, 3)],
+                ["S Academy 2", "4", "7-13", "Local Authority 4", "Pre-advisory", new DateTime(2026, 5, 4)],
+                ["z Academy", "1", "4-10", "Local Authority 1", "Pre-advisory", new DateTime(2023, 2, 1)],
                 [],
                 ["Post-advisory academies"],
                 [
                     "School Name", "URN", "Age range", "Local authority", "Project type",
                     "Proposed conversion or transfer date"
                 ],
-                ["Bb Academy 1", "7", "6 - 12", "Local Authority 3", "Post-advisory", new DateTime(2025, 4, 3)],
-                ["Bb Academy 2", "6", "5 - 11", "Local Authority 2", "Post-advisory", new DateTime(2024, 3, 2)],
-                ["Ss Academy", "8", "7 - 13", "Local Authority 4", "Post-advisory", new DateTime(2026, 5, 4)],
-                ["zz Academy", "5", "4 - 10", "Local Authority 1", "Post-advisory", new DateTime(2023, 2, 1)],
+                ["Bb Academy 1", "7", "6-12", "Local Authority 3", "Post-advisory", new DateTime(2025, 4, 3)],
+                ["Bb Academy 2", "6", "5-11", "Local Authority 2", "Post-advisory", new DateTime(2024, 3, 2)],
+                ["Ss Academy", "8", "7-13", "Local Authority 4", "Post-advisory", new DateTime(2026, 5, 4)],
+                ["zz Academy", "5", "4-10", "Local Authority 1", "Post-advisory", new DateTime(2023, 2, 1)],
                 [],
                 ["Free schools"],
                 ["School Name", "URN", "Age range", "Local authority", "Project type", "Provisional opening date"],
-                ["Aaa Academy", "9", "4 - 10", "Local Authority 1", "Free school", new DateTime(2023, 2, 1)],
-                ["Fff Academy", "12", "7 - 13", "Local Authority 4", "Free school", new DateTime(2026, 5, 4)],
-                ["Xxx Academy", "11", "6 - 12", "Local Authority 3", "Free school", new DateTime(2025, 4, 3)],
-                ["Zzz Academy", "10", "5 - 11", "Local Authority 2", "Free school", new DateTime(2024, 3, 2)]
+                ["Aaa Academy", "9", "4-10", "Local Authority 1", "Free school", new DateTime(2023, 2, 1)],
+                ["Fff Academy", "12", "7-13", "Local Authority 4", "Free school", new DateTime(2026, 5, 4)],
+                ["Xxx Academy", "11", "6-12", "Local Authority 3", "Free school", new DateTime(2025, 4, 3)],
+                ["Zzz Academy", "10", "5-11", "Local Authority 2", "Free school", new DateTime(2024, 3, 2)]
             );
         }
 

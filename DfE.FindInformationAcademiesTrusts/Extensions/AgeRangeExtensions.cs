@@ -8,4 +8,14 @@ public static class AgeRangeExtensions
     {
         return $"{ageRange.Minimum} to {ageRange.Maximum}";
     }
+
+    public static string ToTabularDisplayString(this AgeRange ageRange)
+    {
+        return $"{ageRange.Minimum}-{ageRange.Maximum}";
+    }
+
+    public static string ToDataSortValue(this AgeRange? ageRange)
+    {
+        return ageRange is null ? "-1" : $"{ageRange.Minimum:D2}{ageRange.Maximum:D2}";
+    }
 }
