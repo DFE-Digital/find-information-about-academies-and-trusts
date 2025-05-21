@@ -1,0 +1,20 @@
+@page "/schools/contacts/in-the-school"
+@model InSchoolModel
+
+@{
+  Layout = "_SchoolLayout";
+}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m" data-testid="subpage-header">
+      @Model.PageMetadata.SubPageName
+    </h2>
+
+    <partial name="Shared/_InternalUseOnlyWarning" model=@("Head teacher email addresses") />
+
+    <partial name="Contact/_DisplayContact" for="HeadTeacher" />
+
+    <hr class="govuk-section-break govuk-section-break--m">
+  </div>
+</div>
