@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DfE.FindInformationAcademiesTrusts.TestDataMigrator": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-name: fiat
+name: fiat 
 services:
   webapp:
     build:
@@ -13,3 +13,50 @@ services:
       - "80:8080/tcp"
     env_file:
       - .env
+      
+  academiesdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: mySuperStrong_pa55word!!!
+    ports:
+      - "1433:1433"
+    networks:
+      - test-data
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S 127.0.0.1 -U sa -P mySuperStrong_pa55word!!! -C -Q 'SELECT 1' || exit 1
+      interval: 2s
+      retries: 10
+    restart: always 
+
+  academiesdb.configurator:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+    networks:
+      - test-data
+    depends_on:
+      academiesdb:
+        condition: service_healthy
+    command: >
+      bash -c '
+      /opt/mssql-tools18/bin/sqlcmd -S academiesdb -U sa -P mySuperStrong_pa55word!!! -C -d master -i docker-entrypoint-initdb.d/init.sql;
+      echo "All done!";
+      '
+  migrator:
+    networks:
+      - test-data
+    depends_on:
+      academiesdb.configurator:
+        condition: service_completed_successfully
+    build:
+      context: ..
+      dockerfile: ./DfE.FindInformationAcademiesTrusts.TestDataMigrator/Dockerfile
+    develop:
+      watch: 
+        - path: ..
+          action: rebuild
+networks:
+  test-data:
+    name: infrastructure
+    driver: bridge
