@@ -27,6 +27,8 @@ public class SenModel(ISchoolService schoolService,
     public string? SenCapacity { get; set; }
     public string? ResourcedProvisionType { get; set; }
     public List<string> SenProvisionTypes { get; set; } = new();
+    
+    public static string NotAvailable = "Not available";
 
     public override async Task<IActionResult> OnGetAsync()
     {
@@ -34,11 +36,11 @@ public class SenModel(ISchoolService schoolService,
         if (pageResult is NotFoundResult) return pageResult;
 
         SchoolOverviewSenServiceModel = await schoolOverviewSenService.GetSchoolOverviewSenAsync(Urn);
-        ResourcedProvisionOnRoll = SchoolOverviewSenServiceModel.ResourcedProvisionOnRoll ?? "Not available";
-        ResourcedProvisionCapacity = SchoolOverviewSenServiceModel.ResourcedProvisionCapacity ?? "Not available";
-        SenOnRoll = SchoolOverviewSenServiceModel.SenOnRoll ?? "Not available";
-        SenCapacity = SchoolOverviewSenServiceModel.SenCapacity ?? "Not available";
-        ResourcedProvisionType = SchoolOverviewSenServiceModel.ResourcedProvisionTypes ?? "Not available";
+        ResourcedProvisionOnRoll = SchoolOverviewSenServiceModel.ResourcedProvisionOnRoll ?? NotAvailable;
+        ResourcedProvisionCapacity = SchoolOverviewSenServiceModel.ResourcedProvisionCapacity ?? NotAvailable;
+        SenOnRoll = SchoolOverviewSenServiceModel.SenOnRoll ?? NotAvailable;
+        SenCapacity = SchoolOverviewSenServiceModel.SenCapacity ?? NotAvailable;
+        ResourcedProvisionType = SchoolOverviewSenServiceModel.ResourcedProvisionTypes ?? NotAvailable;
         SenProvisionTypes = SchoolOverviewSenServiceModel.SenProvisionTypes.Count > 0 ? SchoolOverviewSenServiceModel.SenProvisionTypes :
         [
             "Not available"

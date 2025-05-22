@@ -49,7 +49,7 @@ public class SchoolOverviewSenServiceTests
         var result = await _sut.GetSchoolOverviewSenAsync(_schoolUrn);
         
         result.Should().BeEquivalentTo(expectedResult);
-        result.SenProvisionTypes.Count().Should().Be(13);
+        result.SenProvisionTypes.Count.Should().Be(13);
     }
 
     [Fact]
@@ -77,6 +77,6 @@ public class SchoolOverviewSenServiceTests
         var result = await _sut.GetSchoolOverviewSenAsync(_schoolUrn);
         
         result.Should().BeEquivalentTo(expectedResult);
-        result.SenProvisionTypes.Count().Should().Be(12);
+        result.SenProvisionTypes.Count.Should().Be(12);
     }
 }
