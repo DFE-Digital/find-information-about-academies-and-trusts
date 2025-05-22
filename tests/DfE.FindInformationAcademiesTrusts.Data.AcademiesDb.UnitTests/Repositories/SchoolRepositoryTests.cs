@@ -141,6 +141,8 @@ public class SchoolRepositoryTests
             new GiasEstablishment
             {
                 Urn = urn,
+                TypeOfEstablishmentName = "Foundation school",
+                EstablishmentTypeGroupName = "Local authority maintained schools",
                 ResourcedProvisionOnRoll = "2",
                 ResourcedProvisionCapacity = "3",
                 SenUnitOnRoll = "22",

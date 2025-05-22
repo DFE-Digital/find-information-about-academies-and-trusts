@@ -34,12 +34,15 @@ public class SenModel(ISchoolService schoolService,
         if (pageResult is NotFoundResult) return pageResult;
 
         SchoolOverviewSenServiceModel = await schoolOverviewSenService.GetSchoolOverviewSenAsync(Urn);
-        ResourcedProvisionOnRoll = SchoolOverviewSenServiceModel.ResourcedProvisionOnRoll != null ? SchoolOverviewSenServiceModel.ResourcedProvisionOnRoll : "Not available";
-        ResourcedProvisionCapacity = SchoolOverviewSenServiceModel.ResourcedProvisionCapacity != null ? SchoolOverviewSenServiceModel.ResourcedProvisionCapacity : "Not available";
-        SenOnRoll = SchoolOverviewSenServiceModel.SenOnRoll != null ? SchoolOverviewSenServiceModel.SenOnRoll : "Not available";
-        SenCapacity = SchoolOverviewSenServiceModel.SenCapacity != null ? SchoolOverviewSenServiceModel.SenCapacity : "Not available";
-        ResourcedProvisionType = SchoolOverviewSenServiceModel.ResourcedProvisionTypes != null ? SchoolOverviewSenServiceModel.ResourcedProvisionTypes : "Not available";
-        SenProvisionTypes = SchoolOverviewSenServiceModel.SenProvisionTypes.Count > 0 ? SchoolOverviewSenServiceModel.SenProvisionTypes : new List<string>{"Not available"};
+        ResourcedProvisionOnRoll = SchoolOverviewSenServiceModel.ResourcedProvisionOnRoll ?? "Not available";
+        ResourcedProvisionCapacity = SchoolOverviewSenServiceModel.ResourcedProvisionCapacity ?? "Not available";
+        SenOnRoll = SchoolOverviewSenServiceModel.SenOnRoll ?? "Not available";
+        SenCapacity = SchoolOverviewSenServiceModel.SenCapacity ?? "Not available";
+        ResourcedProvisionType = SchoolOverviewSenServiceModel.ResourcedProvisionTypes ?? "Not available";
+        SenProvisionTypes = SchoolOverviewSenServiceModel.SenProvisionTypes.Count > 0 ? SchoolOverviewSenServiceModel.SenProvisionTypes :
+        [
+            "Not available"
+        ];
         
         return pageResult;
     }
