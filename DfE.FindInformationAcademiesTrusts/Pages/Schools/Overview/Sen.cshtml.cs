@@ -28,7 +28,7 @@ public class SenModel(ISchoolService schoolService,
     public string? ResourcedProvisionType { get; set; }
     public List<string> SenProvisionTypes { get; set; } = new();
     
-    public static string NotAvailable = "Not available";
+    private static readonly string NotAvailable = "Not available";
 
     public override async Task<IActionResult> OnGetAsync()
     {
