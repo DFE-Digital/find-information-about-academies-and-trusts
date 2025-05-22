@@ -1,6 +1,8 @@
 import searchPage from "../../pages/searchPage";
 import homePage from "../../pages/homePage";
 import { testSchoolData } from "../../support/test-data-store";
+import navigation from "../../pages/navigation";
+import commonPage from "../../pages/commonPage";
 
 describe("Testing the components of the search results page", () => {
 
@@ -93,6 +95,21 @@ describe("Testing the components of the search results page", () => {
         searchPage
             .checkSearchResultsReturned("UNITED LEARNING TRUST")
             .checkSearchResultsInfoReturnsCorrectInfo("Found 1 trusts and 0 schools, including academies");
+    });
+
+    it.only('Checks that you cant go to a url for a search results page that does not exist', () => {
+        [`/search?keywords=west&pagenumber=1000`, `/search?keywords=west&pagenumber=0`].forEach((url) => {
+
+            commonPage
+                .interceptAndVerifyResponseHas404Status(url);
+
+            cy.visit(url, { failOnStatusCode: false });
+
+            cy.wait('@checkTheResponseIs404');
+
+            commonPage
+                .checkPageNotFoundDisplayed();
+        });
     });
 
     testSchoolData.forEach(({ typeOfSchool, urn, schoolName }) => {
