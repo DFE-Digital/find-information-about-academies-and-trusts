@@ -94,7 +94,7 @@ class SearchPage {
 
         this.elements.resultsInfo().invoke('text').then((text: string) => {
             const trustMatch = /Found (\d+) trusts/.exec(text);
-            const schoolMatch = /(\d+) schools/.exec(text);
+            const schoolMatch = /and (\d+) schools/.exec(text);
 
             if (trustMatch?.[1] && schoolMatch?.[1]) {
                 const trustCount = parseInt(trustMatch[1], 10);
