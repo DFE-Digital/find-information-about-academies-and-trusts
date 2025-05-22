@@ -335,4 +335,17 @@ public class SearchModelTests
 
         result.Should().BeOfType<NotFoundResult>();
     }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public async Task IfPageNumber_IsLessThanOrEqualTo0_Should404(int pageNumber)
+    {
+        _sut.PageNumber = pageNumber;
+        _sut.KeyWords = SearchTermThatMatchesAllFakeTrusts;
+
+        var result = await _sut.OnGetAsync();
+
+        result.Should().BeOfType<NotFoundResult>();
+    }
 }

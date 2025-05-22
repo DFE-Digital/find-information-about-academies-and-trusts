@@ -52,6 +52,11 @@ public class SearchModel : ContentPageModel, IPageSearchFormModel, IPaginationMo
             }
         }
 
+        if (PageNumber <= 0)
+        {
+            return NotFound();
+        }
+
         var searchResults = await _searchService.GetSearchResultsForPageAsync(KeyWords, PageNumber);
 
         // if there are results but the entered page number is higher than there should be
