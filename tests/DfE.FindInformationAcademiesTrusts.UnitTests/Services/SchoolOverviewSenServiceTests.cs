@@ -20,7 +20,7 @@ public class SchoolOverviewSenServiceTests
         "Resourced provision",
         new List<string>
         {
-            "Sen1", "Sen2", "Sen3", "Sen4", "Sen5", "Sen6", "Sen7", "Sen8", "Sen9", "Sen10", "Sen11", "Sen12", "Sen13"
+            "type1", "type2", "type3", "type4", "type5", "type6", "type7", "type8", "type9", "type10", "type11", "type12", "type13"
         }
     );
 
