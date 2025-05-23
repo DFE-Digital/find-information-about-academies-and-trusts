@@ -1,4 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.School;
@@ -41,7 +40,7 @@ public class SenModel(ISchoolService schoolService,
         SenOnRoll = SchoolOverviewSenServiceModel.SenOnRoll ?? NotAvailable;
         SenCapacity = SchoolOverviewSenServiceModel.SenCapacity ?? NotAvailable;
         ResourcedProvisionType = SchoolOverviewSenServiceModel.ResourcedProvisionTypes ?? NotAvailable;
-        SenProvisionTypes = SchoolOverviewSenServiceModel.SenProvisionTypes.Count > 0 ? SchoolOverviewSenServiceModel.SenProvisionTypes :
+        SenProvisionTypes = SchoolOverviewSenServiceModel.SenProvisionTypes[0] != null ? SchoolOverviewSenServiceModel.SenProvisionTypes :
         [
             "Not available"
         ];

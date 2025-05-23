@@ -51,32 +51,4 @@ public class SchoolOverviewSenServiceTests
         result.Should().BeEquivalentTo(expectedResult);
         result.SenProvisionTypes.Count.Should().Be(13);
     }
-
-    [Fact]
-    public async Task should_not_include_null_values_in_sen_provision_types_list()
-    {
-        _senProvision = _senProvision with { SenProvisionTypes = new List<string>
-        {
-            null!, "type2", "type3", "type4", "type5", "type6", "type7", "type8", "type9", "type10", "type11", "type12", "type13"
-        }};
-        
-        var expectedResult = new SchoolOverviewSenServiceModel(
-            "22",
-            "25",
-            "13",
-            "25",
-            "Resourced provision",
-            new List<string>
-            {
-                "type2", "type3", "type4", "type5", "type6", "type7", "type8", "type9", "type10", "type11",
-                "type12", "type13"
-            });
-        
-        _mockSchoolRepository.GetSchoolSenProvisionAsync(_schoolUrn).Returns(_senProvision);
-        
-        var result = await _sut.GetSchoolOverviewSenAsync(_schoolUrn);
-        
-        result.Should().BeEquivalentTo(expectedResult);
-        result.SenProvisionTypes.Count.Should().Be(12);
-    }
 }

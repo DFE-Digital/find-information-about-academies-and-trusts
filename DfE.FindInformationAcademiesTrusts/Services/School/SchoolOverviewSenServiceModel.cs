@@ -1,5 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Data;
-
 namespace DfE.FindInformationAcademiesTrusts.Services.School;
 
 public record SchoolOverviewSenServiceModel(

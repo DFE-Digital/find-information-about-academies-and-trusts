@@ -10,18 +10,14 @@ public interface ISchoolOverviewSenService
 
 public class SchoolOverviewSenService(ISchoolRepository schoolRepository) : ISchoolOverviewSenService
 {
-    private List<string> SenProvisionTypes { get; } = new();
-
     public async Task<SchoolOverviewSenServiceModel> GetSchoolOverviewSenAsync(int urn)
     {
         var senProvision = await schoolRepository.GetSchoolSenProvisionAsync(urn);
+        var senProvisionTypes = new List<string>();
 
         foreach (var senType in senProvision.SenProvisionTypes)
         {
-            if (senType != null)
-            {
-                SenProvisionTypes.Add(senType);
-            }
+            senProvisionTypes.Add(senType);
         }
 
         var senModel = new SchoolOverviewSenServiceModel(
@@ -30,7 +26,7 @@ public class SchoolOverviewSenService(ISchoolRepository schoolRepository) : ISch
             senProvision.SenOnRoll,
             senProvision.SenCapacity,
             senProvision.ResourcedProvisionTypes,
-            SenProvisionTypes);
+            senProvisionTypes);
         
         return senModel;
     }

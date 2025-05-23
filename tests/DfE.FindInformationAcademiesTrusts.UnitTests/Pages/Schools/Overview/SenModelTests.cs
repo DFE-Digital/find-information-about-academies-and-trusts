@@ -84,7 +84,7 @@ public class SenModelTests : BaseOverviewAreaModelTests<SenModel>
     [Fact]
     public async Task OnGetAsync_should_set_empty_sen_provision_types_correctly()
     {
-        _dummySenDetails = _dummySenDetails with { SenProvisionTypes = [] };
+        _dummySenDetails = _dummySenDetails with { SenProvisionTypes = [null!] };
         
         _mockSchoolOverviewSenService.GetSchoolOverviewSenAsync(Arg.Any<int>())
             .Returns(_dummySenDetails);
