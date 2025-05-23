@@ -40,7 +40,8 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
     {
         return pageType.Name switch
         {
-            nameof(DetailsModel) => "Overview",
+            nameof(DetailsModel) or
+                nameof(SenModel) => "Overview",
             _ => throw new ArgumentException("Couldn't get expected name for given page type", nameof(pageType))
         };
     }
@@ -62,8 +63,10 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
         return pageType.Name switch
         {
             nameof(DetailsModel) => "/Schools/Overview/Details",
+            nameof(SenModel) => "/Schools/Overview/Sen",
             _ => throw new ArgumentException("Couldn't get expected sub page nav asp link for given page type",
-                nameof(pageType))
+                nameof(pageType)),
+            
         };
     }
 
@@ -80,6 +83,12 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
                 l.LinkDisplayText.Should().Be("School details");
                 l.AspPage.Should().Be("/Schools/Overview/Details");
                 l.TestId.Should().Be("overview-details-subnav");
+            },
+            l =>
+            {
+                l.LinkDisplayText.Should().Be("SEN (special educational needs)");
+                l.AspPage.Should().Be("/Schools/Overview/Sen");
+                l.TestId.Should().Be("overview-sen-subnav");
             }
         );
     }
@@ -97,6 +106,12 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
                 l.LinkDisplayText.Should().Be("Academy details");
                 l.AspPage.Should().Be("/Schools/Overview/Details");
                 l.TestId.Should().Be("overview-details-subnav");
+            },
+            l =>
+            {
+                l.LinkDisplayText.Should().Be("SEN (special educational needs)");
+                l.AspPage.Should().Be("/Schools/Overview/Sen");
+                l.TestId.Should().Be("overview-sen-subnav");
             }
         );
     }

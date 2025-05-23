@@ -1,0 +1,68 @@
+@page
+@model SenModel
+
+@{
+  Layout = "_SchoolLayout";
+}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h3 class="govuk-heading-m">SEN (special educational needs)</h3>
+    <h4 class="govuk-visually-hidden">Special educational needs resource</h4>
+    <dl class="govuk-summary-list govuk-!-margin-bottom-0">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-!-width-two-thirds">
+          Resourced provision number on roll
+        </dt>
+        <dd class="govuk-summary-list__value">@Model.ResourcedProvisionOnRoll</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-!-width-two-thirds">
+          Resourced provision capacity
+        </dt>
+        <dd class="govuk-summary-list__value">@Model.ResourcedProvisionCapacity</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-!-width-two-thirds">
+          Special Educational Needs (SEN) unit number on roll
+        </dt>
+        <dd class="govuk-summary-list__value">@Model.SenOnRoll</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-!-width-two-thirds">
+          Special Educational Needs (SEN) unit number capacity
+        </dt>
+        <dd class="govuk-summary-list__value">@Model.SenCapacity</dd>
+      </div>
+    </dl>
+    <hr class="govuk-section-break govuk-section-break--m"/>
+    <h4 class="govuk-visually-hidden">Special educational needs provision</h4>
+    <dl class="govuk-summary-list govuk-!-margin-bottom-0">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-!-width-one-third">
+          Type of resourced provision
+        </dt>
+        <dd class="govuk-summary-list__value">
+          @Model.ResourcedProvisionType
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-!-width-one-third">
+          Type of SEN provision
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <ul class="govuk-list">
+            @if (Model.SenProvisionTypes.Count > 0)
+            {
+              foreach (var senType in Model.SenProvisionTypes)
+              {
+                <li>@senType</li>
+              }
+            }
+          </ul>
+        </dd>
+      </div>
+    </dl>
+    <hr class="govuk-section-break govuk-section-break--m"/>
+  </div>
+</div>

@@ -73,6 +73,7 @@ public static class Dependencies
         builder.Services.AddScoped<IOtherServicesLinkBuilder, OtherServicesLinkBuilder>();
         builder.Services.AddScoped<IFreeSchoolMealsAverageProvider, FreeSchoolMealsAverageProvider>();
         builder.Services.AddScoped<ISchoolOverviewDetailsService, SchoolOverviewDetailsService>();
+        builder.Services.AddScoped<ISchoolOverviewSenService, SchoolOverviewSenService>();
         builder.Services.AddHttpContextAccessor();
     }
 }

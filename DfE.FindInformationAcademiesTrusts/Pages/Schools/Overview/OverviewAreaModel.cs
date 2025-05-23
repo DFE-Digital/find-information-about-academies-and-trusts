@@ -27,6 +27,8 @@ public abstract class OverviewAreaModel(
         DataSourcesPerPage =
         [
             new DataSourcePageListEntry(DetailsModel.SubPageName(SchoolCategory),
+                [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(SenModel.SubPageName,
                 [new DataSourceListEntry(giasDataSource)])
         ];
 

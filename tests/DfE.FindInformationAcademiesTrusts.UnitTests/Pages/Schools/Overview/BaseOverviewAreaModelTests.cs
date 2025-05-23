@@ -34,7 +34,9 @@ public abstract class BaseOverviewAreaModelTests<T> : BaseSchoolPageTests<T> whe
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
             new DataSourcePageListEntry("Academy details", [
                 new DataSourceListEntry(Mocks.MockDataSourceService.Gias)
-            ])
+            ]),
+            new DataSourcePageListEntry("SEN (special educational needs)",
+                [new DataSourceListEntry(Mocks.MockDataSourceService.Gias)])
         ]);
     }
 
@@ -48,7 +50,9 @@ public abstract class BaseOverviewAreaModelTests<T> : BaseSchoolPageTests<T> whe
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
             new DataSourcePageListEntry("School details", [
                 new DataSourceListEntry(Mocks.MockDataSourceService.Gias)
-            ])
+            ]),
+            new DataSourcePageListEntry("SEN (special educational needs)",
+                [new DataSourceListEntry(Mocks.MockDataSourceService.Gias)])
         ]);
     }
 }
