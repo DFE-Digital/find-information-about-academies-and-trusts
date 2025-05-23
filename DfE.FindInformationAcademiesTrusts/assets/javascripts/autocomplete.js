@@ -4,7 +4,7 @@ export class Autocomplete {
   suggest = async (query, populateResults, inputId) => {
     // Clear selected trust if we then search for new trust
     // Avoids the uid turning up in the url
-    const searchInput = document.getElementById(`${inputId}-selected-trust`)
+    const searchInput = document.getElementById(`${inputId}-selected-id`)
     if (searchInput.hasAttribute('value')) {
       searchInput.removeAttribute('value')
     }
@@ -55,7 +55,8 @@ export class Autocomplete {
       },
       onConfirm: (selected) => {
         if (selected) {
-          document.getElementById(`${inputId}-selected-trust`).value = (selected.trustId)
+          document.getElementById(`${inputId}-selected-id`).value = (selected.id)
+          document.getElementById(`${inputId}-selected-searchResultType`).value = (selected.resultType)
         }
       }
     })

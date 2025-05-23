@@ -8,7 +8,9 @@ class SearchPage {
         resultsInfo: () => cy.get('#results-details'),
         resultItems: () => cy.get('.govuk-list li'),
         nextButton: () => cy.get('[data-testid="next-page"]'),
-        hasNextButton: () => cy.$$('[data-testid="next-page"]').length > 0
+        hasNextButton: () => cy.$$('[data-testid="next-page"]').length > 0,
+        establishmentType: () => cy.get('[data-testid="establishment-type"]'),
+        urn: () => cy.get('[data-testid="urn"]')
     };
 
     public checkSearchResultsReturned(searchText: string): this {
@@ -19,7 +21,7 @@ class SearchPage {
     }
 
     public checkNoSearchResultsFound(): this {
-        this.elements.searchResults().should('include.text', "0 results");
+        this.elements.searchResults().should('include.text', "Check you've entered the name or reference number correctly and included any punctuation");
         return this;
     }
 
@@ -29,13 +31,28 @@ class SearchPage {
     }
 
     public checkAutocompleteContainsTypedText(searchText: string): this {
-        this.elements.mainAutocomplete().should(($listbox) => {
-            expect($listbox.children().length).to.be.greaterThan(0);
-            const textFound = $listbox.children().toArray().some(item =>
-                item.innerText.toLowerCase().includes(searchText.toLowerCase())
-            );
-            expect(textFound).to.be.true;
+        cy.log(`Searching for text: "${searchText}" in autocomplete suggestions`);
+
+        // First ensure the autocomplete is visible
+        this.elements.mainAutocomplete().should('be.visible');
+
+        // Get suggestions and log them
+        this.elements.mainAutocomplete().then(($listbox) => {
+            const suggestions = Array.from($listbox.children()).map(el => el.innerText);
+            cy.log(`Found ${suggestions.length} suggestions:`);
+            cy.log(suggestions.join('\n'));
         });
+
+        // Verify suggestions contain our text
+        this.elements.mainAutocomplete()
+            .should('exist', { timeout: 10000 })
+            .should(($listbox) => {
+                const suggestions = Array.from($listbox.children()).map(el => el.innerText);
+                expect(suggestions.length, 'Expected to find suggestions in dropdown').to.be.greaterThan(0);
+                const hasMatch = suggestions.some(text => text.toLowerCase().includes(searchText.toLowerCase()));
+                assert.isTrue(hasMatch, `Expected to find "${searchText}" in suggestions`);
+            });
+
         return this;
     }
 
@@ -46,6 +63,11 @@ class SearchPage {
 
     public clickSearchPageSearchButton(): this {
         this.elements.searchPageSearchButton().click();
+        return this;
+    }
+
+    public checkSearchResultsInfoReturnsCorrectInfo(searchText: string): this {
+        this.elements.resultsInfo().should('include.text', searchText);
         return this;
     }
 
@@ -71,19 +93,33 @@ class SearchPage {
         };
 
         this.elements.resultsInfo().invoke('text').then((text: string) => {
-            const match = /(\d+)/.exec(text);
-            if (match?.[0]) {
-                const expectedTotalResults: number = parseInt(match[0], 10);
-                let accumulatedResults: number = 0;
+            const trustMatch = /Found (\d+) trusts/.exec(text);
+            const schoolMatch = /and (\d+) schools/.exec(text);
+
+            if (trustMatch?.[1] && schoolMatch?.[1]) {
+                const trustCount = parseInt(trustMatch[1], 10);
+                const schoolCount = parseInt(schoolMatch[1], 10);
+                const expectedTotalResults = trustCount + schoolCount;
+                const accumulatedResults = 0;
+                cy.log(`Expecting ${expectedTotalResults} total results (${trustCount} trusts + ${schoolCount} schools)`);
                 countResultsOnPage(expectedTotalResults, accumulatedResults);
             } else {
-                throw new Error('Could not extract the total number of results.');
+                throw new Error('Could not extract the number of trusts and schools from the results text.');
             }
         });
 
         return this;
     }
 
+    public checkEstablishmentType(establishmentType: string): this {
+        this.elements.establishmentType().should('include.text', establishmentType);
+        return this;
+    }
+
+    public checkCorrectURN(urn: string): this {
+        this.elements.urn().should('include.text', urn);
+        return this;
+    }
 }
 
 const searchPage = new SearchPage();

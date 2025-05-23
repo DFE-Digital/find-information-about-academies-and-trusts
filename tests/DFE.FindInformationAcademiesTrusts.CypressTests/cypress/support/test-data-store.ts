@@ -60,10 +60,12 @@ export class TestDataStore {
 
 export const testSchoolData = [
     {
+        schoolName: "The Meadows Primary School",
         typeOfSchool: "Community school",
         urn: 123452
     },
     {
+        schoolName: "Abbey Grange Church of England Academy",
         typeOfSchool: "Academy converter",
         urn: 137083
     }

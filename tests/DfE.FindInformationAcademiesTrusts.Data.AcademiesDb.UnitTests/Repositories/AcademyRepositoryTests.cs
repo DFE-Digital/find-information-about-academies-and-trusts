@@ -27,7 +27,8 @@ public class AcademyRepositoryTests
             TypeOfEstablishmentName = $"Academy type {n}",
             LaName = $"Local authority {n}",
             UrbanRuralName = $"UrbanRuralName {n}",
-            EstablishmentTypeGroupName = "Academies"
+            EstablishmentTypeGroupName = "Academies",
+            EstablishmentStatusName = "Open"
         }).ToArray();
         _mockAcademiesDbContext.GiasEstablishments.AddRange(giasEstablishments);
         _mockAcademiesDbContext.AddGiasGroupLinks(giasGroup, giasEstablishments);
@@ -130,6 +131,7 @@ public class AcademyRepositoryTests
             EstablishmentName = $"Academy {n}",
             PhaseOfEducationName = $"Phase of Education {n}",
             EstablishmentTypeGroupName = "Academies",
+            EstablishmentStatusName = "Open",
             NumberOfPupils = $"{n}",
             SchoolCapacity = $"{n}",
             StatutoryLowAge = $"{n + 1}",
@@ -172,6 +174,7 @@ public class AcademyRepositoryTests
             PhaseOfEducationName = $"Phase of Education {n}",
             TypeOfEstablishmentName = $"Type of Education {n}",
             EstablishmentTypeGroupName = "Academies",
+            EstablishmentStatusName = "Open",
             LaCode = $"{n}",
             PercentageFsm = $"{n - 950.5}"
         }).ToArray();
@@ -208,6 +211,7 @@ public class AcademyRepositoryTests
             EstablishmentName = $"Academy {n}",
             LaName = $"Local authority {n}",
             EstablishmentTypeGroupName = "Academies",
+            EstablishmentStatusName = "Open",
             NumberOfPupils = (n * 10).ToString(),
             SchoolCapacity = (n * 15).ToString()
         }).ToArray();
@@ -236,6 +240,7 @@ public class AcademyRepositoryTests
             Urn = 2000,
             EstablishmentName = "Academy Missing Data",
             EstablishmentTypeGroupName = "Academies",
+            EstablishmentStatusName = "Open",
             LaName = null,
             NumberOfPupils = null,
             SchoolCapacity = null

@@ -22,13 +22,28 @@ class HeaderPage {
     }
 
     public checkAutocompleteContainsTypedText(searchText: string): this {
-        this.elements.headerAutocomplete().should(($listbox) => {
-            expect($listbox.children().length).to.be.greaterThan(0);
-            const textFound = $listbox.children().toArray().some(item =>
-                item.innerText.toLowerCase().includes(searchText.toLowerCase())
-            );
-            expect(textFound).to.be.true;
+        cy.log(`Searching for text: "${searchText}" in autocomplete suggestions`);
+
+        // First ensure the autocomplete is visible
+        this.elements.headerAutocomplete().should('be.visible');
+
+        // Get suggestions and log them
+        this.elements.headerAutocomplete().then(($listbox) => {
+            const suggestions = Array.from($listbox.children()).map(el => el.innerText);
+            cy.log(`Found ${suggestions.length} suggestions:`);
+            cy.log(suggestions.join('\n'));
         });
+
+        // Verify suggestions contain our text
+        this.elements.headerAutocomplete()
+            .should('exist', { timeout: 10000 })
+            .should(($listbox) => {
+                const suggestions = Array.from($listbox.children()).map(el => el.innerText);
+                expect(suggestions.length, 'Expected to find suggestions in dropdown').to.be.greaterThan(0);
+                const hasMatch = suggestions.some(text => text.toLowerCase().includes(searchText.toLowerCase()));
+                assert.isTrue(hasMatch, `Expected to find "${searchText}" in suggestions`);
+            });
+
         return this;
     }
 
