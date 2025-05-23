@@ -44,6 +44,8 @@ services:
       echo "All done!";
       '
   migrator:
+    environment:
+      ConnectionStrings__AcademiesDb: Server=academiesdb;Database=academies;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=True
     networks:
       - test-data
     depends_on:
