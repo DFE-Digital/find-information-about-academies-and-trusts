@@ -58,5 +58,4 @@ services:
           action: rebuild
 networks:
   test-data:
-    name: infrastructure
-    driver: bridge
+    

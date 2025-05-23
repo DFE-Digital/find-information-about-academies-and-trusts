@@ -1,26 +1,31 @@
 ﻿using System.Reflection;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DfE.FindInformationAcademiesTrusts.TestDataMigrator;
 
-internal class Program
+internal static class Program
 {
     static async Task Main(string[] args)
     {
+        var config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .AddEnvironmentVariables()
+            .Build();
+
         var builder = Host.CreateDefaultBuilder(args);
 
         var migrationsAssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
-
 
         var host = builder
             .ConfigureServices(services =>
             {
                 services.AddDbContext<AcademiesDbContext>(c =>
                     c.UseSqlServer(
-                        "Server=academiesdb;Database=academies;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=True",
+                        config.GetConnectionString("AcademiesDb"),
                         options =>
                         {
                            options.MigrationsAssembly(migrationsAssemblyName);
@@ -28,10 +33,10 @@ internal class Program
             })
             .Build();
         
-        await ApplyMigrationsAsync(host);
+        await ApplySchemaMigrationsAsync(host);
     }
     
-    private static async Task ApplyMigrationsAsync(IHost app)
+    private static async Task ApplySchemaMigrationsAsync(IHost app)
     {
         using var scope = app.Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<AcademiesDbContext>();
