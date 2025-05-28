@@ -19,5 +19,17 @@ declare global {
 
 //Always log in before every test
 beforeEach(() => {
+
+    var fileName = (Cypress as any).mocha.getRunner().suite.ctx.test.file;
+
+    if(fileName.includes('\\e2e\\data-tests\\')){
+
+        Cypress.env('testUrl', Cypress.env("TEST_DATA_URL"));
+    }else{
+        Cypress.env('testUrl', Cypress.env("REGRESSION_URL"));
+    }
+
     cy.login();
 });
+
+
