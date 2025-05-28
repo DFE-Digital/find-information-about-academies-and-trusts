@@ -8,11 +8,11 @@ class HomePage {
             mainBox: () => cy.get('.govuk-details'),
             list: () => cy.get('.govuk-list'),
             button: () => cy.get('.govuk-details__summary'),
-            addressAndContactDetails: () => this.elements.whatYouCanFindList.list().contains('address and contact details'),
-            pupilNumbersAndCapacities: () => this.elements.whatYouCanFindList.list().contains('pupil numbers and capacities'),
-            ofstedRatings: () => this.elements.whatYouCanFindList.list().contains('Ofsted ratings'),
-            freeSchoolMealPercentages: () => this.elements.whatYouCanFindList.list().contains('free school meal percentages'),
-            trustGovernanceDetails: () => this.elements.whatYouCanFindList.list().contains('trust governance details'),
+            academies: () => this.elements.whatYouCanFindList.list().contains('academies'),
+            freeSchools: () => this.elements.whatYouCanFindList.list().contains('free schools'),
+            laMaintainedSchools: () => this.elements.whatYouCanFindList.list().contains('local authority maintained schools'),
+            specialSchools: () => this.elements.whatYouCanFindList.list().contains('special schools'),
+            trusts: () => this.elements.whatYouCanFindList.list().contains('trusts'),
         }
     };
 
@@ -52,11 +52,11 @@ class HomePage {
     }
 
     public checkWhatYouCanFindListItemsPresent(): this {
-        this.elements.whatYouCanFindList.addressAndContactDetails().should('be.visible');
-        this.elements.whatYouCanFindList.pupilNumbersAndCapacities().should('be.visible');
-        this.elements.whatYouCanFindList.ofstedRatings().should('be.visible');
-        this.elements.whatYouCanFindList.freeSchoolMealPercentages().should('be.visible');
-        this.elements.whatYouCanFindList.trustGovernanceDetails().should('be.visible');
+        this.elements.whatYouCanFindList.academies().should('be.visible');
+        this.elements.whatYouCanFindList.freeSchools().should('be.visible');
+        this.elements.whatYouCanFindList.laMaintainedSchools().should('be.visible');
+        this.elements.whatYouCanFindList.specialSchools().should('be.visible');
+        this.elements.whatYouCanFindList.trusts().should('be.visible');
         return this;
     }
 }
