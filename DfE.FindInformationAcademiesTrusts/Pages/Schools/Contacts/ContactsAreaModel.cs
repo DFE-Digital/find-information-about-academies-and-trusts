@@ -1,5 +1,8 @@
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared.DataSource;
+using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared.Contact;
 using DfE.FindInformationAcademiesTrusts.Services.School;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -7,7 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
 
-public class ContactsAreaModel(ISchoolService schoolService, ITrustService trustService)
+public class ContactsAreaModel(ISchoolService schoolService, 
+    ITrustService trustService, 
+    IDataSourceService dataSourceService)
     : SchoolAreaModel(schoolService, trustService)
 {
     public const string PageName = "Contacts";
@@ -22,9 +27,18 @@ public class ContactsAreaModel(ISchoolService schoolService, ITrustService trust
 
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
+        var giasDataSource = await dataSourceService.GetAsync(Source.Gias);
+        
+        var dataSourcePageName = SchoolCategory == SchoolCategory.Academy ? "In this academy" : "In this school";
         HeadTeacher = new ContactModel("Head teacher", "head-teacher",
             new Person("Aaron Aaronson", "aa@someschool.com"));
 
-        return pageResult;
+        DataSourcesPerPage =
+        [
+            new DataSourcePageListEntry(dataSourcePageName,
+                [new DataSourceListEntry(giasDataSource, "Head teacher name")])
+        ];
+
+        return Page();
     }
 }

@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
+using DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
 using Sut = DfE.FindInformationAcademiesTrusts.Pages.Schools.SchoolNavMenu;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Schools.SchoolNavMenu;
@@ -26,10 +27,23 @@ public class SchoolNavMenuServiceNavTests : SchoolNavMenuTestsBase
     [Theory]
     [InlineData(SchoolCategory.LaMaintainedSchool, "School")]
     [InlineData(SchoolCategory.Academy, "Academy")]
-    public void GetServiceNavLinks_should_set_hidden_text_to_school_type(SchoolCategory schoolCategory,
+    public void GetServiceNavLinks_should_set_hidden_text_to_school_type_on_details_page(SchoolCategory schoolCategory,
         string expectedHiddenText)
     {
         var activePage = GetMockSchoolPage(typeof(DetailsModel), schoolCategory: schoolCategory);
+
+        var results = Sut.GetServiceNavLinks(activePage);
+
+        results.Should().AllSatisfy(link => { link.VisuallyHiddenLinkText.Should().Be(expectedHiddenText); });
+    }
+    
+    [Theory]
+    [InlineData(SchoolCategory.LaMaintainedSchool, "School")]
+    [InlineData(SchoolCategory.Academy, "Academy")]
+    public void GetServiceNavLinks_should_set_hidden_text_to_school_type_on_contacts_page(SchoolCategory schoolCategory,
+        string expectedHiddenText)
+    {
+        var activePage = GetMockSchoolPage(typeof(InSchoolModel), schoolCategory: schoolCategory);
 
         var results = Sut.GetServiceNavLinks(activePage);
 
@@ -49,6 +63,12 @@ public class SchoolNavMenuServiceNavTests : SchoolNavMenuTestsBase
                 l.LinkDisplayText.Should().Be("Overview");
                 l.AspPage.Should().Be("/Schools/Overview/Details");
                 l.TestId.Should().Be("overview-nav");
+            },
+            l =>
+            {
+                l.LinkDisplayText.Should().Be("Contacts");
+                l.AspPage.Should().Be("/Schools/Contacts/InSchool");
+                l.TestId.Should().Be("contacts-nav");
             }
         );
     }
@@ -69,7 +89,8 @@ public class SchoolNavMenuServiceNavTests : SchoolNavMenuTestsBase
     {
         return pageType.Name switch
         {
-            nameof(DetailsModel) or
+            nameof(DetailsModel) => "/Schools/Overview/Details",
+            nameof(InSchoolModel) => "/Schools/Contacts/InSchool",
                 nameof(SenModel) => "/Schools/Overview/Details",
             _ => throw new ArgumentException("Couldn't get expected service nav asp link for given page type",
                 nameof(pageType))
