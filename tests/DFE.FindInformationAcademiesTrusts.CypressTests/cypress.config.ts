@@ -4,10 +4,6 @@ import path from 'path';
 
 module.exports = defineConfig({
   userAgent: 'FindInformationAcademiesTrusts/1.0 Cypress',
-
-  env:{
-    testUrl: '/'
-  },
   e2e: {
     experimentalRunAllSpecs: true,
     reporter: 'cypress-multi-reporters',
