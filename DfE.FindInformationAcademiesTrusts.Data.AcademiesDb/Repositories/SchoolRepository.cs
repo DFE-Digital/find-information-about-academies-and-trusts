@@ -49,4 +49,12 @@ public class SchoolRepository(
                 DateOnly.ParseExact(gl.JoinedDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None))
             .FirstAsync();
     }
+
+    public async Task<SchoolContacts> GetSchoolContactsAsync(int urn)
+    {
+        return await academiesDbContext.TadHeadTeacherContacts
+            .Where(c => c.Urn == urn)
+            .Select(contact => new SchoolContacts(contact.HeadFirstName, contact.HeadLastName, contact.HeadEmail))
+            .SingleAsync();
+    }
 }
