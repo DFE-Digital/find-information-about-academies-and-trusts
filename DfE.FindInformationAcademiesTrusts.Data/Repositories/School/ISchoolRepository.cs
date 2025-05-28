@@ -8,5 +8,7 @@ public interface ISchoolRepository
 
     Task<DateOnly> GetDateJoinedTrustAsync(int urn);
     
+    Task<SchoolContacts> GetSchoolContactsAsync(int urn);
+    
     Task<SenProvision> GetSchoolSenProvisionAsync(int urn);
 }

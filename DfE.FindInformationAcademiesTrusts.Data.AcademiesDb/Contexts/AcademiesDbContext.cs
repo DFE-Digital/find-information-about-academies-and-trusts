@@ -26,6 +26,8 @@ public interface IAcademiesDbContext
     DbSet<MisMstrEstablishmentFiat> MisMstrEstablishmentsFiat { get; }
     DbSet<MisMstrFurtherEducationEstablishmentFiat> MisMstrFurtherEducationEstablishmentsFiat { get; }
     DbSet<SharepointTrustDocLink> SharepointTrustDocLinks { get; }
+    
+    DbSet<TadHeadTeacherContactsFiat> TadHeadTeacherContacts { get; }
 }
 
 [ExcludeFromCodeCoverage]
@@ -56,5 +58,6 @@ public partial class AcademiesDbContext : DbContext, IAcademiesDbContext
         OnModelCreatingMstrTrusts(modelBuilder);
         OnModelCreatingSharePointTrustDocLinks(modelBuilder);
         OnModelCreatingTadTrustGovernances(modelBuilder);
+        OnModelCreatingTadHeadTeacherContacts(modelBuilder);
     }
 }
