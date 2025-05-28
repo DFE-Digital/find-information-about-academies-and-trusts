@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared.DataSource;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Schools.Contacts;
 
@@ -33,7 +34,7 @@ public abstract class BaseContactsAreaModelTests<T> : BaseSchoolPageTests<T> whe
 
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
             new DataSourcePageListEntry("In this academy", [
-                new DataSourceListEntry(Mocks.MockDataSourceService.Gias)
+                new DataSourceListEntry(Mocks.MockDataSourceService.Gias, "Head teacher name")
             ])
         ]);
     }
@@ -47,7 +48,7 @@ public abstract class BaseContactsAreaModelTests<T> : BaseSchoolPageTests<T> whe
 
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
             new DataSourcePageListEntry("In this school", [
-                new DataSourceListEntry(Mocks.MockDataSourceService.Gias)
+                new DataSourceListEntry(Mocks.MockDataSourceService.Gias, DataField: "Head teacher name")
             ])
         ]);
     }

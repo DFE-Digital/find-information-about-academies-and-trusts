@@ -16,7 +16,7 @@ public class SchoolContactsService(ISchoolRepository schoolRepository) : ISchool
         var schoolContacts = await schoolRepository.GetSchoolContactsAsync(urn);
         var headteacherFullname = $"{schoolContacts.HeadteacherFirstName} {schoolContacts.HeadteacherLastName}";
 
-        var headteacher = new ContactModel("Head teacher name", "head-teacher",
+        var headteacher = new ContactModel("Head teacher", "head-teacher",
             new Person(headteacherFullname, schoolContacts.HeadteacherEmail));
 
         return headteacher;
