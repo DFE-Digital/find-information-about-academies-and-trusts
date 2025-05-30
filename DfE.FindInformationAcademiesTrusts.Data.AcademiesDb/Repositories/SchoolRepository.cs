@@ -50,11 +50,11 @@ public class SchoolRepository(
             .FirstAsync();
     }
 
-    public async Task<SchoolContacts> GetSchoolContactsAsync(int urn)
+    public async Task<SchoolContact> GetSchoolContactsAsync(int urn)
     {
         return await academiesDbContext.TadHeadTeacherContacts
             .Where(c => c.Urn == urn)
-            .Select(contact => new SchoolContacts(contact.HeadFirstName, contact.HeadLastName, contact.HeadEmail))
+            .Select(contact => new SchoolContact(contact.HeadFirstName, contact.HeadLastName, contact.HeadEmail))
             .SingleAsync();
     }
 
