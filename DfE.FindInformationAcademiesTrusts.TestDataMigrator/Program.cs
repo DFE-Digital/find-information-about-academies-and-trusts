@@ -1,17 +1,17 @@
 ﻿using System.Reflection;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.TestDataMigrator.Dapper;
+using DfE.FindInformationAcademiesTrusts.TestDataMigrator.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using DfE.FindInformationAcademiesTrusts.TestDataMigrator.Repositories;
+using Microsoft.Extensions.Hosting;
 
 namespace DfE.FindInformationAcademiesTrusts.TestDataMigrator;
 
 internal static class Program
 {
-    static async Task Main(string[] args)
+    private static async Task Main(string[] args)
     {
         var config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
@@ -25,18 +25,17 @@ internal static class Program
         var host = builder
             .ConfigureServices(services =>
             {
-                services.AddSingleton<IDbConnectionFactory>(_ => new SqlConnectionFactory(config.GetConnectionString("AcademiesDb")!));
+                services.AddSingleton<IDbConnectionFactory>(_ =>
+                    new SqlConnectionFactory(config.GetConnectionString("AcademiesDb")!));
 
+                services.AddTransient<FileParserService>();
                 services.AddTransient<DataMigrationService>();
                 services.AddTransient<GenericRepository>();
 
                 services.AddDbContext<AcademiesDbContext>(c =>
                     c.UseSqlServer(
                         config.GetConnectionString("AcademiesDb"),
-                        options =>
-                        {
-                           options.MigrationsAssembly(migrationsAssemblyName);
-                        }));
+                        options => { options.MigrationsAssembly(migrationsAssemblyName); }));
             })
             .Build();
 
@@ -48,7 +47,7 @@ internal static class Program
 
         await migrationService.StartMigrations();
     }
-    
+
     private static async Task ApplySchemaMigrationsAsync(IServiceScope scope)
     {
         var dbContext = scope.ServiceProvider.GetRequiredService<AcademiesDbContext>();
