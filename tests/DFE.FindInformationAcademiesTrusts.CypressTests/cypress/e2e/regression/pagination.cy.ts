@@ -22,23 +22,23 @@ describe('Pagination Tests', () => {
         navigation
             .checkCurrentURLIsCorrect('pagenumber=2');
         commonPage
-            .checkThatBrowserTitleMatches('Search (page 2 of 71) - tru - Find information about academies and trusts');
+            .checkThatBrowserTitleMatches('Search (page 2 of 72) - tru - Find information about academies and trusts');
 
         paginationPage
-            .clickPageNumber(71);
+            .clickPageNumber(3);
 
         navigation
-            .checkCurrentURLIsCorrect('pagenumber=71');
+            .checkCurrentURLIsCorrect('pagenumber=3');
         commonPage
-            .checkThatBrowserTitleMatches('Search (page 71 of 71) - tru - Find information about academies and trusts');
+            .checkThatBrowserTitleMatches('Search (page 3 of 72) - tru - Find information about academies and trusts');
 
         paginationPage
-            .clickPageNumber(70);
+            .clickPageNumber(72);
 
         navigation
-            .checkCurrentURLIsCorrect('pagenumber=70');
+            .checkCurrentURLIsCorrect('pagenumber=72');
         commonPage
-            .checkThatBrowserTitleMatches('Search (page 70 of 71) - tru - Find information about academies and trusts');
+            .checkThatBrowserTitleMatches('Search (page 72 of 72) - tru - Find information about academies and trusts');
     });
 
     it('Should navigate to the next page on next button click', () => {
@@ -78,7 +78,7 @@ describe('Pagination Tests', () => {
 
     it('Checks that the next page button is not present on the first page of results', () => {
         paginationPage
-            .clickPageNumber(3)
+            .clickPageNumber(21)
             .checkNextButtonNotPresent();
     });
 
@@ -91,18 +91,18 @@ describe('Pagination Tests', () => {
     });
 
     it('Checks that I see the pages I would expect mid pagination and dont see the ones that should be hidden', () => {
-        cy.visit('/search?keywords=tru&pagenumber=30');
+        cy.visit('/search?keywords=tru&pagenumber=32');
 
         paginationPage
             .checkExpectedPageNumberInPaginationBar(1)
             .checkResultIsNotInPaginationBar(2)
-            .checkResultIsNotInPaginationBar(28)
-            .checkExpectedPageNumberInPaginationBar(29)
-            .checkExpectedPageNumberInPaginationBar(30)
+            .checkResultIsNotInPaginationBar(30)
             .checkExpectedPageNumberInPaginationBar(31)
-            .checkResultIsNotInPaginationBar(32)
-            .checkResultIsNotInPaginationBar(70)
-            .checkExpectedPageNumberInPaginationBar(71);
+            .checkExpectedPageNumberInPaginationBar(32)
+            .checkExpectedPageNumberInPaginationBar(33)
+            .checkResultIsNotInPaginationBar(34)
+            .checkExpectedPageNumberInPaginationBar(72)
+            .checkResultIsNotInPaginationBar(74);
     });
 
     it('Checks that on a single result page only the page number is present', () => {
