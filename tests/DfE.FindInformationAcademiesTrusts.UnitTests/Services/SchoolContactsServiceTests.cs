@@ -11,7 +11,7 @@ public class SchoolContactsServiceTests
     private readonly SchoolContactsService _sut;
     private readonly ISchoolRepository _mockSchoolRepository = Substitute.For<ISchoolRepository>();
 
-    private readonly SchoolContacts _dummySchoolContacts = new("Teacher", "McTeacherson", "a.teacher@school.com");
+    private readonly SchoolContact _dummySchoolContact = new("Teacher", "McTeacherson", "a.teacher@school.com");
 
     public SchoolContactsServiceTests()
     {
@@ -24,7 +24,7 @@ public class SchoolContactsServiceTests
         var expectedResult = new ContactModel("Head teacher", "head-teacher",
             new Person("Teacher McTeacherson", "a.teacher@school.com"));
         
-        _mockSchoolRepository.GetSchoolContactsAsync(_urn).Returns(_dummySchoolContacts);
+        _mockSchoolRepository.GetSchoolContactsAsync(_urn).Returns(_dummySchoolContact);
         
         var result = await _sut.GetInSchoolContactsAsync(_urn);
         
