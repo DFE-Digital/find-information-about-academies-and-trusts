@@ -21,5 +21,4 @@ describe("Testing the common components of the Schools pages", () => {
             });
         });
     });
-
 });

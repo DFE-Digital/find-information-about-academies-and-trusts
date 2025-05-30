@@ -39,6 +39,13 @@ class Navigation {
             internalScrutinyReportsButton: () => cy.get('[data-testid="financial-documents-internal-scrutiny-reports-subnav"]'),
             selfAssessmentChecklistsButton: () => cy.get('[data-testid="financial-documents-self-assessment-checklists-subnav"]'),
         },
+        schoolsServiceNav: {
+            overviewServiceNavButton: () => cy.get('[data-testid="overview-nav"]'),
+        },
+        schoolsSubNav: {
+            schoolsDetailsButton: () => cy.get('[data-testid="overview-details-subnav"]'),
+            schoolsSENButton: () => cy.get('[data-testid="overview-sen-subnav"]'),
+        }
     };
 
     public checkSubpageNavMatches(expectedSubpages: { subpageName: string, url: string; }[]): this {
@@ -263,6 +270,29 @@ class Navigation {
 
     public clickFinancialDocsSelfAssessmentButton(): this {
         this.elements.financialDocumentsSubNav.selfAssessmentChecklistsButton().click();
+        return this;
+    }
+
+    //#region Schools navigation
+
+    public checkAllSchoolServiceNavItemsPresent(): this {
+        this.elements.schoolsServiceNav.overviewServiceNavButton().should('be.visible');
+        return this;
+    }
+
+    public checkAllSchoolsSubNavItemsPresent(): this {
+        this.elements.schoolsSubNav.schoolsDetailsButton().should('be.visible');
+        this.elements.schoolsSubNav.schoolsSENButton().should('be.visible');
+        return this;
+    }
+
+    public clickSchoolsDetailsButton(): this {
+        this.elements.schoolsSubNav.schoolsDetailsButton().click();
+        return this;
+    }
+
+    public clickSchoolsSENButton(): this {
+        this.elements.schoolsSubNav.schoolsSENButton().click();
         return this;
     }
 }

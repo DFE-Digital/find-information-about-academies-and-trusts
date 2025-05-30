@@ -68,4 +68,44 @@ describe('Schools Navigation Tests', () => {
                 .checkAcademyLinkNotPresentForSchool();
         });
     });
+
+    describe("Schools overview sub navigation round robin tests", () => {
+        // school details --> SEN
+        it('Should check that the school details navigation button takes me to the correct page for a schools type subnav', () => {
+            cy.visit(`/schools/overview/details?urn=${navTestSchool.schoolURN}`);
+            navigation
+                .clickSchoolsSENButton()
+                .checkCurrentURLIsCorrect('/schools/overview/sen?urn=140214')
+                .checkAllSchoolServiceNavItemsPresent()
+                .checkAllSchoolsSubNavItemsPresent();
+            schoolsPage
+                .checkSchoolDetailsHeaderPresent();
+        });
+    });
+
+    describe("Schools overview sub navigation round robin tests", () => {
+        // school details --> SEN
+        it('Should check that the school details navigation button takes me to the correct page for a schools type subnav', () => {
+            cy.visit(`/schools/overview/details?urn=${navTestSchool.schoolURN}`);
+            navigation
+                .clickSchoolsSENButton()
+                .checkCurrentURLIsCorrect('/schools/overview/sen?urn=140214')
+                .checkAllSchoolServiceNavItemsPresent()
+                .checkAllSchoolsSubNavItemsPresent();
+            schoolsPage
+                .checkSchoolDetailsHeaderPresent();
+        });
+
+        // SEN --> school details
+        it('Should check that the school details navigation button takes me to the correct page for a schools type subnav', () => {
+            cy.visit(`/schools/overview/sen?urn=${navTestSchool.schoolURN}`);
+            navigation
+                .clickSchoolsDetailsButton()
+                .checkCurrentURLIsCorrect('/schools/overview/details?urn=140214')
+                .checkAllSchoolServiceNavItemsPresent()
+                .checkAllSchoolsSubNavItemsPresent();
+            schoolsPage
+                .checkSENSubpageHeaderCorrect();
+        });
+    });
 });

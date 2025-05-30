@@ -7,39 +7,39 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h3 class="govuk-heading-m">SEN (special educational needs)</h3>
+    <h3 class="govuk-heading-m" data-testid="subpage-header">SEN (special educational needs)</h3>
     <h4 class="govuk-visually-hidden">Special educational needs resource</h4>
     <dl class="govuk-summary-list govuk-!-margin-bottom-0">
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key govuk-!-width-two-thirds">
+        <dt class="govuk-summary-list__key govuk-!-width-two-thirds" data-testid="resourced-provision-on-roll-key">
           Resourced provision number on roll
         </dt>
         <dd class="govuk-summary-list__value">@Model.ResourcedProvisionOnRoll</dd>
       </div>
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key govuk-!-width-two-thirds">
+        <dt class="govuk-summary-list__key govuk-!-width-two-thirds" data-testid="resourced-provision-capacity-key">
           Resourced provision capacity
         </dt>
         <dd class="govuk-summary-list__value">@Model.ResourcedProvisionCapacity</dd>
       </div>
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key govuk-!-width-two-thirds">
+        <dt class="govuk-summary-list__key govuk-!-width-two-thirds" data-testid="sen-on-roll-key">
           Special Educational Needs (SEN) unit number on roll
         </dt>
         <dd class="govuk-summary-list__value">@Model.SenOnRoll</dd>
       </div>
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key govuk-!-width-two-thirds">
+        <dt class="govuk-summary-list__key govuk-!-width-two-thirds" data-testid="sen-capacity-key">
           Special Educational Needs (SEN) unit number capacity
         </dt>
         <dd class="govuk-summary-list__value">@Model.SenCapacity</dd>
       </div>
     </dl>
-    <hr class="govuk-section-break govuk-section-break--m"/>
+    <hr class="govuk-section-break govuk-section-break--m" />
     <h4 class="govuk-visually-hidden">Special educational needs provision</h4>
     <dl class="govuk-summary-list govuk-!-margin-bottom-0">
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key govuk-!-width-one-third">
+        <dt class="govuk-summary-list__key govuk-!-width-one-third" data-testid="resourced-provision-type-key">
           Type of resourced provision
         </dt>
         <dd class="govuk-summary-list__value">
@@ -47,10 +47,10 @@
         </dd>
       </div>
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key govuk-!-width-one-third">
+        <dt class="govuk-summary-list__key govuk-!-width-one-third" data-testid="sen-provision-type-key">
           Type of SEN provision
         </dt>
-        <dd class="govuk-summary-list__value">
+        <dd class="govuk-summary-list__value" data-testid="sen-provision-type">
           <ul class="govuk-list">
             @if (Model.SenProvisionTypes.Count > 0)
             {
@@ -63,6 +63,6 @@
         </dd>
       </div>
     </dl>
-    <hr class="govuk-section-break govuk-section-break--m"/>
+    <hr class="govuk-section-break govuk-section-break--m" />
   </div>
 </div>

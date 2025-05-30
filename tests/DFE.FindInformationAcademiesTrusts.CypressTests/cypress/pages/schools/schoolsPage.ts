@@ -24,6 +24,16 @@ class SchoolsPage {
                 financialBenchmarkingLink: () => cy.get('[data-testid="details-financial-benchmarking-link"]'),
                 findSchoolPerformanceDataLink: () => cy.get('[data-testid="details-find-school-performance-link"]'),
             },
+            senTab: {
+                senTabName: () => cy.get('[data-testid="overview-sen-subnav"]'),
+                resourcedProvisionOnRollKey: () => cy.get('[data-testid="resourced-provision-on-roll-key"]'),
+                resourcedProvisionCapacityKey: () => cy.get('[data-testid="resourced-provision-capacity-key"]'),
+                senOnRollKey: () => cy.get('[data-testid="sen-on-roll-key"]'),
+                senCapacityKey: () => cy.get('[data-testid="sen-capacity-key"]'),
+                resourcedProvisionTypeKey: () => cy.get('[data-testid="resourced-provision-type-key"]'),
+                senProvisionTypeKey: () => cy.get('[data-testid="sen-provision-type-key"]'),
+                senProvisionType: () => cy.get('[data-testid="sen-provision-type"]'),
+            },
         },
     };
 
@@ -35,8 +45,18 @@ class SchoolsPage {
     public checkValueIsValidSchoolType = (element: JQuery<HTMLElement>) =>
         this.checkElementMatches(element, /^(Community school|Academy converter)$/);
 
+
     public checkCorrectSchoolTypePresent(): this {
         this.elements.schoolType().each(this.checkValueIsValidSchoolType);
+        return this;
+    }
+
+    public checkValueIsValidSENType = (element: JQuery<HTMLElement>) =>
+        this.checkElementMatches(element, /^(?:Not Applicable|SpLD - Specific Learning Difficulty|VI - Visual Impairment|OTH - Other Difficulty\/Disability|HI - Hearing Impairment|SLCN - Speech, language and Communication|ASD - Autistic Spectrum Disorder|SEMH - Social, Emotional and Mental Health|MSI - Multi-Sensory Impairment|PD - Physical Disability|MLD - Moderate Learning Difficulty|SLD - Severe Learning Difficulty|PMLD - Profound and Multiple Learning Difficulty)$/);
+
+
+    public checkCorrectSENTypePresent(): this {
+        this.elements.overview.senTab.senProvisionType().each(this.checkValueIsValidSENType);
         return this;
     }
 
@@ -60,6 +80,8 @@ class SchoolsPage {
         this.elements.trustLink().click();
         return this;
     }
+
+    // #region Details Tab
 
     public checkSchoolDetailsHeaderPresent(): this {
         this.elements.subpageHeader().should('contain', 'School details');
@@ -114,6 +136,33 @@ class SchoolsPage {
         return this;
     }
 
+    // #endregion
+
+    // #region SEN Tab
+
+    public checkSENTabNameCorrect(): this {
+        this.elements.overview.senTab.senTabName().should('be.visible').and('contain.text', 'SEN');
+        return this;
+    }
+
+    public checkSENSubpageHeaderCorrect(): this {
+        this.elements.subpageHeader().should('contain', 'SEN (special educational needs)');
+        return this;
+    }
+
+    public checkSENDataItemsPresent(): this {
+        this.elements.overview.senTab.resourcedProvisionOnRollKey().should('be.visible').and('contain.text', 'Resourced provision number on roll');
+        this.elements.overview.senTab.resourcedProvisionCapacityKey().should('be.visible').and('contain.text', 'Resourced provision capacity');
+        this.elements.overview.senTab.senOnRollKey().should('be.visible').and('contain.text', 'Special Educational Needs (SEN) unit number on roll');
+        this.elements.overview.senTab.senCapacityKey().should('be.visible').and('contain.text', 'Special Educational Needs (SEN) unit number capacity');
+        this.elements.overview.senTab.resourcedProvisionTypeKey().should('be.visible').and('contain.text', 'Type of resourced provision');
+        this.elements.overview.senTab.senProvisionTypeKey().should('be.visible').and('contain.text', 'Type of SEN provision');
+        return this;
+    }
+
+
+
+    // #endregion
 }
 
 const schoolsPage = new SchoolsPage();
