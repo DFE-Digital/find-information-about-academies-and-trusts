@@ -14,9 +14,10 @@
 
   @* This is used by the no javascript users *@
   <div class="app-search__wrapper">
-      <label class="govuk-visually-hidden" for="@Model.PageSearchFormInputId">@placeholderText</label>
       <div id="@Model.PageSearchFormInputId-no-js-search-container">
-         <input class="govuk-input app-search__input" id="@Model.PageSearchFormInputId" type="search" asp-for="KeyWords" name="keywords" placeholder="@placeholderText">
+          <input class="govuk-input app-search__input" id="@Model.PageSearchFormInputId" type="search" asp-for="KeyWords" name="keywords">
+            <span>@placeholderText</span>
+          </input>
       </div>
     <button class="govuk-button app-search__button app-search__button--blue" data-testid="search" type="submit">
       <svg class="app-search__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
