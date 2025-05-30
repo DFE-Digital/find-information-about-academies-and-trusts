@@ -13,7 +13,7 @@ public static class SchoolNavMenu
         [
             GetServiceNavLinkTo<OverviewAreaModel>(OverviewAreaModel.PageName, "/Schools/Overview/Details",
                 activePage),
-            GetServiceNavLinkTo<ContactsAreaModel>(ContactsAreaModel.PageName, "/Schools/Contacts/InSchool", 
+            GetServiceNavLinkTo<ContactsAreaModel>(ContactsAreaModel.PageName, "/Schools/Contacts/InSchool",
                 activePage)
         ];
     }

@@ -71,11 +71,12 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
                 nameof(pageType))
         };
     }
-    
+
     [Theory]
     [InlineData(SchoolCategory.LaMaintainedSchool, "School details")]
     [InlineData(SchoolCategory.Academy, "Academy details")]
-    public void GetSubNavLinks_should_return_expected_links_for_overview(SchoolCategory schoolCategory, string expectedText)
+    public void GetSubNavLinks_should_return_expected_links_for_overview(SchoolCategory schoolCategory,
+        string expectedText)
     {
         var activePage = GetMockSchoolPage(typeof(DetailsModel), schoolCategory: schoolCategory);
 
@@ -96,11 +97,12 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
             }
         );
     }
-    
+
     [Theory]
-    [InlineData(SchoolCategory.LaMaintainedSchool, "Contacts in this school")]
-    [InlineData(SchoolCategory.Academy, "Contacts in this academy")]
-    public void GetSubNavLinks_should_return_expected_links_for_contacts(SchoolCategory schoolCategory, string expectedText)
+    [InlineData(SchoolCategory.LaMaintainedSchool, "In this school")]
+    [InlineData(SchoolCategory.Academy, "In this academy")]
+    public void GetSubNavLinks_should_return_expected_links_for_contacts(SchoolCategory schoolCategory,
+        string expectedText)
     {
         var activePage = GetMockSchoolPage(typeof(InSchoolModel), schoolCategory: schoolCategory);
 
