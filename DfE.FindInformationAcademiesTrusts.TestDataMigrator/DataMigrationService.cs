@@ -1,5 +1,5 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
-using System.Text.Json;
+﻿using System.Text.Json;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.TestDataMigrator.Queries;
 using DfE.FindInformationAcademiesTrusts.TestDataMigrator.Repositories;
 
@@ -7,11 +7,17 @@ namespace DfE.FindInformationAcademiesTrusts.TestDataMigrator;
 
 public class DataMigrationService(GenericRepository repository)
 {
-
     public async Task StartMigrations()
     {
-        var groups = await ParseJsonFileAsync<GiasGroup>("Group.json");
-        var groupLinks = await ParseJsonFileAsync<GiasGroupLink>("GroupLink.json");
+        var groupsTask = ParseJsonFileAsync<GiasGroup>("Group.json");
+        var groupLinksTask = ParseJsonFileAsync<GiasGroupLink>("GroupLink.json");
+        var establishmentsTask = ParseJsonFileAsync<GiasEstablishment>("Establishment.json");
+
+        await Task.WhenAll(groupsTask, groupLinksTask, establishmentsTask);
+
+        var groups = await groupsTask;
+        var groupLinks = await groupLinksTask;
+        var establishments = await establishmentsTask;
 
         if (groups != null)
         {
@@ -22,14 +28,18 @@ public class DataMigrationService(GenericRepository repository)
         {
             await repository.InsertAsync(GroupLinkQueries.Insert, groupLinks);
         }
+
+        if (establishments != null)
+        {
+            await repository.InsertAsync(EstablishmentsQueries.Insert, establishments);
+        }
     }
 
     private async Task<List<T>?> ParseJsonFileAsync<T>(string fileName)
     {
-        using StreamReader r = new StreamReader($"Data//{fileName}");
-        string json = await r.ReadToEndAsync();
+        using var r = new StreamReader($"Data//{fileName}");
+        var json = await r.ReadToEndAsync();
 
         return JsonSerializer.Deserialize<List<T>>(json);
     }
-
 }

@@ -1,12 +1,13 @@
-﻿namespace DfE.FindInformationAcademiesTrusts.TestDataMigrator.Queries
-{
-    public static class GroupLinkQueries
-    {
-        public static readonly string Insert = @"
-                                                    DELETE FROM [gias].[GroupLinks]
+﻿namespace DfE.FindInformationAcademiesTrusts.TestDataMigrator.Queries;
 
-                                                    INSERT INTO [gias].[Group]
-                                                   ([Group UID]
+public static class GroupLinkQueries
+{
+    public static readonly string Insert = @"
+                                                    DELETE FROM [gias].[GroupLink]
+
+                                                   INSERT INTO [gias].[GroupLink]
+                                                   ([URN]
+                                                   ,[Group UID]
                                                    ,[Group ID]
                                                    ,[Group Name]
                                                    ,[Companies House Number]
@@ -15,18 +16,20 @@
                                                    ,[Closed Date]
                                                    ,[Group Status (code)]
                                                    ,[Group Status]
-                                                   ,[Group Contact Street]
-                                                   ,[Group Contact Locality]
-                                                   ,[Group Contact Town]
-                                                   ,[Group Contact Postcode]
-                                                   ,[Head of Group Title]
-                                                   ,[Head of Group First Name]
-                                                   ,[Head of Group Last Name]
-                                                   ,[UKPRN]
+                                                   ,[Joined date]
+                                                   ,[EstablishmentName]
+                                                   ,[TypeOfEstablishment (code)]
+                                                   ,[TypeOfEstablishment (name)]
+                                                   ,[PhaseOfEducation (code)]
+                                                   ,[PhaseOfEducation (name)]
+                                                   ,[LA (code)]
+                                                   ,[LA (name)]
                                                    ,[Incorporated on (open date)]
-                                                   ,[Open date])
+                                                   ,[Open date]
+                                                   ,[URN_GroupUID])
                                              VALUES
-                                                   (@GroupUID
+                                                   (@URN
+                                                   ,@GroupUid
                                                    ,@GroupId
                                                    ,@GroupName
                                                    ,@CompaniesHouseNumber
@@ -35,15 +38,15 @@
                                                    ,@ClosedDate
                                                    ,@GroupStatusCode
                                                    ,@GroupStatus
-                                                   ,@GroupContactStreet
-                                                   ,@GroupContactLocality
-                                                   ,@GroupContactTown
-                                                   ,@GroupContactPostcode
-                                                   ,@HeadOfGroupTitle
-                                                   ,@HeadOfGroupFirstName
-                                                   ,@HeadOfGroupLastName
-                                                   ,@Ukprn
+                                                   ,@JoinedDate
+                                                   ,@EstablishmentName
+                                                   ,@TypeOfEstablishmentCode
+                                                   ,@TypeOfEstablishmentName
+                                                   ,@PhaseOfEducationCode
+                                                   ,@PhaseOfEducationName
+                                                   ,@LaCode
+                                                   ,@LaName
                                                    ,@IncorporatedOnOpenDate
-                                                   ,@OpenDate)";
-    }
+                                                   ,@OpenDate
+                                                   ,@UrnGroupUid)";
 }

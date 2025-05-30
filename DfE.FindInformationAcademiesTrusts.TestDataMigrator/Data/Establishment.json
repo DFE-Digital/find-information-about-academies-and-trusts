@@ -1,0 +1,23 @@
+[
+  {
+    "Urn": 98765,
+    "LaCode": "925",
+    "LaName": "Yorkshire",
+    "EstablishmentName": "Ste of England Primary School",
+    "TypeOfEstablishmentName": "Academy sponsor led",
+    "EstablishmentTypeGroupName": "Academies",
+    "EstablishmentStatusName": "Open",
+    "PhaseOfEducationName": "Primary",
+    "StatutoryLowAge": "4",
+    "StatutoryHighAge": "11",
+    "NurseryProvisionName": "No Nursery Classes",
+    "SchoolCapacity": "175",
+    "NumberOfPupils": "133",
+    "PercentageFSM": "17.30",
+    "Street": "a sunny street",
+    "Town": "Sheffield",
+    "Postcode": "S8 1JY",
+    "GorName": "South Yarkshire",
+    "UrbanRuralName": "(England\/Wales) Rural town and fringe"
+  }
+]
