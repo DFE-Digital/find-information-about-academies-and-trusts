@@ -1,9 +1,11 @@
 ﻿using System.Reflection;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
+using DfE.FindInformationAcademiesTrusts.TestDataMigrator.Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using DfE.FindInformationAcademiesTrusts.TestDataMigrator.Repositories;
 
 namespace DfE.FindInformationAcademiesTrusts.TestDataMigrator;
 
@@ -23,6 +25,11 @@ internal static class Program
         var host = builder
             .ConfigureServices(services =>
             {
+                services.AddSingleton<IDbConnectionFactory>(_ => new SqlConnectionFactory(config.GetConnectionString("AcademiesDb")!));
+
+                services.AddTransient<DataMigrationService>();
+                services.AddTransient<GenericRepository>();
+
                 services.AddDbContext<AcademiesDbContext>(c =>
                     c.UseSqlServer(
                         config.GetConnectionString("AcademiesDb"),
@@ -32,13 +39,18 @@ internal static class Program
                         }));
             })
             .Build();
-        
-        await ApplySchemaMigrationsAsync(host);
+
+        using var scope = host.Services.CreateScope();
+
+        await ApplySchemaMigrationsAsync(scope);
+
+        var migrationService = scope.ServiceProvider.GetRequiredService<DataMigrationService>();
+
+        await migrationService.StartMigrations();
     }
     
-    private static async Task ApplySchemaMigrationsAsync(IHost app)
+    private static async Task ApplySchemaMigrationsAsync(IServiceScope scope)
     {
-        using var scope = app.Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<AcademiesDbContext>();
 
         // Check and apply pending migrations

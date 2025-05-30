@@ -1,0 +1,23 @@
+[
+  {
+    "GroupUid": "3225",
+    "GroupId": "SB00893",
+    "GroupName": "STE's EDUCATION TRUST",
+    "CompaniesHouseNumber": "123456",
+    "GroupTypeCode": "06",
+    "GroupType": "Multi-academy trust",
+    "ClosedDate": null,
+    "GroupStatusCode": "OPEN",
+    "GroupStatus": "Open",
+    "GroupContactStreet": "Some street",
+    "GroupContactLocality": "my street",
+    "GroupContactTown": "Sheffield",
+    "GroupContactPostcode": "S1 6TY",
+    "HeadOfGroupTitle": "Not recorded",
+    "HeadOfGroupFirstName": null,
+    "HeadOfGroupLastName": null,
+    "Ukprn": "100002",
+    "IncorporatedOnOpenDate": "04\/05\/2007",
+    "OpenDate": null
+  }
+]

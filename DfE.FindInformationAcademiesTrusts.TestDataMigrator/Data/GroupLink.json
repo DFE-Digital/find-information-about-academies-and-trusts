@@ -1,0 +1,25 @@
+[
+  {
+    "URN": "98765",
+    "GroupUid": "3225",
+    "GroupId": "SB00893",
+    "GroupName": "STE's EDUCATION TRUST",
+    "CompaniesHouseNumber": "123456",
+    "GroupTypeCode": "06",
+    "GroupType": "Multi-academy trust",
+    "ClosedDate": null,
+    "GroupStatusCode": "OPEN",
+    "GroupStatus": "Open",
+    "JoinedDate": "01\/03\/2024",
+    "EstablishmentName": "A academy in ste trust",
+    "TypeOfEstablishmentCode": "34",
+    "TypeOfEstablishmentName": "Academy converter",
+    "PhaseOfEducationCode": "2",
+    "PhaseOfEducationName": "Primary",
+    "LaCode": "373",
+    "LaName": "Sheffield",
+    "IncorporatedOnOpenDate": "17\/11\/2016",
+    "OpenDate": null,
+    "UrnGroupUid": "98765|3225"
+  }
+]
