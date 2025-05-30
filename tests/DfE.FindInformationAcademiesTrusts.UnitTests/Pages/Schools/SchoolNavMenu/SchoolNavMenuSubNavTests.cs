@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools;
+using DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
 using Sut = DfE.FindInformationAcademiesTrusts.Pages.Schools.SchoolNavMenu;
 
@@ -41,6 +42,7 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
         return pageType.Name switch
         {
             nameof(DetailsModel) => "Overview",
+            nameof(InSchoolModel) => "Contacts",
             _ => throw new ArgumentException("Couldn't get expected name for given page type", nameof(pageType))
         };
     }
@@ -62,41 +64,48 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
         return pageType.Name switch
         {
             nameof(DetailsModel) => "/Schools/Overview/Details",
+            nameof(InSchoolModel) => "/Schools/Contacts/InSchool",
             _ => throw new ArgumentException("Couldn't get expected sub page nav asp link for given page type",
                 nameof(pageType))
         };
     }
 
-    [Fact]
-    public void GetSubNavLinks_should_return_expected_links_for_overview_when_school()
+    [Theory]
+    [InlineData(SchoolCategory.LaMaintainedSchool, "School details")]
+    [InlineData(SchoolCategory.Academy, "Academy details")]
+    public void GetSubNavLinks_should_return_expected_links_for_overview(SchoolCategory schoolCategory,
+        string expectedText)
     {
-        var activePage = GetMockSchoolPage(typeof(DetailsModel), schoolCategory: SchoolCategory.LaMaintainedSchool);
+        var activePage = GetMockSchoolPage(typeof(DetailsModel), schoolCategory: schoolCategory);
 
         var results = Sut.GetSubNavLinks(activePage);
 
         results.Should().SatisfyRespectively(
             l =>
             {
-                l.LinkDisplayText.Should().Be("School details");
+                l.LinkDisplayText.Should().Be(expectedText);
                 l.AspPage.Should().Be("/Schools/Overview/Details");
                 l.TestId.Should().Be("overview-details-subnav");
             }
         );
     }
 
-    [Fact]
-    public void GetSubNavLinks_should_return_expected_links_for_overview_when_academy()
+    [Theory]
+    [InlineData(SchoolCategory.LaMaintainedSchool, "In this school")]
+    [InlineData(SchoolCategory.Academy, "In this academy")]
+    public void GetSubNavLinks_should_return_expected_links_for_contacts(SchoolCategory schoolCategory,
+        string expectedText)
     {
-        var activePage = GetMockSchoolPage(typeof(DetailsModel), schoolCategory: SchoolCategory.Academy);
+        var activePage = GetMockSchoolPage(typeof(InSchoolModel), schoolCategory: schoolCategory);
 
         var results = Sut.GetSubNavLinks(activePage);
 
         results.Should().SatisfyRespectively(
             l =>
             {
-                l.LinkDisplayText.Should().Be("Academy details");
-                l.AspPage.Should().Be("/Schools/Overview/Details");
-                l.TestId.Should().Be("overview-details-subnav");
+                l.LinkDisplayText.Should().Be(expectedText);
+                l.AspPage.Should().Be("/Schools/Contacts/InSchool");
+                l.TestId.Should().Be("contacts-in-this-school-subnav");
             }
         );
     }

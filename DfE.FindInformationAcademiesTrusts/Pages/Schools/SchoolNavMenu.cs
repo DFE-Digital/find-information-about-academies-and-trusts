@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Extensions;
+using DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared.NavMenu;
 
@@ -11,6 +12,8 @@ public static class SchoolNavMenu
         return
         [
             GetServiceNavLinkTo<OverviewAreaModel>(OverviewAreaModel.PageName, "/Schools/Overview/Details",
+                activePage),
+            GetServiceNavLinkTo<ContactsAreaModel>(ContactsAreaModel.PageName, "/Schools/Contacts/InSchool",
                 activePage)
         ];
     }
@@ -37,6 +40,16 @@ public static class SchoolNavMenu
                     "/Schools/Overview/Details",
                     activePage,
                     "overview-details-subnav"
+                )
+            ],
+            ContactsAreaModel =>
+            [
+                GetSubNavLinkTo<InSchoolModel>(
+                    ContactsAreaModel.PageName,
+                    InSchoolModel.SubPageName(activePage.SchoolCategory),
+                    "/Schools/Contacts/InSchool",
+                    activePage,
+                    "contacts-in-this-school-subnav"
                 )
             ],
             _ => throw new ArgumentOutOfRangeException(nameof(activePage), activePage, "Page type is not supported.")
