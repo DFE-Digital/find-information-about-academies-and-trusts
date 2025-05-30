@@ -45,7 +45,7 @@ describe("Testing the Schools Overview SEN pages", () => {
                     .checkSENDataItemsPresent();
             });
 
-            it.only('Check SEN list only contains valid SEN provision types', () => {
+            it('Check SEN list only contains valid SEN provision types', () => {
                 cy.visit(`/schools/overview/sen?urn=${urn}`);
                 schoolsPage
                     .checkCorrectSENTypePresent();

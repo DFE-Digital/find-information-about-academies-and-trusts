@@ -1,4 +1,3 @@
-
 class SchoolsPage {
 
     elements = {
@@ -42,21 +41,55 @@ class SchoolsPage {
         expect(text).to.match(expected);
     };
 
+    public checkCorrectSENTypePresent(): this {
+        // Valid SEN (Special Educational Needs) types:
+        // - Not Applicable
+        // - SpLD - Specific Learning Difficulty
+        // - VI - Visual Impairment
+        // - OTH - Other Difficulty/Disability
+        // - HI - Hearing Impairment
+        // - SLCN - Speech, language and Communication
+        // - ASD - Autistic Spectrum Disorder
+        // - SEMH - Social, Emotional and Mental Health
+        // - MSI - Multi-Sensory Impairment
+        // - PD - Physical Disability
+        // - MLD - Moderate Learning Difficulty
+        // - SLD - Severe Learning Difficulty
+        // - PMLD - Profound and Multiple Learning Difficulty
+
+        const validSenRegex = /^(Not Applicable|SpLD - Specific Learning Difficulty|VI - Visual Impairment|OTH - Other Difficulty\/Disability|HI - Hearing Impairment|SLCN - Speech, language and Communication|ASD - Autistic Spectrum Disorder|SEMH - Social, Emotional and Mental Health|MSI - Multi-Sensory Impairment|PD - Physical Disability|MLD - Moderate Learning Difficulty|SLD - Severe Learning Difficulty|PMLD - Profound and Multiple Learning Difficulty)$/;
+
+        // Find all SEN type elements on the page
+        this.elements.overview.senTab.senProvisionType().each((element) => {
+            // Get the raw text content
+            const rawTextContent = element.text();
+
+            // Process the text content:
+            // 1. Split into separate lines
+            const textLines = rawTextContent.split('\n');
+
+            // 2. Clean up each line by removing extra spaces
+            const cleanedLines = textLines.map(line => line.trim());
+
+            // 3. Remove any empty lines and get SEN types
+            const foundSenTypes = cleanedLines.filter(line => line.length > 0);
+
+            // Check each SEN type against our valid list
+            foundSenTypes.forEach(senType => {
+                expect(senType).to.match(validSenRegex,
+                    `Expected "${senType}" to be a valid SEN type`);
+            });
+        });
+
+        return this;
+    }
+
     public checkValueIsValidSchoolType = (element: JQuery<HTMLElement>) =>
         this.checkElementMatches(element, /^(Community school|Academy converter)$/);
 
 
     public checkCorrectSchoolTypePresent(): this {
         this.elements.schoolType().each(this.checkValueIsValidSchoolType);
-        return this;
-    }
-
-    public checkValueIsValidSENType = (element: JQuery<HTMLElement>) =>
-        this.checkElementMatches(element, /^(?:Not Applicable|SpLD - Specific Learning Difficulty|VI - Visual Impairment|OTH - Other Difficulty\/Disability|HI - Hearing Impairment|SLCN - Speech, language and Communication|ASD - Autistic Spectrum Disorder|SEMH - Social, Emotional and Mental Health|MSI - Multi-Sensory Impairment|PD - Physical Disability|MLD - Moderate Learning Difficulty|SLD - Severe Learning Difficulty|PMLD - Profound and Multiple Learning Difficulty)$/);
-
-
-    public checkCorrectSENTypePresent(): this {
-        this.elements.overview.senTab.senProvisionType().each(this.checkValueIsValidSENType);
         return this;
     }
 
