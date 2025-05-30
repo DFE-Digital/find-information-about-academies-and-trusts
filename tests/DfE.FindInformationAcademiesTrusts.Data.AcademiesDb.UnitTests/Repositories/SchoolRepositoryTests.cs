@@ -1,4 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
+using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
@@ -133,6 +134,22 @@ public class SchoolRepositoryTests
         var result = await _sut.GetDateJoinedTrustAsync(urn);
 
         result.Should().Be(expectedJoinedDate);
+    }
+
+    [Fact]
+    public async Task GetSchoolContactsAsync_should_return_headteacher_from_tad()
+    {
+        var urn = 45678;
+
+        _mockAcademiesDbContext.TadHeadTeacherContacts.Add(new TadHeadTeacherContact
+        {
+            Urn = urn, HeadFirstName = "Teacher", HeadLastName = "McTeacherson", HeadEmail = "a.teacher@school.com"
+        });
+
+        var result = await _sut.GetSchoolContactsAsync(urn);
+
+        result.Name.Should().Be("Teacher McTeacherson");
+        result.Email.Should().Be("a.teacher@school.com");
     }
 
     [Fact]
