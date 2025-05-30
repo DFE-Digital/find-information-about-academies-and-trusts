@@ -14,10 +14,9 @@ public class SchoolContactsService(ISchoolRepository schoolRepository) : ISchool
     public async Task<ContactModel> GetInSchoolContactsAsync(int urn)
     {
         var schoolContacts = await schoolRepository.GetSchoolContactsAsync(urn);
-        var headteacherFullname = $"{schoolContacts.HeadteacherFirstName} {schoolContacts.HeadteacherLastName}";
 
         var headteacher = new ContactModel("Head teacher", "head-teacher",
-            new Person(headteacherFullname, schoolContacts.HeadteacherEmail));
+            new Person(schoolContacts.Name ?? string.Empty, schoolContacts.Email));
 
         return headteacher;
     }
