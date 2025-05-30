@@ -1,4 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared.Contact;
@@ -9,18 +8,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
 
-public class InSchoolModel(ISchoolService schoolService, 
-    ITrustService trustService, 
+public class InSchoolModel(
+    ISchoolService schoolService,
+    ITrustService trustService,
     ISchoolContactsService schoolContactsService,
     IDataSourceService dataSourceService)
     : ContactsAreaModel(schoolService, trustService, dataSourceService)
 {
     public override PageMetadata PageMetadata => base.PageMetadata with
     {
-        SubPageName = SubPageName(SchoolCategory)
+        SubPageName = FullSubPageName(SchoolCategory)
     };
 
-    public static string SubPageName(SchoolCategory schoolCategory)
+    public static string FullSubPageName(SchoolCategory schoolCategory)
     {
         return schoolCategory switch
         {
@@ -29,7 +29,17 @@ public class InSchoolModel(ISchoolService schoolService,
             _ => throw new ArgumentOutOfRangeException(nameof(schoolCategory))
         };
     }
-    
+
+    public static string SubPageName(SchoolCategory schoolCategory)
+    {
+        return schoolCategory switch
+        {
+            SchoolCategory.LaMaintainedSchool => "In this school",
+            SchoolCategory.Academy => "In this academy",
+            _ => throw new ArgumentOutOfRangeException(nameof(schoolCategory))
+        };
+    }
+
     public ContactModel HeadTeacher { get; private set; } = null!;
 
     public override async Task<IActionResult> OnGetAsync()

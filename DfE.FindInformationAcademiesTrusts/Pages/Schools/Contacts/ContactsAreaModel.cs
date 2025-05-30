@@ -8,8 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
 
-public class ContactsAreaModel(ISchoolService schoolService, 
-    ITrustService trustService, 
+public class ContactsAreaModel(
+    ISchoolService schoolService,
+    ITrustService trustService,
     IDataSourceService dataSourceService)
     : SchoolAreaModel(schoolService, trustService)
 {
@@ -25,12 +26,10 @@ public class ContactsAreaModel(ISchoolService schoolService,
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
         var giasDataSource = await dataSourceService.GetAsync(Source.Gias);
-        
-        var dataSourcePageName = SchoolCategory == SchoolCategory.Academy ? "In this academy" : "In this school";
 
         DataSourcesPerPage =
         [
-            new DataSourcePageListEntry(dataSourcePageName,
+            new DataSourcePageListEntry(InSchoolModel.SubPageName(SchoolCategory),
                 [new DataSourceListEntry(giasDataSource, "Head teacher name")])
         ];
 
