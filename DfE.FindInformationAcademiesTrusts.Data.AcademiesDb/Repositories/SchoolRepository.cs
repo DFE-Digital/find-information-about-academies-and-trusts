@@ -52,10 +52,15 @@ public class SchoolRepository(
 
     public async Task<SchoolContact> GetSchoolContactsAsync(int urn)
     {
-        return await academiesDbContext.TadHeadTeacherContacts
+        var headteacher = await academiesDbContext.TadHeadTeacherContacts
             .Where(c => c.Urn == urn)
-            .Select(contact => new SchoolContact(contact.HeadFirstName, contact.HeadLastName, contact.HeadEmail))
+            .Select(contact => new { contact.HeadFirstName, contact.HeadLastName, contact.HeadEmail })
             .SingleAsync();
+
+        var fullName = stringFormattingUtilities.GetFullName(headteacher.HeadFirstName, headteacher.HeadLastName);
+        var email = string.IsNullOrWhiteSpace(headteacher.HeadEmail) ? null : headteacher.HeadEmail;
+
+        return new SchoolContact(fullName, email);
     }
 
     public async Task<SenProvision> GetSchoolSenProvisionAsync(int urn)

@@ -11,7 +11,7 @@ public class SchoolContactsServiceTests
     private readonly SchoolContactsService _sut;
     private readonly ISchoolRepository _mockSchoolRepository = Substitute.For<ISchoolRepository>();
 
-    private readonly SchoolContact _dummySchoolContact = new("Teacher", "McTeacherson", "a.teacher@school.com");
+    private readonly SchoolContact _dummySchoolContact = new("Teacher McTeacherson", "a.teacher@school.com");
 
     public SchoolContactsServiceTests()
     {
@@ -19,15 +19,28 @@ public class SchoolContactsServiceTests
     }
 
     [Fact]
-    public async Task should_set_contact_details_correctly()
+    public async Task GetInSchoolContactsAsync_should_set_contact_details_from_repository()
     {
         var expectedResult = new ContactModel("Head teacher", "head-teacher",
             new Person("Teacher McTeacherson", "a.teacher@school.com"));
-        
+
         _mockSchoolRepository.GetSchoolContactsAsync(_urn).Returns(_dummySchoolContact);
-        
+
         var result = await _sut.GetInSchoolContactsAsync(_urn);
-        
+
+        result.Should().BeEquivalentTo(expectedResult);
+    }
+
+    [Fact]
+    public async Task GetInSchoolContactsAsync_should_default_null_name_to_empty_string()
+    {
+        var expectedResult = new ContactModel("Head teacher", "head-teacher",
+            new Person(string.Empty, "a.teacher@school.com"));
+
+        _mockSchoolRepository.GetSchoolContactsAsync(_urn).Returns(_dummySchoolContact with { Name = null });
+
+        var result = await _sut.GetInSchoolContactsAsync(_urn);
+
         result.Should().BeEquivalentTo(expectedResult);
     }
 }
