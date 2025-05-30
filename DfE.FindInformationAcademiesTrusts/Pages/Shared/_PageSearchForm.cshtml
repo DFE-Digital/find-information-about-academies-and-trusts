@@ -1,38 +1,37 @@
 @model IPageSearchFormModel
 @{
     var placeholderText = Html.Raw("e.g. st mary's primary school");
-    var keywords = Html.Raw(@Model.KeyWords);
+    var keywords = Html.Raw(Model.KeyWords);
 }
 
 <div data-testid="app-search-form">
-    <h3 class="govuk-heading-m govuk-!-margin-bottom-3">
-        Search for a trust or school
-    </h3>
-  <div class="govuk-hint">
-      Search by URN (unique reference number), TRN (trust reference number) of name. Include any punctuation in names. 
-  </div>
+    <label class="govuk-heading-m govuk-!-margin-bottom-3" for="@Model.PageSearchFormInputId">
+        Search for a trust or school <span class="govuk-visually-hidden">@placeholderText</span>
+    </label>
+    <div class="govuk-hint">
+        Search by URN (unique reference number), TRN (trust reference number) or name. Include any punctuation in names.
+    </div>
 
-  @* This is used by the no javascript users *@
-  <div class="app-search__wrapper">
-      <label class="govuk-visually-hidden" for="@Model.PageSearchFormInputId">@placeholderText</label>
-      <div id="@Model.PageSearchFormInputId-no-js-search-container">
-         <input class="govuk-input app-search__input" id="@Model.PageSearchFormInputId" type="search" asp-for="KeyWords" name="keywords" placeholder="@placeholderText">
-      </div>
-    <button class="govuk-button app-search__button app-search__button--blue" data-testid="search" type="submit">
-      <svg class="app-search__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path d="M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z"></path>
-      </svg>
-      <span class="govuk-visually-hidden">Search</span>
-    </button>
-  </div>
+    @* This is used by the no javascript users *@
+    <div class="app-search__wrapper">
+        <div id="@Model.PageSearchFormInputId-no-js-search-container">
+            <input class="govuk-input app-search__input" id="@Model.PageSearchFormInputId" type="search" asp-for="KeyWords" name="keywords" placeholder="@placeholderText">
+        </div>
+        <button class="govuk-button app-search__button app-search__button--blue" data-testid="search" type="submit">
+            <svg class="app-search__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z"></path>
+            </svg>
+            <span class="govuk-visually-hidden">Search</span>
+        </button>
+    </div>
 </div>
 @* This template is used by a script to implement autocomplete *@
 <template id="@Model.PageSearchFormInputId-js-autocomplete-template">
-  <div>
-    <div id="@Model.PageSearchFormInputId-autocomplete-container"></div>
-        <input type="hidden" id="@Model.PageSearchFormInputId-selected-id" name="id" />
-        <input type="hidden" id="@Model.PageSearchFormInputId-selected-searchResultType" name="searchResultType" />
-  </div>
+    <div>
+        <div id="@Model.PageSearchFormInputId-autocomplete-container"></div>
+        <input type="hidden" id="@Model.PageSearchFormInputId-selected-id" name="id"/>
+        <input type="hidden" id="@Model.PageSearchFormInputId-selected-searchResultType" name="searchResultType"/>
+    </div>
 </template>
 
 <script asp-add-nonce type="application/javascript">

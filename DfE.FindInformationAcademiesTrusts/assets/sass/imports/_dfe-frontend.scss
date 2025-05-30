@@ -14,3 +14,7 @@
 .govuk-breadcrumbs > li {
   @include govuk-font-size(16);
 }
+
+.govuk-heading-xl {
+  @include govuk-font-size(48);
+}
