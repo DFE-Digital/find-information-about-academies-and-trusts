@@ -5,6 +5,41 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Contexts
 
 public class GiasEstablishmentsQueryFilterTests
 {
+    [Fact]
+    public void GiasEstablishmentsQueryFilter_should_filter_nullable_columns_that_can_never_contain_null_data()
+    {
+        var validGiasEstablishment = new GiasEstablishment
+        {
+            EstablishmentStatusName = "Open",
+            EstablishmentTypeGroupName = "Academies",
+            EstablishmentName = "My Academy"
+        };
+
+        var filterFunction = AcademiesDbContext.GiasEstablishmentsQueryFilter.Compile();
+
+        GiasEstablishment[] data =
+        [
+            validGiasEstablishment,
+            new()
+            {
+                EstablishmentStatusName = null, EstablishmentTypeGroupName = "Academies",
+                EstablishmentName = "My Academy"
+            },
+            new()
+            {
+                EstablishmentStatusName = "Open", EstablishmentTypeGroupName = null, EstablishmentName = "My Academy"
+            },
+            new()
+            {
+                EstablishmentStatusName = "Open", EstablishmentTypeGroupName = "Academies", EstablishmentName = null
+            }
+        ];
+
+        data.Where(filterFunction).Should()
+            .ContainSingle()
+            .Which.Should().Be(validGiasEstablishment);
+    }
+
     [Theory]
     [InlineData("Academies", true)]
     [InlineData("Colleges", true)]
@@ -21,7 +56,11 @@ public class GiasEstablishmentsQueryFilterTests
         var filterFunction = AcademiesDbContext.GiasEstablishmentsQueryFilter.Compile();
 
         filterFunction(new GiasEstablishment
-                { EstablishmentTypeGroupName = schoolType, EstablishmentStatusName = "Open" })
+            {
+                EstablishmentTypeGroupName = schoolType,
+                EstablishmentStatusName = "Open",
+                EstablishmentName = "My Academy"
+            })
             .Should()
             .Be(expectedResult);
     }
@@ -37,7 +76,11 @@ public class GiasEstablishmentsQueryFilterTests
         var filterFunction = AcademiesDbContext.GiasEstablishmentsQueryFilter.Compile();
 
         filterFunction(new GiasEstablishment
-                { EstablishmentTypeGroupName = "Academies", EstablishmentStatusName = establishmentStatusName })
+            {
+                EstablishmentTypeGroupName = "Academies",
+                EstablishmentStatusName = establishmentStatusName,
+                EstablishmentName = "My Academy"
+            })
             .Should()
             .Be(expectedResult);
     }

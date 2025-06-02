@@ -11,6 +11,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Ofsted;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Search;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.TrustDocument;
 using DfE.FindInformationAcademiesTrusts.Pages;
@@ -19,6 +20,7 @@ using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.FinancialDocument;
 using DfE.FindInformationAcademiesTrusts.Services.School;
+using DfE.FindInformationAcademiesTrusts.Services.Search;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.EntityFrameworkCore;
 
@@ -44,8 +46,6 @@ public static class Dependencies
 
         builder.Services.AddScoped<SetChangedByInterceptor>();
         builder.Services.AddScoped<IUserDetailsProvider, HttpContextUserDetailsProvider>();
-
-        builder.Services.AddScoped<ITrustSearch, TrustSearch>();
 
         builder.Services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 
@@ -74,6 +74,9 @@ public static class Dependencies
         builder.Services.AddScoped<IFreeSchoolMealsAverageProvider, FreeSchoolMealsAverageProvider>();
         builder.Services.AddScoped<ISchoolOverviewDetailsService, SchoolOverviewDetailsService>();
         builder.Services.AddScoped<ISchoolOverviewSenService, SchoolOverviewSenService>();
+        builder.Services.AddScoped<ISearchService, SearchService>();
+        builder.Services.AddScoped<ITrustSchoolSearchRepository, TrustSchoolSearchRepository>();
+
         builder.Services.AddHttpContextAccessor();
     }
 }

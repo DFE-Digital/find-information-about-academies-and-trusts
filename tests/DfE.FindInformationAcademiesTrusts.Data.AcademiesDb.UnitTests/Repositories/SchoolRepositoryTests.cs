@@ -41,14 +41,16 @@ public class SchoolRepositoryTests
                 Urn = urn,
                 EstablishmentName = name,
                 TypeOfEstablishmentName = type,
-                EstablishmentTypeGroupName = typeGroup
+                EstablishmentTypeGroupName = typeGroup,
+                EstablishmentStatusName = "Open"
             },
             new GiasEstablishment
             {
                 Urn = urn + 1,
                 EstablishmentName = "Different school",
                 TypeOfEstablishmentName = type,
-                EstablishmentTypeGroupName = typeGroup
+                EstablishmentTypeGroupName = typeGroup,
+                EstablishmentStatusName = "Open"
             }
         ]);
 
@@ -70,7 +72,8 @@ public class SchoolRepositoryTests
             Urn = 123456,
             EstablishmentName = "Unsupported Establishment",
             TypeOfEstablishmentName = type,
-            EstablishmentTypeGroupName = typeGroup
+            EstablishmentTypeGroupName = typeGroup,
+            EstablishmentStatusName = "Open"
         });
 
         var result = await _sut.GetSchoolSummaryAsync(123456);
@@ -98,7 +101,8 @@ public class SchoolRepositoryTests
                 PhaseOfEducationName = "Secondary",
                 StatutoryLowAge = "5",
                 StatutoryHighAge = "16",
-                NurseryProvisionName = "None"
+                NurseryProvisionName = "None",
+                EstablishmentStatusName = "Open"
             }
         ]);
 
