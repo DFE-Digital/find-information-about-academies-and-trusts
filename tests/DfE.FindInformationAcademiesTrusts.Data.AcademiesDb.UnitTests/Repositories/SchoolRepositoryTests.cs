@@ -139,12 +139,13 @@ public class SchoolRepositoryTests
     public async Task GetSchoolSenProvisionAsync_should_return_sen_provision()
     {
         var urn = 123456;
-        
+
         _mockAcademiesDbContext.GiasEstablishments.AddRange(
         [
             new GiasEstablishment
             {
                 Urn = urn,
+                EstablishmentName = "cool school",
                 TypeOfEstablishmentName = "Foundation school",
                 EstablishmentTypeGroupName = "Local authority maintained schools",
                 ResourcedProvisionOnRoll = "2",
@@ -152,6 +153,7 @@ public class SchoolRepositoryTests
                 SenUnitOnRoll = "22",
                 SenUnitCapacity = "4",
                 TypeOfResourcedProvisionName = "Resourced",
+                EstablishmentStatusName = "Open",
                 Sen1Name = "Sen1",
                 Sen2Name = "Sen2",
                 Sen3Name = "Sen3",
@@ -167,13 +169,14 @@ public class SchoolRepositoryTests
                 Sen13Name = "Sen13"
             }
         ]);
-        
+
         var result = await _sut.GetSchoolSenProvisionAsync(urn);
-        
+
         result.Should().BeEquivalentTo(new SenProvision("2", "3", "22",
             "4", "Resourced", new List<string>
             {
-                "Sen1", "Sen2", "Sen3", "Sen4", "Sen5", "Sen6", "Sen7", "Sen8", "Sen9", "Sen10", "Sen11", "Sen12", "Sen13"
+                "Sen1", "Sen2", "Sen3", "Sen4", "Sen5", "Sen6", "Sen7", "Sen8", "Sen9", "Sen10", "Sen11", "Sen12",
+                "Sen13"
             }));
     }
 }
