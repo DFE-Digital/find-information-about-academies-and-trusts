@@ -70,42 +70,54 @@ describe('Schools Navigation Tests', () => {
     });
 
     describe("Schools overview sub navigation round robin tests", () => {
-        // school details --> SEN
-        it('Should check that the school details navigation button takes me to the correct page for a schools type subnav', () => {
+        // school details --> SEN (school)
+        it('Should check that the school details navigation button takes me to the SEN page for a schools type subnav', () => {
             cy.visit(`/schools/overview/details?urn=${navTestSchool.schoolURN}`);
             navigation
                 .clickSchoolsSENButton()
-                .checkCurrentURLIsCorrect('/schools/overview/sen?urn=140214')
-                .checkAllSchoolServiceNavItemsPresent()
-                .checkAllSchoolsSubNavItemsPresent();
-            schoolsPage
-                .checkSchoolDetailsHeaderPresent();
-        });
-    });
-
-    describe("Schools overview sub navigation round robin tests", () => {
-        // school details --> SEN
-        it('Should check that the school details navigation button takes me to the correct page for a schools type subnav', () => {
-            cy.visit(`/schools/overview/details?urn=${navTestSchool.schoolURN}`);
-            navigation
-                .clickSchoolsSENButton()
-                .checkCurrentURLIsCorrect('/schools/overview/sen?urn=140214')
-                .checkAllSchoolServiceNavItemsPresent()
-                .checkAllSchoolsSubNavItemsPresent();
-            schoolsPage
-                .checkSchoolDetailsHeaderPresent();
-        });
-
-        // SEN --> school details
-        it('Should check that the school details navigation button takes me to the correct page for a schools type subnav', () => {
-            cy.visit(`/schools/overview/sen?urn=${navTestSchool.schoolURN}`);
-            navigation
-                .clickSchoolsDetailsButton()
-                .checkCurrentURLIsCorrect('/schools/overview/details?urn=140214')
+                .checkCurrentURLIsCorrect(`/schools/overview/sen?urn=${navTestSchool.schoolURN}`)
                 .checkAllSchoolServiceNavItemsPresent()
                 .checkAllSchoolsSubNavItemsPresent();
             schoolsPage
                 .checkSENSubpageHeaderCorrect();
+        });
+    });
+
+    describe("Schools overview sub navigation round robin tests", () => {
+        // school details --> SEN (academy)
+        it('Should check that the school details navigation button takes me to the correct page for a schools type subnav', () => {
+            cy.visit(`/schools/overview/details?urn=${navTestAcademy.academyURN}`);
+            navigation
+                .clickSchoolsSENButton()
+                .checkCurrentURLIsCorrect(`/schools/overview/sen?urn=${navTestAcademy.academyURN}`)
+                .checkAllSchoolServiceNavItemsPresent()
+                .checkAllSchoolsSubNavItemsPresent();
+            schoolsPage
+                .checkSENSubpageHeaderCorrect();
+        });
+
+        // SEN --> school details (school)
+        it('Should check that the school details navigation button takes me to the correct page for a schools type subnav', () => {
+            cy.visit(`/schools/overview/sen?urn=${navTestSchool.schoolURN}`);
+            navigation
+                .clickSchoolsDetailsButton()
+                .checkCurrentURLIsCorrect(`/schools/overview/details?urn=${navTestSchool.schoolURN}`)
+                .checkAllSchoolServiceNavItemsPresent()
+                .checkAllSchoolsSubNavItemsPresent();
+            schoolsPage
+                .checkSchoolDetailsHeaderPresent();
+        });
+
+        // SEN --> school details (academy)
+        it('Should check that the school details navigation button takes me to the correct page for a schools type subnav', () => {
+            cy.visit(`/schools/overview/sen?urn=${navTestAcademy.academyURN}`);
+            navigation
+                .clickSchoolsDetailsButton()
+                .checkCurrentURLIsCorrect(`/schools/overview/details?urn=${navTestAcademy.academyURN}`)
+                .checkAllSchoolServiceNavItemsPresent()
+                .checkAllSchoolsSubNavItemsPresent();
+            schoolsPage
+                .checkAcademyDetailsHeaderPresent();
         });
     });
 });
