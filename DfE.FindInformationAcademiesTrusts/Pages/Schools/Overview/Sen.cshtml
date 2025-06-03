@@ -56,7 +56,17 @@
             {
               foreach (var senType in Model.SenProvisionTypes)
               {
-                <li>@senType</li>
+                <li>
+                  @if (senType == "VI - Visual Impairment")
+                  {
+                    <span aria-label="V">V</span><span aria-label="I">I</span>
+                    <text> - Visual Impairment</text>
+                  }
+                  else
+                  {
+                    @senType
+                  }
+                </li>
               }
             }
           </ul>

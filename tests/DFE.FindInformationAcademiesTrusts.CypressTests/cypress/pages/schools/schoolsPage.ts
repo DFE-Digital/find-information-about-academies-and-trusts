@@ -57,7 +57,7 @@ class SchoolsPage {
         // - SLD - Severe Learning Difficulty
         // - PMLD - Profound and Multiple Learning Difficulty
 
-        const validSenRegex = /^(Not Applicable|SpLD - Specific Learning Difficulty|VI - Visual Impairment|OTH - Other Difficulty\/Disability|HI - Hearing Impairment|SLCN - Speech, language and Communication|ASD - Autistic Spectrum Disorder|SEMH - Social, Emotional and Mental Health|MSI - Multi-Sensory Impairment|PD - Physical Disability|MLD - Moderate Learning Difficulty|SLD - Severe Learning Difficulty|PMLD - Profound and Multiple Learning Difficulty)$/;
+        const validSenRegex = /^(Not Applicable|SpLD - Specific Learning Difficulty|VI|- Visual Impairment|OTH - Other Difficulty\/Disability|HI - Hearing Impairment|SLCN - Speech, language and Communication|ASD - Autistic Spectrum Disorder|SEMH - Social, Emotional and Mental Health|MSI - Multi-Sensory Impairment|PD - Physical Disability|MLD - Moderate Learning Difficulty|SLD - Severe Learning Difficulty|PMLD - Profound and Multiple Learning Difficulty)$/;
 
         // Find all SEN type elements on the page
         this.elements.overview.senTab.senProvisionType().each((element) => {
