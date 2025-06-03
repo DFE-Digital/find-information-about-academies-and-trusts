@@ -12,9 +12,14 @@
         </h2>
 
         <partial name="Shared/_InternalUseOnlyWarning" model=@("Head teacher email addresses") />
-
-        <partial name="Contact/_DisplayContact" for="HeadTeacher" />
-
+        <div class="govuk-summary-card" data-testid="head-teacher">
+            <div class="govuk-summary-card__title-wrapper">
+                <h3 class="govuk-summary-card__title">
+                    Head teacher
+                </h3>
+            </div>
+            <partial name="Contact/_DisplayContact" model="Model.HeadTeacher" />
+        </div>
         <hr class="govuk-section-break govuk-section-break--m">
     </div>
 </div>

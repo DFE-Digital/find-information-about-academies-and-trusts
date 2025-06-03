@@ -1,9 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
-using DfE.FindInformationAcademiesTrusts.Pages.Shared.Contact;
 using DfE.FindInformationAcademiesTrusts.Services.School;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +17,7 @@ public class ContactsAreaModel(
     public const string PageName = "Contacts";
 
     public override PageMetadata PageMetadata => base.PageMetadata with { PageName = PageName };
-
-    public ContactModel HeadTeacher { get; private set; } = null!;
-
+    
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();
@@ -29,10 +25,6 @@ public class ContactsAreaModel(
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
         var giasDataSource = await dataSourceService.GetAsync(Source.Gias);
-        
-        var dataSourcePageName = SchoolCategory == SchoolCategory.Academy ? "In this academy" : "In this school";
-        HeadTeacher = new ContactModel("Head teacher", "head-teacher",
-            new Person("Aaron Aaronson", "aa@someschool.com"));
 
         DataSourcesPerPage =
         [

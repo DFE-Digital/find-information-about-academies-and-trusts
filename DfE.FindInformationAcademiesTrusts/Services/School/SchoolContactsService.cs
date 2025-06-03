@@ -1,22 +1,20 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
-using DfE.FindInformationAcademiesTrusts.Pages.Shared.Contact;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.School;
 
 public interface ISchoolContactsService
 {
-    Task<ContactModel> GetInSchoolContactsAsync(int urn);
+    Task<Person> GetInSchoolContactsAsync(int urn);
 }
 
 public class SchoolContactsService(ISchoolRepository schoolRepository) : ISchoolContactsService
 {
-    public async Task<ContactModel> GetInSchoolContactsAsync(int urn)
+    public async Task<Person> GetInSchoolContactsAsync(int urn)
     {
         var schoolContacts = await schoolRepository.GetSchoolContactsAsync(urn);
 
-        var headteacher = new ContactModel("Head teacher", "head-teacher",
-            new Person(schoolContacts.Name ?? string.Empty, schoolContacts.Email));
+        var headteacher = new Person(schoolContacts.Name ?? string.Empty, schoolContacts.Email);
 
         return headteacher;
     }

@@ -1,11 +1,4 @@
-@model ContactModel
-
-<div class="govuk-summary-card" data-testid="@Model.DataTestId">
-  <div class="govuk-summary-card__title-wrapper">
-    <h3 class="govuk-summary-card__title">
-      @Model.ContactType
-    </h3>
-  </div>
+@model DfE.FindInformationAcademiesTrusts.Data.Person
 
   <div class="govuk-summary-card__content">
     <dl class="govuk-summary-list">
@@ -13,9 +6,9 @@
         <dt class="govuk-summary-list__key">
           Name
         </dt>
-        @if (!string.IsNullOrWhiteSpace(Model.Person.FullName))
+        @if (Model != null && !string.IsNullOrWhiteSpace(Model.FullName))
         {
-          <dd class="govuk-summary-list__value" data-testid="contact-name">@Model.Person.FullName</dd>
+          <dd class="govuk-summary-list__value" data-testid="contact-name">@Model.FullName</dd>
         }
         else
         {
@@ -26,11 +19,11 @@
         <dt class="govuk-summary-list__key">
           Email address
         </dt>
-        @if (!string.IsNullOrWhiteSpace(Model.Person.Email))
+        @if (Model != null && !string.IsNullOrWhiteSpace(Model.Email))
         {
           <dd class="govuk-summary-list__value">
-            <a class="govuk-link" href="mailto:@Model.Person.Email" rel="noopener" target="_blank"
-               data-testid="contact-email">@Model.Person.Email</a>
+            <a class="govuk-link" href="mailto:@Model.Email" rel="noopener" target="_blank"
+               data-testid="contact-email">@Model.Email</a>
           </dd>
         }
         else
@@ -40,5 +33,3 @@
       </div>
     </dl>
   </div>
-
-</div>
