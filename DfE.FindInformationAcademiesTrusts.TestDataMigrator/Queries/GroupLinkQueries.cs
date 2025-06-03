@@ -3,8 +3,6 @@
 public static class GroupLinkQueries
 {
     public static readonly string Insert = @"
-                                                    DELETE FROM [gias].[GroupLink]
-
                                                    INSERT INTO [gias].[GroupLink]
                                                    ([URN]
                                                    ,[Group UID]

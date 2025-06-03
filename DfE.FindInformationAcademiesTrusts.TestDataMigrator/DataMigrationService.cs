@@ -19,6 +19,8 @@ public class DataMigrationService(FileParserService fileParserService, GenericRe
         var groupLinks = await groupLinksTask;
         var establishments = await establishmentsTask;
 
+        await repository.DeleteAllAsync();
+
         var insertGroupsTask = repository.InsertAsync(GroupQueries.Insert, groups);
         var insertGroupLinksTask = repository.InsertAsync(GroupLinkQueries.Insert, groupLinks);
         var insertEstablishmentsTask = repository.InsertAsync(EstablishmentsQueries.Insert, establishments);

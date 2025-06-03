@@ -2,9 +2,7 @@
 
 public static class EstablishmentsQueries
 {
-    public static readonly string Insert = @"
-                                                DELETE FROM [gias].[Establishment]
-                                                
+    public static readonly string Insert = @"                                              
                                                 INSERT INTO [gias].[Establishment]
                                                            ([URN]
                                                            ,[LA (code)]

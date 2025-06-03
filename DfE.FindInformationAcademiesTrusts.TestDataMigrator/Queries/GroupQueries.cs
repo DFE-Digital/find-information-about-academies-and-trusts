@@ -1,10 +1,8 @@
-﻿namespace DfE.FindInformationAcademiesTrusts.TestDataMigrator.Queries
-{
-    public static class GroupQueries
-    {
-        public static readonly string Insert = @"
-                                                    DELETE FROM [gias].[Group]
+﻿namespace DfE.FindInformationAcademiesTrusts.TestDataMigrator.Queries;
 
+public static class GroupQueries
+{
+    public static readonly string Insert = @"
                                                     INSERT INTO [gias].[Group]
                                                    ([Group UID]
                                                    ,[Group ID]
@@ -45,5 +43,4 @@
                                                    ,@Ukprn
                                                    ,@IncorporatedOnOpenDate
                                                    ,@OpenDate)";
-    }
 }
