@@ -1,6 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
-using DfE.FindInformationAcademiesTrusts.Pages.Shared.Contact;
 using DfE.FindInformationAcademiesTrusts.Services.School;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
@@ -21,8 +20,7 @@ public class SchoolContactsServiceTests
     [Fact]
     public async Task GetInSchoolContactsAsync_should_set_contact_details_from_repository()
     {
-        var expectedResult = new ContactModel("Head teacher", "head-teacher",
-            new Person("Teacher McTeacherson", "a.teacher@school.com"));
+        var expectedResult = new Person("Teacher McTeacherson", "a.teacher@school.com");
 
         _mockSchoolRepository.GetSchoolContactsAsync(_urn).Returns(_dummySchoolContact);
 
@@ -34,8 +32,7 @@ public class SchoolContactsServiceTests
     [Fact]
     public async Task GetInSchoolContactsAsync_should_default_null_name_to_empty_string()
     {
-        var expectedResult = new ContactModel("Head teacher", "head-teacher",
-            new Person(string.Empty, "a.teacher@school.com"));
+        var expectedResult = new Person(string.Empty, "a.teacher@school.com");
 
         _mockSchoolRepository.GetSchoolContactsAsync(_urn).Returns(_dummySchoolContact with { Name = null });
 

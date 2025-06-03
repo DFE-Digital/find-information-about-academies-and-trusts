@@ -1,7 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
-using DfE.FindInformationAcademiesTrusts.Pages.Shared.Contact;
 using DfE.FindInformationAcademiesTrusts.Services.School;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Schools.Contacts;
@@ -10,8 +9,7 @@ public class InSchoolModelTests : BaseContactsAreaModelTests<InSchoolModel>
 {
     private readonly ISchoolContactsService _mockSchoolContactsService = Substitute.For<ISchoolContactsService>();
 
-    private readonly ContactModel _dummyInSchoolContacts = new("Head teacher name", "head-teacher",
-        new Person("Aaron Aaronson", "aa@someschool.com"));
+    private readonly Person _dummyInSchoolContacts = new ("Aaron Aaronson", "aa@someschool.com");
 
     public InSchoolModelTests()
     {

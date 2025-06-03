@@ -1,6 +1,6 @@
+using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
-using DfE.FindInformationAcademiesTrusts.Pages.Shared.Contact;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.School;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -40,7 +40,7 @@ public class InSchoolModel(
         };
     }
 
-    public ContactModel HeadTeacher { get; private set; } = null!;
+    public Person HeadTeacher { get; private set; } = null!;
 
     public override async Task<IActionResult> OnGetAsync()
     {
