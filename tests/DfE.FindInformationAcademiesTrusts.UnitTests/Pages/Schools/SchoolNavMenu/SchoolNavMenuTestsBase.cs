@@ -10,7 +10,8 @@ public abstract class SchoolNavMenuTestsBase
     public static TheoryData<Type> SubPageTypes =>
     [
         //Overview
-        typeof(DetailsModel)
+        typeof(DetailsModel),
+        typeof(SenModel)
     ];
 
     protected static SchoolAreaModel GetMockSchoolPage(Type pageType, int urn = 123456,

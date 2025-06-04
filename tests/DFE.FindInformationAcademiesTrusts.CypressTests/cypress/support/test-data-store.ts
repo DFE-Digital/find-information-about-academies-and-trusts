@@ -51,8 +51,8 @@ export class TestDataStore {
             {
                 pageName: "Overview",
                 subpages: [
-                    { subpageName: "School/academy details", url: `/schools/overview/details?urn=${urn}` },
-
+                    { subpageName: "School details", url: `/schools/overview/details?urn=${urn}` },
+                    { subpageName: "SEN (special educational needs)", url: `/schools/overview/sen?urn=${urn}` },
                 ]
             },
         ];

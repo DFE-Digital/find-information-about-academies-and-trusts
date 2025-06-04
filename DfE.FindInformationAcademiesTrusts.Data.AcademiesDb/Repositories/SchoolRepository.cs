@@ -49,4 +49,34 @@ public class SchoolRepository(
                 DateOnly.ParseExact(gl.JoinedDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None))
             .FirstAsync();
     }
+
+    public async Task<SenProvision> GetSchoolSenProvisionAsync(int urn)
+    {
+        return await academiesDbContext.GiasEstablishments
+            .Where(e => e.Urn == urn)
+            .Select(establishment => new SenProvision(
+                establishment.ResourcedProvisionOnRoll!,
+                establishment.ResourcedProvisionCapacity!,
+                establishment.SenUnitOnRoll!,
+                establishment.SenUnitCapacity!,
+                establishment.TypeOfResourcedProvisionName!,
+                new List<string>
+                {
+                    establishment.Sen1Name!,
+                    establishment.Sen2Name!,
+                    establishment.Sen3Name!,
+                    establishment.Sen4Name!,
+                    establishment.Sen5Name!,
+                    establishment.Sen6Name!,
+                    establishment.Sen7Name!,
+                    establishment.Sen8Name!,
+                    establishment.Sen9Name!,
+                    establishment.Sen10Name!,
+                    establishment.Sen11Name!,
+                    establishment.Sen12Name!,
+                    establishment.Sen13Name!
+                }
+            ))
+            .SingleAsync();
+    }
 }
