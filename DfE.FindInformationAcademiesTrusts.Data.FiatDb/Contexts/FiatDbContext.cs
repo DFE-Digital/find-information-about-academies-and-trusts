@@ -8,7 +8,7 @@ public sealed class FiatDbContext(
     SetChangedByInterceptor setChangedByInterceptor)
     : DbContext(options)
 {
-    public DbSet<TrustContact> Contacts { get; set; }
+    public DbSet<TrustContact> TrustContacts { get; set; }
 
     public async Task<int> SaveChangesAsync()
     {
