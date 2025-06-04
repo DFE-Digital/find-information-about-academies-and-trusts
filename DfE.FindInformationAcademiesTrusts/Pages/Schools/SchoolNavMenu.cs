@@ -38,6 +38,12 @@ public static class SchoolNavMenu
                     activePage,
                     "overview-details-subnav"
                 ),
+                GetSubNavLinkTo<FederationModel>(
+                    OverviewAreaModel.PageName,
+                    FederationModel.SubPageName,
+                    "/Schools/Overview/Federation",
+                    activePage,
+                    "overview-federation-subnav"),
                 GetSubNavLinkTo<SenModel>(
                     OverviewAreaModel.PageName,
                     SenModel.SubPageName,
