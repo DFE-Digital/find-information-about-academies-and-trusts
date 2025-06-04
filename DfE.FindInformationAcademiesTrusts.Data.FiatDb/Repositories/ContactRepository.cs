@@ -57,7 +57,7 @@ public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
 
     private async Task<TrustContactUpdated> AddNewContact(int uid, string? name, string? email, ContactRole role)
     {
-        fiatDbContext.Contacts.Add(new Contact
+        fiatDbContext.Contacts.Add(new TrustContact
         {
             Name = name ?? string.Empty,
             Email = email ?? string.Empty,
