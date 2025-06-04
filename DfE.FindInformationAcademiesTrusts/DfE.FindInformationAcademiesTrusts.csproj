@@ -22,6 +22,7 @@
         <PackageReference Include="Microsoft.Identity.Web" Version="3.8.4" />
         <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.24.0" />
         <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" Version="0.24.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
         <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
     </ItemGroup>
@@ -46,5 +47,11 @@
         <ProjectReference Include="..\DfE.FindInformationAcademiesTrusts.Data.FiatDb\DfE.FindInformationAcademiesTrusts.Data.FiatDb.csproj" />
         <ProjectReference Include="..\DfE.FindInformationAcademiesTrusts.Data.Hardcoded\DfE.FindInformationAcademiesTrusts.Data.Hardcoded.csproj" />
         <ProjectReference Include="..\DfE.FindInformationAcademiesTrusts.Data\DfE.FindInformationAcademiesTrusts.Data.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Dfe.CaseAggregationService.Api.Client">
+        <HintPath>..\..\..\_gittest\rsd-case-aggregation-api\src\Dfe.CaseAggregationService.Api.Client\bin\Debug\net8.0\Dfe.CaseAggregationService.Api.Client.dll</HintPath>
+      </Reference>
     </ItemGroup>
 </Project>

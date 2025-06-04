@@ -2,7 +2,7 @@
 @model DfE.FindInformationAcademiesTrusts.Pages.ManageMyCasework.Overview.IndexModel
 @{
     Layout = "_MMCLayout";
-    ViewData["Title"] = "hi";
+    ViewData["Title"] = "Manage my casework";
 
     // string PageOrPages()
     // {
@@ -40,19 +40,78 @@
     </div>
     <div class="govuk-grid-column-two-thirds">
 
-        <h2 class="govuk-heading-l" test-id="projectCount" data-cy="select-projectlist-filter-count">@Model.TotalProjects schools found</h2>
+        <h2 class="govuk-heading-l" test-id="projectCount" data-cy="select-projectlist-filter-count">@Model.Cases.PageStatus.TotalResults projects found</h2>
+        <div class="govuk-form-group">
+            <label class="govuk-label--m" for="sort">
+                Sort by: 
+            </label>
+            
+            <form id="sortForm" method="get" class="form">
+                <select class="govuk-select" id="sorting" asp-for="@Model.Sorting">
+                    <option value="@ResultSorting.createdDesc">Most recently created</option>
+                    <option value="@ResultSorting.createdAsc">Least recently created</option>
+                    <option value="@ResultSorting.updatedDesc">Most recently updated</option>
+                    <option value="@ResultSorting.updatedAsc">Least recently updated</option>
+                </select>
+            </form>
+        </div>
         <table class="govuk-table">
-            <thead class="govuk-table__head">
+            @*          <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                     <th class="govuk-table__header app-!-width-three-fifths">School information</th>
                 </tr>
-            </thead>
+            </thead> *@
             <tbody class="govuk-table__body">
+                
+                
                 @{
-                    // <partial name="Shared/_ProjectListRows" model="Model.SupportProjects" />
+                    var index = 0;
+
+                    if (Model.Cases != null)
+                    {
+                        foreach (var currentCase in Model.Cases)
+                        {
+                            <tr class="govuk-table__row" data-cy="select-caselist-filter-row">
+                                <td class="govuk-table__cell">
+                                    <div class="govuk-!-margin-top-1 govuk-!-margin-bottom-2">
+                                        <strong>
+                                            <a id="@("case-" + index)" class="govuk-link" asp-page="@currentCase.Title" data-cy="trust-name-@index" asp-route-id="@currentCase.TitleLink">@currentCase.Title</a>
+                                        </strong>
+                                    </div>
+                                    <div class="govuk-hint">
+                                        @currentCase.System
+                                    </div>
+                                    <div class="govuk-tag--yellow govuk-tag">
+                                        @currentCase.ProjectType
+                                    </div>
+                                    @foreach (var caseItem in @currentCase.Info)
+                                    {
+                                        <div class="govuk-!-margin-top-1">
+                                            <span id="@("case-item-" + index)"><strong>@caseItem.Label:</strong> @caseItem.Value</span>
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+
+                        }
+                    }
                 }
+
             </tbody>
         </table>
-        @*         <partial name="Shared/_Pagination" model="Model.Pagination" /> *@
+        @if (Model.PageStatus.TotalResults > 0)
+        {
+            <partial name="Shared/_Pagination"/>
+        }
     </div>
+    
+    <script asp-add-nonce>
+
+        document.getElementById("sorting").addEventListener("change", onChange);
+
+        function onChange(e)
+        {
+            document.getElementById("sortForm").submit()
+        }
+    </script>
 </div>

@@ -87,6 +87,40 @@
                         <div class="govuk-accordion__section">
                             <div class="govuk-accordion__section-header">
                                 <h2 class="govuk-accordion__section-heading">
+                                    <label class="govuk-accordion__section-button"
+                                           id="accordion-systems-heading"
+                                           data-cy="select-projectlist-filter-system"
+                                           for="filter-authority-searches">
+                                        System
+                                    </label>
+                                </h2>
+                            </div>
+                            <div class="govuk-accordion__section-content">
+                                <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2"
+                                       id="filter-authority-searches" placeholder="Type to filter system..."
+                                       aria-labelledby="accordion-systems-heading">
+                                <div class="govuk-checkboxes">
+                                    @foreach (var system in Model.AvailableSystems)
+                                    {
+                                        <div class="govuk-checkboxes__item">
+                                            <input class="govuk-checkboxes__input"
+                                                   id="filter-project-system-@system.Stub()"
+                                                   name="SelectedSystems" type="checkbox"
+                                                   value="@system"
+                                                   data-cy="select-system-filter-system-@system"
+                                                   @(Model.SelectedSystems.Contains(system) ? "checked" : null) />
+                                            <label class="govuk-label govuk-checkboxes__label"
+                                                   for="filter-project-system-@system.Stub()">
+                                                @system
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="govuk-accordion__section">
+                            <div class="govuk-accordion__section-header">
+                                <h2 class="govuk-accordion__section-heading">
 
                                     <label class="govuk-accordion__section-button" id="accordion-project-type-heading"
                                            data-cy="select-projectlist-filter-project-type" for="filter-searches">
@@ -116,40 +150,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="govuk-accordion__section">
-                            <div class="govuk-accordion__section-header">
-                                <h2 class="govuk-accordion__section-heading">
-                                    <label class="govuk-accordion__section-button"
-                                           id="accordion-systems-heading"
-                                           data-cy="select-projectlist-filter-system"
-                                           for="filter-authority-searches">
-                                        System
-                                    </label>
-                                </h2>
-                            </div>
-                            <div class="govuk-accordion__section-content">
-                                <input type="text" class="govuk-input govuk-!-display-none govuk-!-margin-bottom-2"
-                                       id="filter-authority-searches" placeholder="Type to filter system..."
-                                       aria-labelledby="accordion-systems-heading">
-                                <div class="govuk-checkboxes">
-                                    @foreach (var system in Model.AvailableSystems)
-                                    {
-                                        <div class="govuk-checkboxes__item">
-                                            <input class="govuk-checkboxes__input"
-                                                   id="filter-project-system-@system.Stub()"
-                                                   name="selectedSelectedSystems" type="checkbox"
-                                                   value="@system"
-                                                   data-cy="select-system-filter-system-@system"
-                                                   @(Model.SelectedSystems.Contains(system) ? "checked" : null)/>
-                                            <label class="govuk-label govuk-checkboxes__label"
-                                                   for="filter-project-system-@system.Stub()">
-                                                @system
-                                            </label>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 
