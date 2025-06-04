@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+## [Release-35][release-35] (production-2025-06-04.5832)
+
+### Changed
+
+- Added school and academy SEN details.
+
 ## [Release-34][release-34] (production-2025-06-02.5812)
 
 ### Changed
@@ -356,7 +362,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated text on "404 - Not Found" page to adhere to DfE design pattern and added the not found url to the support email template.
 
 [unreleased]:
-  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/compare/production-2025-06-02.5812...HEAD
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/compare/production-2025-06-04.5832...HEAD
 [release-1]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-07-18.2517
 [release-2]:
@@ -425,3 +431,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-05-29.5786
 [release-34]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-06-02.5812
+[release-35]:
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-06-04.5832
+
