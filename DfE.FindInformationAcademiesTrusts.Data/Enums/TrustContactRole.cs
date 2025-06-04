@@ -1,6 +1,6 @@
 namespace DfE.FindInformationAcademiesTrusts.Data.Enums;
 
-public enum ContactRole
+public enum TrustContactRole
 {
     TrustRelationshipManager,
     SfsoLead
