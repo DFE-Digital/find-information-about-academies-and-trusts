@@ -30,7 +30,7 @@ public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
     public async Task<TrustContactUpdated> UpdateInternalContactsAsync(int uid, string? name, string? email,
         ContactRole role)
     {
-        var contact = await fiatDbContext.Contacts
+        var contact = await fiatDbContext.TrustContacts
             .SingleOrDefaultAsync(contact => contact.Uid == uid && contact.Role == role);
         if (contact is null)
         {
@@ -57,7 +57,7 @@ public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
 
     private async Task<TrustContactUpdated> AddNewContact(int uid, string? name, string? email, ContactRole role)
     {
-        fiatDbContext.Contacts.Add(new TrustContact
+        fiatDbContext.TrustContacts.Add(new TrustContact
         {
             Name = name ?? string.Empty,
             Email = email ?? string.Empty,
@@ -70,7 +70,7 @@ public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
 
     private async Task<InternalContact?> GetTrustRelationshipManagerLinkedTo(string uid)
     {
-        return await fiatDbContext.Contacts.Where(contact =>
+        return await fiatDbContext.TrustContacts.Where(contact =>
                 contact.Uid == int.Parse(uid) && contact.Role == ContactRole.TrustRelationshipManager)
             .Select(contact => new InternalContact(contact.Name, contact.Email,
                 contact.LastModifiedAtTime, contact.LastModifiedByEmail
@@ -79,7 +79,7 @@ public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
 
     private async Task<InternalContact?> GetSfsoLeadLinkedTo(string uid)
     {
-        return await fiatDbContext.Contacts.Where(contact =>
+        return await fiatDbContext.TrustContacts.Where(contact =>
                 contact.Uid == int.Parse(uid) && contact.Role == ContactRole.SfsoLead)
             .Select(contact => new InternalContact(contact.Name, contact.Email,
                 contact.LastModifiedAtTime, contact.LastModifiedByEmail

@@ -32,7 +32,7 @@ public abstract class BaseFiatDbTest : IDisposable
     /// </summary>
     private void AddSeedData()
     {
-        FiatDbContext.Contacts.AddRange(
+        FiatDbContext.TrustContacts.AddRange(
             new TrustContact
             {
                 Name = "Other TrustRelationshipManager",
