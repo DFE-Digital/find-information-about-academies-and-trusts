@@ -11,7 +11,8 @@ public abstract class SchoolNavMenuTestsBase
     [
         //Overview
         typeof(DetailsModel),
-        typeof(SenModel)
+        typeof(SenModel),
+        typeof(FederationModel)
     ];
 
     protected static SchoolAreaModel GetMockSchoolPage(Type pageType, int urn = 123456,

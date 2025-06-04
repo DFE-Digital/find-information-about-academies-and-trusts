@@ -41,7 +41,8 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
         return pageType.Name switch
         {
             nameof(DetailsModel) or
-                nameof(SenModel) => "Overview",
+                nameof(SenModel) or
+                nameof(FederationModel) => "Overview",
             _ => throw new ArgumentException("Couldn't get expected name for given page type", nameof(pageType))
         };
     }
@@ -64,6 +65,7 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
         {
             nameof(DetailsModel) => "/Schools/Overview/Details",
             nameof(SenModel) => "/Schools/Overview/Sen",
+            nameof(FederationModel) => "/Schools/Overview/Federation",
             _ => throw new ArgumentException("Couldn't get expected sub page nav asp link for given page type",
                 nameof(pageType)),
             
@@ -83,6 +85,12 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
                 l.LinkDisplayText.Should().Be("School details");
                 l.AspPage.Should().Be("/Schools/Overview/Details");
                 l.TestId.Should().Be("overview-details-subnav");
+            },
+            l =>
+            {
+                l.LinkDisplayText.Should().Be("Federation details");
+                l.AspPage.Should().Be("/Schools/Overview/Federation");
+                l.TestId.Should().Be("overview-federation-subnav");
             },
             l =>
             {
@@ -106,6 +114,12 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
                 l.LinkDisplayText.Should().Be("Academy details");
                 l.AspPage.Should().Be("/Schools/Overview/Details");
                 l.TestId.Should().Be("overview-details-subnav");
+            },
+            l =>
+            {
+                l.LinkDisplayText.Should().Be("Federation details");
+                l.AspPage.Should().Be("/Schools/Overview/Federation");
+                l.TestId.Should().Be("overview-federation-subnav");
             },
             l =>
             {
