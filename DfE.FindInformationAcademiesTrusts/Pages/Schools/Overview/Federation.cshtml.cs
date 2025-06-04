@@ -16,11 +16,26 @@ public class FederationModel(ISchoolService schoolService,
     };
 
     public const string SubPageName = "Federation details";
+    
+    public string? Name { get; set; }
+    public string? FederationUid { get; set; }
+    public DateTime? OpenedOnDate { get; set; }
+    public Dictionary<string, string> Schools { get; set; } = new();
 
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();
         if (pageResult is NotFoundResult) return pageResult;
+
+        Name = "My school name";
+        FederationUid = "1234/5678";
+        OpenedOnDate = DateTime.UtcNow;
+        Schools = new Dictionary<string, string>
+        {
+            { "123", "This is a school" },
+            { "456", "This is another school" },
+            { "789", "This is also a school" },
+        };
         
         return pageResult;
     }

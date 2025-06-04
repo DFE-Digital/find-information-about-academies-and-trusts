@@ -11,30 +11,35 @@
     <dl class="govuk-summary-list govuk-!-margin-bottom-0">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key govuk-!-width-one-half">Name</dt>
-        <dd class="govuk-summary-list__value">My school name</dd>
+        <dd class="govuk-summary-list__value">@Model.Name</dd>
       </div>
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key govuk-!-width-one-half">UID (Unique group identifier)</dt>
-        <dd class="govuk-summary-list__value">1111/0000</dd>
+        <dd class="govuk-summary-list__value">@Model.FederationUid</dd>
       </div>
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key govuk-!-width-one-half">Opened on</dt>
-        <dd class="govuk-summary-list__value">5th January 1978</dd>
+        <dd class="govuk-summary-list__value">
+          @* @Model.OpenedOnDate!.Value *@
+          @* @if (Model.OpenedOnDate is not null) *@
+          @* { *@
+          @Model.OpenedOnDate!.Value.ToString(StringFormatConstants.DisplayFullDateFormat)
+          @* } *@
+        </dd>
       </div>
     </dl>
     <hr class="govuk-section-break govuk-section-break--m"/>
     <h3 class="govuk-heading-m">Schools in this federation</h3>
     <ul class="govuk-list govuk-list--bullet">
-      @* loop goes here *@
-      <li>
-        <a href="#" target="_blank" class="govuk-link">Another school</a>
-      </li>
-      <li>
-        <a href="#" target="_blank" class="govuk-link">Yet another school</a>
-      </li>
-      <li>
-        <a href="#" target="_blank" class="govuk-link">One more school</a>
-      </li>
+      @if (Model.Schools.Count > 0)
+      {
+        foreach (var school in Model.Schools)
+        {
+          <li>
+            <a href="schools/overview/federation?urn=@school.Key" target="_blank" class="govuk-link">@school.Value</a>
+          </li>
+        }
+      }
     </ul>
     <hr class="govuk-section-break govuk-section-break--m"/>
   </div>
