@@ -38,14 +38,14 @@ public abstract class BaseFiatDbTest : IDisposable
                 Name = "Other TrustRelationshipManager",
                 Email = "other.TrustRelationshipManager@education.gov.uk",
                 Uid = 42,
-                Role = ContactRole.TrustRelationshipManager
+                Role = TrustContactRole.TrustRelationshipManager
             },
             new TrustContact
             {
                 Name = "Other SfsoLead",
                 Email = "other.SfsoLead@education.gov.uk",
                 Uid = 42,
-                Role = ContactRole.SfsoLead
+                Role = TrustContactRole.SfsoLead
             }
         );
 

@@ -19,7 +19,7 @@ public class SetChangedByInterceptorTests(FiatDbContainerFixture fiatDbContainer
             Name = "My TrustRelationshipManager",
             Email = "my.TrustRelationshipManager@education.gov.uk",
             Uid = 1234,
-            Role = ContactRole.TrustRelationshipManager
+            Role = TrustContactRole.TrustRelationshipManager
         }).Entity;
 
         await FiatDbContext.SaveChangesAsync();
@@ -41,7 +41,7 @@ public class SetChangedByInterceptorTests(FiatDbContainerFixture fiatDbContainer
             Name = "My TrustRelationshipManager",
             Email = "my.TrustRelationshipManager@education.gov.uk",
             Uid = 1234,
-            Role = ContactRole.TrustRelationshipManager
+            Role = TrustContactRole.TrustRelationshipManager
         }).Entity;
 
         FiatDbContext.SaveChanges();
