@@ -14,7 +14,7 @@ public class SetChangedByInterceptorTests(FiatDbContainerFixture fiatDbContainer
     {
         MockUserDetailsProvider.GetUserDetails().Returns((username, email));
 
-        var entry = FiatDbContext.Contacts.Add(new TrustContact
+        var entry = FiatDbContext.TrustContacts.Add(new TrustContact
         {
             Name = "My TrustRelationshipManager",
             Email = "my.TrustRelationshipManager@education.gov.uk",
@@ -36,7 +36,7 @@ public class SetChangedByInterceptorTests(FiatDbContainerFixture fiatDbContainer
     {
         MockUserDetailsProvider.GetUserDetails().Returns((username, email));
 
-        var entry = FiatDbContext.Contacts.Add(new TrustContact
+        var entry = FiatDbContext.TrustContacts.Add(new TrustContact
         {
             Name = "My TrustRelationshipManager",
             Email = "my.TrustRelationshipManager@education.gov.uk",
