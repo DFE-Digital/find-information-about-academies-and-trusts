@@ -8,7 +8,7 @@ public sealed class FiatDbContext(
     SetChangedByInterceptor setChangedByInterceptor)
     : DbContext(options)
 {
-    public DbSet<Contact> Contacts { get; set; }
+    public DbSet<TrustContact> Contacts { get; set; }
 
     public async Task<int> SaveChangesAsync()
     {
@@ -25,7 +25,7 @@ public sealed class FiatDbContext(
         base.OnModelCreating(modelBuilder);
 
         var contactEntity = modelBuilder
-            .Entity<Contact>();
+            .Entity<TrustContact>();
 
         contactEntity
             .ToTable("Contacts", table => table.IsTemporal());

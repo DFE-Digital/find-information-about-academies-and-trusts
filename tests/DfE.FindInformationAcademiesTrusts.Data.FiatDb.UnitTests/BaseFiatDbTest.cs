@@ -1,7 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Models;
-using NSubstitute;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.FiatDb.UnitTests;
@@ -33,22 +32,22 @@ public abstract class BaseFiatDbTest : IDisposable
     /// </summary>
     private void AddSeedData()
     {
-        FiatDbContext.Contacts.AddRange([
-            new Contact
+        FiatDbContext.Contacts.AddRange(
+            new TrustContact
             {
                 Name = "Other TrustRelationshipManager",
                 Email = "other.TrustRelationshipManager@education.gov.uk",
                 Uid = 42,
                 Role = ContactRole.TrustRelationshipManager
             },
-            new Contact
+            new TrustContact
             {
                 Name = "Other SfsoLead",
                 Email = "other.SfsoLead@education.gov.uk",
                 Uid = 42,
                 Role = ContactRole.SfsoLead
             }
-        ]);
+        );
 
         FiatDbContext.SaveChanges();
     }

@@ -1,6 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Models;
-using NSubstitute;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.FiatDb.UnitTests.Contexts;
 
@@ -15,7 +14,7 @@ public class SetChangedByInterceptorTests(FiatDbContainerFixture fiatDbContainer
     {
         MockUserDetailsProvider.GetUserDetails().Returns((username, email));
 
-        var entry = FiatDbContext.Contacts.Add(new Contact
+        var entry = FiatDbContext.Contacts.Add(new TrustContact
         {
             Name = "My TrustRelationshipManager",
             Email = "my.TrustRelationshipManager@education.gov.uk",
@@ -37,7 +36,7 @@ public class SetChangedByInterceptorTests(FiatDbContainerFixture fiatDbContainer
     {
         MockUserDetailsProvider.GetUserDetails().Returns((username, email));
 
-        var entry = FiatDbContext.Contacts.Add(new Contact
+        var entry = FiatDbContext.Contacts.Add(new TrustContact
         {
             Name = "My TrustRelationshipManager",
             Email = "my.TrustRelationshipManager@education.gov.uk",
