@@ -33,7 +33,7 @@ public class ContactRepositoryTests : BaseFiatDbTest
         {
             Email = "trm@testemail.com",
             Name = "Trust Relationship Manager",
-            Role = ContactRole.TrustRelationshipManager,
+            Role = TrustContactRole.TrustRelationshipManager,
             Uid = 1234
         });
         await FiatDbContext.SaveChangesAsync();
@@ -57,7 +57,7 @@ public class ContactRepositoryTests : BaseFiatDbTest
         {
             Email = "sfsolead@testemail.com",
             Name = "SFSO Lead",
-            Role = ContactRole.SfsoLead,
+            Role = TrustContactRole.SfsoLead,
             Uid = 1234
         });
         await FiatDbContext.SaveChangesAsync();
@@ -83,14 +83,14 @@ public class ContactRepositoryTests : BaseFiatDbTest
             {
                 Email = "trm@testemail.com",
                 Name = "Trust Relationship Manager",
-                Role = ContactRole.TrustRelationshipManager,
+                Role = TrustContactRole.TrustRelationshipManager,
                 Uid = 1234
             },
             new TrustContact
             {
                 Email = "sfsolead@testemail.com",
                 Name = "SFSO Lead",
-                Role = ContactRole.SfsoLead,
+                Role = TrustContactRole.SfsoLead,
                 Uid = 1234
             }
         );
@@ -111,9 +111,9 @@ public class ContactRepositoryTests : BaseFiatDbTest
     }
 
     [Theory]
-    [InlineData(ContactRole.TrustRelationshipManager)]
-    [InlineData(ContactRole.SfsoLead)]
-    public async Task UpdateInternalContactsAsync_should_be_able_to_add_new_contact(ContactRole role)
+    [InlineData(TrustContactRole.TrustRelationshipManager)]
+    [InlineData(TrustContactRole.SfsoLead)]
+    public async Task UpdateInternalContactsAsync_should_be_able_to_add_new_contact(TrustContactRole role)
     {
         var result = await _sut.UpdateInternalContactsAsync(1234, "New Name", "new@email.com", role);
 
@@ -132,9 +132,9 @@ public class ContactRepositoryTests : BaseFiatDbTest
     }
 
     [Theory]
-    [InlineData(ContactRole.TrustRelationshipManager)]
-    [InlineData(ContactRole.SfsoLead)]
-    public async Task UpdateInternalContactsAsync_should_be_able_to_update_both_email_and_name(ContactRole role)
+    [InlineData(TrustContactRole.TrustRelationshipManager)]
+    [InlineData(TrustContactRole.SfsoLead)]
+    public async Task UpdateInternalContactsAsync_should_be_able_to_update_both_email_and_name(TrustContactRole role)
     {
         var contact = new TrustContact
         {
@@ -160,9 +160,9 @@ public class ContactRepositoryTests : BaseFiatDbTest
     }
 
     [Theory]
-    [InlineData(ContactRole.TrustRelationshipManager)]
-    [InlineData(ContactRole.SfsoLead)]
-    public async Task UpdateInternalContactsAsync_should_be_able_to_update_name_only(ContactRole role)
+    [InlineData(TrustContactRole.TrustRelationshipManager)]
+    [InlineData(TrustContactRole.SfsoLead)]
+    public async Task UpdateInternalContactsAsync_should_be_able_to_update_name_only(TrustContactRole role)
     {
         var contact = new TrustContact
         {
@@ -189,9 +189,9 @@ public class ContactRepositoryTests : BaseFiatDbTest
     }
 
     [Theory]
-    [InlineData(ContactRole.TrustRelationshipManager)]
-    [InlineData(ContactRole.SfsoLead)]
-    public async Task UpdateInternalContactsAsync_should_be_able_to_update_email_only(ContactRole role)
+    [InlineData(TrustContactRole.TrustRelationshipManager)]
+    [InlineData(TrustContactRole.SfsoLead)]
+    public async Task UpdateInternalContactsAsync_should_be_able_to_update_email_only(TrustContactRole role)
     {
         var contact = new TrustContact
         {
@@ -224,7 +224,7 @@ public class ContactRepositoryTests : BaseFiatDbTest
         {
             Email = "oldemail@testemail.com",
             Name = "Old Name",
-            Role = ContactRole.SfsoLead,
+            Role = TrustContactRole.SfsoLead,
             Uid = 1234
         };
         FiatDbContext.TrustContacts.Add(contact);
@@ -248,7 +248,7 @@ public class ContactRepositoryTests : BaseFiatDbTest
     public async Task UpdateInternalContactsAsync_should_default_null_fields_to_empty_string_on_new_contact()
     {
         var result =
-            await _sut.UpdateInternalContactsAsync(1234, null, null, ContactRole.TrustRelationshipManager);
+            await _sut.UpdateInternalContactsAsync(1234, null, null, TrustContactRole.TrustRelationshipManager);
 
         using (new AssertionScope())
         {

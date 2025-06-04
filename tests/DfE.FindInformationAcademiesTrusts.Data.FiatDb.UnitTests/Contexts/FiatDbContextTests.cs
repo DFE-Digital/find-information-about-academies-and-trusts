@@ -15,21 +15,21 @@ public class FiatDbContextTests(FiatDbContainerFixture fiatDbContainerFixture) :
                 Name = "My TrustRelationshipManager",
                 Email = "my.TrustRelationshipManager@education.gov.uk",
                 Uid = 1,
-                Role = ContactRole.TrustRelationshipManager
+                Role = TrustContactRole.TrustRelationshipManager
             },
             new TrustContact
             {
                 Name = "My TrustRelationshipManager2",
                 Email = "my.TrustRelationshipManager2@education.gov.uk",
                 Uid = 2,
-                Role = ContactRole.TrustRelationshipManager
+                Role = TrustContactRole.TrustRelationshipManager
             },
             new TrustContact
             {
                 Name = "My TrustRelationshipManager3",
                 Email = "my.TrustRelationshipManager2@education.gov.uk",
                 Uid = 3,
-                Role = ContactRole.TrustRelationshipManager
+                Role = TrustContactRole.TrustRelationshipManager
             });
 
         FiatDbContext.SaveChanges();
@@ -45,7 +45,7 @@ public class FiatDbContextTests(FiatDbContainerFixture fiatDbContainerFixture) :
             Name = "My TrustRelationshipManager",
             Email = "my.TrustRelationshipManager@education.gov.uk",
             Uid = 1234,
-            Role = ContactRole.TrustRelationshipManager
+            Role = TrustContactRole.TrustRelationshipManager
         }).Entity;
 
         FiatDbContext.SaveChanges();
@@ -61,14 +61,14 @@ public class FiatDbContextTests(FiatDbContainerFixture fiatDbContainerFixture) :
             Name = "My TrustRelationshipManager",
             Email = "my.TrustRelationshipManager@education.gov.uk",
             Uid = 1234,
-            Role = ContactRole.TrustRelationshipManager
+            Role = TrustContactRole.TrustRelationshipManager
         });
         FiatDbContext.TrustContacts.Add(new TrustContact
         {
             Name = "other TrustRelationshipManager",
             Email = "other.TrustRelationshipManager@education.gov.uk",
             Uid = 1234,
-            Role = ContactRole.TrustRelationshipManager
+            Role = TrustContactRole.TrustRelationshipManager
         });
 
         var action = () => FiatDbContext.SaveChanges();
@@ -84,7 +84,7 @@ public class FiatDbContextTests(FiatDbContainerFixture fiatDbContainerFixture) :
             Name = "original name",
             Email = "original.email@education.gov.uk",
             Uid = 1234,
-            Role = ContactRole.TrustRelationshipManager
+            Role = TrustContactRole.TrustRelationshipManager
         }).Entity;
 
         await FiatDbContext.SaveChangesAsync();
