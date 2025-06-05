@@ -114,12 +114,6 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
                 l.LinkDisplayText.Should().Be(expectedText);
                 l.AspPage.Should().Be("/Schools/Contacts/InSchool");
                 l.TestId.Should().Be("contacts-in-this-school-subnav");
-            },
-            l =>
-            {
-                l.LinkDisplayText.Should().Be("SEN (special educational needs)");
-                l.AspPage.Should().Be("/Schools/Overview/Sen");
-                l.TestId.Should().Be("overview-sen-subnav");
             }
         );
     }
