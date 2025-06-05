@@ -1,4 +1,5 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Models;
+﻿using System.Linq.Expressions;
+using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.FiatDb.Contexts;
@@ -31,20 +32,25 @@ public sealed class FiatDbContext(
     {
         base.OnModelCreating(modelBuilder);
 
-        var contactEntity = modelBuilder
-            .Entity<TrustContact>();
+        ConfigureContactEntity<TrustContact>(modelBuilder, "Contacts",
+            c => c.Uid,
+            c => new { TrustUid = c.Uid, c.Role });
+    }
 
-        contactEntity
-            .ToTable("Contacts", table => table.IsTemporal());
+    private static void ConfigureContactEntity<T>(ModelBuilder modelBuilder, string dbTableName,
+        Expression<Func<T, object?>> organisationIndex, Expression<Func<T, object?>> organisationRoleIndex)
+        where T : BaseEntity
+    {
+        var entity = modelBuilder.Entity<T>();
 
-        contactEntity
-            .HasIndex(c => c.Uid);
+        entity.ToTable(dbTableName, table => table.IsTemporal());
 
-        contactEntity
-            .HasIndex(c => new { TrustUid = c.Uid, c.Role })
+        entity.HasIndex(organisationIndex);
+
+        entity.HasIndex(organisationRoleIndex)
             .IsUnique();
 
-        contactEntity.Property(c => c.LastModifiedAtTime)
+        entity.Property(c => c.LastModifiedAtTime)
             .HasComputedColumnSql("[PeriodStart]");
     }
 }
