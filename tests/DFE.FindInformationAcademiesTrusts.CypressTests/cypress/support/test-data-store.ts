@@ -55,6 +55,12 @@ export class TestDataStore {
                     { subpageName: "SEN (special educational needs)", url: `/schools/overview/sen?urn=${urn}` },
                 ]
             },
+            {
+                pageName: "Contacts",
+                subpages: [
+                    { subpageName: "In this school", url: `/schools/contacts/in-the-school?urn=${urn}` },
+                ]
+            },
         ];
 }
 

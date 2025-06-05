@@ -34,6 +34,13 @@ class SchoolsPage {
                 senProvisionType: () => cy.get('[data-testid="sen-provision-type"]'),
             },
         },
+        schoolContacts: {
+            internalUseWarning: () => cy.get('[data-testid="internal-use-warning"]'),
+            headTeacherCard: () => cy.get('[data-testid="contact-card-head-teacher"]'),
+            headTeacherTitle: () => cy.get('[data-testid="contact-card-title-head-teacher"]'),
+            headTeacherName: () => cy.get('[data-testid="contact-card-head-teacher"] [data-testid="contact-name"]'),
+            headTeacherEmail: () => cy.get('[data-testid="contact-card-head-teacher"] [data-testid="contact-email"]'),
+        },
     };
 
     private readonly checkElementMatches = (element: JQuery<HTMLElement>, expected: RegExp) => {
@@ -192,8 +199,41 @@ class SchoolsPage {
         this.elements.overview.senTab.senProvisionTypeKey().should('be.visible').and('contain.text', 'Type of SEN provision');
         return this;
     }
+    // #endregion
 
+    // #region School contacts
+    public checkHeadTeacherContactCardPresent(): this {
+        this.elements.schoolContacts.headTeacherCard().should('be.visible');
+        this.elements.schoolContacts.headTeacherTitle().should('contain', 'Head teacher');
+        this.elements.schoolContacts.headTeacherName().should('be.visible');
+        this.elements.schoolContacts.headTeacherEmail().should('be.visible');
+        return this;
+    }
 
+    public checkHeadTeacherContactNamePresent(): this {
+        this.elements.schoolContacts.headTeacherName().should('not.contain.text', 'No contact name available');
+        this.elements.schoolContacts.headTeacherName().should('not.be.empty');
+        return this;
+    }
+
+    public checkHeadTeacherContactEmailPresent(): this {
+        this.elements.schoolContacts.headTeacherEmail().should('not.contain.text', 'No contact email available');
+        this.elements.schoolContacts.headTeacherEmail().should('not.be.empty');
+        this.elements.schoolContacts.headTeacherEmail().should('have.attr', 'href').and('match', /^mailto:/);
+        return this;
+    }
+
+    public checkSubpageHeaderIsCorrect(): this {
+        this.elements.subpageHeader().should('be.visible');
+        this.elements.subpageHeader().should(($el: JQuery<HTMLElement>) => {
+            // Get the text, trim whitespace, and replace non-breaking spaces
+            let text = $el.text().replace(/\u00a0/g, ' ').replace(/&nbsp;/g, ' ').trim();
+            // Collapse multiple spaces
+            text = text.replace(/\s+/g, ' ');
+            expect(text).to.match(/Contacts in this (school|academy)/);
+        });
+        return this;
+    }
 
     // #endregion
 }
