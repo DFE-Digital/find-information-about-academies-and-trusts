@@ -20,6 +20,13 @@ public sealed class FiatDbContext(
         optionsBuilder.AddInterceptors(setChangedByInterceptor);
     }
 
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder
+            .Properties<Enum>()
+            .HaveConversion<string>();
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -36,9 +43,6 @@ public sealed class FiatDbContext(
         contactEntity
             .HasIndex(c => new { TrustUid = c.Uid, c.Role })
             .IsUnique();
-
-        contactEntity.Property(c => c.Role)
-            .HasConversion<string>();
 
         contactEntity.Property(c => c.LastModifiedAtTime)
             .HasComputedColumnSql("[PeriodStart]");
