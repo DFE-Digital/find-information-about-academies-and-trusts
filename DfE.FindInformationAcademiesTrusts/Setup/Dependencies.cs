@@ -74,6 +74,7 @@ public static class Dependencies
         builder.Services.AddScoped<IFreeSchoolMealsAverageProvider, FreeSchoolMealsAverageProvider>();
         builder.Services.AddScoped<ISchoolOverviewDetailsService, SchoolOverviewDetailsService>();
         builder.Services.AddScoped<ISchoolOverviewSenService, SchoolOverviewSenService>();
+        builder.Services.AddScoped<ISchoolOverviewFederationService, SchoolOverviewFederationService>();
         builder.Services.AddScoped<ISearchService, SearchService>();
         builder.Services.AddScoped<ITrustSchoolSearchRepository, TrustSchoolSearchRepository>();
 

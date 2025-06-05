@@ -8,6 +8,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
 
 public class FederationModel(ISchoolService schoolService, 
     ITrustService trustService,
+    ISchoolOverviewFederationService schoolOverviewFederationService,
     IDataSourceService dataSourceService) : OverviewAreaModel(schoolService, trustService, dataSourceService)
 {
     public override PageMetadata PageMetadata => base.PageMetadata with
@@ -16,6 +17,8 @@ public class FederationModel(ISchoolService schoolService,
     };
 
     public const string SubPageName = "Federation details";
+    
+    public SchoolOverviewFederationServiceModel SchoolOverviewFederationServiceModel { get; private set; } = null!;
     
     public string? Name { get; set; }
     public string? FederationUid { get; set; }
@@ -26,6 +29,9 @@ public class FederationModel(ISchoolService schoolService,
     {
         var pageResult = await base.OnGetAsync();
         if (pageResult is NotFoundResult) return pageResult;
+
+        SchoolOverviewFederationServiceModel =
+            await schoolOverviewFederationService.GetSchoolOverviewFederationAsync(Urn);
 
         Name = "My school name";
         FederationUid = "1234/5678";
