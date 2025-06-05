@@ -9,4 +9,6 @@ public interface ISchoolRepository
     Task<DateOnly> GetDateJoinedTrustAsync(int urn);
     
     Task<SenProvision> GetSchoolSenProvisionAsync(int urn);
+    
+    Task<FederationDetails> GetSchoolFederationDetailsAsync(int urn);
 }

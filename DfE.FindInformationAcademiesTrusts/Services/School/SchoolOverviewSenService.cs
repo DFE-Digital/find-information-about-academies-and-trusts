@@ -1,4 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.School;

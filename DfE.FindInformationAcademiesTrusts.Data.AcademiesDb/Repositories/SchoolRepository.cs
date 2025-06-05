@@ -79,4 +79,33 @@ public class SchoolRepository(
             ))
             .SingleAsync();
     }
+
+    public async Task<FederationDetails> GetSchoolFederationDetailsAsync(int urn)
+    {
+        var schoolFederationDetails = await academiesDbContext.GiasEstablishments
+            .Where(e => e.Urn == urn)
+            .Select(establishment => new FederationDetails(
+                establishment.FederationsName!,
+                establishment.FederationsCode!,
+                null,
+                null))
+            .SingleAsync();
+        
+        var openedOnDate = await academiesDbContext.GiasGroupLinks
+            .Where(gl => gl.GroupUid == schoolFederationDetails.FederationUid)
+            .Select(gl => DateTime.ParseExact(gl.OpenDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture))
+            .SingleAsync();
+        
+        var schools = await academiesDbContext.GiasEstablishments
+            .Where(e => e.FederationsCode == schoolFederationDetails.FederationUid)
+            .Select(establishment => new Dictionary<string, string>
+            {
+                {establishment.Urn.ToString(), establishment.EstablishmentName!}
+            })
+            .ToDictionaryAsync();
+        
+        schoolFederationDetails = schoolFederationDetails with { OpenedOnDate = openedOnDate, Schools = schools};
+
+        return schoolFederationDetails;
+    }
 }
