@@ -9,6 +9,7 @@ public sealed class FiatDbContext(
     SetChangedByInterceptor setChangedByInterceptor)
     : DbContext(options)
 {
+    public DbSet<SchoolContact> SchoolContacts { get; set; }
     public DbSet<TrustContact> TrustContacts { get; set; }
 
     public async Task<int> SaveChangesAsync()
@@ -32,9 +33,13 @@ public sealed class FiatDbContext(
     {
         base.OnModelCreating(modelBuilder);
 
+        ConfigureContactEntity<SchoolContact>(modelBuilder, "SchoolContacts",
+            c => c.Urn,
+            c => new { c.Urn, c.Role });
+
         ConfigureContactEntity<TrustContact>(modelBuilder, "Contacts",
             c => c.Uid,
-            c => new { TrustUid = c.Uid, c.Role });
+            c => new { c.Uid, c.Role });
     }
 
     private static void ConfigureContactEntity<T>(ModelBuilder modelBuilder, string dbTableName,
