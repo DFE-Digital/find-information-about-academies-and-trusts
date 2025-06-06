@@ -32,6 +32,16 @@ public abstract class BaseFiatDbTest : IDisposable
     /// </summary>
     private void AddSeedData()
     {
+        FiatDbContext.SchoolContacts.AddRange(
+            new SchoolContact
+            {
+                Name = "Other TrustRelationshipManager",
+                Email = "other.TrustRelationshipManager@education.gov.uk",
+                Urn = 424242,
+                Role = SchoolContactRole.RegionsGroupLocalAuthorityLead
+            }
+        );
+
         FiatDbContext.TrustContacts.AddRange(
             new TrustContact
             {
