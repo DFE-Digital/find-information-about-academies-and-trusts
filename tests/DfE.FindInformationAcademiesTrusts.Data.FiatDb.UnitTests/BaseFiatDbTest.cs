@@ -9,6 +9,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.FiatDb.UnitTests;
 [Collection(nameof(UseFiatDbContainer))]
 public abstract class BaseFiatDbTest : IDisposable
 {
+    private bool _isDisposed;
     protected FiatDbContext FiatDbContext { get; }
     protected IUserDetailsProvider MockUserDetailsProvider { get; }
 
@@ -64,7 +65,19 @@ public abstract class BaseFiatDbTest : IDisposable
 
     public void Dispose()
     {
-        FiatDbContext.Dispose();
+        Dispose(true);
         GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_isDisposed) return;
+
+        if (disposing)
+        {
+            FiatDbContext.Dispose();
+        }
+
+        _isDisposed = true;
     }
 }
