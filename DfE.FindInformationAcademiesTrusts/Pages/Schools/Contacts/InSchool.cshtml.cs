@@ -47,7 +47,14 @@ public class InSchoolModel(
         var pageResult = await base.OnGetAsync();
         if (pageResult is NotFoundResult) return pageResult;
 
-        HeadTeacher = await schoolContactsService.GetInSchoolContactsAsync(Urn);
+        var contact = await schoolContactsService.GetInSchoolContactsAsync(Urn);
+
+        if (contact is null)
+        {
+            return new NotFoundResult();
+        }
+
+        HeadTeacher = contact;
 
         return pageResult;
     }

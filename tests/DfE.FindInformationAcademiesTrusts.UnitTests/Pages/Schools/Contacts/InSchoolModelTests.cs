@@ -2,6 +2,8 @@ using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
 using DfE.FindInformationAcademiesTrusts.Services.School;
+using Microsoft.AspNetCore.Mvc;
+using NSubstitute.ReturnsExtensions;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Schools.Contacts;
 
@@ -9,7 +11,7 @@ public class InSchoolModelTests : BaseContactsAreaModelTests<InSchoolModel>
 {
     private readonly ISchoolContactsService _mockSchoolContactsService = Substitute.For<ISchoolContactsService>();
 
-    private readonly Person _dummyInSchoolContacts = new ("Aaron Aaronson", "aa@someschool.com");
+    private readonly Person _dummyInSchoolContacts = new("Aaron Aaronson", "aa@someschool.com");
 
     public InSchoolModelTests()
     {
@@ -79,5 +81,14 @@ public class InSchoolModelTests : BaseContactsAreaModelTests<InSchoolModel>
         await Sut.OnGetAsync();
 
         Sut.HeadTeacher.Should().Be(_dummyInSchoolContacts);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_IfContactsIsNull_ShouldReturnNotFound()
+    {
+        _mockSchoolContactsService.GetInSchoolContactsAsync(Arg.Any<int>()).ReturnsNull();
+
+        var response = await Sut.OnGetAsync();
+        response.Should().BeOfType<NotFoundResult>();
     }
 }
