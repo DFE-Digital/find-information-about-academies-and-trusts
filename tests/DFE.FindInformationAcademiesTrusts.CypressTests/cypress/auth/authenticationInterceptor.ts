@@ -2,6 +2,7 @@
 export class AuthenticationInterceptor {
 
     register(params?: AuthenticationInterceptorParams) {
+
         cy.intercept(
             {
                 url: Cypress.env("URL") + "/**",
