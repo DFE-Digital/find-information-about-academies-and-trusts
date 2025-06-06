@@ -3,12 +3,14 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 
 public class SchoolRepository(
     IAcademiesDbContext academiesDbContext,
-    IStringFormattingUtilities stringFormattingUtilities) : ISchoolRepository
+    IStringFormattingUtilities stringFormattingUtilities,
+    ILogger<SchoolRepository> logger) : ISchoolRepository
 {
     public async Task<SchoolSummary?> GetSchoolSummaryAsync(int urn)
     {
@@ -50,12 +52,19 @@ public class SchoolRepository(
             .FirstAsync();
     }
 
-    public async Task<SchoolContact> GetSchoolContactsAsync(int urn)
+    public async Task<SchoolContact?> GetSchoolContactsAsync(int urn)
     {
         var headteacher = await academiesDbContext.TadHeadTeacherContacts
             .Where(c => c.Urn == urn)
             .Select(contact => new { contact.HeadFirstName, contact.HeadLastName, contact.HeadEmail })
-            .SingleAsync();
+            .SingleOrDefaultAsync();
+
+        if (headteacher is null)
+        {
+            logger.LogError("Unable to find head teacher contact for school with URN {urn}", urn);
+
+            return null;
+        }
 
         var fullName = stringFormattingUtilities.GetFullName(headteacher.HeadFirstName, headteacher.HeadLastName);
         var email = string.IsNullOrWhiteSpace(headteacher.HeadEmail) ? null : headteacher.HeadEmail;

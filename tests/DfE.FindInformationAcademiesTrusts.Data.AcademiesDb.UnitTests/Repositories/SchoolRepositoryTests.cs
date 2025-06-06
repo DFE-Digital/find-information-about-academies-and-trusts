@@ -3,6 +3,7 @@ using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
+using Microsoft.Extensions.Logging;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.UnitTests.Repositories;
 
@@ -12,10 +13,11 @@ public class SchoolRepositoryTests
     private readonly MockAcademiesDbContext _mockAcademiesDbContext = new();
 
     private readonly IStringFormattingUtilities _stringFormattingUtilities = new StringFormattingUtilities();
+    private readonly ILogger<SchoolRepository> _mockLogger = MockLogger.CreateLogger<SchoolRepository>();
 
     public SchoolRepositoryTests()
     {
-        _sut = new SchoolRepository(_mockAcademiesDbContext.Object, _stringFormattingUtilities);
+        _sut = new SchoolRepository(_mockAcademiesDbContext.Object, _stringFormattingUtilities, _mockLogger);
     }
 
     [Fact]
@@ -148,8 +150,20 @@ public class SchoolRepositoryTests
 
         var result = await _sut.GetSchoolContactsAsync(urn);
 
-        result.Name.Should().Be("Teacher McTeacherson");
+        result.Should().NotBeNull();
+        result!.Name.Should().Be("Teacher McTeacherson");
         result.Email.Should().Be("a.teacher@school.com");
+    }
+
+    [Fact]
+    public async Task GetSchoolContactsAsync_IfContactDoesNotExist_ShouldLogAndReturnNull()
+    {
+        var notFoundUrn = 1234;
+
+        var result = await _sut.GetSchoolContactsAsync(notFoundUrn);
+
+        result.Should().BeNull();
+        _mockLogger.VerifyLogErrors($"Unable to find head teacher contact for school with URN {notFoundUrn}");
     }
 
     [Fact]

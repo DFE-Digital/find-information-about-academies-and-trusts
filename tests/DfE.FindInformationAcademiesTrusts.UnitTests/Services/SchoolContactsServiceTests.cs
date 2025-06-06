@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
 using DfE.FindInformationAcademiesTrusts.Services.School;
+using NSubstitute.ReturnsExtensions;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Services;
 
@@ -39,5 +40,15 @@ public class SchoolContactsServiceTests
         var result = await _sut.GetInSchoolContactsAsync(_urn);
 
         result.Should().BeEquivalentTo(expectedResult);
+    }
+
+    [Fact]
+    public async Task GetInSchoolContactsAsync_ShouldReturnNull_IfDataIsNullFromRepository()
+    {
+        _mockSchoolRepository.GetSchoolContactsAsync(_urn).ReturnsNull();
+
+        var result = await _sut.GetInSchoolContactsAsync(_urn);
+
+        result.Should().BeNull();
     }
 }
