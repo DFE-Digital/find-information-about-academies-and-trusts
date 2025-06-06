@@ -62,6 +62,23 @@ export class TestDataStore {
                 ]
             },
         ];
+
+    public static readonly GetAllAcademySubpagesForUrn = (urn: number) =>
+        [
+            {
+                pageName: "Overview",
+                subpages: [
+                    { subpageName: "Academy details", url: `/schools/overview/details?urn=${urn}` },
+                    { subpageName: "SEN (special educational needs)", url: `/schools/overview/sen?urn=${urn}` },
+                ]
+            },
+            {
+                pageName: "Contacts",
+                subpages: [
+                    { subpageName: "In this academy", url: `/schools/contacts/in-the-school?urn=${urn}` },
+                ]
+            },
+        ];
 }
 
 export const testSchoolData = [
