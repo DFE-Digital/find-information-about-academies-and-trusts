@@ -1,0 +1,27 @@
+@page "/schools/contacts/in-the-school"
+@model InSchoolModel
+
+@{
+    Layout = "_SchoolLayout";
+}
+
+<div class="govuk-grid-row" data-testid="school-contacts-section">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m" data-testid="subpage-header">
+            @Model.PageMetadata.SubPageName
+        </h2>
+
+        <partial name="Shared/_InternalUseOnlyWarning" model=@("Head teacher email addresses")
+            data-testid="internal-use-warning" />
+        <div class="govuk-summary-card" data-testid="contact-card-head-teacher">
+            <div class="govuk-summary-card__title-wrapper">
+                <h3 class="govuk-summary-card__title" data-testid="contact-card-title-head-teacher">
+                    Head teacher
+                </h3>
+            </div>
+            <partial name="Contact/_DisplayContact" model="Model.HeadTeacher"
+                view-data='new ViewDataDictionary(ViewData) { { "contactType", "head-teacher" } }' />
+        </div>
+        <hr class="govuk-section-break govuk-section-break--m" data-testid="contacts-section-divider">
+    </div>
+</div>

@@ -1,7 +1,7 @@
 import navigation from "../../../pages/navigation";
 import academiesInTrustPage from "../../../pages/trusts/academiesInTrustPage";
 import governancePage from "../../../pages/trusts/governancePage";
-import contactsPage from "../../../pages/trusts/contactsPage";
+import trustContactsPage from "../../../pages/trusts/trustContactsPage";
 import overviewPage from "../../../pages/trusts/overviewPage";
 import financialDocumentsPage from "../../../pages/trusts/financialDocumentsPage";
 import ofstedPage from "../../../pages/trusts/ofstedPage";
@@ -38,7 +38,7 @@ describe('Trust Navigation Tests', () => {
                     .checkContactsServiceNavButtonIsHighlighted()
                     .checkCurrentURLIsCorrect('/trusts/contacts/in-dfe?uid=5527')
                     .checkAllServiceNavItemsPresent();
-                contactsPage
+                trustContactsPage
                     .checkContactsInDfeSubHeaderPresent();
             });
 

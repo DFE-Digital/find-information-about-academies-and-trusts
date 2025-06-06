@@ -47,8 +47,32 @@ describe("Testing the data sources component", () => {
             });
         });
     });
-    describe("School pages", () => {
+    describe("School pages (School)", () => {
         TestDataStore.GetAllSchoolSubpagesForUrn(123452).forEach(({ pageName, subpages }) => {
+            const subpageNames = subpages.map(s => s.subpageName);
+
+            describe(pageName, () => {
+
+                subpages.forEach(({ subpageName, url }) => {
+                    it(`Should have a data sources component on ${pageName} > ${subpageName}`, () => {
+                        // Go to the given subpage
+                        cy.visit(url);
+
+                        // Check that the given subpage list is up to date (so we don't miss any if new pages are added)
+                        navigation.checkSubpageNavMatches(subpages);
+
+                        // Check that the data sources component has a subheading for each subnav
+                        commonPage
+                            .checkHasDataSourcesComponent()
+                            .checkDataSourcesComponentHasSubpageHeadings(subpageNames);
+                    });
+                });
+            });
+        });
+    });
+
+    describe("School pages (Academy)", () => {
+        TestDataStore.GetAllAcademySubpagesForUrn(137083).forEach(({ pageName, subpages }) => {
             const subpageNames = subpages.map(s => s.subpageName);
 
             describe(pageName, () => {

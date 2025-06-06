@@ -11,21 +11,27 @@ namespace DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Contexts;
 
 public interface IAcademiesDbContext
 {
+    DbSet<ApplicationEvent> ApplicationEvents { get; }
+    DbSet<ApplicationSetting> ApplicationSettings { get; }
+
     DbSet<GiasEstablishment> GiasEstablishments { get; }
     DbSet<GiasGovernance> GiasGovernances { get; }
     DbSet<GiasGroupLink> GiasGroupLinks { get; }
     DbSet<GiasGroup> Groups { get; }
     DbSet<GiasEstablishmentLink> GiasEstablishmentLink { get; }
+
+    DbSet<MisMstrEstablishmentFiat> MisMstrEstablishmentsFiat { get; }
+    DbSet<MisMstrFurtherEducationEstablishmentFiat> MisMstrFurtherEducationEstablishmentsFiat { get; }
+
     DbSet<MstrTrust> MstrTrusts { get; }
     DbSet<MstrFreeSchoolProject> MstrFreeSchoolProjects { get; }
     DbSet<MstrAcademyConversion> MstrAcademyConversions { get; }
     DbSet<MstrAcademyTransfer> MstrAcademyTransfers { get; }
-    DbSet<TadTrustGovernance> TadTrustGovernances { get; }
-    DbSet<ApplicationEvent> ApplicationEvents { get; }
-    DbSet<ApplicationSetting> ApplicationSettings { get; }
-    DbSet<MisMstrEstablishmentFiat> MisMstrEstablishmentsFiat { get; }
-    DbSet<MisMstrFurtherEducationEstablishmentFiat> MisMstrFurtherEducationEstablishmentsFiat { get; }
+
     DbSet<SharepointTrustDocLink> SharepointTrustDocLinks { get; }
+
+    DbSet<TadHeadTeacherContact> TadHeadTeacherContacts { get; }
+    DbSet<TadTrustGovernance> TadTrustGovernances { get; }
 }
 
 [ExcludeFromCodeCoverage]
@@ -44,17 +50,23 @@ public partial class AcademiesDbContext : DbContext, IAcademiesDbContext
     {
         OnModelCreatingApplicationEvents(modelBuilder);
         OnModelCreatingApplicationSettings(modelBuilder);
+
         OnModelCreatingGiasEstablishmentLink(modelBuilder);
         OnModelCreatingGiasEstablishments(modelBuilder);
         OnModelCreatingGiasGovernances(modelBuilder);
         OnModelCreatingGiasGroup(modelBuilder);
         OnModelCreatingGiasGroupLink(modelBuilder);
+
         OnModelCreatingMis_Mstr(modelBuilder);
+
         OnModelCreatingMstrAcademyConversions(modelBuilder);
         OnModelCreatingMstrAcademyTransfers(modelBuilder);
         OnModelCreatingMstrFreeSchoolProjects(modelBuilder);
         OnModelCreatingMstrTrusts(modelBuilder);
+
         OnModelCreatingSharePointTrustDocLinks(modelBuilder);
+
+        OnModelCreatingTadHeadTeacherContacts(modelBuilder);
         OnModelCreatingTadTrustGovernances(modelBuilder);
     }
 }

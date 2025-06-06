@@ -41,6 +41,7 @@ class Navigation {
         },
         schoolsServiceNav: {
             overviewServiceNavButton: () => cy.get('[data-testid="overview-nav"]'),
+            contactsServiceNavButton: () => cy.get('[data-testid="contacts-nav"]'),
         },
         schoolsSubNav: {
             schoolsDetailsButton: () => cy.get('[data-testid="overview-details-subnav"]'),
@@ -277,6 +278,7 @@ class Navigation {
 
     public checkAllSchoolServiceNavItemsPresent(): this {
         this.elements.schoolsServiceNav.overviewServiceNavButton().should('be.visible');
+        this.elements.schoolsServiceNav.contactsServiceNavButton().should('be.visible');
         return this;
     }
 
@@ -295,6 +297,13 @@ class Navigation {
         this.elements.schoolsSubNav.schoolsSENButton().click();
         return this;
     }
+
+    public clickSchoolsContactsButton(): this {
+        this.elements.schoolsServiceNav.contactsServiceNavButton().click();
+        return this;
+    }
+
+    //#endregion
 }
 
 const navigation = new Navigation();
