@@ -11,7 +11,7 @@
     <dl class="govuk-summary-list govuk-!-margin-bottom-0">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key govuk-!-width-one-half">Name</dt>
-        <dd class="govuk-summary-list__value">@Model.Name</dd>
+        <dd class="govuk-summary-list__value">@Model.FederationName</dd>
       </div>
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key govuk-!-width-one-half">UID (Unique group identifier)</dt>
@@ -19,25 +19,34 @@
       </div>
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key govuk-!-width-one-half">Opened on</dt>
-        <dd class="govuk-summary-list__value">
-          @* @Model.OpenedOnDate!.Value *@
-          @* @if (Model.OpenedOnDate is not null) *@
-          @* { *@
-          @Model.OpenedOnDate!.Value.ToString(StringFormatConstants.DisplayFullDateFormat)
-          @* } *@
-        </dd>
+        
+          @if (Model.OpenedOnDate is not null)
+            {
+              <dd class="govuk-summary-list__value">
+                @Model.OpenedOnDate!.Value.ToString(StringFormatConstants.DisplayFullDateFormat)
+              </dd>
+            }
+          else
+          {
+            <dd class="govuk-summary-list__value">
+              Not available
+            </dd>
+          }
+      
       </div>
     </dl>
     <hr class="govuk-section-break govuk-section-break--m"/>
     <h3 class="govuk-heading-m">Schools in this federation</h3>
     <ul class="govuk-list govuk-list--bullet">
-      @if (Model.Schools.Count > 0)
+      @if (!Model.Schools!.Any())
       {
-        foreach (var school in Model.Schools)
+        @foreach (var school in Model.Schools!)
         {
-          <li>
-            <a href="schools/overview/federation?urn=@school.Key" target="_blank" class="govuk-link">@school.Value</a>
-          </li>
+          @if (school.Key != Model.Urn.ToString()){
+            <li>
+              <a href="/schools/overview/federation?urn=@school.Key" target="_blank" class="govuk-link">@school.Value</a>
+            </li>
+          }
         }
       }
     </ul>

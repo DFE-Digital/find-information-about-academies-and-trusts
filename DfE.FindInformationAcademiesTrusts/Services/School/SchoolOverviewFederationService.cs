@@ -14,7 +14,7 @@ public class SchoolOverviewFederationService(ISchoolRepository schoolRepository)
         var federationDetails = await schoolRepository.GetSchoolFederationDetailsAsync(urn);
 
         var federationModel = new SchoolOverviewFederationServiceModel(
-            federationDetails.Name,
+            federationDetails.FederationName,
             federationDetails.FederationUid,
             federationDetails.OpenedOnDate,
             federationDetails.Schools);

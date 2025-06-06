@@ -90,22 +90,32 @@ public class SchoolRepository(
                 null,
                 null))
             .SingleAsync();
-        
-        var openedOnDate = await academiesDbContext.GiasGroupLinks
-            .Where(gl => gl.GroupUid == schoolFederationDetails.FederationUid)
-            .Select(gl => DateTime.ParseExact(gl.OpenDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture))
-            .SingleAsync();
-        
-        var schools = await academiesDbContext.GiasEstablishments
-            .Where(e => e.FederationsCode == schoolFederationDetails.FederationUid)
-            .Select(establishment => new Dictionary<string, string>
-            {
-                {establishment.Urn.ToString(), establishment.EstablishmentName!}
-            })
-            .ToArrayAsync();
-        
-        schoolFederationDetails = schoolFederationDetails with { OpenedOnDate = openedOnDate, Schools = schools};
 
-        return schoolFederationDetails;
+        if (schoolFederationDetails.FederationUid != null)
+        {
+            var federationIsClosed = await academiesDbContext.GiasGroupLinks
+                .Where(gl => gl.GroupUid == schoolFederationDetails.FederationUid)
+                .Select(gl => gl.GroupStatus)
+                .FirstAsync();
+
+            if (federationIsClosed == "Closed")
+            {
+                return new FederationDetails(null, null, null, null);
+            }
+
+            var openedOnDate = await academiesDbContext.GiasGroupLinks
+                .Where(gl => gl.GroupUid == schoolFederationDetails.FederationUid)
+                .Select(gl => DateTime.ParseExact(gl.OpenDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture))
+                .FirstAsync();
+
+            var schools = await academiesDbContext.GiasEstablishments
+                .Where(e => e.FederationsCode == schoolFederationDetails.FederationUid)
+                .ToDictionaryAsync(establishment => establishment.Urn.ToString(),
+                    establishment => establishment.EstablishmentName!);
+
+            schoolFederationDetails = schoolFederationDetails with { OpenedOnDate = openedOnDate, Schools = schools };
+        }
+
+        return schoolFederationDetails!;
     }
 }

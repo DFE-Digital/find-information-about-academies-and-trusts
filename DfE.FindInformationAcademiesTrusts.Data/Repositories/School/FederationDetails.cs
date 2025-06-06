@@ -1,7 +1,7 @@
 namespace DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
 
 public record FederationDetails(
-    string? Name,
+    string? FederationName,
     string? FederationUid,
     DateTime? OpenedOnDate,
-    Dictionary<string, string>[]? Schools);
+    Dictionary<string, string>? Schools);
