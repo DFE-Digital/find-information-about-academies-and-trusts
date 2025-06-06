@@ -102,7 +102,7 @@ public class SchoolRepository(
             {
                 {establishment.Urn.ToString(), establishment.EstablishmentName!}
             })
-            .ToDictionaryAsync();
+            .ToArrayAsync();
         
         schoolFederationDetails = schoolFederationDetails with { OpenedOnDate = openedOnDate, Schools = schools};
 

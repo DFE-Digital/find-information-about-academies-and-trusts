@@ -23,7 +23,7 @@ public class FederationModel(ISchoolService schoolService,
     public string? Name { get; set; }
     public string? FederationUid { get; set; }
     public DateTime? OpenedOnDate { get; set; }
-    public Dictionary<string, string> Schools { get; set; } = new();
+    public Dictionary<string, string>[]? Schools { get; set; }
 
     public override async Task<IActionResult> OnGetAsync()
     {
@@ -33,15 +33,10 @@ public class FederationModel(ISchoolService schoolService,
         SchoolOverviewFederationServiceModel =
             await schoolOverviewFederationService.GetSchoolOverviewFederationAsync(Urn);
 
-        Name = "My school name";
-        FederationUid = "1234/5678";
-        OpenedOnDate = DateTime.UtcNow;
-        Schools = new Dictionary<string, string>
-        {
-            { "123", "This is a school" },
-            { "456", "This is another school" },
-            { "789", "This is also a school" },
-        };
+        Name = SchoolOverviewFederationServiceModel.Name;
+        FederationUid = SchoolOverviewFederationServiceModel.FederationUid;
+        OpenedOnDate = SchoolOverviewFederationServiceModel.OpenedOnDate;
+        Schools = SchoolOverviewFederationServiceModel.Schools;
         
         return pageResult;
     }
