@@ -20,10 +20,12 @@ public class FederationModel(ISchoolService schoolService,
     
     public SchoolOverviewFederationServiceModel SchoolOverviewFederationServiceModel { get; private set; } = null!;
     
-    public string? Name { get; set; }
+    public string? FederationName { get; set; }
     public string? FederationUid { get; set; }
     public DateTime? OpenedOnDate { get; set; }
-    public Dictionary<string, string>[]? Schools { get; set; }
+    public Dictionary<string, string>? Schools { get; set; }
+    
+    public static readonly string NotAvailable = "Not available";
 
     public override async Task<IActionResult> OnGetAsync()
     {
@@ -33,8 +35,8 @@ public class FederationModel(ISchoolService schoolService,
         SchoolOverviewFederationServiceModel =
             await schoolOverviewFederationService.GetSchoolOverviewFederationAsync(Urn);
 
-        Name = SchoolOverviewFederationServiceModel.Name;
-        FederationUid = SchoolOverviewFederationServiceModel.FederationUid;
+        FederationName = SchoolOverviewFederationServiceModel.FederationName ?? NotAvailable;
+        FederationUid = SchoolOverviewFederationServiceModel.FederationUid ?? NotAvailable;
         OpenedOnDate = SchoolOverviewFederationServiceModel.OpenedOnDate;
         Schools = SchoolOverviewFederationServiceModel.Schools;
         
