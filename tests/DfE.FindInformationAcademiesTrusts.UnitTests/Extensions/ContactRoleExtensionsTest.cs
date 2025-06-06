@@ -8,7 +8,7 @@ public class ContactRoleExtensionsTest
     [Fact]
     public void MapRoleToViewString_throws_when_mapping_is_invalid()
     {
-        var sut = (ContactRole)9999;
+        var sut = (TrustContactRole)9999;
         Assert.Throws<ArgumentOutOfRangeException>(() => sut.MapRoleToViewString());
     }
 }

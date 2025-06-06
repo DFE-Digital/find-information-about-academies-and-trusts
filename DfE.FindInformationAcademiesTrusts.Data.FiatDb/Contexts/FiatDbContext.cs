@@ -1,4 +1,5 @@
-﻿using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Models;
+﻿using System.Linq.Expressions;
+using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.FiatDb.Contexts;
@@ -8,7 +9,8 @@ public sealed class FiatDbContext(
     SetChangedByInterceptor setChangedByInterceptor)
     : DbContext(options)
 {
-    public DbSet<Contact> Contacts { get; set; }
+    public DbSet<SchoolContact> SchoolContacts { get; set; }
+    public DbSet<TrustContact> TrustContacts { get; set; }
 
     public async Task<int> SaveChangesAsync()
     {
@@ -20,27 +22,40 @@ public sealed class FiatDbContext(
         optionsBuilder.AddInterceptors(setChangedByInterceptor);
     }
 
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder
+            .Properties<Enum>()
+            .HaveConversion<string>();
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        var contactEntity = modelBuilder
-            .Entity<Contact>();
+        ConfigureContactEntity<SchoolContact>(modelBuilder, "SchoolContacts",
+            c => c.Urn,
+            c => new { c.Urn, c.Role });
 
-        contactEntity
-            .ToTable("Contacts", table => table.IsTemporal());
+        ConfigureContactEntity<TrustContact>(modelBuilder, "Contacts",
+            c => c.Uid,
+            c => new { c.Uid, c.Role });
+    }
 
-        contactEntity
-            .HasIndex(c => c.Uid);
+    private static void ConfigureContactEntity<T>(ModelBuilder modelBuilder, string dbTableName,
+        Expression<Func<T, object?>> organisationIndex, Expression<Func<T, object?>> organisationRoleIndex)
+        where T : BaseEntity
+    {
+        var entity = modelBuilder.Entity<T>();
 
-        contactEntity
-            .HasIndex(c => new { TrustUid = c.Uid, c.Role })
+        entity.ToTable(dbTableName, table => table.IsTemporal());
+
+        entity.HasIndex(organisationIndex);
+
+        entity.HasIndex(organisationRoleIndex)
             .IsUnique();
 
-        contactEntity.Property(c => c.Role)
-            .HasConversion<string>();
-
-        contactEntity.Property(c => c.LastModifiedAtTime)
+        entity.Property(c => c.LastModifiedAtTime)
             .HasComputedColumnSql("[PeriodStart]");
     }
 }

@@ -1,6 +1,5 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Models;
-using NSubstitute;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.FiatDb.UnitTests.Contexts;
 
@@ -15,12 +14,12 @@ public class SetChangedByInterceptorTests(FiatDbContainerFixture fiatDbContainer
     {
         MockUserDetailsProvider.GetUserDetails().Returns((username, email));
 
-        var entry = FiatDbContext.Contacts.Add(new Contact
+        var entry = FiatDbContext.TrustContacts.Add(new TrustContact
         {
             Name = "My TrustRelationshipManager",
             Email = "my.TrustRelationshipManager@education.gov.uk",
             Uid = 1234,
-            Role = ContactRole.TrustRelationshipManager
+            Role = TrustContactRole.TrustRelationshipManager
         }).Entity;
 
         await FiatDbContext.SaveChangesAsync();
@@ -37,12 +36,12 @@ public class SetChangedByInterceptorTests(FiatDbContainerFixture fiatDbContainer
     {
         MockUserDetailsProvider.GetUserDetails().Returns((username, email));
 
-        var entry = FiatDbContext.Contacts.Add(new Contact
+        var entry = FiatDbContext.TrustContacts.Add(new TrustContact
         {
             Name = "My TrustRelationshipManager",
             Email = "my.TrustRelationshipManager@education.gov.uk",
             Uid = 1234,
-            Role = ContactRole.TrustRelationshipManager
+            Role = TrustContactRole.TrustRelationshipManager
         }).Entity;
 
         FiatDbContext.SaveChanges();
