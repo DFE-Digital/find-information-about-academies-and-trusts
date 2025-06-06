@@ -31,7 +31,12 @@ describe('Testing the components of the School contacts page', () => {
                 schoolsPage
                     .checkHeadTeacherContactEmailPresent();
             });
+
+            it('Checks the internal use warning is present', () => {
+                schoolsPage
+                    .checkInternalUseWarningPresent();
+            });
+
         });
     });
-
 });

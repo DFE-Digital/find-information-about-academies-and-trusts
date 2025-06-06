@@ -69,6 +69,29 @@ describe('Schools Navigation Tests', () => {
         });
     });
 
+    describe("Schools main navigation tests", () => {
+        it('Should check that the schools main navigation is present and correct', () => {
+            // School Overview --> School Contacts (School)
+            cy.visit(`/schools/overview/details?urn=${navTestSchool.schoolURN}`);
+            navigation
+                .clickSchoolsContactsButton()
+                .checkCurrentURLIsCorrect(`/schools/contacts/in-the-school?urn=${navTestSchool.schoolURN}`)
+                .checkAllSchoolServiceNavItemsPresent();
+            schoolsPage
+                .checkHeadTeacherContactCardPresent();
+
+            // School Overview --> School Contacts (Academy)
+            cy.visit(`/schools/overview/details?urn=${navTestAcademy.academyURN}`);
+            navigation
+                .clickSchoolsContactsButton()
+                .checkCurrentURLIsCorrect(`/schools/contacts/in-the-school?urn=${navTestAcademy.academyURN}`)
+                .checkAllSchoolServiceNavItemsPresent();
+            schoolsPage
+                .checkHeadTeacherContactCardPresent();
+        });
+
+    });
+
     describe("Schools overview sub navigation round robin tests", () => {
         // school details --> SEN (school)
         it('Should check that the school details navigation button takes me to the SEN page for a schools type subnav', () => {
@@ -81,9 +104,7 @@ describe('Schools Navigation Tests', () => {
             schoolsPage
                 .checkSENSubpageHeaderCorrect();
         });
-    });
 
-    describe("Schools overview sub navigation round robin tests", () => {
         // school details --> SEN (academy)
         it('Should check that the school details navigation button takes me to the correct page for a schools type subnav', () => {
             cy.visit(`/schools/overview/details?urn=${navTestAcademy.academyURN}`);

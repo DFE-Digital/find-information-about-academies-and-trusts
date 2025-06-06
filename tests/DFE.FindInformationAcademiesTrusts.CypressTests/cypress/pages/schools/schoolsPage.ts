@@ -35,7 +35,7 @@ class SchoolsPage {
             },
         },
         schoolContacts: {
-            internalUseWarning: () => cy.get('[data-testid="internal-use-warning"]'),
+            internalUseWarning: () => cy.get('[data-testid="internal-use-only-warning"]'),
             headTeacherCard: () => cy.get('[data-testid="contact-card-head-teacher"]'),
             headTeacherTitle: () => cy.get('[data-testid="contact-card-title-head-teacher"]'),
             headTeacherName: () => cy.get('[data-testid="contact-card-head-teacher"] [data-testid="contact-name"]'),
@@ -220,6 +220,11 @@ class SchoolsPage {
         this.elements.schoolContacts.headTeacherEmail().should('not.contain.text', 'No contact email available');
         this.elements.schoolContacts.headTeacherEmail().should('not.be.empty');
         this.elements.schoolContacts.headTeacherEmail().should('have.attr', 'href').and('match', /^mailto:/);
+        return this;
+    }
+
+    public checkInternalUseWarningPresent(): this {
+        this.elements.schoolContacts.internalUseWarning().should('be.visible').and('contain.text', 'Head teacher email addresses are for internal use only.');
         return this;
     }
 
