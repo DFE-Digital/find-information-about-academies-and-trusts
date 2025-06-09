@@ -33,4 +33,40 @@ public class FederationModelTests : BaseOverviewAreaModelTests<FederationModel>
         
         Sut.PageMetadata.SubPageName.Should().Be("Federation details");
     }
+    [Fact]
+    public async Task OnGetAsync_should_set_SchoolOverviewFederationServiceModel()
+    {
+        await Sut.OnGetAsync();
+        
+        Sut.SchoolOverviewFederationServiceModel.Should().Be(_dummyFederationDetails);
+    }
+
+    [Theory]
+    [InlineData(null, null, null, null)]
+    public async Task OnGetAsync_should_set_null_values_correctly(
+        string? federationName,
+        string? federationUid,
+        DateTime? openedOnDate,
+        Dictionary<string, string>? schools)
+    {
+        _dummyFederationDetails = _dummyFederationDetails with
+        {
+            FederationName = federationName,
+            FederationUid = federationUid,
+            OpenedOnDate = openedOnDate,
+            Schools = schools
+        };
+        
+        var federationNameValue = federationName ?? "Not available";
+        var federationUidValue = federationUid ?? "Not available";
+        
+        _mockSchoolOverviewFederationService.GetSchoolOverviewFederationAsync(Arg.Any<int>())
+            .Returns(_dummyFederationDetails);
+        await Sut.OnGetAsync();
+        
+        Sut.FederationName.Should().Be(federationNameValue);
+        Sut.FederationUid.Should().Be(federationUidValue);
+        Sut.OpenedOnDate.Should().Be(openedOnDate);
+        Sut.Schools.Should().BeEquivalentTo(new Dictionary<string, string>());
+    }
 }

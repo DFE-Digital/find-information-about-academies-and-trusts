@@ -93,16 +93,6 @@ public class SchoolRepository(
 
         if (schoolFederationDetails.FederationUid != null)
         {
-            var federationIsClosed = await academiesDbContext.GiasGroupLinks
-                .Where(gl => gl.GroupUid == schoolFederationDetails.FederationUid)
-                .Select(gl => gl.GroupStatus)
-                .FirstAsync();
-
-            if (federationIsClosed == "Closed")
-            {
-                return new FederationDetails(null, null, null, null);
-            }
-
             var openedOnDate = await academiesDbContext.GiasGroupLinks
                 .Where(gl => gl.GroupUid == schoolFederationDetails.FederationUid)
                 .Select(gl => DateTime.ParseExact(gl.OpenDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture))

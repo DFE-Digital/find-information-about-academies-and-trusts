@@ -1,3 +1,4 @@
+using System.Globalization;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
@@ -146,14 +147,13 @@ public class SchoolRepositoryTests
             {
                 Urn = urn,
                 EstablishmentName = "cool school",
-                TypeOfEstablishmentName = "Foundation school",
                 EstablishmentTypeGroupName = "Local authority maintained schools",
+                EstablishmentStatusName = "Open",
                 ResourcedProvisionOnRoll = "2",
                 ResourcedProvisionCapacity = "3",
                 SenUnitOnRoll = "22",
                 SenUnitCapacity = "4",
                 TypeOfResourcedProvisionName = "Resourced",
-                EstablishmentStatusName = "Open",
                 Sen1Name = "Sen1",
                 Sen2Name = "Sen2",
                 Sen3Name = "Sen3",
@@ -178,5 +178,88 @@ public class SchoolRepositoryTests
                 "Sen1", "Sen2", "Sen3", "Sen4", "Sen5", "Sen6", "Sen7", "Sen8", "Sen9", "Sen10", "Sen11", "Sen12",
                 "Sen13"
             }));
+    }
+    
+    [Fact]
+    public async Task GetSchoolFederationDetailsAsync_should_return_correct_values()
+    {
+        var urn = 123456;
+        var openedDate = "24/05/2024";
+        var federationsCode = "12345";
+
+        _mockAcademiesDbContext.GiasEstablishments.AddRange(
+        [
+            new GiasEstablishment
+            {
+                Urn = urn,
+                EstablishmentStatusName = "Open",
+                EstablishmentName = "cool school",
+                EstablishmentTypeGroupName = "Local authority maintained schools",
+                FederationsName = "Funky Federation",
+                FederationsCode = federationsCode
+            },
+            new GiasEstablishment
+            {
+                Urn = urn + 1,
+                EstablishmentStatusName = "Open",
+                EstablishmentName = "super school",
+                EstablishmentTypeGroupName = "Local authority maintained schools",
+                FederationsName = "Funky Federation",
+                FederationsCode = federationsCode
+            },
+            new GiasEstablishment
+            {
+            Urn = urn + 2,
+            EstablishmentStatusName = "Open",
+            EstablishmentName = "amazing school",
+            EstablishmentTypeGroupName = "Local authority maintained schools",
+            FederationsName = "Funky Federation",
+            FederationsCode = federationsCode
+            }
+        ]);
+        
+        _mockAcademiesDbContext.GiasGroupLinks.AddRange(
+            [
+             new GiasGroupLink
+             {
+                 Urn = urn.ToString(),
+                 GroupUid = federationsCode,
+                 GroupStatusCode = "OPEN",
+                 OpenDate = openedDate
+             }
+            ]);
+        
+        var result = await _sut.GetSchoolFederationDetailsAsync(urn);
+        result.Should().BeEquivalentTo(
+            new FederationDetails(
+            "Funky Federation",
+            federationsCode,
+            new DateTime(2024, 05, 24),
+            new Dictionary<string, string>
+            {
+                { urn.ToString(), "cool school" },
+                { (urn + 1).ToString(), "super school"},
+                { (urn +2).ToString(), "amazing school"}
+            }));
+    }
+
+    [Fact]
+    public async Task GetSchoolFederationDetailsAsync_should_return_null_values_if_no_federation()
+    {
+        var urn = 123456;
+
+        _mockAcademiesDbContext.GiasEstablishments.AddRange(
+        [
+            new GiasEstablishment
+            {
+                Urn = urn,
+                EstablishmentStatusName = "Open",
+                EstablishmentName = "cool school",
+                EstablishmentTypeGroupName = "Local authority maintained schools"
+            }
+        ]);
+        
+        var result = await _sut.GetSchoolFederationDetailsAsync(urn);
+        result.Should().BeEquivalentTo(new FederationDetails(null, null, null, null));
     }
 }
