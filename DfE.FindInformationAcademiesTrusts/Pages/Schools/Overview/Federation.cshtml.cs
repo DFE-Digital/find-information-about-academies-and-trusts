@@ -38,7 +38,7 @@ public class FederationModel(ISchoolService schoolService,
         FederationName = SchoolOverviewFederationServiceModel.FederationName ?? NotAvailable;
         FederationUid = SchoolOverviewFederationServiceModel.FederationUid ?? NotAvailable;
         OpenedOnDate = SchoolOverviewFederationServiceModel.OpenedOnDate;
-        Schools = SchoolOverviewFederationServiceModel.Schools;
+        Schools = SchoolOverviewFederationServiceModel.Schools ?? new Dictionary<string, string>();
         
         return pageResult;
     }

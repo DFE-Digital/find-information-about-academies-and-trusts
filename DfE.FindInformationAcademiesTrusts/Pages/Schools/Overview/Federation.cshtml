@@ -36,20 +36,23 @@
       </div>
     </dl>
     <hr class="govuk-section-break govuk-section-break--m"/>
-    <h3 class="govuk-heading-m">Schools in this federation</h3>
-    <ul class="govuk-list govuk-list--bullet">
-      @if (!Model.Schools!.Any())
-      {
+    @if (Model.Schools!.Count > 0)
+    {
+      <h3 class="govuk-heading-m">Schools in this federation</h3>
+      <ul class="govuk-list govuk-list--bullet">
+
         @foreach (var school in Model.Schools!)
         {
-          @if (school.Key != Model.Urn.ToString()){
+          @if (school.Key != Model.Urn.ToString())
+          {
             <li>
               <a href="/schools/overview/federation?urn=@school.Key" target="_blank" class="govuk-link">@school.Value</a>
             </li>
           }
         }
-      }
-    </ul>
+
+      </ul>
+    }
     <hr class="govuk-section-break govuk-section-break--m"/>
   </div>
 </div>
