@@ -2,7 +2,6 @@ using Dfe.CaseAggregationService.Client.Contracts;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Services.ManageMyCasework;
-using DocumentFormat.OpenXml.Office.PowerPoint.Y2021.M06.Main;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.ManageMyCasework.Overview

@@ -17,7 +17,7 @@ namespace DfE.FindInformationAcademiesTrusts.Services.ManageMyCasework
         public async Task<IPaginatedList<UserCaseInfo>> GetCasesAsync(string? userName, string? userEmail, bool includeSignificantChange, bool includePrepare, bool includeComplete, bool includeManageFreeSchools, bool includeConcerns, bool includeWarningNotices, string? searchTerm, int page, int? recordCount, IEnumerable<string> filters, SortCriteria sorted)
         {
             var cases = await _caseAggregationServiceClient.GetCasesByUserAsync(userEmail, userName, includeSignificantChange, includePrepare, includeComplete, includeManageFreeSchools, includeConcerns, includeWarningNotices, searchTerm, filters, sorted, page, recordCount, "1");
-
+            
             return new PaginatedList<UserCaseInfo>(cases.CaseInfos, cases.TotalRecordCount, page, 25);
         }
     }
