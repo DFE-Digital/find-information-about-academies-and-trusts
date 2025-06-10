@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools;
+using DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
 using DfE.FindInformationAcademiesTrusts.Services.School;
 
@@ -12,7 +13,9 @@ public abstract class SchoolNavMenuTestsBase
         //Overview
         typeof(DetailsModel),
         typeof(SenModel),
-        typeof(FederationModel)
+        typeof(FederationModel),
+        //Contacts
+        typeof(InSchoolModel)
     ];
 
     protected static SchoolAreaModel GetMockSchoolPage(Type pageType, int urn = 123456,

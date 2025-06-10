@@ -35,24 +35,24 @@
       <div class="govuk-summary-card" data-testid="trust-relationship-manager">
         <div class="govuk-summary-card__title-wrapper">
           <h3 class="govuk-summary-card__title">
-            @ContactRole.TrustRelationshipManager.MapRoleToViewString()
+            @TrustContactRole.TrustRelationshipManager.MapRoleToViewString()
           </h3>
           <div class="govuk-summary-card__actions">
-            <a class="govuk-link" asp-page="/Trusts/Contacts/EditTrustRelationshipManager" asp-route-uid="@Model.Uid">Change<span class="govuk-visually-hidden"> details of this contact (@ContactRole.TrustRelationshipManager.MapRoleToViewString())</span></a>
+            <a class="govuk-link" asp-page="/Trusts/Contacts/EditTrustRelationshipManager" asp-route-uid="@Model.Uid">Change<span class="govuk-visually-hidden"> details of this contact (@TrustContactRole.TrustRelationshipManager.MapRoleToViewString())</span></a>
           </div>
         </div>
-        <partial name="_DisplayContact" model="@Model.TrustRelationshipManager"/>
+        <partial name="Shared/Contact/_DisplayContact" model="Model.TrustRelationshipManager"/>
       </div>
       <div class="govuk-summary-card" data-testid="sfso-lead">
         <div class="govuk-summary-card__title-wrapper">
           <h3 class="govuk-summary-card__title">
-            @ContactRole.SfsoLead.MapRoleToViewString()
+            @TrustContactRole.SfsoLead.MapRoleToViewString()
           </h3>
           <div class="govuk-summary-card__actions">
-            <a class="govuk-link" asp-page="/Trusts/Contacts/EditSfsoLead" asp-route-uid="@Model.Uid">Change<span class="govuk-visually-hidden"> details of this contact (@ContactRole.SfsoLead.MapRoleToViewString())</span></a>
+            <a class="govuk-link" asp-page="/Trusts/Contacts/EditSfsoLead" asp-route-uid="@Model.Uid">Change<span class="govuk-visually-hidden"> details of this contact (@TrustContactRole.SfsoLead.MapRoleToViewString())</span></a>
           </div>
         </div>
-        <partial name="_DisplayContact" model="@Model.SfsoLead"/>
+        <partial name="Shared/Contact/_DisplayContact" model="Model.SfsoLead"/>
       </div>
     </section>
   </div>

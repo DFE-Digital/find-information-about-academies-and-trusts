@@ -58,7 +58,64 @@ IF NOT EXISTS (
 )
 BEGIN
     INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-    VALUES (N'20240918134511_InitialCreate', N'8.0.7');
+    VALUES (N'20240918134511_InitialCreate', N'8.0.16');
+END;
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20250605162516_CreateSchoolContactEntity'
+)
+BEGIN
+    DECLARE @historyTableSchema sysname = SCHEMA_NAME()
+    EXEC(N'CREATE TABLE [SchoolContacts] (
+        [Id] int NOT NULL IDENTITY,
+        [Urn] int NOT NULL,
+        [Role] nvarchar(450) NOT NULL,
+        [Name] nvarchar(500) NOT NULL,
+        [Email] nvarchar(320) NOT NULL,
+        [PeriodEnd] datetime2 GENERATED ALWAYS AS ROW END HIDDEN NOT NULL,
+        [PeriodStart] datetime2 GENERATED ALWAYS AS ROW START HIDDEN NOT NULL,
+        [LastModifiedByName] nvarchar(500) NOT NULL,
+        [LastModifiedByEmail] nvarchar(320) NOT NULL,
+        [LastModifiedAtTime] AS [PeriodStart],
+        CONSTRAINT [PK_SchoolContacts] PRIMARY KEY ([Id]),
+        PERIOD FOR SYSTEM_TIME([PeriodStart], [PeriodEnd])
+    ) WITH (SYSTEM_VERSIONING = ON (HISTORY_TABLE = [' + @historyTableSchema + N'].[SchoolContactsHistory]))');
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20250605162516_CreateSchoolContactEntity'
+)
+BEGIN
+    CREATE INDEX [IX_SchoolContacts_Urn] ON [SchoolContacts] ([Urn]);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20250605162516_CreateSchoolContactEntity'
+)
+BEGIN
+    CREATE UNIQUE INDEX [IX_SchoolContacts_Urn_Role] ON [SchoolContacts] ([Urn], [Role]);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20250605162516_CreateSchoolContactEntity'
+)
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20250605162516_CreateSchoolContactEntity', N'8.0.16');
 END;
 GO
 

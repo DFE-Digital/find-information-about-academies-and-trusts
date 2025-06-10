@@ -43,10 +43,10 @@ public class ContactsAreaModel(
                     new DataSourceListEntry(new DataSourceServiceModel(Source.FiatDb,
                             TrustRelationshipManager?.LastModifiedAtTime, null,
                             TrustRelationshipManager?.LastModifiedByEmail),
-                        ContactRole.TrustRelationshipManager.MapRoleToViewString()),
+                        TrustContactRole.TrustRelationshipManager.MapRoleToViewString()),
                     new DataSourceListEntry(new DataSourceServiceModel(Source.FiatDb, SfsoLead?.LastModifiedAtTime,
                         null,
-                        SfsoLead?.LastModifiedByEmail), ContactRole.SfsoLead.MapRoleToViewString())
+                        SfsoLead?.LastModifiedByEmail), TrustContactRole.SfsoLead.MapRoleToViewString())
                 ]
             ),
             new DataSourcePageListEntry(InTrustModel.SubPageName, [

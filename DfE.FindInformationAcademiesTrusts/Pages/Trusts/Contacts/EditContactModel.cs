@@ -13,7 +13,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 public abstract class EditContactModel(
     IDataSourceService dataSourceService,
     ITrustService trustService,
-    ContactRole role)
+    TrustContactRole role)
     : TrustsAreaModel(dataSourceService, trustService)
 {
     public override PageMetadata PageMetadata => base.PageMetadata with
