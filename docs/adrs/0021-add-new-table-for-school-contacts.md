@@ -19,5 +19,10 @@ The current `Contacts` table is indexed on `uid` which is a GIAS group specific 
 - We will not change the existing `Contacts` table in the FIAT database
 - We will refer to the `Contacts` table in Entity Framework as `TrustContacts`
 - We will create a new table for the school contacts which will follow the same patterns as the existing `Contacts` table
+- The new table `SchoolContacts` will store contacts for a school and academy using the `urn` to lookup the contacts.
 
 ## Consequences
+
+- This will enable us to store school contacts in a seperate table without altering the `TrustContacts` table.
+- The `Contacts` table will be purly for contacts for a trust. As the name wont directly be called `TrustContacts` there is a risk this could be confusing.
+- As the table name for `Contacts` will stay the same no other work by other teams will be required.
