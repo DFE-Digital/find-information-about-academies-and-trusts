@@ -116,26 +116,7 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
 
         var results = Sut.GetSubNavLinks(activePage);
 
-        results.Should().SatisfyRespectively(
-            l =>
-            {
-                l.LinkDisplayText.Should().Be("Academy details");
-                l.AspPage.Should().Be("/Schools/Overview/Details");
-                l.TestId.Should().Be("overview-details-subnav");
-            },
-            l =>
-            {
-                l.LinkDisplayText.Should().Be("Federation details");
-                l.AspPage.Should().Be("/Schools/Overview/Federation");
-                l.TestId.Should().Be("overview-federation-subnav");
-            },
-            l =>
-            {
-                l.LinkDisplayText.Should().Be("SEN (special educational needs)");
-                l.AspPage.Should().Be("/Schools/Overview/Sen");
-                l.TestId.Should().Be("overview-sen-subnav");
-            },
-            l => 
+        results.Should().SatisfyRespectively(l =>
             {
                 l.LinkDisplayText.Should().Be(expectedText);
                 l.AspPage.Should().Be("/Schools/Contacts/InSchool");
