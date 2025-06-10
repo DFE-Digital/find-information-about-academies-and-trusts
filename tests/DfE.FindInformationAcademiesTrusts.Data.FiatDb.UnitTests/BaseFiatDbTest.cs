@@ -1,7 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Contexts;
 using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Models;
-using NSubstitute;
 using Microsoft.EntityFrameworkCore;
 
 namespace DfE.FindInformationAcademiesTrusts.Data.FiatDb.UnitTests;
@@ -10,6 +9,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.FiatDb.UnitTests;
 [Collection(nameof(UseFiatDbContainer))]
 public abstract class BaseFiatDbTest : IDisposable
 {
+    private bool _isDisposed;
     protected FiatDbContext FiatDbContext { get; }
     protected IUserDetailsProvider MockUserDetailsProvider { get; }
 
@@ -33,29 +33,51 @@ public abstract class BaseFiatDbTest : IDisposable
     /// </summary>
     private void AddSeedData()
     {
-        FiatDbContext.Contacts.AddRange([
-            new Contact
+        FiatDbContext.SchoolContacts.AddRange(
+            new SchoolContact
+            {
+                Name = "Other TrustRelationshipManager",
+                Email = "other.TrustRelationshipManager@education.gov.uk",
+                Urn = 424242,
+                Role = SchoolContactRole.RegionsGroupLocalAuthorityLead
+            }
+        );
+
+        FiatDbContext.TrustContacts.AddRange(
+            new TrustContact
             {
                 Name = "Other TrustRelationshipManager",
                 Email = "other.TrustRelationshipManager@education.gov.uk",
                 Uid = 42,
-                Role = ContactRole.TrustRelationshipManager
+                Role = TrustContactRole.TrustRelationshipManager
             },
-            new Contact
+            new TrustContact
             {
                 Name = "Other SfsoLead",
                 Email = "other.SfsoLead@education.gov.uk",
                 Uid = 42,
-                Role = ContactRole.SfsoLead
+                Role = TrustContactRole.SfsoLead
             }
-        ]);
+        );
 
         FiatDbContext.SaveChanges();
     }
 
     public void Dispose()
     {
-        FiatDbContext.Dispose();
+        Dispose(true);
         GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_isDisposed) return;
+
+        if (disposing)
+        {
+            FiatDbContext.Dispose();
+        }
+
+        _isDisposed = true;
     }
 }

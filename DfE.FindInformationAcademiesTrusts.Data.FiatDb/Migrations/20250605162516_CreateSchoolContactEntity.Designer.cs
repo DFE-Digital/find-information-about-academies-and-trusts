@@ -4,6 +4,7 @@ using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DfE.FindInformationAcademiesTrusts.Data.FiatDb.Migrations
 {
     [DbContext(typeof(FiatDbContext))]
-    partial class FiatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250605162516_CreateSchoolContactEntity")]
+    partial class CreateSchoolContactEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
