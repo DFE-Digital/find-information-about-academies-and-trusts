@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+## [Release-36][release-36] (production-2025-06-10.5886)
+
+### Changed
+
+- Added ability to view contacts in 'this school' and academy.
+- Added new SQL table for upcoming changes to edit school contacts within DfE.
+
 ## [Release-35][release-35] (production-2025-06-04.5832)
 
 ### Changed
@@ -362,7 +369,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated text on "404 - Not Found" page to adhere to DfE design pattern and added the not found url to the support email template.
 
 [unreleased]:
-  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/compare/production-2025-06-04.5832...HEAD
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/compare/production-2025-06-10.5886...HEAD
 [release-1]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-07-18.2517
 [release-2]:
@@ -433,4 +440,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-06-02.5812
 [release-35]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-06-04.5832
+[release-36]:
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-06-10.5886
 
