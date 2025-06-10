@@ -86,9 +86,7 @@ public class SchoolRepository(
             .Where(e => e.Urn == urn)
             .Select(establishment => new FederationDetails(
                 establishment.FederationsName!,
-                establishment.FederationsCode!,
-                null,
-                null))
+                establishment.FederationsCode!))
             .SingleAsync();
 
         if (schoolFederationDetails.FederationUid != null)

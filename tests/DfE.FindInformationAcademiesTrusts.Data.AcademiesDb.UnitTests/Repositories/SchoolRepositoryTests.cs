@@ -230,17 +230,15 @@ public class SchoolRepositoryTests
             ]);
         
         var result = await _sut.GetSchoolFederationDetailsAsync(urn);
-        result.Should().BeEquivalentTo(
-            new FederationDetails(
-            "Funky Federation",
-            federationsCode,
-            new DateTime(2024, 05, 24),
-            new Dictionary<string, string>
+        result.FederationName.Should().BeEquivalentTo("Funky Federation");
+        result.FederationUid.Should().BeEquivalentTo(federationsCode);
+        result.OpenedOnDate.Should().Be(new DateTime(2024, 05, 24));
+        result.Schools.Should().BeEquivalentTo(new Dictionary<string, string>
             {
                 { urn.ToString(), "cool school" },
                 { (urn + 1).ToString(), "super school"},
                 { (urn +2).ToString(), "amazing school"}
-            }));
+            });
     }
 
     [Fact]
@@ -260,6 +258,6 @@ public class SchoolRepositoryTests
         ]);
         
         var result = await _sut.GetSchoolFederationDetailsAsync(urn);
-        result.Should().BeEquivalentTo(new FederationDetails(null, null, null, null));
+        result.Should().BeEquivalentTo(new FederationDetails(null, null));
     }
 }

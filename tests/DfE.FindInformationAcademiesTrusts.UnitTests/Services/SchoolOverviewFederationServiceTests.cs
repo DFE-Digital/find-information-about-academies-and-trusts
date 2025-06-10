@@ -12,17 +12,18 @@ public class SchoolOverviewFederationServiceTests
 
     private FederationDetails _federationDetails = new(
         "Groovy federation",
-        "12345",
-        DateTime.Today,
-        new Dictionary<string, string>
-        {
-            { "6789", "Another school" },
-            { "44567", "A third school" }
-        });
+        "12345");
 
     public SchoolOverviewFederationServiceTests()
     {
         _sut = new SchoolOverviewFederationService(_mockSchoolRepository);
+        
+        _federationDetails.OpenedOnDate = DateTime.Today;
+        _federationDetails.Schools = new Dictionary<string, string>
+        {
+            { "6789", "Another school" },
+            { "44567", "A third school" }
+        };
     }
 
     [Fact]
