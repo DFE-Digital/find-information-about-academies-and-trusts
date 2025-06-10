@@ -61,7 +61,7 @@ public class EditTrustRelationshipManagerModelTests
         _sut.TrustSummary = _fakeTrust;
         _mockTrustService
             .UpdateContactAsync(1234, Arg.Any<string>(), Arg.Any<string>(),
-                ContactRole.TrustRelationshipManager)
+                TrustContactRole.TrustRelationshipManager)
             .Returns(Task.FromResult(new TrustContactUpdatedServiceModel(emailUpdated, nameUpdated)));
 
         var result = await _sut.OnPostAsync();
@@ -89,7 +89,7 @@ public class EditTrustRelationshipManagerModelTests
         _sut.TrustSummary = _fakeTrust;
         _mockTrustService
             .UpdateContactAsync(1234, Arg.Any<string>(), Arg.Any<string>(),
-                ContactRole.TrustRelationshipManager)
+                TrustContactRole.TrustRelationshipManager)
             .Returns(Task.FromResult(new TrustContactUpdatedServiceModel(true, true)));
         _ = await _sut.OnPostAsync();
 

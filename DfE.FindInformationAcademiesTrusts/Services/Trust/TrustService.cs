@@ -16,7 +16,7 @@ public interface ITrustService
     Task<TrustOverviewServiceModel> GetTrustOverviewAsync(string uid);
 
     Task<TrustContactUpdatedServiceModel> UpdateContactAsync(int uid, string? name, string? email,
-        ContactRole role);
+        TrustContactRole role);
 
     Task<string> GetTrustReferenceNumberAsync(string uid);
 }
@@ -101,7 +101,7 @@ public class TrustService(
     }
 
     public async Task<TrustContactUpdatedServiceModel> UpdateContactAsync(int uid, string? name, string? email,
-        ContactRole role)
+        TrustContactRole role)
     {
         var (emailChanged, nameChanged) = await contactRepository.UpdateInternalContactsAsync(uid, name, email, role);
 

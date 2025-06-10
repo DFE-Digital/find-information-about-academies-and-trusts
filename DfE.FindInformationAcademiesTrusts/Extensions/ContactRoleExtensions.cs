@@ -4,12 +4,12 @@ namespace DfE.FindInformationAcademiesTrusts.Extensions;
 
 public static class ContactRoleExtensions
 {
-    public static string MapRoleToViewString(this ContactRole role)
+    public static string MapRoleToViewString(this TrustContactRole role)
     {
         return role switch
         {
-            ContactRole.TrustRelationshipManager => "Trust relationship manager",
-            ContactRole.SfsoLead => "SFSO (Schools financial support and oversight) lead",
+            TrustContactRole.TrustRelationshipManager => "Trust relationship manager",
+            TrustContactRole.SfsoLead => "SFSO (Schools financial support and oversight) lead",
             _ => throw new ArgumentOutOfRangeException(nameof(role))
         };
     }
