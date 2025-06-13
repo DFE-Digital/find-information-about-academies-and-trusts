@@ -43,7 +43,8 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
         {
             nameof(DetailsModel) => "Overview",
             nameof(InSchoolModel) => "Contacts",
-                nameof(SenModel) => "Overview",
+            nameof(SenModel) => "Overview",
+            nameof(FederationModel) => "Overview",
             _ => throw new ArgumentException("Couldn't get expected name for given page type", nameof(pageType))
         };
     }
@@ -67,6 +68,7 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
             nameof(DetailsModel) => "/Schools/Overview/Details",
             nameof(InSchoolModel) => "/Schools/Contacts/InSchool",
             nameof(SenModel) => "/Schools/Overview/Sen",
+            nameof(FederationModel) => "/Schools/Overview/Federation",
             _ => throw new ArgumentException("Couldn't get expected sub page nav asp link for given page type",
                 nameof(pageType))
         };
@@ -91,6 +93,12 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
             },
             l =>
             {
+                l.LinkDisplayText.Should().Be("Federation details");
+                l.AspPage.Should().Be("/Schools/Overview/Federation");
+                l.TestId.Should().Be("overview-federation-subnav");
+            },
+            l =>
+            {
                 l.LinkDisplayText.Should().Be("SEN (special educational needs)");
                 l.AspPage.Should().Be("/Schools/Overview/Sen");
                 l.TestId.Should().Be("overview-sen-subnav");
@@ -108,8 +116,7 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
 
         var results = Sut.GetSubNavLinks(activePage);
 
-        results.Should().SatisfyRespectively(
-            l =>
+        results.Should().SatisfyRespectively(l =>
             {
                 l.LinkDisplayText.Should().Be(expectedText);
                 l.AspPage.Should().Be("/Schools/Contacts/InSchool");

@@ -13,6 +13,7 @@ public abstract class SchoolNavMenuTestsBase
         //Overview
         typeof(DetailsModel),
         typeof(SenModel),
+        typeof(FederationModel),
         //Contacts
         typeof(InSchoolModel)
     ];

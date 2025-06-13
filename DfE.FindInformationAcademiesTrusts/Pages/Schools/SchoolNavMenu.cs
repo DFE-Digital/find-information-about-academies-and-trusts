@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Extensions;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
@@ -41,6 +42,13 @@ public static class SchoolNavMenu
                     activePage,
                     "overview-details-subnav"
                 ),
+                GetSubNavLinkTo<FederationModel>(
+                    OverviewAreaModel.PageName,
+                    FederationModel.SubPageName,
+                    "/Schools/Overview/Federation",
+                    activePage,
+                    activePage.SchoolCategory,
+                "overview-federation-subnav"),
                 GetSubNavLinkTo<SenModel>(
                     OverviewAreaModel.PageName,
                     SenModel.SubPageName,
@@ -72,6 +80,20 @@ public static class SchoolNavMenu
             aspPage,
             testIdOverride ?? $"{serviceName}-{linkDisplayText}-subnav".Kebabify(),
             new Dictionary<string, string> { { "urn", activePage.Urn.ToString() } }
+        );
+    }
+    
+    private static NavLink GetSubNavLinkTo<T>(string serviceName, string linkDisplayText, string aspPage,
+        ISchoolAreaModel activePage, SchoolCategory? schoolCategory, string? testIdOverride = null)
+    {
+        return new NavLink(
+            activePage is T,
+            serviceName,
+            linkDisplayText,
+            aspPage,
+            testIdOverride ?? $"{serviceName}-{linkDisplayText}-subnav".Kebabify(),
+            new Dictionary<string, string> { { "urn", activePage.Urn.ToString() } },
+            schoolCategory
         );
     }
 }
