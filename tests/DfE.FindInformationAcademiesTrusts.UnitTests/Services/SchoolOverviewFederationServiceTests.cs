@@ -10,15 +10,15 @@ public class SchoolOverviewFederationServiceTests
     private readonly SchoolOverviewFederationService _sut;
     private readonly ISchoolRepository _mockSchoolRepository = Substitute.For<ISchoolRepository>();
 
-    private FederationDetails _federationDetails = new(
+    private readonly FederationDetails _federationDetails = new(
         "Groovy federation",
         "12345");
 
     public SchoolOverviewFederationServiceTests()
     {
         _sut = new SchoolOverviewFederationService(_mockSchoolRepository);
-        
-        _federationDetails.OpenedOnDate = DateTime.Today;
+
+        _federationDetails.OpenedOnDate = DateOnly.FromDateTime(DateTime.Today);
         _federationDetails.Schools = new Dictionary<string, string>
         {
             { "6789", "Another school" },
@@ -32,17 +32,17 @@ public class SchoolOverviewFederationServiceTests
         var expectedResult = new SchoolOverviewFederationServiceModel(
             "Groovy federation",
             "12345",
-            DateTime.Today,
+            DateOnly.FromDateTime(DateTime.Today),
             new Dictionary<string, string>
             {
                 { "6789", "Another school" },
                 { "44567", "A third school" }
             });
-        
+
         _mockSchoolRepository.GetSchoolFederationDetailsAsync(_schoolUrn).Returns(_federationDetails);
-        
+
         var result = await _sut.GetSchoolOverviewFederationAsync(_schoolUrn);
-        
+
         result.Should().BeEquivalentTo(expectedResult);
     }
 }

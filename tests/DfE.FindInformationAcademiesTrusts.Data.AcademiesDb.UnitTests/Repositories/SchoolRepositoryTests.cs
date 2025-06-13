@@ -1,4 +1,3 @@
-using System.Globalization;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Gias;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Models.Tad;
 using DfE.FindInformationAcademiesTrusts.Data.AcademiesDb.Repositories;
@@ -210,7 +209,7 @@ public class SchoolRepositoryTests
                 "Sen13"
             }));
     }
-    
+
     [Fact]
     public async Task GetSchoolFederationDetailsAsync_should_return_correct_values()
     {
@@ -240,36 +239,36 @@ public class SchoolRepositoryTests
             },
             new GiasEstablishment
             {
-            Urn = urn + 2,
-            EstablishmentStatusName = "Open",
-            EstablishmentName = "amazing school",
-            EstablishmentTypeGroupName = "Local authority maintained schools",
-            FederationsName = "Funky Federation",
-            FederationsCode = federationsCode
+                Urn = urn + 2,
+                EstablishmentStatusName = "Open",
+                EstablishmentName = "amazing school",
+                EstablishmentTypeGroupName = "Local authority maintained schools",
+                FederationsName = "Funky Federation",
+                FederationsCode = federationsCode
             }
         ]);
-        
+
         _mockAcademiesDbContext.GiasGroupLinks.AddRange(
-            [
-             new GiasGroupLink
-             {
-                 Urn = urn.ToString(),
-                 GroupUid = federationsCode,
-                 GroupStatusCode = "OPEN",
-                 OpenDate = openedDate
-             }
-            ]);
-        
+        [
+            new GiasGroupLink
+            {
+                Urn = urn.ToString(),
+                GroupUid = federationsCode,
+                GroupStatusCode = "OPEN",
+                OpenDate = openedDate
+            }
+        ]);
+
         var result = await _sut.GetSchoolFederationDetailsAsync(urn);
         result.FederationName.Should().BeEquivalentTo("Funky Federation");
         result.FederationUid.Should().BeEquivalentTo(federationsCode);
-        result.OpenedOnDate.Should().Be(new DateTime(2024, 05, 24));
+        result.OpenedOnDate.Should().Be(new DateOnly(2024, 05, 24));
         result.Schools.Should().BeEquivalentTo(new Dictionary<string, string>
-            {
-                { urn.ToString(), "cool school" },
-                { (urn + 1).ToString(), "super school"},
-                { (urn +2).ToString(), "amazing school"}
-            });
+        {
+            { urn.ToString(), "cool school" },
+            { (urn + 1).ToString(), "super school" },
+            { (urn + 2).ToString(), "amazing school" }
+        });
     }
 
     [Fact]
@@ -287,7 +286,7 @@ public class SchoolRepositoryTests
                 EstablishmentTypeGroupName = "Local authority maintained schools"
             }
         ]);
-        
+
         var result = await _sut.GetSchoolFederationDetailsAsync(urn);
         result.Should().BeEquivalentTo(new FederationDetails(null, null));
     }

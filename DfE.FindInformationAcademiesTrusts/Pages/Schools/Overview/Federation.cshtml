@@ -23,7 +23,7 @@
           @if (Model.OpenedOnDate is not null)
             {
               <dd class="govuk-summary-list__value">
-                @Model.OpenedOnDate!.Value.ToString(StringFormatConstants.DisplayFullDateFormat)
+                @Model.OpenedOnDate.Value.ToString(StringFormatConstants.DisplayFullDateFormat)
               </dd>
             }
           else
@@ -36,12 +36,12 @@
       </div>
     </dl>
     <hr class="govuk-section-break govuk-section-break--m"/>
-    @if (Model.Schools!.Count > 0)
+    @if (Model.Schools.Count > 0)
     {
       <h3 class="govuk-heading-m">Schools in this federation</h3>
       <ul class="govuk-list govuk-list--bullet">
 
-        @foreach (var school in Model.Schools!)
+        @foreach (var school in Model.Schools)
         {
           @if (school.Key != Model.Urn.ToString())
           {

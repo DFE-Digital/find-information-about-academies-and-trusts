@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
 
-public class FederationModel(ISchoolService schoolService, 
+public class FederationModel(
+    ISchoolService schoolService,
     ITrustService trustService,
     ISchoolOverviewFederationService schoolOverviewFederationService,
     IDataSourceService dataSourceService) : OverviewAreaModel(schoolService, trustService, dataSourceService)
@@ -17,14 +18,14 @@ public class FederationModel(ISchoolService schoolService,
     };
 
     public const string SubPageName = "Federation details";
-    
+
     public SchoolOverviewFederationServiceModel SchoolOverviewFederationServiceModel { get; private set; } = null!;
-    
-    public string? FederationName { get; set; }
-    public string? FederationUid { get; set; }
-    public DateTime? OpenedOnDate { get; set; }
-    public Dictionary<string, string>? Schools { get; set; }
-    
+
+    public string FederationName { get; set; } = string.Empty;
+    public string FederationUid { get; set; } = string.Empty;
+    public DateOnly? OpenedOnDate { get; set; }
+    public Dictionary<string, string> Schools { get; set; } = [];
+
     public static readonly string NotAvailable = "Not available";
 
     public override async Task<IActionResult> OnGetAsync()
@@ -39,7 +40,7 @@ public class FederationModel(ISchoolService schoolService,
         FederationUid = SchoolOverviewFederationServiceModel.FederationUid ?? NotAvailable;
         OpenedOnDate = SchoolOverviewFederationServiceModel.OpenedOnDate;
         Schools = SchoolOverviewFederationServiceModel.Schools ?? new Dictionary<string, string>();
-        
+
         return pageResult;
     }
 }

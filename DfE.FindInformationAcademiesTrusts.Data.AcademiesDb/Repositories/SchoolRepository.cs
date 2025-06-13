@@ -107,15 +107,16 @@ public class SchoolRepository(
         var schoolFederationDetails = await academiesDbContext.GiasEstablishments
             .Where(e => e.Urn == urn)
             .Select(establishment => new FederationDetails(
-                establishment.FederationsName!,
-                establishment.FederationsCode!))
+                establishment.FederationsName,
+                establishment.FederationsCode))
             .SingleAsync();
 
         if (schoolFederationDetails.FederationUid != null)
         {
             var openedOnDate = await academiesDbContext.GiasGroupLinks
                 .Where(gl => gl.GroupUid == schoolFederationDetails.FederationUid)
-                .Select(gl => DateTime.ParseExact(gl.OpenDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture))
+                .Select(gl =>
+                    DateOnly.ParseExact(gl.OpenDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None))
                 .FirstAsync();
 
             var schools = await academiesDbContext.GiasEstablishments
@@ -126,6 +127,6 @@ public class SchoolRepository(
             schoolFederationDetails = schoolFederationDetails with { OpenedOnDate = openedOnDate, Schools = schools };
         }
 
-        return schoolFederationDetails!;
+        return schoolFederationDetails;
     }
 }
