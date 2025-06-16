@@ -26,9 +26,12 @@ public class ContactsAreaModel(
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
         var giasDataSource = await dataSourceService.GetAsync(Source.Gias);
+        var fiatDataSource = await dataSourceService.GetSchoolContactDataSourceAsync(Urn, SchoolContactRole.RegionsGroupLocalAuthorityLead);
 
         DataSourcesPerPage =
         [
+            new DataSourcePageListEntry(InDfeModel.SubPageName,
+                [new DataSourceListEntry(fiatDataSource, "Regions group LA lead")]),
             new DataSourcePageListEntry(InSchoolModel.SubPageName(SchoolCategory),
                 [new DataSourceListEntry(giasDataSource, "Head teacher name")])
         ];

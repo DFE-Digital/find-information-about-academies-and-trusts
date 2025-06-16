@@ -31,8 +31,13 @@ public abstract class BaseContactsAreaModelTests<T> : BaseSchoolPageTests<T> whe
 
         _ = await Sut.OnGetAsync();
         await MockDataSourceService.Received(1).GetAsync(Source.Gias);
+        await MockDataSourceService.Received(1)
+            .GetSchoolContactDataSourceAsync(AcademyUrn, SchoolContactRole.RegionsGroupLocalAuthorityLead);
 
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
+            new DataSourcePageListEntry("Contacts in DfE", [
+                new DataSourceListEntry(Mocks.MockDataSourceService.Fiat, "Regions group LA lead")
+            ]),
             new DataSourcePageListEntry("In this academy", [
                 new DataSourceListEntry(Mocks.MockDataSourceService.Gias, "Head teacher name")
             ])
@@ -45,8 +50,13 @@ public abstract class BaseContactsAreaModelTests<T> : BaseSchoolPageTests<T> whe
 
         _ = await Sut.OnGetAsync();
         await MockDataSourceService.Received(1).GetAsync(Source.Gias);
+        await MockDataSourceService.Received(1)
+            .GetSchoolContactDataSourceAsync(SchoolUrn, SchoolContactRole.RegionsGroupLocalAuthorityLead);
 
         Sut.DataSourcesPerPage.Should().BeEquivalentTo([
+            new DataSourcePageListEntry("Contacts in DfE", [
+                new DataSourceListEntry(Mocks.MockDataSourceService.Fiat, "Regions group LA lead")
+            ]),
             new DataSourcePageListEntry("In this school", [
                 new DataSourceListEntry(Mocks.MockDataSourceService.Gias, DataField: "Head teacher name")
             ])
