@@ -9,7 +9,7 @@ namespace DfE.FindInformationAcademiesTrusts.Data.FiatDb.Repositories;
 
 public interface IContactRepository
 {
-    Task<InternalContacts> GetInternalContactsAsync(string uid);
+    Task<TrustInternalContacts> GetInternalContactsAsync(string uid);
 
     Task<TrustContactUpdated> UpdateInternalContactsAsync(int uid, string? name, string? email,
         TrustContactRole role);
@@ -17,12 +17,12 @@ public interface IContactRepository
 
 public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
 {
-    public async Task<InternalContacts> GetInternalContactsAsync(string uid)
+    public async Task<TrustInternalContacts> GetInternalContactsAsync(string uid)
     {
         var trm = await GetTrustRelationshipManagerLinkedTo(uid);
         var sfso = await GetSfsoLeadLinkedTo(uid);
 
-        return new InternalContacts(
+        return new TrustInternalContacts(
             trm,
             sfso);
     }
