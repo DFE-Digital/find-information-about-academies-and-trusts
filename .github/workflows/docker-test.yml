@@ -38,7 +38,7 @@ jobs:
         run: docker save -o ${{ matrix.stage }}-${{ github.ref_name }}.tar ${{ steps.build.outputs.imageid }}
 
       - name: Scan Docker image for CVEs
-        uses: aquasecurity/trivy-action@6c175e9c4083a92bbca2f9724c8a5e33bc2d97a5 # 0.30.0
+        uses: aquasecurity/trivy-action@76071ef0d7ec797419534a183b498b4d6366cf37 # 0.31.0
         with:
           input: ${{ matrix.stage }}-${{ github.ref_name }}.tar
           format: 'sarif'
@@ -49,7 +49,7 @@ jobs:
           github-pat: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload scan results to GitHub Security
-        uses: github/codeql-action/upload-sarif@fca7ace96b7d713c7035871441bd52efbe39e27e # v3
+        uses: github/codeql-action/upload-sarif@ce28f5bb42b7a9f2c824e633a3f6ee835bab6858 # v3
         if: always()
         with:
           sarif_file: 'trivy-results.sarif'
