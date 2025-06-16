@@ -261,4 +261,37 @@ public class ContactRepositoryTests : BaseFiatDbTest
             contact.Email.Should().BeEmpty();
         }
     }
+
+    [Fact]
+    public async Task GetSchoolInternalContactsAsync_should_return_nulls_when_there_are_no_contacts_for_school()
+    {
+        var result = await _sut.GetSchoolInternalContactsAsync(123456);
+
+        using (new AssertionScope())
+        {
+            result.RegionsGroupLocalAuthorityLead.Should().BeNull();
+        }
+    }
+
+    [Fact]
+    public async Task GetSchoolInternalContactsAsync_should_return_RegionsGroupLocalAuthorityLead_when_available()
+    {
+        FiatDbContext.SchoolContacts.Add(new SchoolContact
+        {
+            Email = "regions.group.local.authority.lead@education.gov.uk",
+            Name = "Regions Group Local Authority Lead",
+            Role = SchoolContactRole.RegionsGroupLocalAuthorityLead,
+            Urn = 123456
+        });
+        await FiatDbContext.SaveChangesAsync();
+
+        var result = await _sut.GetSchoolInternalContactsAsync(123456);
+
+        using (new AssertionScope())
+        {
+            result.RegionsGroupLocalAuthorityLead.Should().NotBeNull();
+            result.RegionsGroupLocalAuthorityLead!.FullName.Should().Be("Regions Group Local Authority Lead");
+            result.RegionsGroupLocalAuthorityLead.Email.Should().Be("regions.group.local.authority.lead@education.gov.uk");
+        }
+    }
 }
