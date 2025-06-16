@@ -169,7 +169,7 @@ public class TrustServiceTests
         var internalContact =
             new InternalContact("First Middle Last", "firstlast@email.com", DateTime.Today, "Test@email.com");
         var internalContacts = new TrustInternalContacts(internalContact, internalContact);
-        _mockContactRepository.GetInternalContactsAsync("1234").Returns(Task.FromResult(internalContacts));
+        _mockContactRepository.GetTrustInternalContactsAsync("1234").Returns(Task.FromResult(internalContacts));
 
         var result = await _sut.GetTrustContactsAsync("1234");
 
@@ -313,7 +313,7 @@ public class TrustServiceTests
     public async Task UpdateContactsAsync_returns_the_correct_values_changed(bool emailUpdated, bool nameUpdated)
     {
         var expected = new TrustContactUpdated(emailUpdated, nameUpdated);
-        _mockContactRepository.UpdateInternalContactsAsync(1234, "Name", "Email", TrustContactRole.SfsoLead)
+        _mockContactRepository.UpdateTrustInternalContactsAsync(1234, "Name", "Email", TrustContactRole.SfsoLead)
             .Returns(Task.FromResult(expected));
         var result = await _sut.UpdateContactAsync(1234, "Name", "Email", TrustContactRole.SfsoLead);
 
