@@ -168,7 +168,7 @@ public class TrustServiceTests
         _mockTrustRepository.GetTrustContactsAsync("1234").Returns(Task.FromResult(contacts));
         var internalContact =
             new InternalContact("First Middle Last", "firstlast@email.com", DateTime.Today, "Test@email.com");
-        var internalContacts = new InternalContacts(internalContact, internalContact);
+        var internalContacts = new TrustInternalContacts(internalContact, internalContact);
         _mockContactRepository.GetInternalContactsAsync("1234").Returns(Task.FromResult(internalContacts));
 
         var result = await _sut.GetTrustContactsAsync("1234");
