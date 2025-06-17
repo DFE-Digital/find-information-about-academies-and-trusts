@@ -46,6 +46,7 @@ class Navigation {
         schoolsSubNav: {
             schoolsDetailsButton: () => cy.get('[data-testid="overview-details-subnav"]'),
             schoolsSENButton: () => cy.get('[data-testid="overview-sen-subnav"]'),
+            schoolsFederationButton: () => cy.get('[data-testid="overview-federation-subnav"]'),
         }
     };
 
@@ -300,6 +301,11 @@ class Navigation {
 
     public clickSchoolsContactsButton(): this {
         this.elements.schoolsServiceNav.contactsServiceNavButton().click();
+        return this;
+    }
+
+    public clickSchoolsFederationButton(): this {
+        this.elements.schoolsSubNav.schoolsFederationButton().click();
         return this;
     }
 
