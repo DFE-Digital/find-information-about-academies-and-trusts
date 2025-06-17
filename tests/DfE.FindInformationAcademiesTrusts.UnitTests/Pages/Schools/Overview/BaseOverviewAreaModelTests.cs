@@ -35,6 +35,8 @@ public abstract class BaseOverviewAreaModelTests<T> : BaseSchoolPageTests<T> whe
             new DataSourcePageListEntry("Academy details", [
                 new DataSourceListEntry(Mocks.MockDataSourceService.Gias)
             ]),
+            new DataSourcePageListEntry("Federation details",
+                [new DataSourceListEntry(Mocks.MockDataSourceService.Gias)]),
             new DataSourcePageListEntry("SEN (special educational needs)",
                 [new DataSourceListEntry(Mocks.MockDataSourceService.Gias)])
         ]);
