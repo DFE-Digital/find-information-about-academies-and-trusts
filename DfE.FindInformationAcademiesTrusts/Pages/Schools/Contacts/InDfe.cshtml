@@ -1,0 +1,25 @@
+@page "/schools/contacts/in-dfe"
+@model InDfeModel
+
+@{
+    Layout = "_SchoolLayout";
+}
+
+<div class="govuk-grid-row" data-testid="school-contacts-section">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m" data-testid="subpage-header">
+            @Model.PageMetadata.SubPageName
+        </h2>
+
+        <div class="govuk-summary-card" data-testid="contact-card-regions-group-la-lead">
+            <div class="govuk-summary-card__title-wrapper">
+                <h3 class="govuk-summary-card__title" data-testid="contact-card-title-regions-group-la-lead">
+                    Regions group local authority lead
+                </h3>
+            </div>
+            <partial name="Contact/_DisplayContact" model="Model.RegionsGroupLocalAuthorityLead"
+                view-data='new ViewDataDictionary(ViewData) { { "contactType", "regions-group-local-authority-lead" } }' />
+        </div>
+        <hr class="govuk-section-break govuk-section-break--m" data-testid="contacts-section-divider">
+    </div>
+</div>
