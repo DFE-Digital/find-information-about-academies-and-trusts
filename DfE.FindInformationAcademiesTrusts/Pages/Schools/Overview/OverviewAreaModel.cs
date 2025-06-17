@@ -24,16 +24,26 @@ public abstract class OverviewAreaModel(
         // Add data sources
         var giasDataSource = await dataSourceService.GetAsync(Source.Gias);
 
-        DataSourcesPerPage =
-        [
-            new DataSourcePageListEntry(DetailsModel.SubPageName(SchoolCategory),
-                [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(FederationModel.SubPageName,
-            [new DataSourceListEntry(giasDataSource)]),
-            new DataSourcePageListEntry(SenModel.SubPageName,
-                [new DataSourceListEntry(giasDataSource)])
-        ];
+        DataSourcesPerPage = GetDataSources(giasDataSource, SchoolCategory);
 
         return Page();
+    }
+
+    private List<DataSourcePageListEntry> GetDataSources(DataSourceServiceModel giasDataSource,
+        SchoolCategory schoolCategory)
+    {
+        var dataSources = new List<DataSourcePageListEntry>
+        {
+            new(DetailsModel.SubPageName(schoolCategory), [new DataSourceListEntry(giasDataSource)]),
+            new(SenModel.SubPageName, [new DataSourceListEntry(giasDataSource)])
+        };
+
+        if (schoolCategory == SchoolCategory.LaMaintainedSchool)
+        {
+            dataSources.Insert(1,
+                new DataSourcePageListEntry(FederationModel.SubPageName, [new DataSourceListEntry(giasDataSource)]));
+        }
+
+        return dataSources;
     }
 }
