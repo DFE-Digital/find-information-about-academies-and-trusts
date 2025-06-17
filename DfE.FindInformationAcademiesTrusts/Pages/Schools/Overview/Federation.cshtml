@@ -11,24 +11,24 @@
     <dl class="govuk-summary-list govuk-!-margin-bottom-0">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key govuk-!-width-one-half">Name</dt>
-        <dd class="govuk-summary-list__value">@Model.FederationName</dd>
+        <dd class="govuk-summary-list__value" data-testid="federation-details-name">@Model.FederationName</dd>
       </div>
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key govuk-!-width-one-half">UID (Unique group identifier)</dt>
-        <dd class="govuk-summary-list__value">@Model.FederationUid</dd>
+        <dd class="govuk-summary-list__value" data-testid="federation-details-uid">@Model.FederationUid</dd>
       </div>
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key govuk-!-width-one-half">Opened on</dt>
         
           @if (Model.OpenedOnDate is not null)
             {
-              <dd class="govuk-summary-list__value">
+              <dd class="govuk-summary-list__value" data-testid="federation-details-opened-on">
                 @Model.OpenedOnDate.Value.ToString(StringFormatConstants.DisplayFullDateFormat)
               </dd>
             }
           else
           {
-            <dd class="govuk-summary-list__value">
+          <dd class="govuk-summary-list__value" data-testid="federation-details-opened-on">
               Not available
             </dd>
           }
@@ -38,7 +38,7 @@
     <hr class="govuk-section-break govuk-section-break--m"/>
     @if (Model.Schools.Count > 0)
     {
-      <h3 class="govuk-heading-m">Schools in this federation</h3>
+      <h3 class="govuk-heading-m" data-testid="federation-schools-header">Schools in this federation</h3>
       <ul class="govuk-list govuk-list--bullet">
 
         @foreach (var school in Model.Schools)
@@ -46,7 +46,7 @@
           @if (school.Key != Model.Urn.ToString())
           {
             <li>
-              <a href="/schools/overview/federation?urn=@school.Key" target="_blank" class="govuk-link">@school.Value</a>
+              <a href="/schools/overview/federation?urn=@school.Key" target="_blank" class="govuk-link" data-testid="federation-school-link">@school.Value</a>
             </li>
           }
         }
