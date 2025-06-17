@@ -18,7 +18,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Environment to run tests against'
+        description: "Environment to run tests against"
         required: true
         type: environment
 
@@ -27,14 +27,23 @@ concurrency:
 
 jobs:
   cypress-tests:
-    name: Run Cypress Tests
+    name: Run Cypress Tests (Group ${{ matrix.group }})
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     strategy:
+      fail-fast: false
       matrix:
-        browser: [
-          "edge"
-        ]
+        include:
+          - group: 1
+            browser: "edge"
+            spec: >-
+              cypress/e2e/regression/trusts/**/*.cy.ts,
+              cypress/e2e/regression/schools/**/*.cy.ts
+          - group: 2
+            browser: "edge"
+            spec: >-
+              cypress/e2e/regression/navigation/**/*.cy.ts,
+              cypress/e2e/regression/*.cy.ts
     container:
       image: cypress/browsers:22.14.0@sha256:5fedacf2c6b1fab4f2d2d24a1cb2054af6d0103e0b163cd5064e523f45ca1a88
     defaults:
@@ -54,12 +63,13 @@ jobs:
           browser: ${{ matrix.browser }}
           working-directory: tests/DFE.FindInformationAcademiesTrusts.CypressTests
           wait-on: ${{ secrets.BASE_URL }}
+          spec: ${{ matrix.spec }}
 
       - name: Upload screenshots
         if: ${{ failure() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: screenshots-${{ inputs.environment }}-${{ matrix.browser }}
+          name: screenshots-${{ inputs.environment }}-${{ matrix.browser }}-group${{ matrix.group }}
           path: tests/DFE.FindInformationAcademiesTrusts.CypressTests/cypress/screenshots
 
       - name: Generate report
@@ -72,5 +82,5 @@ jobs:
         if: ${{ failure() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: reports-${{ inputs.environment }}-${{ matrix.browser }}
+          name: reports-${{ inputs.environment }}-${{ matrix.browser }}-group${{ matrix.group }}
           path: tests/DFE.FindInformationAcademiesTrusts.CypressTests/mochareports

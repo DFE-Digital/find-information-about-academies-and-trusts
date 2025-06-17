@@ -14,13 +14,12 @@ module.exports = defineConfig({
         quite: true,
         overwrite: false,
         html: false,
-        json: true,
+        json: true
       }
     },
 
     setupNodeEvents(on, config) {
       config.baseUrl = config.env.URL as string;
-
       // Custom task to find the most recent .xlsx file in the downloads folder
       on('task', {
         findLatestFile(folderPath: string) {

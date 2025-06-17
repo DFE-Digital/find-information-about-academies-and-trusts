@@ -5,9 +5,9 @@
   "scripts": {
     "cy:open": "cypress open --browser edge",
     "cy:run": "npm run clean:reports && cypress run --browser edge",
-    "clean:reports": "rm -rf cypress/reports/mocha/*.json",
-    "combine:reports": "mochawesome-merge cypress/reports/mocha/*.json> mochareports/report.json",
-    "create:html:report": "marge  mochareports/report.json -f report -o mochareports",
+    "clean:reports": "rm -rf cypress/reports/mocha/*.json && rm -rf mochareports",
+    "combine:reports": "mochawesome-merge \"cypress/reports/mocha/*.json\" > mochareports/report.json",
+    "create:html:report": "marge mochareports/report.json -f report -o mochareports",
     "generate:html:report": "npm run combine:reports && npm run create:html:report",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
