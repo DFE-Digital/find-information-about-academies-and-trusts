@@ -43,8 +43,8 @@ public class SchoolAreaModel(
 
         SchoolSummary = schoolSummary;
 
-        ServiceNavLinks = schoolNavMenu.GetServiceNavLinks(this);
-        SubNavLinks = schoolNavMenu.GetSubNavLinks(this);
+        ServiceNavLinks = await schoolNavMenu.GetServiceNavLinksAsync(this);
+        SubNavLinks = await schoolNavMenu.GetSubNavLinksAsync(this);
 
         return Page();
     }
