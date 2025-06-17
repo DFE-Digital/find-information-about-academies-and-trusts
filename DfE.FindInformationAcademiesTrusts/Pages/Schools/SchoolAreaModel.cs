@@ -30,10 +30,7 @@ public class SchoolAreaModel(ISchoolService schoolService, ITrustService trustSe
             return new NotFoundResult();
         }
 
-        if (schoolSummary.Category == SchoolCategory.Academy)
-        {
-            TrustSummary = await trustService.GetTrustSummaryAsync(schoolSummary.Urn);
-        }
+        TrustSummary = await trustService.GetTrustSummaryAsync(schoolSummary.Urn);
 
         SchoolSummary = schoolSummary;
 

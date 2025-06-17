@@ -26,16 +26,19 @@
                 </dd>
             </div>
 
-            @if (Model.SchoolCategory == SchoolCategory.Academy)
+            @if (Model.TrustSummary is not null)
             {
-                <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key" data-testid="details-date-joined-trust-header">
-                        Date joined the trust
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                        @Model.SchoolOverviewModel.DateJoinedTrust?.ToString(StringFormatConstants.DisplayFullDateFormat)
-                    </dd>
-                </div>
+                if (Model.SchoolCategory == SchoolCategory.Academy)
+                {
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key" data-testid="details-date-joined-trust-header">
+                            Date joined the trust
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @Model.SchoolOverviewModel.DateJoinedTrust?.ToString(StringFormatConstants.DisplayFullDateFormat)
+                        </dd>
+                    </div>
+                }
 
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key" data-testid="details-trust-header">
