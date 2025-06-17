@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
 using DfE.FindInformationAcademiesTrusts.Services.School;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Schools.Overview;
 
@@ -42,6 +43,16 @@ public class FederationModelTests : BaseOverviewAreaModelTests<FederationModel>
         await Sut.OnGetAsync();
 
         Sut.SchoolOverviewFederationServiceModel.Should().Be(_dummyFederationDetails);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_IfSchoolIsAnAcademy_ShouldReturn_NotFound()
+    {
+        MockSchoolService.GetSchoolSummaryAsync(SchoolUrn).Returns(DummyAcademySummary);
+
+        var result = await Sut.OnGetAsync();
+
+        result.Should().BeOfType<NotFoundResult>();
     }
 
     [Fact]

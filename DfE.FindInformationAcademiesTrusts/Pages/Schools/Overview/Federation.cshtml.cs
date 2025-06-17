@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.School;
@@ -32,6 +33,11 @@ public class FederationModel(
     {
         var pageResult = await base.OnGetAsync();
         if (pageResult is NotFoundResult) return pageResult;
+
+        if (SchoolCategory == SchoolCategory.Academy)
+        {
+            return new NotFoundResult();
+        }
 
         SchoolOverviewFederationServiceModel =
             await schoolOverviewFederationService.GetSchoolOverviewFederationAsync(Urn);
