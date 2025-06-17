@@ -1,3 +1,4 @@
+using DfE.FindInformationAcademiesTrusts.Configuration;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
@@ -9,11 +10,11 @@ public class SchoolNavMenuServiceNavTests : SchoolNavMenuTestsBase
     [Theory]
     [InlineData(123456)]
     [InlineData(567878)]
-    public void GetServiceNavLinks_should_set_route_data_to_urn(int expectedUrn)
+    public async Task GetServiceNavLinksAsync_should_set_route_data_to_urn(int expectedUrn)
     {
         var activePage = GetMockSchoolPage(typeof(DetailsModel), expectedUrn);
 
-        var results = Sut.GetServiceNavLinks(activePage);
+        var results = await Sut.GetServiceNavLinksAsync(activePage);
 
         results.Should().AllSatisfy(link =>
         {
@@ -26,12 +27,13 @@ public class SchoolNavMenuServiceNavTests : SchoolNavMenuTestsBase
     [Theory]
     [InlineData(SchoolCategory.LaMaintainedSchool, "School")]
     [InlineData(SchoolCategory.Academy, "Academy")]
-    public void GetServiceNavLinks_should_set_hidden_text_to_school_type_on_details_page(SchoolCategory schoolCategory,
+    public async Task GetServiceNavLinksAsync_should_set_hidden_text_to_school_type_on_details_page(
+        SchoolCategory schoolCategory,
         string expectedHiddenText)
     {
         var activePage = GetMockSchoolPage(typeof(DetailsModel), schoolCategory: schoolCategory);
 
-        var results = Sut.GetServiceNavLinks(activePage);
+        var results = await Sut.GetServiceNavLinksAsync(activePage);
 
         results.Should().AllSatisfy(link => { link.VisuallyHiddenLinkText.Should().Be(expectedHiddenText); });
     }
@@ -39,22 +41,25 @@ public class SchoolNavMenuServiceNavTests : SchoolNavMenuTestsBase
     [Theory]
     [InlineData(SchoolCategory.LaMaintainedSchool, "School")]
     [InlineData(SchoolCategory.Academy, "Academy")]
-    public void GetServiceNavLinks_should_set_hidden_text_to_school_type_on_contacts_page(SchoolCategory schoolCategory,
+    public async Task GetServiceNavLinksAsync_should_set_hidden_text_to_school_type_on_contacts_page(
+        SchoolCategory schoolCategory,
         string expectedHiddenText)
     {
         var activePage = GetMockSchoolPage(typeof(InSchoolModel), schoolCategory: schoolCategory);
 
-        var results = Sut.GetServiceNavLinks(activePage);
+        var results = await Sut.GetServiceNavLinksAsync(activePage);
 
         results.Should().AllSatisfy(link => { link.VisuallyHiddenLinkText.Should().Be(expectedHiddenText); });
     }
 
     [Fact]
-    public void GetServiceNavLinks_should_return_expected_links()
+    public async Task
+        GetServiceNavLinksAsync_should_return_expected_links_when_ContactsInDfeForSchools_feature_flag_is_disabled()
     {
+        MockFeatureManager.IsEnabledAsync(FeatureFlags.ContactsInDfeForSchools).Returns(false);
         var activePage = GetMockSchoolPage(typeof(DetailsModel));
 
-        var results = Sut.GetServiceNavLinks(activePage);
+        var results = await Sut.GetServiceNavLinksAsync(activePage);
 
         results.Should().SatisfyRespectively(
             l =>
@@ -72,24 +77,72 @@ public class SchoolNavMenuServiceNavTests : SchoolNavMenuTestsBase
         );
     }
 
-    [Theory]
-    [MemberData(nameof(SubPageTypes))]
-    public void GetServiceNavLinks_should_set_active_page_link_when_on_any_subpage(Type activePageType)
+    [Fact]
+    public async Task
+        GetServiceNavLinksAsync_should_return_expected_links_when_ContactsInDfeForSchools_feature_flag_is_enabled()
     {
-        var activePage = GetMockSchoolPage(activePageType);
-        var expectedActivePageLink = GetExpectedServiceNavAspLink(activePageType);
+        MockFeatureManager.IsEnabledAsync(FeatureFlags.ContactsInDfeForSchools).Returns(true);
+        var activePage = GetMockSchoolPage(typeof(DetailsModel));
 
-        var results = Sut.GetServiceNavLinks(activePage);
+        var results = await Sut.GetServiceNavLinksAsync(activePage);
+
+        results.Should().SatisfyRespectively(
+            l =>
+            {
+                l.LinkDisplayText.Should().Be("Overview");
+                l.AspPage.Should().Be("/Schools/Overview/Details");
+                l.TestId.Should().Be("overview-nav");
+            },
+            l =>
+            {
+                l.LinkDisplayText.Should().Be("Contacts");
+                l.AspPage.Should().Be("/Schools/Contacts/InDfe");
+                l.TestId.Should().Be("contacts-nav");
+            }
+        );
+    }
+
+    [Theory]
+    [MemberData(nameof(ContactsInDfeForSchoolsEnabledSubPageTypes))]
+    public async Task
+        GetServiceNavLinksAsync_should_set_active_page_link_when_on_any_subpage_and_ContactsInDfeForSchools_feature_flag_is_disabled(
+            Type activePageType)
+    {
+        MockFeatureManager.IsEnabledAsync(FeatureFlags.ContactsInDfeForSchools).Returns(false);
+        var activePage = GetMockSchoolPage(activePageType);
+        var expectedActivePageLink = GetExpectedServiceNavAspLink(activePageType, false);
+
+        var results = await Sut.GetServiceNavLinksAsync(activePage);
 
         results.Should().ContainSingle(l => l.LinkIsActive).Which.AspPage.Should().Be(expectedActivePageLink);
     }
 
-    private static string GetExpectedServiceNavAspLink(Type pageType)
+    [Theory]
+    [MemberData(nameof(ContactsInDfeForSchoolsEnabledSubPageTypes))]
+    public async Task
+        GetServiceNavLinksAsync_should_set_active_page_link_when_on_any_subpage_and_ContactsInDfeForSchools_feature_flag_is_enabled(
+            Type activePageType)
     {
+        MockFeatureManager.IsEnabledAsync(FeatureFlags.ContactsInDfeForSchools).Returns(true);
+        var activePage = GetMockSchoolPage(activePageType);
+        var expectedActivePageLink = GetExpectedServiceNavAspLink(activePageType, true);
+
+        var results = await Sut.GetServiceNavLinksAsync(activePage);
+
+        results.Should().ContainSingle(l => l.LinkIsActive).Which.AspPage.Should().Be(expectedActivePageLink);
+    }
+
+    private static string GetExpectedServiceNavAspLink(Type pageType, bool contactsInDfeForSchoolsFeatureFlagEnabled)
+    {
+        var contactLink = contactsInDfeForSchoolsFeatureFlagEnabled
+            ? "/Schools/Contacts/InDfe"
+            : "/Schools/Contacts/InSchool";
+
         return pageType.Name switch
         {
             nameof(DetailsModel) => "/Schools/Overview/Details",
-            nameof(InSchoolModel) => "/Schools/Contacts/InSchool",
+            nameof(InDfeModel) => contactLink,
+            nameof(InSchoolModel) => contactLink,
             nameof(SenModel) => "/Schools/Overview/Details",
             nameof(FederationModel) => "/Schools/Overview/Details",
             _ => throw new ArgumentException("Couldn't get expected service nav asp link for given page type",
