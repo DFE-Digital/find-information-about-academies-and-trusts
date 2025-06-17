@@ -3,21 +3,38 @@ using DfE.FindInformationAcademiesTrusts.Pages.Schools;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
 using DfE.FindInformationAcademiesTrusts.Services.School;
+using Microsoft.FeatureManagement;
 using Sut = DfE.FindInformationAcademiesTrusts.Pages.Schools.SchoolNavMenu;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Schools.SchoolNavMenu;
 
 public abstract class SchoolNavMenuTestsBase
 {
-    protected Sut Sut = new();
+    protected IVariantFeatureManager MockFeatureManager = Substitute.For<IVariantFeatureManager>();
+    protected readonly Sut Sut;
 
-    public static TheoryData<Type> SubPageTypes =>
+    public SchoolNavMenuTestsBase()
+    {
+        Sut = new Sut(MockFeatureManager);
+    }
+
+    public static TheoryData<Type> ContactsInDfeForSchoolsDisabledSubPageTypes =>
     [
         //Overview
         typeof(DetailsModel),
         typeof(SenModel),
         typeof(FederationModel),
         //Contacts
+        typeof(InSchoolModel)
+    ];
+
+    public static TheoryData<Type> ContactsInDfeForSchoolsEnabledSubPageTypes =>
+    [
+        //Overview
+        typeof(DetailsModel),
+        typeof(SenModel),
+        //Contacts
+        typeof(InDfeModel),
         typeof(InSchoolModel)
     ];
 
