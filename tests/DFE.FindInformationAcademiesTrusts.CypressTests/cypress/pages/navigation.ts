@@ -58,9 +58,12 @@ class Navigation {
                 subpageName: Cypress.$(subpageNavElement).contents().last().text().replace(/\(\d+\)/, '').trim(), // Get the visible subpage name (not the hidden a11y name) without any bracketed numbers
                 url: Cypress.$(subpageNavElement).attr('href')
             })).get();
-
-            //Check that the actual subpages currently on the screen are the ones we are expecting to see
-            expect(actualSubpages).to.deep.equal(expectedSubpages);
+            // Check that the actual subpages currently on the screen are the ones we are expecting to see
+            try {
+                expect(actualSubpages).to.deep.equal(expectedSubpages);
+            } catch {
+                throw new Error(`Subpage navigation mismatch: Expected subpages ${JSON.stringify(expectedSubpages)}, but found ${JSON.stringify(actualSubpages)}. Please ensure the subpage navigation is correctly configured.`);
+            }
         });
         return this;
     }

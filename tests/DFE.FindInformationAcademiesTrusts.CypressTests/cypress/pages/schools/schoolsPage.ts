@@ -47,7 +47,7 @@ class SchoolsPage {
             federationOpenedOn: () => cy.get('[data-testid="federation-details-opened-on"]'),
             federationSchoolsHeader: () => cy.get('[data-testid="federation-schools-header"]'),
             federationSchoolLinks: () => cy.get('[data-testid="federation-school-link"]'),
-            federationTab: () => cy.get('[data-testid="federation-tab"]')
+            federationTab: () => cy.get('[data-testid="overview-federation-subnav"]')
         },
     };
 

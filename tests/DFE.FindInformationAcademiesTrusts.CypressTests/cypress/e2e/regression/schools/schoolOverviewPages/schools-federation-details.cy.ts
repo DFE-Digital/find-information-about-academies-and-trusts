@@ -20,40 +20,29 @@ describe('School Federation Details Tests', () => {
         });
     });
 
-    context('School without federation details', () => {
-        beforeEach(() => {
-            cy.visit(`/schools/overview/federation?urn=${schoolWithoutFederationDetails}`);
-        });
+    const noFederationUrns = [
+        { urn: schoolWithoutFederationDetails, type: 'school with no federation' },
+        { urn: academy, type: 'academy' }
+    ];
 
-        it('should display not available for all federation fields', () => {
-            schoolsPage
-                .checkFederationDetailsHeaderPresent()
-                .checkFederationDetailsNotAvailable();
-        });
-    });
+    noFederationUrns.forEach(({ urn, type }) => {
+        context(`${type} should not have federation details`, () => {
+            it('should not show federation tab in overview nav', () => {
+                cy.visit(`/schools/overview/details?urn=${urn}`);
+                schoolsPage
+                    .checkFederationTabNotPresent();
+            });
 
-    context('Academy should not have federation page', () => {
+            it('should not allow direct access to federation page (404)', () => {
+                commonPage
+                    .interceptAndVerifyResponseHas404Status(`/schools/overview/federation?urn=${urn}`);
 
-        it('should not show federation tab for academies', () => {
-            cy.visit(`/schools/overview/details?urn=${academy}`);
-            schoolsPage
-                .checkFederationTabNotPresent();
-        });
+                cy.visit(`/schools/overview/federation?urn=${urn}`, { failOnStatusCode: false });
+                cy.wait('@checkTheResponseIs404');
 
-        it('should not allow direct access to federation page for academies', () => {
-            /**
-             * Note: This test is currently failing due to a known bug.
-             * The bug is related to the federation page being incorrectly accessible for academies.
-             * Once the bug is fixed, this test should pass as expected.
-             */
-            commonPage.interceptAndVerifyResponseHas404Status(`/schools/overview/federation?urn=${academy}`);
-
-            cy.visit(`/schools/overview/federation?urn=${academy}`, { failOnStatusCode: false });
-
-            cy.wait('@checkTheResponseIs404');
-
-            commonPage
-                .checkPageNotFoundDisplayed();
+                commonPage
+                    .checkPageNotFoundDisplayed();
+            });
         });
     });
 });
