@@ -35,6 +35,8 @@ public class DetailsModel(
     public string FinancialBenchmarkingInsightsToolLink { get; private set; } = null!;
     public string FindSchoolPerformanceLink { get; private set; } = null!;
 
+    public bool TrustInformationIsAvailable { get; private set; } = true;
+
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();
@@ -46,6 +48,8 @@ public class DetailsModel(
             otherServicesLinkBuilder.GetInformationAboutSchoolsListingLinkForSchool(Urn.ToString());
         FinancialBenchmarkingInsightsToolLink = otherServicesLinkBuilder.FinancialBenchmarkingLinkForSchool(Urn);
         FindSchoolPerformanceLink = otherServicesLinkBuilder.FindSchoolPerformanceDataListingLink(Urn);
+
+        TrustInformationIsAvailable = SchoolOverviewModel.DateJoinedTrust is not null && TrustSummary is not null;
 
         return pageResult;
     }
