@@ -47,48 +47,46 @@ describe("Testing the data sources component", () => {
             });
         });
     });
-    describe("School pages (School)", () => {
-        TestDataStore.GetAllSchoolSubpagesForUrn(123452).forEach(({ pageName, subpages }) => {
-            const subpageNames = subpages.map(s => s.subpageName);
 
+
+    describe("School pages (Academy)", () => {
+        TestDataStore.GetAllAcademySubpagesForUrn(137083).forEach(({ pageName, subpages }) => {
             describe(pageName, () => {
-
                 subpages.forEach(({ subpageName, url }) => {
                     it(`Should have a data sources component on ${pageName} > ${subpageName}`, () => {
-                        // Go to the given subpage
                         cy.visit(url);
-
-                        // Check that the given subpage list is up to date (so we don't miss any if new pages are added)
                         navigation.checkSubpageNavMatches(subpages);
 
-                        // Check that the data sources component has a subheading for each subnav
+                        // For academies, we need all the data source headings that appear in the component
+                        const expectedHeadings = [...subpages.map(s => s.subpageName)];
+                        // Add Federation details as the second item for Overview pages to match the actual order
+                        if (pageName === 'Overview') {
+                            expectedHeadings.splice(1, 0, 'Federation details');
+                        }
+
                         commonPage
                             .checkHasDataSourcesComponent()
-                            .checkDataSourcesComponentHasSubpageHeadings(subpageNames);
+                            .checkDataSourcesComponentHasSubpageHeadings(expectedHeadings);
                     });
                 });
             });
         });
     });
 
-    describe("School pages (Academy)", () => {
-        TestDataStore.GetAllAcademySubpagesForUrn(137083).forEach(({ pageName, subpages }) => {
-            const subpageNames = subpages.map(s => s.subpageName);
-
+    describe("School pages (LA Maintained School)", () => {
+        TestDataStore.GetAllSchoolSubpagesForUrn(107188).forEach(({ pageName, subpages }) => {
             describe(pageName, () => {
-
                 subpages.forEach(({ subpageName, url }) => {
                     it(`Should have a data sources component on ${pageName} > ${subpageName}`, () => {
-                        // Go to the given subpage
                         cy.visit(url);
-
-                        // Check that the given subpage list is up to date (so we don't miss any if new pages are added)
                         navigation.checkSubpageNavMatches(subpages);
 
-                        // Check that the data sources component has a subheading for each subnav
+                        // For schools, federation details is already included in the subpage names
+                        const expectedHeadings = subpages.map(s => s.subpageName);
+
                         commonPage
                             .checkHasDataSourcesComponent()
-                            .checkDataSourcesComponentHasSubpageHeadings(subpageNames);
+                            .checkDataSourcesComponentHasSubpageHeadings(expectedHeadings);
                     });
                 });
             });
