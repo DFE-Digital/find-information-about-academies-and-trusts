@@ -44,12 +44,13 @@ public class SchoolRepository(
             .SingleAsync();
     }
 
-    public async Task<DateOnly> GetDateJoinedTrustAsync(int urn)
+    public async Task<DateOnly?> GetDateJoinedTrustAsync(int urn)
     {
         return await academiesDbContext.GiasGroupLinks.Where(gl => gl.Urn == urn.ToString())
             .Select(gl =>
                 DateOnly.ParseExact(gl.JoinedDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None))
-            .FirstAsync();
+            .Cast<DateOnly?>()
+            .FirstOrDefaultAsync();
     }
 
     public async Task<SchoolContact?> GetSchoolContactsAsync(int urn)
