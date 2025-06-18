@@ -19,7 +19,7 @@ public abstract class SchoolNavMenuTestsBase
     ];
 
     protected static SchoolAreaModel GetMockSchoolPage(Type pageType, int urn = 123456,
-        SchoolCategory schoolCategory = SchoolCategory.LaMaintainedSchool)
+        SchoolCategory schoolCategory = SchoolCategory.LaMaintainedSchool, bool isFederation = true)
     {
         //Create a mock page
         var parameters = pageType.GetConstructors()[0].GetParameters();
@@ -34,6 +34,7 @@ public abstract class SchoolNavMenuTestsBase
         //Set properties applicable to all types
         mockPage.Urn = urn;
         mockPage.SchoolSummary = new SchoolSummaryServiceModel(urn, "Chill primary school", "", schoolCategory);
+        mockPage.IsPartOfAFederation = isFederation;
 
         return mockPage;
     }

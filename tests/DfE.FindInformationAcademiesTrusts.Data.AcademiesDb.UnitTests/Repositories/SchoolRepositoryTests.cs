@@ -290,4 +290,48 @@ public class SchoolRepositoryTests
         var result = await _sut.GetSchoolFederationDetailsAsync(urn);
         result.Should().BeEquivalentTo(new FederationDetails(null, null));
     }
+
+    [Fact]
+    public async Task IsPartOfFederationAsync_should_return_false_if_not_part_of_federation()
+    {
+        var urn = 8489479;
+
+        _mockAcademiesDbContext.GiasEstablishments.AddRange(
+        [
+            new GiasEstablishment
+            {
+                Urn = urn,
+                EstablishmentStatusName = "Open",
+                EstablishmentName = "cool school",
+                EstablishmentTypeGroupName = "Local authority maintained schools",
+                FederationsCode = null
+            }
+        ]);
+
+        var result = await _sut.IsPartOfFederationAsync(urn);
+
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task IsPartOfFederationAsync_should_return_true_if_has_federation_details()
+    {
+        var urn = 4589748;
+
+        _mockAcademiesDbContext.GiasEstablishments.AddRange(
+        [
+            new GiasEstablishment
+            {
+                Urn = urn,
+                EstablishmentStatusName = "Open",
+                EstablishmentName = "cool school",
+                EstablishmentTypeGroupName = "Local authority maintained schools",
+                FederationsCode = "Fed1"
+            }
+        ]);
+
+        var result = await _sut.IsPartOfFederationAsync(urn);
+
+        result.Should().BeTrue();
+    }
 }

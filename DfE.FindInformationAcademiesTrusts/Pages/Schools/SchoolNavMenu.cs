@@ -33,29 +33,7 @@ public static class SchoolNavMenu
     {
         return activePage switch
         {
-            OverviewAreaModel =>
-            [
-                GetSubNavLinkTo<DetailsModel>(
-                    OverviewAreaModel.PageName,
-                    DetailsModel.SubPageName(activePage.SchoolCategory),
-                    "/Schools/Overview/Details",
-                    activePage,
-                    "overview-details-subnav"
-                ),
-                GetSubNavLinkTo<FederationModel>(
-                    OverviewAreaModel.PageName,
-                    FederationModel.SubPageName,
-                    "/Schools/Overview/Federation",
-                    activePage,
-                    activePage.SchoolCategory,
-                "overview-federation-subnav"),
-                GetSubNavLinkTo<SenModel>(
-                    OverviewAreaModel.PageName,
-                    SenModel.SubPageName,
-                    "/Schools/Overview/Sen",
-                    activePage,
-                    "overview-sen-subnav")
-            ],
+            OverviewAreaModel => BuildLinksForOverviewPage(activePage),
             ContactsAreaModel =>
             [
                 GetSubNavLinkTo<InSchoolModel>(
@@ -70,6 +48,42 @@ public static class SchoolNavMenu
         };
     }
 
+    private static NavLink[] BuildLinksForOverviewPage(ISchoolAreaModel activePage)
+    {
+        var links = new List<NavLink>
+        {
+            GetSubNavLinkTo<DetailsModel>(
+                OverviewAreaModel.PageName,
+                DetailsModel.SubPageName(activePage.SchoolCategory),
+                "/Schools/Overview/Details",
+                activePage,
+                "overview-details-subnav"
+            )
+        };
+
+        if (activePage.IsPartOfAFederation)
+        {
+            links.Add(GetSubNavLinkTo<FederationModel>(
+                OverviewAreaModel.PageName,
+                FederationModel.SubPageName,
+                "/Schools/Overview/Federation",
+                activePage,
+                activePage.SchoolCategory,
+                "overview-federation-subnav"
+            ));
+        }
+
+        links.Add(GetSubNavLinkTo<SenModel>(
+            OverviewAreaModel.PageName,
+            SenModel.SubPageName,
+            "/Schools/Overview/Sen",
+            activePage,
+            "overview-sen-subnav"
+        ));
+
+        return links.ToArray();
+    }
+
     private static NavLink GetSubNavLinkTo<T>(string serviceName, string linkDisplayText, string aspPage,
         ISchoolAreaModel activePage, string? testIdOverride = null)
     {
@@ -82,7 +96,7 @@ public static class SchoolNavMenu
             new Dictionary<string, string> { { "urn", activePage.Urn.ToString() } }
         );
     }
-    
+
     private static NavLink GetSubNavLinkTo<T>(string serviceName, string linkDisplayText, string aspPage,
         ISchoolAreaModel activePage, SchoolCategory? schoolCategory, string? testIdOverride = null)
     {

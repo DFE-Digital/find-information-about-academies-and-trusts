@@ -102,6 +102,16 @@ public class SchoolRepository(
             .SingleAsync();
     }
 
+    public async Task<bool> IsPartOfFederationAsync(int urn)
+    {
+        var federationsCode = await academiesDbContext.GiasEstablishments
+            .Where(e => e.Urn == urn)
+            .Select(x => x.FederationsCode)
+            .FirstOrDefaultAsync();
+
+        return !string.IsNullOrWhiteSpace(federationsCode);
+    }
+
     public async Task<FederationDetails> GetSchoolFederationDetailsAsync(int urn)
     {
         var schoolFederationDetails = await academiesDbContext.GiasEstablishments

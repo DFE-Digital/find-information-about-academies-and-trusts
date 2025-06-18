@@ -39,6 +39,11 @@ public class FederationModel(
             return new NotFoundResult();
         }
 
+        if (!IsPartOfAFederation)
+        {
+            return new NotFoundResult();
+        }
+
         SchoolOverviewFederationServiceModel =
             await schoolOverviewFederationService.GetSchoolOverviewFederationAsync(Urn);
 

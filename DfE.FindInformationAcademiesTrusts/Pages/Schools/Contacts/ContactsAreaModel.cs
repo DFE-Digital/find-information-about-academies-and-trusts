@@ -17,7 +17,7 @@ public class ContactsAreaModel(
     public const string PageName = "Contacts";
 
     public override PageMetadata PageMetadata => base.PageMetadata with { PageName = PageName };
-    
+
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();

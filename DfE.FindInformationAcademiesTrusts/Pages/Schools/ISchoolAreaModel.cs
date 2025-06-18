@@ -14,4 +14,5 @@ public interface ISchoolAreaModel
     string SchoolName { get; }
     string SchoolType { get; }
     TrustSummaryServiceModel? TrustSummary { get; }
+    bool IsPartOfAFederation { get; }
 }

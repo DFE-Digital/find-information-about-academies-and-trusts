@@ -77,7 +77,7 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
     [Theory]
     [InlineData(SchoolCategory.LaMaintainedSchool, "School details")]
     [InlineData(SchoolCategory.Academy, "Academy details")]
-    public void GetSubNavLinks_should_return_expected_links_for_overview(SchoolCategory schoolCategory,
+    public void GetSubNavLinks_should_return_expected_links_for_overview_when_federation(SchoolCategory schoolCategory,
         string expectedText)
     {
         var activePage = GetMockSchoolPage(typeof(DetailsModel), schoolCategory: schoolCategory);
@@ -96,6 +96,33 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
                 l.LinkDisplayText.Should().Be("Federation details");
                 l.AspPage.Should().Be("/Schools/Overview/Federation");
                 l.TestId.Should().Be("overview-federation-subnav");
+            },
+            l =>
+            {
+                l.LinkDisplayText.Should().Be("SEN (special educational needs)");
+                l.AspPage.Should().Be("/Schools/Overview/Sen");
+                l.TestId.Should().Be("overview-sen-subnav");
+            }
+        );
+    }
+
+    [Theory]
+    [InlineData(SchoolCategory.LaMaintainedSchool, "School details")]
+    [InlineData(SchoolCategory.Academy, "Academy details")]
+    public void GetSubNavLinks_should_return_expected_links_for_overview_when_not_federation(
+        SchoolCategory schoolCategory,
+        string expectedText)
+    {
+        var activePage = GetMockSchoolPage(typeof(DetailsModel), schoolCategory: schoolCategory, isFederation: false);
+
+        var results = Sut.GetSubNavLinks(activePage);
+
+        results.Should().SatisfyRespectively(
+            l =>
+            {
+                l.LinkDisplayText.Should().Be(expectedText);
+                l.AspPage.Should().Be("/Schools/Overview/Details");
+                l.TestId.Should().Be("overview-details-subnav");
             },
             l =>
             {

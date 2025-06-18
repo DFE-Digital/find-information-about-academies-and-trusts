@@ -56,6 +56,17 @@ public class FederationModelTests : BaseOverviewAreaModelTests<FederationModel>
     }
 
     [Fact]
+    public async Task OnGetAsync_IfSchoolIsNotInAFederation_ShouldReturn_NotFound()
+    {
+        MockSchoolService.GetSchoolSummaryAsync(SchoolUrn).Returns(DummySchoolSummary);
+        MockSchoolService.IsPartOfFederationAsync(SchoolUrn).Returns(false);
+
+        var result = await Sut.OnGetAsync();
+
+        result.Should().BeOfType<NotFoundResult>();
+    }
+
+    [Fact]
     public async Task OnGetAsync_should_set_null_values_correctly()
     {
         _dummyFederationDetails = _dummyFederationDetails with
