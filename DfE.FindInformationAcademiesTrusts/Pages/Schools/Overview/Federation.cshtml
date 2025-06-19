@@ -46,7 +46,7 @@
           @if (school.Key != Model.Urn.ToString())
           {
             <li>
-              <a href="/schools/overview/federation?urn=@school.Key" target="_blank" class="govuk-link" data-testid="federation-school-link">@school.Value</a>
+              <a href="/schools/overview/federation?urn=@school.Key" class="govuk-link" data-testid="federation-school-link">@school.Value</a>
             </li>
           }
         }
