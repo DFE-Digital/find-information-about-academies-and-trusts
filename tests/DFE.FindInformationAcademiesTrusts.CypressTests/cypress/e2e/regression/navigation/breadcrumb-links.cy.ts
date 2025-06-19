@@ -1,5 +1,5 @@
 import navigation from "../../../pages/navigation";
-import { testSchoolData, testTrustData } from "../../../support/test-data-store";
+import { testTrustData } from "../../../support/test-data-store";
 
 describe('Testing Navigation', () => {
 
