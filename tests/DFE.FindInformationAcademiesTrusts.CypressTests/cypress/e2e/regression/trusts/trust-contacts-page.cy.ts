@@ -107,7 +107,7 @@ describe("Testing the components of the Trust contacts page", () => {
 
             it("Checks the browser title is correct", () => {
                 commonPage
-                    .checkThatBrowserTitleForTrustPageMatches('In this trust - Contacts - {trustName} - {siteName}');
+                    .checkThatBrowserTitleForTrustPageMatches('In this trust - Contacts - {trustName} - {applicationName}');
             });
 
             it("Checks the breadcrumb shows the correct page name", () => {
