@@ -12,6 +12,9 @@ function generateNameAndEmail() {
 }
 
 describe("Testing the components of the Trust contacts page", () => {
+
+    const applicationName = 'Find information about schools and trusts'
+
     testTrustData.forEach(({ typeOfTrust, uid }) => {
         describe(`On the contacts in DfE page for a ${typeOfTrust}`, () => {
             beforeEach(() => {
@@ -20,7 +23,7 @@ describe("Testing the components of the Trust contacts page", () => {
 
             it("Checks the browser title is correct", () => {
                 commonPage
-                    .checkThatBrowserTitleForTrustPageMatches('In DfE - Contacts - {trustName} - Find information about schools and trusts');
+                    .checkThatBrowserTitleForTrustPageMatches('In DfE - Contacts - {trustName} - {applicationName}');
             });
 
             it("Checks the breadcrumb shows the correct page name", () => {
@@ -82,7 +85,7 @@ describe("Testing the components of the Trust contacts page", () => {
 
             it("Checks the browser title is correct", () => {
                 commonPage
-                    .checkThatBrowserTitleForTrustPageMatches('Edit Trust relationship manager details - Contacts - {trustName} - Find information about schools and trusts');
+                    .checkThatBrowserTitleForTrustPageMatches('Edit Trust relationship manager details - Contacts - {trustName} - {applicationName}');
             });
         });
 
@@ -93,7 +96,7 @@ describe("Testing the components of the Trust contacts page", () => {
 
             it("Checks the browser title is correct", () => {
                 commonPage
-                    .checkThatBrowserTitleForTrustPageMatches('Edit SFSO (Schools financial support and oversight) lead details - Contacts - {trustName} - Find information about schools and trusts');
+                    .checkThatBrowserTitleForTrustPageMatches('Edit SFSO (Schools financial support and oversight) lead details - Contacts - {trustName} - {applicationName}');
             });
         });
 
@@ -104,7 +107,7 @@ describe("Testing the components of the Trust contacts page", () => {
 
             it("Checks the browser title is correct", () => {
                 commonPage
-                    .checkThatBrowserTitleForTrustPageMatches('In this trust - Contacts - {trustName} - Find information about schools and trusts');
+                    .checkThatBrowserTitleForTrustPageMatches('In this trust - Contacts - {trustName} - {siteName}');
             });
 
             it("Checks the breadcrumb shows the correct page name", () => {
