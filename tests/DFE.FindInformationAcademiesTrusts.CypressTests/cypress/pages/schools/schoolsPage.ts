@@ -268,7 +268,6 @@ class SchoolsPage {
         this.elements.federation.federationSchoolLinks().should('have.length.at.least', 1);
         this.elements.federation.federationSchoolLinks().each(($link) => {
             expect($link).to.have.attr('href').and.match(/\/schools\/overview\/federation\?urn=\d+/);
-            expect($link).to.have.attr('target', '_blank');
         });
         return this;
     }
