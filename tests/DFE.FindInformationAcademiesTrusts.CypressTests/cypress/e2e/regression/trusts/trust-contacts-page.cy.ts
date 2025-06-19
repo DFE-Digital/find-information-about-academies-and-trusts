@@ -20,7 +20,7 @@ describe("Testing the components of the Trust contacts page", () => {
 
             it("Checks the browser title is correct", () => {
                 commonPage
-                    .checkThatBrowserTitleForTrustPageMatches('In DfE - Contacts - {trustName} - Find information about academies and trusts');
+                    .checkThatBrowserTitleForTrustPageMatches('In DfE - Contacts - {trustName} - Find information about schools and trusts');
             });
 
             it("Checks the breadcrumb shows the correct page name", () => {
@@ -82,7 +82,7 @@ describe("Testing the components of the Trust contacts page", () => {
 
             it("Checks the browser title is correct", () => {
                 commonPage
-                    .checkThatBrowserTitleForTrustPageMatches('Edit Trust relationship manager details - Contacts - {trustName} - Find information about academies and trusts');
+                    .checkThatBrowserTitleForTrustPageMatches('Edit Trust relationship manager details - Contacts - {trustName} - Find information about schools and trusts');
             });
         });
 
@@ -93,7 +93,7 @@ describe("Testing the components of the Trust contacts page", () => {
 
             it("Checks the browser title is correct", () => {
                 commonPage
-                    .checkThatBrowserTitleForTrustPageMatches('Edit SFSO (Schools financial support and oversight) lead details - Contacts - {trustName} - Find information about academies and trusts');
+                    .checkThatBrowserTitleForTrustPageMatches('Edit SFSO (Schools financial support and oversight) lead details - Contacts - {trustName} - Find information about schools and trusts');
             });
         });
 
@@ -104,7 +104,7 @@ describe("Testing the components of the Trust contacts page", () => {
 
             it("Checks the browser title is correct", () => {
                 commonPage
-                    .checkThatBrowserTitleForTrustPageMatches('In this trust - Contacts - {trustName} - Find information about academies and trusts');
+                    .checkThatBrowserTitleForTrustPageMatches('In this trust - Contacts - {trustName} - Find information about schools and trusts');
             });
 
             it("Checks the breadcrumb shows the correct page name", () => {
