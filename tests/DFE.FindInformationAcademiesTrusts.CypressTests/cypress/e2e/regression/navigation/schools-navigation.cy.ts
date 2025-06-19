@@ -11,7 +11,7 @@ describe('Schools Navigation Tests', () => {
     };
 
     const navTestSchool = {
-        schoolURN: 123452,
+        schoolURN: 107188,
     };
 
     describe("Routing tests", () => {
