@@ -100,7 +100,7 @@ class SchoolsPage {
     }
 
     public checkValueIsValidSchoolType = (element: JQuery<HTMLElement>) =>
-        this.checkElementMatches(element, /^(Community school|Academy converter)$/);
+        this.checkElementMatches(element, /^(Community school|Academy converter|Local authority nursery school)$/);
 
 
     public checkCorrectSchoolTypePresent(): this {
