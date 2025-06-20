@@ -12,8 +12,9 @@ public class InSchoolModel(
     ISchoolService schoolService,
     ITrustService trustService,
     ISchoolContactsService schoolContactsService,
-    IDataSourceService dataSourceService)
-    : ContactsAreaModel(schoolService, trustService, dataSourceService)
+    IDataSourceService dataSourceService,
+    ISchoolNavMenu schoolNavMenu)
+    : ContactsAreaModel(schoolService, trustService, dataSourceService, schoolNavMenu)
 {
     public override PageMetadata PageMetadata => base.PageMetadata with
     {

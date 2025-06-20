@@ -24,7 +24,8 @@ public class DetailsModelTests : BaseOverviewAreaModelTests<DetailsModel>
             .Returns(_dummySchoolDetails);
 
         Sut = new DetailsModel(MockSchoolService, MockTrustService, _mockSchoolOverviewDetailsService,
-            _mockOtherServicesLinkBuilder, MockDataSourceService) { Urn = SchoolUrn };
+            _mockOtherServicesLinkBuilder, MockDataSourceService, MockSchoolNavMenu)
+        { Urn = SchoolUrn };
     }
 
     [Fact]

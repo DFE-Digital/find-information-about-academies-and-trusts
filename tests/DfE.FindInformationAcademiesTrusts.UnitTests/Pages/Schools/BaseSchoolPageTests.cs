@@ -14,6 +14,7 @@ public abstract class BaseSchoolPageTests<T> where T : SchoolAreaModel
     protected readonly ISchoolService MockSchoolService = Substitute.For<ISchoolService>();
     protected readonly ITrustService MockTrustService = Substitute.For<ITrustService>();
     protected readonly IDataSourceService MockDataSourceService = Mocks.MockDataSourceService.CreateSubstitute();
+    protected readonly ISchoolNavMenu MockSchoolNavMenu = Substitute.For<ISchoolNavMenu>();
 
     protected const int SchoolUrn = 123456;
     protected const int AcademyUrn = 888888;
