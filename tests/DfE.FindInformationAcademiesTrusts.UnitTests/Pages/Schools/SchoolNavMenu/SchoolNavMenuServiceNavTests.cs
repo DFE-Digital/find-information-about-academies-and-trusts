@@ -1,7 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
-using DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
-using Sut = DfE.FindInformationAcademiesTrusts.Pages.Schools.SchoolNavMenu;
+using DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Schools.SchoolNavMenu;
 
@@ -36,7 +35,7 @@ public class SchoolNavMenuServiceNavTests : SchoolNavMenuTestsBase
 
         results.Should().AllSatisfy(link => { link.VisuallyHiddenLinkText.Should().Be(expectedHiddenText); });
     }
-    
+
     [Theory]
     [InlineData(SchoolCategory.LaMaintainedSchool, "School")]
     [InlineData(SchoolCategory.Academy, "Academy")]
@@ -91,7 +90,7 @@ public class SchoolNavMenuServiceNavTests : SchoolNavMenuTestsBase
         {
             nameof(DetailsModel) => "/Schools/Overview/Details",
             nameof(InSchoolModel) => "/Schools/Contacts/InSchool",
-                nameof(SenModel) => "/Schools/Overview/Details",
+            nameof(SenModel) => "/Schools/Overview/Details",
             _ => throw new ArgumentException("Couldn't get expected service nav asp link for given page type",
                 nameof(pageType))
         };

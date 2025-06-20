@@ -1,13 +1,17 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared.DataSource;
+using DfE.FindInformationAcademiesTrusts.Pages.Shared.NavMenu;
 using DfE.FindInformationAcademiesTrusts.Services.School;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Schools;
 
-public class SchoolAreaModel(ISchoolService schoolService, ITrustService trustService) : BasePageModel, ISchoolAreaModel
+public class SchoolAreaModel(
+    ISchoolService schoolService,
+    ITrustService trustService,
+    ISchoolNavMenu schoolNavMenu) : BasePageModel, ISchoolAreaModel
 {
     [BindProperty(SupportsGet = true)] public int Urn { get; set; }
 
@@ -20,6 +24,8 @@ public class SchoolAreaModel(ISchoolService schoolService, ITrustService trustSe
     public SchoolCategory SchoolCategory => SchoolSummary.Category;
 
     public TrustSummaryServiceModel? TrustSummary { get; private set; }
+    public NavLink[] ServiceNavLinks { get; set; } = null!;
+    public NavLink[] SubNavLinks { get; set; } = null!;
 
     public virtual async Task<IActionResult> OnGetAsync()
     {
@@ -36,6 +42,9 @@ public class SchoolAreaModel(ISchoolService schoolService, ITrustService trustSe
         }
 
         SchoolSummary = schoolSummary;
+
+        ServiceNavLinks = schoolNavMenu.GetServiceNavLinks(this);
+        SubNavLinks = schoolNavMenu.GetSubNavLinks(this);
 
         return Page();
     }

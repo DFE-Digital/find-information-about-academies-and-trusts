@@ -5,9 +5,15 @@ using DfE.FindInformationAcademiesTrusts.Pages.Shared.NavMenu;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Schools;
 
-public static class SchoolNavMenu
+public interface ISchoolNavMenu
 {
-    public static NavLink[] GetServiceNavLinks(ISchoolAreaModel activePage)
+    NavLink[] GetServiceNavLinks(ISchoolAreaModel activePage);
+    NavLink[] GetSubNavLinks(ISchoolAreaModel activePage);
+}
+
+public class SchoolNavMenu : ISchoolNavMenu
+{
+    public NavLink[] GetServiceNavLinks(ISchoolAreaModel activePage)
     {
         return
         [
@@ -28,7 +34,7 @@ public static class SchoolNavMenu
             new Dictionary<string, string> { { "urn", activePage.Urn.ToString() } });
     }
 
-    public static NavLink[] GetSubNavLinks(ISchoolAreaModel activePage)
+    public NavLink[] GetSubNavLinks(ISchoolAreaModel activePage)
     {
         return activePage switch
         {

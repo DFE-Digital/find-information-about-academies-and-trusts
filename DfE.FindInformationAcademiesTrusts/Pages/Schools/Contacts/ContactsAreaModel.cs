@@ -11,13 +11,14 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
 public class ContactsAreaModel(
     ISchoolService schoolService,
     ITrustService trustService,
-    IDataSourceService dataSourceService)
-    : SchoolAreaModel(schoolService, trustService)
+    IDataSourceService dataSourceService,
+    ISchoolNavMenu schoolNavMenu)
+    : SchoolAreaModel(schoolService, trustService, schoolNavMenu)
 {
     public const string PageName = "Contacts";
 
     public override PageMetadata PageMetadata => base.PageMetadata with { PageName = PageName };
-    
+
     public override async Task<IActionResult> OnGetAsync()
     {
         var pageResult = await base.OnGetAsync();

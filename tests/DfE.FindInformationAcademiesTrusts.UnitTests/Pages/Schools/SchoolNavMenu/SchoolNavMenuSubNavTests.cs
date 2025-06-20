@@ -2,7 +2,6 @@ using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
-using Sut = DfE.FindInformationAcademiesTrusts.Pages.Schools.SchoolNavMenu;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Schools.SchoolNavMenu;
 
@@ -43,7 +42,7 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
         {
             nameof(DetailsModel) => "Overview",
             nameof(InSchoolModel) => "Contacts",
-                nameof(SenModel) => "Overview",
+            nameof(SenModel) => "Overview",
             _ => throw new ArgumentException("Couldn't get expected name for given page type", nameof(pageType))
         };
     }
@@ -108,8 +107,7 @@ public class SchoolNavMenuSubNavTests : SchoolNavMenuTestsBase
 
         var results = Sut.GetSubNavLinks(activePage);
 
-        results.Should().SatisfyRespectively(
-            l =>
+        results.Should().SatisfyRespectively(l =>
             {
                 l.LinkDisplayText.Should().Be(expectedText);
                 l.AspPage.Should().Be("/Schools/Contacts/InSchool");
