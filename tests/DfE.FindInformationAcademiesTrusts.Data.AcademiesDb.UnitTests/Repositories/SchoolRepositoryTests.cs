@@ -139,13 +139,26 @@ public class SchoolRepositoryTests
     }
 
     [Fact]
+    public async Task GetDateJoinedTrust_should_return_null_when_no_trust_data_exists()
+    {
+        var urn = 45678;
+
+        var result = await _sut.GetDateJoinedTrustAsync(urn);
+
+        result.Should().BeNull();
+    }
+
+    [Fact]
     public async Task GetSchoolContactsAsync_should_return_headteacher_from_tad()
     {
         var urn = 45678;
 
         _mockAcademiesDbContext.TadHeadTeacherContacts.Add(new TadHeadTeacherContact
         {
-            Urn = urn, HeadFirstName = "Teacher", HeadLastName = "McTeacherson", HeadEmail = "a.teacher@school.com"
+            Urn = urn,
+            HeadFirstName = "Teacher",
+            HeadLastName = "McTeacherson",
+            HeadEmail = "a.teacher@school.com"
         });
 
         var result = await _sut.GetSchoolContactsAsync(urn);
