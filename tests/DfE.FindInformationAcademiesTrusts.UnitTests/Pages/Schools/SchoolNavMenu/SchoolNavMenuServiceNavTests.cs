@@ -89,9 +89,11 @@ public class SchoolNavMenuServiceNavTests : SchoolNavMenuTestsBase
     {
         return pageType.Name switch
         {
+
             nameof(DetailsModel) => "/Schools/Overview/Details",
             nameof(InSchoolModel) => "/Schools/Contacts/InSchool",
-                nameof(SenModel) => "/Schools/Overview/Details",
+            nameof(SenModel) => "/Schools/Overview/Details",
+            nameof(FederationModel) => "/Schools/Overview/Details",
             _ => throw new ArgumentException("Couldn't get expected service nav asp link for given page type",
                 nameof(pageType))
         };

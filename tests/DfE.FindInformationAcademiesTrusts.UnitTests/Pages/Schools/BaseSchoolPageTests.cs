@@ -28,6 +28,9 @@ public abstract class BaseSchoolPageTests<T> where T : SchoolAreaModel
     {
         MockSchoolService.GetSchoolSummaryAsync(SchoolUrn).Returns(DummySchoolSummary);
         MockSchoolService.GetSchoolSummaryAsync(AcademyUrn).Returns(DummyAcademySummary);
+
+        MockSchoolService.IsPartOfFederationAsync(SchoolUrn).Returns(true);
+        MockSchoolService.IsPartOfFederationAsync(AcademyUrn).Returns(false);
     }
 
     [Fact]

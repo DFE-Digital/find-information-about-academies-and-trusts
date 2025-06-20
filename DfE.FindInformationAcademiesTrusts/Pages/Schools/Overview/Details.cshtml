@@ -14,6 +14,19 @@
         <h3 class="govuk-heading-m" data-testid="subpage-header">
             @Model.PageMetadata.SubPageName
         </h3>
+        
+        @if (Model.SchoolCategory == SchoolCategory.Academy && !Model.TrustInformationIsAvailable)
+        {
+            <div class="govuk-notification-banner">
+                <div class="govuk-notification-banner__header">
+                    <h4 class="govuk-notification-banner__title">Important</h4>
+                </div>
+                <div class="govuk-notification-banner__content">
+                    <p class="govuk-notification-banner__heading">Trust information is not available for this academy.</p>
+                    <a class="govuk-notification-banner__link" href="@Model.GetInformationAboutSchoolsLink">View the academy on GIAS</a> for more information.
+                </div>
+            </div>
+        }
 
         <dl class="govuk-summary-list govuk-!-margin-bottom-0">
 
@@ -28,27 +41,39 @@
 
             @if (Model.TrustSummary is not null)
             {
-                if (Model.SchoolCategory == SchoolCategory.Academy)
-                {
-                    <div class="govuk-summary-list__row">
-                        <dt class="govuk-summary-list__key" data-testid="details-date-joined-trust-header">
-                            Date joined the trust
-                        </dt>
-                        <dd class="govuk-summary-list__value">
-                            @Model.SchoolOverviewModel.DateJoinedTrust?.ToString(StringFormatConstants.DisplayFullDateFormat)
-                        </dd>
-                    </div>
-                }
 
                 <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key" data-testid="details-date-joined-trust-header">
+                        Date joined the trust
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        @if (Model.TrustInformationIsAvailable)
+                        {
+                            @Model.SchoolOverviewModel.DateJoinedTrust?.ToString(StringFormatConstants.DisplayFullDateFormat)
+                        }
+                        else
+                        {
+                            @: Not available
+                        }
+                    </dd>
+                </div>
+
+            <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key" data-testid="details-trust-header">
                         Trust
                     </dt>
                     <dd class="govuk-summary-list__value">
-                        <a data-testid="academy-trust-link" class="govuk-link" asp-page="/Trusts/Overview/TrustDetails"
-                           asp-route-uid="@Model.TrustSummary?.Uid">
-                            @Model.TrustSummary?.Name
-                        </a>
+                        @if (Model.TrustInformationIsAvailable)
+                        {
+                            <a data-testid="academy-trust-link" class="govuk-link" asp-page="/Trusts/Overview/TrustDetails"
+                               asp-route-uid="@Model.TrustSummary?.Uid">
+                                @Model.TrustSummary?.Name
+                            </a>
+                        }
+                        else
+                        {
+                            @: Not available
+                        }
                     </dd>
                 </div>
             }

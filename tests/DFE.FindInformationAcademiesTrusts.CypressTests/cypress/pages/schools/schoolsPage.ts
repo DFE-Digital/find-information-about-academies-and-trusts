@@ -41,6 +41,14 @@ class SchoolsPage {
             headTeacherName: () => cy.get('[data-testid="contact-card-head-teacher"] [data-testid="contact-name"]'),
             headTeacherEmail: () => cy.get('[data-testid="contact-card-head-teacher"] [data-testid="contact-email"]'),
         },
+        federation: {
+            federationName: () => cy.get('[data-testid="federation-details-name"]'),
+            federationUid: () => cy.get('[data-testid="federation-details-uid"]'),
+            federationOpenedOn: () => cy.get('[data-testid="federation-details-opened-on"]'),
+            federationSchoolsHeader: () => cy.get('[data-testid="federation-schools-header"]'),
+            federationSchoolLinks: () => cy.get('[data-testid="federation-school-link"]'),
+            federationTab: () => cy.get('[data-testid="overview-federation-subnav"]')
+        },
     };
 
     private readonly checkElementMatches = (element: JQuery<HTMLElement>, expected: RegExp) => {
@@ -92,7 +100,7 @@ class SchoolsPage {
     }
 
     public checkValueIsValidSchoolType = (element: JQuery<HTMLElement>) =>
-        this.checkElementMatches(element, /^(Community school|Academy converter)$/);
+        this.checkElementMatches(element, /^(Community school|Academy converter|Local authority nursery school)$/);
 
 
     public checkCorrectSchoolTypePresent(): this {
@@ -240,6 +248,41 @@ class SchoolsPage {
         return this;
     }
 
+    // #endregion
+
+    // #region school federation details
+    public checkFederationDetailsHeaderPresent(): this {
+        this.elements.subpageHeader().should('contain', 'Federation details');
+        return this;
+    }
+
+    public checkFederationDetailsPresent(): this {
+        this.elements.federation.federationName().should('be.visible');
+        this.elements.federation.federationUid().should('be.visible');
+        this.elements.federation.federationOpenedOn().should('be.visible');
+        return this;
+    }
+
+    public checkFederationSchoolsListPresent(): this {
+        this.elements.federation.federationSchoolsHeader().should('be.visible');
+        this.elements.federation.federationSchoolLinks().should('have.length.at.least', 1);
+        this.elements.federation.federationSchoolLinks().each(($link) => {
+            expect($link).to.have.attr('href').and.match(/\/schools\/overview\/federation\?urn=\d+/);
+        });
+        return this;
+    }
+
+    public checkFederationDetailsNotAvailable(): this {
+        this.elements.federation.federationName().should('contain', 'Not available');
+        this.elements.federation.federationUid().should('contain', 'Not available');
+        this.elements.federation.federationOpenedOn().should('contain', 'Not available');
+        return this;
+    }
+
+    public checkFederationTabNotPresent(): this {
+        this.elements.federation.federationTab().should('not.exist');
+        return this;
+    }
     // #endregion
 }
 

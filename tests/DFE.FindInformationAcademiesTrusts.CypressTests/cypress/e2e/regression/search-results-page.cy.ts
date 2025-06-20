@@ -97,7 +97,7 @@ describe("Testing the components of the search results page", () => {
             .checkSearchResultsInfoReturnsCorrectInfo("Found 1 trusts and 0 schools, including academies");
     });
 
-    it.only('Checks that you cant go to a url for a search results page that does not exist', () => {
+    it('Checks that you cant go to a url for a search results page that does not exist', () => {
         [`/search?keywords=west&pagenumber=1000`, `/search?keywords=west&pagenumber=0`].forEach((url) => {
 
             commonPage

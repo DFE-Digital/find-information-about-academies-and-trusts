@@ -44,12 +44,13 @@ public class SchoolRepository(
             .SingleAsync();
     }
 
-    public async Task<DateOnly> GetDateJoinedTrustAsync(int urn)
+    public async Task<DateOnly?> GetDateJoinedTrustAsync(int urn)
     {
         return await academiesDbContext.GiasGroupLinks.Where(gl => gl.Urn == urn.ToString())
             .Select(gl =>
                 DateOnly.ParseExact(gl.JoinedDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None))
-            .FirstAsync();
+            .Cast<DateOnly?>()
+            .FirstOrDefaultAsync();
     }
 
     public async Task<SchoolContact?> GetSchoolContactsAsync(int urn)
@@ -100,5 +101,43 @@ public class SchoolRepository(
                 }
             ))
             .SingleAsync();
+    }
+
+    public async Task<bool> IsPartOfFederationAsync(int urn)
+    {
+        var federationsCode = await academiesDbContext.GiasEstablishments
+            .Where(e => e.Urn == urn)
+            .Select(x => x.FederationsCode)
+            .FirstOrDefaultAsync();
+
+        return !string.IsNullOrWhiteSpace(federationsCode);
+    }
+
+    public async Task<FederationDetails> GetSchoolFederationDetailsAsync(int urn)
+    {
+        var schoolFederationDetails = await academiesDbContext.GiasEstablishments
+            .Where(e => e.Urn == urn)
+            .Select(establishment => new FederationDetails(
+                establishment.FederationsName,
+                establishment.FederationsCode))
+            .SingleAsync();
+
+        if (schoolFederationDetails.FederationUid != null)
+        {
+            var openedOnDate = await academiesDbContext.GiasGroupLinks
+                .Where(gl => gl.GroupUid == schoolFederationDetails.FederationUid)
+                .Select(gl =>
+                    DateOnly.ParseExact(gl.OpenDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None))
+                .FirstAsync();
+
+            var schools = await academiesDbContext.GiasEstablishments
+                .Where(e => e.FederationsCode == schoolFederationDetails.FederationUid)
+                .ToDictionaryAsync(establishment => establishment.Urn.ToString(),
+                    establishment => establishment.EstablishmentName!);
+
+            schoolFederationDetails = schoolFederationDetails with { OpenedOnDate = openedOnDate, Schools = schools };
+        }
+
+        return schoolFederationDetails;
     }
 }

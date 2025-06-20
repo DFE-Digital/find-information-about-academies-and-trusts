@@ -28,6 +28,8 @@ public abstract class OverviewAreaModel(
         [
             new DataSourcePageListEntry(DetailsModel.SubPageName(SchoolCategory),
                 [new DataSourceListEntry(giasDataSource)]),
+            new DataSourcePageListEntry(FederationModel.SubPageName,
+            [new DataSourceListEntry(giasDataSource)]),
             new DataSourcePageListEntry(SenModel.SubPageName,
                 [new DataSourceListEntry(giasDataSource)])
         ];

@@ -4,12 +4,15 @@
   <ul class="moj-sub-navigation__list">
     @foreach (var link in Model)
     {
-      <li class="moj-sub-navigation__item">
-        <a class="moj-sub-navigation__link" asp-page="@link.AspPage" asp-all-route-data="@link.AspAllRouteData"
-           data-testid="@link.TestId" aria-current="@(link.LinkIsActive ? "page" : null)">
-          <span class="govuk-visually-hidden">@link.VisuallyHiddenLinkText </span>@link.LinkDisplayText
-        </a>
-      </li>
+      @if (link.ShowNavLink)
+      {
+        <li class="moj-sub-navigation__item">
+          <a class="moj-sub-navigation__link" asp-page="@link.AspPage" asp-all-route-data="@link.AspAllRouteData"
+             data-testid="@link.TestId" aria-current="@(link.LinkIsActive ? "page" : null)">
+            <span class="govuk-visually-hidden">@link.VisuallyHiddenLinkText </span>@link.LinkDisplayText
+          </a>
+        </li>
+      }
     }
   </ul>
 </nav>
