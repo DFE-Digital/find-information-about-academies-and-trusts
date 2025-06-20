@@ -39,7 +39,7 @@
                 </dd>
             </div>
 
-            @if (Model.TrustSummary is not null)
+            @if (Model.TrustSummaryIsAvailable)
             {
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key" data-testid="details-date-joined-trust-header">
@@ -62,7 +62,7 @@
                         Trust
                     </dt>
                     <dd class="govuk-summary-list__value">
-                        @if (Model.TrustSummary is not null)
+                        @if (Model.TrustSummaryIsAvailable)
                         {
                             <a data-testid="academy-trust-link" class="govuk-link" asp-page="/Trusts/Overview/TrustDetails"
                                asp-route-uid="@Model.TrustSummary?.Uid">
