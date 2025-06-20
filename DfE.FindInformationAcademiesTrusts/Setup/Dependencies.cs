@@ -76,6 +76,7 @@ public static class Dependencies
         builder.Services.AddScoped<IOfstedRepository, OfstedRepository>();
         builder.Services.AddScoped<ITrustRepository, TrustRepository>();
         builder.Services.AddScoped<IDataSourceRepository, DataSourceRepository>();
+        builder.Services.AddScoped<IFiatDataSourceRepository, FiatDataSourceRepository>();
         builder.Services.AddScoped<IContactRepository, ContactRepository>();
         builder.Services.AddScoped<IPipelineEstablishmentRepository, PipelineEstablishmentRepository>();
         builder.Services.AddScoped<ITrustDocumentRepository, TrustDocumentRepository>();
