@@ -15,6 +15,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories.Search;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.TrustDocument;
 using DfE.FindInformationAcademiesTrusts.Pages;
+using DfE.FindInformationAcademiesTrusts.Pages.Schools;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
 using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.Export;
@@ -34,13 +35,13 @@ public static class Dependencies
         builder.Services.AddDbContext<AcademiesDbContext>(options =>
             options.UseSqlServer(
                 builder.Configuration.GetConnectionString("AcademiesDb") ??
-                    throw new InvalidOperationException("Connection string 'AcademiesDb' not found."),
-                sqlServerOptionsAction: sqlOptions =>
+                throw new InvalidOperationException("Connection string 'AcademiesDb' not found."),
+                sqlOptions =>
                 {
                     sqlOptions.EnableRetryOnFailure(
-                        maxRetryCount: 2, // retry up to a maximum of 2 times
-                        maxRetryDelay: TimeSpan.FromSeconds(5), // wait up to 5s for the server to respond before retry
-                        errorNumbersToAdd: null
+                        2, // retry up to a maximum of 2 times
+                        TimeSpan.FromSeconds(5), // wait up to 5s for the server to respond before retry
+                        null
                     );
                 }
             ).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
@@ -53,13 +54,13 @@ public static class Dependencies
         builder.Services.AddDbContext<FiatDbContext>(options =>
             options.UseSqlServer(
                 builder.Configuration.GetConnectionString("DefaultConnection") ??
-                    throw new InvalidOperationException("FIAT database connection string 'DefaultConnection' not found."),
-                sqlServerOptionsAction: sqlOptions =>
+                throw new InvalidOperationException("FIAT database connection string 'DefaultConnection' not found."),
+                sqlOptions =>
                 {
                     sqlOptions.EnableRetryOnFailure(
-                        maxRetryCount: 2, // retry up to a maximum of 2 times
-                        maxRetryDelay: TimeSpan.FromSeconds(5), // wait up to 5s for the server to respond before retry
-                        errorNumbersToAdd: null
+                        2, // retry up to a maximum of 2 times
+                        TimeSpan.FromSeconds(5), // wait up to 5s for the server to respond before retry
+                        null
                     );
                 }
             )
@@ -101,6 +102,8 @@ public static class Dependencies
         builder.Services.AddScoped<ISchoolOverviewFederationService, SchoolOverviewFederationService>();
         builder.Services.AddScoped<ISearchService, SearchService>();
         builder.Services.AddScoped<ITrustSchoolSearchRepository, TrustSchoolSearchRepository>();
+
+        builder.Services.AddScoped<ISchoolNavMenu, SchoolNavMenu>();
 
         builder.Services.AddHttpContextAccessor();
     }
