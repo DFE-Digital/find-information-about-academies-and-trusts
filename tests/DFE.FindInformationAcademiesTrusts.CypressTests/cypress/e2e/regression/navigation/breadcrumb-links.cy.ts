@@ -1,5 +1,5 @@
 import navigation from "../../../pages/navigation";
-import { testSchoolData, testTrustData } from "../../../support/test-data-store";
+import { testTrustData } from "../../../support/test-data-store";
 
 describe('Testing Navigation', () => {
 
@@ -58,16 +58,34 @@ describe('Testing Navigation', () => {
         });
     });
 
-    describe("Testing the breadcrumb links on the schools overview pages", () => {
-        testSchoolData.forEach(({ urn }) => {
+    describe("Testing the breadcrumb links on the schools overview pages for a LA Maintained School", () => {
+        const testBreadcrumbSchool = {
+            urn: 107188,
+            type: "Community school"
+        };
 
-            [`/schools/overview/details?urn=${urn}`].forEach((url) => {
-                it("Checks the breadcrumb shows the correct page name", () => {
-                    cy.visit(url);
-                    navigation
-                        .checkPageNameBreadcrumbPresent("Overview");
-                });
+        [`/schools/overview/details?urn=${testBreadcrumbSchool.urn}`, `/schools/overview/federation?urn=${testBreadcrumbSchool.urn}`, `/schools/overview/sen?urn=${testBreadcrumbSchool.urn}`].forEach((url) => {
+            it(`Checks the breadcrumb shows the correct page name for ${testBreadcrumbSchool.type} on ${url}`, () => {
+                cy.visit(url);
+                navigation
+                    .checkPageNameBreadcrumbPresent("Overview");
+            });
+        });
+    });
+
+    describe("Testing the breadcrumb links on the schools overview pages for an Academy", () => {
+        const testBreadcrumbAcademy = {
+            urn: 137083,
+            type: "Academy converter"
+        };
+
+        [`/schools/overview/details?urn=${testBreadcrumbAcademy.urn}`, `/schools/overview/sen?urn=${testBreadcrumbAcademy.urn}`].forEach((url) => {
+            it(`Checks the breadcrumb shows the correct page name for ${testBreadcrumbAcademy.type} on ${url}`, () => {
+                cy.visit(url);
+                navigation
+                    .checkPageNameBreadcrumbPresent("Overview");
             });
         });
     });
 });
+

@@ -97,6 +97,7 @@ public static class Dependencies
         builder.Services.AddScoped<ISchoolContactsService, SchoolContactsService>();
 
         builder.Services.AddScoped<ISchoolOverviewSenService, SchoolOverviewSenService>();
+        builder.Services.AddScoped<ISchoolOverviewFederationService, SchoolOverviewFederationService>();
         builder.Services.AddScoped<ISearchService, SearchService>();
         builder.Services.AddScoped<ITrustSchoolSearchRepository, TrustSchoolSearchRepository>();
 

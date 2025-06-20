@@ -71,4 +71,20 @@ public class SchoolServiceTests
         cachedEntry.Value.Should().BeEquivalentTo(new SchoolSummaryServiceModel(urn, name, type, category));
         cachedEntry.SlidingExpiration.Should().Be(TimeSpan.FromMinutes(10));
     }
+
+    [Theory]
+    [InlineData(true, true)]
+    [InlineData(false, false)]
+    public async Task IsPartOfFederationAsync_should_return_repository_result(bool repositoryResult,
+        bool expectedReturnValue)
+    {
+        var urn = 123456;
+
+        _mockSchoolRepository.IsPartOfFederationAsync(urn).Returns(repositoryResult);
+
+        var result = await _sut.IsPartOfFederationAsync(urn);
+
+        await _mockSchoolRepository.Received(1).IsPartOfFederationAsync(urn);
+        result.Should().Be(expectedReturnValue);
+    }
 }

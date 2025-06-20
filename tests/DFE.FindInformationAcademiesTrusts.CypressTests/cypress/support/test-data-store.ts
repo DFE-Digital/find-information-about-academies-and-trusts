@@ -52,6 +52,7 @@ export class TestDataStore {
                 pageName: "Overview",
                 subpages: [
                     { subpageName: "School details", url: `/schools/overview/details?urn=${urn}` },
+                    { subpageName: "Federation details", url: `/schools/overview/federation?urn=${urn}` },
                     { subpageName: "SEN (special educational needs)", url: `/schools/overview/sen?urn=${urn}` },
                 ]
             },
