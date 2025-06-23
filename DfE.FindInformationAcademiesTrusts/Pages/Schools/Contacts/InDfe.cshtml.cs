@@ -26,6 +26,8 @@ public class InDfeModel(
     public static string SubPageName => "In DfE";
 
     public Person? RegionsGroupLocalAuthorityLead { get; private set; }
+    public Person? TrustRelationshipManager { get; private set; }
+    public Person? SfsoLead { get; private set; }
 
     public override async Task<IActionResult> OnGetAsync()
     {
@@ -35,6 +37,8 @@ public class InDfeModel(
         var contacts = await schoolContactsService.GetInternalContactsAsync(Urn);
 
         RegionsGroupLocalAuthorityLead = contacts.RegionsGroupLocalAuthorityLead;
+        TrustRelationshipManager = contacts.TrustRelationshipManager;
+        SfsoLead = contacts.SfsoLead;
 
         return pageResult;
     }
