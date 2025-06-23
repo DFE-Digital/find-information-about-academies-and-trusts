@@ -1,7 +1,7 @@
 import commonPage from "../../../pages/commonPage";
 import navigation from "../../../pages/navigation";
 import governancePage from "../../../pages/trusts/governancePage";
-import { trustsWithGovernanceData } from "../../../support/test-data-store";
+import { trustsWithGovernanceData, trustsWithNoGovernanceData } from "../../../support/test-data-store";
 
 describe("Testing the components of the Governance page", () => {
 
@@ -119,16 +119,7 @@ describe("Testing the components of the Governance page", () => {
         });
     });
 
-    const trustsWithNoGovernanceData = [
-        {
-            typeOfTrust: "single academy trust with no governance data",
-            uid: 17022
-        },
-        {
-            typeOfTrust: "multi academy trust with no governance data",
-            uid: 17637
-        }
-    ];
+
     trustsWithNoGovernanceData.forEach(({ typeOfTrust, uid }) => {
         describe(`On the Governance pages for a ${typeOfTrust}`, () => {
 
