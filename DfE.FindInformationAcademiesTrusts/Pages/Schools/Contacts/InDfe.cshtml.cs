@@ -25,7 +25,7 @@ public class InDfeModel(
 
     public static string SubPageName => "In DfE";
 
-    public Person RegionsGroupLocalAuthorityLead { get; private set; } = null!;
+    public Person? RegionsGroupLocalAuthorityLead { get; private set; }
 
     public override async Task<IActionResult> OnGetAsync()
     {

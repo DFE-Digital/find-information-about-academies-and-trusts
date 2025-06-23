@@ -1,6 +1,7 @@
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
+using DfE.FindInformationAcademiesTrusts.Services.Trust;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.School;
 
@@ -10,7 +11,10 @@ public interface ISchoolContactsService
     Task<SchoolInternalContactsServiceModel> GetInternalContactsAsync(int urn);
 }
 
-public class SchoolContactsService(ISchoolRepository schoolRepository, IContactRepository contactRepository) : ISchoolContactsService
+public class SchoolContactsService(
+    ITrustService trustService,
+    ISchoolRepository schoolRepository,
+    IContactRepository contactRepository) : ISchoolContactsService
 {
     public async Task<Person?> GetInSchoolContactsAsync(int urn)
     {
@@ -30,10 +34,16 @@ public class SchoolContactsService(ISchoolRepository schoolRepository, IContactR
     {
         var schoolInternalContacts = await contactRepository.GetSchoolInternalContactsAsync(urn);
 
-        var regionsGroupLocalAuthorityLead =
-            new Person(schoolInternalContacts.RegionsGroupLocalAuthorityLead?.FullName ?? string.Empty,
-                schoolInternalContacts.RegionsGroupLocalAuthorityLead?.Email);
+        var trustSummary = await trustService.GetTrustSummaryAsync(urn);
+        if (trustSummary is null)
+        {
+            return new SchoolInternalContactsServiceModel(schoolInternalContacts.RegionsGroupLocalAuthorityLead);
+        }
 
-        return new SchoolInternalContactsServiceModel(regionsGroupLocalAuthorityLead);
+        var trustContacts = await contactRepository.GetTrustInternalContactsAsync(trustSummary.Uid);
+
+        return new SchoolInternalContactsServiceModel(schoolInternalContacts.RegionsGroupLocalAuthorityLead,
+            trustContacts.TrustRelationshipManager,
+            trustContacts.SfsoLead);
     }
 }
