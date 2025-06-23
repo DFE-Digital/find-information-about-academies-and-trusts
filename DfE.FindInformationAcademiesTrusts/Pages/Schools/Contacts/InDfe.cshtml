@@ -1,4 +1,5 @@
 @page "/schools/contacts/in-dfe"
+@using DfE.FindInformationAcademiesTrusts.Data.Enums
 @model InDfeModel
 
 @{
@@ -11,15 +12,41 @@
             @Model.PageMetadata.SubPageName
         </h2>
 
-        <div class="govuk-summary-card" data-testid="contact-card-regions-group-la-lead">
-            <div class="govuk-summary-card__title-wrapper">
-                <h3 class="govuk-summary-card__title" data-testid="contact-card-title-regions-group-la-lead">
-                    Regions group local authority lead
-                </h3>
+        @if (Model.SchoolCategory == SchoolCategory.LaMaintainedSchool)
+        {
+            <div class="govuk-summary-card" data-testid="contact-card-regions-group-la-lead">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h3 class="govuk-summary-card__title" data-testid="contact-card-title-regions-group-la-lead">
+                        Regions group local authority lead
+                    </h3>
+                </div>
+                <partial name="Contact/_DisplayContact" model="Model.RegionsGroupLocalAuthorityLead"
+                         view-data='new ViewDataDictionary(ViewData) { { "contactType", "regions-group-local-authority-lead" } }'/>
             </div>
-            <partial name="Contact/_DisplayContact" model="Model.RegionsGroupLocalAuthorityLead"
-                view-data='new ViewDataDictionary(ViewData) { { "contactType", "regions-group-local-authority-lead" } }' />
-        </div>
+        }
+
+        @if (Model.SchoolCategory == SchoolCategory.Academy)
+        {
+            <div class="govuk-summary-card" data-testid="contact-card-trust-relationship-manager">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h3 class="govuk-summary-card__title" data-testid="contact-card-title-trust-relationship-manager">
+                        Trust relationship manager
+                    </h3>
+                </div>
+                <partial name="Contact/_DisplayContact" model="Model.TrustRelationshipManager"
+                         view-data='new ViewDataDictionary(ViewData) { { "contactType", "trust-relationship-manager" } }'/>
+            </div>
+
+            <div class="govuk-summary-card" data-testid="contact-card-sfso-lead">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h3 class="govuk-summary-card__title" data-testid="contact-card-title-sfso-lead">
+                        SFSO (Schools Financial Support and Oversight) lead
+                    </h3>
+                </div>
+                <partial name="Contact/_DisplayContact" model="Model.SfsoLead"
+                         view-data='new ViewDataDictionary(ViewData) { { "contactType", "sfso-lead" } }'/>
+            </div>
+        }
         <hr class="govuk-section-break govuk-section-break--m" data-testid="contacts-section-divider">
     </div>
 </div>
