@@ -18,7 +18,7 @@ public class InSchoolModelTests : BaseContactsAreaModelTests<InSchoolModel>
         _mockSchoolContactsService.GetInSchoolContactsAsync(Arg.Any<int>()).Returns(_dummyInSchoolContacts);
 
         Sut = new InSchoolModel(MockSchoolService, MockTrustService, _mockSchoolContactsService, MockDataSourceService,
-                MockSchoolNavMenu)
+                MockSchoolNavMenu, MockFeatureManager)
         { Urn = SchoolUrn };
     }
 
