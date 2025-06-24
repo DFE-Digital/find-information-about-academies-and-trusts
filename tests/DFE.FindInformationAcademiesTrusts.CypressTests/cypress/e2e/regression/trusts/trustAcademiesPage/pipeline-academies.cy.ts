@@ -8,7 +8,6 @@ describe("Testing the Pipeline academies pages", () => {
     describe(`On the Pre advisory board page for a trust`, () => {
         testPreAdvisoryData.forEach(({ uid }) => {
             beforeEach(() => {
-                cy.login();
                 cy.visit(`/trusts/academies/pipeline/pre-advisory-board?uid=${uid}`);
             });
 
@@ -58,7 +57,6 @@ describe("Testing the Pipeline academies pages", () => {
     describe(`On the Post advisory board page for`, () => {
         testPostAdvisoryData.forEach(({ uid }) => {
             beforeEach(() => {
-                cy.login();
                 cy.visit(`/trusts/academies/pipeline/post-advisory-board?uid=${uid}`);
             });
 
@@ -103,7 +101,6 @@ describe("Testing the Pipeline academies pages", () => {
     describe(`On the Free schools page`, () => {
         testFreeSchoolsData.forEach(({ uid }) => {
             beforeEach(() => {
-                cy.login();
                 cy.visit(`/trusts/academies/pipeline/free-schools?uid=${uid}`);
             });
 
@@ -147,10 +144,6 @@ describe("Testing the Pipeline academies pages", () => {
 
     describe(`On the pages with no pipeline academy data under them`, () => {
 
-        beforeEach(() => {
-            cy.login();
-        });
-
         it("Checks the Pipeline academies Pre advisory page when an academy does not exist under it to ensure the correct message is displayed", () => {
             cy.visit(`/trusts/academies/pipeline/pre-advisory-board?uid=5712`);
             pipelineAcademiesPage
@@ -172,7 +165,6 @@ describe("Testing the Pipeline academies pages", () => {
 
     describe("Testing a trust that has no pipeline data within it to ensure the issue of a 500 page appearing does not happen", () => {
         beforeEach(() => {
-            cy.login();
             commonPage
                 .interceptAndVerifyNo500Errors();
         });

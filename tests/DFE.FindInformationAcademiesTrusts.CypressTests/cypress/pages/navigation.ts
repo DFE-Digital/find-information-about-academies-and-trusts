@@ -39,6 +39,15 @@ class Navigation {
             internalScrutinyReportsButton: () => cy.get('[data-testid="financial-documents-internal-scrutiny-reports-subnav"]'),
             selfAssessmentChecklistsButton: () => cy.get('[data-testid="financial-documents-self-assessment-checklists-subnav"]'),
         },
+        schoolsServiceNav: {
+            overviewServiceNavButton: () => cy.get('[data-testid="overview-nav"]'),
+            contactsServiceNavButton: () => cy.get('[data-testid="contacts-nav"]'),
+        },
+        schoolsSubNav: {
+            schoolsDetailsButton: () => cy.get('[data-testid="overview-details-subnav"]'),
+            schoolsSENButton: () => cy.get('[data-testid="overview-sen-subnav"]'),
+            schoolsFederationButton: () => cy.get('[data-testid="overview-federation-subnav"]'),
+        }
     };
 
     public checkSubpageNavMatches(expectedSubpages: { subpageName: string, url: string; }[]): this {
@@ -49,9 +58,12 @@ class Navigation {
                 subpageName: Cypress.$(subpageNavElement).contents().last().text().replace(/\(\d+\)/, '').trim(), // Get the visible subpage name (not the hidden a11y name) without any bracketed numbers
                 url: Cypress.$(subpageNavElement).attr('href')
             })).get();
-
-            //Check that the actual subpages currently on the screen are the ones we are expecting to see
-            expect(actualSubpages).to.deep.equal(expectedSubpages);
+            // Check that the actual subpages currently on the screen are the ones we are expecting to see
+            try {
+                expect(actualSubpages).to.deep.equal(expectedSubpages);
+            } catch {
+                throw new Error(`Subpage navigation mismatch: Expected subpages ${JSON.stringify(expectedSubpages)}, but found ${JSON.stringify(actualSubpages)}. Please ensure the subpage navigation is correctly configured.`);
+            }
         });
         return this;
     }
@@ -265,6 +277,42 @@ class Navigation {
         this.elements.financialDocumentsSubNav.selfAssessmentChecklistsButton().click();
         return this;
     }
+
+    //#region Schools navigation
+
+    public checkAllSchoolServiceNavItemsPresent(): this {
+        this.elements.schoolsServiceNav.overviewServiceNavButton().should('be.visible');
+        this.elements.schoolsServiceNav.contactsServiceNavButton().should('be.visible');
+        return this;
+    }
+
+    public checkAllSchoolsSubNavItemsPresent(): this {
+        this.elements.schoolsSubNav.schoolsDetailsButton().should('be.visible');
+        this.elements.schoolsSubNav.schoolsSENButton().should('be.visible');
+        return this;
+    }
+
+    public clickSchoolsDetailsButton(): this {
+        this.elements.schoolsSubNav.schoolsDetailsButton().click();
+        return this;
+    }
+
+    public clickSchoolsSENButton(): this {
+        this.elements.schoolsSubNav.schoolsSENButton().click();
+        return this;
+    }
+
+    public clickSchoolsContactsButton(): this {
+        this.elements.schoolsServiceNav.contactsServiceNavButton().click();
+        return this;
+    }
+
+    public clickSchoolsFederationButton(): this {
+        this.elements.schoolsSubNav.schoolsFederationButton().click();
+        return this;
+    }
+
+    //#endregion
 }
 
 const navigation = new Navigation();

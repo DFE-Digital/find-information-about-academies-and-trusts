@@ -52,6 +52,31 @@ export class TestDataStore {
                 pageName: "Overview",
                 subpages: [
                     { subpageName: "School details", url: `/schools/overview/details?urn=${urn}` },
+                    { subpageName: "Federation details", url: `/schools/overview/federation?urn=${urn}` },
+                    { subpageName: "SEN (special educational needs)", url: `/schools/overview/sen?urn=${urn}` },
+                ]
+            },
+            {
+                pageName: "Contacts",
+                subpages: [
+                    { subpageName: "In this school", url: `/schools/contacts/in-the-school?urn=${urn}` },
+                ]
+            },
+        ];
+
+    public static readonly GetAllAcademySubpagesForUrn = (urn: number) =>
+        [
+            {
+                pageName: "Overview",
+                subpages: [
+                    { subpageName: "Academy details", url: `/schools/overview/details?urn=${urn}` },
+                    { subpageName: "SEN (special educational needs)", url: `/schools/overview/sen?urn=${urn}` },
+                ]
+            },
+            {
+                pageName: "Contacts",
+                subpages: [
+                    { subpageName: "In this academy", url: `/schools/contacts/in-the-school?urn=${urn}` },
                 ]
             },
         ];
@@ -59,14 +84,17 @@ export class TestDataStore {
 
 export const testSchoolData = [
     {
+        schoolName: "The Meadows Primary School",
         typeOfSchool: "Community school",
         urn: 123452
     },
     {
+        schoolName: "Abbey Grange Church of England Academy",
         typeOfSchool: "Academy converter",
         urn: 137083
     }
-]; export const testPreAdvisoryData = [
+];
+export const testPreAdvisoryData = [
     {
         uid: 16002
     },

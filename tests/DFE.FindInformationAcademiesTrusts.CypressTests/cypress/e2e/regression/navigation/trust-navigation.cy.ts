@@ -1,7 +1,7 @@
 import navigation from "../../../pages/navigation";
 import academiesInTrustPage from "../../../pages/trusts/academiesInTrustPage";
 import governancePage from "../../../pages/trusts/governancePage";
-import contactsPage from "../../../pages/trusts/contactsPage";
+import trustContactsPage from "../../../pages/trusts/trustContactsPage";
 import overviewPage from "../../../pages/trusts/overviewPage";
 import financialDocumentsPage from "../../../pages/trusts/financialDocumentsPage";
 import ofstedPage from "../../../pages/trusts/ofstedPage";
@@ -9,9 +9,6 @@ import commonPage from "../../../pages/commonPage";
 import { TestDataStore } from "../../../support/test-data-store";
 
 describe('Trust Navigation Tests', () => {
-    beforeEach(() => {
-        cy.login();
-    });
 
     describe('Testing trust service navigation and sub navigation', () => {
 
@@ -41,7 +38,7 @@ describe('Trust Navigation Tests', () => {
                     .checkContactsServiceNavButtonIsHighlighted()
                     .checkCurrentURLIsCorrect('/trusts/contacts/in-dfe?uid=5527')
                     .checkAllServiceNavItemsPresent();
-                contactsPage
+                trustContactsPage
                     .checkContactsInDfeSubHeaderPresent();
             });
 
@@ -217,7 +214,6 @@ describe('Trust Navigation Tests', () => {
 
     describe("Routing tests", () => {
         const groupsNotToShow = [
-            //            { uid: 5527, scenario: "THIS SHOULD FAIL" },
             { uid: 86042, scenario: "Open Children's Centres Collaboration" },
             { uid: 86074, scenario: "Open Children's Centres Group" },
             { uid: 5701, scenario: "Open Federation" },
@@ -229,7 +225,7 @@ describe('Trust Navigation Tests', () => {
         ];
 
         groupsNotToShow.forEach(({ uid, scenario }) => {
-            describe.only(`${scenario}`, () => {
+            describe(`${scenario}`, () => {
                 TestDataStore.GetAllTrustSubpagesForUid(uid).forEach(({ pageName, subpages }) => {
                     describe(`${pageName}`, () => {
                         subpages.forEach(({ subpageName, url }) => {

@@ -14,6 +14,7 @@ using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Ofsted;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.PipelineAcademy;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
+using DfE.FindInformationAcademiesTrusts.Data.Repositories.Search;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.TrustDocument;
 using DfE.FindInformationAcademiesTrusts.Pages;
@@ -23,6 +24,7 @@ using DfE.FindInformationAcademiesTrusts.Services.Export;
 using DfE.FindInformationAcademiesTrusts.Services.FinancialDocument;
 using DfE.FindInformationAcademiesTrusts.Services.ManageProjectsAndCases;
 using DfE.FindInformationAcademiesTrusts.Services.School;
+using DfE.FindInformationAcademiesTrusts.Services.Search;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,22 +36,41 @@ public static class Dependencies
     public static void AddDependenciesTo(WebApplicationBuilder builder)
     {
         builder.Services.AddDbContext<AcademiesDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("AcademiesDb") ??
-                                 throw new InvalidOperationException("Connection string 'AcademiesDb' not found."))
-                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)); // Academies db data is always readonly;
+            options.UseSqlServer(
+                builder.Configuration.GetConnectionString("AcademiesDb") ??
+                    throw new InvalidOperationException("Connection string 'AcademiesDb' not found."),
+                sqlServerOptionsAction: sqlOptions =>
+                {
+                    sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 2, // retry up to a maximum of 2 times
+                        maxRetryDelay: TimeSpan.FromSeconds(5), // wait up to 5s for the server to respond before retry
+                        errorNumbersToAdd: null
+                    );
+                }
+            ).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+        );
+
         builder.Services.AddScoped<IAcademiesDbContext>(provider =>
             provider.GetService<AcademiesDbContext>() ??
             throw new InvalidOperationException("AcademiesDbContext not registered"));
 
         builder.Services.AddDbContext<FiatDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ??
-                                 throw new InvalidOperationException(
-                                     "FIAT database connection string 'DefaultConnection' not found.")));
+            options.UseSqlServer(
+                builder.Configuration.GetConnectionString("DefaultConnection") ??
+                    throw new InvalidOperationException("FIAT database connection string 'DefaultConnection' not found."),
+                sqlServerOptionsAction: sqlOptions =>
+                {
+                    sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 2, // retry up to a maximum of 2 times
+                        maxRetryDelay: TimeSpan.FromSeconds(5), // wait up to 5s for the server to respond before retry
+                        errorNumbersToAdd: null
+                    );
+                }
+            )
+        );
 
         builder.Services.AddScoped<SetChangedByInterceptor>();
         builder.Services.AddScoped<IUserDetailsProvider, HttpContextUserDetailsProvider>();
-
-        builder.Services.AddScoped<ITrustSearch, TrustSearch>();
 
         builder.Services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 
@@ -78,8 +99,16 @@ public static class Dependencies
         builder.Services.AddScoped<IFreeSchoolMealsAverageProvider, FreeSchoolMealsAverageProvider>();
 
         builder.Services.AddScoped<IGetCasesService, GetCasesService>();
-
         builder.Services.AddCaseAggregationApiClient<ICasesClient, CasesClient>(builder.Configuration);
+
+        builder.Services.AddScoped<ISchoolOverviewDetailsService, SchoolOverviewDetailsService>();
+        builder.Services.AddScoped<ISchoolContactsService, SchoolContactsService>();
+
+        builder.Services.AddScoped<ISchoolOverviewSenService, SchoolOverviewSenService>();
+        builder.Services.AddScoped<ISchoolOverviewFederationService, SchoolOverviewFederationService>();
+        builder.Services.AddScoped<ISearchService, SearchService>();
+        builder.Services.AddScoped<ITrustSchoolSearchRepository, TrustSchoolSearchRepository>();
+
         builder.Services.AddHttpContextAccessor();
     }
 }

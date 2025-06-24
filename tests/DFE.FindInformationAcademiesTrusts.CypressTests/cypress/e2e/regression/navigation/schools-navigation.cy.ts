@@ -11,12 +11,8 @@ describe('Schools Navigation Tests', () => {
     };
 
     const navTestSchool = {
-        schoolURN: 123452,
+        schoolURN: 107188,
     };
-
-    beforeEach(() => {
-        cy.login();
-    });
 
     describe("Routing tests", () => {
 
@@ -24,7 +20,9 @@ describe('Schools Navigation Tests', () => {
             { urn: 136083, unsupportedSchoolType: "Independent schools" },
             { urn: 150163, unsupportedSchoolType: "Online provider" },
             { urn: 131832, unsupportedSchoolType: "Other types" },
-            { urn: 133793, unsupportedSchoolType: "Universities" }
+            { urn: 133793, unsupportedSchoolType: "Universities" },
+            { urn: 137210, unsupportedSchoolType: "Closed academy" },
+            { urn: 142109, unsupportedSchoolType: "Closed school" },
         ];
 
         schoolTypesNotToShow.forEach(({ urn, unsupportedSchoolType }) => {
@@ -33,7 +31,7 @@ describe('Schools Navigation Tests', () => {
                 describe(pageName, () => {
 
                     subpages.forEach(({ subpageName, url }) => {
-                        it(`Should check that navigating to subpages for unsupported school type displays the 404 not found page ${pageName} > ${subpageName} > ${unsupportedSchoolType}`, () => {
+                        it(`Should check that navigating to subpages for unsupported and closed school types display the 404 not found page ${pageName} > ${subpageName} > ${unsupportedSchoolType}`, () => {
                             // Set up an interceptor to check that the page response is a 404
                             commonPage.interceptAndVerifyResponseHas404Status(url);
 
@@ -68,6 +66,95 @@ describe('Schools Navigation Tests', () => {
             cy.visit(`/schools/overview/details?urn=${navTestSchool.schoolURN}`);
             schoolsPage
                 .checkAcademyLinkNotPresentForSchool();
+        });
+    });
+
+    describe("Schools main navigation tests", () => {
+        it('Should check that the schools main navigation is present and correct', () => {
+            // School Overview --> School Contacts (School)
+            cy.visit(`/schools/overview/details?urn=${navTestSchool.schoolURN}`);
+            navigation
+                .clickSchoolsContactsButton()
+                .checkCurrentURLIsCorrect(`/schools/contacts/in-the-school?urn=${navTestSchool.schoolURN}`)
+                .checkAllSchoolServiceNavItemsPresent();
+            schoolsPage
+                .checkHeadTeacherContactCardPresent();
+
+            // School Overview --> School Contacts (Academy)
+            cy.visit(`/schools/overview/details?urn=${navTestAcademy.academyURN}`);
+            navigation
+                .clickSchoolsContactsButton()
+                .checkCurrentURLIsCorrect(`/schools/contacts/in-the-school?urn=${navTestAcademy.academyURN}`)
+                .checkAllSchoolServiceNavItemsPresent();
+            schoolsPage
+                .checkHeadTeacherContactCardPresent();
+        });
+
+    });
+
+    describe("Schools overview sub navigation round robin tests", () => {
+        context('School overview subnav round robin tests -- (School)', () => {
+            // school details --> Federation details (school)
+            it('Should check that the school details navigation button takes me to the correct page for a schools type subnav', () => {
+                cy.visit(`/schools/overview/details?urn=${navTestSchool.schoolURN}`);
+                navigation
+                    .clickSchoolsFederationButton()
+                    .checkCurrentURLIsCorrect(`/schools/overview/federation?urn=${navTestSchool.schoolURN}`)
+                    .checkAllSchoolServiceNavItemsPresent()
+                    .checkAllSchoolsSubNavItemsPresent();
+                schoolsPage
+                    .checkFederationDetailsHeaderPresent();
+            });
+
+            // federation details --> SEN (school)
+            it('Should check that the school details navigation button takes me to the SEN page for a schools type subnav', () => {
+                cy.visit(`/schools/overview/federation?urn=${navTestSchool.schoolURN}`);
+                navigation
+                    .clickSchoolsSENButton()
+                    .checkCurrentURLIsCorrect(`/schools/overview/sen?urn=${navTestSchool.schoolURN}`)
+                    .checkAllSchoolServiceNavItemsPresent()
+                    .checkAllSchoolsSubNavItemsPresent();
+                schoolsPage
+                    .checkSENSubpageHeaderCorrect();
+            });
+
+            // SEN --> school details (school)
+            it('Should check that the school details navigation button takes me to the correct page for a schools type subnav', () => {
+                cy.visit(`/schools/overview/sen?urn=${navTestSchool.schoolURN}`);
+                navigation
+                    .clickSchoolsDetailsButton()
+                    .checkCurrentURLIsCorrect(`/schools/overview/details?urn=${navTestSchool.schoolURN}`)
+                    .checkAllSchoolServiceNavItemsPresent()
+                    .checkAllSchoolsSubNavItemsPresent();
+                schoolsPage
+                    .checkSchoolDetailsHeaderPresent();
+            });
+        });
+
+        context('School overview subnav round robin tests -- (Academy)', () => {
+            // school details --> SEN (academy)
+            it('Should check that the school details navigation button takes me to the correct page for a schools type subnav', () => {
+                cy.visit(`/schools/overview/details?urn=${navTestAcademy.academyURN}`);
+                navigation
+                    .clickSchoolsSENButton()
+                    .checkCurrentURLIsCorrect(`/schools/overview/sen?urn=${navTestAcademy.academyURN}`)
+                    .checkAllSchoolServiceNavItemsPresent()
+                    .checkAllSchoolsSubNavItemsPresent();
+                schoolsPage
+                    .checkSENSubpageHeaderCorrect();
+            });
+
+            // SEN --> school details (academy)
+            it('Should check that the school details navigation button takes me to the correct page for a schools type subnav', () => {
+                cy.visit(`/schools/overview/sen?urn=${navTestAcademy.academyURN}`);
+                navigation
+                    .clickSchoolsDetailsButton()
+                    .checkCurrentURLIsCorrect(`/schools/overview/details?urn=${navTestAcademy.academyURN}`)
+                    .checkAllSchoolServiceNavItemsPresent()
+                    .checkAllSchoolsSubNavItemsPresent();
+                schoolsPage
+                    .checkAcademyDetailsHeaderPresent();
+            });
         });
     });
 });

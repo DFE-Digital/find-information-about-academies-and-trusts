@@ -1,4 +1,4 @@
-import contactsPage from "../../../pages/trusts/contactsPage";
+import trustContactsPage from "../../../pages/trusts/trustContactsPage";
 import commonPage from "../../../pages/commonPage";
 import navigation from "../../../pages/navigation";
 import { testTrustData } from "../../../support/test-data-store";
@@ -15,7 +15,6 @@ describe("Testing the components of the Trust contacts page", () => {
     testTrustData.forEach(({ typeOfTrust, uid }) => {
         describe(`On the contacts in DfE page for a ${typeOfTrust}`, () => {
             beforeEach(() => {
-                cy.login();
                 cy.visit(`/trusts/contacts/in-dfe?uid=${uid}`);
             });
 
@@ -32,7 +31,7 @@ describe("Testing the components of the Trust contacts page", () => {
             it(`Can change Trust relationship manager contact details`, () => {
                 const { name, email } = generateNameAndEmail();
 
-                contactsPage
+                trustContactsPage
                     .editTrustRelationshipManager(name, email)
                     .checkTrustRelationshipManagerIsSuccessfullyUpdated(name, email)
                     .checkTrustRelationshipManagerDatasourceLastUpdatedByUser('Automation User - email');
@@ -45,7 +44,7 @@ describe("Testing the components of the Trust contacts page", () => {
             it(`Can change Schools financial support oversight lead contact details`, () => {
                 const { name, email } = generateNameAndEmail();
 
-                contactsPage
+                trustContactsPage
                     .editSfsoLead(name, email)
                     .checkSfsoLeadIsSuccessfullyUpdated(name, email)
                     .checkSfsoLeadDatasourceLastUpdatedByUser('Automation User - email');
@@ -56,7 +55,7 @@ describe("Testing the components of the Trust contacts page", () => {
             });
 
             it(`Checks that when cancelling the edit of a TRM contact that I am taken back to the previous page and that entered data is not saved`, () => {
-                contactsPage
+                trustContactsPage
                     .editTrustRelationshipManagerWithoutSaving("Should Notbe Seen", "exittest@education.gov.uk")
                     .clickContactUpdateCancelButton()
                     .checkTrustRelationshipManagerIsNotUpdated("Should Notbe Seen", "exittest@education.gov.uk");
@@ -66,7 +65,7 @@ describe("Testing the components of the Trust contacts page", () => {
             });
 
             it(`Checks that when cancelling the edit of a SFSO contact that I am taken back to the previous page and that entered data is not saved`, () => {
-                contactsPage
+                trustContactsPage
                     .editSfsoLeadWithoutSaving("Should Notbe Seen", "exittest@education.gov.uk")
                     .clickContactUpdateCancelButton()
                     .checkSfsoLeadIsNotUpdated("Should Notbe Seen", "exittest@education.gov.uk");
@@ -78,7 +77,6 @@ describe("Testing the components of the Trust contacts page", () => {
 
         describe(`On the edit Trust relationship manager contact details page for a ${typeOfTrust}`, () => {
             beforeEach(() => {
-                cy.login();
                 cy.visit(`/trusts/contacts/edittrustrelationshipmanager?uid=${uid}`);
             });
 
@@ -90,7 +88,6 @@ describe("Testing the components of the Trust contacts page", () => {
 
         describe(`On the edit SFSO lead contact details page for a ${typeOfTrust}`, () => {
             beforeEach(() => {
-                cy.login();
                 cy.visit(`/trusts/contacts/editsfsolead?uid=${uid}`);
             });
 
@@ -102,7 +99,6 @@ describe("Testing the components of the Trust contacts page", () => {
 
         describe(`On the contacts in the trust page for a ${typeOfTrust}`, () => {
             beforeEach(() => {
-                cy.login();
                 cy.visit(`/trusts/contacts/in-the-trust?uid=${uid}`);
             });
 
@@ -117,7 +113,7 @@ describe("Testing the components of the Trust contacts page", () => {
             });
 
             it(`Checks a trusts external contact details are present`, () => {
-                contactsPage
+                trustContactsPage
                     .checkAccountingOfficerPresent()
                     .checkChairOfTrusteesPresent()
                     .checkChiefFinancialOfficerPresent();
@@ -127,33 +123,32 @@ describe("Testing the components of the Trust contacts page", () => {
 
     describe('Checks the update error handling', () => {
         beforeEach(() => {
-            cy.login();
             cy.visit('/trusts/contacts/in-dfe?uid=5527');
         });
 
         it("Checks that a full non DFE email entered returns the correct error message on a TRM ", () => {
-            contactsPage
+            trustContactsPage
                 .editTrustRelationshipManager("Name", "email@hotmail.co.uk");
             commonPage
                 .checkErrorPopup('Enter a DfE email address without any spaces');
         });
 
         it("Checks that an incorrect email entered returns the correct error message on a TRM ", () => {
-            contactsPage
+            trustContactsPage
                 .editTrustRelationshipManager("Name", "email");
             commonPage
                 .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
         });
 
         it("Checks that illegal characters entered returns the correct error message on a TRM ", () => {
-            contactsPage
+            trustContactsPage
                 .editTrustRelationshipManager("Name", "@£$$^&");
             commonPage
                 .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
         });
 
         it("Checks that whitespace entered returns the correct error message on a TRM ", () => {
-            contactsPage
+            trustContactsPage
                 .editTrustRelationshipManager("Name", "a     b");
             commonPage
                 .checkErrorPopup('Enter a DfE email address without any spaces')
@@ -161,21 +156,21 @@ describe("Testing the components of the Trust contacts page", () => {
         });
 
         it("Checks that an email address without the prefix entered returns the correct error message on a TRM ", () => {
-            contactsPage
+            trustContactsPage
                 .editTrustRelationshipManager("Name", "@education.gov.uk");
             commonPage
                 .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
         });
 
         it("Checks that a full non DFE email entered returns the correct error message on a SFSO ", () => {
-            contactsPage
+            trustContactsPage
                 .editSfsoLead("Name", "email@hotmail.co.uk");
             commonPage
                 .checkErrorPopup('Enter a DfE email address without any spaces');
         });
 
         it("Checks that an incorrect email entered returns the correct error message on a SFSO ", () => {
-            contactsPage
+            trustContactsPage
                 .editSfsoLead("Name", "email");
             commonPage
                 .checkErrorPopup('Enter a DfE email address without any spaces')
@@ -183,7 +178,7 @@ describe("Testing the components of the Trust contacts page", () => {
         });
 
         it("Checks that illegal characters entered returns the correct error message on a SFSO ", () => {
-            contactsPage
+            trustContactsPage
                 .editSfsoLead("Name", "@£$$^&");
             commonPage
                 .checkErrorPopup('Enter a DfE email address without any spaces')
@@ -191,7 +186,7 @@ describe("Testing the components of the Trust contacts page", () => {
         });
 
         it("Checks that whitespace entered returns the correct error message on a SFSO ", () => {
-            contactsPage
+            trustContactsPage
                 .editSfsoLead("Name", "a     b");
             commonPage
                 .checkErrorPopup('Enter a DfE email address without any spaces')
@@ -199,7 +194,7 @@ describe("Testing the components of the Trust contacts page", () => {
         });
 
         it("Checks that an email address without the prefix entered returns the correct error message on a SFSO ", () => {
-            contactsPage
+            trustContactsPage
                 .editSfsoLead("Name", "@education.gov.uk");
             commonPage
                 .checkErrorPopup('Enter an email address in the correct format, like name@education.gov.uk');
@@ -207,21 +202,18 @@ describe("Testing the components of the Trust contacts page", () => {
     });
 
     describe("Testing the contacts sub navigation", () => {
-        beforeEach(() => {
-            cy.login();
-        });
 
         it('Should check that the contacts in dfe navigation button takes me to the correct page', () => {
             cy.visit('/trusts/contacts/in-the-trust?uid=5527');
 
-            contactsPage
+            trustContactsPage
                 .clickContactsInDfeSubnavButton()
                 .checkContactsInDfeSubHeaderPresent();
 
             navigation
                 .checkCurrentURLIsCorrect('/trusts/contacts/in-dfe?uid=5527');
 
-            contactsPage
+            trustContactsPage
                 .checkAllSubNavItemsPresent()
                 .checkSfsoLeadIsPresent()
                 .checkTrustRelationshipManagerIsPresent();
@@ -230,14 +222,14 @@ describe("Testing the components of the Trust contacts page", () => {
         it('Should check that the contacts in this trust navigation button takes me to the correct page', () => {
             cy.visit('/trusts/contacts/in-dfe?uid=5527');
 
-            contactsPage
+            trustContactsPage
                 .clickContactsInTheTrustSubnavButton()
                 .checkContactsInTheTrustSubHeaderPresent();
 
             navigation
                 .checkCurrentURLIsCorrect('/trusts/contacts/in-the-trust?uid=5527');
 
-            contactsPage
+            trustContactsPage
                 .checkAllSubNavItemsPresent()
                 .checkAccountingOfficerPresent()
                 .checkChairOfTrusteesPresent()
@@ -247,13 +239,12 @@ describe("Testing the components of the Trust contacts page", () => {
         it('Should check that the contacts sub nav items are not present when I am not on the contacts page', () => {
             cy.visit('/trusts/overview/trust-details?uid=5527');
 
-            contactsPage
+            trustContactsPage
                 .checkSubNavNotPresent();
         });
 
         describe("Testing a trust that has no contacts within it to ensure the issue of a 500 page appearing does not happen", () => {
             beforeEach(() => {
-                cy.login();
                 commonPage.interceptAndVerifyNo500Errors();
             });
 

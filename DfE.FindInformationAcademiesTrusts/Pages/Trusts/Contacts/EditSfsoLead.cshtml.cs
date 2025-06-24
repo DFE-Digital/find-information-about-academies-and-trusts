@@ -8,7 +8,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 public class EditSfsoLeadModel(
     IDataSourceService dataSourceService,
     ITrustService trustService)
-    : EditContactModel(dataSourceService, trustService, ContactRole.SfsoLead)
+    : EditContactModel(dataSourceService, trustService, TrustContactRole.SfsoLead)
 {
     protected override InternalContact? GetContactFromServiceModel(TrustContactsServiceModel contacts)
     {

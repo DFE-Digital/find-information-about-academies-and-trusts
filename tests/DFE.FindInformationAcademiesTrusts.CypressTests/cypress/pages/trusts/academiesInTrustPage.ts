@@ -86,6 +86,20 @@ class AcademiesInTrustPage {
         return this.elements.freeSchoolMeals.tableRows().its('length');
     }
 
+    private readonly checkElementMatches = (element: JQuery<HTMLElement>, expected: RegExp) => {
+        const text = element.text().trim();
+        expect(text).to.match(expected);
+    };
+
+    public checkValueIsValidPhaseType = (element: JQuery<HTMLElement>) =>
+        this.checkElementMatches(element, /^(16 plus|All-through|Middle deemed primary|Middle deemed secondary|Not applicable|Nursery|Primary|Secondary)(\s+\d+-\d+)?$/);
+
+    public checkCorrectPhaseTypePresent(): this {
+        const { pupilNumbersPage } = this.elements;
+        pupilNumbersPage.phaseAndAge().each(this.checkValueIsValidPhaseType);
+        return this;
+    }
+
     public checkDetailsHeadersPresent(): this {
         const { detailsPage } = this.elements;
         detailsPage.table().should('contain', 'School name')

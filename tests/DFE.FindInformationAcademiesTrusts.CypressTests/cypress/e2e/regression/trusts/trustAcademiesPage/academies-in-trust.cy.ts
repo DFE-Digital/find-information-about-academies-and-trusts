@@ -6,7 +6,6 @@ describe("Testing the components of the Academies page", () => {
 
     describe("Details tab", () => {
         beforeEach(() => {
-            cy.login();
             cy.visit('/trusts/academies/in-trust/details?uid=5712');
         });
 
@@ -64,7 +63,6 @@ describe("Testing the components of the Academies page", () => {
 
     describe("Pupil numbers tab", () => {
         beforeEach(() => {
-            cy.login();
             cy.visit('/trusts/academies/in-trust/pupil-numbers?uid=5712');
         });
 
@@ -102,11 +100,14 @@ describe("Testing the components of the Academies page", () => {
                 .checkPupilNumbersSorting();
         });
 
+        it("Checks the valid phase types are present on an age range", () => {
+            academiesInTrustPage
+                .checkCorrectPhaseTypePresent();
+        });
     });
 
     describe("Free school meals", () => {
         beforeEach(() => {
-            cy.login();
             cy.visit('/trusts/academies/in-trust/free-school-meals?uid=5143');
         });
 
@@ -148,7 +149,6 @@ describe("Testing the components of the Academies page", () => {
 
     describe("Testing a trust that has no academies within it to ensure the issue of a 500 page appearing does not happen", () => {
         beforeEach(() => {
-            cy.login();
             commonPage.interceptAndVerifyNo500Errors();
         });
 
@@ -161,9 +161,6 @@ describe("Testing the components of the Academies page", () => {
 
     describe("Testing that no unknown entries are found for an academies various tables/pages", () => {
         testTrustData.forEach(({ typeOfTrust, uid }) => {
-            beforeEach(() => {
-                cy.login();
-            });
 
             [`/trusts/academies/in-trust/details?uid=${uid}`, `/trusts/academies/in-trust/pupil-numbers?uid=${uid}`, `/trusts/academies/in-trust/free-school-meals?uid=${uid}`].forEach((url) => {
                 it(`Should have no unknown entries on ${url} for a ${typeOfTrust}`, () => {

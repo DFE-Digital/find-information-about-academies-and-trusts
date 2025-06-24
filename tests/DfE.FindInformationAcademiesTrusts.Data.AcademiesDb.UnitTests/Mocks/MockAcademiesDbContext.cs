@@ -45,6 +45,7 @@ public class MockAcademiesDbContext
         new(AcademiesDbContext.SharepointTrustDocLinkQueryFilter);
 
     //tad
+    public MockDbSet<TadHeadTeacherContact> TadHeadTeacherContacts { get; } = new();
     public MockDbSet<TadTrustGovernance> TadTrustGovernances { get; } = new();
 
     public MockAcademiesDbContext()
@@ -69,6 +70,7 @@ public class MockAcademiesDbContext
         //sharepoint
         Object.SharepointTrustDocLinks.Returns(SharepointTrustDocLinks.Object);
         //tad
+        Object.TadHeadTeacherContacts.Returns(TadHeadTeacherContacts.Object);
         Object.TadTrustGovernances.Returns(TadTrustGovernances.Object);
 
         //Set up some unused data to ensure we are actually retrieving the right data in our tests
@@ -80,6 +82,11 @@ public class MockAcademiesDbContext
             AddGiasGroupForFederation(name: $"Unused Federation{i}");
             AddMstrTrust(region: $"S{i}shire");
             AddGiasEstablishment(establishmentName: $"Unused academy {i}");
+            TadHeadTeacherContacts.Add(new TadHeadTeacherContact
+            {
+                Urn = i, HeadFirstName = $"{i}ver", HeadLastName = $"{i}verson",
+                HeadEmail = $"{i}ver.{i}verson@school.com"
+            });
 
             //Entities linked to some other trust
             var otherAcademy = AddGiasEstablishment(establishmentName: $"Some other academy {i}");
@@ -152,12 +159,14 @@ public class MockAcademiesDbContext
         });
     }
 
-    public GiasEstablishment AddGiasEstablishment(int? urn = null, string? establishmentName = null)
+    public GiasEstablishment AddGiasEstablishment(int? urn = null, string? establishmentName = null, string? establishmentType = null)
     {
         var giasEstablishment = new GiasEstablishment
         {
             Urn = urn ?? GiasEstablishments.GetNextId(e => e.Urn),
-            EstablishmentName = establishmentName ?? $"Academy {GiasEstablishments.Count + 1}"
+            EstablishmentName = establishmentName ?? $"Academy {GiasEstablishments.Count + 1}",
+            EstablishmentTypeGroupName = establishmentType,
+            EstablishmentStatusName = "Open"
         };
         GiasEstablishments.Add(giasEstablishment);
 

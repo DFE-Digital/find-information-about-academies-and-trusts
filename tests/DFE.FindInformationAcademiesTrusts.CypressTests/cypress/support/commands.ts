@@ -1,14 +1,26 @@
 import { AuthenticationInterceptor } from "../auth/authenticationInterceptor";
+import cookiesPage from "../pages/cookiesPage";
 
 Cypress.Commands.add("login", (params) => {
-	cy.clearCookies();
-	cy.clearLocalStorage();
 
 	// Intercept all browser requests and add our special auth header
 	// Means we don't have to use azure to authenticate
 	new AuthenticationInterceptor().register(params);
 
-	cy.visit("/");
+	//Reject cookies (and save session state) to
+	// a) test that the login works
+	// b) stop the cookies banner appearing on every page
+	cy.session("rejectedCookies", () => {
+		cy.visit('/cookies');
+		cookiesPage
+			.rejectCookies()
+			.clickSaveChangesButton();
+		cookiesPage.checkCookiesRejectIsInteracted();
+	},
+		{
+			cacheAcrossSpecs: true,
+		}
+	);
 });
 
 Cypress.Commands.add("expandDetailsElement", { prevSubject: 'element', }, (subject) => {

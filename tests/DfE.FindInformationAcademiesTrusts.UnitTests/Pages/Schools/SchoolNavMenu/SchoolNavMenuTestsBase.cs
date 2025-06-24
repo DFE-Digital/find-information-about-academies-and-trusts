@@ -1,5 +1,6 @@
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools;
+using DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
 using DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
 using DfE.FindInformationAcademiesTrusts.Services.School;
 
@@ -10,11 +11,15 @@ public abstract class SchoolNavMenuTestsBase
     public static TheoryData<Type> SubPageTypes =>
     [
         //Overview
-        typeof(DetailsModel)
+        typeof(DetailsModel),
+        typeof(SenModel),
+        typeof(FederationModel),
+        //Contacts
+        typeof(InSchoolModel)
     ];
 
     protected static SchoolAreaModel GetMockSchoolPage(Type pageType, int urn = 123456,
-        SchoolCategory schoolCategory = SchoolCategory.LaMaintainedSchool)
+        SchoolCategory schoolCategory = SchoolCategory.LaMaintainedSchool, bool isFederation = true)
     {
         //Create a mock page
         var parameters = pageType.GetConstructors()[0].GetParameters();
@@ -29,6 +34,7 @@ public abstract class SchoolNavMenuTestsBase
         //Set properties applicable to all types
         mockPage.Urn = urn;
         mockPage.SchoolSummary = new SchoolSummaryServiceModel(urn, "Chill primary school", "", schoolCategory);
+        mockPage.IsPartOfAFederation = isFederation;
 
         return mockPage;
     }

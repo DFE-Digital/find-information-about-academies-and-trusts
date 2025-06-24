@@ -1,7 +1,7 @@
 ﻿@model BasePageModel
 @{
   var inputId = "header-search";
-  var placeholderText = "Search for a trust";
+  var placeholderText = "Search for a school or trust";
 }
 <div class="dfe-header__search-wrap" id="wrap-search">
   <form class="dfe-header__search-form" id="search" asp-page="/Search" role="search" aria-label="sitewide" method="post">
@@ -17,7 +17,8 @@
     </button>
     <template id="@inputId-js-autocomplete-template">
       <div id="@inputId-autocomplete-container" class="govuk-!-width-full"></div>
-      <input type="hidden" id="@inputId-selected-trust" name="uid"/>
+      <input type="hidden" id="@inputId-selected-id" name="id"/>
+      <input type="hidden" id="@inputId-selected-searchResultType" name="searchResultType" />
     </template>
   </form>
 </div>

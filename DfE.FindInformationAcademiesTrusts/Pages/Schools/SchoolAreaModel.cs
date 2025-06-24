@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Schools;
 
-public class SchoolAreaModel(ISchoolService schoolService, ITrustService trustService) : BasePageModel, ISchoolAreaModel
+public class SchoolAreaModel(
+    ISchoolService schoolService,
+    ITrustService trustService) : BasePageModel, ISchoolAreaModel
 {
     [BindProperty(SupportsGet = true)] public int Urn { get; set; }
 
@@ -18,6 +20,7 @@ public class SchoolAreaModel(ISchoolService schoolService, ITrustService trustSe
     public string SchoolName => SchoolSummary.Name;
     public string SchoolType => SchoolSummary.Type;
     public SchoolCategory SchoolCategory => SchoolSummary.Category;
+    public bool IsPartOfAFederation { get; set; }
 
     public TrustSummaryServiceModel? TrustSummary { get; private set; }
 
@@ -34,6 +37,8 @@ public class SchoolAreaModel(ISchoolService schoolService, ITrustService trustSe
         {
             TrustSummary = await trustService.GetTrustSummaryAsync(schoolSummary.Urn);
         }
+
+        IsPartOfAFederation = await schoolService.IsPartOfFederationAsync(schoolSummary.Urn);
 
         SchoolSummary = schoolSummary;
 
