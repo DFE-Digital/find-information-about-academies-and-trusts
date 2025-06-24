@@ -18,7 +18,7 @@ public class InDfeModelTests : BaseContactsAreaModelTests<InDfeModel>
         _mockSchoolContactsService.GetInternalContactsAsync(Arg.Any<int>()).Returns(_dummySchoolContactsServiceModel);
 
         Sut = new InDfeModel(MockSchoolService, MockTrustService, _mockSchoolContactsService, MockDataSourceService,
-                MockSchoolNavMenu)
+                MockSchoolNavMenu, MockFeatureManager)
         { Urn = SchoolUrn };
     }
 
