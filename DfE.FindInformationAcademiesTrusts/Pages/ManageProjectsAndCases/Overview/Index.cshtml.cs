@@ -1,17 +1,17 @@
 using Dfe.CaseAggregationService.Client.Contracts;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
-using DfE.FindInformationAcademiesTrusts.Services.ManageMyCasework;
+using DfE.FindInformationAcademiesTrusts.Services.ManageProjectsAndCases;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DfE.FindInformationAcademiesTrusts.Pages.ManageMyCasework.Overview
+namespace DfE.FindInformationAcademiesTrusts.Pages.ManageProjectsAndCases.Overview
 {
     public class IndexModel : BasePageModel, IPaginationModel
     {
         private readonly IGetCasesService _getCasesService;
 
         [BindProperty]
-        public ProjectListFilters Filters { get; set; } = new();
+        public ProjectListFilters Filters { get; init; } = new();
 
         [BindProperty(SupportsGet = true)]
         public string Sorting { get; set; } = ResultSorting.createdDesc;
@@ -19,7 +19,7 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.ManageMyCasework.Overview
         [BindProperty]
         public int TotalProjects { get; set; }
 
-        public string PageName => "ManageMyCasework/Overview/Index";
+        public string PageName => "ManageMyProjectsAndCases/Overview/Index";
 
         public IPageStatus PageStatus => Cases.PageStatus;
         
@@ -59,8 +59,21 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.ManageMyCasework.Overview
                 "Prepare conversions and transfers",
                 "Record concerns and support for trusts",
             };
-            
-            Cases = await _getCasesService.GetCasesAsync("Paul Lockwood", "paul.lockwood@education.gov.uk", IncludeSigChange(), IncludePrepare(), false, false,false, false, Filters.Title, PageNumber, 25, Filters.SelectedProjectTypes, ConvertSortCriteria());
+
+            Cases = await _getCasesService.GetCasesAsync(
+                new GetCasesParameters
+                (
+                    "Paul Lockwood",
+                    "paul.lockwood@education.gov.uk",
+                    IncludePrepare(),
+                    IncludeComplete(),
+                    IncludeManageFreeSchools(),
+                    IncludeConcerns(),
+                    PageNumber,
+                    25,
+                    Filters.SelectedProjectTypes,
+                    ConvertSortCriteria()
+                ));
 
             TotalProjects = Cases.Count();
 
@@ -68,7 +81,9 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.ManageMyCasework.Overview
         }
 
         private bool IncludePrepare() => Include("Prepare conversions and transfers");
-        private bool IncludeSigChange() => Include("Significant change");
+        private bool IncludeComplete() => Include("Complete conversions, transfers and changes");
+        private bool IncludeManageFreeSchools() => Include("Manage free school projects");
+        private bool IncludeConcerns() => Include("Record concerns and support for trusts");
 
         private bool Include(string system)
         {
@@ -92,8 +107,6 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.ManageMyCasework.Overview
             };
         }
 
-        
+     
     }
-
-
 }

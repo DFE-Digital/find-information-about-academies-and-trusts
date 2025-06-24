@@ -6,7 +6,6 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Shared
     public class ProjectListFilters
     {
         #nullable enable
-        public const string FilterTitle = nameof(FilterTitle);
         public const string FilterProjectTypes = nameof(FilterProjectTypes);
         public const string FilterSystems = nameof(FilterSystems);
 
@@ -14,25 +13,20 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Shared
         public List<string> AvailableProjectTypes { get; set; } = new();
 
         public List<string> AvailableSystems { get; set; } = new();
-
-        [BindProperty]
-        public string? Title { get; set; }
-
+        
         [BindProperty]
         public string[] SelectedProjectTypes { get; set; } = Array.Empty<string>();
 
         [BindProperty]
         public string[] SelectedSystems { get; set; } = Array.Empty<string>();
 
-        public bool IsVisible => string.IsNullOrWhiteSpace(Title) is false ||
-                                 SelectedProjectTypes.Length > 0 ||
+        public bool IsVisible => SelectedProjectTypes.Length > 0 ||
                                  SelectedSystems.Length > 0;
         
         public ProjectListFilters PersistUsing(IDictionary<string, object?> store)
         {
             _store = store;
 
-            Title = Get(FilterTitle).FirstOrDefault()?.Trim();
             SelectedProjectTypes = Get(FilterProjectTypes);
             SelectedSystems = Get(FilterSystems);
         
@@ -47,7 +41,6 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Shared
             {
                 ClearFilters();
 
-                Title = default;
                 SelectedProjectTypes = Array.Empty<string>();
                 SelectedSystems = Array.Empty<string>();
 
@@ -62,19 +55,16 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Shared
                 return;
             }
 
-            bool activeFilterChanges = query.ContainsKey(nameof(Title)) ||
-                                       query.ContainsKey(nameof(SelectedProjectTypes)) ||
+            bool activeFilterChanges = query.ContainsKey(nameof(SelectedProjectTypes)) ||
                                        query.ContainsKey(nameof(SelectedSystems));
 
             if (activeFilterChanges)
             {
-                Title = Cache(FilterTitle, GetFromQuery(nameof(Title))).FirstOrDefault()?.Trim();
                 SelectedProjectTypes = Cache(FilterProjectTypes, GetFromQuery(nameof(SelectedProjectTypes)));
                 SelectedSystems = Cache(FilterSystems, GetFromQuery(nameof(SelectedSystems)));
             }
             else
             {
-                Title = Get(FilterTitle, true).FirstOrDefault()?.Trim();
                 SelectedProjectTypes = Get(FilterProjectTypes, true);
                 SelectedSystems = Get(FilterSystems, true);
             }
@@ -123,7 +113,6 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Shared
 
         private void ClearFilters()
         {
-            Cache(FilterTitle, default);
             Cache(FilterProjectTypes, default);
             Cache(FilterSystems, default);
         }

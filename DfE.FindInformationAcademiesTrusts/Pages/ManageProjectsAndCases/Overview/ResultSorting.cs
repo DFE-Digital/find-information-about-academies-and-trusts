@@ -1,4 +1,4 @@
-﻿namespace DfE.FindInformationAcademiesTrusts.Pages.ManageMyCasework.Overview
+﻿namespace DfE.FindInformationAcademiesTrusts.Pages.ManageProjectsAndCases.Overview
 {
     public class ResultSorting
     {

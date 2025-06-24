@@ -6,13 +6,11 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages
     public class ProjectListFiltersTests
     {
         private readonly IDictionary<string, object?> _store;
-        private readonly string _title;
         private readonly string[]? _systems;
 
         public ProjectListFiltersTests()
         {
             _store = new Dictionary<string, object?>();
-            _title = "Test Title";
             _systems = ["Systems1", "Systems2"];
         }
 
@@ -25,24 +23,6 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages
             // Assert
             Assert.Empty(projectListFilters.AvailableProjectTypes);
             Assert.Empty(projectListFilters.AvailableSystems);
-        }
-
-        [Fact]
-        public void PersistUsing_CachesFilterValues()
-        {
-            // Arrange
-            var projectListFilters = new ProjectListFilters();
-            string[] titles = [_title];
-            var store = new Dictionary<string, object?>
-            {
-                { ProjectListFilters.FilterTitle, titles },
-            };
-
-            // Act
-            projectListFilters.PersistUsing(store);
-
-            // Assert
-            Assert.Equal(_title, projectListFilters.Title);
         }
 
         [Fact]
@@ -93,7 +73,6 @@ namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages
             projectListFilters.PopulateFrom(query);
 
             // Assert
-            Assert.Null(projectListFilters.Title);
             Assert.Empty(projectListFilters.SelectedProjectTypes);
             Assert.Empty(projectListFilters.SelectedSystems);
         }
