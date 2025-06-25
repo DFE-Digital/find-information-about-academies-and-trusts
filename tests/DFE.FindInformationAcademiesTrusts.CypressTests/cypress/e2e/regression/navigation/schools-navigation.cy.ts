@@ -130,8 +130,8 @@ describe('Schools Navigation Tests', () => {
                     .checkSchoolsContactsSubNavItemsPresent()
                     .checkSchoolsContactsInDfeSubnavButtonIsHighlighted();
                 schoolsPage
-                    .checkInDfeContactsSubpageHeaderIsCorrect()
-                    .checkRegionsGroupLaLeadContactCardPresent();
+                    .checkInDfeContactsSubpageHeaderIsCorrect();
+                // TODO: Not checking specific contact cards as academy content structure will change - update once confirmed what is here
 
                 // Navigate to "In this academy" contacts
                 navigation
@@ -149,6 +149,7 @@ describe('Schools Navigation Tests', () => {
                     .checkSchoolsContactsInDfeSubnavButtonIsHighlighted();
                 schoolsPage
                     .checkInDfeContactsSubpageHeaderIsCorrect();
+                // TODO: Not checking specific contact cards as academy content structure will change - update once confirmed what is here
             });
         });
 

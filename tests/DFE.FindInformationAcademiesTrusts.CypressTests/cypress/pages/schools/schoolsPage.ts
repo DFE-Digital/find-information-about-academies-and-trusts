@@ -47,6 +47,11 @@ class SchoolsPage {
                 regionsGroupLaLeadTitle: () => cy.get('[data-testid="contact-card-title-regions-group-la-lead"]'),
                 regionsGroupLaLeadName: () => cy.get('[data-testid="contact-card-regions-group-la-lead"] [data-testid="contact-name"]'),
                 regionsGroupLaLeadEmail: () => cy.get('[data-testid="contact-card-regions-group-la-lead"] [data-testid="contact-email"]'),
+                // TODO: SFSO contact elements for future academy implementation
+                sfsoLeadCard: () => cy.get('[data-testid="contact-card-sfso-lead"]'),
+                sfsoLeadTitle: () => cy.get('[data-testid="contact-card-title-sfso-lead"]'),
+                sfsoLeadName: () => cy.get('[data-testid="contact-card-sfso-lead"] [data-testid="contact-name"]'),
+                sfsoLeadEmail: () => cy.get('[data-testid="contact-card-sfso-lead"] [data-testid="contact-email"]'),
             },
         },
         federation: {
@@ -288,6 +293,32 @@ class SchoolsPage {
 
     public checkNoInternalUseWarningPresent(): this {
         this.elements.schoolContacts.internalUseWarning().should('not.exist');
+        return this;
+    }
+
+    // TODO: SFSO contact methods for future academy implementation
+    public checkSfsoLeadContactCardPresent(): this {
+        this.elements.schoolContacts.inDfEContacts.sfsoLeadCard().should('be.visible');
+        this.elements.schoolContacts.inDfEContacts.sfsoLeadName().should('be.visible');
+        this.elements.schoolContacts.inDfEContacts.sfsoLeadEmail().should('be.visible');
+        return this;
+    }
+
+    public checkSfsoLeadContactTitlePresent(): this {
+        this.elements.schoolContacts.inDfEContacts.sfsoLeadTitle().should('be.visible').and('contain', 'SFSO (Schools financial support and oversight) lead');
+        return this;
+    }
+
+    public checkSfsoLeadContactNamePresent(): this {
+        this.elements.schoolContacts.inDfEContacts.sfsoLeadName().should('not.contain.text', 'No contact name available');
+        this.elements.schoolContacts.inDfEContacts.sfsoLeadName().should('not.be.empty');
+        return this;
+    }
+
+    public checkSfsoLeadContactEmailPresent(): this {
+        this.elements.schoolContacts.inDfEContacts.sfsoLeadEmail().should('not.contain.text', 'No contact email available');
+        this.elements.schoolContacts.inDfEContacts.sfsoLeadEmail().should('not.be.empty');
+        this.elements.schoolContacts.inDfEContacts.sfsoLeadEmail().should('have.attr', 'href').and('match', /^mailto:/);
         return this;
     }
 
