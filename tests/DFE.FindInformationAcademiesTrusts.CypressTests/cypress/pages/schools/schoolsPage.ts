@@ -36,10 +36,18 @@ class SchoolsPage {
         },
         schoolContacts: {
             internalUseWarning: () => cy.get('[data-testid="internal-use-only-warning"]'),
-            headTeacherCard: () => cy.get('[data-testid="contact-card-head-teacher"]'),
-            headTeacherTitle: () => cy.get('[data-testid="contact-card-title-head-teacher"]'),
-            headTeacherName: () => cy.get('[data-testid="contact-card-head-teacher"] [data-testid="contact-name"]'),
-            headTeacherEmail: () => cy.get('[data-testid="contact-card-head-teacher"] [data-testid="contact-email"]'),
+            inThisSchool: {
+                headTeacherCard: () => cy.get('[data-testid="contact-card-head-teacher"]'),
+                headTeacherTitle: () => cy.get('[data-testid="contact-card-title-head-teacher"]'),
+                headTeacherName: () => cy.get('[data-testid="contact-card-head-teacher"] [data-testid="contact-name"]'),
+                headTeacherEmail: () => cy.get('[data-testid="contact-card-head-teacher"] [data-testid="contact-email"]'),
+            },
+            inDfEContacts: {
+                regionsGroupLaLeadCard: () => cy.get('[data-testid="contact-card-regions-group-la-lead"]'),
+                regionsGroupLaLeadTitle: () => cy.get('[data-testid="contact-card-title-regions-group-la-lead"]'),
+                regionsGroupLaLeadName: () => cy.get('[data-testid="contact-card-regions-group-la-lead"] [data-testid="contact-name"]'),
+                regionsGroupLaLeadEmail: () => cy.get('[data-testid="contact-card-regions-group-la-lead"] [data-testid="contact-email"]'),
+            },
         },
         federation: {
             federationName: () => cy.get('[data-testid="federation-details-name"]'),
@@ -209,25 +217,25 @@ class SchoolsPage {
     }
     // #endregion
 
-    // #region School contacts
+    // #region School contacts pages
     public checkHeadTeacherContactCardPresent(): this {
-        this.elements.schoolContacts.headTeacherCard().should('be.visible');
-        this.elements.schoolContacts.headTeacherTitle().should('contain', 'Head teacher');
-        this.elements.schoolContacts.headTeacherName().should('be.visible');
-        this.elements.schoolContacts.headTeacherEmail().should('be.visible');
+        this.elements.schoolContacts.inThisSchool.headTeacherCard().should('be.visible');
+        this.elements.schoolContacts.inThisSchool.headTeacherTitle().should('contain', 'Head teacher');
+        this.elements.schoolContacts.inThisSchool.headTeacherName().should('be.visible');
+        this.elements.schoolContacts.inThisSchool.headTeacherEmail().should('be.visible');
         return this;
     }
 
     public checkHeadTeacherContactNamePresent(): this {
-        this.elements.schoolContacts.headTeacherName().should('not.contain.text', 'No contact name available');
-        this.elements.schoolContacts.headTeacherName().should('not.be.empty');
+        this.elements.schoolContacts.inThisSchool.headTeacherName().should('not.contain.text', 'No contact name available');
+        this.elements.schoolContacts.inThisSchool.headTeacherName().should('not.be.empty');
         return this;
     }
 
     public checkHeadTeacherContactEmailPresent(): this {
-        this.elements.schoolContacts.headTeacherEmail().should('not.contain.text', 'No contact email available');
-        this.elements.schoolContacts.headTeacherEmail().should('not.be.empty');
-        this.elements.schoolContacts.headTeacherEmail().should('have.attr', 'href').and('match', /^mailto:/);
+        this.elements.schoolContacts.inThisSchool.headTeacherEmail().should('not.contain.text', 'No contact email available');
+        this.elements.schoolContacts.inThisSchool.headTeacherEmail().should('not.be.empty');
+        this.elements.schoolContacts.inThisSchool.headTeacherEmail().should('have.attr', 'href').and('match', /^mailto:/);
         return this;
     }
 
@@ -245,6 +253,41 @@ class SchoolsPage {
             text = text.replace(/\s+/g, ' ');
             expect(text).to.match(/Contacts in this (school|academy)/);
         });
+        return this;
+    }
+
+    public checkInDfeContactsSubpageHeaderIsCorrect(): this {
+        this.elements.subpageHeader().should('contain', 'Contacts in DfE');
+        return this;
+    }
+
+    public checkRegionsGroupLaLeadContactCardPresent(): this {
+        this.elements.schoolContacts.inDfEContacts.regionsGroupLaLeadCard().should('be.visible');
+        this.elements.schoolContacts.inDfEContacts.regionsGroupLaLeadName().should('be.visible');
+        this.elements.schoolContacts.inDfEContacts.regionsGroupLaLeadEmail().should('be.visible');
+        return this;
+    }
+
+    public checkRegionsGroupLaLeadContactTitlePresent(): this {
+        this.elements.schoolContacts.inDfEContacts.regionsGroupLaLeadTitle().should('be.visible').and('contain', 'Regions group local authority lead');
+        return this;
+    }
+
+    public checkRegionsGroupLaLeadContactNamePresent(): this {
+        this.elements.schoolContacts.inDfEContacts.regionsGroupLaLeadName().should('not.contain.text', 'No contact name available');
+        this.elements.schoolContacts.inDfEContacts.regionsGroupLaLeadName().should('not.be.empty');
+        return this;
+    }
+
+    public checkRegionsGroupLaLeadContactEmailPresent(): this {
+        this.elements.schoolContacts.inDfEContacts.regionsGroupLaLeadEmail().should('not.contain.text', 'No contact email available');
+        this.elements.schoolContacts.inDfEContacts.regionsGroupLaLeadEmail().should('not.be.empty');
+        this.elements.schoolContacts.inDfEContacts.regionsGroupLaLeadEmail().should('have.attr', 'href').and('match', /^mailto:/);
+        return this;
+    }
+
+    public checkNoInternalUseWarningPresent(): this {
+        this.elements.schoolContacts.internalUseWarning().should('not.exist');
         return this;
     }
 

@@ -59,6 +59,7 @@ export class TestDataStore {
             {
                 pageName: "Contacts",
                 subpages: [
+                    { subpageName: "Contacts in DfE", url: `/schools/contacts/in-dfe?urn=${urn}` },
                     { subpageName: "In this school", url: `/schools/contacts/in-the-school?urn=${urn}` },
                 ]
             },
@@ -76,6 +77,7 @@ export class TestDataStore {
             {
                 pageName: "Contacts",
                 subpages: [
+                    { subpageName: "Contacts in DfE", url: `/schools/contacts/in-dfe?urn=${urn}` },
                     { subpageName: "In this academy", url: `/schools/contacts/in-the-school?urn=${urn}` },
                 ]
             },
