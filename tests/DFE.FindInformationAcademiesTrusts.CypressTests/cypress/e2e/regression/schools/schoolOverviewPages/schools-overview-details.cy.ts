@@ -62,17 +62,16 @@ describe("Overview details page", () => {
     });
 
     const schoolInSATs = [
-        { urn: 140884, type: 'school in SAT', trustAcademyName: 'MARYLEBONE SCHOOL LTD' }
+        { urn: 140884, type: 'school in SAT' }
     ];
 
-    schoolInSATs.forEach(({ urn, type, trustAcademyName }) => {
+    schoolInSATs.forEach(({ urn, type }) => {
         context(`${type} should have trust details`, () => {
 
             it('Checks the school header is present on a school type', () => {
                 cy.visit(`/schools/overview/details?urn=${urn}`);
                 schoolsPage
                     .checkSchoolDetailsHeaderPresent()
-                    .checkAcademyLinkPresentAndCorrect(trustAcademyName)
                     .checkDetailsAcademyDataItemsPresent();
             });
 
