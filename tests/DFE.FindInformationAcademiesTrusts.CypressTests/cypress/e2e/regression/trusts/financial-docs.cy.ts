@@ -1,15 +1,7 @@
 import commonPage from "../../../pages/commonPage";
 import navigation from "../../../pages/navigation";
 import financialDocumentsPage from "../../../pages/trusts/financialDocumentsPage";
-
-const testFinanceData = [
-    {
-        uid: 5143
-    },
-    {
-        uid: 4921
-    }
-];
+import { testFinanceData } from "../../../support/test-data-store";
 testFinanceData.forEach(({ uid }) => {
     describe("Testing the Financial documents pages", () => {
         describe(`On the Finance statements page for a trust`, () => {

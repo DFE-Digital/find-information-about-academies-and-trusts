@@ -94,6 +94,7 @@ export const testSchoolData = [
         urn: 137083
     }
 ];
+
 export const testPreAdvisoryData = [
     {
         uid: 16002
@@ -102,6 +103,7 @@ export const testPreAdvisoryData = [
         uid: 4921
     }
 ];
+
 export const testPostAdvisoryData = [
     {
         uid: 17584
@@ -110,6 +112,7 @@ export const testPostAdvisoryData = [
         uid: 16857
     }
 ];
+
 export const testFreeSchoolsData = [
     {
         uid: 17538
@@ -118,6 +121,7 @@ export const testFreeSchoolsData = [
         uid: 15786
     }
 ];
+
 export const testTrustData = [
     {
         trustName: "Ashton West End Primary Academy",
@@ -130,6 +134,7 @@ export const testTrustData = [
         uid: 5712
     }
 ];
+
 export const trustsWithGovernanceData = [
     {
         typeOfTrust: "single academy trust with governance data",
@@ -140,3 +145,116 @@ export const trustsWithGovernanceData = [
         uid: 5712
     }
 ];
+
+// Trust UIDs for financial documents testing across multiple test suites
+export const testFinanceData = [
+    {
+        uid: 5143
+    },
+    {
+        uid: 4921
+    }
+];
+
+// Trust UIDs with Ofsted inspection data for comprehensive testing
+export const testTrustOfstedData = [
+    {
+        typeOfTrust: "single academy trust",
+        uid: 5527
+    },
+    {
+        typeOfTrust: "multi academy trust",
+        uid: 5712
+    }
+];
+
+// Trust UIDs with no governance data for testing empty state scenarios
+export const trustsWithNoGovernanceData = [
+    {
+        typeOfTrust: "single academy trust with no governance data",
+        uid: 17022
+    },
+    {
+        typeOfTrust: "multi academy trust with no governance data",
+        uid: 17637
+    }
+];
+
+// School URNs for testing federation functionality and edge cases
+export const testFederationData = {
+    schoolWithFederationDetails: {
+        urn: 107188,
+        type: "Community school with federation details"
+    },
+    schoolWithoutFederationDetails: {
+        urn: 100000,
+        type: "School with no federation"
+    },
+    academy: {
+        urn: 142768,
+        type: "Academy (no federation)"
+    }
+};
+
+// School URNs for testing breadcrumb navigation across different school types
+export const testBreadcrumbSchoolData = {
+    communitySchool: {
+        urn: 107188,
+        type: "Community school"
+    },
+    academyConverter: {
+        urn: 137083,
+        type: "Academy converter"
+    }
+};
+
+// School URNs with SEN provision data for testing special educational needs functionality
+export const senSchoolData = [
+    {
+        typeOfSchool: "school with SEN provision",
+        urn: 122957
+    },
+    {
+        typeOfSchool: "academy with SEN provision",
+        urn: 143934
+    }
+];
+
+
+// Trust UID for testing empty data states and error scenarios
+export const testTrustWithNoDataUid = 17728;
+
+// Primary test entities for navigation and general functionality testing
+export const testNavigationData = {
+    trustUid: 5527,
+    schoolUrn: 107188,
+    academyUrn: 140214
+};
+
+// Trust UIDs with sufficient academy data for detailed testing scenarios
+export const testAcademiesData = [
+    {
+        uid: 5143,
+        description: "Trust with academy data for testing details, pupil numbers, and free school meals"
+    },
+    {
+        uid: 5712,
+        description: "Multi-academy trust for testing academy listings"
+    }
+];
+
+// Trust UIDs for pipeline academy testing across different stages
+export const testPipelineData = {
+    preAdvisoryUid: 16002,
+    postAdvisoryUid: 17584,
+    freeSchoolsUid: 17584
+};
+
+// Trust UID with sufficient Ofsted data for comprehensive inspection testing
+export const testOfstedWithDataUid = 5143;
+
+// Trust UIDs with sufficient data volume for pagination component testing
+export const testPaginationData = {
+    academiesInTrustUid: 5143,
+    ofstedRatingsUid: 5143
+};
