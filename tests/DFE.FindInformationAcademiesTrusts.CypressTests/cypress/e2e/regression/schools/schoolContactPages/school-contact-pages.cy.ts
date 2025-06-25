@@ -4,18 +4,17 @@ import { testSchoolData } from '../../../../support/test-data-store';
 // Helper to build the URL for the school contacts page
 const getInTheSchoolContactsUrl = (urn: number) => `/schools/contacts/in-the-school?urn=${urn}`;
 
-// Helper to build the URL for the DfE contacts page
+// Helper to build the URL for the "in DfE" contacts page
 const getInDfeContactsUrl = (urn: number) => `/schools/contacts/in-dfe?urn=${urn}`;
 
-describe('Testing the components of the School contacts page', () => {
-    (testSchoolData as { schoolName: string; urn: number; }[]).forEach(({ schoolName, urn }) => {
-        describe(`On the contacts in school page for ${schoolName}`, () => {
+describe('Testing the components of the School "in this school/academy" contacts page', () => {
+    (testSchoolData as { schoolName: string; urn: number; schoolOrAcademy: string; }[]).forEach(({ schoolName, urn, schoolOrAcademy }) => {
+        describe(`On the "in this ${schoolOrAcademy}" contacts page for ${schoolName}`, () => {
             beforeEach(() => {
                 cy.visit(getInTheSchoolContactsUrl(urn));
             });
 
             it('Checks the subpage header is correct', () => {
-                // The subpage header should contain either 'In this school' or 'In this academy'
                 schoolsPage
                     .checkSubpageHeaderIsCorrect();
             });
@@ -44,9 +43,9 @@ describe('Testing the components of the School contacts page', () => {
     });
 });
 
-describe('Testing the components of the School DfE contacts page', () => {
-    (testSchoolData as { schoolName: string; urn: number; }[]).forEach(({ schoolName, urn }) => {
-        describe(`On the 'inDfE contacts page for ${schoolName}`, () => {
+describe('Testing the components of the School and academy "in DfE" contacts page', () => {
+    (testSchoolData as { urn: number; schoolOrAcademy: string; }[]).forEach(({ urn, schoolOrAcademy }) => {
+        describe(`On the "in DfE" contacts page for a ${schoolOrAcademy}`, () => {
             beforeEach(() => {
                 cy.visit(getInDfeContactsUrl(urn));
             });
