@@ -2,18 +2,7 @@ import ofstedPage from "../../../pages/trusts/ofstedPage";
 import navigation from "../../../pages/navigation";
 import dataDownload from "../../../pages/trusts/dataDownload";
 import commonPage from "../../../pages/commonPage";
-import { TestDataStore } from "../../../support/test-data-store";
-
-const testTrustOfstedData = [
-    {
-        typeOfTrust: "single academy trust",
-        uid: 5527
-    },
-    {
-        typeOfTrust: "multi academy trust",
-        uid: 5712
-    }
-];
+import { TestDataStore, testTrustOfstedData, testOfstedWithDataUid } from "../../../support/test-data-store";
 
 describe("Testing the Ofsted page and its subpages ", () => {
 
@@ -81,7 +70,7 @@ describe("Testing the Ofsted page and its subpages ", () => {
 
     describe("Testing the Ofsted current ratings page ", () => {
         beforeEach(() => {
-            cy.visit('/trusts/ofsted/current-ratings?uid=5143');
+            cy.visit(`/trusts/ofsted/current-ratings?uid=${testOfstedWithDataUid}`);
 
             cy.task('checkForFiles', 'cypress/downloads').then((files) => {
                 if (files) {
