@@ -3,50 +3,67 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IndexModel
 @{
-  ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home page";
+
+    var UsefulToolsLinks = User.IsInRole("User.Role.MPCViewer")
+        ? ViewConstants.ExternalServiceLinksWithMpc
+        : ViewConstants.ExternalServiceLinks;
 }
 
 <main id="main-content">
-  <div class="app-banner app-banner--l">
-    <div class="dfe-width-container">
-      <div class="govuk-grid-row">
-          <div class="govuk-grid-column-one-half">
-              <h1 class="govuk-heading-xl app-banner--heading govuk-!-margin-bottom-8">
-                  Find information about academies and trusts
-              </h1>
-              <form class="govuk-form-group app-search govuk-!-margin-bottom-0" asp-page="Search" method="post" role="search" aria-label="sitewide">
-                  <p class="govuk-body">Use this tool to find information on trusts and schools, including academies.</p>
-                  <details class="govuk-details" data-module="govuk-details" data-testid="what-you-can-find-list">
-                      <summary class="govuk-details__summary">
-                          <span class="govuk-details__summary-text">
-                              <span>Establishments you can search</span>
-                          </span>
-                      </summary>
-                      <ul class="govuk-list govuk-details__text govuk-list--bullet">
-                          <li class="govuk-!-margin-left-5">academies</li>
-                          <li class="govuk-!-margin-left-5">free schools</li>
-                          <li class="govuk-!-margin-left-5">local authority maintained schools</li>
-                          <li class="govuk-!-margin-left-5">special schools</li>
-                          <li class="govuk-!-margin-left-5">trusts</li>
-                      </ul>
-                  </details>
-                  <partial name="_PageSearchForm" model="Model"/>
-              </form>
-          </div>
-      </div>
+    <div class="app-banner app-banner--l">
+        <div class="dfe-width-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-half">
+                    <h1 class="govuk-heading-xl app-banner--heading govuk-!-margin-bottom-8">
+                        Find information about academies and trusts
+                    </h1>
+                    <form class="govuk-form-group app-search govuk-!-margin-bottom-0" asp-page="Search" method="post" role="search" aria-label="sitewide">
+                        <p class="govuk-body">Use this tool to find information on trusts and schools, including academies.</p>
+                        <details class="govuk-details" data-module="govuk-details" data-testid="what-you-can-find-list">
+                            <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text">
+                                    <span>Establishments you can search</span>
+                                </span>
+                            </summary>
+                            <ul class="govuk-list govuk-details__text govuk-list--bullet">
+                                <li class="govuk-!-margin-left-5">academies</li>
+                                <li class="govuk-!-margin-left-5">free schools</li>
+                                <li class="govuk-!-margin-left-5">local authority maintained schools</li>
+                                <li class="govuk-!-margin-left-5">special schools</li>
+                                <li class="govuk-!-margin-left-5">trusts</li>
+                            </ul>
+                        </details>
+                        <partial name="_PageSearchForm" model="Model"/>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="dfe-width-container govuk-!-padding-top-6">
-    <h2 class="govuk-heading-l">
-      Other tools and products (links open in a new tab)
-    </h2>
-    <div class="dfe-grid-container">
-      @foreach (var serviceLink in ViewConstants.ExternalServiceLinks)
-      {
-        DisplayLinkInCard(serviceLink);
-      }
+    <div class="app-banner app-banner--grey govuk-!-padding-top-8">
+        <div class="dfe-width-container">
+            <h2 class="govuk-heading-l">
+                Useful tools (links open in a new tab)
+            </h2>
+            <div class="dfe-grid-container">
+                @foreach (var serviceLink in UsefulToolsLinks)
+                {
+                    DisplayLinkInCard(serviceLink);
+                }
+            </div>
+        </div>
     </div>
-  </div>
+    <div class="dfe-width-container govuk-!-padding-top-8 govuk-!-padding-bottom-8">
+        <h2 class="govuk-heading-l">
+            Regional Services Divisions systems (open in a new tab)
+        </h2>
+        <div class="dfe-grid-container">
+            @foreach (var serviceLink in ViewConstants.RsdServiceLinks)
+            {
+                DisplayLinkInCard(serviceLink);
+            }
+        </div>
+    </div>
 </main>
 
 

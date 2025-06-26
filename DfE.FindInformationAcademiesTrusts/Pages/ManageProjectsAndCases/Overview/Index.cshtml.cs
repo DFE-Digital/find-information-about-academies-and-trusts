@@ -2,13 +2,18 @@ using Dfe.CaseAggregationService.Client.Contracts;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Pages.Shared;
 using DfE.FindInformationAcademiesTrusts.Services.ManageProjectsAndCases;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using DfE.FindInformationAcademiesTrusts.Extensions;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.ManageProjectsAndCases.Overview
 {
+    [Authorize(Roles = "User.Role.MPCViewer")]
     public class IndexModel : BasePageModel, IPaginationModel
     {
         private readonly IGetCasesService _getCasesService;
+        private readonly IWebHostEnvironment _environment;
 
         [BindProperty]
         public ProjectListFilters Filters { get; init; } = new();
@@ -27,15 +32,21 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.ManageProjectsAndCases.Overvi
         
         [BindProperty(SupportsGet = true)] 
         public int PageNumber { get; set; } = 1;
-        
+
+        [BindProperty(SupportsGet = true)]
+        public string? FakeEmail { get; set; } = null;
+
         public IPaginatedList<UserCaseInfo> Cases { get; set; } = PaginatedList<UserCaseInfo>.Empty();
 
-        public IndexModel(IGetCasesService getCasesService)
+        public IndexModel(IGetCasesService getCasesService,
+                          IWebHostEnvironment environment)
         {
             _getCasesService = getCasesService;
+            _environment = environment;
             ShowHeaderSearch = false;
         }
 
+     
         public async Task OnGetAsync()
         {
             Filters.PersistUsing(TempData).PopulateFrom(Request.Query);
@@ -60,11 +71,18 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.ManageProjectsAndCases.Overvi
                 "Record concerns and support for trusts",
             };
 
+            var userEmail = User.Identity?.Name;
+
+            if (!_environment.IsLiveEnvironment() && FakeEmail != null)
+            {
+                userEmail = FakeEmail;
+            }
+
             Cases = await _getCasesService.GetCasesAsync(
                 new GetCasesParameters
                 (
-                    "Paul Lockwood",
-                    "paul.lockwood@education.gov.uk",
+                    userEmail,
+                    userEmail,
                     IncludePrepare(),
                     IncludeComplete(),
                     IncludeManageFreeSchools(),
