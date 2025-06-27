@@ -262,7 +262,7 @@ class SchoolsPage {
     }
 
     public checkInDfeContactsSubpageHeaderIsCorrect(): this {
-        this.elements.subpageHeader().should('contain', 'Contacts in DfE');
+        this.elements.subpageHeader().should('contain', 'In DfE');
         return this;
     }
 
