@@ -9,14 +9,16 @@ public class InDfeModelTests : BaseContactsAreaModelTests<InDfeModel>
     private readonly ISchoolContactsService _mockSchoolContactsService = Substitute.For<ISchoolContactsService>();
 
     private readonly SchoolInternalContactsServiceModel _dummySchoolContactsServiceModel =
-        new(new Person("Aaron Aaronson", "aa@education.gov.uk"));
+        new(new Person("Aaron Aaronson", "aa@education.gov.uk"),
+            new Person("Bertha Billingsley", "bb@education.gov.uk"),
+            new Person("Carlton Coriander", "cc@education.gov.uk"));
 
     public InDfeModelTests()
     {
         _mockSchoolContactsService.GetInternalContactsAsync(Arg.Any<int>()).Returns(_dummySchoolContactsServiceModel);
 
         Sut = new InDfeModel(MockSchoolService, MockTrustService, _mockSchoolContactsService, MockDataSourceService,
-                MockSchoolNavMenu)
+                MockSchoolNavMenu, MockFeatureManager)
         { Urn = SchoolUrn };
     }
 
@@ -56,5 +58,21 @@ public class InDfeModelTests : BaseContactsAreaModelTests<InDfeModel>
         await Sut.OnGetAsync();
 
         Sut.RegionsGroupLocalAuthorityLead.Should().Be(_dummySchoolContactsServiceModel.RegionsGroupLocalAuthorityLead);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_set_TrustRelationshipManager_contact_details()
+    {
+        await Sut.OnGetAsync();
+
+        Sut.TrustRelationshipManager.Should().Be(_dummySchoolContactsServiceModel.TrustRelationshipManager);
+    }
+
+    [Fact]
+    public async Task OnGetAsync_should_set_SfsoLead_contact_details()
+    {
+        await Sut.OnGetAsync();
+
+        Sut.SfsoLead.Should().Be(_dummySchoolContactsServiceModel.SfsoLead);
     }
 }
