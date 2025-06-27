@@ -89,7 +89,7 @@ public class TrustService(
 
         var trustContacts =
             await trustRepository.GetTrustContactsAsync(uid, urn);
-        var internalContacts = await contactRepository.GetInternalContactsAsync(uid);
+        var internalContacts = await contactRepository.GetTrustInternalContactsAsync(uid);
 
         return new TrustContactsServiceModel(
             internalContacts.TrustRelationshipManager,
@@ -103,7 +103,7 @@ public class TrustService(
     public async Task<TrustContactUpdatedServiceModel> UpdateContactAsync(int uid, string? name, string? email,
         TrustContactRole role)
     {
-        var (emailChanged, nameChanged) = await contactRepository.UpdateInternalContactsAsync(uid, name, email, role);
+        var (emailChanged, nameChanged) = await contactRepository.UpdateTrustInternalContactsAsync(uid, name, email, role);
 
         return new TrustContactUpdatedServiceModel(emailChanged, nameChanged);
     }

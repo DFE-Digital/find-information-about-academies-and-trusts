@@ -59,6 +59,7 @@ export class TestDataStore {
             {
                 pageName: "Contacts",
                 subpages: [
+                    { subpageName: "In DfE", url: `/schools/contacts/in-dfe?urn=${urn}` },
                     { subpageName: "In this school", url: `/schools/contacts/in-the-school?urn=${urn}` },
                 ]
             },
@@ -76,6 +77,7 @@ export class TestDataStore {
             {
                 pageName: "Contacts",
                 subpages: [
+                    { subpageName: "In DfE", url: `/schools/contacts/in-dfe?urn=${urn}` },
                     { subpageName: "In this academy", url: `/schools/contacts/in-the-school?urn=${urn}` },
                 ]
             },
@@ -86,12 +88,14 @@ export const testSchoolData = [
     {
         schoolName: "The Meadows Primary School",
         typeOfSchool: "Community school",
-        urn: 123452
+        urn: 123452,
+        schoolOrAcademy: "school"
     },
     {
         schoolName: "Abbey Grange Church of England Academy",
         typeOfSchool: "Academy converter",
-        urn: 137083
+        urn: 137083,
+        schoolOrAcademy: "academy"
     }
 ];
 

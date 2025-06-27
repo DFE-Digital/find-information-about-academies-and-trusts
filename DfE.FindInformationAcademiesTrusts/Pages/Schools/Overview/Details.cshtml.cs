@@ -12,7 +12,8 @@ public class DetailsModel(
     ITrustService trustService,
     ISchoolOverviewDetailsService schoolOverviewDetailsService,
     IOtherServicesLinkBuilder otherServicesLinkBuilder,
-    IDataSourceService dataSourceService) : OverviewAreaModel(schoolService, trustService, dataSourceService)
+    IDataSourceService dataSourceService,
+    ISchoolNavMenu schoolNavMenu) : OverviewAreaModel(schoolService, trustService, dataSourceService, schoolNavMenu)
 {
     public override PageMetadata PageMetadata => base.PageMetadata with
     {

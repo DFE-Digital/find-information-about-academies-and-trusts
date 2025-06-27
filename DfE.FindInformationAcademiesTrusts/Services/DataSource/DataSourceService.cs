@@ -1,18 +1,21 @@
+using System.Runtime.CompilerServices;
 using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
+using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.DataSource;
 using Microsoft.Extensions.Caching.Memory;
-using System.Runtime.CompilerServices;
 
 namespace DfE.FindInformationAcademiesTrusts.Services.DataSource;
 
 public interface IDataSourceService
 {
     Task<DataSourceServiceModel> GetAsync(Source source);
+    Task<DataSourceServiceModel> GetSchoolContactDataSourceAsync(int urn, SchoolContactRole role);
 }
 
 public class DataSourceService(
     IDataSourceRepository dataSourceRepository,
+    IFiatDataSourceRepository fiatDataSourceRepository,
     IFreeSchoolMealsAverageProvider freeSchoolMealsAverageProvider,
     IMemoryCache memoryCache) : IDataSourceService
 {
@@ -47,6 +50,15 @@ public class DataSourceService(
 
             memoryCache.Set(source, dataSourceServiceModel, cacheExpiration);
         }
+
+        return dataSourceServiceModel;
+    }
+
+    public async Task<DataSourceServiceModel> GetSchoolContactDataSourceAsync(int urn, SchoolContactRole role)
+    {
+        var dataSource = await fiatDataSourceRepository.GetSchoolContactDataSourceAsync(urn, role);
+        var dataSourceServiceModel = new DataSourceServiceModel(dataSource.Source, dataSource.LastUpdated,
+            dataSource.NextUpdated, dataSource.UpdatedBy);
 
         return dataSourceServiceModel;
     }
