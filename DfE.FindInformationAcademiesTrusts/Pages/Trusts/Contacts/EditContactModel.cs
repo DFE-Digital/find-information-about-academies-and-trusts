@@ -79,24 +79,4 @@ public abstract class EditContactModel(
 
         return RedirectToPage("/Trusts/Contacts/InDfe", new { Uid });
     }
-
-    public string GetErrorClass(string key)
-    {
-        return ModelState.ContainsKey(key) && ModelState[key]!.Errors.Any() ? "govuk-form-group--error" : string.Empty;
-    }
-
-    public string GenerateErrorAriaDescribedBy(string key)
-    {
-        return string.Join(" ", GetErrorList(key).Select(value => $"error-{key}-{value.index}"));
-    }
-
-    public (int index, string errorMessage)[] GetErrorList(string key)
-    {
-        if (ModelState.ContainsKey(key))
-        {
-            return ModelState[key]!.Errors.Select((error, index) => (index, error.ErrorMessage)).ToArray();
-        }
-
-        return [];
-    }
 }
