@@ -43,10 +43,14 @@ class Navigation {
             overviewServiceNavButton: () => cy.get('[data-testid="overview-nav"]'),
             contactsServiceNavButton: () => cy.get('[data-testid="contacts-nav"]'),
         },
-        schoolsSubNav: {
+        schoolsOverviewSubNav: {
             schoolsDetailsButton: () => cy.get('[data-testid="overview-details-subnav"]'),
             schoolsSENButton: () => cy.get('[data-testid="overview-sen-subnav"]'),
             schoolsFederationButton: () => cy.get('[data-testid="overview-federation-subnav"]'),
+        },
+        schoolsContactsSubNav: {
+            contactsInDfeSubnavButton: () => cy.get('[data-testid="contacts-in-dfe-subnav"]'),
+            contactsInThisSchoolSubnavButton: () => cy.get('[data-testid="contacts-in-this-school-subnav"]'),
         }
     };
 
@@ -286,19 +290,26 @@ class Navigation {
         return this;
     }
 
-    public checkAllSchoolsSubNavItemsPresent(): this {
-        this.elements.schoolsSubNav.schoolsDetailsButton().should('be.visible');
-        this.elements.schoolsSubNav.schoolsSENButton().should('be.visible');
+    public checkAllSchoolOverviewSubNavItemsPresent(): this {
+        this.elements.schoolsOverviewSubNav.schoolsDetailsButton().should('be.visible');
+        this.elements.schoolsOverviewSubNav.schoolsSENButton().should('be.visible');
+        this.elements.schoolsOverviewSubNav.schoolsFederationButton().should('be.visible');
+        return this;
+    }
+
+    public checkAllAcademyOverviewSubNavItemsPresent(): this {
+        this.elements.schoolsOverviewSubNav.schoolsDetailsButton().should('be.visible');
+        this.elements.schoolsOverviewSubNav.schoolsSENButton().should('be.visible');
         return this;
     }
 
     public clickSchoolsDetailsButton(): this {
-        this.elements.schoolsSubNav.schoolsDetailsButton().click();
+        this.elements.schoolsOverviewSubNav.schoolsDetailsButton().click();
         return this;
     }
 
     public clickSchoolsSENButton(): this {
-        this.elements.schoolsSubNav.schoolsSENButton().click();
+        this.elements.schoolsOverviewSubNav.schoolsSENButton().click();
         return this;
     }
 
@@ -308,11 +319,37 @@ class Navigation {
     }
 
     public clickSchoolsFederationButton(): this {
-        this.elements.schoolsSubNav.schoolsFederationButton().click();
+        this.elements.schoolsOverviewSubNav.schoolsFederationButton().click();
         return this;
     }
 
-    //#endregion
+    public clickSchoolsContactsInDfeSubnavButton(): this {
+        this.elements.schoolsContactsSubNav.contactsInDfeSubnavButton().click();
+        return this;
+    }
+
+    public clickSchoolsContactsInThisSchoolSubnavButton(): this {
+        this.elements.schoolsContactsSubNav.contactsInThisSchoolSubnavButton().click();
+        return this;
+    }
+
+    public checkSchoolsContactsSubNavItemsPresent(): this {
+        this.elements.schoolsContactsSubNav.contactsInDfeSubnavButton().should('be.visible');
+        this.elements.schoolsContactsSubNav.contactsInThisSchoolSubnavButton().should('be.visible');
+        return this;
+    }
+
+    public checkSchoolsContactsInDfeSubnavButtonIsHighlighted(): this {
+        this.elements.schoolsContactsSubNav.contactsInDfeSubnavButton().should('have.attr', 'aria-current', 'page');
+        return this;
+    }
+
+    public checkSchoolsContactsInThisSchoolSubnavButtonIsHighlighted(): this {
+        this.elements.schoolsContactsSubNav.contactsInThisSchoolSubnavButton().should('have.attr', 'aria-current', 'page');
+        return this;
+    }
+
+    // #endregion
 }
 
 const navigation = new Navigation();

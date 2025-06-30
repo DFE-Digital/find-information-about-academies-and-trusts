@@ -11,7 +11,8 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Schools.Overview;
 public abstract class OverviewAreaModel(
     ISchoolService schoolService,
     ITrustService trustService,
-    IDataSourceService dataSourceService) : SchoolAreaModel(schoolService, trustService)
+    IDataSourceService dataSourceService,
+    ISchoolNavMenu schoolNavMenu) : SchoolAreaModel(schoolService, trustService, schoolNavMenu)
 {
     public const string PageName = "Overview";
     public override PageMetadata PageMetadata => base.PageMetadata with { PageName = PageName };

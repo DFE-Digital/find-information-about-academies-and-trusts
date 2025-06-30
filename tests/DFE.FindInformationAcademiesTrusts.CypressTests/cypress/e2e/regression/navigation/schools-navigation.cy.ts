@@ -71,25 +71,111 @@ describe('Schools Navigation Tests', () => {
 
     describe("Schools main navigation tests", () => {
         it('Should check that the schools main navigation is present and correct', () => {
-            // School Overview --> School Contacts (School)
+            // School Overview --> School Contacts in DfE (School)
             cy.visit(`/schools/overview/details?urn=${navTestSchool.schoolURN}`);
             navigation
                 .clickSchoolsContactsButton()
-                .checkCurrentURLIsCorrect(`/schools/contacts/in-the-school?urn=${navTestSchool.schoolURN}`)
+                .checkCurrentURLIsCorrect(`/schools/contacts/in-dfe?urn=${navTestSchool.schoolURN}`)
                 .checkAllSchoolServiceNavItemsPresent();
             schoolsPage
-                .checkHeadTeacherContactCardPresent();
+                .checkInDfeContactsSubpageHeaderIsCorrect();
 
-            // School Overview --> School Contacts (Academy)
+            // School Overview --> School Contacts in DfE (Academy)
             cy.visit(`/schools/overview/details?urn=${navTestAcademy.academyURN}`);
             navigation
                 .clickSchoolsContactsButton()
-                .checkCurrentURLIsCorrect(`/schools/contacts/in-the-school?urn=${navTestAcademy.academyURN}`)
+                .checkCurrentURLIsCorrect(`/schools/contacts/in-dfe?urn=${navTestAcademy.academyURN}`)
                 .checkAllSchoolServiceNavItemsPresent();
             schoolsPage
-                .checkHeadTeacherContactCardPresent();
+                .checkInDfeContactsSubpageHeaderIsCorrect();
+        });
+    });
+
+    describe("Schools contacts sub navigation tests", () => {
+        context('School contacts subnav navigation tests -- (School)', () => {
+            it('Should navigate from in DfE contacts to "In this school" contacts and back', () => {
+                // Start at in DfE contacts
+                cy.visit(`/schools/contacts/in-dfe?urn=${navTestSchool.schoolURN}`);
+                navigation
+                    .checkSchoolsContactsSubNavItemsPresent()
+                    .checkSchoolsContactsInDfeSubnavButtonIsHighlighted();
+                schoolsPage
+                    .checkInDfeContactsSubpageHeaderIsCorrect()
+                    .checkRegionsGroupLaLeadContactCardPresent();
+
+                // Navigate to "In this school" contacts
+                navigation
+                    .clickSchoolsContactsInThisSchoolSubnavButton()
+                    .checkCurrentURLIsCorrect(`/schools/contacts/in-the-school?urn=${navTestSchool.schoolURN}`)
+                    .checkSchoolsContactsInThisSchoolSubnavButtonIsHighlighted();
+                schoolsPage
+                    .checkSubpageHeaderIsCorrect()
+                    .checkHeadTeacherContactCardPresent();
+
+                // Navigate back to in DfE contacts
+                navigation
+                    .clickSchoolsContactsInDfeSubnavButton()
+                    .checkCurrentURLIsCorrect(`/schools/contacts/in-dfe?urn=${navTestSchool.schoolURN}`)
+                    .checkSchoolsContactsInDfeSubnavButtonIsHighlighted();
+                schoolsPage
+                    .checkInDfeContactsSubpageHeaderIsCorrect();
+            });
         });
 
+        context('School contacts subnav navigation tests -- (Academy)', () => {
+            it('Should navigate from in DfE contacts to "In this academy" contacts and back', () => {
+                // Start at DfE contacts
+                cy.visit(`/schools/contacts/in-dfe?urn=${navTestAcademy.academyURN}`);
+                navigation
+                    .checkSchoolsContactsSubNavItemsPresent()
+                    .checkSchoolsContactsInDfeSubnavButtonIsHighlighted();
+                schoolsPage
+                    .checkInDfeContactsSubpageHeaderIsCorrect();
+                // TODO: Not checking specific contact cards as academy content structure will change - update once confirmed what is here
+
+                // Navigate to "In this academy" contacts
+                navigation
+                    .clickSchoolsContactsInThisSchoolSubnavButton()
+                    .checkCurrentURLIsCorrect(`/schools/contacts/in-the-school?urn=${navTestAcademy.academyURN}`)
+                    .checkSchoolsContactsInThisSchoolSubnavButtonIsHighlighted();
+                schoolsPage
+                    .checkSubpageHeaderIsCorrect()
+                    .checkHeadTeacherContactCardPresent();
+
+                // Navigate back to DfE contacts
+                navigation
+                    .clickSchoolsContactsInDfeSubnavButton()
+                    .checkCurrentURLIsCorrect(`/schools/contacts/in-dfe?urn=${navTestAcademy.academyURN}`)
+                    .checkSchoolsContactsInDfeSubnavButtonIsHighlighted();
+                schoolsPage
+                    .checkInDfeContactsSubpageHeaderIsCorrect();
+                // TODO: Not checking specific contact cards as academy content structure will change - update once confirmed what is here
+            });
+        });
+
+        context('School contacts subnav content tests', () => {
+            it('Should show correct subnav text for school', () => {
+                cy.visit(`/schools/contacts/in-dfe?urn=${navTestSchool.schoolURN}`);
+                navigation
+                    .checkSchoolsContactsSubNavItemsPresent();
+
+                // Verify the subnav shows "In this school" text
+                cy.get('[data-testid="contacts-in-this-school-subnav"]')
+                    .should('be.visible')
+                    .should('contain.text', 'In this school');
+            });
+
+            it('Should show correct subnav text for academy', () => {
+                cy.visit(`/schools/contacts/in-dfe?urn=${navTestAcademy.academyURN}`);
+                navigation
+                    .checkSchoolsContactsSubNavItemsPresent();
+
+                // Verify the subnav shows "In this academy" text
+                cy.get('[data-testid="contacts-in-this-school-subnav"]')
+                    .should('be.visible')
+                    .should('contain.text', 'In this academy');
+            });
+        });
     });
 
     describe("Schools overview sub navigation round robin tests", () => {
@@ -101,7 +187,7 @@ describe('Schools Navigation Tests', () => {
                     .clickSchoolsFederationButton()
                     .checkCurrentURLIsCorrect(`/schools/overview/federation?urn=${navTestSchool.schoolURN}`)
                     .checkAllSchoolServiceNavItemsPresent()
-                    .checkAllSchoolsSubNavItemsPresent();
+                    .checkAllSchoolOverviewSubNavItemsPresent();
                 schoolsPage
                     .checkFederationDetailsHeaderPresent();
             });
@@ -113,7 +199,7 @@ describe('Schools Navigation Tests', () => {
                     .clickSchoolsSENButton()
                     .checkCurrentURLIsCorrect(`/schools/overview/sen?urn=${navTestSchool.schoolURN}`)
                     .checkAllSchoolServiceNavItemsPresent()
-                    .checkAllSchoolsSubNavItemsPresent();
+                    .checkAllSchoolOverviewSubNavItemsPresent();
                 schoolsPage
                     .checkSENSubpageHeaderCorrect();
             });
@@ -125,7 +211,7 @@ describe('Schools Navigation Tests', () => {
                     .clickSchoolsDetailsButton()
                     .checkCurrentURLIsCorrect(`/schools/overview/details?urn=${navTestSchool.schoolURN}`)
                     .checkAllSchoolServiceNavItemsPresent()
-                    .checkAllSchoolsSubNavItemsPresent();
+                    .checkAllSchoolOverviewSubNavItemsPresent();
                 schoolsPage
                     .checkSchoolDetailsHeaderPresent();
             });
@@ -139,7 +225,7 @@ describe('Schools Navigation Tests', () => {
                     .clickSchoolsSENButton()
                     .checkCurrentURLIsCorrect(`/schools/overview/sen?urn=${navTestAcademy.academyURN}`)
                     .checkAllSchoolServiceNavItemsPresent()
-                    .checkAllSchoolsSubNavItemsPresent();
+                    .checkAllAcademyOverviewSubNavItemsPresent();
                 schoolsPage
                     .checkSENSubpageHeaderCorrect();
             });
@@ -151,7 +237,7 @@ describe('Schools Navigation Tests', () => {
                     .clickSchoolsDetailsButton()
                     .checkCurrentURLIsCorrect(`/schools/overview/details?urn=${navTestAcademy.academyURN}`)
                     .checkAllSchoolServiceNavItemsPresent()
-                    .checkAllSchoolsSubNavItemsPresent();
+                    .checkAllAcademyOverviewSubNavItemsPresent();
                 schoolsPage
                     .checkAcademyDetailsHeaderPresent();
             });
