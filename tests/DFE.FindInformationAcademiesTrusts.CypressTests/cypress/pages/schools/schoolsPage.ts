@@ -47,7 +47,10 @@ class SchoolsPage {
                 regionsGroupLaLeadTitle: () => cy.get('[data-testid="contact-card-title-regions-group-la-lead"]'),
                 regionsGroupLaLeadName: () => cy.get('[data-testid="contact-card-regions-group-la-lead"] [data-testid="contact-name"]'),
                 regionsGroupLaLeadEmail: () => cy.get('[data-testid="contact-card-regions-group-la-lead"] [data-testid="contact-email"]'),
-                // TODO: SFSO contact elements for future academy implementation
+                trustRelationshipManagerCard: () => cy.get('[data-testid="contact-card-trust-relationship-manager"]'),
+                trustRelationshipManagerTitle: () => cy.get('[data-testid="contact-card-title-trust-relationship-manager"]'),
+                trustRelationshipManagerName: () => cy.get('[data-testid="contact-card-trust-relationship-manager"] [data-testid="contact-name"]'),
+                trustRelationshipManagerEmail: () => cy.get('[data-testid="contact-card-trust-relationship-manager"] [data-testid="contact-email"]'),
                 sfsoLeadCard: () => cy.get('[data-testid="contact-card-sfso-lead"]'),
                 sfsoLeadTitle: () => cy.get('[data-testid="contact-card-title-sfso-lead"]'),
                 sfsoLeadName: () => cy.get('[data-testid="contact-card-sfso-lead"] [data-testid="contact-name"]'),
@@ -296,7 +299,6 @@ class SchoolsPage {
         return this;
     }
 
-    // TODO: SFSO contact methods for future academy implementation
     public checkSfsoLeadContactCardPresent(): this {
         this.elements.schoolContacts.inDfEContacts.sfsoLeadCard().should('be.visible');
         this.elements.schoolContacts.inDfEContacts.sfsoLeadName().should('be.visible');
@@ -305,7 +307,7 @@ class SchoolsPage {
     }
 
     public checkSfsoLeadContactTitlePresent(): this {
-        this.elements.schoolContacts.inDfEContacts.sfsoLeadTitle().should('be.visible').and('contain', 'SFSO (Schools financial support and oversight) lead');
+        this.elements.schoolContacts.inDfEContacts.sfsoLeadTitle().should('be.visible').and('contain', 'SFSO (Schools Financial Support and Oversight) lead');
         return this;
     }
 
@@ -319,6 +321,31 @@ class SchoolsPage {
         this.elements.schoolContacts.inDfEContacts.sfsoLeadEmail().should('not.contain.text', 'No contact email available');
         this.elements.schoolContacts.inDfEContacts.sfsoLeadEmail().should('not.be.empty');
         this.elements.schoolContacts.inDfEContacts.sfsoLeadEmail().should('have.attr', 'href').and('match', /^mailto:/);
+        return this;
+    }
+
+    public checkTrustRelationshipManagerContactCardPresent(): this {
+        this.elements.schoolContacts.inDfEContacts.trustRelationshipManagerCard().should('be.visible');
+        this.elements.schoolContacts.inDfEContacts.trustRelationshipManagerName().should('be.visible');
+        this.elements.schoolContacts.inDfEContacts.trustRelationshipManagerEmail().should('be.visible');
+        return this;
+    }
+
+    public checkTrustRelationshipManagerContactTitlePresent(): this {
+        this.elements.schoolContacts.inDfEContacts.trustRelationshipManagerTitle().should('be.visible').and('contain', 'Trust relationship manager');
+        return this;
+    }
+
+    public checkTrustRelationshipManagerContactNamePresent(): this {
+        this.elements.schoolContacts.inDfEContacts.trustRelationshipManagerName().should('not.contain.text', 'No contact name available');
+        this.elements.schoolContacts.inDfEContacts.trustRelationshipManagerName().should('not.be.empty');
+        return this;
+    }
+
+    public checkTrustRelationshipManagerContactEmailPresent(): this {
+        this.elements.schoolContacts.inDfEContacts.trustRelationshipManagerEmail().should('not.contain.text', 'No contact email available');
+        this.elements.schoolContacts.inDfEContacts.trustRelationshipManagerEmail().should('not.be.empty');
+        this.elements.schoolContacts.inDfEContacts.trustRelationshipManagerEmail().should('have.attr', 'href').and('match', /^mailto:/);
         return this;
     }
 
@@ -358,6 +385,15 @@ class SchoolsPage {
         return this;
     }
     // #endregion
+
+    public checkNoChangeLinksPresent(): this {
+        // Verify no "Change" or "Edit" links are present in the academy contacts section
+        this.elements.schoolContacts.inDfEContacts.trustRelationshipManagerCard().should('not.contain', 'Change');
+        this.elements.schoolContacts.inDfEContacts.trustRelationshipManagerCard().should('not.contain', 'Edit');
+        this.elements.schoolContacts.inDfEContacts.sfsoLeadCard().should('not.contain', 'Change');
+        this.elements.schoolContacts.inDfEContacts.sfsoLeadCard().should('not.contain', 'Edit');
+        return this;
+    }
 }
 
 const schoolsPage = new SchoolsPage();
