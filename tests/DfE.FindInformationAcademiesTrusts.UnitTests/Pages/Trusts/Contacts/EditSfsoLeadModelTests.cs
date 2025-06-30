@@ -2,7 +2,6 @@ using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
-using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -25,7 +24,7 @@ public class EditSfsoLeadModelTests
             Task.FromResult(new TrustContactsServiceModel(null, _sfsoLead, null, null, null)));
         _mockTrustService.GetTrustSummaryAsync(_fakeTrust.Uid)!.Returns(Task.FromResult(_fakeTrust));
 
-        _sut = new EditSfsoLeadModel(MockDataSourceService.CreateSubstitute(), _mockTrustService)
+        _sut = new EditSfsoLeadModel(_mockTrustService)
             { Uid = "1234" };
     }
 
