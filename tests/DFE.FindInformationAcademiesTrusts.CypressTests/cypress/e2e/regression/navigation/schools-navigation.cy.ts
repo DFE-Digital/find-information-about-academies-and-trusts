@@ -135,7 +135,7 @@ describe('Schools Navigation Tests', () => {
         context('School contacts subnav navigation tests -- (Academy)', () => {
             it('Should navigate from in DfE contacts to "In this academy" contacts and back', () => {
                 // Start at DfE contacts
-                cy.visit(`/schools/contacts/in-dfe?urn=${navTestAcademy.academyURN}`);
+                cy.visit(`/schools/contacts/in-dfe?urn=${navTestAcademies[0].academyURN}`);
                 navigation
                     .checkSchoolsContactsSubNavItemsPresent()
                     .checkSchoolsContactsInDfeSubnavButtonIsHighlighted();
@@ -146,7 +146,7 @@ describe('Schools Navigation Tests', () => {
                 // Navigate to "In this academy" contacts
                 navigation
                     .clickSchoolsContactsInThisSchoolSubnavButton()
-                    .checkCurrentURLIsCorrect(`/schools/contacts/in-the-school?urn=${navTestAcademy.academyURN}`)
+                    .checkCurrentURLIsCorrect(`/schools/contacts/in-the-school?urn=${navTestAcademies[0].academyURN}`)
                     .checkSchoolsContactsInThisSchoolSubnavButtonIsHighlighted();
                 schoolsPage
                     .checkSubpageHeaderIsCorrect()
@@ -155,7 +155,7 @@ describe('Schools Navigation Tests', () => {
                 // Navigate back to DfE contacts
                 navigation
                     .clickSchoolsContactsInDfeSubnavButton()
-                    .checkCurrentURLIsCorrect(`/schools/contacts/in-dfe?urn=${navTestAcademy.academyURN}`)
+                    .checkCurrentURLIsCorrect(`/schools/contacts/in-dfe?urn=${navTestAcademies[0].academyURN}`)
                     .checkSchoolsContactsInDfeSubnavButtonIsHighlighted();
                 schoolsPage
                     .checkInDfeContactsSubpageHeaderIsCorrect();
@@ -176,7 +176,7 @@ describe('Schools Navigation Tests', () => {
             });
 
             it('Should show correct subnav text for academy', () => {
-                cy.visit(`/schools/contacts/in-dfe?urn=${navTestAcademy.academyURN}`);
+                cy.visit(`/schools/contacts/in-dfe?urn=${navTestAcademies[0].academyURN}`);
                 navigation
                     .checkSchoolsContactsSubNavItemsPresent();
 
