@@ -11,8 +11,9 @@ namespace DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
 public class ContactsAreaModel(
     ISchoolService schoolService,
     ITrustService trustService,
-    IDataSourceService dataSourceService)
-    : SchoolAreaModel(schoolService, trustService)
+    IDataSourceService dataSourceService,
+    ISchoolNavMenu schoolNavMenu)
+    : SchoolAreaModel(schoolService, trustService, schoolNavMenu)
 {
     public const string PageName = "Contacts";
 
@@ -25,9 +26,12 @@ public class ContactsAreaModel(
         if (pageResult.GetType() == typeof(NotFoundResult)) return pageResult;
 
         var giasDataSource = await dataSourceService.GetAsync(Source.Gias);
+        var fiatDataSource = await dataSourceService.GetSchoolContactDataSourceAsync(Urn, SchoolContactRole.RegionsGroupLocalAuthorityLead);
 
         DataSourcesPerPage =
         [
+            new DataSourcePageListEntry(InDfeModel.SubPageName,
+                [new DataSourceListEntry(fiatDataSource, "Regions group LA lead")]),
             new DataSourcePageListEntry(InSchoolModel.SubPageName(SchoolCategory),
                 [new DataSourceListEntry(giasDataSource, "Head teacher name")])
         ];

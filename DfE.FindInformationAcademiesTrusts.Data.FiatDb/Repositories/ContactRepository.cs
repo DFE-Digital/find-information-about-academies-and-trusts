@@ -9,25 +9,27 @@ namespace DfE.FindInformationAcademiesTrusts.Data.FiatDb.Repositories;
 
 public interface IContactRepository
 {
-    Task<InternalContacts> GetInternalContactsAsync(string uid);
+    Task<TrustInternalContacts> GetTrustInternalContactsAsync(string uid);
 
-    Task<TrustContactUpdated> UpdateInternalContactsAsync(int uid, string? name, string? email,
+    Task<TrustContactUpdated> UpdateTrustInternalContactsAsync(int uid, string? name, string? email,
         TrustContactRole role);
+
+    Task<SchoolInternalContacts> GetSchoolInternalContactsAsync(int urn);
 }
 
 public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
 {
-    public async Task<InternalContacts> GetInternalContactsAsync(string uid)
+    public async Task<TrustInternalContacts> GetTrustInternalContactsAsync(string uid)
     {
         var trm = await GetTrustRelationshipManagerLinkedTo(uid);
         var sfso = await GetSfsoLeadLinkedTo(uid);
 
-        return new InternalContacts(
+        return new TrustInternalContacts(
             trm,
             sfso);
     }
 
-    public async Task<TrustContactUpdated> UpdateInternalContactsAsync(int uid, string? name, string? email,
+    public async Task<TrustContactUpdated> UpdateTrustInternalContactsAsync(int uid, string? name, string? email,
         TrustContactRole role)
     {
         var contact = await fiatDbContext.TrustContacts
@@ -53,6 +55,12 @@ public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
 
         await fiatDbContext.SaveChangesAsync();
         return new TrustContactUpdated(emailUpdated, nameUpdated);
+    }
+
+    public async Task<SchoolInternalContacts> GetSchoolInternalContactsAsync(int urn)
+    {
+        var regionsGroupLocalAuthorityLead = await GetRegionsGroupLocalAuthorityLead(urn);
+        return new SchoolInternalContacts(regionsGroupLocalAuthorityLead);
     }
 
     private async Task<TrustContactUpdated> AddNewContact(int uid, string? name, string? email, TrustContactRole role)
@@ -84,5 +92,13 @@ public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
             .Select(contact => new InternalContact(contact.Name, contact.Email,
                 contact.LastModifiedAtTime, contact.LastModifiedByEmail
             )).SingleOrDefaultAsync();
+    }
+
+    private async Task<InternalContact?> GetRegionsGroupLocalAuthorityLead(int urn)
+    {
+        return await fiatDbContext.SchoolContacts
+            .Where(contact => contact.Urn == urn && contact.Role == SchoolContactRole.RegionsGroupLocalAuthorityLead)
+            .Select(contact => new InternalContact(contact.Name, contact.Email, contact.LastModifiedAtTime, contact.LastModifiedByEmail))
+            .SingleOrDefaultAsync();
     }
 }
