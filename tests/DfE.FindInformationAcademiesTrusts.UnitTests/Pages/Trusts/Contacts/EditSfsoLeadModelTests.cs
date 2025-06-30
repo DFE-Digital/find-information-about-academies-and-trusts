@@ -60,7 +60,7 @@ public class EditSfsoLeadModelTests
         _sut.TrustSummary = _fakeTrust;
         _mockTrustService
             .UpdateContactAsync(1234, Arg.Any<string>(), Arg.Any<string>(), TrustContactRole.SfsoLead)
-            .Returns(Task.FromResult(new TrustContactUpdatedServiceModel(emailUpdated, nameUpdated)));
+            .Returns(Task.FromResult(new InternalContactUpdatedServiceModel(emailUpdated, nameUpdated)));
 
         var result = await _sut.OnPostAsync();
 
@@ -88,7 +88,7 @@ public class EditSfsoLeadModelTests
         _mockTrustService
             .UpdateContactAsync(1234, Arg.Any<string>(), Arg.Any<string>(),
                 TrustContactRole.SfsoLead)
-            .Returns(Task.FromResult(new TrustContactUpdatedServiceModel(true, true)));
+            .Returns(Task.FromResult(new InternalContactUpdatedServiceModel(true, true)));
         _ = await _sut.OnPostAsync();
 
         _sut.PageMetadata.SubPageName.Should()
