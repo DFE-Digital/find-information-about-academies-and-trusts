@@ -65,17 +65,7 @@ public abstract class EditContactModel(
 
         var result = await TrustService.UpdateContactAsync(int.Parse(Uid), Name, Email, role);
 
-        ContactUpdatedMessage = result switch
-        {
-            { NameUpdated: true, EmailUpdated: true } =>
-                $"Changes made to the {role.MapRoleToViewString()} name and email were updated.",
-            { NameUpdated: true, EmailUpdated: false } =>
-                $"Changes made to the {role.MapRoleToViewString()} name were updated.",
-            { NameUpdated: false, EmailUpdated: true } =>
-                $"Changes made to the {role.MapRoleToViewString()} email were updated.",
-            { NameUpdated: false, EmailUpdated: false } => string.Empty,
-            _ => throw new InvalidOperationException(nameof(result))
-        };
+        ContactUpdatedMessage = result.ToContactUpdatedMessage(role.MapRoleToViewString());
 
         return RedirectToPage("/Trusts/Contacts/InDfe", new { Uid });
     }
