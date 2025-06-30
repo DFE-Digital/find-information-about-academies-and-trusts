@@ -11,7 +11,7 @@ public interface IContactRepository
 {
     Task<TrustInternalContacts> GetTrustInternalContactsAsync(string uid);
 
-    Task<TrustContactUpdated> UpdateTrustInternalContactsAsync(int uid, string? name, string? email,
+    Task<InternalContactUpdated> UpdateTrustInternalContactsAsync(int uid, string? name, string? email,
         TrustContactRole role);
 
     Task<SchoolInternalContacts> GetSchoolInternalContactsAsync(int urn);
@@ -29,7 +29,7 @@ public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
             sfso);
     }
 
-    public async Task<TrustContactUpdated> UpdateTrustInternalContactsAsync(int uid, string? name, string? email,
+    public async Task<InternalContactUpdated> UpdateTrustInternalContactsAsync(int uid, string? name, string? email,
         TrustContactRole role)
     {
         var contact = await fiatDbContext.TrustContacts
@@ -54,7 +54,7 @@ public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
         }
 
         await fiatDbContext.SaveChangesAsync();
-        return new TrustContactUpdated(emailUpdated, nameUpdated);
+        return new InternalContactUpdated(emailUpdated, nameUpdated);
     }
 
     public async Task<SchoolInternalContacts> GetSchoolInternalContactsAsync(int urn)
@@ -63,7 +63,7 @@ public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
         return new SchoolInternalContacts(regionsGroupLocalAuthorityLead);
     }
 
-    private async Task<TrustContactUpdated> AddNewContact(int uid, string? name, string? email, TrustContactRole role)
+    private async Task<InternalContactUpdated> AddNewContact(int uid, string? name, string? email, TrustContactRole role)
     {
         fiatDbContext.TrustContacts.Add(new TrustContact
         {
@@ -73,7 +73,7 @@ public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
             Uid = uid
         });
         await fiatDbContext.SaveChangesAsync();
-        return new TrustContactUpdated(true, true);
+        return new InternalContactUpdated(true, true);
     }
 
     private async Task<InternalContact?> GetTrustRelationshipManagerLinkedTo(string uid)
