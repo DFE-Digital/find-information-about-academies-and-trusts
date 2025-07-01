@@ -83,7 +83,7 @@ describe('Testing the components of the School "in DfE" contacts page', () => {
     });
 });
 
-describe('Testing the components of the Academy "in DfE" contacts page (placeholder until in dfe academies are implemented)', () => {
+describe('Testing the components of the Academy "in DfE" contacts page', () => {
     beforeEach(() => {
         cy.visit(getInDfeContactsUrl(TEST_ACADEMY_URN));
     });
@@ -93,9 +93,44 @@ describe('Testing the components of the Academy "in DfE" contacts page (placehol
             .checkInDfeContactsSubpageHeaderIsCorrect();
     });
 
-    it('Checks the regions group LA lead contact card is present (placeholder behavior)', () => {
+    it('Checks the trust relationship manager contact card is present', () => {
         schoolsPage
-            .checkRegionsGroupLaLeadContactCardPresent();
+            .checkTrustRelationshipManagerContactCardPresent();
+    });
+
+    it('Checks the trust relationship manager contact title is displayed', () => {
+        schoolsPage
+            .checkTrustRelationshipManagerContactTitlePresent();
+    });
+
+    it('Checks the trust relationship manager contact name is displayed', () => {
+        schoolsPage
+            .checkTrustRelationshipManagerContactNamePresent();
+    });
+
+    it('Checks the trust relationship manager contact email is displayed', () => {
+        schoolsPage
+            .checkTrustRelationshipManagerContactEmailPresent();
+    });
+
+    it('Checks the SFSO lead contact card is present', () => {
+        schoolsPage
+            .checkSfsoLeadContactCardPresent();
+    });
+
+    it('Checks the SFSO lead contact title is displayed', () => {
+        schoolsPage
+            .checkSfsoLeadContactTitlePresent();
+    });
+
+    it('Checks the SFSO lead contact name is displayed', () => {
+        schoolsPage
+            .checkSfsoLeadContactNamePresent();
+    });
+
+    it('Checks the SFSO lead contact email is displayed', () => {
+        schoolsPage
+            .checkSfsoLeadContactEmailPresent();
     });
 
     it('Checks no internal use warning is present', () => {
@@ -103,9 +138,8 @@ describe('Testing the components of the Academy "in DfE" contacts page (placehol
             .checkNoInternalUseWarningPresent();
     });
 
-    // TODO: When academy implementation is complete in future feature, add tests for:
-    // - SFSO (Schools financial support and oversight) lead contact card
-    // - SFSO contact title, name, and email verification
-    // - Update to handle two contact cards instead of one
-    // - update  placeholder tests 
+    it('Checks no Change/Edit links are present for academy contacts (editing should be done at trust level only)', () => {
+        schoolsPage
+            .checkNoChangeLinksPresent();
+    });
 });

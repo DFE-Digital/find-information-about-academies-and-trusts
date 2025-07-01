@@ -13,11 +13,16 @@ public class DataSourceServiceTests
 {
     private readonly DataSourceService _sut;
     private readonly IDataSourceRepository _mockDataSourceRepository = Substitute.For<IDataSourceRepository>();
-    private readonly IFiatDataSourceRepository _mockFiatDataSourceRepository = Substitute.For<IFiatDataSourceRepository>();
-    private readonly IFreeSchoolMealsAverageProvider _mockFreeSchoolMealsAverageProvider = Substitute.For<IFreeSchoolMealsAverageProvider>();
+
+    private readonly IFiatDataSourceRepository _mockFiatDataSourceRepository =
+        Substitute.For<IFiatDataSourceRepository>();
+
+    private readonly IFreeSchoolMealsAverageProvider _mockFreeSchoolMealsAverageProvider =
+        Substitute.For<IFreeSchoolMealsAverageProvider>();
+
     private readonly MockMemoryCache _mockMemoryCache = new();
 
-    private readonly Dictionary<Source, Data.Repositories.DataSource.DataSource> _dummyDataSources = new()
+    private readonly Dictionary<Source, DataSource> _dummyDataSources = new()
     {
         { Source.Cdm, GetDummyDataSource(Source.Cdm, UpdateFrequency.Daily) },
         { Source.Complete, GetDummyDataSource(Source.Complete, UpdateFrequency.Daily) },
@@ -29,7 +34,7 @@ public class DataSourceServiceTests
         { Source.Prepare, GetDummyDataSource(Source.Prepare, UpdateFrequency.Daily) }
     };
 
-    private readonly DataSource _dummySchoolContactDataSource =
+    private readonly DataSource _dummyInternalContactDataSource =
         new(Source.FiatDb, DateTime.Parse("2025-06-01"), null, "some.user@education.gov.uk");
 
     public DataSourceServiceTests()
@@ -49,13 +54,14 @@ public class DataSourceServiceTests
         _mockDataSourceRepository.GetAsync(Arg.Is<Source>(source => !supportedAcademiesDbSources.Contains(source)))
             .ThrowsAsync(new ArgumentOutOfRangeException());
 
-        _mockFreeSchoolMealsAverageProvider.GetFreeSchoolMealsUpdated().Returns(_dummyDataSources[Source.ExploreEducationStatistics]);
+        _mockFreeSchoolMealsAverageProvider.GetFreeSchoolMealsUpdated()
+            .Returns(_dummyDataSources[Source.ExploreEducationStatistics]);
     }
 
-    private static Data.Repositories.DataSource.DataSource GetDummyDataSource(Source source,
+    private static DataSource GetDummyDataSource(Source source,
         UpdateFrequency updateFrequency)
     {
-        return new Data.Repositories.DataSource.DataSource(source, new DateTime(2024, 01, 01), updateFrequency);
+        return new DataSource(source, new DateTime(2024, 01, 01), updateFrequency);
     }
 
     [Fact]
@@ -151,7 +157,7 @@ public class DataSourceServiceTests
     public async Task GetAsync_uncached_should_not_cache_source_with_null_lastUpdated()
     {
         _mockDataSourceRepository.GetAsync(Source.Gias).Returns(
-            Task.FromResult(new Data.Repositories.DataSource.DataSource(Source.Gias, null, UpdateFrequency.Daily)));
+            Task.FromResult(new DataSource(Source.Gias, null, UpdateFrequency.Daily)));
 
         await _sut.GetAsync(Source.Gias);
 
@@ -170,14 +176,32 @@ public class DataSourceServiceTests
         SchoolContactRole role)
     {
         _mockFiatDataSourceRepository.GetSchoolContactDataSourceAsync(123456, role)
-            .Returns(_dummySchoolContactDataSource);
+            .Returns(_dummyInternalContactDataSource);
 
         var result = await _sut.GetSchoolContactDataSourceAsync(123456, role);
 
         using (new AssertionScope())
         {
             await _mockFiatDataSourceRepository.Received(1).GetSchoolContactDataSourceAsync(123456, role);
-            result.Should().BeEquivalentTo(_dummySchoolContactDataSource);
+            result.Should().BeEquivalentTo(_dummyInternalContactDataSource);
+        }
+    }
+
+    [Theory]
+    [InlineData(TrustContactRole.TrustRelationshipManager)]
+    [InlineData(TrustContactRole.SfsoLead)]
+    public async Task GetTrustContactDataSourceAsync_should_call_fiatDataSourceRepository(
+        TrustContactRole role)
+    {
+        _mockFiatDataSourceRepository.GetTrustContactDataSourceAsync(4321, role)
+            .Returns(_dummyInternalContactDataSource);
+
+        var result = await _sut.GetTrustContactDataSourceAsync(4321, role);
+
+        using (new AssertionScope())
+        {
+            await _mockFiatDataSourceRepository.Received(1).GetTrustContactDataSourceAsync(4321, role);
+            result.Should().BeEquivalentTo(_dummyInternalContactDataSource);
         }
     }
 }

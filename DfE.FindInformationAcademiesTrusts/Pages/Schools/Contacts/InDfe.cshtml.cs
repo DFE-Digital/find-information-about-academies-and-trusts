@@ -5,6 +5,7 @@ using DfE.FindInformationAcademiesTrusts.Services.DataSource;
 using DfE.FindInformationAcademiesTrusts.Services.School;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement;
 using Microsoft.FeatureManagement.Mvc;
 
 namespace DfE.FindInformationAcademiesTrusts.Pages.Schools.Contacts;
@@ -15,8 +16,9 @@ public class InDfeModel(
     ITrustService trustService,
     ISchoolContactsService schoolContactsService,
     IDataSourceService dataSourceService,
-    ISchoolNavMenu schoolNavMenu)
-    : ContactsAreaModel(schoolService, trustService, dataSourceService, schoolNavMenu)
+    ISchoolNavMenu schoolNavMenu,
+    IVariantFeatureManager featureManager)
+    : ContactsAreaModel(schoolService, trustService, dataSourceService, schoolNavMenu, featureManager)
 {
     public override PageMetadata PageMetadata => base.PageMetadata with
     {
@@ -25,7 +27,9 @@ public class InDfeModel(
 
     public static string SubPageName => "In DfE";
 
-    public Person RegionsGroupLocalAuthorityLead { get; private set; } = null!;
+    public Person? RegionsGroupLocalAuthorityLead { get; private set; }
+    public Person? TrustRelationshipManager { get; private set; }
+    public Person? SfsoLead { get; private set; }
 
     public override async Task<IActionResult> OnGetAsync()
     {
@@ -35,6 +39,8 @@ public class InDfeModel(
         var contacts = await schoolContactsService.GetInternalContactsAsync(Urn);
 
         RegionsGroupLocalAuthorityLead = contacts.RegionsGroupLocalAuthorityLead;
+        TrustRelationshipManager = contacts.TrustRelationshipManager;
+        SfsoLead = contacts.SfsoLead;
 
         return pageResult;
     }
