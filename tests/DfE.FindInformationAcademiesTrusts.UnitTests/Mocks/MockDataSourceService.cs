@@ -24,6 +24,10 @@ public static class MockDataSourceService
             .GetSchoolContactDataSourceAsync(Arg.Any<int>(), Arg.Any<SchoolContactRole>())
             .Returns(Fiat);
 
+        mockDataSourceService
+            .GetTrustContactDataSourceAsync(Arg.Any<int>(), Arg.Any<TrustContactRole>())
+            .Returns(Fiat);
+
         return mockDataSourceService;
     }
 
