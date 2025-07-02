@@ -5,10 +5,18 @@ import navigation from "../../../pages/navigation";
 import overviewPage from "../../../pages/trusts/overviewPage";
 
 describe('Schools Navigation Tests', () => {
-    const navTestAcademy = {
-        academyURN: 140214,
-        trustAcademyName: "ABBEY ACADEMIES TRUST",
-    };
+    const navTestAcademies = [
+        {
+            academyURN: 140214,
+            trustAcademyName: "ABBEY ACADEMIES TRUST",
+            trustUID: 2044
+        },
+
+        {
+            academyURN: 140884,
+            trustAcademyName: "MARYLEBONE SCHOOL LTD", //school in SAT
+            trustUID: 3874
+        }];
 
     const navTestSchool = {
         schoolURN: 107188,
@@ -50,16 +58,18 @@ describe('Schools Navigation Tests', () => {
             });
         });
 
-        it('Should check that an academy has the link to the trust in the header and it takes me to the correct trust', () => {
-            cy.visit(`/schools/overview/details?urn=${navTestAcademy.academyURN}`);
-            schoolsPage
-                .checkAcademyLinkPresentAndCorrect(`${navTestAcademy.trustAcademyName}`)
-                .clickAcademyTrustLink();
-            navigation
-                .checkCurrentURLIsCorrect('/trusts/overview/trust-details?uid=2044');
-            overviewPage
-                .checkTrustDetailsSubHeaderPresent();
+        navTestAcademies.forEach(({ academyURN, trustAcademyName, trustUID }) => {
+            it('Should check that an academy has the link to the trust in the header and it takes me to the correct trust', () => {
+                cy.visit(`/schools/overview/details?urn=${academyURN}`);
+                schoolsPage
+                    .checkAcademyLinkPresentAndCorrect(`${trustAcademyName}`)
+                    .clickAcademyTrustLink();
+                navigation
+                    .checkCurrentURLIsCorrect(`/trusts/overview/trust-details?uid=${trustUID}`);
+                overviewPage
+                    .checkTrustDetailsSubHeaderPresent();
 
+            });
         });
 
         it('Should check that an school does not have the link to the trust in the header', () => {
@@ -81,10 +91,10 @@ describe('Schools Navigation Tests', () => {
                 .checkInDfeContactsSubpageHeaderIsCorrect();
 
             // School Overview --> School Contacts in DfE (Academy)
-            cy.visit(`/schools/overview/details?urn=${navTestAcademy.academyURN}`);
+            cy.visit(`/schools/overview/details?urn=${navTestAcademies[0].academyURN}`);
             navigation
                 .clickSchoolsContactsButton()
-                .checkCurrentURLIsCorrect(`/schools/contacts/in-dfe?urn=${navTestAcademy.academyURN}`)
+                .checkCurrentURLIsCorrect(`/schools/contacts/in-dfe?urn=${navTestAcademies[0].academyURN}`)
                 .checkAllSchoolServiceNavItemsPresent();
             schoolsPage
                 .checkInDfeContactsSubpageHeaderIsCorrect();
@@ -125,7 +135,7 @@ describe('Schools Navigation Tests', () => {
         context('School contacts subnav navigation tests -- (Academy)', () => {
             it('Should navigate from in DfE contacts to "In this academy" contacts and back', () => {
                 // Start at DfE contacts
-                cy.visit(`/schools/contacts/in-dfe?urn=${navTestAcademy.academyURN}`);
+                cy.visit(`/schools/contacts/in-dfe?urn=${navTestAcademies[0].academyURN}`);
                 navigation
                     .checkSchoolsContactsSubNavItemsPresent()
                     .checkSchoolsContactsInDfeSubnavButtonIsHighlighted();
@@ -136,7 +146,7 @@ describe('Schools Navigation Tests', () => {
                 // Navigate to "In this academy" contacts
                 navigation
                     .clickSchoolsContactsInThisSchoolSubnavButton()
-                    .checkCurrentURLIsCorrect(`/schools/contacts/in-the-school?urn=${navTestAcademy.academyURN}`)
+                    .checkCurrentURLIsCorrect(`/schools/contacts/in-the-school?urn=${navTestAcademies[0].academyURN}`)
                     .checkSchoolsContactsInThisSchoolSubnavButtonIsHighlighted();
                 schoolsPage
                     .checkSubpageHeaderIsCorrect()
@@ -145,7 +155,7 @@ describe('Schools Navigation Tests', () => {
                 // Navigate back to DfE contacts
                 navigation
                     .clickSchoolsContactsInDfeSubnavButton()
-                    .checkCurrentURLIsCorrect(`/schools/contacts/in-dfe?urn=${navTestAcademy.academyURN}`)
+                    .checkCurrentURLIsCorrect(`/schools/contacts/in-dfe?urn=${navTestAcademies[0].academyURN}`)
                     .checkSchoolsContactsInDfeSubnavButtonIsHighlighted();
                 schoolsPage
                     .checkInDfeContactsSubpageHeaderIsCorrect();
@@ -166,7 +176,7 @@ describe('Schools Navigation Tests', () => {
             });
 
             it('Should show correct subnav text for academy', () => {
-                cy.visit(`/schools/contacts/in-dfe?urn=${navTestAcademy.academyURN}`);
+                cy.visit(`/schools/contacts/in-dfe?urn=${navTestAcademies[0].academyURN}`);
                 navigation
                     .checkSchoolsContactsSubNavItemsPresent();
 
@@ -220,10 +230,10 @@ describe('Schools Navigation Tests', () => {
         context('School overview subnav round robin tests -- (Academy)', () => {
             // school details --> SEN (academy)
             it('Should check that the school details navigation button takes me to the correct page for a schools type subnav', () => {
-                cy.visit(`/schools/overview/details?urn=${navTestAcademy.academyURN}`);
+                cy.visit(`/schools/overview/details?urn=${navTestAcademies[0].academyURN}`);
                 navigation
                     .clickSchoolsSENButton()
-                    .checkCurrentURLIsCorrect(`/schools/overview/sen?urn=${navTestAcademy.academyURN}`)
+                    .checkCurrentURLIsCorrect(`/schools/overview/sen?urn=${navTestAcademies[0].academyURN}`)
                     .checkAllSchoolServiceNavItemsPresent()
                     .checkAllAcademyOverviewSubNavItemsPresent();
                 schoolsPage
@@ -232,10 +242,10 @@ describe('Schools Navigation Tests', () => {
 
             // SEN --> school details (academy)
             it('Should check that the school details navigation button takes me to the correct page for a schools type subnav', () => {
-                cy.visit(`/schools/overview/sen?urn=${navTestAcademy.academyURN}`);
+                cy.visit(`/schools/overview/sen?urn=${navTestAcademies[0].academyURN}`);
                 navigation
                     .clickSchoolsDetailsButton()
-                    .checkCurrentURLIsCorrect(`/schools/overview/details?urn=${navTestAcademy.academyURN}`)
+                    .checkCurrentURLIsCorrect(`/schools/overview/details?urn=${navTestAcademies[0].academyURN}`)
                     .checkAllSchoolServiceNavItemsPresent()
                     .checkAllAcademyOverviewSubNavItemsPresent();
                 schoolsPage

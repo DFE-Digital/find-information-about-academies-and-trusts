@@ -37,10 +37,7 @@ public class SchoolAreaModel(
             return new NotFoundResult();
         }
 
-        if (schoolSummary.Category == SchoolCategory.Academy)
-        {
-            TrustSummary = await trustService.GetTrustSummaryAsync(schoolSummary.Urn);
-        }
+        TrustSummary = await trustService.GetTrustSummaryAsync(schoolSummary.Urn);
 
         IsPartOfAFederation = await schoolService.IsPartOfFederationAsync(schoolSummary.Urn);
 
