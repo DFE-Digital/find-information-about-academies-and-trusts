@@ -1,5 +1,4 @@
 using DfE.FindInformationAcademiesTrusts.Data;
-using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Data.FiatDb.Repositories;
 using DfE.FindInformationAcademiesTrusts.Data.Repositories.School;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
@@ -10,9 +9,6 @@ public interface ISchoolContactsService
 {
     Task<Person?> GetInSchoolContactsAsync(int urn);
     Task<SchoolInternalContactsServiceModel> GetInternalContactsAsync(int urn);
-
-    Task<InternalContactUpdatedServiceModel> UpdateContactAsync(int urn, string? name, string? email,
-        SchoolContactRole role);
 }
 
 public class SchoolContactsService(
@@ -49,14 +45,5 @@ public class SchoolContactsService(
         return new SchoolInternalContactsServiceModel(schoolInternalContacts.RegionsGroupLocalAuthorityLead,
             trustContacts.TrustRelationshipManager,
             trustContacts.SfsoLead);
-    }
-
-    public async Task<InternalContactUpdatedServiceModel> UpdateContactAsync(int urn, string? name, string? email,
-        SchoolContactRole role)
-    {
-        var (emailChanged, nameChanged) =
-            await contactRepository.UpdateSchoolInternalContactsAsync(urn, name, email, role);
-
-        return new InternalContactUpdatedServiceModel(emailChanged, nameChanged);
     }
 }

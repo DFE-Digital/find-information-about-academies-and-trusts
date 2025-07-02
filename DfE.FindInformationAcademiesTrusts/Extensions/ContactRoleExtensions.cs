@@ -13,13 +13,4 @@ public static class ContactRoleExtensions
             _ => throw new ArgumentOutOfRangeException(nameof(role))
         };
     }
-
-    public static string MapRoleToViewString(this SchoolContactRole role)
-    {
-        return role switch
-        {
-            SchoolContactRole.RegionsGroupLocalAuthorityLead => "Regions group local authority lead",
-            _ => throw new ArgumentOutOfRangeException(nameof(role))
-        };
-    }
 }

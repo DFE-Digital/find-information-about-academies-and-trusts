@@ -2,6 +2,7 @@ using DfE.FindInformationAcademiesTrusts.Data;
 using DfE.FindInformationAcademiesTrusts.Data.Enums;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
 using DfE.FindInformationAcademiesTrusts.Services.Trust;
+using DfE.FindInformationAcademiesTrusts.UnitTests.Mocks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -24,7 +25,7 @@ public class EditSfsoLeadModelTests
             Task.FromResult(new TrustContactsServiceModel(null, _sfsoLead, null, null, null)));
         _mockTrustService.GetTrustSummaryAsync(_fakeTrust.Uid)!.Returns(Task.FromResult(_fakeTrust));
 
-        _sut = new EditSfsoLeadModel(_mockTrustService)
+        _sut = new EditSfsoLeadModel(MockDataSourceService.CreateSubstitute(), _mockTrustService)
             { Uid = "1234" };
     }
 
@@ -59,7 +60,7 @@ public class EditSfsoLeadModelTests
         _sut.TrustSummary = _fakeTrust;
         _mockTrustService
             .UpdateContactAsync(1234, Arg.Any<string>(), Arg.Any<string>(), TrustContactRole.SfsoLead)
-            .Returns(Task.FromResult(new InternalContactUpdatedServiceModel(emailUpdated, nameUpdated)));
+            .Returns(Task.FromResult(new TrustContactUpdatedServiceModel(emailUpdated, nameUpdated)));
 
         var result = await _sut.OnPostAsync();
 
@@ -87,7 +88,7 @@ public class EditSfsoLeadModelTests
         _mockTrustService
             .UpdateContactAsync(1234, Arg.Any<string>(), Arg.Any<string>(),
                 TrustContactRole.SfsoLead)
-            .Returns(Task.FromResult(new InternalContactUpdatedServiceModel(true, true)));
+            .Returns(Task.FromResult(new TrustContactUpdatedServiceModel(true, true)));
         _ = await _sut.OnPostAsync();
 
         _sut.PageMetadata.SubPageName.Should()

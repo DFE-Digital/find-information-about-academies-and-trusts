@@ -11,13 +11,10 @@ public interface IContactRepository
 {
     Task<TrustInternalContacts> GetTrustInternalContactsAsync(string uid);
 
-    Task<InternalContactUpdated> UpdateTrustInternalContactsAsync(int uid, string? name, string? email,
+    Task<TrustContactUpdated> UpdateTrustInternalContactsAsync(int uid, string? name, string? email,
         TrustContactRole role);
 
     Task<SchoolInternalContacts> GetSchoolInternalContactsAsync(int urn);
-
-    Task<InternalContactUpdated> UpdateSchoolInternalContactsAsync(int urn, string? name, string? email,
-        SchoolContactRole role);
 }
 
 public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
@@ -32,7 +29,7 @@ public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
             sfso);
     }
 
-    public async Task<InternalContactUpdated> UpdateTrustInternalContactsAsync(int uid, string? name, string? email,
+    public async Task<TrustContactUpdated> UpdateTrustInternalContactsAsync(int uid, string? name, string? email,
         TrustContactRole role)
     {
         var contact = await fiatDbContext.TrustContacts
@@ -57,7 +54,7 @@ public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
         }
 
         await fiatDbContext.SaveChangesAsync();
-        return new InternalContactUpdated(emailUpdated, nameUpdated);
+        return new TrustContactUpdated(emailUpdated, nameUpdated);
     }
 
     public async Task<SchoolInternalContacts> GetSchoolInternalContactsAsync(int urn)
@@ -66,36 +63,7 @@ public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
         return new SchoolInternalContacts(regionsGroupLocalAuthorityLead);
     }
 
-    public async Task<InternalContactUpdated> UpdateSchoolInternalContactsAsync(int urn, string? name, string? email,
-        SchoolContactRole role)
-    {
-        var contact = await fiatDbContext.SchoolContacts
-            .SingleOrDefaultAsync(contact => contact.Urn == urn && contact.Role == role);
-        if (contact is null)
-        {
-            return await AddNewContact(urn, name, email, role);
-        }
-
-        var nameUpdated = false;
-        var emailUpdated = false;
-        if (contact.Name != name)
-        {
-            nameUpdated = true;
-            contact.Name = name ?? string.Empty;
-        }
-
-        if (contact.Email != email)
-        {
-            emailUpdated = true;
-            contact.Email = email ?? string.Empty;
-        }
-
-        await fiatDbContext.SaveChangesAsync();
-        return new InternalContactUpdated(emailUpdated, nameUpdated);
-    }
-
-    private async Task<InternalContactUpdated> AddNewContact(int uid, string? name, string? email,
-        TrustContactRole role)
+    private async Task<TrustContactUpdated> AddNewContact(int uid, string? name, string? email, TrustContactRole role)
     {
         fiatDbContext.TrustContacts.Add(new TrustContact
         {
@@ -105,21 +73,7 @@ public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
             Uid = uid
         });
         await fiatDbContext.SaveChangesAsync();
-        return new InternalContactUpdated(true, true);
-    }
-
-    private async Task<InternalContactUpdated> AddNewContact(int urn, string? name, string? email,
-        SchoolContactRole role)
-    {
-        fiatDbContext.SchoolContacts.Add(new SchoolContact
-        {
-            Name = name ?? string.Empty,
-            Email = email ?? string.Empty,
-            Role = role,
-            Urn = urn
-        });
-        await fiatDbContext.SaveChangesAsync();
-        return new InternalContactUpdated(true, true);
+        return new TrustContactUpdated(true, true);
     }
 
     private async Task<InternalContact?> GetTrustRelationshipManagerLinkedTo(string uid)
@@ -144,8 +98,7 @@ public class ContactRepository(FiatDbContext fiatDbContext) : IContactRepository
     {
         return await fiatDbContext.SchoolContacts
             .Where(contact => contact.Urn == urn && contact.Role == SchoolContactRole.RegionsGroupLocalAuthorityLead)
-            .Select(contact => new InternalContact(contact.Name, contact.Email, contact.LastModifiedAtTime,
-                contact.LastModifiedByEmail))
+            .Select(contact => new InternalContact(contact.Name, contact.Email, contact.LastModifiedAtTime, contact.LastModifiedByEmail))
             .SingleOrDefaultAsync();
     }
 }
