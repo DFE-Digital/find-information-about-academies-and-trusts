@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+## [Release-39][release-39] (production-2025-07-02.6062)
+
+### Changed
+
+- Added link and details to schools pages that are not academies but are part of a trust.
+- Automation tests for a11y.
+- Added contacts 'in dfe' for school and academy.
+
 ## [Release-38][release-38] (production-2025-06-20.5972)
 
 ### Changed
@@ -381,7 +389,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated text on "404 - Not Found" page to adhere to DfE design pattern and added the not found url to the support email template.
 
 [unreleased]:
-  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/compare/production-2025-06-20.5972...HEAD
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/compare/production-2025-07-02.6062...HEAD
 [release-1]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-07-18.2517
 [release-2]:
@@ -458,3 +466,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-06-20.5960
 [release-38]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-06-20.5972
+[release-39]:
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-07-02.6062
