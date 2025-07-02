@@ -1,4 +1,3 @@
-using DfE.FindInformationAcademiesTrusts.Pages.Trusts;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.InTrust;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Academies.Pipeline;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Contacts;
@@ -7,8 +6,6 @@ using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Governance;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Ofsted;
 using DfE.FindInformationAcademiesTrusts.Pages.Trusts.Overview;
 using DfE.FindInformationAcademiesTrusts.Services.Academy;
-using DfE.FindInformationAcademiesTrusts.Services.DataSource;
-using DfE.FindInformationAcademiesTrusts.Services.Trust;
 using Sut = DfE.FindInformationAcademiesTrusts.Pages.Trusts.TrustNavMenu;
 
 namespace DfE.FindInformationAcademiesTrusts.UnitTests.Pages.Trusts.TrustNavMenu;
@@ -350,15 +347,11 @@ public class SubNav : TrustNavMenuTestsBase
     [Fact]
     public void GetSubNavLinks_should_throw_if_page_not_supported()
     {
-        var activePage = GetMockTrustPage(typeof(SubNavUnsupportedTrustPageModel));
+        var activePage = GetMockTrustPage(typeof(EditTrustRelationshipManagerModel));
 
         var action = () => Sut.GetSubNavLinks(activePage);
 
         action.Should().Throw<ArgumentOutOfRangeException>()
             .Which.Message.Should().StartWith("Page type is not supported.");
     }
-
-    private class SubNavUnsupportedTrustPageModel(
-        IDataSourceService dataSourceService,
-        ITrustService trustService) : TrustsAreaModel(dataSourceService, trustService);
 }

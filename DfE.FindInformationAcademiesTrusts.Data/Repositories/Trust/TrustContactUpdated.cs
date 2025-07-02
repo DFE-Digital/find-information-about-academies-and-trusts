@@ -1,5 +1,5 @@
 ﻿namespace DfE.FindInformationAcademiesTrusts.Data.Repositories.Trust;
 
-public record InternalContactUpdated(
+public record TrustContactUpdated(
     bool EmailUpdated,
     bool NameUpdated);
