@@ -22,12 +22,14 @@ locals {
   enable_redis_cache                              = var.enable_redis_cache
   enable_mssql_database                           = var.enable_mssql_database
   mssql_server_admin_password                     = var.mssql_server_admin_password
+  mssql_sku_name                                  = var.mssql_sku_name
   mssql_database_name                             = var.mssql_database_name
   mssql_firewall_ipv4_allow_list                  = var.mssql_firewall_ipv4_allow_list
   mssql_server_public_access_enabled              = var.mssql_server_public_access_enabled
   mssql_azuread_admin_username                    = var.mssql_azuread_admin_username
   mssql_azuread_admin_object_id                   = var.mssql_azuread_admin_object_id
   mssql_managed_identity_assign_role              = var.mssql_managed_identity_assign_role
+  mssql_maintenance_configuration_name            = var.mssql_maintenance_configuration_name
   redis_cache_sku                                 = var.redis_cache_sku
   redis_cache_capacity                            = var.redis_cache_capacity
   enable_cdn_frontdoor                            = var.enable_cdn_frontdoor

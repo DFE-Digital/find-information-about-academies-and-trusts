@@ -397,6 +397,18 @@ variable "mssql_managed_identity_assign_role" {
   default     = false
 }
 
+variable "mssql_sku_name" {
+  description = "Specifies the name of the SKU used by the database"
+  type        = string
+  default     = "Basic"
+}
+
+variable "mssql_maintenance_configuration_name" {
+  description = "The name of the Public Maintenance Configuration window to apply to the SQL database"
+  type        = string
+  default     = "SQL_Default"
+}
+
 variable "key_vault_access_ipv4" {
   description = "List of IPv4 Addresses that are permitted to access the Key Vault"
   type        = list(string)
