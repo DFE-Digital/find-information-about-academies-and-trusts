@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased][unreleased]
 
+## [Release-40][release-40] (production-2025-07-04.6098)
+
+### Changed
+
+- Introduced a notification banner for scheduled downtime.
+- Added the ability to edit DfE contacts for a school.
+
 ## [Release-39][release-39] (production-2025-07-02.6062)
 
 ### Changed
@@ -389,7 +396,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated text on "404 - Not Found" page to adhere to DfE design pattern and added the not found url to the support email template.
 
 [unreleased]:
-  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/compare/production-2025-07-02.6062...HEAD
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/compare/production-2025-07-04.6098...HEAD
 [release-1]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2024-07-18.2517
 [release-2]:
@@ -468,3 +475,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-06-20.5972
 [release-39]:
   https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-07-02.6062
+[release-40]:
+  https://github.com/DFE-Digital/find-information-about-academies-and-trusts/releases/tag/production-2025-07-04.6098
